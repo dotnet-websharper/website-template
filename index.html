@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
         <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
@@ -22,7 +22,257 @@
         <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
         <meta name="twitter:image" content="" />
     </head>
-    <body>
+    <body class="bg-[#041020]">
+        <header class="inset-0 z-10 lg:absolute">
+            <div class="px-6 py-6 lg:px-8">
+                <nav class="mx-auto flex max-w-6xl items-center justify-between" aria-label="Global">
+                    <div class="flex lg:flex-1">
+                        <a href="/" class="-m-1.5 p-1.5">
+                            <span class="sr-only">WebSharper logo</span>
+                            <img class="h-9 w-9" src="/favicon.png" alt="websharper logo" width="164" height="164" />
+                        </a>
+                    </div>
+                    <div class="flex lg:hidden">
+                        <button type="button" class="text-gray-700 -m-2.5 inline-flex items-center justify-center rounded-md p-2.5">
+                            <span class="sr-only">Open main menu</span>
+                            <!-- Heroicon name: outline/bars-3 -->
+                            <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="hidden px-6 py-2 lg:flex lg:gap-x-8">
+                        <a href="#" class="text-sm leading-6 text-onsurface-200 transition duration-300 hover:text-white">Docs</a>
+
+                        <a href="#" class="text-sm leading-6 text-onsurface-200 transition duration-300 hover:text-white">Downloads</a>
+
+                        <a href="#" class="text-sm leading-6 text-onsurface-200 transition duration-300 hover:text-white">Blogs</a>
+
+                        <a href="#" class="text-sm leading-6 text-onsurface-200 transition duration-300 hover:text-white">Forums</a>
+                    </div>
+                    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                        <ul class="flex">
+                            <li>
+                                <a href="" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-onsurface-200 transition duration-500 group-hover:text-white" viewBox="0 0 16 16">
+                                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                                    </svg>
+                                    <span class="sr-only">WebSharper GitHub organization</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-onsurface-200 transition duration-500 group-hover:text-white" viewBox="0 0 16 16">
+                                        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                    </svg>
+                                    <span class="sr-only">Follow WebSharper on Twitter</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-onsurface-200 transition duration-500 group-hover:text-white" viewBox="0 0 16 16">
+                                        <path
+                                            d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"
+                                        />
+                                    </svg>
+                                    <span class="sr-only">Join WebSharper community on Discord</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <!-- Mobile menu, show/hide based on menu open state. -->
+                <div role="dialog" aria-modal="true" class="relative z-20 hidden">
+                    <div focus="true" class="fixed inset-0 z-10 overflow-y-auto bg-surface-900 px-6 py-6">
+                        <div class="flex items-center justify-between">
+                            <a href="/" class="-m-1.5 p-1.5">
+                                <span class="sr-only">WebSharper logo</span>
+                                <img class="h-9 w-9" src="/favicon.png" alt="websharper logo" width="164" height="164" />
+                            </a>
+                            <button type="button" class="-m-2.5 rounded-md p-2.5 text-white">
+                                <span class="sr-only">Close menu</span>
+                                <!-- Heroicon name: outline/x-mark -->
+                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="mt-6 flow-root">
+                            <div class="-my-6 divide-y divide-white/10">
+                                <div class="flex flex-col space-y-6 py-6">
+                                    <a href="#" class="text-sm leading-6 text-onsurface-200 transition duration-300 hover:text-white">Docs</a>
+
+                                    <a href="#" class="text-sm leading-6 text-onsurface-200 transition duration-300 hover:text-white">Downloads</a>
+
+                                    <a href="#" class="text-sm leading-6 text-onsurface-200 transition duration-300 hover:text-white">Blogs</a>
+
+                                    <a href="#" class="text-sm leading-6 text-onsurface-200 transition duration-300 hover:text-white">Forums</a>
+                                </div>
+                                <div class="py-6">
+                                    <ul class="flex">
+                                        <li>
+                                            <a href="" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-onsurface-200 transition duration-500 group-hover:text-white" viewBox="0 0 16 16">
+                                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                                                </svg>
+                                                <span class="sr-only">WebSharper GitHub organization</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-onsurface-200 transition duration-500 group-hover:text-white" viewBox="0 0 16 16">
+                                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                                </svg>
+                                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-onsurface-200 transition duration-500 group-hover:text-white" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"
+                                                    />
+                                                </svg>
+                                                <span class="sr-only">Join WebSharper community on Discord</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="relative overflow-hidden">
+                <div class="mx-auto max-w-6xl px-6 pt-20 sm:pt-32 lg:px-8 lg:pb-40 lg:pt-36 xl:px-0">
+                    <div class="lg:flex lg:items-center">
+                        <div class="relative z-10 text-center sm:mx-auto sm:w-3/5 lg:ml-0 lg:w-2/5">
+                            <h1 class="bg-gradient-to-b from-white to-white/40 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl">Functional web programming for .NET</h1>
+                            <p class="mt-6 text-lg leading-8 text-onsurface-300">Develop microservices, client-server web applications, reactive SPAs, and more in C# or F#.</p>
+                            <div class="mt-10 flex flex-wrap items-center justify-center gap-6 lg:flex-nowrap">
+                                <div href="#" class="text-primary flex h-9 items-center gap-2 rounded-full border border-white/5 bg-white/10 pl-4 text-base font-medium leading-7">
+                                    <span class="text-onsurface-200">$</span>
+                                    <span class="block w-max font-mono text-xs text-white/70">dotnet new -i WebSharper.Templates</span>
+                                    <button class="h-9 w-9 text-onsurface-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="m-auto h-4 w-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <a href="" class="group relative p-px before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r before:from-brand-primary before:to-brand-secondary before:transition before:duration-300 after:absolute after:inset-0 after:scale-75 after:rounded-full after:bg-gradient-to-r after:from-brand-primary after:to-brand-secondary after:opacity-0 after:blur-lg after:transition after:duration-500 hover:after:scale-100 hover:after:opacity-100 focus:after:scale-75 focus:after:opacity-0 active:duration-75">
+                                    <span class="relative z-[1] flex h-9 w-max items-center gap-2.5 rounded-full bg-surface-900 px-4 text-sm font-medium text-white transition duration-300 group-hover:bg-surface-900/80 group-focus:bg-surface-900">
+                                        Get Stared
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="-mx-1 h-4 w-4 transition duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="relative z-10 lg:w-3/5 lg:pl-20">
+                            <div class="mt-8 rounded-3xl border border-white/10 bg-surface-900/70 pb-3 pr-3 text-sm backdrop-blur-3xl md:ml-0">
+                                <div class="flex items-center gap-4 px-6 py-1">
+                                    <div class="flex space-x-1.5">
+                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200"></div>
+                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200"></div>
+                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200"></div>
+                                    </div>
+
+                                    <div class="flex cursor-pointer items-center gap-1.5 rounded-md bg-white/5 p-1 px-1.5">
+                                        <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
+                                            <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
+                                            <defs id="defs2" />
+                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
+                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
+                                                <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
+                                            </g>
+                                        </svg>
+                                        <span class="text-xs text-brand-primary">contoller.fs</span>
+                                    </div>
+                                    <div class="-ml-2 flex cursor-pointer items-center gap-1.5">
+                                        <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
+                                            <path
+                                                d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
+                                                fill="black"
+                                            />
+                                        </svg>
+                                        <span class="text-xs text-onsurface-200">contoller.js</span>
+                                    </div>
+                                </div>
+                                <div class="relative flex">
+                                    <div class="absolute ml-1 h-full w-14 flex-none flex-col items-center justify-between py-3 text-white/60 sm:flex">
+                                        <svg width="24" height="216" fill="none">
+                                            <path d="M3 69l6-6m-2-5a7 7 0 1014 0 7 7 0 00-14 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M8 7H5a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1v-3m3.707-10.293l-3.414-3.414A1 1 0 0015.586 3H9a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V7.414a1 1 0 00-.293-.707zM7 103a2 2 0 100-4 2 2 0 000 4zm0 0v10m10-6a2 2 0 100-4 2 2 0 000 4zm0 0a3 3 0 01-3 3h-4a3 3 0 00-3 3m0 0a2 2 0 100 4 2 2 0 000-4z" stroke="currentColor" stroke-width="1.5"></path>
+                                            <path
+                                                d="M11.5 160.031a.75.75 0 00-1-1.118l1 1.118zm-8-1.118a.75.75 0 00-1 1.118l1-1.118zm6.972 6.149a.75.75 0 10.993-1.124l-.993 1.124zm-7.937-1.124a.75.75 0 10.993 1.124l-.993-1.124zm7.022-.368l-.64-.393.64.393zm-5.114 0l.64-.393-.64.393zM3 161.25a.75.75 0 000 1.5v-1.5zm8 1.5a.75.75 0 000-1.5v1.5zM8 147l.372-.651A.75.75 0 007.25 147H8zm14 8l.372.651a.75.75 0 000-1.302L22 155zm-14.75 0a.75.75 0 001.5 0h-1.5zm5.378 4.492a.75.75 0 10.744 1.302l-.744-1.302zM7 157.75A2.25 2.25 0 019.25 160h1.5A3.75 3.75 0 007 156.25v1.5zm0-1.5A3.75 3.75 0 003.25 160h1.5A2.25 2.25 0 017 157.75v-1.5zm2.624 3.298A5.225 5.225 0 017 160.25v1.5a6.73 6.73 0 003.376-.903l-.752-1.299zM9.25 160v.197h1.5V160h-1.5zm0 .197V162h1.5v-1.803h-1.5zM7 160.25a5.225 5.225 0 01-2.624-.702l-.752 1.299A6.73 6.73 0 007 161.75v-1.5zM4.75 162v-1.803h-1.5V162h1.5zm0-1.803V160h-1.5v.197h1.5zm5.75-1.284a5.209 5.209 0 01-.876.635l.752 1.299c.403-.234.78-.507 1.124-.816l-1-1.118zm-6.124.635a5.21 5.21 0 01-.876-.635l-1 1.118c.344.309.721.582 1.124.816l.752-1.299zm4.86 4.701c.451.212.867.487 1.236.813l.993-1.124a6.77 6.77 0 00-1.588-1.046l-.64 1.357zM9.25 162c0 .433-.122.835-.332 1.177l1.277.787A3.737 3.737 0 0010.75 162h-1.5zm-.332 1.177A2.247 2.247 0 017 164.25v1.5a3.748 3.748 0 003.195-1.786l-1.277-.787zm-5.39 1.885a5.25 5.25 0 011.235-.813l-.64-1.357a6.77 6.77 0 00-1.588 1.046l.993 1.124zM7 164.25c-.81 0-1.52-.427-1.918-1.073l-1.277.787A3.748 3.748 0 007 165.75v-1.5zm-1.918-1.073A2.235 2.235 0 014.75 162h-1.5c0 .719.203 1.392.555 1.964l1.277-.787zM4 161.25H3v1.5h1v-1.5zm7 0h-1v1.5h1v-1.5zm-3.372-13.599l14 8 .744-1.302-14-8-.744 1.302zM8.75 155v-8h-1.5v8h1.5zm12.878-.651l-9 5.143.744 1.302 9-5.143-.744-1.302z"
+                                                fill="currentColor"
+                                            ></path>
+                                            <path d="M3 205h8m-8 0v7a1 1 0 001 1h7m-8-8v-7a1 1 0 011-1h6a1 1 0 011 1v7m0 0v8m0-8h7a1 1 0 011 1v6a1 1 0 01-1 1h-7m4-11h6a1 1 0 001-1v-6a1 1 0 00-1-1h-6a1 1 0 00-1 1v6a1 1 0 001 1z" stroke="currentColor" stroke-width="1.5"></path>
+                                        </svg>
+                                        <svg width="24" height="72" fill="none">
+                                            <path d="M10.325 52.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M15 60a3 3 0 11-6 0 3 3 0 016 0zM5.121 17.804A13.936 13.936 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-auto w-[calc(100%-4rem)]">
+                                        <div class="scrollbar hightlight flex overflow-auto rounded-xl border border-white/10 py-3 pl-3 font-mono text-xs">
+                                            <div>
+                                                <div aria-hidden="true" class="hidden w-2 flex-none select-none pr-4 text-right text-white/40 md:block">1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21</div>
+                                            </div>
+                                            <code class="grid pl-2 text-white">
+                                                <span class="flex w-max items-center gap-2">
+                                                    <svg class="text-pink-400 h-2.5 w-2.5" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1.70697 11.707L7.41397 5.99997L1.70697 0.292969L0.292969 1.70697L4.58597 5.99997L0.292969 10.293L1.70697 11.707Z" fill="currentColor"></path>
+                                                    </svg>
+                                                    npm install -D tailwindcss postcss autoprefixer
+                                                </span>
+                                                <span class="flex w-max items-center gap-2">
+                                                    <svg class="text-pink-400 h-2.5 w-2.5" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1.70697 11.707L7.41397 5.99997L1.70697 0.292969L0.292969 1.70697L4.58597 5.99997L0.292969 10.293L1.70697 11.707Z" fill="currentColor"></path>
+                                                    </svg>
+                                                    npx tailwindcss init
+                                                </span>
+                                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis libero reiciendis assumenda omnis enim, eius sequi qui incidunt ex quo molestiae temporibus aspernatur officiis minima ipsum velit voluptate sunt autem? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia, accusamus minus reprehenderit quae iusto aut doloremque odit aliquam recusandae possimus fugit id! Quibusdam, consequatur provident vel quam itaque ea nulla? Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo dignissimos molestiae, dolorum laudantium totam ullam quisquam natus beatae consectetur voluptates optio sunt rerum sit tempora accusamus assumenda tenetur, saepe quia!
+                                            </code>
+                                        </div>
+                                        <div class="mt-1.5 p-3">
+                                            <span class="border-b border-brand-secondary pb-1 text-xs font-medium tracking-wide text-white">Terminal</span>
+                                            <div class="mt-3 w-max font-mono text-xs text-white/60">
+                                                <div class="text-gray-400 dark:text-gray-500">
+                                                    3:10:25 AM
+                                                    <span class="text-sky-400">[vite]</span>
+                                                    <span class="text-lime-300">page reload</span>
+                                                    src/ui/index.html
+                                                    <span class="text-amber-400">(x7)</span>
+                                                </div>
+                                                <div class="text-gray-400 dark:text-gray-500">
+                                                    3:12:34 AM
+                                                    <span class="text-sky-400">[vite]</span>
+                                                    <span class="text-lime-300">page reload</span>
+                                                    src/ui/index.html
+                                                    <span class="text-amber-400">(x8)</span>
+                                                </div>
+                                                <div aria-hidden="true" class="border-gray-400 mt-0.5 h-3 w-1.5 border"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute inset-x-0 bottom-20 m-auto w-full lg:bottom-auto lg:left-auto lg:-right-36 lg:-top-6 lg:w-4/5">
+                            <img src="/images/slay.png" class="mx-auto w-full blur-xl brightness-200" alt="diamond layer" width="1494" height="1178" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
         <script type="module" src="/main.js"></script>
     </body>
 </html>

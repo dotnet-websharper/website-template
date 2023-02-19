@@ -135,9 +135,8 @@ module.exports = {
             current: colors.current,
             transparent: colors.transparent,
             brand: {
-                primary: "",
-                secondary: "",
-                accent: "",
+                primary: "#579ECD",
+                secondary: "#9ECD57",
             },
             danger: {
                 surface: "",
@@ -156,6 +155,7 @@ module.exports = {
                 onsurface: "",
             },
             onsurface: {
+                200: "#868f97",
                 300: "#868F97",
                 400: "#26272F80",
                 500: "#1A1B20",
