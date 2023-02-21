@@ -21,6 +21,8 @@
         <meta name="twitter:title" content="WebSharper" />
         <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
         <meta name="twitter:image" content="" />
+
+        <link rel="stylesheet" href="./assets/css/prism.css" />
     </head>
     <body class="bg-[#041020]">
         <header class="inset-0 z-10 lg:absolute">
@@ -173,7 +175,7 @@
                             </div>
                         </div>
                         <div class="relative z-10 lg:w-3/5 lg:pl-20">
-                            <div class="mt-8 rounded-3xl border border-white/10 bg-surface-900/70 pb-3 pr-3 text-sm backdrop-blur-3xl md:ml-0">
+                            <div class="mt-8 rounded-3xl border border-white/10 bg-surface-900/80 pb-3 pr-3 text-sm backdrop-blur-3xl md:ml-0">
                                 <div class="flex items-center gap-4 px-6 py-1">
                                     <div class="flex space-x-1.5">
                                         <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200"></div>
@@ -221,25 +223,31 @@
                                         </svg>
                                     </div>
                                     <div class="ml-auto w-[calc(100%-4rem)]">
-                                        <div class="scrollbar hightlight flex overflow-auto rounded-xl border border-white/10 py-3 pl-3 font-mono text-xs">
+                                        <div class="flex overflow-hidden rounded-xl border border-white/10 py-3 pl-3 font-mono text-xs">
                                             <div>
-                                                <div aria-hidden="true" class="hidden w-2 flex-none select-none pr-4 text-right text-white/40 md:block">1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21</div>
+                                                <div aria-hidden="true" class="hidden w-2 flex-none select-none pr-4 text-right leading-[1.13rem] text-white/40 sm:block">1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19</div>
                                             </div>
-                                            <code class="grid pl-2 text-white">
-                                                <span class="flex w-max items-center gap-2">
-                                                    <svg class="text-pink-400 h-2.5 w-2.5" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M1.70697 11.707L7.41397 5.99997L1.70697 0.292969L0.292969 1.70697L4.58597 5.99997L0.292969 10.293L1.70697 11.707Z" fill="currentColor"></path>
-                                                    </svg>
-                                                    npm install -D tailwindcss postcss autoprefixer
-                                                </span>
-                                                <span class="flex w-max items-center gap-2">
-                                                    <svg class="text-pink-400 h-2.5 w-2.5" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M1.70697 11.707L7.41397 5.99997L1.70697 0.292969L0.292969 1.70697L4.58597 5.99997L0.292969 10.293L1.70697 11.707Z" fill="currentColor"></path>
-                                                    </svg>
-                                                    npx tailwindcss init
-                                                </span>
-                                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis libero reiciendis assumenda omnis enim, eius sequi qui incidunt ex quo molestiae temporibus aspernatur officiis minima ipsum velit voluptate sunt autem? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia, accusamus minus reprehenderit quae iusto aut doloremque odit aliquam recusandae possimus fugit id! Quibusdam, consequatur provident vel quam itaque ea nulla? Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo dignissimos molestiae, dolorum laudantium totam ullam quisquam natus beatae consectetur voluptates optio sunt rerum sit tempora accusamus assumenda tenetur, saepe quia!
-                                            </code>
+                                            <pre class="-mb-16 !overflow-hidden">
+                                                <code class="mt-[-17px] block language-fsharp pl-4 text-white">
+let fibs =
+    let generator state =
+        let (cur, prev) = state
+        let next = cur + prev
+        let state' = (next, cur)
+        Some (cur, state')
+    let more =
+        (1, 0)
+        |> Seq.unfold generator
+    seq {
+        0
+        yield! more
+    }
+
+let first20 = Seq.take 20 fibs
+
+printfn "%A" first20
+                                                </code>
+                                            </pre>
                                         </div>
                                         <div class="mt-1.5 p-3">
                                             <span class="border-b border-brand-secondary pb-1 text-xs font-medium tracking-wide text-white">Terminal</span>
@@ -266,7 +274,7 @@
                             </div>
                         </div>
                         <div class="absolute inset-x-0 bottom-20 m-auto w-full lg:bottom-auto lg:left-auto lg:-right-36 lg:-top-6 lg:w-4/5">
-                            <img src="/images/slay.png" class="mx-auto w-full blur-xl brightness-200" alt="diamond layer" width="1494" height="1178" />
+                            <img src="/images/slay.png" class="mx-auto w-full opacity-50 blur-xl brightness-200" alt="diamond layer" width="1494" height="1178" />
                         </div>
                     </div>
                 </div>
