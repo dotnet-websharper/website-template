@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+    safelist: ["h-screen", "hidde-open-icon", "visible-close-icon"],
     presets: [],
     darkMode: "class", // or 'class'
     theme: {

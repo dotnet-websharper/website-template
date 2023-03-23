@@ -5,13 +5,18 @@
 :root {
     font-family: "DM Sans", sans-serif;
 }
-
+.hidde-open-icon {
+    @apply rotate-180 scale-0 opacity-0;
+}
+.visible-close-icon {
+    @apply rotate-180 scale-100 opacity-100;
+}
 code {
     @apply !font-mono;
 }
 
 code[class*="language-"],
-pre[class*="language-"] { 
+pre[class*="language-"] {
     @apply !text-onsurface-500 dark:!text-white;
 }
 
@@ -21,15 +26,14 @@ pre[class*="language-"] {
 .token.number,
 .token.constant,
 .token.symbol {
-    @apply !text-brand-primary dark:!text-brand-secondary
+    @apply !text-brand-primary dark:!text-brand-secondary;
 }
 
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-    @apply !text-[#93652f] dark:!text-[#579ECD]
+    @apply !text-[#93652f] dark:!text-[#579ECD];
 }
-
 
 .token.operator,
 .token.entity,
@@ -37,5 +41,5 @@ pre[class*="language-"] {
 .language-css .token.string,
 .style .token.string,
 .token.variable {
-    @apply dark:!text-white/60 !text-onsurface-400
+    @apply !text-onsurface-400 dark:!text-white/60;
 }
