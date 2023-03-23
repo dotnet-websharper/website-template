@@ -43,3 +43,12 @@ pre[class*="language-"] {
 .token.variable {
     @apply !text-onsurface-400 dark:!text-white/60;
 }
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    @apply text-[#865cbd] dark:text-[#cc96ff];
+}
