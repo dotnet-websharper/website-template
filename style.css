@@ -9,3 +9,33 @@
 code {
     @apply !font-mono;
 }
+
+code[class*="language-"],
+pre[class*="language-"] { 
+    @apply !text-onsurface-500 dark:!text-white;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+    @apply !text-brand-primary dark:!text-brand-secondary
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    @apply !text-[#93652f] dark:!text-[#579ECD]
+}
+
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+    @apply dark:!text-white/60 !text-onsurface-400
+}
