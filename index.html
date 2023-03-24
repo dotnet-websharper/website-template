@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
     <head>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.png" />
@@ -163,7 +163,7 @@
         </header>
 
         <main class="space-y-40">
-            <section class="overflow-hidden">
+            <section class="overflow-hidden dark:overflow-auto">
                 <div class="mx-auto max-w-6xl px-6 pt-36 sm:pt-40 lg:px-8 lg:pb-28 lg:pt-36 xl:px-0 2xl:max-w-7xl">
                     <div class="lg:flex lg:items-center">
                         <div class="relative z-10 text-center sm:mx-auto sm:w-3/5 lg:ml-0 lg:w-2/5">
@@ -557,45 +557,44 @@ addNumbers.RunById ("main");
             <section>
                 <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
                     <div class="relative lg:flex">
-                        <div class="sticky top-[33%] mt-8 hidden h-max justify-end lg:flex lg:w-[4.75rem]">
+                        <div class="sticky top-[33%] mt-24 hidden h-max justify-end lg:flex lg:w-[4.75rem]">
                             <div class="sticky top-32 ml-auto flex flex-col items-end space-y-4">
-                                <div data-step="mvu" class="flex w-max items-center justify-end gap-3">
-                                    <span class="block text-sm text-onsurface-500 dark:text-white">Model-View-Update</span>
-                                    <div class="h-2 w-2 rounded-full bg-brand-secondary"></div>
-                                </div>
-                                <div data-step="react" class="flex w-max items-center justify-end gap-3">
-                                    <span class="block text-sm text-onsurface-500 opacity-50 dark:text-white">React Components</span>
-                                    <div class="h-2 w-2 rounded-full bg-onsurface-200/50 dark:bg-white/50"></div>
-                                </div>
-                                <div data-step="mvu" class="flex w-max items-center justify-end gap-3">
-                                    <span class="block text-sm text-onsurface-500 opacity-40 dark:text-white">Web APIs</span>
-                                    <div class="h-2 w-2 rounded-full bg-onsurface-200/40 dark:bg-white/40"></div>
-                                </div>
-                                <div data-step="mvu" class="flex w-max items-center justify-end gap-3">
-                                    <span class="block text-sm text-onsurface-500 opacity-30 dark:text-white">Client-side routing</span>
-                                    <div class="h-2 w-2 rounded-full bg-onsurface-200/30 dark:bg-white/30"></div>
-                                </div>
-
-                                <div data-step="mvu" class="flex w-max items-center justify-end gap-3">
-                                    <span class="block text-sm text-onsurface-500 opacity-20 dark:text-white">Language constructs</span>
-                                    <div class="h-2 w-2 rounded-full bg-onsurface-200/20 dark:bg-white/20"></div>
-                                </div>
-                                <div data-step="mvu" class="flex w-max items-center justify-end gap-3">
-                                    <span class="block text-sm text-onsurface-500 opacity-10 dark:text-white">Type-safe HTML</span>
-                                    <div class="h-2 w-2 rounded-full bg-onsurface-200/10 dark:bg-white/10"></div>
-                                </div>
-                                <div data-step="mvu" class="flex w-max items-center justify-end gap-3">
-                                    <span class="block text-sm text-onsurface-500 opacity-5 dark:text-white">Remoting with ease</span>
-                                    <div class="h-2 w-2 rounded-full bg-onsurface-200/5 dark:bg-white/5"></div>
-                                </div>
-                                <div data-step="mvu" class="flex w-max items-center justify-end gap-3">
-                                    <span class="block text-sm text-onsurface-500 opacity-0 dark:text-white">Powerful UI abstractions</span>
-                                    <div class="h-2 w-2 rounded-full bg-onsurface-200/0 dark:bg-white/0"></div>
-                                </div>
+                                <a href="#mvu" data-step="mvu" class="group flex w-max items-center justify-end gap-3">
+                                    <span class="block text-sm text-onsurface-500 transition duration-500 group-hover:opacity-100 dark:text-white">Model-View-Update</span>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-brand-secondary"></div>
+                                </a>
+                                <a href="#react" data-step="react" class="group flex w-max items-center justify-end gap-3">
+                                    <span class="block text-sm text-onsurface-500 opacity-50 transition duration-500 group-hover:opacity-100 dark:text-white">React Components</span>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200/50 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/50"></div>
+                                </a>
+                                <a href="#webapi" data-step="webapi" class="group flex w-max items-center justify-end gap-3">
+                                    <span class="block text-sm text-onsurface-500 opacity-40 transition duration-500 group-hover:opacity-100 dark:text-white">Web APIs</span>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200/40 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/40"></div>
+                                </a>
+                                <a href="#csr" data-step="csr" class="group flex w-max items-center justify-end gap-3">
+                                    <span class="block text-sm text-onsurface-500 opacity-30 transition duration-500 group-hover:opacity-100 dark:text-white">Client-side routing</span>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                                </a>
+                                <a href="#lc" data-step="lc" class="group flex w-max items-center justify-end gap-3">
+                                    <span class="block text-sm text-onsurface-500 opacity-20 transition duration-500 group-hover:opacity-100 dark:text-white">Language constructs</span>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200/20 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/20"></div>
+                                </a>
+                                <a href="#tsh" data-step="tsh" class="group flex w-max items-center justify-end gap-3">
+                                    <span class="block text-sm text-onsurface-500 opacity-10 transition duration-500 group-hover:opacity-100 dark:text-white">Type-safe HTML</span>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200/10 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/10"></div>
+                                </a>
+                                <a href="#rwe" data-step="rwe" class="group flex w-max items-center justify-end gap-3">
+                                    <span class="block text-sm text-onsurface-500 opacity-5 transition duration-500 group-hover:opacity-100 dark:text-white">Remoting with ease</span>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200/5 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/5"></div>
+                                </a>
+                                <a href="#puia" data-step="puia" class="group flex w-max items-center justify-end gap-3">
+                                    <span class="block text-sm text-onsurface-500 opacity-0 transition duration-500 group-hover:opacity-100 dark:text-white">Powerful UI abstractions</span>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200/0 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/0"></div>
+                                </a>
                             </div>
                         </div>
-                        <div class="space-y-32">
-                            <div class="md:flex">
+                        <div>
+                            <div id="mvu" class="py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                                     <h3 class="text-2xl font-bold text-surface-700 dark:text-white">Model-View-Update architecture with WebSharper.Mvu</h3>
                                     <p class="mb-8 mt-6 text-onsurface-500 dark:text-onsurface-200 lg:mb-12">Structure client-side applications with clear separation of concerns between logic and display. Based on WebSharper.UI, Mvu brings Elm-like architecture to WebSharper.</p>
@@ -666,7 +665,7 @@ let Main = App. CreateSimple InitModel Update View |> App. Run
                                     </div>
                                 </div>
                             </div>
-                            <div class="md:flex">
+                            <div id="react" class="py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                                     <h3 class="text-2xl font-bold text-surface-700 dark:text-white">Build React components</h3>
                                     <p class="mb-8 mt-6 text-onsurface-500 dark:text-onsurface-200 lg:mb-12">You can also use widespread libraries such as React to build applications. The syntax is as convenient as JSX, with the added benefit of strong typing.</p>
@@ -729,7 +728,70 @@ type ShowPerson (props) =
                                     </div>
                                 </div>
                             </div>
-                            <div class="md:flex">
+                            <div id="webapi" class="py-16 md:flex">
+                                <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                                    <h3 class="text-2xl font-bold text-surface-700 dark:text-white">Build React components</h3>
+                                    <p class="mb-8 mt-6 text-onsurface-500 dark:text-onsurface-200 lg:mb-12">You can also use widespread libraries such as React to build applications. The syntax is as convenient as JSX, with the added benefit of strong typing.</p>
+                                    <a href="#" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                        <span class="relative w-max text-sm font-medium text-surface-600 dark:text-white"> Learn more </span>
+                                    </a>
+                                </div>
+                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
+                                    <div class="relative z-10 rounded-2xl bg-white/10 p-px md:rounded-xl">
+                                        <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                                            <div class="flex items-center gap-4 rounded-t-2xl bg-onsurface-200/20 px-4 py-1 dark:bg-surface-900/20 md:rounded-t-xl">
+                                                <div class="flex space-x-1.5">
+                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200/40 dark:bg-onsurface-200"></div>
+                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200/40 dark:bg-onsurface-200"></div>
+                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-onsurface-200/40 dark:bg-onsurface-200"></div>
+                                                </div>
+
+                                                <div class="flex cursor-pointer items-center gap-1.5 rounded-md bg-white/60 p-1 px-1.5 dark:bg-white/5">
+                                                    <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
+                                                        <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
+                                                        <defs id="defs2" />
+                                                        <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+                                                            <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
+                                                            <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
+                                                            <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
+                                                        </g>
+                                                    </svg>
+                                                    <span class="text-xs text-brand-primary">contoller.fs</span>
+                                                </div>
+                                                <div class="-ml-2 flex cursor-pointer items-center gap-1.5">
+                                                    <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
+                                                        <path
+                                                            d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
+                                                            fill="black"
+                                                        />
+                                                    </svg>
+                                                    <span class="text-xs text-onsurface-200">contoller.js</span>
+                                                </div>
+                                            </div>
+                                            <div class="relative rounded-b-2xl bg-onsurface-200/10 dark:mt-px dark:bg-surface-900/20 md:rounded-b-xl">
+                                                <div class="flex overflow-hidden pl-1.5 font-mono text-xs">
+                                                    <pre class="w-full !overflow-x-hidden">
+                                                        <code class="mt-[-17px] block language-fsharp pl-4 text-white">
+type Person = { name: string; age: int }
+
+type ShowPerson (props) =
+    inherit React. Component «Person, unit> (props)
+
+    override this. Render () =
+        ul [attr.className "person"] [ 
+            li [] [text ( "Name: " + this.Props .name) ]
+            li [] [text ( "Age: " + string this .Props .age)]
+        ]
+                                                        </code>
+                                                    </pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="csr" class="py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                                     <h3 class="text-2xl font-bold text-surface-700 dark:text-white">Web APIs and server-side JSON and HTML</h3>
                                     <p class="mb-8 mt-6 text-onsurface-500 dark:text-onsurface-200 lg:mb-12">Declare your URLs as a C# or F# endpoint type, and WebSharper handles the dispatch. Create safe internal links from endpoint values. You can share the same rendering code and templates between the server and the client. Automatically parse JSON requests and generate JSON responses based on your types.</p>
@@ -805,7 +867,7 @@ let Website =
                                     </div>
                                 </div>
                             </div>
-                            <div class="md:flex">
+                            <div id="lc" class="py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                                     <h3 class="text-2xl font-bold text-surface-700 dark:text-white">Client-side routing</h3>
                                     <p class="mb-8 mt-6 text-onsurface-500 dark:text-onsurface-200 lg:mb-12">Write SPAs with the same routing API on the client side as you would use on the server side.</p>
@@ -868,7 +930,7 @@ type ShowPerson (props) =
                                     </div>
                                 </div>
                             </div>
-                            <div class="md:flex">
+                            <div id="tsh" class="py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                                     <h3 class="text-2xl font-bold text-surface-700 dark:text-white">Use powerful language constructs on the client side</h3>
                                     <p class="mb-8 mt-6 text-onsurface-500 dark:text-onsurface-200 lg:mb-12">
@@ -935,7 +997,7 @@ type ShowPerson (props) =
                                     </div>
                                 </div>
                             </div>
-                            <div class="md:flex">
+                            <div id="rwe" class="py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                                     <h3 class="text-2xl font-bold text-surface-700 dark:text-white">Type-safe HTML templating</h3>
                                     <p class="mb-8 mt-6 text-onsurface-500 dark:text-onsurface-200 lg:mb-12">Use HTML templates to keep your logic and UI clearly separate and facilitate the collaboration between programmers and designers.</p>
@@ -998,7 +1060,7 @@ type ShowPerson (props) =
                                     </div>
                                 </div>
                             </div>
-                            <div class="md:flex">
+                            <div id="puia" class="py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                                     <h3 class="text-2xl font-bold text-surface-700 dark:text-white">Remoting with ease</h3>
                                     <p class="mb-8 mt-6 text-onsurface-500 dark:text-onsurface-200 lg:mb-12">
