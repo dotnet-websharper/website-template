@@ -11,6 +11,12 @@
 .visible-close-icon {
     @apply rotate-180 scale-100 opacity-100;
 }
+.active-link span {
+    @apply translate-x-0 scale-105 opacity-100;
+}
+.active-link div {
+    @apply !bg-brand-secondary;
+}
 code {
     @apply !font-mono;
 }
