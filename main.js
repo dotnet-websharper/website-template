@@ -5,3 +5,4 @@ import "./src/counter";
 import "./src/themeSwitcher";
 import "./src/navmenu";
 import "./src/intersectionObserver";
+import "./src/clipboard";
