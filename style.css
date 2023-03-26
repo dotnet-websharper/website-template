@@ -17,6 +17,12 @@
 .active-link div {
     @apply !bg-brand-secondary;
 }
+pre::-webkit-scrollbar {
+    @apply h-0 w-1;
+}
+pre::-webkit-scrollbar-thumb {
+    @apply h-0 w-1 rounded-full;
+}
 code {
     @apply !font-mono;
 }
