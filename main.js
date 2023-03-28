@@ -6,3 +6,4 @@ import "./src/themeSwitcher";
 import "./src/navmenu";
 import "./src/intersectionObserver";
 import "./src/clipboard";
+import "./src/tabs";
