@@ -17,11 +17,11 @@
 .active-link div {
     @apply !bg-brand-secondary;
 }
-pre::-webkit-scrollbar {
-    @apply h-0 w-1;
+.custom-scrollbar::-webkit-scrollbar {
+    @apply h-0 w-1.5;
 }
-pre::-webkit-scrollbar-thumb {
-    @apply h-0 w-1 rounded-full;
+.snippet-code:hover .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-onsurface-200/60 transition-all duration-300 dark:bg-onsurface-200/30;
 }
 code {
     @apply !font-mono;
