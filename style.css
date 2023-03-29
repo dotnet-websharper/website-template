@@ -64,3 +64,18 @@ pre[class*="language-"] {
 .token.inserted {
     @apply text-[#865cbd] dark:text-[#cc96ff];
 }
+
+.marquee {
+    animation: marquee 20s linear infinite;
+}
+.marquee-2 {
+    animation: marquee 25s linear infinite;
+}
+@keyframes marquee {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-100%, 0);
+    }
+}
