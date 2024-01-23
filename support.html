@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+        <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+
+        <!-- Facebook Meta Tags -->
+        <meta property="og:url" content="https://websharper.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="WebSharper" />
+        <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+        <meta property="og:image" content="" />
+
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="websharper.com" />
+        <meta property="twitter:url" content="https://websharper.com/" />
+        <meta name="twitter:title" content="WebSharper" />
+        <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+        <meta name="twitter:image" content="" />
+
+        <link rel="stylesheet" href="./assets/css/prism.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+    </head>
+    <body class="bg-white dark:bg-gray-950">
+        <header class="absolute inset-x-0 z-20 border-b dark:border-white/5">
+            <div class="px-6 py-6 lg:px-8">
+                <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                    <div class="flex lg:flex-1">
+                        <a href="/" class="-m-1.5 p-1.5">
+                            <span class="sr-only">WebSharper logo</span>
+                            <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="/favicon.png" alt="websharper logo" width="164" height="164" />
+                        </a>
+                    </div>
+                    <div class="flex gap-4 lg:hidden">
+                        <button aria-label="switch theme" class="switcher group h-10 w-10 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+                        <button id="openMenu" type="button" class="text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                            <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                                <span class="sr-only">Open main menu</span>
+                                <!-- Heroicon name: outline/bars-3 -->
+                                <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                                </svg>
+                            </div>
+                            <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                                <span class="sr-only">Close menu</span>
+                                <!-- Heroicon name: outline/x-mark -->
+                                <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="hidden px-6 py-2 lg:flex lg:gap-x-8 border rounded-xl dark:border-white/5 dark:bg-white/5">
+                        <a href="#" class="hover:text-gray-600 text-sm leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+
+                        <a href="#" class="hover:text-gray-600 text-sm leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Downloads</a>
+
+                        <a href="#" class="hover:text-gray-600 text-sm leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                        
+                        <a href="/support.html" class="hover:text-gray-600 text-sm leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+
+                        <a href="#" class="hover:text-gray-600 text-sm leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
+                    </div>
+                    <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                        <button aria-label="switch theme" class="switcher group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-5 w-5 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+                        <ul class="flex gap-1">
+                            <li>
+                                <a href="#" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500/80 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                                    </svg>
+                                    <span class="sr-only">WebSharper GitHub organization</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500/80 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                    </svg>
+                                    <span class="sr-only">Follow WebSharper on Twitter</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500/80 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                        <path
+                                            d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"
+                                        />
+                                    </svg>
+                                    <span class="sr-only">Join WebSharper community on Discord</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <!-- Mobile menu, show/hide based on menu open state. -->
+                <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                    <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900">
+                        <div class="mt-24 flow-root">
+                            <div class="divide-y divide-gray-200/10 dark:divide-white/10">
+                                <div class="flex flex-col space-y-6 py-6">
+                                    <a href="#" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Docs</a>
+
+                                    <a href="#" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Downloads</a>
+
+                                    <a href="#" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Blogs</a>
+
+                                    <a href="#" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Forums</a>
+                                </div>
+                                <div class="py-6">
+                                    <ul class="-mx-3 flex">
+                                        <li>
+                                            <a href="#" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                                                </svg>
+                                                <span class="sr-only">WebSharper GitHub organization</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                                </svg>
+                                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"
+                                                    />
+                                                </svg>
+                                                <span class="sr-only">Join WebSharper community on Discord</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="space-y-40">
+            <section class="overflow-hidden dark:overflow-auto">
+                <div class="mx-auto max-w-6xl px-6 pt-36 sm:pt-40 lg:px-8 lg:pt-48 xl:px-0 2xl:max-w-7xl">
+                    <div class="">
+                        <div class="mb-20 relative z-10 text-center sm:mx-auto sm:w-3/5 lg:w-3/5">
+                            <h1 class="font-bold tracking-tight text-gray-950 dark:text-white  text-4xl sm:text-5xl lg:text-6xl">Dedicated support. Peace of mind.</h1>
+                            <p class="mt-6 text-lg leading-8 text-gray-700 dark:text-gray-300">Have a problem? Get the help you need from your WebSharper experts.</p>
+                        </div>
+                        <div class="relative z-10aspect-video w-4/5 mx-auto px-12 py-2 ring-1 ring-offset-4 bg-white shadow-xl ring-gray-100 dark:ring-gray-900 dark:ring-offset-gray-950 rounded-2xl border dark:border-gray-800 dark:bg-gray-900/0">
+                            <div class="relative flex gap-6 items-center">
+                                <div class="py-3 flex gap-1.5">
+                                    <span class="block rounded-full bg-gray-200 size-2.5 dark:bg-gray-700"></span>
+                                    <span class="block rounded-full bg-gray-200 size-2.5 dark:bg-gray-700"></span>
+                                    <span class="block rounded-full bg-gray-200 size-2.5 dark:bg-gray-700"></span>
+                                </div>
+                            </div>
+
+                            <div class="mt-2 grid grid-cols-2 gap-3">
+                                <div class="overflow-hidden relative aspect-square rounded-xl">
+                                    <div class="absolute bottom-2 left-2 text-white text-sm bg-gray-950/75 px-3 py-1 rounded">
+                                        Méschac Irung
+                                    </div>
+                                    <img class="size-full object-cover" src="https://img.freepik.com/free-photo/young-hispanic-call-center-agent-man-smiling-happy-working-office_839833-34402.jpg?w=1800&t=st=1705661214~exp=1705661814~hmac=055e9770afb52785d81fec79c0ce5153f6e539107ffb3823551f8c5af79bf33f" alt="">
+                                </div>
+                                <div class="overflow-hidden relative aspect-square rounded-xl">
+                                    <div class="absolute bottom-2 left-2 text-white text-sm bg-gray-950/75 px-3 py-1 rounded">
+                                        Jane Doe
+                                    </div>
+                                    <img class="size-full object-cover" src="https://img.freepik.com/free-photo/woman-with-headset-having-video-call-laptop_23-2148860594.jpg?w=1800&t=st=1705661356~exp=1705661956~hmac=44a8491693466c21c3fea96e9b6fc5916d1ee0fd2550ec4929ca67e29250730a" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute dark:border dark:border-white/5 inset-x-2 top-0 w-full rounded-b-2xl overflow-hidden hidden lg:block">
+                        <div class="absolute inset-0 opacity-50 top-0 z-[2] bg-[url(/dark-texture.svg)] dark:opacity-60 dark:mix-blend-overlay"></div>
+                        <div class="size-full">
+                            <img class="contrast-150 brightness-75 dark:contrast-200 dark:opacity-15" src="/bg-layer.webp" alt="hero layer" loading="lazy" width="1920" height="1248" />
+                        </div>
+                    </div>
+            </section>
+            <section>
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="grid grid-cols-3 gap-12">
+                        <div class="p-6 rounded-3xl border border-gray-50 bg-gray-100 dark:border-gray-800 dark:bg-gray-900/50">
+                            <div class="mt-6 flex gap-3">
+                                <svg class="size-6 text-gray-950 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m7 9l5 3.5L17 9"/>
+                                        <path d="M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z"/>
+                                    </g>
+                                </svg>
+                                <h3 class="text-gray-950 dark:text-white font-medium">Email and web support</h3>
+                            </div>
+                           
+                            <p class="pl-9 mt-2 text-gray-700 dark:text-gray-400">
+                                You can email us your support queries, architectural or best practice questions, or post them to our dedicated support site.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex gap-3">
+                                <svg class="size-6 text-gray-950 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M11.61 29.92a1 1 0 0 1-.6-1.07L12.83 17H8a1 1 0 0 1-1-1.23l3-13A1 1 0 0 1 11 2h10a1 1 0 0 1 .78.37a1 1 0 0 1 .2.85L20.25 11H25a1 1 0 0 1 .9.56a1 1 0 0 1-.11 1l-13 17A1 1 0 0 1 12 30a1.09 1.09 0 0 1-.39-.08M17.75 13l2-9H11.8L9.26 15h5.91l-1.59 10.28L23 13Z"/></svg>
+                                <h3 class="text-gray-950 dark:text-white font-medium">Fast response time</h3>
+                            </div>
+                           
+                            <p class="mt-2 text-gray-700 dark:text-gray-400">
+                                You will receive the first response to your queries from within 4 hours up to 2 days, depending on your selected support plan.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex gap-3">
+                                <svg class="size-6 text-gray-950 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m1.5 16.2l3.775-6.05q.275-.425.763-.463t.837.338L9 12.5l3.175-5.175q.275-.475.838-.475t.862.45l1.85 2.775q-.575.025-1.087.138t-1.013.312l-.55-.825l-3.075 5q-.275.425-.775.475t-.85-.35L6.25 12.35L3.2 17.275q-.225.375-.663.463t-.787-.188q-.325-.225-.387-.612T1.5 16.2M21.575 23l-3.125-3.125q-.5.35-1.112.525t-1.263.175q-1.875 0-3.187-1.312t-1.313-3.188q0-1.875 1.313-3.187t3.187-1.313q1.875 0 3.188 1.313t1.312 3.187q0 .65-.175 1.263t-.525 1.137l3.125 3.1zm-5.5-4.425q1.05 0 1.775-.725t.725-1.775q0-1.05-.725-1.775t-1.775-.725q-1.05 0-1.775.725t-.725 1.775q0 1.05.725 1.775t1.775.725m2.225-8q-.475-.2-.987-.325t-1.063-.15l4.55-7.2q.225-.35.65-.45t.775.175q.325.225.4.612t-.125.738z"/></svg>
+                                <h3 class="text-gray-950 dark:text-white font-medium">Mentoring and training</h3>
+                            </div>
+                           
+                            <p class="mt-2 text-gray-700 dark:text-gray-400">
+                                Choose a Start-up or Enterprise plan and jumpstart your team's productivity with our online WebSharper training and mentoring.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex gap-3">
+                                <svg class="size-6 text-gray-950 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m7 9l5 3.5L17 9"/>
+                                        <path d="M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z"/>
+                                    </g>
+                                </svg>
+                                <h3 class="text-gray-950 dark:text-white font-medium">Email and web support</h3>
+                            </div>
+                           
+                            <p class="mt-2 text-gray-700 dark:text-gray-400">
+                                You can email us your support queries, architectural or best practice questions, or post them to our dedicated support site.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex gap-3">
+                                <svg class="size-6 text-gray-950 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M11.61 29.92a1 1 0 0 1-.6-1.07L12.83 17H8a1 1 0 0 1-1-1.23l3-13A1 1 0 0 1 11 2h10a1 1 0 0 1 .78.37a1 1 0 0 1 .2.85L20.25 11H25a1 1 0 0 1 .9.56a1 1 0 0 1-.11 1l-13 17A1 1 0 0 1 12 30a1.09 1.09 0 0 1-.39-.08M17.75 13l2-9H11.8L9.26 15h5.91l-1.59 10.28L23 13Z"/></svg>
+                                <h3 class="text-gray-950 dark:text-white font-medium">Fast response time</h3>
+                            </div>
+                           
+                            <p class="mt-2 text-gray-700 dark:text-gray-400">
+                                You will receive the first response to your queries from within 4 hours up to 2 days, depending on your selected support plan.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex gap-3">
+                                <svg class="size-6 text-gray-950 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m1.5 16.2l3.775-6.05q.275-.425.763-.463t.837.338L9 12.5l3.175-5.175q.275-.475.838-.475t.862.45l1.85 2.775q-.575.025-1.087.138t-1.013.312l-.55-.825l-3.075 5q-.275.425-.775.475t-.85-.35L6.25 12.35L3.2 17.275q-.225.375-.663.463t-.787-.188q-.325-.225-.387-.612T1.5 16.2M21.575 23l-3.125-3.125q-.5.35-1.112.525t-1.263.175q-1.875 0-3.187-1.312t-1.313-3.188q0-1.875 1.313-3.187t3.187-1.313q1.875 0 3.188 1.313t1.312 3.187q0 .65-.175 1.263t-.525 1.137l3.125 3.1zm-5.5-4.425q1.05 0 1.775-.725t.725-1.775q0-1.05-.725-1.775t-1.775-.725q-1.05 0-1.775.725t-.725 1.775q0 1.05.725 1.775t1.775.725m2.225-8q-.475-.2-.987-.325t-1.063-.15l4.55-7.2q.225-.35.65-.45t.775.175q.325.225.4.612t-.125.738z"/></svg>
+                                <h3 class="text-gray-950 dark:text-white font-medium">Mentoring and training</h3>
+                            </div>
+                           
+                            <p class="mt-2 text-gray-700 dark:text-gray-400">
+                                Choose a Start-up or Enterprise plan and jumpstart your team's productivity with our online WebSharper training and mentoring.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="bg-onsurface-200/10 pt-20 dark:bg-black/40">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                    <div class="col-span-2">
+                        <div class="flex items-center gap-3">
+                            <img class="h-9 w-9" src="./favicon.png" alt="" />
+                            <span class="hidden text-xl font-bold text-white">WebSharper</span>
+                        </div>
+
+                        <form class="mt-16 rounded-3xl bg-onsurface-200/10 p-8 sm:p-10" action="">
+                            <h2 class="text-xl font-semibold text-surface-800 dark:text-white">Subscribe now</h2>
+                            <p class="mt-2 text-sm text-onsurface-500 dark:text-white/70">Don't miss anything !</p>
+
+                            <div class="mt-8 space-y-4">
+                                <input placeholder="Email" class="w-full rounded-full border border-onsurface-200/60 bg-transparent px-3.5 py-2 text-sm text-onsurface-500 placeholder-onsurface-500 invalid:border-danger-surface dark:border-onsurface-200/30 dark:text-white dark:placeholder-onsurface-200" type="email" name="" id="" />
+                                <button type="submit" class="disabled:before:bg-gray-300 group relative ml-auto flex h-9 w-full items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary before:transition before:duration-300 active:duration-75 active:before:scale-95 disabled:before:scale-100">
+                                    <span class="relative mx-auto w-max text-sm font-medium text-white"> Submit </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div>
+                        <h2 class="text-surface-500 text-sm font-semibold uppercase dark:text-white/50">Docs</h2>
+                        <ul class="mt-6 space-y-2">
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold uppercase text-surface-600 dark:text-white/50">Channels</h2>
+                        <ul class="mt-6 space-y-2">
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Code of conduct</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sm:col-start-2 md:col-start-auto">
+                        <h2 class="text-sm font-semibold uppercase text-surface-600 dark:text-white/50">Community</h2>
+                        <ul class="mt-6 space-y-2">
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Slack</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sm:col-start-3 md:col-start-auto">
+                        <h2 class="text-sm font-semibold uppercase text-surface-600 dark:text-white/50">More</h2>
+                        <ul class="mt-6 space-y-2">
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Tutorials</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Blog</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-onsurface-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-32 border-t border-onsurface-200/30 py-8 dark:border-white/5">
+                    <div class="flex flex-wrap justify-between gap-4 text-sm text-onsurface-500 dark:text-onsurface-300/70">
+                        <span class="">© 2009 - Present WebSharper</span>
+                        <span>Latest version is 4.7.3.424</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script type="module" src="/main.js"></script>
+    </body>
+</html>
