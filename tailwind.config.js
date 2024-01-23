@@ -10,7 +10,7 @@ export default {
           primary: "#36b9ff",
           secondary: "#F2F2F2",
         },
-        gray : colors.slate
+        gray : colors.gray  
       })
     }
   },
