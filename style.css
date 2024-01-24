@@ -5,3 +5,78 @@
 :root {
     font-family: "DM Sans", sans-serif;
 }
+
+.hidde-open-icon {
+    @apply rotate-180 scale-0 opacity-0;
+}
+.visible-close-icon {
+    @apply rotate-180 scale-100 opacity-100;
+}
+.active-link span {
+    @apply translate-x-0 scale-105 opacity-100;
+}
+.active-link div {
+    @apply bg-lime-600 dark:!bg-lime-400;
+}
+.custom-scrollbar::-webkit-scrollbar {
+    @apply h-0 w-1.5;
+}
+.snippet-code:hover .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-200 transition-all duration-300 dark:bg-gray-800;
+}
+code {
+    @apply !font-mono;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+    @apply !text-gray-600 dark:!text-white;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+    @apply !text-blue-600 dark:!text-brand-primary;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    @apply !text-[#93652f] dark:!text-[#579ECD];
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+    @apply !text-gray-600 dark:!text-white/60;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    @apply text-[#865cbd] dark:text-[#cc96ff];
+}
+
+.marquee {
+    animation: marquee 20s linear infinite;
+}
+.marquee-2 {
+    animation: marquee 25s linear infinite;
+}
+@keyframes marquee {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-100%, 0);
+    }
+}
