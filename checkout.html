@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>WebSharper - Login</title>
+        <title>Checkout - WebSharper</title>
         <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
 
         <!-- Facebook Meta Tags -->
@@ -165,101 +165,106 @@
         </header>
 
         <main>
-            <div class="max-w-6xl mx-auto px-12">
-                <div class="max-w-sm mx-auto lg:max-w-full lg:ml-0 py-16">
+            <div class="fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800"></div>
+            <div class="max-w-6xl mx-auto px-12 gap-20 flex">
+                <div class="w-1/2 pr-20 pt-16">
                     <a href="/" class="rounded-full">
                         <span class="sr-only">WebSharper logo</span>
                         <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="/favicon.png" alt="websharper logo" width="164" height="164" />
                     </a>
-                    <form action="" class="lg:max-w-sm w-full">
-                        <div class="pb-4 pt-10 border-b dark:border-gray-800">
-                            <div>
-                                <div class="mb-10">
-                                    <h1 class="text-2xl font-medium text-gray-950 dark:text-white">Create your WebSharper account</h1>
-                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Using social accounts</p>
-                                </div>
-                                <div class="grid grid-cols-3 gap-4">
-                                    <button class="group flex gap-2 items-center relative border rounded-xl *:select-none [&>*:not(.sr-only)]:relative before:rounded-[11px] before:absolute before:inset-0 before:border-t before:bg-gradient-to-b *:disabled:opacity-20 disabled:before:border-0 disabled:border bg-white dark:bg-transparent before:border-white disabled:text-gray-950/40 disabled:border-gray-200 disabled:bg-gray-50 disabled:*:text-gray-300 disabled:before:border-transparent disabled:before:bg-gray-50 disabled:before:from-transparent dark:before:border-b dark:before:border-t-0 dark:before:border-transparent dark:before:from-transparent dark:hover:before:border-gray-950/20 dark:disabled:border-gray-800/50 disabled:dark:bg-gray-900 dark:disabled:before:bg-gray-900 dark:disabled:before:from-gray-900 dark:*:disabled:!text-white text-gray-900 border-gray-200 before:from-gray-100 hover:bg-gray-100 active:bg-gray-200 dark:text-gray-300 dark:border-gray-800 dark:hover:bg-gray-900/50 dark:active:bg-gray-800/50 dark:active:before:from-gray-300/5 size-10 justify-center w-full">
-                                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-5 text-gray-700 dark:text-gray-300 group-hover:text-gray-950 dark:group-hover:text-white transition duration-200 my-auto" aria-hidden="true">
-                                            <path d="M7.49933 0.25C3.49635 0.25 0.25 3.49593 0.25 7.50024C0.25 10.703 2.32715 13.4206 5.2081 14.3797C5.57084 14.446 5.70302 14.2222 5.70302 14.0299C5.70302 13.8576 5.69679 13.4019 5.69323 12.797C3.67661 13.235 3.25112 11.825 3.25112 11.825C2.92132 10.9874 2.44599 10.7644 2.44599 10.7644C1.78773 10.3149 2.49584 10.3238 2.49584 10.3238C3.22353 10.375 3.60629 11.0711 3.60629 11.0711C4.25298 12.1788 5.30335 11.8588 5.71638 11.6732C5.78225 11.205 5.96962 10.8854 6.17658 10.7043C4.56675 10.5209 2.87415 9.89918 2.87415 7.12104C2.87415 6.32925 3.15677 5.68257 3.62053 5.17563C3.54576 4.99226 3.29697 4.25521 3.69174 3.25691C3.69174 3.25691 4.30015 3.06196 5.68522 3.99973C6.26337 3.83906 6.8838 3.75895 7.50022 3.75583C8.1162 3.75895 8.73619 3.83906 9.31523 3.99973C10.6994 3.06196 11.3069 3.25691 11.3069 3.25691C11.7026 4.25521 11.4538 4.99226 11.3795 5.17563C11.8441 5.68257 12.1245 6.32925 12.1245 7.12104C12.1245 9.9063 10.4292 10.5192 8.81452 10.6985C9.07444 10.9224 9.30633 11.3648 9.30633 12.0413C9.30633 13.0102 9.29742 13.7922 9.29742 14.0299C9.29742 14.2239 9.42828 14.4496 9.79591 14.3788C12.6746 13.4179 14.75 10.7025 14.75 7.50024C14.75 3.49593 11.5036 0.25 7.49933 0.25Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
-                                        </svg>
-                                        <span class="text-sm sr-only">GitHub</span>
-                                    </button>
-                                    <button class="group flex gap-2 items-center relative border rounded-xl *:select-none [&>*:not(.sr-only)]:relative before:rounded-[11px] before:absolute before:inset-0 before:border-t before:bg-gradient-to-b *:disabled:opacity-20 disabled:before:border-0 disabled:border bg-white dark:bg-transparent before:border-white disabled:text-gray-950/40 disabled:border-gray-200 disabled:bg-gray-50 disabled:*:text-gray-300 disabled:before:border-transparent disabled:before:bg-gray-50 disabled:before:from-transparent dark:before:border-b dark:before:border-t-0 dark:before:border-transparent dark:before:from-transparent dark:hover:before:border-gray-950/20 dark:disabled:border-gray-800/50 disabled:dark:bg-gray-900 dark:disabled:before:bg-gray-900 dark:disabled:before:from-gray-900 dark:*:disabled:!text-white text-gray-900 border-gray-200 before:from-gray-100 hover:bg-gray-100 active:bg-gray-200 dark:text-gray-300 dark:border-gray-800 dark:hover:bg-gray-900/50 dark:active:bg-gray-800/50 dark:active:before:from-gray-300/5 size-10 justify-center w-full">
-                                        <svg class="size-5 my-auto" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                            <path fill="#ffc107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917" />
-                                            <path fill="#ff3d00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691" />
-                                            <path fill="#4caf50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44" />
-                                            <path fill="#1976d2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917" />
-                                        </svg>
-                                        <span class="text-sm sr-only">Google</span>
-                                    </button>
-                                    <button class="group flex gap-2 items-center relative border rounded-xl *:select-none [&>*:not(.sr-only)]:relative before:rounded-[11px] before:absolute before:inset-0 before:border-t before:bg-gradient-to-b *:disabled:opacity-20 disabled:before:border-0 disabled:border bg-white dark:bg-transparent before:border-white disabled:text-gray-950/40 disabled:border-gray-200 disabled:bg-gray-50 disabled:*:text-gray-300 disabled:before:border-transparent disabled:before:bg-gray-50 disabled:before:from-transparent dark:before:border-b dark:before:border-t-0 dark:before:border-transparent dark:before:from-transparent dark:hover:before:border-gray-950/20 dark:disabled:border-gray-800/50 disabled:dark:bg-gray-900 dark:disabled:before:bg-gray-900 dark:disabled:before:from-gray-900 dark:*:disabled:!text-white text-gray-900 border-gray-200 before:from-gray-100 hover:bg-gray-100 active:bg-gray-200 dark:text-gray-300 dark:border-gray-800 dark:hover:bg-gray-900/50 dark:active:bg-gray-800/50 dark:active:before:from-gray-300/5 size-10 justify-center w-full">
-                                        <svg class="size-5 my-auto" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256" {...props}>
-                                            <path fill="#1877f2" d="M256 128C256 57.308 198.692 0 128 0C57.308 0 0 57.308 0 128c0 63.888 46.808 116.843 108 126.445V165H75.5v-37H108V99.8c0-32.08 19.11-49.8 48.348-49.8C170.352 50 185 52.5 185 52.5V84h-16.14C152.959 84 148 93.867 148 103.99V128h35.5l-5.675 37H148v89.445c61.192-9.602 108-62.556 108-126.445" />
-                                            <path fill="#fff" d="m177.825 165l5.675-37H148v-24.01C148 93.866 152.959 84 168.86 84H185V52.5S170.352 50 156.347 50C127.11 50 108 67.72 108 99.8V128H75.5v37H108v89.445A128.959 128.959 0 0 0 128 256a128.9 128.9 0 0 0 20-1.555V165z" />
-                                        </svg>
-                                        <span class="text-sm sr-only">Facebook</span>
-                                    </button>
-                                </div>
-                                <div class="my-10 relative flex items-center gap-2 after:w-full after:h-px after:bg-gray-200 dark:after:bg-gray-800 before:w-full before:h-px before:bg-gray-200 dark:before:bg-gray-800"><span class="relative text-sm block w-max text-nowrap mx-auto text-gray-600 dark:text-gray-400">Or continue with</span></div>
-                                <div class="py-4">
-                                    <div class="space-y-6">
-                                        <div class="mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2">
-                                            <label class="block font-medium text-sm" for="email">Email</label>
-                                            <input class="peer w-full focus:outline rounded-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" type="email" required id="email" name="email" />
-                                            <span class="hidden peer-invalid:hidden peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-red-600 dark:text-red-400 text-sm">Please enter your email</span>
-                                        </div>
-                                        <div class="has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2">
-                                            <label class="block font-medium text-sm" for="password">Password</label>
-                                            <input class="peer w-full focus:outline rounded-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" type="password" required id="password" name="password" />
-                                            <span class="hidden peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-red-600 dark:text-red-400 text-sm">Please enter your email</span>
-                                        </div>
-                                        <div class="has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2">
-                                            <label class="block font-medium text-sm" for="repeat-password">Repeat Password</label>
-                                            <input class="peer w-full focus:outline rounded-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" type="password" required id="repeat-password" name="repeat-password" />
-                                            <span class="hidden peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-red-600 dark:text-red-400 text-sm">Please enter your email</span>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="mt-8 w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
-                                        <span class="relative text-sm">Create account</span>
-                                    </button>
-                                </div>
-                            </div>
+
+                    <nav class="mt-8 flex gap-3 items-center">
+                        <a href="/support.html" class="text-gray-600 dark:text-gray-300 hover:underline hover:text-blue-600 dark:hover:text-blue-400">
+                            Plans
+                        </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="text-gray-400 dark:text-gray-600 size-4">
+                            <path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-gray-950 dark:text-white font-medium">Payment</span>
+                    </nav>
+
+                    <h1 class="mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3">Basic Support</h1>
+                    <p class="text-3xl font-bold text-gray-950 dark:text-white">$2,500 <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ Year</span> </p>
+                    
+                    <p class="mt-8 text-gray-600 dark:text-gray-400">Our experienced WebSharper support team is available to help you make the right decisions.</p>
+                    
+                    <div class="mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400">
+                        <div class="py-3 flex justify-between">
+                            <p>Subtotal</p>
+                            <p class="font-medium text-gray-950 dark:text-white">$2,500</p>
                         </div>
-                        <div class="pt-4 px-6">
-                            <p class="text-center text-sm text-gray-600 dark:text-gray-400">You already have an account ? <a href="/signin.html" class="ml-1 text-blue-600 hover:underline dark:text-blue-400">Login</a></p>
-                            <p class="mx-auto mt-2 text-sm text-gray-600 dark:text-gray-400 text-center">
-                                By proceeding, you agree to our
-                                <a href="#" class="ml-1 text-blue-600 font-medium hover:underline dark:text-blue-400">
-                                    Terms of Use
-                                </a>
-                                <a href="#" class="ml-1 text-blue-600 font-medium hover:underline dark:text-blue-400">
-                                    Privacy Policy
-                                </a>
-                                and 
-                                <a href="#" class="ml-1 text-blue-600 font-medium hover:underline dark:text-blue-400">
-                                    Cookie Policy
-                                </a>
-                            </p>
+                        <div class="py-3 flex justify-between">
+                            <p>Taxes</p>
+                            <p class="font-medium text-gray-950 dark:text-white">$0</p>
                         </div>
-                    </form>
-                </div>
-            </div>
-            <div class="fixed inset-y-0 right-0 left-1/2 hidden lg:block">
-                <div class="absolute z-[1] inset-0 h-fit w-fit mt-auto mx-auto">
-                    <div class="my-16 max-w-md rounded-xl mx-auto text-center p-8 border border-dotted border-white/10 bg-gradient-to-b from-transparent to-white/5">
-                        <p class="text-base text-white">" Saepe nulla ab nobis itaque corporis fuga illo doloribus sequi esse aspernatur impedit nihil quisquam, voluptates placeat architecto adipisci id cum enim. "</p>
-                        <div class="mt-6 justify-center flex gap-3">
-                            <img class="size-11 rounded-full" src="https://ampire.netlify.app/images/avatars/avatar-4.webp" alt="user avatar" width="200" height="200" loading="lazy">
-                            <div class="text-left">
-                                <h2 class="font-medium text-white">Dan Doe</h2>
-                                <p class="text-sm text-gray-400">Founder CEO</p>
-                            </div>
+                        <div class="py-3 flex justify-between">
+                            <p class="text-gray-950 dark:text-white font-medium">Total</p>
+                            <p class="font-medium text-gray-950 dark:text-white">$2,500</p>
                         </div>
                     </div>
                 </div>
-                <img class="size-full object-cover object-right" src="https://websharper.com/img/banner-2-2.jpg" alt="" loading="lazy" width="" height="">
+                <div class="max-w-md w-1/2 pt-16 pb-16">
+                    <form action="">
+                        <h2 class="mt-2 text-xl font-semibold text-gray-950 dark:text-white">Pay with PayPal</h2>
+                        <div class="mt-12 space-y-6">
+                            <div class="mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2">
+                                <label class="block font-medium text-sm" for="email">Email</label>
+                                <input class="peer w-full focus:outline rounded-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" type="email" required id="email" name="email" />
+                                <span class="hidden peer-invalid:hidden peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-red-600 dark:text-red-400 text-sm">Please enter your email</span>
+                            </div>
+                            <div class="mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2">
+                                <label class="block font-medium text-sm" for="country">Billing address</label>
+                                <div class="-space-y-px">
+                                    <div class="relative">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="absolute pointer-events-none inset-y-0 my-auto right-3 size-4">
+                                            <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                        </svg>
+
+                                        <select name="country" id="country" class="w-full focus:z-[1] focus:relative focus:outline rounded-t-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" required>
+                                            <option value="hungary">Hungary</option>
+                                            <option value="France">France</option>
+                                            <option value="France">United Kingdom</option>
+                                        </select>
+                                    </div>
+                                    <input placeholder="Postal Code" class="focus:z-[1] focus:relative w-full focus:outline rounded-b-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" required id="postal" name="postal" />
+                                </div>
+                                <span class="hidden peer-invalid:hidden peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-red-600 dark:text-red-400 text-sm">Please enter your email</span>
+                            </div>
+
+                            <div class="peer">
+                                <label for="company" class="flex items-center">
+                                    <input class="size-0 peer" type="checkbox" id="company" name="company">
+                                    <div role="checkbox" class="shadow shadow-gray-700/5 outline-2 outline-offset-1 outline-blue-600 dark:outline-blue-500 peer-focus:outline size-[1.125rem] group peer relative flex appearance-none items-center justify-center border transition *:-rotate-12 *:scale-50 *:opacity-0 peer-checked:*:-rotate-6 peer-checked:*:scale-100 peer-checked:*:opacity-100 duration-150 before:absolute before:m-auto before:shadow-inner peer-checked:before:border-t peer-checked:before:bg-blue-600 peer-disabled:before:hidden before:border-transparent before:bg-white active:ring-[3px] active:ring-blue-600/10 peer-checked:before:border-gray-800 dark:border-gray-800 dark:bg-transparent dark:before:border dark:peer-checked:before:border-transparent peer-checked:before:shadow-white/10 dark:peer-checked:before:shadow-white/20 dark:peer-checked:before:bg-blue-600 peer-checked:border-none before:border-none border-gray-300 hover:border-gray-400/75 dark:hover:border-gray-700 before:inset-0 p-0 before:shadow-gray-950/5 dark:before:shadow-white/5 dark:before:bg-transparent bg-transparent before:size-full rounded before:rounded-[3px] peer-checked:before:rounded">
+                                        <span class="transition-all duration-200 relative text-white peer-disabled:text-gray-300 dark:peer-disabled:text-gray-700 pointer-events-none">
+                                            <svg class="size-4" viewBox="0 0 46 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6 15.91L10.4241 11.546L19.2713 20.273L34.7547 5L39.1788 9.364L19.2723 29L6 15.91Z" fill="white"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <span class="ml-2.5 leading-none text-gray-700 peer-peer-disabled:text-gray-300 dark:text-gray-300 dark:peer-peer-disabled:text-gray-700 select-none block font-medium text-sm">I Represent a company</span>
+                                </label>
+                            </div>
+                            <div class="hidden peer-has-[:checked]:block mt-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2.5">
+                                <label class="block font-medium text-sm" for="company-name">Company</label>
+                                <div class="-space-y-px">
+                                    <input placeholder="Name" class="hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-t-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" required id="company-name" name="company-name" />
+                                    <input placeholder="VATIN" class="hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-b-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" required id="postal" name="postal" />
+                                </div>
+                                <span class="flex gap-2 leading-normal peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-gray-500 dark:text-gray-400 text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mt-0.5">
+                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM8 4a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="block w-[calc(100%-1.25rem)]">
+                                        VAT Identification Number. As an EU company (outside Hungary), you can account for the VAT, and supplying us with your VATIN allows us not to charge you for VAT.
+                                    </span>                                            
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-12 flex justify-center items-center h-14 border border-dashed rounded-xl dark:border-gray-800 text-gray-300 dark:text-gray-600">
+                            PayPal Payment Button
+                        </div>
+                    </form>
+                </div>
             </div>
         </main>
 
