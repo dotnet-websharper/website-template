@@ -203,7 +203,7 @@
                                     </div>
 
                                     <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                        <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md bg-gray-200 transition-[width,left] duration-500 border-gray-300/50 dark:bg-gray-900 border dark:border-white/5"></div>
+                                        <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                         <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                             <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                 <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -250,7 +250,7 @@
                                                 <div aria-hidden="true" class="invisible w-0 flex-none select-none text-right leading-[1.155rem] text-gray-300 dark:text-white/40 sm:visible sm:w-4">1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19</div>
                                             </div>
                                             <div class="relative w-full">
-                                                <div class="absolute inset-0 overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                <div class="absolute inset-0 overflow-hidden" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="-mb-20 !overflow-auto">
                                                         <code class="mt-[-17px] text-sm block md:leading-[1.13rem] language-fsharp text-white">
 let fibs =
@@ -273,25 +273,25 @@ printfn "%A" first20
                                                         </code>
                                                     </pre>
                                                 </div>
-                                                <div class="absolute inset-0 h-0 overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                <div class="absolute inset-0 hidden overflow-hidden" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                     <pre class="-mb-20 !overflow-auto">
                                                         <code class="leading-[1.13rem] text-sm mt-[-17px] language-js text-white">
 snippets.forEach((snippet) => {
-let tabs = snippet.querySelectorAll("[role='tab']");
-let pannels = snippet.querySelectorAll("[role='tabpanel']");
-let indicator = snippet.querySelector(".tab-indicator");
+    const tabs = snippet.querySelectorAll("[role='tab']");
+    const pannels = snippet.querySelectorAll("[role='tabpanel']");
+    const indicator = snippet.querySelector(".tab-indicator");
 
-tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-        moveIndicator(indicator, tab);
-        let tabTarget = tab.getAttribute("data-target");
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            moveIndicator(indicator, tab);
+            const tabTarget = tab.getAttribute("data-target");
 
-        pannels.forEach((pannel) => {
-            let pannelName = pannel.getAttribute("data-lang");
-            tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
+            pannels.forEach((pannel) => {
+                const pannelName = pannel.getAttribute("data-lang");
+                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
+            });
         });
     });
-});
 });
                                                         </code>
                                                     </pre>
@@ -517,7 +517,7 @@ fetch('https://example.com/authenticate', {
                                     </div>
 
                                     <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                        <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md bg-gray-100 border-gray-200 transition-all duration-500 dark:bg-gray-900 dark:border-gray-800"></div>
+                                        <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                         <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                             <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                 <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -545,7 +545,7 @@ fetch('https://example.com/authenticate', {
                                 <div class="relative rounded-b-xl bg-gray-200/10 text-xs dark:mt-px dark:bg-gray-950">
                                     <div class="flex p-4 pl-2">
                                         <div class="sm:pr-4">
-                                            <div aria-hidden="true" class="invisible w-0 flex-none select-none text-right leading-[1.155rem] text-gray-300 dark:text-white/40 sm:visible sm:w-4">1 2 3 4 5 6 7 8 9 10 11 12 13 14 15</div>
+                                            <div aria-hidden="true" class="invisible w-0 flex-none select-none text-right leading-[1.155rem] text-gray-300 dark:text-white/40 sm:visible sm:w-3">1 2 3 4 5 6 7 8 9 10 11 12 13 14 15</div>
                                         </div>
                                         <div class="relative w-full">
                                             <div class="absolute inset-0 overflow-y-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
@@ -567,7 +567,7 @@ let fibs =
                                                     </code>
                                                 </pre>
                                             </div>
-                                            <div class="absolute inset-0 h-0 overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                            <div class="absolute inset-0 hidden overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                 <pre class="-mb-20 !overflow-auto">
                                                     <code class="leading-[1.13rem] mt-[-17px] language-js text-white">
 snippets.forEach((snippet) => {
@@ -684,7 +684,7 @@ snippets.forEach((snippet) => {
                                                 </div>
 
                                                 <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-all duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
+                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                                     <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                             <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -711,7 +711,7 @@ snippets.forEach((snippet) => {
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
 let fibs =
@@ -734,7 +734,7 @@ printfn "%A" first20
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 h-0 w-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
 snippets.forEach((snippet) => {
@@ -782,7 +782,7 @@ snippets.forEach((snippet) => {
                                                 </div>
 
                                                 <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-all duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
+                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                                     <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                             <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -809,7 +809,7 @@ snippets.forEach((snippet) => {
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
 let fibs =
@@ -832,7 +832,7 @@ printfn "%A" first20
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 h-0 w-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
 snippets.forEach((snippet) => {
@@ -880,7 +880,7 @@ snippets.forEach((snippet) => {
                                                 </div>
 
                                                 <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-all duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
+                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                                     <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                             <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -907,7 +907,7 @@ snippets.forEach((snippet) => {
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
 let fibs =
@@ -930,7 +930,7 @@ printfn "%A" first20
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 h-0 w-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
 snippets.forEach((snippet) => {
@@ -978,7 +978,7 @@ snippets.forEach((snippet) => {
                                                 </div>
 
                                                 <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-all duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
+                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                                     <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                             <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -1005,7 +1005,7 @@ snippets.forEach((snippet) => {
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
 let fibs =
@@ -1028,7 +1028,7 @@ printfn "%A" first20
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 h-0 w-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
 snippets.forEach((snippet) => {
@@ -1076,7 +1076,7 @@ snippets.forEach((snippet) => {
                                                 </div>
 
                                                 <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-all duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
+                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                                     <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                             <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -1103,7 +1103,7 @@ snippets.forEach((snippet) => {
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
 let fibs =
@@ -1126,7 +1126,7 @@ printfn "%A" first20
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 h-0 w-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
 snippets.forEach((snippet) => {
@@ -1178,7 +1178,7 @@ snippets.forEach((snippet) => {
                                                 </div>
 
                                                 <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-all duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
+                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                                     <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                             <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -1205,7 +1205,7 @@ snippets.forEach((snippet) => {
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
 let fibs =
@@ -1228,7 +1228,7 @@ printfn "%A" first20
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 h-0 w-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
 snippets.forEach((snippet) => {
@@ -1276,7 +1276,7 @@ snippets.forEach((snippet) => {
                                                 </div>
 
                                                 <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-all duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
+                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                                     <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                             <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -1303,7 +1303,7 @@ snippets.forEach((snippet) => {
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
 let fibs =
@@ -1326,7 +1326,7 @@ printfn "%A" first20
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 h-0 w-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
 snippets.forEach((snippet) => {
@@ -1378,7 +1378,7 @@ snippets.forEach((snippet) => {
                                                 </div>
 
                                                 <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-all duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
+                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                                     <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                             <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -1405,7 +1405,7 @@ snippets.forEach((snippet) => {
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
 let fibs =
@@ -1428,7 +1428,7 @@ printfn "%A" first20
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 h-0 w-max overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
 snippets.forEach((snippet) => {
@@ -1479,7 +1479,7 @@ snippets.forEach((snippet) => {
                                     </div>
 
                                     <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                        <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md bg-gray-100 border-gray-200 transition-all duration-500 dark:bg-gray-900 dark:border-gray-800"></div>
+                                        <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
                                         <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                             <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
                                                 <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
@@ -1507,7 +1507,7 @@ snippets.forEach((snippet) => {
                                 <div class="relative rounded-b-xl bg-gray-200/10 text-xs dark:mt-px dark:bg-gray-950">
                                     <div class="flex p-4 pl-2">
                                         <div class="sm:pr-4">
-                                            <div aria-hidden="true" class="invisible w-0 flex-none select-none text-right leading-[1.155rem] text-gray-300 dark:text-white/40 sm:visible sm:w-4">1 2 3 4 5 6 7 8 9 10 11 12 13 14 15</div>
+                                            <div aria-hidden="true" class="invisible w-0 flex-none select-none text-right leading-[1.155rem] text-gray-300 dark:text-white/40 sm:visible sm:w-3">1 2 3 4 5 6 7 8 9 10 11 12 13 14 15</div>
                                         </div>
                                         <div class="relative w-full">
                                             <div class="absolute inset-0 overflow-y-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">

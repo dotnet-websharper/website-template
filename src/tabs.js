@@ -1,13 +1,11 @@
-let snippets = document.querySelectorAll("[data-name='snippet']");
+const snippets = document.querySelectorAll("[data-name='snippet']");
 
 function activateTab(tabpanel) {
     tabpanel.classList.remove("hidden");
-    tabpanel.style.height = tabpanel.scrollHeight + "px";
 }
 
-function unactivateTab(tabpanel, tab) {
+function unactivateTab(tabpanel) {
     tabpanel.classList.add("hidden");
-    tabpanel.style.height = "0px";
 }
 
 function moveIndicator(indicator, tab) {
@@ -16,19 +14,19 @@ function moveIndicator(indicator, tab) {
 }
 
 snippets.forEach((snippet) => {
-    let tabs = snippet.querySelectorAll("[role='tab']");
-    let pannels = snippet.querySelectorAll("[role='tabpanel']");
-    let indicator = snippet.querySelector(".tab-indicator");
+    const tabs = snippet.querySelectorAll("[role='tab']");
+    const pannels = snippet.querySelectorAll("[role='tabpanel']");
+    const indicator = snippet.querySelector(".tab-indicator");
 
     moveIndicator(indicator, tabs[0]);
 
     tabs.forEach((tab) => {
         tab.addEventListener("click", () => {
             moveIndicator(indicator, tab);
-            let tabTarget = tab.getAttribute("data-target");
+            const tabTarget = tab.getAttribute("data-target");
 
             pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
+                const pannelName = pannel.getAttribute("data-lang");
                 tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
             });
         });
