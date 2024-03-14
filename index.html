@@ -1764,31 +1764,11 @@ self.onmessage = function (e) {
             </section>
         </main>
 
-        <footer class="bg-gray-100 pt-20 border-t dark:bg-gray-950 dark:border-gray-800">
+        <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800">
             <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                <div class="grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
-                    <div class="col-span-2">
-                        <div class="flex items-center gap-3">
-                            <a href="/" aria-label="Go to the home page" class="rounded-full">
-                                <img class="h-9 w-9" src="./favicon.png" alt="Web Sharper logo" width="24" height="24" />
-                            </a>
-                            <span class="hidden text-xl font-bold text-white">WebSharper</span>
-                        </div>
-
-                        <form class="mt-16 rounded-3xl bg-white p-8 sm:p-10 dark:bg-gray-950 border dark:border-gray-800" action="">
-                            <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Subscribe now</h2>
-                            <p class="mt-2 text-gray-700 dark:text-gray-300">Don't miss anything !</p>
-
-                            <div class="mt-8 space-y-4">
-                                <input placeholder="Email" class="w-full rounded-md shadow-sm shadow-gray-950/5 border border-gray-200 bg-transparent px-3.5 py-2 text-sm text-gray-500 placeholder-gray-500 invalid:border-danger-gray dark:border-gray-800 dark:text-white dark:placeholder-gray-200" type="email" name="" id="" />
-                                <button type="submit" class="w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
-                                    <span class="relative text-sm">subscribe</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
                     <div>
-                        <h2 class="text-gray-500 text-sm font-semibold uppercase dark:text-white/50">Docs</h2>
+                        <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
                         <ul class="mt-6 space-y-2">
                             <li>
                                 <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
@@ -1811,7 +1791,7 @@ self.onmessage = function (e) {
                         </ul>
                     </div>
                     <div>
-                        <h2 class="text-sm font-semibold uppercase text-gray-600 dark:text-white/50">Channels</h2>
+                        <span class="text-sm font-semibold text-gray-950 dark:text-white">Channels</span>
                         <ul class="mt-6 space-y-2">
                             <li>
                                 <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
@@ -1831,7 +1811,7 @@ self.onmessage = function (e) {
                         </ul>
                     </div>
                     <div class="sm:col-start-2 md:col-start-auto">
-                        <h2 class="text-sm font-semibold uppercase text-gray-600 dark:text-white/50">Community</h2>
+                        <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
                         <ul class="mt-6 space-y-2">
                             <li>
                                 <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
@@ -1848,7 +1828,7 @@ self.onmessage = function (e) {
                         </ul>
                     </div>
                     <div class="sm:col-start-3 md:col-start-auto">
-                        <h2 class="text-sm font-semibold uppercase text-gray-600 dark:text-white/50">More</h2>
+                        <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
                         <ul class="mt-6 space-y-2">
                             <li>
                                 <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Tutorials</a>
@@ -1861,11 +1841,30 @@ self.onmessage = function (e) {
                             </li>
                         </ul>
                     </div>
+                    <div class="row-start-1 col-span-2 lg:row-start-auto">
+                        <form action="">
+                            <h2 class="font-semibold text-gray-800 dark:text-white">Subscribe now</h2>
+                            <p class="text-sm mt-2 text-gray-700 dark:text-gray-300">Stay updated on new releases and features, guides, and case studies.</p>
+
+                            <div class="mt-8 flex gap-2">
+                                <input placeholder="Email" class="w-full bg-white rounded-md shadow-sm shadow-gray-950/5 border border-gray-300 bg-transparent px-3.5 py-2 text-sm text-gray-500 placeholder-gray-500 invalid:border-red-500 dark:border-gray-700 dark:hover:border-gray-600 dark:text-white dark:placeholder-gray-200 dark:bg-gray-900" type="email" name="email" id="email" />
+                                <button type="submit" class="w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                                    <span class="relative text-sm">Subscribe</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
-                    <div class="flex flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
-                        <span class="">© 2009 - Present WebSharper</span>
+                    <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                        <div class="flex gap-4 items-center">
+                            <a href="/">
+                                <img class="size-8" src="./favicon.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                                <span class="sr-only">WebSharper logo</span>
+                            </a>
+                            <span class="">© WebSharper 2009 - Present</span>
+                        </div>
                         <span>Latest version is 4.7.3.424</span>
                     </div>
                 </div>
