@@ -4,29 +4,15 @@ function isIDisposable(x){
   return"Dispose"in x;
 }
 function Main(){
-  const x=_c.Create_1(1);
-  const y=_c.Create_1(1);
-  const _1=Doc.Element("div", [Attr.Create("class", "container")], [Doc.Element("p", [], [Doc.TextNode("x "), Doc.IntInputUnchecked([], x)]), Doc.Element("p", [], [Doc.TextNode("y "), Doc.IntInputUnchecked([], y)]), Doc.Element("p", [], [Doc.TextView(Map2((_2, _3) =>"x + y = "+String(_2+_3), x.View, y.View))])]);
+  const _1=LoginForm();
   LoadLocalTemplates("");
   Doc.RunById("main", _1);
 }
-class Object_1 {
-  Equals(obj){
-    return this===obj;
-  }
-  GetHashCode(){
-    return -1;
-  }
+function LoginForm(){
+  return Render((_1) =>(_2) =>(_3) => Doc.Element("form", [], [Doc.Element("div", [Attr.Create("class", "input-field")], [Doc.Element("label", [], [Doc.TextNode("Username: ")]), Doc.Input([Dynamic("required", _1.View)], _1)]), Doc.Element("div", [Attr.Create("class", "input-field")], [Doc.Element("label", [], [Doc.TextNode("Password:  ")]), Doc.PasswordBox([Dynamic("required", _2.View)], _2)]), Doc.Button("Log in", [Attr.Create("type", "submit")], () => {
+    _3.Trigger();
+  }), Doc.Element("div", [], [ShowErrors(_3.view, (errors) => Doc.Concat(map((m) => Doc.Element("p", [], [Doc.TextNode(m.message)]), errors)))])]), Run((_1) => alert("Welcome, "+_1[0]+"!"), WithSubmit(op_LessMultiplyGreater(op_LessMultiplyGreater(Return((user) =>(pass) =>[user, pass]), IsNotEmpty("Must enter a username", Yield(""))), IsNotEmpty("Must enter a password", Yield(""))))));
 }
-let _c=Lazy((_i) => class Var_1 extends Object_1 {
-  static {
-    _c=_i(this);
-  }
-  static Create_1(v){
-    return new ConcreteVar(false, {s:Ready(v, [])}, v);
-  }
-  static { }
-});
 function FailWith(msg){
   throw new Error(msg);
 }
@@ -37,220 +23,343 @@ function range(min, max_1){
   const count=1+max_1-min;
   return count<=0?[]:init(count, (x) => x+min);
 }
-class attr extends Object_1 { }
-function Map2(fn, a, a_1){
-  return CreateLazy(() => Map2_1(fn, a(), a_1()));
+function op_LessMultiplyGreater(pf, px){
+  return Apply(pf, px);
 }
-function CreateLazy(observe){
-  const lv={c:null, o:observe};
-  return() => {
-    let c=lv.c;
-    if(c===null){
-      c=lv.o();
-      lv.c=c;
-      const _1=c.s;
-      if(_1!=null&&_1.$==0)lv.o=null;
-      else WhenObsoleteRun(c, () => {
-        lv.c=null;
-      });
-      return c;
-    }
-    else return c;
-  };
+function Return(value){
+  return New(Id(), Const(Success(value)), (x) => x);
 }
-function Const(x){
-  const o={s:Forever(x)};
-  return() => o;
+function Yield(init_2){
+  return YieldVar(_c.Create_1(init_2));
 }
-function Map(fn, a){
-  return CreateLazy(() => Map_1(fn, a()));
+function WithSubmit(p){
+  const submitter=new Submitter(p.view, Failure(FSharpList.Empty));
+  return New(Id(), submitter.view, (r) =>(p.render(r))(submitter));
 }
-function Sink(act, a){
-  function loop(){
-    WhenRun(a(), act, () => {
-      scheduler().Fork(loop);
-    });
+function Run(f, p){
+  return Map((x) => {
+    f(x);
+    return x;
+  }, p);
+}
+function Render(renderFunction, p){
+  const x=p.render(renderFunction);
+  return Doc.Append(Doc.EmbedView(Map_1(() => Doc.Empty, p.view)), x);
+}
+function Apply(pf, px){
+  let _1=Id();
+  let _2=Map2(Apply_1, pf.view, px.view);
+  const f=pf.render;
+  const g=px.render;
+  return New(_1, _2, (x) => g(f(x)));
+}
+function YieldVar(var_1){
+  return New(var_1.Id, Map_1(Success, var_1.View), (r) => r(var_1));
+}
+function Map(f, p){
+  return MapResult((r) => Map_2(f, r), p);
+}
+function MapResult(f, p){
+  return New(p.id, Map_1(f, p.view), p.render);
+}
+function IsNotEmpty(msg, p){
+  return Is((x) => x!="", msg, p);
+}
+function Is(pred, msg, p){
+  return MapResult((res) => res.$==1?res:pred(res.$0)?res:Failure(ofArray([new ErrorMessage(p.id, msg)])), p);
+}
+function GetFieldValues(o){
+  let r=[];
+  let k;
+  for(var k_1 in o)r.push(o[k_1]);
+  return r;
+}
+class Object_1 {
+  Equals(obj){
+    return this===obj;
   }
-  scheduler().Fork(loop);
+  GetHashCode(){
+    return -1;
+  }
 }
-function Map2Unit(a, a_1){
-  return CreateLazy(() => Map2Unit_1(a(), a_1()));
+class attr extends Object_1 { }
+function Dynamic(name, view){
+  return Dynamic_1(view, (el) =>(v) => el.setAttribute(name, v));
+}
+function Value(var_1){
+  return ValueWith(StringApply(), var_1);
+}
+function ValueWith(bind, var_1){
+  const p=bind(var_1);
+  return Attr.Append(Static(p[0]), DynamicCustom(p[1], p[2]));
+}
+function DynamicCustom(set_1, view){
+  return Dynamic_1(view, set_1);
 }
 class Var extends Object_1 { }
-class ConcreteVar extends Var {
-  isConst;
-  current;
-  snap;
+class Submitter extends Object_1 {
+  input;
+  u0076ar;
   view;
-  id;
-  get View(){
-    return this.view;
+  Trigger(){
+    this.u0076ar.Set(null);
   }
-  Get(){
-    return this.current;
-  }
-  Set(v){
-    if(this.isConst)(((_1) => _1("WebSharper.UI: invalid attempt to change value of a Var after calling SetFinal"))((s) => {
-      console.log(s);
-    }));
-    else {
-      Obsolete(this.snap);
-      this.current=v;
-      this.snap={s:Ready(v, [])};
-    }
-  }
-  UpdateMaybe(f){
-    const m=f(this.Get());
-    if(m!=null&&m.$==1)this.Set(m.$0);
-  }
-  constructor(isConst, initSnap, initValue){
+  constructor(input, init_2){
     super();
-    this.isConst=isConst;
-    this.current=initValue;
-    this.snap=initSnap;
-    this.view=() => this.snap;
-    this.id=Int();
+    this.input=input;
+    this.u0076ar=_c.Create();
+    this.view=SnapshotOn(init_2, this.u0076ar.View, this.input);
   }
 }
-function Map2_1(fn, sn1, sn2){
-  const _1=sn1.s;
-  const _2=sn2.s;
-  if(_1!=null&&_1.$==0)return _2!=null&&_2.$==0?{s:Forever(fn(_1.$0, _2.$0))}:Map2Opt1(fn, _1.$0, sn2);
-  else if(_2!=null&&_2.$==0)return Map2Opt2(fn, _2.$0, sn1);
-  else {
-    const res={s:Waiting([], [])};
-    const cont=() => {
-      const m=res.s;
-      if(!(m!=null&&m.$==0||m!=null&&m.$==2)){
-        const _3=ValueAndForever(sn1);
-        const _4=ValueAndForever(sn2);
-        if(_3!=null&&_3.$==1)if(_4!=null&&_4.$==1)if(_3.$0[1]&&_4.$0[1])MarkForever(res, fn(_3.$0[0], _4.$0[0]));
-        else MarkReady(res, fn(_3.$0[0], _4.$0[0]));
+function ShowErrors(v, f){
+  return Doc.BindView((a) => a.$==1?f(a.$0):Doc.Empty, v);
+}
+function map(f, s){
+  return{GetEnumerator:() => {
+    const en=Get(s);
+    return new T(null, null, (e) => en.MoveNext()&&(e.c=f(en.Current),true), () => {
+      en.Dispose();
+    });
+  }};
+}
+function append(s1, s2){
+  return{GetEnumerator:() => {
+    const e1=Get(s1);
+    const first=[true];
+    return new T(e1, null, (x) => {
+      if(x.s.MoveNext()){
+        x.c=x.s.Current;
+        return true;
       }
-    };
-    When(sn1, cont, res);
-    When(sn2, cont, res);
-    return res;
+      else {
+        const x_1=x.s;
+        if(!Equals(x_1, null))x_1.Dispose();
+        x.s=null;
+        return first[0]&&(first[0]=false,x.s=Get(s2),x.s.MoveNext()?(x.c=x.s.Current,true):(x.s.Dispose(),x.s=null,false));
+      }
+    }, (x) => {
+      const x_1=x.s;
+      if(!Equals(x_1, null))x_1.Dispose();
+    });
+  }};
+}
+function head(s){
+  const e=Get(s);
+  try {
+    return e.MoveNext()?e.Current:insufficient();
+  }
+  finally {
+    if(typeof e=="object"&&isIDisposable(e))e.Dispose();
   }
 }
-function WhenObsoleteRun(snap, obs){
-  const m=snap.s;
-  if(m==null)obs();
-  else m!=null&&m.$==2?m.$1.push(obs):m!=null&&m.$==3?m.$1.push(obs):void 0;
-}
-function Map2Opt1(fn, x, sn2){
-  return Map_1((y) => fn(x, y), sn2);
-}
-function Map2Opt2(fn, y, sn1){
-  return Map_1((x) => fn(x, y), sn1);
-}
-function ValueAndForever(snap){
-  const m=snap.s;
-  return m!=null&&m.$==0?Some([m.$0, true]):m!=null&&m.$==2?Some([m.$0, false]):null;
-}
-function MarkForever(sn, v){
-  const m=sn.s;
-  if(m!=null&&m.$==3){
-    sn.s=Forever(v);
-    const qa=m.$0;
-    for(let i=0, _1=length(qa)-1;i<=_1;i++)(get(qa, i))(v);
+function fold(f, x, s){
+  let r=x;
+  const e=Get(s);
+  try {
+    while(e.MoveNext())
+      r=f(r, e.Current);
+    return r;
   }
-  else void 0;
-}
-function MarkReady(sn, v){
-  const m=sn.s;
-  if(m!=null&&m.$==3){
-    sn.s=Ready(v, m.$1);
-    const qa=m.$0;
-    for(let i=0, _1=length(qa)-1;i<=_1;i++)(get(qa, i))(v);
-  }
-  else void 0;
-}
-function When(snap, avail, obs){
-  const m=snap.s;
-  if(m==null)Obsolete(obs);
-  else m!=null&&m.$==2?(EnqueueSafe(m.$1, obs),avail(m.$0)):m!=null&&m.$==3?(m.$0.push(avail),EnqueueSafe(m.$1, obs)):avail(m.$0);
-}
-function Map_1(fn, sn){
-  const m=sn.s;
-  if(m!=null&&m.$==0)return{s:Forever(fn(m.$0))};
-  else {
-    const res={s:Waiting([], [])};
-    When(sn, (a) => {
-      MarkDone(res, sn, fn(a));
-    }, res);
-    return res;
+  finally {
+    if(typeof e=="object"&&isIDisposable(e))e.Dispose();
   }
 }
-function EnqueueSafe(q, x){
-  q.push(x);
-  if(q.length%20===0){
-    const qcopy=q.slice(0);
-    Clear(q);
-    for(let i=0, _1=length(qcopy)-1;i<=_1;i++){
-      const o=get(qcopy, i);
-      if(typeof o=="object")(((sn) => {
-        if(sn.s)q.push(sn);
-      })(o));
-      else(((f) => {
-        q.push(f);
-      })(o));
+function delay(f){
+  return{GetEnumerator:() => Get(f())};
+}
+function collect(f, s){
+  return concat(map(f, s));
+}
+function concat(ss){
+  return{GetEnumerator:() => {
+    const outerE=Get(ss);
+    function next(st){
+      while(true)
+        {
+          const m=st.s;
+          if(Equals(m, null)){
+            if(outerE.MoveNext()){
+              st.s=Get(outerE.Current);
+              st=st;
+            }
+            else {
+              outerE.Dispose();
+              return false;
+            }
+          }
+          else if(m.MoveNext()){
+            st.c=m.Current;
+            return true;
+          }
+          else {
+            st.Dispose();
+            st.s=null;
+            st=st;
+          }
+        }
     }
+    return new T(null, null, next, (st) => {
+      const x=st.s;
+      if(!Equals(x, null))x.Dispose();
+      if(!Equals(outerE, null))outerE.Dispose();
+    });
+  }};
+}
+function init(n, f){
+  return take(n, initInfinite(f));
+}
+function iter(p, s){
+  const e=Get(s);
+  try {
+    while(e.MoveNext())
+      p(e.Current);
   }
-  else void 0;
-}
-function MarkDone(res, sn, v){
-  const _1=sn.s;
-  if(_1!=null&&_1.$==0)MarkForever(res, v);
-  else MarkReady(res, v);
-}
-function WhenRun(snap, avail, obs){
-  const m=snap.s;
-  if(m==null)obs();
-  else m!=null&&m.$==2?(m.$1.push(obs),avail(m.$0)):m!=null&&m.$==3?(m.$0.push(avail),m.$1.push(obs)):avail(m.$0);
-}
-function Copy(sn){
-  const m=sn.s;
-  if(m==null)return sn;
-  else if(m!=null&&m.$==2){
-    const res={s:Ready(m.$0, [])};
-    WhenObsolete(sn, res);
-    return res;
+  finally {
+    if(typeof e=="object"&&isIDisposable(e))e.Dispose();
   }
-  else if(m!=null&&m.$==3){
-    const res_1={s:Waiting([], [])};
-    When(sn, (v) => {
-      MarkDone(res_1, sn, v);
-    }, res_1);
-    return res_1;
-  }
-  else return sn;
 }
-function Map2Unit_1(sn1, sn2){
-  const _1=sn1.s;
-  const _2=sn2.s;
-  if(_1!=null&&_1.$==0)return _2!=null&&_2.$==0?{s:Forever(null)}:sn2;
-  else if(_2!=null&&_2.$==0)return sn1;
-  else {
-    const res={s:Waiting([], [])};
-    const cont=() => {
-      const m=res.s;
-      if(!(m!=null&&m.$==0||m!=null&&m.$==2)){
-        const _3=ValueAndForever(sn1);
-        const _4=ValueAndForever(sn2);
-        if(_3!=null&&_3.$==1)if(_4!=null&&_4.$==1)if(_3.$0[1]&&_4.$0[1])MarkForever(res, null);
-        else MarkReady(res, null);
+function take(n, s){
+  n<0?nonNegative():void 0;
+  return{GetEnumerator:() => {
+    const e=[Get(s)];
+    return new T(0, null, (o) => {
+      o.s=o.s+1;
+      if(o.s>n)return false;
+      else {
+        const en=e[0];
+        return Equals(en, null)?insufficient():en.MoveNext()?(o.c=en.Current,o.s===n?(en.Dispose(),e[0]=null):void 0,true):(en.Dispose(),e[0]=null,insufficient());
       }
-    };
-    When(sn1, cont, res);
-    When(sn2, cont, res);
-    return res;
+    }, () => {
+      const x=e[0];
+      if(!Equals(x, null))x.Dispose();
+    });
+  }};
+}
+function initInfinite(f){
+  return{GetEnumerator:() => new T(0, null, (e) => {
+    e.c=f(e.s);
+    e.s=e.s+1;
+    return true;
+  }, void 0)};
+}
+function forall(p, s){
+  return!exists((x) =>!p(x), s);
+}
+function max(s){
+  const e=Get(s);
+  try {
+    if(!e.MoveNext())seqEmpty();
+    let m=e.Current;
+    while(e.MoveNext())
+      {
+        const x=e.Current;
+        if(Compare(x, m)===1)m=x;
+      }
+    return m;
+  }
+  finally {
+    if(typeof e=="object"&&isIDisposable(e))e.Dispose();
   }
 }
-function WhenObsolete(snap, obs){
-  const m=snap.s;
-  if(m==null)Obsolete(obs);
-  else m!=null&&m.$==2?EnqueueSafe(m.$1, obs):m!=null&&m.$==3?EnqueueSafe(m.$1, obs):void 0;
+function exists(p, s){
+  const e=Get(s);
+  try {
+    let r=false;
+    while(!r&&e.MoveNext())
+      r=p(e.Current);
+    return r;
+  }
+  finally {
+    if(typeof e=="object"&&isIDisposable(e))e.Dispose();
+  }
+}
+function seqEmpty(){
+  return FailWith("The input sequence was empty.");
+}
+class ErrorMessage extends Object_1 {
+  id;
+  message;
+  constructor(id, message){
+    super();
+    this.id=id;
+    this.message=message;
+  }
+}
+class Doc extends Object_1 {
+  docNode;
+  updates;
+  static Concat(xs){
+    return TreeReduce(Doc.Empty, Doc.Append, ofSeqNonCopying(xs));
+  }
+  static RunById(id, tr){
+    const m=globalThis.document.getElementById(id);
+    if(Equals(m, null))FailWith("invalid id: "+id);
+    else Doc.Run(m, tr);
+  }
+  static Append(a, b){
+    return Doc.Mk(AppendDoc(a.docNode, b.docNode), Map2Unit(a.updates, b.updates));
+  }
+  static get Empty(){
+    return Doc.Mk(null, Const());
+  }
+  static TextNode(v){
+    return Doc.Mk(TextNodeDoc(globalThis.document.createTextNode(v)), Const());
+  }
+  static Input(attr_1, var_1){
+    return Doc.InputInternal("input", () => append(attr_1, [Value(var_1)]));
+  }
+  static PasswordBox(attr_1, var_1){
+    return Doc.InputInternal("input", () => append(attr_1, [Value(var_1), Attr.Create("type", "password")]));
+  }
+  static Button(caption, attrs, action){
+    const attrs_1=Attr.Concat(attrs);
+    return Elt.New(Doc.Clickable("button", action), attrs_1, Doc.TextNode(caption));
+  }
+  static Run(parent, doc){
+    LinkElement(parent, doc.docNode);
+    Doc.RunInPlace(false, parent, doc);
+  }
+  static Mk(node, updates){
+    return new Doc(node, updates);
+  }
+  static EmbedView(view){
+    const node=CreateEmbedNode();
+    return Doc.Mk(EmbedDoc(node), Map_1(() => { }, Bind((doc) => {
+      UpdateEmbedNode(node, doc.docNode);
+      return doc.updates;
+    }, view)));
+  }
+  static Element(name, attr_1, children){
+    const a=Attr.Concat(attr_1);
+    const c=Doc.Concat(children);
+    return Elt.New(globalThis.document.createElement(name), a, c);
+  }
+  static InputInternal(elemTy, attr_1){
+    const el=globalThis.document.createElement(elemTy);
+    return Elt.New(el, Attr.Concat(attr_1(el)), Doc.Empty);
+  }
+  static Clickable(elem, action){
+    const el=globalThis.document.createElement(elem);
+    el.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      return action();
+    }, false);
+    return el;
+  }
+  static RunInPlace(childrenOnly, parent, doc){
+    const st=CreateRunState(parent, doc.docNode);
+    Sink(get_UseAnimations()||BatchUpdatesEnabled()?StartProcessor(PerformAnimatedUpdate(childrenOnly, st, doc.docNode)):() => {
+      PerformSyncUpdate(childrenOnly, st, doc.docNode);
+    }, doc.updates);
+  }
+  static BindView(f, view){
+    return Doc.EmbedView(Map_1(f, view));
+  }
+  constructor(docNode, updates){
+    super();
+    this.docNode=docNode;
+    this.updates=updates;
+  }
 }
 function LoadLocalTemplates(baseName){
   !LocalTemplatesLoaded()?(set_LocalTemplatesLoaded(true),LoadNestedTemplates(globalThis.document.body, "")):void 0;
@@ -538,63 +647,6 @@ function PrepareSingleTemplate(baseName, name, el){
 function TextHoleRE(){
   return _c_1.TextHoleRE;
 }
-class Doc extends Object_1 {
-  docNode;
-  updates;
-  static RunById(id, tr){
-    const m=globalThis.document.getElementById(id);
-    if(Equals(m, null))FailWith("invalid id: "+id);
-    else Doc.Run(m, tr);
-  }
-  static TextNode(v){
-    return Doc.Mk(TextNodeDoc(globalThis.document.createTextNode(v)), Const());
-  }
-  static IntInputUnchecked(attr_1, var_1){
-    return Doc.InputInternal("input", () => append(attr_1, [var_1.Get()===0?Attr.Create("value", "0"):EmptyAttr(), IntValueUnchecked(var_1), Attr.Create("type", "number")]));
-  }
-  static Run(parent, doc){
-    LinkElement(parent, doc.docNode);
-    Doc.RunInPlace(false, parent, doc);
-  }
-  static Element(name, attr_1, children){
-    const a=Attr.Concat(attr_1);
-    const c=Doc.Concat(children);
-    return Elt.New(globalThis.document.createElement(name), a, c);
-  }
-  static Mk(node, updates){
-    return new Doc(node, updates);
-  }
-  static InputInternal(elemTy, attr_1){
-    const el=globalThis.document.createElement(elemTy);
-    return Elt.New(el, Attr.Concat(attr_1(el)), Doc.Empty);
-  }
-  static TextView(txt){
-    const node=CreateTextNode();
-    return Doc.Mk(TextDoc(node), Map((t) => {
-      UpdateTextNode(node, t);
-    }, txt));
-  }
-  static RunInPlace(childrenOnly, parent, doc){
-    const st=CreateRunState(parent, doc.docNode);
-    Sink(get_UseAnimations()||BatchUpdatesEnabled()?StartProcessor(PerformAnimatedUpdate(childrenOnly, st, doc.docNode)):() => {
-      PerformSyncUpdate(childrenOnly, st, doc.docNode);
-    }, doc.updates);
-  }
-  static Concat(xs){
-    return TreeReduce(Doc.Empty, Doc.Append, ofSeqNonCopying(xs));
-  }
-  static get Empty(){
-    return Doc.Mk(null, Const());
-  }
-  static Append(a, b){
-    return Doc.Mk(AppendDoc(a.docNode, b.docNode), Map2Unit(a.updates, b.updates));
-  }
-  constructor(docNode, updates){
-    super();
-    this.docNode=docNode;
-    this.updates=updates;
-  }
-}
 function NewFromSeq(fields){
   const r={};
   const e=Get(fields);
@@ -610,11 +662,110 @@ function NewFromSeq(fields){
   }
   return r;
 }
+function New(id, view, render){
+  return{
+    id:id, 
+    view:view, 
+    render:render
+  };
+}
+function Id(){
+  (lastId())[0]++;
+  return"Form"+String((lastId())[0]);
+}
+function lastId(){
+  return _c_2.lastId;
+}
+function Const(x){
+  const o={s:Forever(x)};
+  return() => o;
+}
+function Map_1(fn, a){
+  return CreateLazy(() => Map_3(fn, a()));
+}
+function Map2(fn, a, a_1){
+  return CreateLazy(() => Map2_1(fn, a(), a_1()));
+}
+function Map2Unit(a, a_1){
+  return CreateLazy(() => Map2Unit_1(a(), a_1()));
+}
+function CreateLazy(observe){
+  const lv={c:null, o:observe};
+  return() => {
+    let c=lv.c;
+    if(c===null){
+      c=lv.o();
+      lv.c=c;
+      const _1=c.s;
+      if(_1!=null&&_1.$==0)lv.o=null;
+      else WhenObsoleteRun(c, () => {
+        lv.c=null;
+      });
+      return c;
+    }
+    else return c;
+  };
+}
+function SnapshotOn(def, a, a_1){
+  const sInit={s:Ready(def, [])};
+  return CreateLazy(() => sInit.s==null?SnapshotOn_1(a(), a_1()):(WhenObsolete(a(), sInit),sInit));
+}
+function Bind(fn, view){
+  return Join(Map_1(fn, view));
+}
+function Sink(act, a){
+  function loop(){
+    WhenRun(a(), act, () => {
+      scheduler().Fork(loop);
+    });
+  }
+  scheduler().Fork(loop);
+}
+function Join(a){
+  return CreateLazy(() => Join_1(a()));
+}
+function Success(Item){
+  return{$:0, $0:Item};
+}
+function Failure(Item){
+  return{$:1, $0:Item};
+}
+let _c=Lazy((_i) => class Var_1 extends Object_1 {
+  static {
+    _c=_i(this);
+  }
+  static Create_1(v){
+    return new ConcreteVar(false, {s:Ready(v, [])}, v);
+  }
+  static Create(){
+    return new ConcreteVar(false, {s:Ready(null, [])}, null);
+  }
+  static { }
+});
+class FSharpList {
+  static Empty=Create_1(FSharpList, {$:0});
+  static Cons(Head, Tail){
+    return Create_1(FSharpList, {
+      $:1, 
+      $0:Head, 
+      $1:Tail
+    });
+  }
+  GetEnumerator(){
+    return new T(this, null, (e) => {
+      const m=e.s;
+      return m.$==0?false:(e.c=m.$0,e.s=m.$1,true);
+    }, void 0);
+  }
+}
 class Attr {
   static Create(name, value){
     return Static((el) => {
       el.setAttribute(name, value);
     });
+  }
+  static A1(Item){
+    return Create_1(Attr, {$:1, $0:Item});
   }
   static Concat(xs){
     const x=ofSeqNonCopying(xs);
@@ -633,42 +784,245 @@ class Attr {
       $1:Item2
     });
   }
-  static A1(Item){
-    return Create_1(Attr, {$:1, $0:Item});
+}
+function Dynamic_1(view, set_1){
+  return Attr.A1(new DynamicAttrNode(view, set_1));
+}
+function Static(attr_1){
+  return Attr.A3(attr_1);
+}
+function Updates(dyn){
+  return MapTreeReduce((x) => x.NChanged, Const(), Map2Unit, dyn.DynNodes);
+}
+function AppendTree(a, b){
+  if(a===null)return b;
+  else if(b===null)return a;
+  else {
+    const x=Attr.A2(a, b);
+    SetFlags(x, Flags(a)|Flags(b));
+    return x;
   }
 }
-function Int(){
-  set_counter(counter()+1);
-  return counter();
+function EmptyAttr(){
+  return _c_3.EmptyAttr;
 }
-function set_counter(_1){
-  _c_2.counter=_1;
+function Insert(elem, tree){
+  const nodes=[];
+  const oar=[];
+  function loop(node){
+    while(true)
+      {
+        if(!(node===null)){
+          if(node!=null&&node.$==1)return nodes.push(node.$0);
+          else if(node!=null&&node.$==2){
+            const b=node.$1;
+            const a=node.$0;
+            loop(a);
+            node=b;
+          }
+          else return node!=null&&node.$==3?node.$0(elem):node!=null&&node.$==4?oar.push(node.$0):null;
+        }
+        else return null;
+      }
+  }
+  loop(tree);
+  const arr=nodes.slice(0);
+  let _1=New_1(elem, Flags(tree), arr, oar.length===0?null:Some((el) => {
+    iter((f) => {
+      f(el);
+    }, oar);
+  }));
+  return _1;
 }
-function counter(){
-  return _c_2.counter;
+function SetFlags(a, f){
+  a.flags=f;
 }
-function Ready(Item1, Item2){
-  return{
-    $:2, 
-    $0:Item1, 
-    $1:Item2
-  };
+function Flags(a){
+  return a!==null&&a.hasOwnProperty("flags")?a.flags:0;
 }
-function Forever(Item){
-  return{$:0, $0:Item};
+function HasExitAnim(attr_1){
+  const flag=2;
+  return(attr_1.DynFlags&flag)===flag;
 }
-function Waiting(Item1, Item2){
-  return{
-    $:3, 
-    $0:Item1, 
-    $1:Item2
-  };
+function GetExitAnim(dyn){
+  return GetAnim(dyn, (_1, _2) => _1.NGetExitAnim(_2));
 }
-function GetFieldValues(o){
-  let r=[];
-  let k;
-  for(var k_1 in o)r.push(o[k_1]);
-  return r;
+function HasEnterAnim(attr_1){
+  const flag=1;
+  return(attr_1.DynFlags&flag)===flag;
+}
+function GetEnterAnim(dyn){
+  return GetAnim(dyn, (_1, _2) => _1.NGetEnterAnim(_2));
+}
+function HasChangeAnim(attr_1){
+  const flag=4;
+  return(attr_1.DynFlags&flag)===flag;
+}
+function GetChangeAnim(dyn){
+  return GetAnim(dyn, (_1, _2) => _1.NGetChangeAnim(_2));
+}
+function GetAnim(dyn, f){
+  return Concat(map_1((n) => f(n, dyn.DynElem), dyn.DynNodes));
+}
+function Sync(elem, dyn){
+  iter_1((d) => {
+    d.NSync(elem);
+  }, dyn.DynNodes);
+}
+function ParseHTMLIntoFakeRoot(elem){
+  const root=globalThis.document.createElement("div");
+  if(!rhtml().test(elem)){
+    root.appendChild(globalThis.document.createTextNode(elem));
+    return root;
+  }
+  else {
+    const m=rtagName().exec(elem);
+    const tag=Equals(m, null)?"":get(m, 1).toLowerCase();
+    const w=(wrapMap())[tag];
+    const p=w?w:defaultWrap();
+    root.innerHTML=p[1]+elem.replace(rxhtmlTag(), "<$1></$2>")+p[2];
+    function unwrap(elt, a){
+      while(true)
+        {
+          if(a===0)return elt;
+          else {
+            const i=a;
+            elt=elt.lastChild;
+            a=i-1;
+          }
+        }
+    }
+    return unwrap(root, p[0]);
+  }
+}
+function rhtml(){
+  return _c_6.rhtml;
+}
+function wrapMap(){
+  return _c_6.wrapMap;
+}
+function defaultWrap(){
+  return _c_6.defaultWrap;
+}
+function rxhtmlTag(){
+  return _c_6.rxhtmlTag;
+}
+function rtagName(){
+  return _c_6.rtagName;
+}
+function IterSelector(el, selector, f){
+  const l=el.querySelectorAll(selector);
+  for(let i=0, _1=l.length-1;i<=_1;i++)f(l[i]);
+}
+function InsertAt(parent, pos, node){
+  let _1;
+  if(node.parentNode===parent){
+    const m=node.nextSibling;
+    let _2=Equals(m, null)?null:m;
+    _1=pos===_2;
+  }
+  else _1=false;
+  if(!_1)parent.insertBefore(node, pos);
+}
+function RemoveNode(parent, el){
+  if(el.parentNode===parent)parent.removeChild(el);
+}
+function Get(x){
+  return x instanceof Array?ArrayEnumerator(x):Equals(typeof x, "string")?StringEnumerator(x):x.GetEnumerator();
+}
+function ArrayEnumerator(s){
+  return new T(0, null, (e) => {
+    const i=e.s;
+    return i<length(s)&&(e.c=get(s, i),e.s=i+1,true);
+  }, void 0);
+}
+function StringEnumerator(s){
+  return new T(0, null, (e) => {
+    const i=e.s;
+    return i<s.length&&(e.c=s[i],e.s=i+1,true);
+  }, void 0);
+}
+function Get0(x){
+  return x instanceof Array?ArrayEnumerator(x):Equals(typeof x, "string")?StringEnumerator(x):"GetEnumerator0"in x?x.GetEnumerator0():x.GetEnumerator();
+}
+class T extends Object_1 {
+  s;
+  c;
+  n;
+  d;
+  e;
+  Dispose(){
+    if(this.d)this.d(this);
+  }
+  MoveNext(){
+    const m=this.n(this);
+    this.e=m?1:2;
+    return m;
+  }
+  get Current(){
+    return this.e===1?this.c:this.e===0?FailWith("Enumeration has not started. Call MoveNext."):FailWith("Enumeration already finished.");
+  }
+  constructor(s, c, n, d){
+    super();
+    this.s=s;
+    this.c=c;
+    this.n=n;
+    this.d=d;
+    this.e=0;
+  }
+}
+function ofSeqNonCopying(xs){
+  if(xs instanceof Array)return xs;
+  else if(xs instanceof FSharpList)return ofList(xs);
+  else if(xs===null)return[];
+  else {
+    const q=[];
+    const o=Get(xs);
+    try {
+      while(o.MoveNext())
+        q.push(o.Current);
+      return q;
+    }
+    finally {
+      if(typeof o=="object"&&isIDisposable(o))o.Dispose();
+    }
+  }
+}
+function TreeReduce(defaultValue, reduction, array){
+  const l=length(array);
+  function loop(off){
+    return(len) => {
+      let _1;
+      switch(len<=0?0:len===1?off>=0&&off<l?1:(_1=len,2):(_1=len,2)){
+        case 0:
+          return defaultValue;
+        case 1:
+          return get(array, off);
+        case 2:
+          const l2=len/2>>0;
+          return reduction((loop(off))(l2), (loop(off+l2))(len-l2));
+      }
+    };
+  }
+  return(loop(0))(l);
+}
+function MapTreeReduce(mapping, defaultValue, reduction, array){
+  const l=length(array);
+  function loop(off){
+    return(len) => {
+      let _1;
+      switch(len<=0?0:len===1?off>=0&&off<l?1:(_1=len,2):(_1=len,2)){
+        case 0:
+          return defaultValue;
+        case 1:
+          return mapping(get(array, off));
+        case 2:
+          const l2=len/2>>0;
+          return reduction((loop(off))(l2), (loop(off+l2))(len-l2));
+      }
+    };
+  }
+  return(loop(0))(l);
 }
 class Dictionary extends Object_1 {
   equals;
@@ -727,15 +1081,15 @@ class Dictionary extends Object_1 {
   Item(k){
     return this.get(k);
   }
+  GetEnumerator(){
+    return Get0(concat_1(GetFieldValues(this.data)));
+  }
   get(k){
     const d=this.data[this.hash(k)];
     return d==null?notPresent():pick((a) => {
       const a_1=KeyValue(a);
       return this.equals.apply(null, [a_1[0], k])?Some(a_1[1]):null;
     }, d);
-  }
-  GetEnumerator(){
-    return Get0(concat_1(GetFieldValues(this.data)));
   }
   static New_5(){
     return new this("New_5");
@@ -905,157 +1259,277 @@ function compareArrays(a, b){
 function compareDates(a, b){
   return Compare(a.getTime(), b.getTime());
 }
-function Static(attr_1){
-  return Attr.A3(attr_1);
+function Apply_1(rf, rx){
+  return rf.$==0?rx.$==0?Success(rf.$0(rx.$0)):Failure(rx.$0):rx.$==0?Failure(rf.$0):Failure(append_1(rf.$0, rx.$0));
 }
-function EmptyAttr(){
-  return _c_3.EmptyAttr;
+function Map_2(f, r){
+  return r.$==1?Failure(r.$0):Success(f(r.$0));
 }
-function Updates(dyn){
-  return MapTreeReduce((x) => x.NChanged, Const(), Map2Unit, dyn.DynNodes);
-}
-function AppendTree(a, b){
-  if(a===null)return b;
-  else if(b===null)return a;
+function Map_3(fn, sn){
+  const m=sn.s;
+  if(m!=null&&m.$==0)return{s:Forever(fn(m.$0))};
   else {
-    const x=Attr.A2(a, b);
-    SetFlags(x, Flags(a)|Flags(b));
-    return x;
+    const res={s:Waiting([], [])};
+    When(sn, (a) => {
+      MarkDone(res, sn, fn(a));
+    }, res);
+    return res;
   }
 }
-function Dynamic(view, set_1){
-  return Attr.A1(new DynamicAttrNode(view, set_1));
-}
-function Insert(elem, tree){
-  const nodes=[];
-  const oar=[];
-  function loop(node){
-    while(true)
-      {
-        if(!(node===null)){
-          if(node!=null&&node.$==1)return nodes.push(node.$0);
-          else if(node!=null&&node.$==2){
-            const b=node.$1;
-            const a=node.$0;
-            loop(a);
-            node=b;
-          }
-          else return node!=null&&node.$==3?node.$0(elem):node!=null&&node.$==4?oar.push(node.$0):null;
-        }
-        else return null;
+function Map2_1(fn, sn1, sn2){
+  const _1=sn1.s;
+  const _2=sn2.s;
+  if(_1!=null&&_1.$==0)return _2!=null&&_2.$==0?{s:Forever(fn(_1.$0, _2.$0))}:Map2Opt1(fn, _1.$0, sn2);
+  else if(_2!=null&&_2.$==0)return Map2Opt2(fn, _2.$0, sn1);
+  else {
+    const res={s:Waiting([], [])};
+    const cont=() => {
+      const m=res.s;
+      if(!(m!=null&&m.$==0||m!=null&&m.$==2)){
+        const _3=ValueAndForever(sn1);
+        const _4=ValueAndForever(sn2);
+        if(_3!=null&&_3.$==1)if(_4!=null&&_4.$==1)if(_3.$0[1]&&_4.$0[1])MarkForever(res, fn(_3.$0[0], _4.$0[0]));
+        else MarkReady(res, fn(_3.$0[0], _4.$0[0]));
       }
+    };
+    When(sn1, cont, res);
+    When(sn2, cont, res);
+    return res;
   }
-  loop(tree);
-  const arr=nodes.slice(0);
-  let _1=New(elem, Flags(tree), arr, oar.length===0?null:Some((el) => {
-    iter((f) => {
-      f(el);
-    }, oar);
-  }));
-  return _1;
 }
-function HasExitAnim(attr_1){
-  const flag=2;
-  return(attr_1.DynFlags&flag)===flag;
-}
-function GetExitAnim(dyn){
-  return GetAnim(dyn, (_1, _2) => _1.NGetExitAnim(_2));
-}
-function HasEnterAnim(attr_1){
-  const flag=1;
-  return(attr_1.DynFlags&flag)===flag;
-}
-function GetEnterAnim(dyn){
-  return GetAnim(dyn, (_1, _2) => _1.NGetEnterAnim(_2));
-}
-function HasChangeAnim(attr_1){
-  const flag=4;
-  return(attr_1.DynFlags&flag)===flag;
-}
-function GetChangeAnim(dyn){
-  return GetAnim(dyn, (_1, _2) => _1.NGetChangeAnim(_2));
-}
-function SetFlags(a, f){
-  a.flags=f;
-}
-function Flags(a){
-  return a!==null&&a.hasOwnProperty("flags")?a.flags:0;
-}
-function GetAnim(dyn, f){
-  return Concat(map_1((n) => f(n, dyn.DynElem), dyn.DynNodes));
-}
-function Sync(elem, dyn){
-  iter_1((d) => {
-    d.NSync(elem);
-  }, dyn.DynNodes);
-}
-function ParseHTMLIntoFakeRoot(elem){
-  const root=globalThis.document.createElement("div");
-  if(!rhtml().test(elem)){
-    root.appendChild(globalThis.document.createTextNode(elem));
-    return root;
-  }
+function Map2Unit_1(sn1, sn2){
+  const _1=sn1.s;
+  const _2=sn2.s;
+  if(_1!=null&&_1.$==0)return _2!=null&&_2.$==0?{s:Forever(null)}:sn2;
+  else if(_2!=null&&_2.$==0)return sn1;
   else {
-    const m=rtagName().exec(elem);
-    const tag=Equals(m, null)?"":get(m, 1).toLowerCase();
-    const w=(wrapMap())[tag];
-    const p=w?w:defaultWrap();
-    root.innerHTML=p[1]+elem.replace(rxhtmlTag(), "<$1></$2>")+p[2];
-    function unwrap(elt, a){
-      while(true)
-        {
-          if(a===0)return elt;
-          else {
-            const i=a;
-            elt=elt.lastChild;
-            a=i-1;
-          }
-        }
+    const res={s:Waiting([], [])};
+    const cont=() => {
+      const m=res.s;
+      if(!(m!=null&&m.$==0||m!=null&&m.$==2)){
+        const _3=ValueAndForever(sn1);
+        const _4=ValueAndForever(sn2);
+        if(_3!=null&&_3.$==1)if(_4!=null&&_4.$==1)if(_3.$0[1]&&_4.$0[1])MarkForever(res, null);
+        else MarkReady(res, null);
+      }
+    };
+    When(sn1, cont, res);
+    When(sn2, cont, res);
+    return res;
+  }
+}
+function WhenObsoleteRun(snap, obs){
+  const m=snap.s;
+  if(m==null)obs();
+  else m!=null&&m.$==2?m.$1.push(obs):m!=null&&m.$==3?m.$1.push(obs):void 0;
+}
+function When(snap, avail, obs){
+  const m=snap.s;
+  if(m==null)Obsolete(obs);
+  else m!=null&&m.$==2?(EnqueueSafe(m.$1, obs),avail(m.$0)):m!=null&&m.$==3?(m.$0.push(avail),EnqueueSafe(m.$1, obs)):avail(m.$0);
+}
+function MarkDone(res, sn, v){
+  const _1=sn.s;
+  if(_1!=null&&_1.$==0)MarkForever(res, v);
+  else MarkReady(res, v);
+}
+function Map2Opt1(fn, x, sn2){
+  return Map_3((y) => fn(x, y), sn2);
+}
+function Map2Opt2(fn, y, sn1){
+  return Map_3((x) => fn(x, y), sn1);
+}
+function ValueAndForever(snap){
+  const m=snap.s;
+  return m!=null&&m.$==0?Some([m.$0, true]):m!=null&&m.$==2?Some([m.$0, false]):null;
+}
+function MarkForever(sn, v){
+  const m=sn.s;
+  if(m!=null&&m.$==3){
+    sn.s=Forever(v);
+    const qa=m.$0;
+    for(let i=0, _1=length(qa)-1;i<=_1;i++)(get(qa, i))(v);
+  }
+  else void 0;
+}
+function MarkReady(sn, v){
+  const m=sn.s;
+  if(m!=null&&m.$==3){
+    sn.s=Ready(v, m.$1);
+    const qa=m.$0;
+    for(let i=0, _1=length(qa)-1;i<=_1;i++)(get(qa, i))(v);
+  }
+  else void 0;
+}
+function SnapshotOn_1(sn1, sn2){
+  const res={s:Waiting([], [])};
+  const cont=() => {
+    const m=res.s;
+    if(!(m!=null&&m.$==0||m!=null&&m.$==2)){
+      const _1=ValueAndForever(sn1);
+      const _2=ValueAndForever(sn2);
+      if(_1!=null&&_1.$==1)_2!=null&&_2.$==1?_1.$0[1]||_2.$0[1]?MarkForever(res, _2.$0[0]):MarkReady(res, _2.$0[0]):void 0;
     }
-    return unwrap(root, p[0]);
+  };
+  When(sn1, cont, res);
+  WhenReady(sn2, cont);
+  return res;
+}
+function WhenObsolete(snap, obs){
+  const m=snap.s;
+  if(m==null)Obsolete(obs);
+  else m!=null&&m.$==2?EnqueueSafe(m.$1, obs):m!=null&&m.$==3?EnqueueSafe(m.$1, obs):void 0;
+}
+function EnqueueSafe(q, x){
+  q.push(x);
+  if(q.length%20===0){
+    const qcopy=q.slice(0);
+    Clear(q);
+    for(let i=0, _1=length(qcopy)-1;i<=_1;i++){
+      const o=get(qcopy, i);
+      if(typeof o=="object")(((sn) => {
+        if(sn.s)q.push(sn);
+      })(o));
+      else(((f) => {
+        q.push(f);
+      })(o));
+    }
   }
+  else void 0;
 }
-function rhtml(){
-  return _c_5.rhtml;
+function WhenRun(snap, avail, obs){
+  const m=snap.s;
+  if(m==null)obs();
+  else m!=null&&m.$==2?(m.$1.push(obs),avail(m.$0)):m!=null&&m.$==3?(m.$0.push(avail),m.$1.push(obs)):avail(m.$0);
 }
-function wrapMap(){
-  return _c_5.wrapMap;
-}
-function defaultWrap(){
-  return _c_5.defaultWrap;
-}
-function rxhtmlTag(){
-  return _c_5.rxhtmlTag;
-}
-function rtagName(){
-  return _c_5.rtagName;
-}
-function IterSelector(el, selector, f){
-  const l=el.querySelectorAll(selector);
-  for(let i=0, _1=l.length-1;i<=_1;i++)f(l[i]);
-}
-function InsertAt(parent, pos, node){
+function WhenReady(snap, avail){
   let _1;
-  if(node.parentNode===parent){
-    const m=node.nextSibling;
-    let _2=Equals(m, null)?null:m;
-    _1=pos===_2;
+  const m=snap.s;
+  switch(m!=null&&m.$==2?(_1=m.$0,0):m==null?1:m!=null&&m.$==3?2:(_1=m.$0,0)){
+    case 0:
+      avail(_1);
+      break;
+    case 1:
+      null;
+      break;
+    case 2:
+      m.$0.push(avail);
+      break;
   }
-  else _1=false;
-  if(!_1)parent.insertBefore(node, pos);
 }
-function RemoveNode(parent, el){
-  if(el.parentNode===parent)parent.removeChild(el);
+function Join_1(snap){
+  const res={s:Waiting([], [])};
+  When(snap, (x) => {
+    const y=x();
+    When(y, (v) => {
+      let _1;
+      const _2=y.s;
+      if(_2!=null&&_2.$==0){
+        const _3=snap.s;
+        _1=_3!=null&&_3.$==0;
+      }
+      else _1=false;
+      if(_1)MarkForever(res, v);
+      else MarkReady(res, v);
+    }, res);
+  }, res);
+  return res;
 }
-function TextNodeDoc(Item){
-  return{$:5, $0:Item};
+function Copy(sn){
+  const m=sn.s;
+  if(m==null)return sn;
+  else if(m!=null&&m.$==2){
+    const res={s:Ready(m.$0, [])};
+    WhenObsolete(sn, res);
+    return res;
+  }
+  else if(m!=null&&m.$==3){
+    const res_1={s:Waiting([], [])};
+    When(sn, (v) => {
+      MarkDone(res_1, sn, v);
+    }, res_1);
+    return res_1;
+  }
+  else return sn;
 }
-function TextDoc(Item){
-  return{$:4, $0:Item};
+class ConcreteVar extends Var {
+  isConst;
+  current;
+  snap;
+  view;
+  id;
+  get View(){
+    return this.view;
+  }
+  get Id(){
+    return"uinref"+String(this.id);
+  }
+  Set(v){
+    if(this.isConst)(((_1) => _1("WebSharper.UI: invalid attempt to change value of a Var after calling SetFinal"))((s) => {
+      console.log(s);
+    }));
+    else {
+      Obsolete(this.snap);
+      this.current=v;
+      this.snap={s:Ready(v, [])};
+    }
+  }
+  Get(){
+    return this.current;
+  }
+  UpdateMaybe(f){
+    const m=f(this.Get());
+    if(m!=null&&m.$==1)this.Set(m.$0);
+  }
+  constructor(isConst, initSnap, initValue){
+    super();
+    this.isConst=isConst;
+    this.current=initValue;
+    this.snap=initSnap;
+    this.view=() => this.snap;
+    this.id=Int();
+  }
 }
-function ElemDoc(Item){
-  return{$:1, $0:Item};
+function ofArray(arr){
+  let r=FSharpList.Empty;
+  for(let i=length(arr)-1, _1=0;i>=_1;i--)r=FSharpList.Cons(get(arr, i), r);
+  return r;
 }
+function append_1(x, y){
+  let r;
+  let l;
+  let go;
+  if(x.$==0)return y;
+  else if(y.$==0)return x;
+  else {
+    const res=Create_1(FSharpList, {$:1});
+    r=res;
+    l=x;
+    go=true;
+    while(go)
+      {
+        r.$0=l.$0;
+        l=l.$1;
+        if(l.$==0)go=false;
+        else {
+          const t=Create_1(FSharpList, {$:1});
+          r=(r.$1=t,t);
+        }
+      }
+    r.$1=y;
+    return res;
+  }
+}
+function head_1(l){
+  return l.$==1?l.$0:listEmpty();
+}
+function tail(l){
+  return l.$==1?l.$1:listEmpty();
+}
+function listEmpty(){
+  return FailWith("The input list was empty.");
+}
+class View { }
 function AppendDoc(Item1, Item2){
   return{
     $:0, 
@@ -1063,196 +1537,172 @@ function AppendDoc(Item1, Item2){
     $1:Item2
   };
 }
-function append(s1, s2){
-  return{GetEnumerator:() => {
-    const e1=Get(s1);
-    const first=[true];
-    return new T(e1, null, (x) => {
-      if(x.s.MoveNext()){
-        x.c=x.s.Current;
-        return true;
-      }
-      else {
-        const x_1=x.s;
-        if(!Equals(x_1, null))x_1.Dispose();
-        x.s=null;
-        return first[0]&&(first[0]=false,x.s=Get(s2),x.s.MoveNext()?(x.c=x.s.Current,true):(x.s.Dispose(),x.s=null,false));
-      }
-    }, (x) => {
-      const x_1=x.s;
-      if(!Equals(x_1, null))x_1.Dispose();
-    });
-  }};
+function TextNodeDoc(Item){
+  return{$:5, $0:Item};
 }
-function head(s){
-  const e=Get(s);
-  try {
-    return e.MoveNext()?e.Current:insufficient();
+function EmbedDoc(Item){
+  return{$:2, $0:Item};
+}
+function ElemDoc(Item){
+  return{$:1, $0:Item};
+}
+class DynamicAttrNode extends Object_1 {
+  push;
+  value;
+  dirty;
+  updates;
+  get NChanged(){
+    return this.updates;
   }
-  finally {
-    if(typeof e=="object"&&isIDisposable(e))e.Dispose();
+  NGetExitAnim(parent){
+    return get_Empty();
   }
-}
-function fold(f, x, s){
-  let r=x;
-  const e=Get(s);
-  try {
-    while(e.MoveNext())
-      r=f(r, e.Current);
-    return r;
+  NGetEnterAnim(parent){
+    return get_Empty();
   }
-  finally {
-    if(typeof e=="object"&&isIDisposable(e))e.Dispose();
+  NGetChangeAnim(parent){
+    return get_Empty();
   }
-}
-function delay(f){
-  return{GetEnumerator:() => Get(f())};
-}
-function collect(f, s){
-  return concat(map(f, s));
-}
-function map(f, s){
-  return{GetEnumerator:() => {
-    const en=Get(s);
-    return new T(null, null, (e) => en.MoveNext()&&(e.c=f(en.Current),true), () => {
-      en.Dispose();
-    });
-  }};
-}
-function concat(ss){
-  return{GetEnumerator:() => {
-    const outerE=Get(ss);
-    function next(st){
-      while(true)
-        {
-          const m=st.s;
-          if(Equals(m, null)){
-            if(outerE.MoveNext()){
-              st.s=Get(outerE.Current);
-              st=st;
-            }
-            else {
-              outerE.Dispose();
-              return false;
-            }
-          }
-          else if(m.MoveNext()){
-            st.c=m.Current;
-            return true;
-          }
-          else {
-            st.Dispose();
-            st.s=null;
-            st=st;
-          }
-        }
+  NSync(parent){
+    if(this.dirty){
+      (this.push(parent))(this.value);
+      this.dirty=false;
     }
-    return new T(null, null, next, (st) => {
-      const x=st.s;
-      if(!Equals(x, null))x.Dispose();
-      if(!Equals(outerE, null))outerE.Dispose();
-    });
-  }};
-}
-function init(n, f){
-  return take(n, initInfinite(f));
-}
-function iter(p, s){
-  const e=Get(s);
-  try {
-    while(e.MoveNext())
-      p(e.Current);
   }
-  finally {
-    if(typeof e=="object"&&isIDisposable(e))e.Dispose();
+  constructor(view, push){
+    super();
+    this.push=push;
+    this.value=void 0;
+    this.dirty=false;
+    this.updates=Map_1((x) => {
+      this.value=x;
+      this.dirty=true;
+    }, view);
   }
 }
-function take(n, s){
-  n<0?nonNegative():void 0;
-  return{GetEnumerator:() => {
-    const e=[Get(s)];
-    return new T(0, null, (o) => {
-      o.s=o.s+1;
-      if(o.s>n)return false;
-      else {
-        const en=e[0];
-        return Equals(en, null)?insufficient():en.MoveNext()?(o.c=en.Current,o.s===n?(en.Dispose(),e[0]=null):void 0,true):(en.Dispose(),e[0]=null,insufficient());
-      }
-    }, () => {
-      const x=e[0];
-      if(!Equals(x, null))x.Dispose();
-    });
-  }};
+function get(arr, n){
+  checkBounds(arr, n);
+  return arr[n];
 }
-function initInfinite(f){
-  return{GetEnumerator:() => new T(0, null, (e) => {
-    e.c=f(e.s);
-    e.s=e.s+1;
-    return true;
-  }, void 0)};
+function length(arr){
+  return arr.dims===2?arr.length*arr.length:arr.length;
 }
-function forall(p, s){
-  return!exists((x) =>!p(x), s);
+function checkBounds(arr, n){
+  if(n<0||n>=arr.length)FailWith("Index was outside the bounds of the array.");
 }
-function max(s){
-  const e=Get(s);
-  try {
-    if(!e.MoveNext())seqEmpty();
-    let m=e.Current;
-    while(e.MoveNext())
-      {
-        const x=e.Current;
-        if(Compare(x, m)===1)m=x;
-      }
-    return m;
-  }
-  finally {
-    if(typeof e=="object"&&isIDisposable(e))e.Dispose();
-  }
+function set(arr, n, x){
+  checkBounds(arr, n);
+  arr[n]=x;
 }
-function exists(p, s){
-  const e=Get(s);
-  try {
-    let r=false;
-    while(!r&&e.MoveNext())
-      r=p(e.Current);
-    return r;
-  }
-  finally {
-    if(typeof e=="object"&&isIDisposable(e))e.Dispose();
-  }
+function ofList(xs){
+  const q=[];
+  let l=xs;
+  while(!(l.$==0))
+    {
+      q.push(head_1(l));
+      l=tail(l);
+    }
+  return q;
 }
-function seqEmpty(){
-  return FailWith("The input sequence was empty.");
+function exists_1(f, x){
+  let e=false;
+  let i=0;
+  while(!e&&i<length(x))
+    if(f(x[i]))e=true;
+    else i=i+1;
+  return e;
 }
-function IntValueUnchecked(var_1){
-  return ValueWith(IntApplyUnchecked(), var_1);
+function tryPick(f, arr){
+  let res=null;
+  let i=0;
+  while(i<arr.length&&res==null)
+    {
+      const m=f(arr[i]);
+      if(m!=null&&m.$==1)res=m;
+      i=i+1;
+    }
+  return res;
 }
-function ValueWith(bind, var_1){
-  const p=bind(var_1);
-  return Attr.Append(Static(p[0]), DynamicCustom(p[1], p[2]));
+function tryFindIndex(f, arr){
+  let res=null;
+  let i=0;
+  while(i<arr.length&&res==null)
+    {
+      f(arr[i])?res=Some(i):void 0;
+      i=i+1;
+    }
+  return res;
 }
-function DynamicCustom(set_1, view){
-  return Dynamic(view, set_1);
+function filter(f, arr){
+  const r=[];
+  for(let i=0, _1=arr.length-1;i<=_1;i++)if(f(arr[i]))r.push(arr[i]);
+  return r;
 }
-function Obsolete(sn){
-  let _1;
-  const m=sn.s;
-  if(m==null||(m!=null&&m.$==2?(_1=m.$1,false):m!=null&&m.$==3?(_1=m.$1,false):true))void 0;
+function map_1(f, arr){
+  const r=new Array(arr.length);
+  for(let i=0, _1=arr.length-1;i<=_1;i++)r[i]=f(arr[i]);
+  return r;
+}
+function iter_1(f, arr){
+  for(let i=0, _1=arr.length-1;i<=_1;i++)f(arr[i]);
+}
+function foldBack(f, arr, zero){
+  let acc=zero;
+  const len=arr.length;
+  for(let i=1, _1=len;i<=_1;i++)acc=f(arr[len-i], acc);
+  return acc;
+}
+function concat_1(xs){
+  return Array.prototype.concat.apply([], ofSeq(xs));
+}
+function pick(f, arr){
+  const m=tryPick(f, arr);
+  return m==null?FailWith("KeyNotFoundException"):m.$0;
+}
+function ofSeq(xs){
+  if(xs instanceof Array)return xs.slice();
+  else if(xs instanceof FSharpList)return ofList(xs);
   else {
-    sn.s=null;
-    for(let i=0, _2=length(_1)-1;i<=_2;i++){
-      const o=get(_1, i);
-      if(typeof o=="object")(((sn_1) => {
-        Obsolete(sn_1);
-      })(o));
-      else o();
+    const q=[];
+    const o=Get(xs);
+    try {
+      while(o.MoveNext())
+        q.push(o.Current);
+      return q;
+    }
+    finally {
+      if(typeof o=="object"&&isIDisposable(o))o.Dispose();
     }
   }
 }
-class View { }
-function TryParse(s, r){
-  return TryParse_2(s, -2147483648, 2147483647, r);
+function choose(f, arr){
+  const q=[];
+  for(let i=0, _1=arr.length-1;i<=_1;i++){
+    const m=f(arr[i]);
+    if(m==null){ }
+    else q.push(m.$0);
+  }
+  return q;
+}
+function create(size, value){
+  const r=new Array(size);
+  for(let i=0, _1=size-1;i<=_1;i++)r[i]=value;
+  return r;
+}
+function init_1(size, f){
+  if(size<0)FailWith("Negative size given.");
+  else null;
+  const r=new Array(size);
+  for(let i=0, _1=size-1;i<=_1;i++)r[i]=f(i);
+  return r;
+}
+function forall_1(f, x){
+  let a=true;
+  let i=0;
+  while(a&&i<length(x))
+    if(f(x[i]))i=i+1;
+    else a=false;
+  return a;
 }
 let _c_1=Lazy((_i) => class $StartupCode_Templates {
   static {
@@ -1271,20 +1721,6 @@ let _c_1=Lazy((_i) => class $StartupCode_Templates {
     this.RenderedFullDocTemplate=null;
   }
 });
-function get(arr, n){
-  checkBounds(arr, n);
-  return arr[n];
-}
-function length(arr){
-  return arr.dims===2?arr.length*arr.length:arr.length;
-}
-function checkBounds(arr, n){
-  if(n<0||n>=arr.length)FailWith("Index was outside the bounds of the array.");
-}
-function set(arr, n, x){
-  checkBounds(arr, n);
-  arr[n]=x;
-}
 class HashSet extends Object_1 {
   equals;
   hash;
@@ -1399,23 +1835,19 @@ class HashSet extends Object_1 {
     }
   }
 }
-function Some(Value){
-  return{$:1, $0:Value};
+function Some(Value_1){
+  return{$:1, $0:Value_1};
 }
 class Exception extends Object_1 { }
 function LinkElement(el, children){
   InsertDoc(el, children, null);
 }
-function CreateTextNode(){
-  return{
-    Text:globalThis.document.createTextNode(""), 
-    Dirty:false, 
-    Value:""
-  };
+function CreateEmbedNode(){
+  return{Current:null, Dirty:false};
 }
-function UpdateTextNode(n, t){
-  n.Value=t;
-  n.Dirty=true;
+function UpdateEmbedNode(node, upd){
+  node.Current=upd;
+  node.Dirty=true;
 }
 function InsertDoc(parent, doc, pos){
   while(true)
@@ -1439,7 +1871,7 @@ function InsertDoc(parent, doc, pos){
     }
 }
 function CreateRunState(parent, doc){
-  return New_1(get_Empty_1(), CreateElemNode(parent, EmptyAttr(), doc));
+  return New_2(get_Empty_1(), CreateElemNode(parent, EmptyAttr(), doc));
 }
 function PerformAnimatedUpdate(childrenOnly, st, doc){
   if(get_UseAnimations()){
@@ -1448,9 +1880,9 @@ function PerformAnimatedUpdate(childrenOnly, st, doc){
       const cur=FindAll(doc);
       const change=ComputeChangeAnim(st, cur);
       const enter=ComputeEnterAnim(st, cur);
-      return Bind(Play(Append(change, ComputeExitAnim(st, cur))), () => Bind(SyncElemNodesNextFrame(childrenOnly, st), () => Bind(Play(enter), () => {
+      return Bind_1(Play(Append(change, ComputeExitAnim(st, cur))), () => Bind_1(SyncElemNodesNextFrame(childrenOnly, st), () => Bind_1(Play(enter), () => {
         st.PreviousNodes=cur;
-        return Return(null);
+        return Return_1(null);
       })));
     });
   }
@@ -1461,14 +1893,14 @@ function PerformSyncUpdate(childrenOnly, st, doc){
   SyncElemNode(childrenOnly, st.Top);
   st.PreviousNodes=cur;
 }
-function InsertNode(parent, node, pos){
-  InsertAt(parent, pos, node);
-  return node;
-}
 function CreateElemNode(el, attr_1, children){
   LinkElement(el, children);
   const attr_2=Insert(el, attr_1);
   return DocElemNode.New(attr_2, children, null, el, Int(), GetOptional(attr_2.OnAfterRender));
+}
+function InsertNode(parent, node, pos){
+  InsertAt(parent, pos, node);
+  return node;
 }
 function SyncElemNodesNextFrame(childrenOnly, st){
   if(BatchUpdatesEnabled()){
@@ -1482,7 +1914,7 @@ function SyncElemNodesNextFrame(childrenOnly, st){
   }
   else {
     SyncElemNode(childrenOnly, st.Top);
-    return Return(null);
+    return Return_1(null);
   }
 }
 function ComputeExitAnim(st, cur){
@@ -1606,52 +2038,65 @@ function DoSyncElement(el){
   const m=GetOptional(el.Delimiters);
   ins(_1, m!=null&&m.$==1?m.$0[1]:null);
 }
-function Get(x){
-  return x instanceof Array?ArrayEnumerator(x):Equals(typeof x, "string")?StringEnumerator(x):x.GetEnumerator();
-}
-function ArrayEnumerator(s){
-  return new T(0, null, (e) => {
-    const i=e.s;
-    return i<length(s)&&(e.c=get(s, i),e.s=i+1,true);
-  }, void 0);
-}
-function StringEnumerator(s){
-  return new T(0, null, (e) => {
-    const i=e.s;
-    return i<s.length&&(e.c=s[i],e.s=i+1,true);
-  }, void 0);
-}
-function Get0(x){
-  return x instanceof Array?ArrayEnumerator(x):Equals(typeof x, "string")?StringEnumerator(x):"GetEnumerator0"in x?x.GetEnumerator0():x.GetEnumerator();
-}
-class T extends Object_1 {
-  s;
-  c;
-  n;
-  d;
-  e;
-  MoveNext(){
-    const m=this.n(this);
-    this.e=m?1:2;
-    return m;
+let _c_2=Lazy((_i) => class $StartupCode_Forms {
+  static {
+    _c_2=_i(this);
   }
-  get Current(){
-    return this.e===1?this.c:this.e===0?FailWith("Enumeration has not started. Call MoveNext."):FailWith("Enumeration already finished.");
+  static Int;
+  static lastId;
+  static {
+    this.lastId=[0];
+    const x=[0];
+    this.Int=() => {
+      x[0]++;
+      return x[0];
+    };
   }
-  Dispose(){
-    if(this.d)this.d(this);
-  }
-  constructor(s, c, n, d){
-    super();
-    this.s=s;
-    this.c=c;
-    this.n=n;
-    this.d=d;
-    this.e=0;
+});
+function Forever(Item){
+  return{$:0, $0:Item};
+}
+function Ready(Item1, Item2){
+  return{
+    $:2, 
+    $0:Item1, 
+    $1:Item2
+  };
+}
+function Waiting(Item1, Item2){
+  return{
+    $:3, 
+    $0:Item1, 
+    $1:Item2
+  };
+}
+function Int(){
+  set_counter(counter()+1);
+  return counter();
+}
+function set_counter(_1){
+  _c_5.counter=_1;
+}
+function counter(){
+  return _c_5.counter;
+}
+function Obsolete(sn){
+  let _1;
+  const m=sn.s;
+  if(m==null||(m!=null&&m.$==2?(_1=m.$1,false):m!=null&&m.$==3?(_1=m.$1,false):true))void 0;
+  else {
+    sn.s=null;
+    for(let i=0, _2=length(_1)-1;i<=_2;i++){
+      const o=get(_1, i);
+      if(typeof o=="object")(((sn_1) => {
+        Obsolete(sn_1);
+      })(o));
+      else o();
+    }
   }
 }
-function IntApplyUnchecked(){
-  return _c_3.IntApplyUnchecked;
+function StringApply(){
+  return _c_3.StringApply;
 }
 function ApplyValue(get_1, set_1, var_1){
   let expectedValue;
@@ -1670,7 +2115,7 @@ function ApplyValue(get_1, set_1, var_1){
   }, (x) => {
     const _1=set_1(x);
     return(_2) => _2==null?null:_1(_2.$0);
-  }, Map((v) => {
+  }, Map_1((v) => {
     let _1;
     return expectedValue!=null&&expectedValue.$==1&&(Equals(expectedValue.$0, v)&&(_1=expectedValue.$0,true))?null:Some(v);
   }, var_1.View)];
@@ -1707,7 +2152,7 @@ function FileApplyValue(get_1, set_1, var_1){
   }, (x) => {
     const _1=set_1(x);
     return(_2) => _2==null?null:_1(_2.$0);
-  }, Map((v) => {
+  }, Map_1((v) => {
     let _1;
     return expectedValue!=null&&expectedValue.$==1&&(Equals(expectedValue.$0, v)&&(_1=expectedValue.$0,true))?null:Some(v);
   }, var_1.View)];
@@ -1742,128 +2187,54 @@ function FloatSetChecked(){
 function FloatGetChecked(){
   return _c_3.FloatGetChecked;
 }
-let _c_2=Lazy((_i) => class $StartupCode_Abbrev {
-  static {
-    _c_2=_i(this);
+class Elt extends Doc {
+  docNode_1;
+  updates_1;
+  elt;
+  rvUpdates;
+  static New(el, attr_1, children){
+    const node=CreateElemNode(el, attr_1, children.docNode);
+    const rvUpdates=Updates_1.Create(children.updates);
+    return new Elt(ElemDoc(node), Map2Unit(Updates(node.Attr), rvUpdates.v), el, rvUpdates);
   }
-  static counter;
-  static {
-    this.counter=0;
+  constructor(docNode, updates, elt, rvUpdates){
+    super(docNode, updates);
+    this.docNode_1=docNode;
+    this.updates_1=updates;
+    this.elt=elt;
+    this.rvUpdates=rvUpdates;
   }
-});
+}
+function TryParse(s, r){
+  return TryParse_2(s, -2147483648, 2147483647, r);
+}
+class DocElemNode {
+  Attr;
+  Children;
+  Delimiters;
+  El;
+  ElKey;
+  Render;
+  Equals(o){
+    return this.ElKey===o.ElKey;
+  }
+  GetHashCode(){
+    return this.ElKey;
+  }
+  static New(Attr_1, Children_1, Delimiters, El, ElKey, Render_1){
+    const _1={
+      Attr:Attr_1, 
+      Children:Children_1, 
+      El:El, 
+      ElKey:ElKey
+    };
+    let _2=(SetOptional(_1, "Delimiters", Delimiters),SetOptional(_1, "Render", Render_1),_1);
+    return Create_1(DocElemNode, _2);
+  }
+}
 class TemplateHole extends Object_1 { }
 function notPresent(){
   throw new KeyNotFoundException("New");
-}
-function exists_1(f, x){
-  let e=false;
-  let i=0;
-  while(!e&&i<length(x))
-    if(f(x[i]))e=true;
-    else i=i+1;
-  return e;
-}
-function tryPick(f, arr){
-  let res=null;
-  let i=0;
-  while(i<arr.length&&res==null)
-    {
-      const m=f(arr[i]);
-      if(m!=null&&m.$==1)res=m;
-      i=i+1;
-    }
-  return res;
-}
-function tryFindIndex(f, arr){
-  let res=null;
-  let i=0;
-  while(i<arr.length&&res==null)
-    {
-      f(arr[i])?res=Some(i):void 0;
-      i=i+1;
-    }
-  return res;
-}
-function filter(f, arr){
-  const r=[];
-  for(let i=0, _1=arr.length-1;i<=_1;i++)if(f(arr[i]))r.push(arr[i]);
-  return r;
-}
-function map_1(f, arr){
-  const r=new Array(arr.length);
-  for(let i=0, _1=arr.length-1;i<=_1;i++)r[i]=f(arr[i]);
-  return r;
-}
-function iter_1(f, arr){
-  for(let i=0, _1=arr.length-1;i<=_1;i++)f(arr[i]);
-}
-function foldBack(f, arr, zero){
-  let acc=zero;
-  const len=arr.length;
-  for(let i=1, _1=len;i<=_1;i++)acc=f(arr[len-i], acc);
-  return acc;
-}
-function ofList(xs){
-  const q=[];
-  let l=xs;
-  while(!(l.$==0))
-    {
-      q.push(head_1(l));
-      l=tail(l);
-    }
-  return q;
-}
-function pick(f, arr){
-  const m=tryPick(f, arr);
-  return m==null?FailWith("KeyNotFoundException"):m.$0;
-}
-function ofSeq(xs){
-  if(xs instanceof Array)return xs.slice();
-  else if(xs instanceof FSharpList)return ofList(xs);
-  else {
-    const q=[];
-    const o=Get(xs);
-    try {
-      while(o.MoveNext())
-        q.push(o.Current);
-      return q;
-    }
-    finally {
-      if(typeof o=="object"&&isIDisposable(o))o.Dispose();
-    }
-  }
-}
-function concat_1(xs){
-  return Array.prototype.concat.apply([], ofSeq(xs));
-}
-function choose(f, arr){
-  const q=[];
-  for(let i=0, _1=arr.length-1;i<=_1;i++){
-    const m=f(arr[i]);
-    if(m==null){ }
-    else q.push(m.$0);
-  }
-  return q;
-}
-function create(size, value){
-  const r=new Array(size);
-  for(let i=0, _1=size-1;i<=_1;i++)r[i]=value;
-  return r;
-}
-function init_1(size, f){
-  if(size<0)FailWith("Negative size given.");
-  else null;
-  const r=new Array(size);
-  for(let i=0, _1=size-1;i<=_1;i++)r[i]=f(i);
-  return r;
-}
-function forall_1(f, x){
-  let a=true;
-  let i=0;
-  while(a&&i<length(x))
-    if(f(x[i]))i=i+1;
-    else a=false;
-  return a;
 }
 function convertTextNode(n){
   let m=null;
@@ -2050,44 +2421,20 @@ class KeyCollection extends Object_1 {
     this.d=d;
   }
 }
-class DocElemNode {
-  Attr;
-  Children;
-  Delimiters;
-  El;
-  ElKey;
-  Render;
-  Equals(o){
-    return this.ElKey===o.ElKey;
-  }
-  GetHashCode(){
-    return this.ElKey;
-  }
-  static New(Attr_1, Children_1, Delimiters, El, ElKey, Render){
-    const _1={
-      Attr:Attr_1, 
-      Children:Children_1, 
-      El:El, 
-      ElKey:ElKey
-    };
-    let _2=(SetOptional(_1, "Delimiters", Delimiters),SetOptional(_1, "Render", Render),_1);
-    return Create_1(DocElemNode, _2);
-  }
-}
 function get_UseAnimations(){
   return UseAnimations();
 }
 function Play(anim){
   const _1=null;
-  return Delay(() => Bind(Run(() => { }, Actions(anim)), () => {
+  return Delay(() => Bind_1(Run_1(() => { }, Actions(anim)), () => {
     Finalize(anim);
-    return Return(null);
+    return Return_1(null);
   }));
 }
 function Append(a, a_1){
   return Anim(Append_1(a.$0, a_1.$0));
 }
-function Run(k, anim){
+function Run_1(k, anim){
   const dur=anim.Duration;
   if(dur===0)return Zero();
   else {
@@ -2125,7 +2472,7 @@ function StartProcessor(procAsync){
   const st=[0];
   function work(){
     const _1=null;
-    return Delay(() => Bind(procAsync, () => {
+    return Delay(() => Bind_1(procAsync, () => {
       const m=st[0];
       return Equals(m, 1)?(st[0]=0,Zero()):Equals(m, 2)?(st[0]=1,work()):Zero();
     }));
@@ -2138,77 +2485,6 @@ function StartProcessor(procAsync){
     }
     else Equals(m, 1)?st[0]=2:void 0;
   };
-}
-class Elt extends Doc {
-  docNode_1;
-  updates_1;
-  elt;
-  rvUpdates;
-  static New(el, attr_1, children){
-    const node=CreateElemNode(el, attr_1, children.docNode);
-    const rvUpdates=Updates_1.Create(children.updates);
-    return new Elt(ElemDoc(node), Map2Unit(Updates(node.Attr), rvUpdates.v), el, rvUpdates);
-  }
-  constructor(docNode, updates, elt, rvUpdates){
-    super(docNode, updates);
-    this.docNode_1=docNode;
-    this.updates_1=updates;
-    this.elt=elt;
-    this.rvUpdates=rvUpdates;
-  }
-}
-function ofSeqNonCopying(xs){
-  if(xs instanceof Array)return xs;
-  else if(xs instanceof FSharpList)return ofList(xs);
-  else if(xs===null)return[];
-  else {
-    const q=[];
-    const o=Get(xs);
-    try {
-      while(o.MoveNext())
-        q.push(o.Current);
-      return q;
-    }
-    finally {
-      if(typeof o=="object"&&isIDisposable(o))o.Dispose();
-    }
-  }
-}
-function TreeReduce(defaultValue, reduction, array){
-  const l=length(array);
-  function loop(off){
-    return(len) => {
-      let _1;
-      switch(len<=0?0:len===1?off>=0&&off<l?1:(_1=len,2):(_1=len,2)){
-        case 0:
-          return defaultValue;
-        case 1:
-          return get(array, off);
-        case 2:
-          const l2=len/2>>0;
-          return reduction((loop(off))(l2), (loop(off+l2))(len-l2));
-      }
-    };
-  }
-  return(loop(0))(l);
-}
-function MapTreeReduce(mapping, defaultValue, reduction, array){
-  const l=length(array);
-  function loop(off){
-    return(len) => {
-      let _1;
-      switch(len<=0?0:len===1?off>=0&&off<l?1:(_1=len,2):(_1=len,2)){
-        case 0:
-          return defaultValue;
-        case 1:
-          return mapping(get(array, off));
-        case 2:
-          const l2=len/2>>0;
-          return reduction((loop(off))(l2), (loop(off+l2))(len-l2));
-      }
-    };
-  }
-  return(loop(0))(l);
 }
 let _c_3=Lazy((_i) => class Client {
   static {
@@ -2244,7 +2520,7 @@ let _c_3=Lazy((_i) => class Client {
     this.EmptyAttr=null;
     this.BoolCheckedApply=(var_1) =>[(el) => {
       el.addEventListener("change", () => var_1.Get()!=el.checked?var_1.Set(el.checked):null);
-    }, (_1) =>(_2) => _2!=null&&_2.$==1?void(_1.checked=_2.$0):null, Map(Some, var_1.View)];
+    }, (_1) =>(_2) => _2!=null&&_2.$==1?void(_1.checked=_2.$0):null, Map_1(Some, var_1.View)];
     this.StringSet=(el) =>(s_8) => {
       el.value=s_8;
     };
@@ -2360,6 +2636,39 @@ let _c_3=Lazy((_i) => class Client {
     this.FloatApplyChecked=(v) => ApplyValue(g_7, s_7, v);
   }
 });
+class Updates_1 {
+  c;
+  s;
+  v;
+  static Create(v){
+    let var_1;
+    var_1=null;
+    var_1=Updates_1.New(v, null, () => {
+      let c;
+      c=var_1.s;
+      return c===null?(c=Copy(var_1.c()),var_1.s=c,WhenObsoleteRun(c, () => {
+        var_1.s=null;
+      }),c):c;
+    });
+    return var_1;
+  }
+  static New(Current, Snap, VarView){
+    return Create_1(Updates_1, {
+      c:Current, 
+      s:Snap, 
+      v:VarView
+    });
+  }
+}
+function New_1(DynElem, DynFlags, DynNodes, OnAfterRender){
+  const _1={
+    DynElem:DynElem, 
+    DynFlags:DynFlags, 
+    DynNodes:DynNodes
+  };
+  SetOptional(_1, "OnAfterRender", OnAfterRender);
+  return _1;
+}
 function concat_2(separator, strings){
   return ofSeq(strings).join(separator);
 }
@@ -2384,16 +2693,7 @@ function SplitWith(str, pat){
 function protect(s){
   return s==null?"":s;
 }
-function New(DynElem, DynFlags, DynNodes, OnAfterRender){
-  const _1={
-    DynElem:DynElem, 
-    DynFlags:DynFlags, 
-    DynNodes:DynNodes
-  };
-  SetOptional(_1, "OnAfterRender", OnAfterRender);
-  return _1;
-}
-function New_1(PreviousNodes, Top){
+function New_2(PreviousNodes, Top){
   return{PreviousNodes:PreviousNodes, Top:Top};
 }
 function get_Empty_1(){
@@ -2469,9 +2769,9 @@ function Delay(mk){
     }
   };
 }
-function Bind(r, f){
+function Bind_1(r, f){
   return checkCancel((c) => {
-    r(New_2((a) => {
+    r(New_3((a) => {
       if(a.$==0){
         const x=a.$0;
         scheduler().Fork(() => {
@@ -2490,24 +2790,24 @@ function Bind(r, f){
   });
 }
 function Zero(){
-  return _c_7.Zero;
+  return _c_8.Zero;
 }
 function Start(c, ctOpt){
   const d=(defCTS())[0];
   const ct=ctOpt==null?d:ctOpt.$0;
   scheduler().Fork(() => {
-    if(!ct.c)c(New_2((a) => {
+    if(!ct.c)c(New_3((a) => {
       if(a.$==1)UncaughtAsyncError(a.$0);
     }, ct));
   });
 }
-function Return(x){
+function Return_1(x){
   return(c) => {
     c.k(Ok(x));
   };
 }
 function scheduler(){
-  return _c_7.scheduler;
+  return _c_8.scheduler;
 }
 function checkCancel(r){
   return(c) => {
@@ -2516,7 +2816,7 @@ function checkCancel(r){
   };
 }
 function defCTS(){
-  return _c_7.defCTS;
+  return _c_8.defCTS;
 }
 function UncaughtAsyncError(e){
   console.log("WebSharper: Uncaught asynchronous exception", e);
@@ -2550,7 +2850,7 @@ function cancel(c){
   c.k(Cc(new OperationCanceledException("New", c.ct)));
 }
 function UseAnimations(){
-  return _c_6.UseAnimations;
+  return _c_7.UseAnimations;
 }
 function Actions(a){
   return ConcatActions(choose((a_1) => a_1.$==1?Some(a_1.$0):null, ToArray_1(a.$0)));
@@ -2599,38 +2899,15 @@ let _c_4=Lazy((_i) => class Proxy {
     this.BatchUpdatesEnabled=true;
   }
 });
-class Updates_1 {
-  c;
-  s;
-  v;
-  static Create(v){
-    let var_1;
-    var_1=null;
-    var_1=Updates_1.New(v, null, () => {
-      let c;
-      c=var_1.s;
-      return c===null?(c=Copy(var_1.c()),var_1.s=c,WhenObsoleteRun(c, () => {
-        var_1.s=null;
-      }),c):c;
-    });
-    return var_1;
+let _c_5=Lazy((_i) => class $StartupCode_Abbrev {
+  static {
+    _c_5=_i(this);
   }
-  static New(Current, Snap, VarView){
-    return Create_1(Updates_1, {
-      c:Current, 
-      s:Snap, 
-      v:VarView
-    });
+  static counter;
+  static {
+    this.counter=0;
   }
-}
-class FSharpList {
-  GetEnumerator(){
-    return new T(this, null, (e) => {
-      const m=e.s;
-      return m.$==0?false:(e.c=m.$0,e.s=m.$1,true);
-    }, void 0);
-  }
-}
+});
 function isBlank(s){
   return forall_2(IsWhiteSpace, s);
 }
@@ -2652,12 +2929,9 @@ class CheckedInput {
     });
   }
 }
-function Clear(a){
-  a.splice(0, length(a));
-}
-let _c_5=Lazy((_i) => class $StartupCode_DomUtility {
+let _c_6=Lazy((_i) => class $StartupCode_DomUtility {
   static {
-    _c_5=_i(this);
+    _c_6=_i(this);
   }
   static defaultWrap;
   static wrapMap;
@@ -2674,9 +2948,9 @@ let _c_5=Lazy((_i) => class $StartupCode_DomUtility {
     this.defaultWrap=[0, "", ""];
   }
 });
-let _c_6=Lazy((_i) => class $StartupCode_Animation {
+let _c_7=Lazy((_i) => class $StartupCode_Animation {
   static {
-    _c_6=_i(this);
+    _c_7=_i(this);
   }
   static UseAnimations;
   static CubicInOut;
@@ -2720,16 +2994,16 @@ function Concat_1(xs){
   return TreeReduce(Empty(), Append_1, x);
 }
 function Empty(){
-  return _c_8.Empty;
+  return _c_9.Empty;
 }
-function head_1(l){
-  return l.$==1?l.$0:listEmpty();
+function concat_3(o){
+  let r=[];
+  let k;
+  for(var k_1 in o)r.push.apply(r, o[k_1]);
+  return r;
 }
-function tail(l){
-  return l.$==1?l.$1:listEmpty();
-}
-function listEmpty(){
-  return FailWith("The input list was empty.");
+function Clear(a){
+  a.splice(0, length(a));
 }
 function IsWhiteSpace(c){
   return c.match(new RegExp("\\s"))!==null;
@@ -2743,46 +3017,6 @@ function TryParse_2(s, min, max_1, r){
   const ok=x===x-x%1&&x>=min&&x<=max_1;
   if(ok)r.set(x);
   return ok;
-}
-class DynamicAttrNode extends Object_1 {
-  push;
-  value;
-  dirty;
-  updates;
-  get NChanged(){
-    return this.updates;
-  }
-  NGetExitAnim(parent){
-    return get_Empty();
-  }
-  NGetEnterAnim(parent){
-    return get_Empty();
-  }
-  NGetChangeAnim(parent){
-    return get_Empty();
-  }
-  NSync(parent){
-    if(this.dirty){
-      (this.push(parent))(this.value);
-      this.dirty=false;
-    }
-  }
-  constructor(view, push){
-    super();
-    this.push=push;
-    this.value=void 0;
-    this.dirty=false;
-    this.updates=Map((x) => {
-      this.value=x;
-      this.dirty=true;
-    }, view);
-  }
-}
-function concat_3(o){
-  let r=[];
-  let k;
-  for(var k_1 in o)r.push.apply(r, o[k_1]);
-  return r;
 }
 class KeyNotFoundException extends Error {
   static New(){
@@ -2842,7 +3076,7 @@ class Easing extends Object_1 {
     this.transformTime=transformTime;
   }
 }
-function New_2(k, ct){
+function New_3(k, ct){
   return{k:k, ct:ct};
 }
 function No(Item){
@@ -2854,9 +3088,9 @@ function Ok(Item){
 function Cc(Item){
   return{$:2, $0:Item};
 }
-let _c_7=Lazy((_i) => class $StartupCode_Concurrency {
+let _c_8=Lazy((_i) => class $StartupCode_Concurrency {
   static {
-    _c_7=_i(this);
+    _c_8=_i(this);
   }
   static GetCT;
   static Zero;
@@ -2864,16 +3098,16 @@ let _c_7=Lazy((_i) => class $StartupCode_Concurrency {
   static scheduler;
   static noneCT;
   static {
-    this.noneCT=New_3(false, []);
+    this.noneCT=New_4(false, []);
     this.scheduler=new Scheduler();
     this.defCTS=[new CancellationTokenSource()];
-    this.Zero=Return();
+    this.Zero=Return_1();
     this.GetCT=(c) => {
       c.k(Ok(c.ct));
     };
   }
 });
-function New_3(IsCancellationRequested, Registrations){
+function New_4(IsCancellationRequested, Registrations){
   return{c:IsCancellationRequested, r:Registrations};
 }
 function Filter_1(ok, set_1){
@@ -2997,7 +3231,7 @@ class OperationCanceledException extends Error {
   }
 }
 function Create(f){
-  return New_4(false, f, forceLazy);
+  return New_5(false, f, forceLazy);
 }
 function forceLazy(){
   const v=this.v();
@@ -3009,16 +3243,16 @@ function forceLazy(){
 function cachedLazy(){
   return this.v;
 }
-let _c_8=Lazy((_i) => class $StartupCode_AppendList {
+let _c_9=Lazy((_i) => class $StartupCode_AppendList {
   static {
-    _c_8=_i(this);
+    _c_9=_i(this);
   }
   static Empty;
   static {
     this.Empty={$:0};
   }
 });
-function New_4(created, evalOrVal, force){
+function New_5(created, evalOrVal, force){
   return{
     c:created, 
     v:evalOrVal, 
