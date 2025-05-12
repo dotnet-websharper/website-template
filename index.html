@@ -25,7 +25,7 @@
         <script src="./src/themeSwitcher.js"></script>
 
         <link rel="stylesheet" href="./style.css" />
-        <link rel="stylesheet" href="./assets/css/prism.css" />
+        <!-- <link rel="stylesheet" href="./assets/css/prism.css" /> -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -67,7 +67,7 @@
                         </button>
                     </div>
                     <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
-                        <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white" target="_blank">Docs</a>
+                        <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
 
                         <a href="./pages/download.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Downloads</a>
 
@@ -378,7 +378,7 @@ module Client =
                 </div>
             </section>
 
-            <section>
+            <!-- <section>
                 <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
                     <div class="mx-auto text-center sm:w-2/3 lg:w-1/2">
                         <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Functional applications with WebSharper.UI</h2>
@@ -430,23 +430,16 @@ module Client =
                                             </div>
                                             <pre class="-mb-16 !overflow-auto">
                                             <code class="mt-[-17px] block language-fsharp text-white">
-let fibs =
-let generator state =
-    let (cur, prev) = state
-    let next = cur + prev
-    let state' = (next, cur)
-    Some (cur, state')
-let more =
-    (1, 0)
-    |> Seq.unfold generator
-seq {
-    0
-    yield! more
-}
-
-let first20 = Seq.take 20 fibs
-
-printfn "%A" first20
+var x = Var.Create(1);
+var y = Var.Create(1);
+var addNumbers =
+    div(
+        p("x: ", input(x)),
+        p("y: ", input(y)),
+        p("x + y =", x.V + y.V)
+    );
+addNumbers.RunById("main");
+                                                
                                             </code>
                                         </pre>
                                         </div>
@@ -513,13 +506,18 @@ fetch('https://example.com/authenticate', {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> -->
 
             <section>
                 <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                    <div class="mt-8 md:w-2/3 lg:w-1/2">
+                    <div class="mx-auto text-center sm:w-2/3 lg:w-1/2">
                         <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Functional, reactive applications with WebSharper.UI</h2>
-                        <p class="mt-6 text-gray-500 dark:text-gray-200">Structure client-side applications with clear separation of concerns between logic and display. Based on WebSharper.UI, Mvu brings Elm-like architecture to WebSharper.</p>
+                        <p class="mt-6 text-gray-500 dark:text-gray-200">Bind composite data models to your reactive user interfaces. The flow of reactive values through the code yet concise, readability.</p>
+                        <div class="mt-6 flex justify-center">
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white">Learn more</span>
+                            </a>
+                        </div>
                     </div>
                     <div class="relative mt-16">
                         <div class="relative z-10 border dark:border-gray-800 rounded-xl dark:bg-transparent dark:p-px">
@@ -543,7 +541,7 @@ fetch('https://example.com/authenticate', {
                                                     <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
                                                 </g>
                                             </svg>
-                                            <span class="text-xs">Client.fs</span>
+                                            <span class="text-xs">AddTwoNumbers.fs</span>
                                         </button>
                                         <button role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                             <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -553,7 +551,7 @@ fetch('https://example.com/authenticate', {
                                                     fill="black"
                                                 />
                                             </svg>
-                                            <span class="text-xs">controller.js</span>
+                                            <span class="text-xs">addTwoNumbers.js</span>
                                         </button>
                                     </div>
                                 </div>
@@ -563,41 +561,62 @@ fetch('https://example.com/authenticate', {
                                             <div aria-hidden="true" class="invisible w-0 flex-none select-none text-right leading-[1.155rem] text-gray-300 dark:text-white/40 sm:visible sm:w-3">1 2 3 4 5 6 7 8 9 10 11 12 13 14 15</div>
                                         </div>
                                         <div class="relative w-full">
-                                            <div class="absolute inset-0 overflow-y-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                            <div class="absolute inset-0 overflow-y-auto transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                 <pre class="-mb-20 !overflow-auto">
                                                     <code class="mt-[-17px] block md:leading-[1.13rem] language-fsharp text-white">
-let fibs =
-    let generator state =
-        let (cur, prev) = state
-        let next = cur + prev
-        let state' = (next, cur)
-        Some (cur, state')
-    let more =
-        (1, 0)
-        |> Seq.unfold generator
-    seq {
-        0
-        yield! more
-    }
+let x = Var.Create 1
+let y = Var.Create 1
+
+let addNumbers =
+    div [] [
+        p [] [text "x "; Doc.InputType.IntUnchecked [] x]
+        p [] [text "y "; Doc.InputType.IntUnchecked [] y]
+        p [] [
+            textView (View.Map2 (fun x y -> $"x + y = {x + y}") x.View y.View)
+        ]
+    ]
+
+addNumbers |> Doc.RunById "main"                                                        
                                                     </code>
                                                 </pre>
                                             </div>
-                                            <div class="absolute inset-0 hidden overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                            <div class="absolute inset-0 hidden overflow-y-auto transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                 <pre class="-mb-20 !overflow-auto">
                                                     <code class="leading-[1.13rem] mt-[-17px] language-js text-white">
-snippets.forEach((snippet) => {
+let x = 1;
+let y = 1;
 
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            moveIndicator(indicator, tab);
+const inputX = document.createElement("input");
+inputX.type = "number";
+inputX.value = x;
 
-            pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
-                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
-            });
-        });
-    });
-});
+const inputY = document.createElement("input");
+inputY.type = "number";
+inputY.value = y;
+
+const pX = document.createElement("p");
+pX.textContent = "x: ";
+pX.appendChild(inputX);
+
+const pY = document.createElement("p");
+pY.textContent = "y: ";
+pY.appendChild(inputY);
+
+const result = document.createElement("p");
+function updateSum() {
+    const xVal = parseFloat(inputX.value) || 0;
+    const yVal = parseFloat(inputY.value) || 0;
+    result.textContent = "x + y = " + (xVal + yVal);
+}
+updateSum();
+
+inputX.addEventListener("input", updateSum);
+inputY.addEventListener("input", updateSum);
+
+const main = document.getElementById("main");
+main.appendChild(pX);
+main.appendChild(pY);
+main.appendChild(result);                                                       
                                                     </code>
                                                 </pre>
                                             </div>
@@ -633,7 +652,7 @@ snippets.forEach((snippet) => {
                                         <label for="y">Y</label>
                                         <input name="y" id="y" min="0" class="w-full rounded-lg border border-gray-200 bg-transparent p-2" type="number" value="0" />
                                     </div>
-                                </div>
+                                </div>                                
                             </div>
                         </div>
                     </div>
@@ -673,10 +692,10 @@ snippets.forEach((snippet) => {
                                     <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Remoting with ease</span>
                                     <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
                                 </a>
-                                <a href="#puia" data-step="puia" class="section-link group flex w-max items-center justify-end gap-3">
+                                <!-- <a href="#puia" data-step="puia" class="section-link group flex w-max items-center justify-end gap-3">
                                     <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Powerful UI abstractions</span>
                                     <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                         <div class="lg:w-[calc(100%-6rem)] ml-auto">
@@ -684,7 +703,7 @@ snippets.forEach((snippet) => {
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                                     <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Model-View-Update architecture with WebSharper.Mvu</h3>
                                     <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Structure client-side applications with clear separation of concerns between logic and display. Based on WebSharper.UI, Mvu brings Elm-like architecture to WebSharper.</p>
-                                    <a href="#" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                    <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
@@ -710,7 +729,7 @@ snippets.forEach((snippet) => {
                                                                 <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
                                                             </g>
                                                         </svg>
-                                                        <span class="text-xs">controller.fs</span>
+                                                        <span class="text-xs">NameInput.fs</span>
                                                     </button>
                                                     <button role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -720,7 +739,7 @@ snippets.forEach((snippet) => {
                                                                 fill="black"
                                                             />
                                                         </svg>
-                                                        <span class="text-xs">controller.js</span>
+                                                        <span class="text-xs">nameInput.js</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -729,46 +748,55 @@ snippets.forEach((snippet) => {
                                                     <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
-let fibs =
-    let generator state =
-        let (cur, prev) = state
-        let next = cur + prev
-        let state' = (next, cur)
-        Some (cur, state')
-    let more =
-        (1, 0)
-        |> Seq.unfold generator
-    seq {
-        0
-        yield! more
-    }
+type Model = { name: string }
+let InitModel = { name = "" }
 
-let first20 = Seq.take 20 fibs
+type Message =
+    | SetName of string
 
-printfn "%A" first20
+let Update message model =
+    match message with
+    | SetName n -> { model with name = n }
+
+let View dispatch (view: View<Model>) =
+    div [] [
+        input [
+            attr.value view.V.name
+            on.change (fun el _ ->
+                dispatch (SetName el?value))
+        ] []
+    ]
+
+let Main = App.CreateSimple InitModel Update View |> App.Run                                                                
                                                             </code>
                                                         </pre>
                                                     </div>
                                                     <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
-snippets.forEach((snippet) => {
-    let tabs = snippet.querySelectorAll("[role='tab']");
-    let pannels = snippet.querySelectorAll("[role='tabpanel']");
-    let indicator = snippet.querySelector(".tab-indicator");
+let model = { name: "" };
 
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            moveIndicator(indicator, tab);
-            let tabTarget = tab.getAttribute("data-target");
+function update(message) {
+    if (message.type === "SetName") {
+    model.name = message.value;
+    render(); 
+    }
+}
 
-            pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
-                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
-            });
-        });
+function render() {
+    const main = document.getElementById("main");
+    main.innerHTML = ""; 
+
+    const input = document.createElement("input");
+    input.value = model.name;
+    input.addEventListener("input", (e) => {
+    update({ type: "SetName", value: e.target.value });
     });
-});
+
+    main.appendChild(input);
+}
+
+render();
                                                             </code>
                                                         </pre>
                                                     </div>
@@ -782,7 +810,7 @@ snippets.forEach((snippet) => {
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                                     <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Build React components</h3>
                                     <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">You can also use widespread libraries such as React to build applications. The syntax is as convenient as JSX, with the added benefit of strong typing.</p>
-                                    <a href="#" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                    <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
@@ -808,7 +836,7 @@ snippets.forEach((snippet) => {
                                                                 <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
                                                             </g>
                                                         </svg>
-                                                        <span class="text-xs">controller.fs</span>
+                                                        <span class="text-xs">Person.fs</span>
                                                     </button>
                                                     <button role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -818,7 +846,7 @@ snippets.forEach((snippet) => {
                                                                 fill="black"
                                                             />
                                                         </svg>
-                                                        <span class="text-xs">controller.js</span>
+                                                        <span class="text-xs">Person.js</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -827,46 +855,35 @@ snippets.forEach((snippet) => {
                                                     <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
-let fibs =
-    let generator state =
-        let (cur, prev) = state
-        let next = cur + prev
-        let state' = (next, cur)
-        Some (cur, state')
-    let more =
-        (1, 0)
-        |> Seq.unfold generator
-    seq {
-        0
-        yield! more
-    }
+type Person = { name: string; age: int }
 
-let first20 = Seq.take 20 fibs
+type ShowPerson(props) =
+    inherit React.Component<Person, unit>(props)
 
-printfn "%A" first20
+    override this.Render() =
+        ul [attr.className "person"] [
+            li [] [text ("Name: " + this.Props.name)]
+            li [] [text ("Age: " + string this.Props.age)]
+        ]                                                                
                                                             </code>
                                                         </pre>
                                                     </div>
                                                     <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
-snippets.forEach((snippet) => {
-    let tabs = snippet.querySelectorAll("[role='tab']");
-    let pannels = snippet.querySelectorAll("[role='tabpanel']");
-    let indicator = snippet.querySelector(".tab-indicator");
+import React from "react";
 
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            moveIndicator(indicator, tab);
-            let tabTarget = tab.getAttribute("data-target");
+function ShowPerson(props) {
+    return (
+    <ul className="person">
+        <li>Name: {props.name}</li>
+        <li>Age: {props.age}</li>
+    </ul>
+    );
+}
 
-            pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
-                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
-            });
-        });
-    });
-});
+// Example usage:
+// &lt;ShowPerson name="Alice" age={30} /&gt;
                                                             </code>
                                                         </pre>
                                                     </div>
@@ -878,9 +895,13 @@ snippets.forEach((snippet) => {
                             </div>
                             <div id="webapi" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
-                                    <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Build React components</h3>
-                                    <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">You can also use widespread libraries such as React to build applications. The syntax is as convenient as JSX, with the added benefit of strong typing.</p>
-                                    <a href="#" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                    <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Web APIs and server-side JSON and HTML</h3>
+                                    <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Declare your URLs as a C# or F# endpoint type, and WebSharper handles the dispatch. Create safe internal links from endpoint values.
+                                    
+                                    <br><br>You can share the same rendering code and templates between the server and the client.
+                                        
+                                    <br><br>Automatically parse JSON requests and generate JSON responses based on your types.</p>
+                                    <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
@@ -906,7 +927,7 @@ snippets.forEach((snippet) => {
                                                                 <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
                                                             </g>
                                                         </svg>
-                                                        <span class="text-xs">controller.fs</span>
+                                                        <span class="text-xs">ArticleSite.fs</span>
                                                     </button>
                                                     <button role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -916,7 +937,7 @@ snippets.forEach((snippet) => {
                                                                 fill="black"
                                                             />
                                                         </svg>
-                                                        <span class="text-xs">controller.js</span>
+                                                        <span class="text-xs">articleSite.js</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -925,45 +946,64 @@ snippets.forEach((snippet) => {
                                                     <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
-let fibs =
-    let generator state =
-        let (cur, prev) = state
-        let next = cur + prev
-        let state' = (next, cur)
-        Some (cur, state')
-    let more =
-        (1, 0)
-        |> Seq.unfold generator
-    seq {
-        0
-        yield! more
-    }
+// Define the application's endpoints
+type EndPoint =
+    | [&lt;EndPoint "GET /articles"&gt;]
+        ArticleList
+    | [&lt;EndPoint "GET /article/{id}"&gt;]
+        Article of id: int
 
-let first20 = Seq.take 20 fibs
-
-printfn "%A" first20
+// Define the content served by these endpoints
+let Website =
+    Application.MultiPage (fun (ctx: Context&lt;_&gt;) endpoint -&gt;
+        match endpoint with
+        | ArticleList -&gt;
+            Content.Page(
+                div [] [
+                    h1 [] [text "Welcome!"]
+                    a [attr.href (ctx.Link (Article 42))] [
+                        text "Go to article 42"
+                    ]
+                ]
+            )
+        | Article id -&gt;
+            Content.Json { id = id
+                            title = "Hello!"
+                            date = DateTime.Now }
+    )                                                            
                                                             </code>
                                                         </pre>
                                                     </div>
                                                     <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
-snippets.forEach((snippet) => {
-    let tabs = snippet.querySelectorAll("[role='tab']");
-    let pannels = snippet.querySelectorAll("[role='tabpanel']");
-    let indicator = snippet.querySelector(".tab-indicator");
+const express = require('express');
+const app = express();
 
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            moveIndicator(indicator, tab);
-            let tabTarget = tab.getAttribute("data-target");
+// Route for article list
+app.get('/articles', (req, res) =&gt; {
+    res.send(`
+    &lt;div&gt;
+        &lt;h1&gt;Welcome!&lt;/h1&gt;
+        &lt;a href="/article/42"&gt;Go to article 42&lt;/a&gt;
+    &lt;/div&gt;
+    `);
+});
 
-            pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
-                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
-            });
-        });
+// Route for specific article
+app.get('/article/:id', (req, res) =&gt; {
+    const id = parseInt(req.params.id, 10);
+    res.json({
+    id: id,
+    title: "Hello!",
+    date: new Date().toISOString()
     });
+});
+
+// Start server
+const PORT = 3000;
+app.listen(PORT, () =&gt; {
+    console.log(`Server running at http://localhost:${PORT}`);
 });
                                                             </code>
                                                         </pre>
@@ -976,9 +1016,9 @@ snippets.forEach((snippet) => {
                             </div>
                             <div id="csr" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
-                                    <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Web APIs and server-side JSON and HTML</h3>
-                                    <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Declare your URLs as a C# or F# endpoint type, and WebSharper handles the dispatch. Create safe internal links from endpoint values. You can share the same rendering code and templates between the server and the client. Automatically parse JSON requests and generate JSON responses based on your types.</p>
-                                    <a href="#" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                    <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Client-side routing</h3>
+                                    <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Write SPAs with the same routing API on the client side as you would use on the server side.</p>
+                                    <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
@@ -1004,7 +1044,7 @@ snippets.forEach((snippet) => {
                                                                 <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
                                                             </g>
                                                         </svg>
-                                                        <span class="text-xs">controller.fs</span>
+                                                        <span class="text-xs">ArticleRouter.fs</span>
                                                     </button>
                                                     <button role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1014,7 +1054,7 @@ snippets.forEach((snippet) => {
                                                                 fill="black"
                                                             />
                                                         </svg>
-                                                        <span class="text-xs">controller.js</span>
+                                                        <span class="text-xs">articleRouter.js</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -1023,46 +1063,64 @@ snippets.forEach((snippet) => {
                                                     <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
-let fibs =
-    let generator state =
-        let (cur, prev) = state
-        let next = cur + prev
-        let state' = (next, cur)
-        Some (cur, state')
-    let more =
-        (1, 0)
-        |> Seq.unfold generator
-    seq {
-        0
-        yield! more
-    }
+let router = Router.Infer&lt;EndPoint&gt;()
+let route = router.Install(Article 1)
 
-let first20 = Seq.take 20 fibs
+let view =
+    route.View.Map (function
+        | Article id -&gt;
+            div [] [
+                h1 [] [text $"This is article {id}"]
+                a [attr.href (router.Link Articles)] [text "Go back to the list of articles"]
+            ]
+        | Articles -&gt;
+            h1 [] [text "List of articles"]
+    )
 
-printfn "%A" first20
+let doc = Doc.BindView id view
+Doc.RunById "main" doc
                                                             </code>
                                                         </pre>
                                                     </div>
                                                     <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
-snippets.forEach((snippet) => {
-    let tabs = snippet.querySelectorAll("[role='tab']");
-    let pannels = snippet.querySelectorAll("[role='tabpanel']");
-    let indicator = snippet.querySelector(".tab-indicator");
+// Simulated router and state
+const router = {
+    currentRoute: { type: "Articles" },
+    link: (route) => {
+    if (route.type === "Articles") return "/articles";
+    if (route.type === "Article") return `/article/${route.id}`;
+    }
+};
 
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            moveIndicator(indicator, tab);
-            let tabTarget = tab.getAttribute("data-target");
+// Render function
+function render(route) {
+    const main = document.getElementById("main");
+    main.innerHTML = ""; 
 
-            pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
-                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
-            });
-        });
-    });
-});
+    if (route.type === "Article") {
+    const divEl = document.createElement("div");
+
+    const h1El = document.createElement("h1");
+    h1El.textContent = `This is article ${route.id}`;
+
+    const link = document.createElement("a");
+    link.href = router.link({ type: "Articles" });
+    link.textContent = "Go back to the list of articles";
+
+    divEl.appendChild(h1El);
+    divEl.appendChild(link);
+    main.appendChild(divEl);
+    } else {
+    const h1El = document.createElement("h1");
+    h1El.textContent = "List of articles";
+    main.appendChild(h1El);
+    }
+}
+
+// Initial render
+render(router.currentRoute);                                                                
                                                             </code>
                                                         </pre>
                                                     </div>
@@ -1074,9 +1132,12 @@ snippets.forEach((snippet) => {
                             </div>
                             <div id="lc" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
-                                    <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Client-side routing</h3>
-                                    <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Write SPAs with the same routing API on the client side as you would use on the server side.</p>
-                                    <a href="#" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                    <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Use powerful language constructs on the client side</h3>
+                                    <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">F#: Query expressions, async workflows, sequence expressions...
+                                        
+
+                                     <br><br>C#: LINQ queries, asynchronous Tasks, generators...</p>
+                                    <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
@@ -1102,17 +1163,11 @@ snippets.forEach((snippet) => {
                                                                 <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
                                                             </g>
                                                         </svg>
-                                                        <span class="text-xs">controller.fs</span>
+                                                        <span class="text-xs">query.fs</span>
                                                     </button>
-                                                    <button role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
-                                                            <path
-                                                                d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
-                                                                fill="black"
-                                                            />
-                                                        </svg>
-                                                        <span class="text-xs">controller.js</span>
+                                                    <button role="tab" aria-selected="false" data-target="csharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
+                                                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z"/><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z"/><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z"/></svg>
+                                                        <span class="text-xs">query.cs</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -1121,46 +1176,22 @@ snippets.forEach((snippet) => {
                                                     <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
-let fibs =
-    let generator state =
-        let (cur, prev) = state
-        let next = cur + prev
-        let state' = (next, cur)
-        Some (cur, state')
-    let more =
-        (1, 0)
-        |> Seq.unfold generator
-    seq {
-        0
-        yield! more
-    }
-
-let first20 = Seq.take 20 fibs
-
-printfn "%A" first20
+query {
+    for article in articles do
+    where (article.date > start)
+    sortByDescending article.date
+    select article.id
+}                                                                
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="csharp">
                                                         <pre class="w-max p-4 pt-0">
-                                                            <code class="w-max language-js">
-snippets.forEach((snippet) => {
-    let tabs = snippet.querySelectorAll("[role='tab']");
-    let pannels = snippet.querySelectorAll("[role='tabpanel']");
-    let indicator = snippet.querySelector(".tab-indicator");
-
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            moveIndicator(indicator, tab);
-            let tabTarget = tab.getAttribute("data-target");
-
-            pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
-                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
-            });
-        });
-    });
-});
+                                                            <code class="w-max language-csharp">
+from article in articles
+where article.date > start
+orderby article.date descending
+select article.id;        
                                                             </code>
                                                         </pre>
                                                     </div>
@@ -1172,13 +1203,11 @@ snippets.forEach((snippet) => {
                             </div>
                             <div id="tsh" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
-                                    <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Use powerful language constructs on the client side</h3>
+                                    <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Type-safe HTML templating</h3>
                                     <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">
-                                        C#: LINQ queries, asynchronous Tasks, generators... <br />
-                                        <br />
-                                        F#: Query expressions, async workflows, sequence expressions...
+                                        Use HTML templates to keep your logic and UI clearly separate and facilitate the collaboration between programmers and designers.
                                     </p>
-                                    <a href="#" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                    <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
@@ -1204,17 +1233,13 @@ snippets.forEach((snippet) => {
                                                                 <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
                                                             </g>
                                                         </svg>
-                                                        <span class="text-xs">controller.fs</span>
+                                                        <span class="text-xs">Client.fs</span>
                                                     </button>
-                                                    <button role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
-                                                            <path
-                                                                d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
-                                                                fill="black"
-                                                            />
+                                                    <button role="tab" aria-selected="false" data-target="html" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
+                                                        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 8-4 4 4 4m8 0 4-4-4-4m-2-3-4 14"/>
                                                         </svg>
-                                                        <span class="text-xs">controller.js</span>
+                                                        <span class="text-xs">index.html</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -1223,46 +1248,26 @@ snippets.forEach((snippet) => {
                                                     <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
-let fibs =
-    let generator state =
-        let (cur, prev) = state
-        let next = cur + prev
-        let state' = (next, cur)
-        Some (cur, state')
-    let more =
-        (1, 0)
-        |> Seq.unfold generator
-    seq {
-        0
-        yield! more
-    }
-
-let first20 = Seq.take 20 fibs
-
-printfn "%A" first20
+IndexTemplate.Main()
+    .Name(newName)
+    .Add(fun _ -&gt;
+        People.Add(newName.Value)
+        newName.Value &lt;- ""
+    )
+    .Remove(fun _ -&gt; ()) 
+    .Doc()
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="html">
                                                         <pre class="w-max p-4 pt-0">
-                                                            <code class="w-max language-js">
-snippets.forEach((snippet) => {
-    let tabs = snippet.querySelectorAll("[role='tab']");
-    let pannels = snippet.querySelectorAll("[role='tabpanel']");
-    let indicator = snippet.querySelector(".tab-indicator");
-
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            moveIndicator(indicator, tab);
-            let tabTarget = tab.getAttribute("data-target");
-
-            pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
-                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
-            });
-        });
-    });
-});
+                                                            <code class="w-max language-html">
+&lt;h1&gt;My list of unique people&lt;/h1&gt;
+&lt;div ws-children-template="Main"&gt;
+    &lt;input ws-var="Name" /&gt;
+    &lt;button ws-onclick="Add"&gt;Add&lt;/button&gt;
+    &lt;button ws-onclick="Remove"&gt;Remove&lt;/button&gt;
+&lt;/div&gt;
                                                             </code>
                                                         </pre>
                                                     </div>
@@ -1274,111 +1279,11 @@ snippets.forEach((snippet) => {
                             </div>
                             <div id="rwe" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
-                                    <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Type-safe HTML templating</h3>
-                                    <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Use HTML templates to keep your logic and UI clearly separate and facilitate the collaboration between programmers and designers.</p>
-                                    <a href="#" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
-                                        <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
-                                    </a>
-                                </div>
-                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                    <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
-                                        <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
-                                            <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
-                                                <div class="flex space-x-1.5">
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                </div>
-
-                                                <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                                    <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                                            <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                                            <defs id="defs2" />
-                                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                                <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                                            </g>
-                                                        </svg>
-                                                        <span class="text-xs">controller.fs</span>
-                                                    </button>
-                                                    <button role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
-                                                            <path
-                                                                d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
-                                                                fill="black"
-                                                            />
-                                                        </svg>
-                                                        <span class="text-xs">controller.js</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
-                                                <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="overflow-hidden p-4 pt-0">
-                                                            <code class="w-max overflow-hidden language-fsharp">
-let fibs =
-    let generator state =
-        let (cur, prev) = state
-        let next = cur + prev
-        let state' = (next, cur)
-        Some (cur, state')
-    let more =
-        (1, 0)
-        |> Seq.unfold generator
-    seq {
-        0
-        yield! more
-    }
-
-let first20 = Seq.take 20 fibs
-
-printfn "%A" first20
-                                                            </code>
-                                                        </pre>
-                                                    </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                        <pre class="w-max p-4 pt-0">
-                                                            <code class="w-max language-js">
-snippets.forEach((snippet) => {
-    let tabs = snippet.querySelectorAll("[role='tab']");
-    let pannels = snippet.querySelectorAll("[role='tabpanel']");
-    let indicator = snippet.querySelector(".tab-indicator");
-
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            moveIndicator(indicator, tab);
-            let tabTarget = tab.getAttribute("data-target");
-
-            pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
-                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
-            });
-        });
-    });
-});
-                                                            </code>
-                                                        </pre>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="puia" class="section py-16 md:flex">
-                                <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                                     <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Remoting with ease</h3>
-                                    <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">
-                                        Seamlessly call server-side asynchronous functions from the client side. <br />
-                                        <br />
-                                        AJAX call, JSON serialization... Everything is handled automatically.
-                                    </p>
-                                    <a href="#" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                    <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Seamlessly call server-side asynchronous functions from the client side.
+
+                                    <br><br>AJAX call, JSON serialization... Everything is handled automatically.</p>
+                                    <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
@@ -1404,7 +1309,7 @@ snippets.forEach((snippet) => {
                                                                 <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
                                                             </g>
                                                         </svg>
-                                                        <span class="text-xs">controller.fs</span>
+                                                        <span class="text-xs">RemoteCall.fs</span>
                                                     </button>
                                                     <button role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                                         <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1414,7 +1319,7 @@ snippets.forEach((snippet) => {
                                                                 fill="black"
                                                             />
                                                         </svg>
-                                                        <span class="text-xs">controller.js</span>
+                                                        <span class="text-xs">remoteCall.js</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -1423,46 +1328,36 @@ snippets.forEach((snippet) => {
                                                     <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                         <pre class="overflow-hidden p-4 pt-0">
                                                             <code class="w-max overflow-hidden language-fsharp">
-let fibs =
-    let generator state =
-        let (cur, prev) = state
-        let next = cur + prev
-        let state' = (next, cur)
-        Some (cur, state')
-    let more =
-        (1, 0)
-        |> Seq.unfold generator
-    seq {
-        0
-        yield! more
+// Server-side, remote-callable function
+[&lt;Remote&gt;]
+let ServerFn () : Async&lt;string&gt; =
+    async { return "Hello, world!" }
+
+// Client-side function
+[&lt;JavaScript&gt;]
+let CallServer () : unit =
+    async {
+        let! result = ServerFn()
+        Console.Log(result)
     }
-
-let first20 = Seq.take 20 fibs
-
-printfn "%A" first20
+    |> Async.Start
                                                             </code>
                                                         </pre>
                                                     </div>
                                                     <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                         <pre class="w-max p-4 pt-0">
                                                             <code class="w-max language-js">
-snippets.forEach((snippet) => {
-    let tabs = snippet.querySelectorAll("[role='tab']");
-    let pannels = snippet.querySelectorAll("[role='tabpanel']");
-    let indicator = snippet.querySelector(".tab-indicator");
-
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            moveIndicator(indicator, tab);
-            let tabTarget = tab.getAttribute("data-target");
-
-            pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
-                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
-            });
-        });
-    });
+// Server-side: This would be in your Node.js backend (e.g., using Express)
+app.get('/api/hello', async (req, res) =&gt; {
+    res.send("Hello, world!");
 });
+
+// Client-side: This would be in your frontend JS
+async function callServer() {
+    const response = await fetch('/api/hello');
+    const result = await response.text();
+    console.log(result);
+}
                                                             </code>
                                                         </pre>
                                                     </div>
@@ -1472,7 +1367,7 @@ snippets.forEach((snippet) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                         </div>
                     </div>
                 </div>
             </section>
@@ -1481,7 +1376,12 @@ snippets.forEach((snippet) => {
                 <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
                     <div class="mt-8 md:w-2/3 lg:w-1/2">
                         <h2 class="text-3xl font-bold text-gray-700 dark:text-white">Powerful UI abstractions</h2>
-                        <p class="mt-6 text-gray-500 dark:text-gray-200">Declare full interactive forms in just a few lines of code with Formlets and Piglets.</p>
+                        <p class="mt-6 text-gray-500 dark:text-gray-200">Declare full interactive forms in just a few lines of code with WebSharper Forms.</p>
+                        <div class="mt-6">
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white">Learn more</span>
+                            </a>
+                        </div>
                     </div>
                      <div class="relative mt-16">
                         <div class="relative z-10 border dark:border-gray-800 rounded-xl dark:bg-transparent dark:p-px">
@@ -1505,7 +1405,7 @@ snippets.forEach((snippet) => {
                                                     <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
                                                 </g>
                                             </svg>
-                                            <span class="text-xs">controller.fs</span>
+                                            <span class="text-xs">Forms.fs</span>
                                         </button>
                                         <button role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
                                             <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1515,7 +1415,7 @@ snippets.forEach((snippet) => {
                                                     fill="black"
                                                 />
                                             </svg>
-                                            <span class="text-xs">controller.js</span>
+                                            <span class="text-xs">forms.js</span>
                                         </button>
                                     </div>
                                 </div>
@@ -1525,41 +1425,108 @@ snippets.forEach((snippet) => {
                                             <div aria-hidden="true" class="invisible w-0 flex-none select-none text-right leading-[1.155rem] text-gray-300 dark:text-white/40 sm:visible sm:w-3">1 2 3 4 5 6 7 8 9 10 11 12 13 14 15</div>
                                         </div>
                                         <div class="relative w-full">
-                                            <div class="absolute inset-0 overflow-y-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                            <div class="absolute inset-0 overflow-y-auto transition-all duration-1000" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                 <pre class="-mb-20 !overflow-auto">
                                                     <code class="mt-[-17px] block md:leading-[1.13rem] language-fsharp text-white">
-let fibs =
-    let generator state =
-        let (cur, prev) = state
-        let next = cur + prev
-        let state' = (next, cur)
-        Some (cur, state')
-    let more =
-        (1, 0)
-        |> Seq.unfold generator
-    seq {
-        0
-        yield! more
-    }
+let LoginForm () =
+    Form.Return (fun user pass -> user, pass)
+    &lt;*&gt; (Form.Yield ""
+        |&gt; Validation.IsNotEmpty "Must enter a username")
+    &lt;*&gt; (Form.Yield ""
+        |&gt; Validation.IsNotEmpty "Must enter a password")
+    |&gt; Form.WithSubmit
+    |&gt; Form.Run (fun (u, p) -&gt;
+        JS.Alert("Welcome, " + u + "!")
+    )
+    |&gt; Form.Render (fun user pass submit -&gt;
+        form [] [
+            div [] [label [] [text "Username: "]; Doc.InputType.Text [] user]
+            div [] [label [] [text "Password: "]; Doc.InputType.Password [] pass]
+            Doc.Button "Log in" [] submit.Trigger
+            div [] [
+                Doc.ShowErrors submit.View (fun errors -&gt;
+                    errors
+                    |&gt; Seq.map (fun m -&gt; p [] [text m.Text])
+                    |&gt; Doc.Concat)
+            ]
+        ]
+    )
+    
+LoginForm() |&gt; Doc.RunById "main"                                               
                                                     </code>
                                                 </pre>
                                             </div>
-                                            <div class="absolute inset-0 h-0 overflow-hidden transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                            <div class="absolute inset-0 hidden overflow-y-auto transition-all duration-1000" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                 <pre class="-mb-20 !overflow-auto">
                                                     <code class="leading-[1.13rem] mt-[-17px] language-js text-white">
-snippets.forEach((snippet) => {
+function createLoginForm() {
+    const main = document.getElementById("main");
 
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            moveIndicator(indicator, tab);
+    const form = document.createElement("form");
 
-            pannels.forEach((pannel) => {
-                let pannelName = pannel.getAttribute("data-lang");
-                tabTarget === pannelName ? activateTab(pannel) : unactivateTab(pannel);
+    // Username field
+    const usernameDiv = document.createElement("div");
+    const usernameLabel = document.createElement("label");
+    usernameLabel.textContent = "Username: ";
+    const usernameInput = document.createElement("input");
+    usernameInput.type = "text";
+    usernameInput.required = true;
+    usernameDiv.appendChild(usernameLabel);
+    usernameDiv.appendChild(usernameInput);
+
+    // Password field
+    const passwordDiv = document.createElement("div");
+    const passwordLabel = document.createElement("label");
+    passwordLabel.textContent = "Password: ";
+    const passwordInput = document.createElement("input");
+    passwordInput.type = "password";
+    passwordInput.required = true;
+    passwordDiv.appendChild(passwordLabel);
+    passwordDiv.appendChild(passwordInput);
+
+    // Submit button
+    const button = document.createElement("button");
+    button.type = "submit";
+    button.textContent = "Log in";
+
+    // Error messages
+    const errorDiv = document.createElement("div");
+
+    // Form submit handler
+    form.addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent actual submission
+        errorDiv.innerHTML = ""; // Clear errors
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        const errors = [];
+
+        if (!username) errors.push("Must enter a username");
+        if (!password) errors.push("Must enter a password");
+
+        if (errors.length > 0) {
+            errors.forEach(msg => {
+                const p = document.createElement("p");
+                p.className = "error";
+                p.textContent = msg;
+                errorDiv.appendChild(p);
             });
-        });
+        } else {
+            alert("Welcome, " + username + "!");
+        }
     });
-});
+
+    // Assemble form
+    form.appendChild(usernameDiv);
+    form.appendChild(passwordDiv);
+    form.appendChild(button);
+    form.appendChild(errorDiv);
+
+    main.appendChild(form);
+}
+
+createLoginForm();
                                                     </code>
                                                 </pre>
                                             </div>
@@ -1620,7 +1587,14 @@ snippets.forEach((snippet) => {
                 <div class="mx-auto max-w-6xl px-6 lg:px-8 lg:pt-12 xl:px-0 2xl:max-w-7xl">
                     <div class="md:w-2/3 lg:w-1/2">
                         <h2 class="text-3xl font-bold tracking-tight text-gray-800 dark:text-white sm:text-3xl">Web Workers without hassle</h2>
-                        <p class="mt-6 text-lg leading-8 text-gray-500 dark:text-gray-300">Bind composite data models to your reactive user interfaces. The flow of reactive values through the code yet concise, readability.</p>
+                        <p class="mt-6 text-lg leading-8 text-gray-500 dark:text-gray-300">Write client-side parallel code directly in your code.
+                        
+                        <br><br>The compiler automatically creates the separate trimmed JavaScript file for the web worker.</p>
+                        <div class="mt-6">
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white">Learn more</span>
+                            </a>
+                        </div>
                     </div>
                     <div class="relative z-10 mt-16 rounded-3xl border border-gray-200/10 bg-gray-200/10 dark:border-0 dark:bg-white/10 dark:p-px">
                         <div class="rounded-3xl bg-gray-100 pr-3 pb-2 text-sm backdrop-blur-3xl dark:bg-gray-950 md:ml-0 md:pr-0">
@@ -1641,7 +1615,7 @@ snippets.forEach((snippet) => {
                                             <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
                                         </g>
                                     </svg>
-                                    <span class="text-xs text-gray-500 dark:text-white/70">contoller.fs</span>
+                                    <span class="text-xs text-gray-500 dark:text-white/70">Worker.fs</span>
                                 </div>
                             </div>
 
@@ -1667,17 +1641,17 @@ snippets.forEach((snippet) => {
                                             <div>
                                                 <div aria-hidden="true" class="hidden w-2 flex-none select-none pr-4 text-right leading-[1.13rem] text-gray-300 dark:text-white/40 sm:block">1 2 3 4 5 6 7 8 9 10 11 12 13 14</div>
                                             </div>
-                                            <pre class="-mb-16 !overflow-x-auto pr-4">
-                                            <code class="mt-[-17px] block language-fsharp px-4 text-white">
-let worker = new Worker fun self -&gt;
-    // This code runs in the worker: 
-    self. Onmessage &lt;- fun e -&gt;
-        Console. Log ("Received message from main thread: "
-            + string e. Data)
+                                            <pre class="w-full overflow-auto -mb-16 pr-4 text-wrap whitespace-pre-wrap break-words">
+                                            <code class="mt-[-17px] block language-fsharp px-4 text-wrap text-white whitespace-pre-wrap break-words">
+let worker = new Worker(fun self -&gt;
+    // This code runs in the worker:
+    self.OnMesssage &lt;- fun e -&gt;
+        Console.Log("Received message 
+        from main thread: " + string e.Data)
 )
 
 // This code runs in the main thread:
-worker.PostMessage ("Hello, worker!")
+worker.PostMessage("Hello, worker!")
                                             </code>
                                         </pre>
                                         </div>
@@ -1770,7 +1744,7 @@ self.onmessage = function (e) {
                     <h2 class="text-center text-3xl font-bold tracking-tight text-gray-800 dark:text-white sm:text-4xl lg:text-5xl">Get Started</h2>
                     <p class="mt-4 text-center text-lg text-gray-700 dark:text-gray-300">Instant access to the power of WebSharper</p>
                     <div class="mt-10 flex flex-wrap items-center justify-center gap-6 lg:flex-nowrap">
-                            <a href="/docs" class="w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                            <a href="https://docs.websharper.com/" class="w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
                                 <span class="relative text-sm">Get started</span>
                             </a>
                             <div class="text-primary flex h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent">
@@ -1872,7 +1846,7 @@ self.onmessage = function (e) {
                         </ul>
                     </div>
                     <div class="row-start-1 col-span-2 lg:row-start-auto">
-                        <form action="">
+                        <form action="" meethod="post">
                             <h2 class="font-semibold text-gray-800 dark:text-white">Subscribe now</h2>
                             <p class="text-sm mt-2 text-gray-700 dark:text-gray-300">Stay updated on new releases and features, guides, and case studies.</p>
 
@@ -1895,12 +1869,14 @@ self.onmessage = function (e) {
                             </a>
                             <span class="">© WebSharper 2009 - Present</span>
                         </div>
-                        <span>Latest version is 4.7.3.424</span>
+                        <span>Latest version is 9.0.1</span>
                     </div>
                 </div>
             </div>
         </footer>
 
         <script type="module" src="/main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js"></script>
+
     </body>
 </html>
