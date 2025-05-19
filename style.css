@@ -44,11 +44,11 @@ code {
 }
 
 .content-list {
-    @apply list-disc list-inside;
+    @apply list-disc list-outside ml-5;
 }
 
 .header {
-    @apply text-gray-950 dark:text-white;
+    @apply text-gray-950 dark:text-white text-3xl font-bold;
 }
 
 .sub-header {
@@ -57,4 +57,20 @@ code {
 
 .content {
     @apply text-gray-700 dark:text-white;
+}
+
+.template-command-container {
+    @apply mt-4 flex flex-col md:flex-row gap-6;
+}
+
+.template-cli-wrapper {
+    @apply w-full md:w-1/2;
+}
+
+.template-cli {
+    @apply mt-2 flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
+.vscode-btn {
+    @apply bg-blue-500 p-3 my-5 rounded-md hover:bg-blue-400 transition duration-300;
 }
