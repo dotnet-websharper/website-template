@@ -1,33 +1,32 @@
-name: Build and Deploy to GitHub pages
+name: Build and Deploy to GitHub Pages
 
 on: 
-    push:
-        branches:
-            - main
-    workflow_dispatch:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            - name: Set up Node.js
-              uses: actions/setupnode@v3
-              with:
-                node-version: 'lts/*'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
 
-            - name: Install dependencies
-              uses: npm install
+      - name: Install dependencies
+        run: npm install
 
-            - name: Build project
-              uses: npx vite build
+      - name: Build project
+        run: npx vite build
 
-            - name: Deploy 🚀
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                github_token: ${{ secrets.GITHUB_TOKEN }}
-                publish_dir: dist
-                keep_files: false
+      - name: Deploy 🚀
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist
