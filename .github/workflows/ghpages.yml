@@ -23,7 +23,18 @@ jobs:
         run: npm install
 
       - name: Build project
-        run: npx vite build
+        run: npm run build
+
+      - name: Move snippets into out directory
+        run: |
+          mkdir out/snippets/add_two_numbeers
+          cp -r snippets_preview/add_two_numbeers/wwwroot/* out/snippets/add_two_numbeers/
+
+          mkdir out/snippets/forms
+          cp -r snippets_preview/forms/wwwroot/* out/snippets/forms/
+
+          mkdir out/snippets/spa
+          cp -r snippets_preview/spa/wwwroot/* out/snippets/spa/
 
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
