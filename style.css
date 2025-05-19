@@ -42,3 +42,19 @@ code {
         transform: translate(-100%, 0);
     }
 }
+
+.content-list {
+    @apply list-disc list-inside;
+}
+
+.header {
+    @apply text-gray-950 dark:text-white;
+}
+
+.sub-header {
+    @apply text-gray-800 dark:text-white text-2xl font-semibold;
+}
+
+.content {
+    @apply text-gray-700 dark:text-white;
+}
