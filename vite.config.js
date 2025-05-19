@@ -3,9 +3,9 @@ import { resolve } from "path";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+    base: '/website-template/',
     build: {
         outDir: "dist",
-        base: '/website-template/',
         rollupOptions: {
             input: {
                 main: resolve(__dirname, "index.html"),
