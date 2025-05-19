@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Forms</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="Scripts/Forms.css" />
+    <style>
+        /* Don't show the not-yet-loaded templates */
+        [ws-template], [ws-children-template] { display: none; }
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            font-family: sans-serif;
+        }
+
+            :root[data-theme='dark'] {
+                --text-color: rgb(255 255 255 / 0.7);
+            }
+
+            :root[data-theme='light'] {
+                --text-color: #475569;
+            }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+
+        .input-field {
+            margin-bottom: 0.8rem;
+            white-space: pre;
+        }
+
+        input {
+            background-color: transparent;
+            border: 1px solid var(--text-color);
+            border-radius: 0.25rem;
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+
+        button {
+            border: 1px solid var(--text-color);
+            border-radius: 0.4rem;
+            padding: 0.4rem 0.8rem;
+            color: var(--text-color);
+            cursor: pointer;
+            background-color: transparent;
+            float: right;
+        }
+
+            button:hover {
+                opacity: 0.7;
+                transition-duration: 300ms;
+            }
+    </style>
+    <script type="text/javascript" src="Scripts/Forms.head.js"></script>
+</head>
+<body>
+    <div id="main" ws-children-template="Main">
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const theme = params.get('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
+    <script type="module" src="Scripts/Forms.min.js"></script>
+</body>
+</html>
