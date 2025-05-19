@@ -28,7 +28,7 @@ jobs:
       - name: Move snippets into out directory
         run: |
           mkdir out/snippets/add_two_numbeers
-          cp -r snippets_preview/add_two_numbeers/* out/snippets/add_two_numbeers/
+          cp -r snippets_preview/add_two_numbers/* out/snippets/add_two_numbers/
 
           mkdir out/snippets/forms
           cp -r snippets_preview/forms/* out/snippets/forms/
