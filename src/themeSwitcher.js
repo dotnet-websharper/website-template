@@ -6,6 +6,8 @@ if (localStorage.getItem("color-theme") === "dark" || (!("color-theme" in localS
     document.documentElement.classList.remove("dark");
 }
 
+updateAllIframesTheme();
+
 switchers.forEach((switcher) => {
     switcher.addEventListener("click", function () {
         if (localStorage.getItem("color-theme")) {
@@ -25,5 +27,21 @@ switchers.forEach((switcher) => {
                 localStorage.setItem("color-theme", "dark");
             }
         }
+
+        updateAllIframesTheme();
     });
 });
+
+function getCurrentTheme() {
+    return document.documentElement.classList.contains("dark") ? "dark" : "light";
+}
+
+function updateAllIframesTheme() {
+    const theme = getCurrentTheme();
+    const iframes = document.querySelectorAll(".themed-iframe");
+
+    iframes.forEach((iframe) =>{
+        const baseSrc = iframe.getAttribute("data-src");
+        iframe.src = `${baseSrc}?theme=${theme}`;
+    });
+}

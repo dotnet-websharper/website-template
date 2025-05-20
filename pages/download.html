@@ -73,7 +73,7 @@
 
                         <a href="https://forums.websharper.com/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
                         
-                        <a href="/pages/support.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                        <a href="./support.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
 
                         <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
                     </div>
@@ -125,7 +125,7 @@
                                     <a href="/" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
                                     <a href="https://docs.websharper.com/" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Docs</a>
                                     <a href="https://forums.websharper.com/blogs" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Blogs</a>
-                                    <a href="/support.html" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Support</a>
+                                    <a href="./support.html" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Support</a>
                                     <a href="https://forums.websharper.com/topics/all" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Forums</a>
                                 </div>
                                 <div class="py-6">
@@ -208,7 +208,7 @@
                                     a wsconfig.json configuration file.
                                 </a>
                                 <div class="pl-4 mt-4 flex items-center justify-center gap-2 flex-col">
-                                    <div class="mt-4 text-primary flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent">
+                                    <div class="template-cli">
                                         <span class="text-xs text-gray-500">$</span>
                                         <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet add package WebSharper.FSharp</span>
                                         <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
@@ -225,7 +225,7 @@
                                         </button>
                                     </div>
                                     <div class="self-center">or</div>
-                                    <div class="text-primary flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent">
+                                    <div class="template-cli">
                                         <span class="text-xs text-gray-500">$</span>
                                         <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet add package WebSharper.CSharp</span>
                                         <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
@@ -273,7 +273,7 @@
                             To install the WebSharper project templates, use the following command:
                         </p>
                         <!-- command -->
-                        <div class="mt-6 text-primary flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent">
+                        <div class="template-cli">
                             <span class="text-xs text-gray-500">$</span>
                             <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new -i WebSharper.Templates</span>
                             <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
@@ -293,7 +293,7 @@
                             To update the templates to the latest version, you can use:
                         </p>
                         <!-- command -->
-                        <div class="mt-6 text-primary flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent">
+                        <div class="template-cli">
                             <span class="text-xs text-gray-500">$</span>
                             <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new install &quot;WebSharper.Templates::*&quot;</span>
                             <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
@@ -385,7 +385,7 @@
                                     <div class="template-cli-wrapper">
                                         <p>F#:</p>
                                         <!-- command -->
-                                        <div class="mt-2 text-primary flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent">
+                                        <div class="template-cli">
                                             <span class="text-xs text-gray-500">$</span>
                                             <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new websharper-spa -lang f# -n SPA</span>
                                             <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
@@ -430,7 +430,7 @@
                                     <div class="template-cli-wrapper">
                                         <p>F#:</p>
                                         <!-- command -->
-                                        <div class="mt-2 text-primary flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent">
+                                        <div class="template-cli">
                                             <span class="text-xs text-gray-500">$</span>
                                             <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new websharper-lib -lang f# -n Library</span>
                                             <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
@@ -455,7 +455,7 @@
                                     <div class="template-cli-wrapper">
                                         <p>C#:</p>
                                         <!-- command -->
-                                        <div class="mt-2 text-primary flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent">
+                                        <div class="template-cli">
                                             <span class="text-xs text-gray-500">$</span>
                                             <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new websharper-html -n Offline</span>
                                             <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
@@ -475,7 +475,7 @@
                                     <div class="template-cli-wrapper">
                                         <p>F#:</p>
                                         <!-- command -->
-                                        <div class="mt-2 text-primary flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent">
+                                        <div class="template-cli">
                                             <span class="text-xs text-gray-500">$</span>
                                             <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new websharper-html -lang f# -n Offline</span>
                                             <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
