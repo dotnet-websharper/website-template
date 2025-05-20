@@ -68,11 +68,11 @@ code {
 }
 
 .template-cli {
-    @apply mt-2 flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent overflow-hidden text-ellipsis whitespace-nowrap shadow-md shadow-sky-600;
+    @apply mt-2 flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent overflow-hidden text-ellipsis whitespace-nowrap shadow-md shadow-gray-500 dark:shadow-sky-600;
 }
 
 .vscode-btn {
-    @apply bg-blue-500 p-3 my-5 rounded-md hover:bg-blue-400 transition duration-300;
+    @apply text-white bg-blue-500 p-3 my-5 rounded-md hover:bg-blue-400 transition duration-300;
 }
 
 option {
