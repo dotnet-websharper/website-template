@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth overflow-x-hidden">
     <head>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.png" />
@@ -248,7 +248,7 @@
                                 <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                             </a>
                         </div>
-                        <div class="-mx-6 aspect-video relative overflow-hidden lg:aspect-auto lg:-mr-16 flex items-center gap-6 justify-center">
+                        <div class="-mx-6 aspect-video relative overflow-hidden lg:aspect-auto lg:-mr-10 flex items-center gap-6 justify-center">
                             <div class="opacity-10 dark:opacity-100 absolute bottom-0 left-1/2 -z-20 h-[340px] w-full -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.gray.900/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.gray.900/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)]"></div>
                             <div class="absolute translate-y-1/2 mx-auto blur-3xl inset-0 rounded-t-full bg-brand-primary/20 dark:bg-brand-primary/20"></div>
                             <div class="relative rounded-xl p-4 shadow-xl shadow-gray-950/5 flex justify-center -space-x-2 border bg-white dark:bg-gray-950 dark:border-gray-800">
@@ -591,11 +591,11 @@
                 <div class="mx-auto max-w-xl p-8 rounded content mb-10">
                     <h2 class="header text-center mb-8">Contact us</h2>
                     
-                    <form action="">
+                    <form id="contactForm">
 
                         <!-- Subject -->
                         <div class="mb-6">
-                            <label for="emailSubject" class="block font-semibold mb-2 ">Subject</label>
+                            <label for="emailSubject" class="block font-semibold mb-2">Subject</label>
                             <input type="text" id="emailSubject" name="email-subject"
                                 class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
                                 value="WebSharper Enterprise query">
@@ -613,7 +613,7 @@
                             <!-- Email -->
                             <div>
                             <label for="emailAddress" class="block font-semibold mb-2">Your email address</label>
-                            <input type="text" id="emailAddress" name="email-address"
+                            <input type="email" id="emailAddress" name="email-address"
                                     class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
                             </div>
 
@@ -945,7 +945,7 @@
                 </div>
             </div>
         </footer>
-
+        <script type="module" src="../src/contact-form.js"></script>
         <script type="module" src="/main.js"></script>
     </body>
 </html>
