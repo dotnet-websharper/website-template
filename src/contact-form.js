@@ -1,4 +1,4 @@
-const apiUrl = "https://api.intellifactory.com/contact";
+const apiUrl = "https://api.intellifactory.com/api/contact";
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("contactForm");
