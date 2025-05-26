@@ -1,8 +1,8 @@
-const apiUrl = "";
+const apiUrl = "https://api.intellifactory.com/contact";
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("contactForm");
-    const sendButton = form.querySelector("button[type='submit']");
+    const sendButton = document.getElementById("contact-form-button");
 
     form.addEventListener("input", () => {
         sendButton.disabled = !isFormValid(form);
@@ -18,13 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const data = {
-            subject: form.emailSubject.value.trim(),
-            message: form.emailMessage.value.trim(),
-            email: form.emailAddress.value.trim(),
-            name: form.emailName.value.trim(),
-            country: form.emailCountry.value
-        };
+        let formData = new FormData();
+        formData.append("subject", form.emailSubject.value.trim());
+        formData.append("message", form.emailMessage.value.trim());
+        formData.append("email", form.emailAddress.value.trim());
+        formData.append("name", form.emailName.value.trim());
+        formData.append("country", form.emailCountry.value);
 
         sendButton.disabled = true;
         sendButton.textContent = "Sending...";
@@ -32,10 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch(apiUrl, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
+                body: formData
             });
 
             if (!response.ok) throw new Error("Server error");
@@ -46,6 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (err) {
             console.error(err);
             alert("Failed to send message. Please try again later.");
+            form.reset();
+            sendButton.disabled = true;
         } finally {
             sendButton.textContent = "Send";
         }
@@ -57,5 +55,10 @@ function isFormValid(form) {
     const email = form.emailAddress.value.trim();
     const name = form.emailName.value.trim();
 
-    return message !== "" && email !== "" && name !== "";
+    return message !== "" && email !== "" && name !== "" && isValidEmail(email);
+}
+
+function isValidEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
 }
