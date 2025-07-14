@@ -166,7 +166,6 @@
 [57.090175, "o", "\u001b[1G\u001b[0K⠼"]
 [57.171381, "o", "\u001b[1G\u001b[0K⠴"]
 [57.230872, "o", "\u001b[1G\u001b[0K"]
-[57.481832, "o", "\u001b[31m(!) Failed to run dependency scan. Skipping dependency pre-bundling. Error: failed to resolve rollupOptions.input value: \"./Scripts/WebSharper/MyProject/root.js\".\r\n    at resolvePath (file:///home/got/.npm/_npx/9ed06546b0653f96/node_modules/vite/dist/node/chunks/dep-DZ2tZksn.js:10723:29)\r\n    at async Promise.all (index 0)\r\n    at async computeEntries (file:///home/got/.npm/_npx/9ed06546b0653f96/node_modules/vite/dist/node/chunks/dep-DZ2tZksn.js:10727:49)\r\n    at async scan (file:///home/got/.npm/_npx/9ed06546b0653f96/node_modules/vite/dist/node/chunks/dep-DZ2tZksn.js:10655:19)\r\n    at async file:///home/got/.npm/_npx/9ed06546b0653f96/node_modules/vite/dist/node/chunks/dep-DZ2tZksn.js:34664:15\u001b[39m\r\n"]
 [57.486885, "o", "\r\n  \u001b[32m\u001b[1mVITE\u001b[22m v7.0.4\u001b[39m  \u001b[2mready in \u001b[0m\u001b[1m227\u001b[22m\u001b[2m\u001b[0m ms\u001b[22m\r\n\r\n"]
 [57.487335, "o", "  \u001b[32m➜\u001b[39m  \u001b[1mLocal\u001b[22m:   \u001b[36mhttp://localhost:\u001b[1m2317\u001b[22m/\u001b[39m\r\n"]
 [57.487465, "o", "\u001b[2m  \u001b[32m➜\u001b[39m  \u001b[1mNetwork\u001b[22m\u001b[2m: use \u001b[22m\u001b[1m--host\u001b[22m\u001b[2m to expose\u001b[22m\r\n"]
