@@ -38,10 +38,8 @@ function updateVisibleLineNumbers() {
     });
 }
 
-// Run initially
 updateVisibleLineNumbers();
 
-// Optional: Run again when tab is changed
 document.querySelectorAll('[role="tab"]').forEach(tab => {
     tab.addEventListener('click', () => {
         setTimeout(updateVisibleLineNumbers, 10); // slight delay for DOM update
