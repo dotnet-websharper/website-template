@@ -1449,12 +1449,12 @@ createLoginForm();</code></pre>
                                 <div class="ml-auto w-[calc(100%-4rem)] md:grid md:grid-cols-2 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 lg:divide-x lg:divide-gray-300/50 dark:lg:divide-white/10">
                                     
                                     <!-- Worker.fs snippet -->
-                                    <div class=" w-auto md:row-span-2 border md:border-r-0 md:border-b-0 border-gray-300/50 dark:border-white/10 dark:border-r-0 snippet-code">                                        
-                                        <div class="flex w-full overflow-auto py-3 pl-3 font-mono text-xs custom-scrollbar">
+                                    <div class=" w-auto md:row-span-2 border md:border-r-0 md:border-b-0 border-gray-300/50 dark:border-white/10 dark:border-r-0">                                        
+                                        <div class="flex w-full overflow-auto py-3 pl-3 font-mono text-xs snippet-code">
                                             <div>
                                                 <div aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></div>
                                             </div>
-                                            <pre class="code-block w-full -mb-16 text-wrap whitespace-pre-wrap break-words line-numbers language-fsharp overflow-auto"><code class="mt-[-14px] block language-fsharp text-wrap text-white whitespace-pre-wrap break-words">let worker = new Worker(fun self -&gt;
+                                            <pre class="code-block w-full -mb-16 text-wrap whitespace-pre-wrap break-words line-numbers language-fsharp !overflow-x-auto custom-scrollbar"><code class="mt-[-14px] block language-fsharp text-wrap text-white whitespace-pre-wrap break-words">let worker = new Worker(fun self -&gt;
   // This code runs in the worker:
   self.OnMessage &lt;- fun e -&gt;
       Console.Log(
@@ -1482,11 +1482,11 @@ worker.PostMessage("Hello, worker!")</code></pre>
                                                 <span class="text-xs">index.js</span>
                                             </div>
                                         </div>
-                                        <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent">
+                                        <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code">
                                             <div>
                                                 <div aria-hidden="true" class="line-numbers hidden w-2 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40 sm:block"></div>
                                             </div>
-                                            <pre class="code-block -mb-9  !overflow-x-hidden language-js line-numbers" ><code class="mt-[-16px] block language-js text-white">var worker = new Worker("worker.js");
+                                            <pre class="code-block -mb-9 !overflow-x-auto language-js line-numbers custom-scrollbar" ><code class="mt-[-16px] block language-js text-white">var worker = new Worker("worker.js");
 worker.postMessage("Hello, worker!");
                                             </code>
                                         </pre>
@@ -1507,11 +1507,11 @@ worker.postMessage("Hello, worker!");
                                                 <span class="text-xs">worker.js</span>
                                             </div>
                                         </div>
-                                        <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent">
+                                        <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code">
                                             <div>
                                                 <div aria-hidden="true" class="line-numbers hidden w-2 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40 sm:block"></div>
                                             </div>
-                                            <pre class="code-block -mb-8 !overflow-x-hidden md:-mb-16 language-js line-numbers"><code class="mt-[-14px] block language-js text-white">self.onmessage = function (e) {
+                                            <pre class="code-block -mb-8 !overflow-x-auto md:-mb-16 language-js line-numbers custom-scrollbar"><code class="mt-[-14px] block language-js text-white">self.onmessage = function (e) {
     console.log(
        "Received message from main thread: "
            + e.data.toString());

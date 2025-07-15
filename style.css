@@ -19,7 +19,7 @@
     @apply bg-lime-600 dark:!bg-lime-400;
 }
 .custom-scrollbar::-webkit-scrollbar {
-    @apply h-0 w-1.5;
+    @apply h-1.5 w-1.5;
 }
 .snippet-code:hover .custom-scrollbar::-webkit-scrollbar-thumb {
     @apply rounded-full bg-gray-200 transition-all duration-300 dark:bg-gray-800;
