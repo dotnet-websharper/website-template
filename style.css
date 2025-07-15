@@ -27,7 +27,9 @@
 code {
     @apply !font-mono;
 }
-
+.line-numbers .line-numbers-rows {
+  border-right: none !important;
+}
 .marquee {
     animation: marquee 20s linear infinite;
 }
