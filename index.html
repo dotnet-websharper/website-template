@@ -273,7 +273,7 @@
                                             <div class="relative w-full snippet-code">
                                                 <div class="absolute inset-0 overflow-auto custom-scrollbar" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <!-- PrismaJs line numbers -->
-                                                    <pre class="line-numbers language-fsharp"><code class="mt-[-17px] text-sm block leading-[1.13rem] language-fsharp text-white">[&lt;JavaScript&gt;]
+                                                    <pre class="line-numbers language-fsharp custom-scrollbar !overflow-auto"><code class="mt-[-17px] text-sm block leading-[1.13rem] language-fsharp text-white">[&lt;JavaScript&gt;]
 module Client =
     type IndexTemplate = Template&lt;"wwwroot/index.html", ClientLoad.FromDocument&gt;
 
@@ -301,7 +301,7 @@ module Client =
         |> Doc.RunById "main"</code></pre>
                                                 </div>
                                                 <div class="absolute inset-0 hidden overflow-hidden custom-scrollbar" role="tabpanel" aria-labelledby="tab-2" data-lang="html">
-                                                    <pre class="line-numbers -mb-20 !overflow-auto language-html"><code class="mt-[-17px] text-sm block leading-[1.13rem] language-html text-white">&lt;!DOCTYPE html&gt;
+                                                    <pre class="line-numbers -mb-20 !overflow-auto language-html custom-scrollbar"><code class="mt-[-17px] text-sm block leading-[1.13rem] language-html text-white">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
     &lt;title&gt;spa_websharper&lt;/title&gt;
@@ -443,7 +443,7 @@ module Client =
                                     </div>
                                 </div>
                                 <div class="relative rounded-b-xl bg-gray-200/10 text-xs dark:mt-px dark:bg-gray-950">
-                                    <div class="flex p-4 pl-2 overflow-auto">
+                                    <div class="flex p-4 pl-2 overflow-hidden">
                                         <div class="sm:pr-4">
                                             <pre aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></pre>
                                         </div>
@@ -463,8 +463,8 @@ let addNumbers =
 
 addNumbers |> Doc.RunById "main"</code></pre>
                                             </div>
-                                            <div class="absolute inset-0 hidden overflow-hidden transition-all duration-1000 custom-scrollbar" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                <pre class="-mb-20 !overflow-hidden line-numbers language-js"><code class="block mt-[-17px] leading-[1.13rem] language-js text-white">let x = 1;
+                                            <div class="absolute inset-0 hidden transition-all duration-1000 custom-scrollbar" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                                <pre class="-mb-20 line-numbers language-js"><code class="block mt-[-17px] leading-[1.13rem] language-js text-white">let x = 1;
 let y = 1;
 
 const inputX = document.createElement("input");
@@ -614,8 +614,7 @@ main.appendChild(result);</code></pre>
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="overflow-hidden p-4 pt-0"><code class="w-max overflow-hidden language-fsharp">type Model = { name: string }
+                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp"><pre class="p-4 pt-0"><code class="w-max language-fsharp">type Model = { name: string }
 let InitModel = { name = "" }
 
 type Message =
@@ -636,8 +635,7 @@ let View dispatch (view: View<Model>) =
 
 let Main = App.CreateSimple InitModel Update View |> App.Run</code></pre>
                                                     </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-js">let model = { name: "" };
+                                                    <div class="absolute inset-0 hidden w-max h-max" role="tabpanel" aria-labelledby="tab-2" data-lang="js"><pre class="w-max p-4 pt-0"><code class="w-max language-js">let model = { name: "" };
 
 function update(message) {
     if (message.type === "SetName") {
@@ -713,10 +711,7 @@ render();</code></pre>
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="overflow-hidden p-4 pt-0">
-                                                            <code class="w-max overflow-hidden language-fsharp">
-type Person = { name: string; age: int }
+                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp"><pre class="p-4 pt-0"><code class="w-max language-fsharp">type Person = { name: string; age: int }
 
 type ShowPerson(props) =
     inherit React.Component<Person, unit>(props)
@@ -729,10 +724,7 @@ type ShowPerson(props) =
                                                             </code>
                                                         </pre>
                                                     </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                        <pre class="w-max p-4 pt-0">
-                                                            <code class="w-max language-js">
-import React from "react";
+                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js"><pre class="w-max p-4 pt-0"><code class="w-max language-js">import React from "react";
 
 function ShowPerson(props) {
     return (
@@ -804,8 +796,7 @@ function ShowPerson(props) {
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="overflow-hidden p-4 pt-0"><code class="w-max overflow-hidden language-fsharp">// Define the application's endpoints
+                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp"><pre class="p-4 pt-0"><code class="w-max language-fsharp">// Define the application's endpoints
 type EndPoint =
     | [&lt;EndPoint "GET /articles"&gt;]
         ArticleList
@@ -899,8 +890,8 @@ let Website =
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="overflow-hidden p-4 pt-0"><code class="w-max overflow-hidden language-fsharp">let router = Router.Infer&lt;EndPoint&gt;()
+                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                        <pre class="p-4 pt-0"><code class="w-max language-fsharp">let router = Router.Infer&lt;EndPoint&gt;()
 let route = router.Install(Article 1)
 
 let view =
@@ -1004,10 +995,8 @@ render(router.currentRoute);</code></pre>
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="overflow-hidden p-4 pt-0">
-                                                            <code class="w-max overflow-hidden language-fsharp">
-query {
+                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                        <pre class="overflow-hidden p-4 pt-0"><code class="w-max overflow-hidden language-fsharp">query {
     for article in articles do
     where (article.date > start)
     sortByDescending article.date
@@ -1076,10 +1065,8 @@ select article.id;
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="overflow-hidden p-4 pt-0">
-                                                            <code class="w-max overflow-hidden language-fsharp">
-IndexTemplate.Main()
+                                                    <div class="absolute inset-0 h-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                        <pre class="p-4 pt-0"><code class="w-max language-fsharp">IndexTemplate.Main()
     .Name(newName)
     .Add(fun _ -&gt;
         People.Add(newName.Value)
@@ -1158,8 +1145,8 @@ IndexTemplate.Main()
                                             </div>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max " role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="overflow-hidden p-4 pt-0"><code class="w-max overflow-hidden language-fsharp">// Server-side, remote-callable function
+                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                        <pre class="p-4 pt-0"><code class="w-max language-fsharp">// Server-side, remote-callable function
 [&lt;Remote&gt;]
 let ServerFn () : Async&lt;string&gt; =
     async { return "Hello, world!" }
@@ -1283,7 +1270,7 @@ async function callServer() {
     
 LoginForm() |&gt; Doc.RunById "main"</code></pre>
                                             </div>
-                                            <div class="absolute inset-0 hidden overflow-hidden transition-all duration-1000 custom-scrollbar" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
+                                            <div class="absolute inset-0 hidden transition-all duration-1000 custom-scrollbar" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
                                                 <pre class="-mb-20 !overflow-auto line-numbers language-js"><code class="block leading-[1.13rem] mt-[-14px] language-js text-white">function createLoginForm() {
     const main = document.getElementById("main");
 
