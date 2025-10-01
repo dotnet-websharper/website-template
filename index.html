@@ -1099,7 +1099,9 @@ IndexTemplate.Main()
         People.Add(newName.Value)
         newName.Value &lt;- ""
     )
-    .Remove(fun _ -&gt; ()) 
+    .Remove(fun _ -&gt; 
+        People.Remove newName.Value                                                            
+    ) 
     .Doc()
                                                             </code>
                                                         </pre>
