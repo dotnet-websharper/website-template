@@ -6,3 +6,4 @@ import "./src/clipboard";
 import "./src/tabs";
 import "./src/videoPlayer"
 import "./src/lineNumbers"
+import "./src/headerSlides"

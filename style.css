@@ -83,3 +83,6 @@ code {
 option {
     @apply dark:text-gray-700;
 }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
