@@ -1166,9 +1166,7 @@ public static void Main()
                                                         </pre>
                                                     </div>
                                                     <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="html">
-                                                        <pre class="w-max p-4 pt-0">
-                                                            <code class="w-max language-html">
-&lt;h1&gt;My list of unique people&lt;/h1&gt;
+                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-html">&lt;h1&gt;My list of unique people&lt;/h1&gt;
 &lt;div ws-children-template="Main"&gt;
     &lt;input ws-var="Name" /&gt;
     &lt;button ws-onclick="Add"&gt;Add&lt;/button&gt;
@@ -1249,19 +1247,21 @@ let CallServer () : unit =
                                                         </pre>
                                                     </div>
                                                     <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                        <pre class="w-max p-4 pt-0">
-                                                            <code class="w-max language-js">
-// Server-side: This would be in your Node.js backend (e.g., using Express)
-app.get('/api/hello', async (req, res) =&gt; {
-    res.send("Hello, world!");
-});
-
-// Client-side: This would be in your frontend JS
-async function callServer() {
-    const response = await fetch('/api/hello');
-    const result = await response.text();
-    console.log(result);
+                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-js">// Server-side
+export function ServerFn(){
+  return Bind((new AjaxRemotingProvider()).Async("Server/ServerFn", []), (o) => Return(o));
 }
+
+// Client-side
+async function CallServer() {
+  const r = await fetch("/Server/ServerFn", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" }
+  });
+  const result = await r.json();   // -> "Hello, world!"
+  console.log(result);
+}
+CallServer();
                                                             </code>
                                                         </pre>
                                                     </div>
