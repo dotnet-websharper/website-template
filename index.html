@@ -443,13 +443,13 @@ module Client =
                                     </div>
                                 </div>
                                 <div class="relative rounded-b-xl bg-gray-200/10 text-xs dark:mt-px dark:bg-gray-950">
-                                    <div class="flex p-4 pl-2">
+                                    <div class="flex p-4 pl-2 overflow-auto">
                                         <div class="sm:pr-4">
                                             <pre aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></pre>
                                         </div>
                                         <div class="relative w-full snippet-code">
-                                            <div class="absolute inset-0 overflow-hidden transition-all duration-1000 custom-scrollbar" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                <pre class="line-numbers language-fsharp"><code class="mt-[-17px] block md:leading-[1.13rem] language-fsharp text-white">let x = Var.Create 1
+                                            <div class="relative transition-all duration-1000 custom-scrollbar max-w-full overflow-y-hidden pr-0 sm:pr-[52%] lg:pr-[46.8%]" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                <pre class="line-numbers language-fsharp inline-block min-w-max"><code class="mt-[-17px] block md:leading-[1.13rem] language-fsharp text-white">let x = Var.Create 1
 let y = Var.Create 1
 
 let addNumbers =
@@ -1268,8 +1268,8 @@ async function callServer() {
                                             <div aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></div>
                                         </div>
                                         <div class="relative w-full snippet-code">
-                                            <div class="absolute inset-0 overflow-hidden transition-all duration-1000 custom-scrollbar" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                <pre class="-mb-20 !overflow-auto line-numbers language-fsharp"><code class="mt-[-14px] block md:leading-[1.13rem] language-fsharp text-white">let LoginForm () =
+                                            <div class="relative transition-all duration-1000 custom-scrollbar max-w-full overflow-y-hidden pr-0 sm:pr-[52%] lg:pr-[46.8%]" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
+                                                <pre class="-mb-20 !overflow-auto line-numbers language-fsharp inline-block min-w-max"><code class="mt-[-14px] block md:leading-[1.13rem] language-fsharp text-white">let LoginForm () =
     Form.Return (fun user pass -> user, pass)
     &lt;*&gt; (Form.Yield ""
         |&gt; Validation.IsNotEmpty "Must enter a username")
