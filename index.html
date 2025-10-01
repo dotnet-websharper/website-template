@@ -996,24 +996,79 @@ render(router.currentRoute);</code></pre>
                                             <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                                 <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                     <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="overflow-hidden p-4 pt-0"><code class="w-max overflow-hidden language-fsharp">query {
-    for article in articles do
-    where (article.date > start)
-    sortByDescending article.date
-    select article.id
-}                                                                
-                                                            </code>
-                                                        </pre>
+                                                        <pre class="overflow-hidden p-4 pt-0"><code class="w-max overflow-hidden language-fsharp">type Article = { id: int; title: string; date: DateTime }
+
+let start = DateTime(2025, 9, 1)
+
+let articles : Article list = [
+    { id = 1; title = "Welcome to WebSharper"; date = DateTime(2025, 9, 20) }
+    { id = 2; title = "Async workflows 101"; date = DateTime(2025, 8, 15) }
+    { id = 3; title = "Query expressions on client"; date = DateTime(2025, 9, 28) }
+    { id = 4; title = "Remoting tips"; date = DateTime(2025, 7, 5)  }
+]
+// Query expressions (LINQ for F#)
+let recentIds =
+    query {
+        for article in articles do
+        where (article.date > start)
+        sortByDescending article.date
+        select article.id
+    }
+// Async workflows (run non-blocking work on the client)
+let loadAndShow =
+    async {
+        do! Async.Sleep 10
+        Console.Log(sprintf "Recent IDs: %A" (recentIds |> Seq.toList))
+    }    
+
+Async.Start loadAndShow
+
+// Sequence expressions (lazy generators)
+let squares =
+    seq {
+        for i in 1 .. 5 do
+            yield i * i
+    }   
+    
+Console.Log(String.concat ", " (squares |> Seq.map string))</code></pre>
                                                     </div>
                                                     <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="csharp">
-                                                        <pre class="w-max p-4 pt-0">
-                                                            <code class="w-max language-csharp">
-from article in articles
-where article.date > start
-orderby article.date descending
-select article.id;        
-                                                            </code>
-                                                        </pre>
+                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-csharp">public record Article(int Id, string Title, DateTime Date);
+// Async/await with Task (supported on client)
+public static async Task LoadAndShowAsync(IEnumerable&lt;int&gt; recentIds)
+{
+    await Task.Delay(10);
+    JS.Console.Log($&quot;Recent IDs: {string.Join(&quot;, &quot;, recentIds.Select(i =&gt; i.ToString()))}&quot;);
+}
+// Iterator (yield)
+public static IEnumerable&lt;int&gt; Squares()
+{
+    for (var i = 1; i &lt;= 5; i++)
+        yield return i * i;
+}
+public static void Main()
+{
+    var start = new DateTime(2025, 9, 1);
+
+    var articles = new List&lt;Article&gt;
+        {
+            new(1, &quot;Welcome to WebSharper&quot;, new DateTime(2025, 9, 20)),
+            new(2, &quot;Async workflows 101&quot;, new DateTime(2025, 8, 15)),
+            new(3, &quot;Query expressions on client&quot;, new DateTime(2025, 9, 28)),
+            new(4, &quot;Remoting tips&quot;, new DateTime(2025, 7, 5)),
+        };
+
+    // LINQ query
+    var recentIds =
+        from article in articles
+        where article.Date &gt; start
+        orderby article.Date descending
+        select article.Id;
+
+    LoadAndShowAsync(recentIds);
+
+    JS.Console.Log(string.Join(&quot;, &quot;, Squares().Select(i =&gt; i.ToString())));
+}</code></pre>
                                                     </div>
                                                 </div>
                                             </div>
