@@ -27,7 +27,7 @@
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
       <script type="module" crossorigin src="/website-template/assets/main-zI4Fsy3Y.js"></script>
       <link rel="stylesheet" crossorigin href="/website-template/assets/main-rhV-TQEO.css">
-      <link rel="stylesheet" crossorigin href="/website-template/assets/style-4rrHkcSk.css">
+      <link rel="stylesheet" crossorigin href="/website-template/assets/style-wHCMAz1X.css">
     </head>
     <body class="bg-white dark:bg-gray-950 overflow-x-hidden">
         <header class="absolute inset-x-0 z-20">
@@ -76,6 +76,8 @@
                         <a href="./support.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
 
                         <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
+
+                        <a href="./dsl-ai.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">DSL & AI</a>
                     </div>
                     <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
                         <button aria-label="switch theme" class="switcher group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
@@ -132,6 +134,8 @@
                                     <a href="./support.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
 
                                     <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
+
+                                    <a href="./dsl-ai.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">DSL & AI</a>
                                 </div>
                                 <div class="py-6">
                                     <ul class="-mx-3 flex">
@@ -213,20 +217,33 @@
                                     </div>
                                     </div>
 
-                                    <!-- Slide 2: dummy content (screenshot on the left) -->
-                                    <div class="min-w-full w-full snap-start shrink-0 p-2">
-                                        <div class="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                                            <img src="/website-template/images/slay.png" alt="Screenshot"
-                                                class="w-full h-auto rounded-xl shadow-2xl object-cover dark:text-white">
-                                            <div class="text-center md:text-left">
-                                            <h2 class="text-3xl font-bold text-gray-950 dark:text-white">Templates & Samples</h2>
-                                            <p class="mt-4 text-lg text-gray-700 dark:text-gray-300">
-                                                Start from a ready-made project and iterate quickly.
-                                            </p>
-                                            <a href="https://docs.websharper.com/core/getting-started"
-                                                class="w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-5">
-                                                <span class="relative text-sm">Explore docs</span>                                                
-                                            </a>
+                                    <!-- Slide 2 -->
+                                    <div class="min-w-full w-full snap-start shrink-0 p-0"> <!-- was p-2 -->
+                                        <div class="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-0 items-start">
+                                            <div class="md:col-span-1 m-0 p-0">
+                                                <img
+                                                    src="./images/slay.png"
+                                                    alt="DSL + AI"
+                                                    class="block w-full h-56 md:h-64 object-contain object-left-top m-0 p-0 rounded-none shadow-none select-none"
+                                                />
+                                            </div>
+
+                                            <div class="md:col-span-2 text-center md:text-left self-start">
+                                                <h1 class="max-w-2xl text-gray-950 dark:text-white text-4xl font-bold sm:text-5xl">
+                                                    Templates &amp; Samples
+                                                </h1>
+                                                <p class="mt-4 text-lg text-gray-700 dark:text-gray-300">
+                                                    Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+                                                </p>
+
+                                                <a href="./dsl-ai.html"
+                                                    class="mt-6 w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
+                                                            flex justify-center items-center px-6 text-white dark:text-gray-950 relative
+                                                            before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
+                                                            before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950
+                                                            hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                                                    <span class="relative text-sm">Learn more</span>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
