@@ -76,11 +76,11 @@ code {
     @apply mt-4 flex flex-col md:flex-row gap-6;
 }
 
-.template-cli-wrapper {
+.cli-wrapper {
     @apply w-full md:w-1/2;
 }
 
-.template-cli {
+.cli {
     @apply mt-2 flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent overflow-hidden text-ellipsis whitespace-nowrap shadow-md shadow-gray-500 dark:shadow-sky-600;
 }
 
