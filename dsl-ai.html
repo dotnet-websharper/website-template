@@ -305,27 +305,26 @@ type Address {
                     </li>
                 </ul>
 
-                <!-- Screenshots (placeholders) -->
-                <div class="mt-10 grid gap-4 md:grid-cols-2">
-                    <!-- Replace src paths with real captures -->
-                    <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-                        <img src="./images/warp-shot-1.png" alt="Figure 1" class="w-full h-auto body-text" />
+                <!-- Screenshots -->
+                <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <figure class="md:col-span-2 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                        <img src="./images/warp-shot-1.png" alt="Spec editor with live DSL sync" class="w-full h-auto body-text" />
                         <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
-                            Figure 1 caption
+                        Spec editor with live DSL sync
                         </figcaption>
                     </figure>
 
                     <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-                        <img src="./images/warp-shot-2.png" alt="Figure 2" class="w-full h-auto body-text" />
+                        <img src="./images/warp-shot-2.png" alt="Spec types → typed F# models" class="w-full h-auto body-text" />
                         <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
-                            Figure 2 caption
+                        Spec types → typed F# models
                         </figcaption>
                     </figure>
 
-                    <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 md:col-span-2">
-                        <img src="./images/warp-shot-3.png" alt="Figure 3" class="w-full h-auto body-text" />
+                    <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                        <img src="./images/warp-shot-3.png" alt="Spec endpoint → typed route" class="w-full h-auto body-text" />
                         <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
-                            Figure 3 caption
+                        Spec endpoint → typed route
                         </figcaption>
                     </figure>
                 </div>
@@ -343,230 +342,154 @@ type Address {
 
 
             <!-- Section: AI Integration (WS plugin) -->
-            <section id="ai-integration" class="mt-20">
-                <div class="flex flex-wrap items-center gap-3">
-                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">
-                        AI integration with the WebSharper Code Review (VS Code)
+            <section id="ai-integration" class="mt-24">
+                <!-- Headline + CTAs -->
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+                        AI code review for WebSharper (VS Code)
                     </h2>
-                    <div class="flex gap-2">
-                        <a href="https://marketplace.visualstudio.com/items?itemName=souvanxay.ws-code-review"
-                            class="w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
-                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative
-                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
-                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950
-                                    hover:before:from-gray-950 dark:hover:before:from-gray-300">
-                            <span class="relative text-sm">Install from Marketplace</span>
-                        </a>
+                    <p class="mt-2 max-w-2xl text-gray-700 dark:text-gray-300">
+                        Review, explain, and fix code without leaving the editor. Private by default, with optional WebSharper-docs context.
+                    </p>
+                    <!-- Trust badges -->
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <span class="inline-flex items-center rounded-full border border-white/20 px-3 py-1 text-xs text-white/80 dark:bg-white/10 bg-gray-900">
+                        Offline • Local Ollama
+                        </span>
+                        <span class="inline-flex items-center rounded-full border border-gray-300 px-3 py-1 text-xs text-gray-600 dark:border-white/20 dark:text-gray-300">
+                        Privacy-first • No cloud calls
+                        </span>
+                        <span class="inline-flex items-center rounded-full border border-gray-300 px-3 py-1 text-xs text-gray-600 dark:border-white/20 dark:text-gray-300">
+                        WebSharper-docs aware (RAG)
+                        </span>
+                    </div>
+                    </div>
 
-                        <a href="https://github.com/Got17/ai-code-review-vscode"
-                            class="w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
-                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative
-                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
-                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950
-                                    hover:before:from-gray-950 dark:hover:before:from-gray-300">
-                            <span class="relative text-sm">View on GitHub</span>
+                    <div class="flex gap-2">
+                    <!-- Primary CTA -->
+                    <a href="https://marketplace.visualstudio.com/items?itemName=souvanxay.ws-code-review"
+                        class="w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
+                                flex justify-center items-center px-6 text-white dark:text-gray-950 relative
+                                before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
+                                before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950
+                                hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                        <span class="relative text-sm">Get the extension</span>
+                    </a>
+                    <!-- Secondary CTA -->
+                    <a href="https://github.com/Got17/ai-code-review-vscode" class="disabled:before:bg-gray-300 group relative before:absolute before:inset-0 before:rounded-xl before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20 w-fit rounded-xl h-10 flex justify-center items-center px-6">
+                            <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white">View on GitHub</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- What it is -->
-                <p class="mt-3 text-gray-700 dark:text-gray-300">
-                    <strong>WebSharper Code Review</strong> is an offline, privacy-first AI code review extension for F# + WebSharper that
-                    runs entirely on your machine via <em>Ollama</em>. It streams suggestions as a <em>diff</em>, applies changes to the
-                    selection (or the whole file for typical sizes), and can snapshot accepted edits to a private <em>Shadow Git</em> history.
-                    A RAG toggle (ON/OFF) enriches reviews with bundled references when you want extra context.
-                </p>
-
-                <!-- Video demo -->
-                <div class="mt-10 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-                    <video controls class="w-full h-auto" autoplay muted>
+                <!-- Hero video -->
+                <div class="mt-8 overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                    <video class="w-full h-auto" autoplay loop muted playsinline preload="metadata" poster="./images/ws-plugin-poster.png" controls>
                         <source src="./videos/ws-plugin-demo.mp4" type="video/mp4" />
-                        Your browser does not support the video tag. <a href="./videos/ws-plugin-demo.mp4">Download the demo</a>.
+                        Your browser does not support the video tag.
                     </video>
                 </div>
 
-                <!-- Features -->
-                <div class="mt-8 grid gap-6 md:grid-cols-2">
-                    <div class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
-                    <h3 class="font-semibold text-gray-900 dark:text-white">Key features</h3>
-                    <ul class="mt-3 list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-4">
-                        <li>Selection-based reviews with streamed markdown + diff preview</li>
-                        <li>Default whole-file apply on typical files; <em>large-file safety</em> (≥600 lines) falls back to selection-only</li>
-                        <li><strong>Shadow Git</strong>: keep an internal snapshot history of accepted suggestions (separate from your repo)</li>
-                        <li>Model switcher to pick any local Ollama model (default shown: <code>qwen2.5-coder:7b-instruct</code>)</li>
-                        <li><strong>AI Preferences</strong>: steer naming/idioms/formatting to match your style</li>
-                        <li><strong>RAG</strong> toggle with a status pill (ON/OFF) to enrich reviews with packaged references</li>
-                        <li>Privacy-friendly: no cloud calls; everything runs locally</li>
-                    </ul>
-                    </div>
+                <!-- Value props (benefits) -->
+                <ul class="mt-10 grid gap-6 md:grid-cols-3">
+                    <li class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Stay in flow</h3>
+                        <p class="mt-2 text-gray-700 dark:text-gray-300">
+                            Get in-editor suggestions as a streamed diff. Accept or reject in one click.
+                        </p>
+                    </li>
+                    <li class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Private by design</h3>
+                        <p class="mt-2 text-gray-700 dark:text-gray-300">
+                            Runs locally with Ollama. No cloud calls. Works great offline.
+                        </p>
+                    </li>
+                    <li class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">WebSharper-aware when needed</h3>
+                        <p class="mt-2 text-gray-700 dark:text-gray-300">
+                            Toggle RAG to enrich reviews with bundled <em>WebSharper</em> context.
+                        </p>
+                    </li>
+                    <li class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Shadow Git snapshots</h3>
+                        <p class="mt-2 text-gray-700 dark:text-gray-300">
+                            Keep a private audit trail of accepted edits. Browse and roll back anytime.
+                        </p>
+                    </li>
+                    <li class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Model switcher & preferences</h3>
+                        <p class="mt-2 text-gray-700 dark:text-gray-300">
+                            Pick your local coder model and steer tone, naming, and idioms via AI Preferences.
+                        </p>
+                    </li>
+                    <li class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Works with huge files</h3>
+                        <p class="mt-2 text-gray-700 dark:text-gray-300">
+                            Large-file safety falls back to selection-only, so you never lose control.
+                        </p>
+                    </li>
+                </ul>
 
-                    <div class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
-                    <h3 class="font-semibold text-gray-900 dark:text-white">Requirements</h3>
-                    <ul class="mt-3 list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-4">
-                        <li>VS Code <span class="whitespace-nowrap">≥ 1.99</span></li>
-                        <li>Ollama running locally with a coder model (e.g., <code>qwen2.5-coder:7b-instruct</code>)</li>
-                        <li>F# source files (<code>.fs</code>) in a WebSharper project are the sweet spot</li>
-                    </ul>
-                    <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">
-                        All traffic stays on your machine. Shadow Git lives in the extension's private storage and can be cleared anytime.
-                    </p>
-                    </div>
+                <!-- Small, punchy gallery -->
+                <div class="mt-10 grid gap-4 md:grid-cols-3">
+                    <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                        <img src="./images/right-click.png" alt="Right-click: WS Code Review → Show Suggestion" class="w-full h-auto" />
+                        <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">Show Suggestion from context menu</figcaption>
+                    </figure>
+                    <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                        <img src="./images/show-suggestion-cmd.png" alt="Command Palette: Show Suggestion" class="w-full h-auto" />
+                        <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">Run from Command Palette</figcaption>
+                    </figure>
+                    <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                        <img src="./images/result.png" alt="Diff preview with Accept/Reject" class="w-full h-auto" />
+                        <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">Streamed diff • Accept / Reject</figcaption>
+                    </figure>
                 </div>
 
-                <!-- Quick start -->
-                <div class="mt-8 rounded-xl border border-gray-200 p-5 dark:border-gray-800">
-                    <h3 class="font-semibold text-gray-900 dark:text-white">Quick start</h3>
-                    <ol class="mt-3 list-decimal pl-5 text-gray-700 dark:text-gray-300 space-y-4">
-                        <li>Install the extension from Marketplace (button above) or via CLI:
-                            <div class="cli">
-                                <span class="text-xs text-gray-500">$</span>
-                                <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">code --install-extension souvanxay.ws-code-review</span>
-                                <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
-                                    <span class="sr-only">Copy</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </li>
-                        <li>Install <a href="https://ollama.com/download/windows" class="underline"><strong>Ollama</strong></a> and pull a coder model:
-                            <div class="cli">
-                                <span class="text-xs text-gray-500">$</span>
-                                <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">ollama pull qwen2.5-coder:7b-instruct</span>
-                                <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
-                                    <span class="sr-only">Copy</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </li>
-                        <li>Start <strong>Ollama</strong> server (verifies at <a href="http://localhost:11434" class="underline">http://localhost:11434</a>):
-                            <div class="cli">
-                                <span class="text-xs text-gray-500">$</span>
-                                <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">ollama serve</span>
-                                <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
-                                    <span class="sr-only">Copy</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </li>
-                        <li>Open an <code>.fs</code> file. Select the region you want to review.</li>
-                        <li>
-                            Run <em>WS Code Review: Show Suggestion</em> in any of these ways:
-                            <ul class="mt-2 list-disc pl-5 space-y-2">
-                                <li>
-                                    <span class="font-medium">Keyboard shortcut</span> -
-                                    <span class="whitespace-nowrap">Win/Linux: <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>R</kbd></span>,
-                                    <span class="whitespace-nowrap">macOS: <kbd>Ctrl</kbd> + <kbd>Cmd</kbd> + <kbd>R</kbd></span>
+                <!-- Developer details tucked away -->
+                <details class="mt-8 rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                    <summary class="cursor-pointer select-none text-sm font-semibold text-gray-900 dark:text-white">
+                        Setup & commands (for developers)
+                    </summary>
+                    <div class="mt-4 space-y-6 text-gray-700 dark:text-gray-300">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 dark:text-white">Quick start</h4>
+                            <ol class="mt-2 list-decimal pl-5 space-y-2">
+                                <li>Install from Marketplace or run <code>code --install-extension souvanxay.ws-code-review</code>.</li>
+                                <li>Install <strong>Ollama</strong>, pull a coder model (<code>ollama pull qwen2.5-coder:7b-instruct</code>), then <code>ollama serve</code>.</li>
+                                <li>Open an <code>.fs</code> file. Run <em>WS Code Review: Show Suggestion</em> via shortcut, context menu, or Command Palette.</li>
+                                <li>Accept/Reject the suggestion. Enable Shadow Git to snapshot accepts:
+                                    <code>"wsCodeReview.git.enable": true</code>.
                                 </li>
-                                <li>
-                                    <span class="font-medium">Editor context menu</span> -
-                                    right-click in the editor and choose
-                                    <span class="whitespace-nowrap">"WS Code Review: Show Suggestion"</span>
-                                    <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 my-6 w-1/2 mx-auto">
-                                        <img src="./images/right-click.png" alt="Right-click in the editor" class="w-full h-auto body-text" />
-                                        <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400  text-center">Right-click in the editor</figcaption>
-                                    </figure>
+                                <li>For WebSharper-docs-aware reviews, toggle the RAG pill or enable
+                                    <code>"wsCodeReview.rag.enable": true</code>, then Refresh.
                                 </li>
-                                <li>
-                                    <span class="font-medium">Command Palette</span> -
-                                    open <span class="whitespace-nowrap"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></span>
-                                    (macOS: <span class="whitespace-nowrap"><kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></span>),
-                                    then run <span class="whitespace-nowrap">"WS Code Review: Show Suggestion"</span>
-                                    <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 my-6 w-1/2 mx-auto">
-                                        <img src="./images/show-suggestion-cmd.png" alt="Show Suggestion in Command Palette" class="w-full h-auto body-text" />
-                                        <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">Show Suggestion in Command Palette</figcaption>
-                                    </figure>
-                                </li>
+                            </ol>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-900 dark:text-white">Commands</h4>
+                            <ul class="mt-2 list-disc pl-5 space-y-1">
+                                <li>WS Code Review: Show Suggestion</li>
+                                <li>WS Code Review: Change Ollama Model</li>
+                                <li>WS Code Review: Set / Show / Clear AI Preferences</li>
+                                <li>WS Code Review: Show / Clear Shadow Git History</li>
                             </ul>
-                        </li>
-                        <li>Review the streamed suggestion → <strong>Accept</strong> or <strong>Reject</strong>. If Shadow Git is enabled, Accept will snapshot.
-                            <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 my-6 mx-auto">
-                                <img src="./images/result.png" alt="Show Suggestion Result" class="w-full h-auto body-text" />
-                                <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">Show Suggestion Result</figcaption>
-                            </figure>                        
-                        </li>
-                        <li>
-                            <strong>(Optional) Rerun with extra context.</strong>
-                            Toggle the <strong>RAG</strong> pill (ON/OFF) in the webview
-                            <em>or</em> enable it in <strong>Workspace</strong> settings, then click <strong>Refresh</strong> to re-run with enriched WebSharper context.
+                        </div>
+                    </div>
+                </details>
 
-                            <figure class="mt-4 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto">
-                                <img src="./images/workspace-settings.png"
-                                    alt="VS Code Workspace Settings showing 'WebSharper Code Review: RAG: Enable'"
-                                    class="w-full h-auto" />
-                                <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">
-                                Workspace Settings
-                                </figcaption>
-                            </figure>
-                        </li>
-                    </ol>
-                </div>
-
-                <!-- Commands -->
-                <div class="mt-8 rounded-xl border border-gray-200 p-5 dark:border-gray-800">
-                    <h3 class="font-semibold text-gray-900 dark:text-white">Commands</h3>
-                    <ul class="mt-3 list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-4">
-                        <li><span class="font-medium">WS Code Review: Show Suggestion</span> - run review on selection or whole file</li>
-                        <li><span class="font-medium">WS Code Review: Change Ollama Model</span> - pick/switch your local coder model</li>
-                        <li><span class="font-medium">WS Code Review: Set / Show / Clear AI Preferences</span> - define and inspect reviewer hints</li>
-                        <li>
-                            <span class="font-medium">WS Code Review: Show Shadow Git History (Current File)</span> - browse internal snapshots
-                            <div class="mt-10 grid gap-4 md:grid-cols-2">
-                                <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-                                    <img src="./images/shadow-git-cmd.png" alt="Show Shadow Git History Command" class="w-full h-auto body-text" />
-                                    <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">Show Shadow Git History Command</figcaption>
-                                </figure>
-                                <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-                                    <img src="./images/shadow-git-output.png" alt="Model switcher and preferences" class="w-full h-auto body-text" />
-                                    <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">Shadow Git Ouput on Side Panel</figcaption>
-                                </figure>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="font-medium">WS Code Review: Clear Shadow Git History</span> - purge snapshots
-                            <figure class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 my-6 w-1/2 mx-auto">
-                                <img src="./images/clear-shadow-cmd.png" alt="Clear Shadow Git History Command" class="w-full h-auto body-text" />
-                                <figcaption class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">Clear Shadow Git History Command</figcaption>
-                            </figure>
-                        </li>
-                    </ul>
-                    <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">
-                    Workspace Settings: <code>wsCodeReview.git.enable</code>, <code>wsCodeReview.rag.enable</code>.
-                    </p>
-                </div>
-                
+                <!-- Soft doc CTA -->
                 <a href="https://docs.websharper.com/core/ws-ai-plugin"
                     class="mt-8 w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
                             flex justify-center items-center px-6 text-white dark:text-gray-950 relative
                             before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
                             before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950
                             hover:before:from-gray-950 dark:hover:before:from-gray-300">
-                    <span class="relative text-sm">Read the VS Code guide</span>
+                    <span class="relative text-sm">Read the guide</span>
                 </a>
             </section>
-
         </main>
 
         <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800">
