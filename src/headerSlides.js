@@ -1,10 +1,14 @@
-(() => {
+document.addEventListener('DOMContentLoaded', () => {
     const track = document.getElementById('track');
     const inner = document.getElementById('mini-inner');
-    const prev = document.getElementById('mini-prev');
-    const next = document.getElementById('mini-next');
+    const prev  = document.getElementById('mini-prev');
+    const next  = document.getElementById('mini-next');
+
+    if (!track || !inner || !prev || !next) return;
 
     const originals = Array.from(inner.children);
+    if (originals.length === 0) return;
+
     const firstClone = originals[0].cloneNode(true);
     const lastClone = originals[originals.length - 1].cloneNode(true);
     inner.insertBefore(lastClone, originals[0]);
@@ -15,28 +19,26 @@
     let timer = null;
     let animating = false;
 
-    function setTransform(withTransition) {
-        if (withTransition) {
-            inner.style.transition = 'transform 0.7s ease-out';
-        } else {
-            inner.style.transition = 'none';
-        }
+    const setTransform = (withTransition) => {
+        inner.style.transition = withTransition ? 'transform 0.7s ease-out' : 'none';
         inner.style.transform = `translateX(-${index * 100}%)`;
-    }
+    };
 
-    function goRight() {
-        if (animating) return;
-        animating = true;
-        index += 1;
-        setTransform(true);
-    }
+    const goRight = () => {
+        if (!animating) {
+            animating = true;
+            index += 1;
+            setTransform(true);
+        }
+    };
 
-    function goLeft() {
-        if (animating) return;
-        animating = true;
-        index -= 1;
-        setTransform(true);
-    }
+    const goLeft  = () => {
+        if (!animating) {
+            animating = true;
+            index -= 1;
+            setTransform(true);
+        }
+    };
 
     inner.addEventListener('transitionend', () => {
         const total = inner.children.length;
@@ -54,18 +56,17 @@
     next.addEventListener('click', goRight);
     prev.addEventListener('click', goLeft);
 
-    function start() {
+    const start = () => {
         stop();
         timer = setInterval(() => { if (!hovering) goRight(); }, 5000);
-    }
-
-    function stop() {
+    };
+    const stop  = () => {
         if (timer) clearInterval(timer);
-    }
+    };
 
     track.addEventListener('mouseenter', () => { hovering = true; });
     track.addEventListener('mouseleave', () => { hovering = false; });
 
     setTransform(false);
     start();
-})();
+});

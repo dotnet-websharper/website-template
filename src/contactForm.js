@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("contactForm");
     const sendButton = document.getElementById("contact-form-button");
 
+    if (!form || !sendButton) return;
+
     form.addEventListener("input", () => {
         sendButton.disabled = !isFormValid(form);
     });
@@ -18,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append("subject", form.emailSubject.value.trim());
         formData.append("message", form.emailMessage.value.trim());
         formData.append("email", form.emailAddress.value.trim());
