@@ -10,11 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const clearBtn = el("clearBulk");
     const refreshBtn = el("refresh");
     const saveBtn = el("saveAll");
+    const accountSelect = el("accountSelect");
 
     if (!seatsBody || !applyBtn || !clearBtn || !refreshBtn || !saveBtn) return;
 
     let subscription = null;
     let seats = [];
+    let accounts = [];
+    let accountDirty = null;
     let dirty = new Map(); // seat_id -> github_login|null
 
     // GitHub username validation
@@ -48,24 +51,30 @@ document.addEventListener("DOMContentLoaded", () => {
         const available = Math.max(total - used, 0);
         el("seatsBadge").textContent = `${used} assigned, ${available} available`;
     }
-
     function toast(msg) {
         const toast = el("toast");
+        if (!toast) 
+            return alert(msg);
+        
         toast.textContent = msg;
         toast.classList.remove("hidden");
         setTimeout(() => toast.classList.add("hidden"), 1600);
     }
-
     function showSpinner(show) {
-        el("spinner").classList.toggle("hidden", !show);
+        const sp = el("spinner");
+        if (sp) sp.classList.toggle("hidden", !show);
     }
 
     function updateSaveState() {
-        el("saveAll").disabled = dirty.size === 0;
+        const seatChanges = dirty.size > 0;
+        const accountChanged = !!(accountDirty && subscription && accountDirty !== subscription.account_name);
+        saveBtn.disabled = !(seatChanges || accountChanged);
     }
 
     window.addEventListener("beforeunload", (e) => {
-        if (dirty.size > 0) {
+        const seatChanges = dirty.size > 0;
+        const accountChanged = !!(accountDirty && subscription && accountDirty !== subscription.account_name);
+        if (seatChanges || accountChanged) {
             e.preventDefault();
         }
     });
@@ -129,10 +138,30 @@ document.addEventListener("DOMContentLoaded", () => {
             )
         );
     }
-
+    async function fetchAccounts() {
+        if (!USE_MOCK) return realGet(`${apiBase}/accounts`);
+        
+        return new Promise((res) =>
+            setTimeout(
+                () =>
+                    res([
+                        { id: "acme-inc", display: "acme-inc" },
+                        { id: "personal", display: "personal" },
+                        { id: "lab-42", display: "lab-42" },
+                    ]),
+                150
+            )
+        );
+    }
     async function saveSeatChanges(id, changes) {
         if (!USE_MOCK) return realPut(`${apiBase}/subscriptions/${id}/seats`, { seats: changes });
         return new Promise((res) => setTimeout(() => res({ ok: true, seats: changes }), 250));
+    }
+    async function saveAccountChange(id, account_name) {
+        if (!USE_MOCK) 
+            return realPut(`${apiBase}/subscriptions/${id}`, { account_name });
+
+        return new Promise((res) => setTimeout(() => res({ ok: true, account_name }), 200));
     }
 
     // Render
@@ -145,7 +174,35 @@ document.addEventListener("DOMContentLoaded", () => {
             return iso;
         }
     }
+    function renderAccounts() {
+        if (!accountSelect) 
+            return;
 
+        accountSelect.innerHTML = "";
+        if (!accounts.length) {
+            const opt = document.createElement("option");
+            opt.value = subscription?.account_name || "";
+            opt.textContent = subscription?.account_name || "No accounts";
+            accountSelect.appendChild(opt);
+            accountSelect.disabled = true;
+            return;
+        }
+        accounts.forEach((a) => {
+            const opt = document.createElement("option");
+            opt.value = a.id;
+            opt.textContent = a.display || a.id;
+            accountSelect.appendChild(opt);
+        });
+        accountSelect.disabled = false;
+        // set current
+        const current = subscription?.account_name;
+        if (current && accounts.some((a) => a.id === current)) {
+            accountSelect.value = current;
+        } else {
+            // fall back to first
+            accountSelect.value = accounts[0].id;
+        }
+    }
     function renderSubscription() {
         el("planName").textContent = subscription.plan;
         el("seatsTotal").textContent = subscription.seats_total;
@@ -153,40 +210,45 @@ document.addEventListener("DOMContentLoaded", () => {
         el("seatsUsed").textContent = used;
         el("renewsAt").textContent = formatDate(subscription.renews_at);
         el("subStatus").textContent = subscription.status;
-        el("accountName").textContent = subscription.account_name || "-";
+        
+        if (accountSelect) {
+            if (accountSelect.options.length > 0) {
+                const target = subscription.account_name || "";
+                if ([...accountSelect.options].some(o => o.value === target)) {
+                    accountSelect.value = target;
+                }
+            }
+        }
         setProgress(used, subscription.seats_total);
     }
-
     function seatRowTemplate(seatInfo, idx) {
         const inputId = `seat-${seatInfo.seat_id}`;
         const value = seatInfo.github_login ?? "";
         const status = seatInfo.github_login ? "assigned" : "unassigned";
         return `
     <tr data-seat-row="${seatInfo.seat_id}">
-    <td class="px-4 py-3">#${idx + 1}</td>
-    <td class="px-4 py-2">
+      <td class="px-4 py-3">#${idx + 1}</td>
+      <td class="px-4 py-2">
         <div class="flex items-center gap-2">
-        <label class="sr-only" for="${inputId}">GitHub username for seat #${idx + 1}</label>
-        <span class="text-gray-400">@</span>
-        <input id="${inputId}" data-seat="${seatInfo.seat_id}" value="${value}" placeholder="unassigned"
-                class="w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1"/>
+          <label class="sr-only" for="${inputId}">GitHub username for seat #${idx + 1}</label>
+          <span class="text-gray-400">@</span>
+          <input id="${inputId}" data-seat="${seatInfo.seat_id}" value="${value}" placeholder="unassigned"
+                 class="w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1"/>
         </div>
         <p class="mt-1 hidden text-xs text-red-600" id="err-${seatInfo.seat_id}">Invalid GitHub username</p>
-    </td>
-    <td class="px-4 py-3 capitalize">${status}</td>
-    <td class="px-4 py-2 text-right">
+      </td>
+      <td class="px-4 py-3 capitalize">${status}</td>
+      <td class="px-4 py-2 text-right">
         <button data-action="unassign" data-seat="${seatInfo.seat_id}"
-        class="text-sm underline text-gray-600 dark:text-gray-300 ${seatInfo.github_login ? "" : "opacity-30 pointer-events-none"}">
-        Unassign
+                class="text-sm underline text-gray-600 dark:text-gray-300 ${seatInfo.github_login ? "" : "opacity-30 pointer-events-none"}">
+          Unassign
         </button>
-    </td>
+      </td>
     </tr>`;
     }
-
     function renderSeats() {
         seatsBody.innerHTML = seats.map(seatRowTemplate).join("");
     }
-
     function wireSeatEvents() {
         seatsBody.addEventListener("input", (e) => {
             if (!e.target.matches('input[data-seat]')) 
@@ -219,7 +281,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Actions
+    // Account dropdown change
+    if (accountSelect) {
+        accountSelect.addEventListener("change", () => {
+            accountDirty = accountSelect.value || null;
+            updateSaveState();
+        });
+    }
+
+    // Bulk actions
     applyBtn.addEventListener("click", () => {
         const raw = el("bulkBox").value.trim();
         if (!raw) 
@@ -250,10 +320,14 @@ document.addEventListener("DOMContentLoaded", () => {
         el("bulkError").classList.add("hidden");
     });
 
+    // Refresh
     refreshBtn.addEventListener("click", async () => {
         showSpinner(true);
         dirty.clear();
+        accountDirty = null;
         subscription = await fetchSubscription(SUB_ID);
+        accounts = await fetchAccounts();
+        renderAccounts();
         seats = await fetchSeats(SUB_ID);
         renderSubscription();
         renderSeats();
@@ -261,15 +335,19 @@ document.addEventListener("DOMContentLoaded", () => {
         showSpinner(false);
     });
 
+    // Save
     saveBtn.addEventListener("click", async () => {
-        const changes = Array.from(dirty.entries()).map(([seat_id, login]) => ({
+        const seatChanges = Array.from(dirty.entries()).map(([seat_id, login]) => ({
             seat_id,
             github_login: login,
             action: login ? "assign" : "unassign",
         }));
-        if (!changes.length) return toast("Nothing to save");
+        const accountChanged = !!(accountDirty && subscription && accountDirty !== subscription.account_name);
 
-        // block if any invalid inputs
+        if (!seatChanges.length && !accountChanged) 
+            return toast("Nothing to save");
+
+        // block if any invalid seat inputs
         for (const [seat_id, login] of dirty.entries()) {
             if (login && !ghOk(login)) {
                 const input = seatsBody.querySelector(`input[data-seat="${seat_id}"]`);
@@ -282,21 +360,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
         showSpinner(true);
         try {
-            await saveSeatChanges(SUB_ID, changes);
-            // apply locally
-            changes.forEach((ch) => {
-                const s = seats.find((x) => x.seat_id === ch.seat_id);
-                s.github_login = ch.github_login;
-            });
-            dirty.clear();
+            // Save account if changed
+            if (accountChanged) {
+                await saveAccountChange(SUB_ID, accountDirty);
+                subscription.account_name = accountDirty;
+                accountDirty = null;
+            }
+
+            // Save seats if any
+            if (seatChanges.length) {
+                await saveSeatChanges(SUB_ID, seatChanges);
+                // apply locally
+                seatChanges.forEach((ch) => {
+                    const s = seats.find((x) => x.seat_id === ch.seat_id);
+                    s.github_login = ch.github_login;
+                });
+                dirty.clear();
+                renderSeats();
+                // brief row highlight
+                seatChanges.forEach((ch) => {
+                    const row = seatsBody.querySelector(`[data-seat-row="${ch.seat_id}"]`);
+                    row?.classList.add("bg-yellow-50", "dark:bg-yellow-900/20");
+                    setTimeout(() => row?.classList.remove("bg-yellow-50", "dark:bg-yellow-900/20"), 800);
+                });
+            }
+
             renderSubscription();
-            renderSeats();
-            // brief row highlight
-            changes.forEach((ch) => {
-                const row = seatsBody.querySelector(`[data-seat-row="${ch.seat_id}"]`);
-                row?.classList.add("bg-yellow-50", "dark:bg-yellow-900/20");
-                setTimeout(() => row?.classList.remove("bg-yellow-50", "dark:bg-yellow-900/20"), 800);
-            });
             updateSaveState();
             toast("Saved");
         } catch (e) {
@@ -311,11 +400,13 @@ document.addEventListener("DOMContentLoaded", () => {
     (async function init() {
         showSpinner(true);
         subscription = await fetchSubscription(SUB_ID);
+        accounts = await fetchAccounts();
+        renderAccounts();
         seats = await fetchSeats(SUB_ID);
         renderSubscription();
         renderSeats();
         wireSeatEvents();
         updateSaveState();
         showSpinner(false);
-    })();    
+    })();
 });
