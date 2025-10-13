@@ -310,7 +310,7 @@
                 </div>
             </section>
 
-            <section id="plans" class="scroll-my-16">
+            <!-- <section id="plans" class="scroll-my-16">
                 <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
                     <h2 class="text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">Find a plan to power your team.</h2>
                     <p class="text-center mt-4 text-lg text-gray-700 dark:text-gray-300">Find the perfect plan for your needs</p>
@@ -581,7 +581,60 @@
                         </tbody>
                     </table>
                 </div>
+            </section> -->
+            
+            <section id="plans" class="scroll-my-16">
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <h2 class="text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
+                        WebSharper Professional
+                    </h2>
+                    <p class="text-center mt-3 text-lg text-gray-700 dark:text-gray-300">
+                        Choose how many seats your team needs.
+                    </p>
+
+                    <div class="mx-auto mt-8 max-w-xl rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200 
+                                dark:bg-gray-950 dark:border-gray-800">
+                        <div class="flex items-center justify-between gap-4">
+                            <div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Price</div>
+                            <div class="text-2xl font-bold text-gray-950 dark:text-white">
+                                $2,500 <span class="text-base font-normal text-gray-600 dark:text-gray-400">/ seat / year</span>
+                            </div>
+                            </div>
+
+                            <!-- Seat selector -->
+                            <div class="flex items-center gap-2">
+                                <button id="wsSeatsMinus"
+                                        class="h-10 w-10 rounded-xl border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white"
+                                        aria-label="Decrease seats" type="button">-</button>
+                                <input id="wsSeatCount" type="number" inputmode="numeric" min="1" step="1" value="1"
+                                        class="w-20 text-center rounded-xl border border-gray-300 bg-transparent
+                                                dark:border-white/20 text-gray-900 dark:text-white h-10" aria-label="Seat count" />
+                                <button id="wsSeatsPlus"
+                                        class="h-10 w-10 rounded-xl border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white"
+                                        aria-label="Increase seats" type="button">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Total -->
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Total (yearly)</div>
+                            <div id="wsTotal" class="text-xl font-semibold text-gray-950 dark:text-white">$2,500</div>
+                        </div>
+
+                        <!-- CTA -->
+                        <a id="wsGoCheckout" href="./checkout.html?seats=1" class="w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4">
+                            <span class="relative text-sm">Continue to checkout</span>
+                        </a>
+
+                        <!-- tiny reassurance -->
+                        <p class="mt-3 text-xs text-gray-600 dark:text-gray-400 text-center">
+                            Assign GitHub usernames after purchase. Prices in USD.
+                        </p>
+                    </div>
+                </div>
             </section>
+            
             <!-- contact us -->
             <section id="contactUs" class="scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none">
                 <div class="mx-auto max-w-xl p-8 rounded content mb-10">
@@ -943,5 +996,6 @@
             </div>
         </footer>
         <script type="module" src="./main.js"></script>
+        <script type="module" src="./src/seatSelector.js"></script>
     </body>
 </html>
