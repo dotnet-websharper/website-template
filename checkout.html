@@ -196,21 +196,21 @@
                     <div class="fixed bottom-0 z-10 inset-x-0 px-12 border-t dark:border-gray-800 shadow-lg md:z-0 md:border-none md:shadow-none md:px-0 bg-white dark:bg-gray-900 dark:md:bg-transparent md:bg-transparent md:static mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400">
                         <div class="py-3 flex justify-between">
                             <p>Subtotal</p>
-                            <p class="font-medium text-gray-950 dark:text-white">$2,500</p>
+                            <p id="wsSubtotal" aria-live="polite" class="font-medium text-gray-950 dark:text-white">$2,500</p>
                         </div>
                         <div class="py-3 flex justify-between">
                             <p>Taxes</p>
-                            <p class="font-medium text-gray-950 dark:text-white">$0</p>
+                            <p id="wsTaxes" class="font-medium text-gray-950 dark:text-white">$0</p>
                         </div>
                         <div class="py-3 flex justify-between">
                             <p class="text-gray-950 dark:text-white font-medium">Total</p>
-                            <p class="font-medium text-gray-950 dark:text-white">$2,500</p>
+                            <p id="wsTotal" aria-live="polite" class="font-medium text-gray-950 dark:text-white">$2,500</p>
                         </div>
                     </div>
                 </div>
                 <div class="pb-56 md:max-w-md md:w-1/2 md:pt-16 md:pb-16">
                     <form action="">
-                        <h2 class="mt-12 md:mt-2 text-xl font-semibold text-gray-950 dark:text-white">Pay with PayPal</h2>
+                        <h2 class="mt-12 md:mt-2 text-xl font-semibold text-gray-950 dark:text-white">Payment details</h2>
                         <div class="mt-12 space-y-6">
                             <div class="mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2">
                                 <label class="block font-medium text-sm" for="email">Email</label>
@@ -259,7 +259,7 @@
                                     <span class="ml-2.5 leading-none text-gray-700 peer-peer-disabled:text-gray-300 dark:text-gray-300 dark:peer-peer-disabled:text-gray-700 select-none block font-medium text-sm">I represent a company</span>
                                 </label>
                             </div>
-                            <div class="hidden peer-has-[:checked]:block mt-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2.5">
+                            <div id="companyBlock" class="hidden peer-has-[:checked]:block mt-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2.5">
                                 <label class="block font-medium text-sm" for="company-name">Company</label>
                                 <div class="-space-y-px">
                                     <input placeholder="Name" class="hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-t-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" required id="company-name" name="company-name" />
@@ -275,14 +275,17 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="mt-12 flex justify-center items-center h-14 border border-dashed rounded-xl dark:border-gray-800 text-gray-300 dark:text-gray-600">
-                            PayPal Payment Button
-                        </div>
+                        <button id="wsContinue"
+                            type="button"
+                            class="mt-12 w-full rounded-xl h-14 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                            <span class="relative text-sm">Continue to payment</span>
+                        </button>
                     </form>
                 </div>
             </div>
         </main>
 
         <script type="module" src="/main.js"></script>
+        <script type="module" src="/src/checkout.js"></script>
     </body>
 </html>
