@@ -1,5 +1,8 @@
+import "./authGate";
+
 const PRICE_PER_SEAT = 2500;
-const BACKEND_API = "http://api.intellifactory.com";
+const API_BASE_URL = 'http://localhost:55482'; // https://api.websharper.com
+const CHECKOUT_SESSION_ENDPOINT = `${API_BASE_URL}/checkout/session`;
 
 const format = n => `$${n.toLocaleString("en-US")}`;
 const clamp = n => Math.max(1, Math.min(999, n | 0));
@@ -88,7 +91,7 @@ continueBtn?.addEventListener("click", async () => {
   continueBtn.textContent = "Processing…";
 
   try {
-    const resp = await fetch(BACKEND_API, {
+    const resp = await fetch(CHECKOUT_SESSION_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
