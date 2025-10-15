@@ -1,4 +1,3 @@
-import "./authGate";
 
 const PRICE_PER_SEAT = 2500;
 const API_BASE_URL = 'http://localhost:55482'; // https://api.websharper.com
