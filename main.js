@@ -5,6 +5,7 @@ import "./src/navmenu";
 import "./src/clipboard";
 import "./src/tabs";
 import "./src/lineNumbers";
+import "./src/auth.js"
 
 document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById('ws-template');
