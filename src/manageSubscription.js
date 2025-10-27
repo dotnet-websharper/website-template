@@ -1,412 +1,514 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const USE_MOCK = true; // set to false when backend is ready
-    const apiBase = "https://api.intellifactory.com/api";
-    const SUB_ID = new URLSearchParams(location.search).get("sub") || "demo-sub-1";
-    const token = localStorage.getItem("if_api_token") || "demo-token"; // placeholder
+import { API } from "./ws-auth";
 
-    const el = (id) => document.getElementById(id);
-    const seatsBody = el("seatsBody");
-    const applyBtn = el("applyBulk");
-    const clearBtn = el("clearBulk");
-    const refreshBtn = el("refresh");
-    const saveBtn = el("saveAll");
-    const accountSelect = el("accountSelect");
+// DOM helpers
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const toggleHidden = (el, hidden) => el?.classList.toggle("hidden", hidden);
 
-    if (!seatsBody || !applyBtn || !clearBtn || !refreshBtn || !saveBtn) return;
+// UI references
+const UI = Object.freeze({
+    content: $("#settingsContent"),
+    tabs: $$(".settings-tab"),
+    pages: $$("[data-page]"),
+    toast: $("#toast"),
+    spinner: $("#spinner"),
 
-    let subscription = null;
-    let seats = [];
-    let accounts = [];
-    let accountDirty = null;
-    let dirty = new Map(); // seat_id -> github_login|null
+    // subscription page
+    subscriptionSelect: $("#subscriptionSelect"),
+    planName: $("#planName"),
+    seatsUsed: $("#seatsUsed"),
+    seatsTotal: $("#seatsTotal"),
+    seatProgress: $("#seatProgress"),
+    seatsBody: $("#seatsBody"),
+    bulkBox: $("#bulkBox"),
+    bulkError: $("#bulkError"),
+    applyBulk: $("#applyBulk"),
+    clearBulk: $("#clearBulk"),
+    btnAddSubscription: $("#btnAddSubscription"),
+    refresh: $("#refresh"),
 
-    // GitHub username validation
-    const ghOk = (u) => {
-        if (typeof u !== "string") 
-            return false;
+    // invoices
+    invoiceBody: $("#invoiceBody"),
 
-        const v = u.trim();
+    // billing page
+    billingView: $("#billingView"),
+    billingEdit: $("#billingEdit"),
+    billingForm: $("#billingForm"),
+    btnBillingEdit: $("#btnBillingEdit"),
+    btnBillingSave: $("#btnBillingSave"),
+    btnBillingCancel: $("#btnBillingCancel"),
 
-        if (!v) 
-            return false;
+    saveBilling: $("#saveBilling"),
+});
 
-        if (!/^[A-Za-z0-9-]{1,39}$/.test(v)) 
-            return false;
+// Utilities
+function showPage(pageKey) {
+    UI.pages.forEach((p) => p.classList.toggle("hidden", p.dataset.page !== pageKey));
+    
+    UI.tabs.forEach((t) => {
+        const active = t.dataset.nav === pageKey;
+        t.classList.toggle("bg-gray-100", active);
+        t.classList.toggle("dark:bg-white/5", active);
+    });
+}
 
-        if (v.startsWith("-") || v.endsWith("-")) 
-            return false;
+function getRouteFromHash() {
+    return location.hash.replace("#", "") || "subs";
+}
 
-        if (v.includes("--")) 
-            return false; // GitHub disallows consecutive hyphens in some contexts
+function navigate(hash) {
+    if (location.hash !== `#${hash}`) 
+        location.hash = hash;
 
-        return true;
+    showPage(hash);
+}
+
+function formatMoney(cents, currency = "usd") {
+    const amount = (Number(cents) || 0) / 100;
+    return amount.toLocaleString(undefined, {
+        style: "currency",
+        currency: currency.toUpperCase(),
+    });
+}
+
+function showToast(msg = "Saved") {
+    if (!UI.toast) return;
+    UI.toast.textContent = msg;
+    toggleHidden(UI.toast, false);
+    setTimeout(() => toggleHidden(UI.toast, true), 1600);
+}
+
+function setLoading(on) {
+    toggleHidden(UI.spinner, !on);
+}
+
+// Seats table actions
+function onSeatsBodyClick(e) {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+
+    const seatNo = Number(btn.dataset.seat);
+    const input = UI.seatsBody.querySelector(`[data-seat-input="${seatNo}"]`);
+    const username = input?.value.trim();
+    const subId = state.currentSubId;
+
+    (async () => {
+        try {
+            setLoading(true);
+            if (btn.dataset.action === "assign") {
+                if (!username) return;
+                await apiAssignSeat(subId, seatNo, username);
+            } else {
+                await apiUnassignSeat(subId, seatNo);
+            }
+            await loadSeats();
+            renderSummary();
+            renderSeats();
+            showToast("Updated");
+        } finally {
+            setLoading(false);
+        }
+    })();
+}
+
+// Auth
+async function requireAuth() {
+    const res = await fetch(`${API}/auth/me`, { credentials: "include" });
+    if (res.status === 200) 
+        return res.json();
+
+    // Not authenticated -> redirect to GitHub OAuth and return back to this page
+    const returnUrl = "/manage-subscription.html";
+    location.href = `${API}/auth/github/start?returnUrl=${encodeURIComponent(returnUrl)}`;
+    throw new Error("Redirecting to login…");
+}
+
+// Mock API (replace with real endpoints)
+// GET  /subscriptions
+// GET  /subscriptions/:id
+// GET  /subscriptions/:id/seats
+// POST /subscriptions/:id/seats/assign  -> { seatNo, username }
+// POST /subscriptions/:id/seats/unassign -> { seatNo }
+// POST /subscriptions/:id/seats/bulk-assign -> { usernames: string[] }
+// GET  /subscriptions/:id/invoices
+// GET  /billing
+// POST /billing
+const mockDb = {
+    subs: [
+        { id: "sub_1", label: "Professional (5 seats) — Jul 12 2025", plan: "Professional", totalSeats: 5, renewsAt: "2025-07-12", status: "active",   currency: "usd" },
+        { id: "sub_2", label: "Professional (10 seats) — Aug 12 2025", plan: "Professional", totalSeats: 10, renewsAt: "2025-08-12", status: "trialing", currency: "usd" },
+    ],
+    seats: {
+        sub_1: [
+            { seatNo: 1, username: "alice",   status: "assigned" },
+            { seatNo: 2, username: "bob-dev", status: "assigned" },
+            { seatNo: 3, username: "",        status: "available" },
+            { seatNo: 4, username: "",        status: "available" },
+            { seatNo: 5, username: "",        status: "available" },
+        ],
+        sub_2: Array.from({ length: 10 }, (_, i) => ({ seatNo: i + 1, username: "", status: "available" })),
+    },
+    invoices: {
+        sub_1: [
+            { id: "inv_2025_0001", date: "2025-07-12", amount: 250000, currency: "usd", status: "paid" },
+            { id: "inv_2025_0002", date: "2025-08-12", amount: 250000, currency: "usd", status: "open" },
+        ],
+        sub_2: [
+            { id: "inv_2025_0003", date: "2025-08-12", amount: 500000, currency: "usd", status: "paid" },
+        ],
+    },
+    billing: { name: "", vatin: "", line1: "", city: "", postal_code: "", country: "" },
+};
+
+async function apiListSubscriptions() {
+    return mockDb.subs;
+}
+async function apiGetSeats(subId) {
+    return mockDb.seats[subId] ? mockDb.seats[subId].map((x) => ({ ...x })) : [];
+}
+async function apiGetInvoices(subId) {
+    return mockDb.invoices[subId] ? mockDb.invoices[subId].map((x) => ({ ...x })) : [];
+}
+async function apiAssignSeat(subId, seatNo, username) {
+    const rows = mockDb.seats[subId] || [];
+    const row = rows.find((r) => r.seatNo === seatNo);
+    if (!row) return { ok: false };
+    row.username = username;
+    row.status = username ? "assigned" : "available";
+    return { ok: true };
+}
+async function apiUnassignSeat(subId, seatNo) {
+    const rows = mockDb.seats[subId] || [];
+    const row = rows.find((r) => r.seatNo === seatNo);
+    if (!row) return { ok: false };
+    row.username = "";
+    row.status = "available";
+    return { ok: true };
+}
+async function apiBulkAssign(subId, usernames) {
+    const rows = mockDb.seats[subId] || [];
+    const queue = usernames.slice();
+    for (const r of rows) {
+        if (!queue.length) break;
+        if (!r.username) {
+            r.username = queue.shift();
+            r.status = "assigned";
+        }
+    }
+    return { ok: true };
+}
+async function apiGetBilling() {
+    return { ...mockDb.billing };
+}
+async function apiSaveBilling(data) {
+    mockDb.billing = { ...mockDb.billing, ...data };
+    return { ok: true };
+}
+
+// State
+const state = {
+    user: null,
+    subs: [],
+    currentSubId: null,
+    seats: [],
+    invoices: [],
+    billing: null
+};
+
+// Renderers
+function renderSubscriptionSelector() {
+    const sel = UI.subscriptionSelect;
+    sel.innerHTML = "";
+
+    state.subs.forEach((s) => {
+        const opt = document.createElement("option");
+        opt.value = s.id;
+        opt.textContent = s.label;
+        sel.appendChild(opt);
+    });
+
+    if (state.currentSubId && state.subs.some((s) => s.id === state.currentSubId)) {
+        sel.value = state.currentSubId;
+    } else if (state.subs[0]) {
+        state.currentSubId = state.subs[0].id;
+        sel.value = state.currentSubId;
+    }
+}
+
+function renderSummary() {
+    if (!UI.planName || !UI.seatsUsed || !UI.seatsTotal || !UI.seatProgress) {
+        console.warn("Summary elements not found; render skipped.");
+        return;
+    }
+
+    const sub = state.subs.find((s) => s.id === state.currentSubId);
+    const used = state.seats.filter((x) => x.status === "assigned").length;
+    const total = sub?.totalSeats ?? 0;
+    const avail = Math.max(0, total - used);
+
+    UI.planName.textContent = sub?.plan ?? "-";
+    UI.seatsUsed.textContent = String(used);
+    UI.seatsTotal.textContent = String(total);
+
+    const renewsAtEl = $("#renewsAt");
+    const subStatusEl = $("#subStatus");
+    if (renewsAtEl) renewsAtEl.textContent = sub?.renewsAt ?? "-";
+    if (subStatusEl) subStatusEl.textContent = sub?.status ?? "-";
+
+    const pct = total ? Math.round((used / total) * 100) : 0;
+    UI.seatProgress.style.width = `${pct}%`;
+}
+
+function renderSeats() {
+    UI.seatsBody.innerHTML = "";
+    state.seats.forEach(({ seatNo, username, status }) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td class="px-4 py-3">#${seatNo}</td>
+            <td class="px-4 py-3">
+                <input data-seat-input="${seatNo}" value="${username || ""}"
+                    class="w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm"
+                    placeholder="github-username" />
+            </td>
+            <td class="px-4 py-3">
+                <span class="inline-flex items-center rounded-full border px-2 py-0.5 text-xs
+                    ${status === "assigned"
+                        ? "border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300"
+                        : "border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300"}">
+                    ${status}
+                </span>
+            </td>
+            <td class="px-4 py-3 text-right whitespace-nowrap">
+                <button data-action="assign" data-seat="${seatNo}"
+                    class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20 mr-2">
+                    Assign
+                </button>
+                <button data-action="unassign" data-seat="${seatNo}"
+                    class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20">
+                    Unassign
+                </button>
+            </td>
+        `;
+        UI.seatsBody.appendChild(tr);
+    });
+}
+
+function renderInvoices() {
+    UI.invoiceBody.innerHTML = "";
+    const sub = state.subs.find((s) => s.id === state.currentSubId);
+
+    state.invoices.forEach((inv) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td class="px-4 py-3">${inv.id}</td>
+            <td class="px-4 py-3">${inv.date}</td>
+            <td class="px-4 py-3">${formatMoney(inv.amount, inv.currency || sub?.currency || "usd")}</td>
+            <td class="px-4 py-3 capitalize">${inv.status}</td>
+            <td class="px-4 py-3 text-right">
+                <a class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20"
+                    href="./invoice.html?id=${encodeURIComponent(inv.id)}&sub=${encodeURIComponent(state.currentSubId)}"
+                    target="_blank" rel="noopener">
+                    View
+                </a>
+            </td>
+        `;
+        UI.invoiceBody.appendChild(tr);
+    });
+}
+
+// Billing view/edit helpers
+function setBillingMode(mode) {
+    const editing = mode === "edit";
+    toggleHidden(UI.billingView, editing);     // show in view
+    toggleHidden(UI.billingEdit, !editing);    // show in edit
+    toggleHidden(UI.btnBillingEdit, editing);  // Edit visible only in view
+    toggleHidden(UI.btnBillingSave, !editing); // Save/Cancel visible only in edit
+    toggleHidden(UI.btnBillingCancel, !editing);
+}
+
+function renderBillingView(data) {
+    const displayValue = (id, val) => { 
+        const el = document.getElementById(id); 
+        if (el) 
+            el.textContent = val || "—"; 
     };
 
-    const norm = (v) => (v && typeof v === "string" ? v.trim().toLowerCase() : null);
+    displayValue("v_name", data?.name);
+    displayValue("v_vatin", data?.vatin);
+    displayValue("v_line1", data?.line1);
+    displayValue("v_city", data?.city);
+    displayValue("v_postal_code", data?.postal_code);
+    displayValue("v_country", data?.country);
+}
 
-    function setProgress(used, total) {
-        const usagePercentage = total > 0 ? Math.round((used / total) * 100) : 0;
-        el("seatProgress").style.width = usagePercentage + "%";
+function populateBillingForm(data) {
+    if (!UI.billingForm) 
+        return;
 
-        const available = Math.max(total - used, 0);
-        el("seatsBadge").textContent = `${used} assigned, ${available} available`;
+    for (const [k, v] of Object.entries(data || {})) {
+        const el = UI.billingForm.querySelector(`[name="${k}"]`);
+        if (el) el.value = v ?? "";
     }
-    function toast(msg) {
-        const toast = el("toast");
-        if (!toast) 
-            return alert(msg);
-        
-        toast.textContent = msg;
-        toast.classList.remove("hidden");
-        setTimeout(() => toast.classList.add("hidden"), 1600);
-    }
-    function showSpinner(show) {
-        const sp = el("spinner");
-        if (sp) sp.classList.toggle("hidden", !show);
-    }
+}
 
-    function updateSaveState() {
-        const seatChanges = dirty.size > 0;
-        const accountChanged = !!(accountDirty && subscription && accountDirty !== subscription.account_name);
-        saveBtn.disabled = !(seatChanges || accountChanged);
-    }
+// Loaders
+async function loadSubscriptions() {
+    state.subs = await apiListSubscriptions();
+}
+async function loadSeats() {
+    state.seats = await apiGetSeats(state.currentSubId);
+}
+async function loadInvoices() {
+    state.invoices = await apiGetInvoices(state.currentSubId);
+}
+async function loadBillingForm() {
+    const data = await apiGetBilling();
+    state.billing = data;
+    renderBillingView(data);
+    populateBillingForm(data);
+    setBillingMode("view"); // default to read-only
+}
 
-    window.addEventListener("beforeunload", (e) => {
-        const seatChanges = dirty.size > 0;
-        const accountChanged = !!(accountDirty && subscription && accountDirty !== subscription.account_name);
-        if (seatChanges || accountChanged) {
-            e.preventDefault();
-        }
-    });
+// Bulk + events
+function parseUsernames(s) {
+    return s
+        .split(/[\s,]+/)
+        .map((x) => x.trim())
+        .filter(Boolean)
+        .slice(0, 999);
+}
 
-    // Real fetch helpers
-    async function realGet(url) {
-        const response = await fetch(url, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!response.ok) throw new Error(await response.text());
-        return response.json();
-    }
+function wireEvents() {
+    UI.tabs.forEach((t) => t.addEventListener("click", () => navigate(t.dataset.nav)));
 
-    async function realPut(url, body) {
-        const response = await fetch(url, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-                "Idempotency-Key": `seats-batch-${crypto.randomUUID?.() || Date.now()}`,
-            },
-            body: JSON.stringify(body),
-        });
-        if (!response.ok) throw new Error(await response.text());
-        return response.json();
+    window.addEventListener("hashchange", () => showPage(getRouteFromHash()));
+
+    if (!UI.seatsBody._wired) {
+        UI.seatsBody.addEventListener("click", onSeatsBodyClick);
+        UI.seatsBody._wired = true;
     }
 
-    // Mock fetch (remove when backend is ready)
-    async function fetchSubscription(id) {
-        if (!USE_MOCK) return realGet(`${apiBase}/subscriptions/${id}`);
-        return new Promise((res) =>
-            setTimeout(
-                () =>
-                    res({
-                        id,
-                        plan: "Professional",
-                        seats_total: 5,
-                        seats_used: 2,
-                        renews_at: "2026-01-01",
-                        status: "active",
-                        account_name: "acme-inc",
-                    }),
-                200
-            )
-        );
-    }
-
-    async function fetchSeats(id) {
-        if (!USE_MOCK) return realGet(`${apiBase}/subscriptions/${id}/seats`);
-        return new Promise((res) =>
-            setTimeout(
-                () =>
-                    res([
-                        { seat_id: "s1", github_login: "alice", status: "assigned", assigned_at: "2025-01-01" },
-                        { seat_id: "s2", github_login: "bob-dev", status: "assigned", assigned_at: "2025-01-03" },
-                        { seat_id: "s3", github_login: null, status: "unassigned" },
-                        { seat_id: "s4", github_login: null, status: "unassigned" },
-                        { seat_id: "s5", github_login: null, status: "unassigned" },
-                    ]),
-                200
-            )
-        );
-    }
-    async function fetchAccounts() {
-        if (!USE_MOCK) return realGet(`${apiBase}/accounts`);
-        
-        return new Promise((res) =>
-            setTimeout(
-                () =>
-                    res([
-                        { id: "acme-inc", display: "acme-inc" },
-                        { id: "personal", display: "personal" },
-                        { id: "lab-42", display: "lab-42" },
-                    ]),
-                150
-            )
-        );
-    }
-    async function saveSeatChanges(id, changes) {
-        if (!USE_MOCK) return realPut(`${apiBase}/subscriptions/${id}/seats`, { seats: changes });
-        return new Promise((res) => setTimeout(() => res({ ok: true, seats: changes }), 250));
-    }
-    async function saveAccountChange(id, account_name) {
-        if (!USE_MOCK) 
-            return realPut(`${apiBase}/subscriptions/${id}`, { account_name });
-
-        return new Promise((res) => setTimeout(() => res({ ok: true, account_name }), 200));
-    }
-
-    // Render
-    function formatDate(iso) {
-        if (!iso) return "-";
+    UI.subscriptionSelect.addEventListener("change", async () => {
+        state.currentSubId = UI.subscriptionSelect.value;
+        setLoading(true);
         try {
-            const date = new Date(iso);
-            return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
-        } catch {
-            return iso;
-        }
-    }
-    function renderAccounts() {
-        if (!accountSelect) 
-            return;
-
-        accountSelect.innerHTML = "";
-        if (!accounts.length) {
-            const opt = document.createElement("option");
-            opt.value = subscription?.account_name || "";
-            opt.textContent = subscription?.account_name || "No accounts";
-            accountSelect.appendChild(opt);
-            accountSelect.disabled = true;
-            return;
-        }
-        accounts.forEach((a) => {
-            const opt = document.createElement("option");
-            opt.value = a.id;
-            opt.textContent = a.display || a.id;
-            accountSelect.appendChild(opt);
-        });
-        accountSelect.disabled = false;
-        // set current
-        const current = subscription?.account_name;
-        if (current && accounts.some((a) => a.id === current)) {
-            accountSelect.value = current;
-        } else {
-            // fall back to first
-            accountSelect.value = accounts[0].id;
-        }
-    }
-    function renderSubscription() {
-        el("planName").textContent = subscription.plan;
-        el("seatsTotal").textContent = subscription.seats_total;
-        const used = seats.filter((s) => !!s.github_login).length;
-        el("seatsUsed").textContent = used;
-        el("renewsAt").textContent = formatDate(subscription.renews_at);
-        el("subStatus").textContent = subscription.status;
-        
-        if (accountSelect) {
-            if (accountSelect.options.length > 0) {
-                const target = subscription.account_name || "";
-                if ([...accountSelect.options].some(o => o.value === target)) {
-                    accountSelect.value = target;
-                }
-            }
-        }
-        setProgress(used, subscription.seats_total);
-    }
-    function seatRowTemplate(seatInfo, idx) {
-        const inputId = `seat-${seatInfo.seat_id}`;
-        const value = seatInfo.github_login ?? "";
-        const status = seatInfo.github_login ? "assigned" : "unassigned";
-        return `
-    <tr data-seat-row="${seatInfo.seat_id}">
-      <td class="px-4 py-3">#${idx + 1}</td>
-      <td class="px-4 py-2">
-        <div class="flex items-center gap-2">
-          <label class="sr-only" for="${inputId}">GitHub username for seat #${idx + 1}</label>
-          <span class="text-gray-400">@</span>
-          <input id="${inputId}" data-seat="${seatInfo.seat_id}" value="${value}" placeholder="unassigned"
-                 class="w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1"/>
-        </div>
-        <p class="mt-1 hidden text-xs text-red-600" id="err-${seatInfo.seat_id}">Invalid GitHub username</p>
-      </td>
-      <td class="px-4 py-3 capitalize">${status}</td>
-      <td class="px-4 py-2 text-right">
-        <button data-action="unassign" data-seat="${seatInfo.seat_id}"
-                class="text-sm underline text-gray-600 dark:text-gray-300 ${seatInfo.github_login ? "" : "opacity-30 pointer-events-none"}">
-          Unassign
-        </button>
-      </td>
-    </tr>`;
-    }
-    function renderSeats() {
-        seatsBody.innerHTML = seats.map(seatRowTemplate).join("");
-    }
-    function wireSeatEvents() {
-        seatsBody.addEventListener("input", (e) => {
-            if (!e.target.matches('input[data-seat]')) 
-                return;
-
-            const id = e.target.dataset.seat;
-            const val = norm(e.target.value);
-            const err = el(`err-${id}`);
-
-            if (val && !ghOk(val)) {
-                e.target.classList.add("ring-1", "ring-red-500");
-                err?.classList.remove("hidden");
-            } else {
-                e.target.classList.remove("ring-1", "ring-red-500");
-                err?.classList.add("hidden");
-            }
-            dirty.set(id, val || null);
-            updateSaveState();
-        });
-
-        seatsBody.addEventListener("click", (e) => {
-            if (!e.target.matches('button[data-action="unassign"]')) return;
-            const id = e.target.dataset.seat;
-            const input = seatsBody.querySelector(`input[data-seat="${id}"]`);
-            input.value = "";
-            input.classList.remove("ring-1", "ring-red-500");
-            el(`err-${id}`)?.classList.add("hidden");
-            dirty.set(id, null);
-            updateSaveState();
-        });
-    }
-
-    // Account dropdown change
-    if (accountSelect) {
-        accountSelect.addEventListener("change", () => {
-            accountDirty = accountSelect.value || null;
-            updateSaveState();
-        });
-    }
-
-    // Bulk actions
-    applyBtn.addEventListener("click", () => {
-        const raw = el("bulkBox").value.trim();
-        if (!raw) 
-            return;
-
-        const list = raw.split(/[\s,]+/).map((x) => norm(x)).filter(Boolean);
-        const invalid = list.filter((u) => !ghOk(u));
-
-        if (invalid.length) {
-            el("bulkError").classList.remove("hidden");
-            return;
-        }
-
-        el("bulkError").classList.add("hidden");
-        const empties = seats.filter((s) => !s.github_login);
-
-        for (let i = 0; i < empties.length && i < list.length; i++) {
-            const seatId = empties[i].seat_id;
-            const input = seatsBody.querySelector(`input[data-seat="${seatId}"]`);
-            input.value = list[i];
-            dirty.set(seatId, list[i]);
-        }
-        updateSaveState();
-    });
-
-    clearBtn.addEventListener("click", () => {
-        el("bulkBox").value = "";
-        el("bulkError").classList.add("hidden");
-    });
-
-    // Refresh
-    refreshBtn.addEventListener("click", async () => {
-        showSpinner(true);
-        dirty.clear();
-        accountDirty = null;
-        subscription = await fetchSubscription(SUB_ID);
-        accounts = await fetchAccounts();
-        renderAccounts();
-        seats = await fetchSeats(SUB_ID);
-        renderSubscription();
-        renderSeats();
-        updateSaveState();
-        showSpinner(false);
-    });
-
-    // Save
-    saveBtn.addEventListener("click", async () => {
-        const seatChanges = Array.from(dirty.entries()).map(([seat_id, login]) => ({
-            seat_id,
-            github_login: login,
-            action: login ? "assign" : "unassign",
-        }));
-        const accountChanged = !!(accountDirty && subscription && accountDirty !== subscription.account_name);
-
-        if (!seatChanges.length && !accountChanged) 
-            return toast("Nothing to save");
-
-        // block if any invalid seat inputs
-        for (const [seat_id, login] of dirty.entries()) {
-            if (login && !ghOk(login)) {
-                const input = seatsBody.querySelector(`input[data-seat="${seat_id}"]`);
-                input?.classList.add("ring-1", "ring-red-500");
-                el(`err-${seat_id}`)?.classList.remove("hidden");
-                toast("Fix invalid usernames");
-                return;
-            }
-        }
-
-        showSpinner(true);
-        try {
-            // Save account if changed
-            if (accountChanged) {
-                await saveAccountChange(SUB_ID, accountDirty);
-                subscription.account_name = accountDirty;
-                accountDirty = null;
-            }
-
-            // Save seats if any
-            if (seatChanges.length) {
-                await saveSeatChanges(SUB_ID, seatChanges);
-                // apply locally
-                seatChanges.forEach((ch) => {
-                    const s = seats.find((x) => x.seat_id === ch.seat_id);
-                    s.github_login = ch.github_login;
-                });
-                dirty.clear();
-                renderSeats();
-                // brief row highlight
-                seatChanges.forEach((ch) => {
-                    const row = seatsBody.querySelector(`[data-seat-row="${ch.seat_id}"]`);
-                    row?.classList.add("bg-yellow-50", "dark:bg-yellow-900/20");
-                    setTimeout(() => row?.classList.remove("bg-yellow-50", "dark:bg-yellow-900/20"), 800);
-                });
-            }
-
-            renderSubscription();
-            updateSaveState();
-            toast("Saved");
-        } catch (e) {
-            console.error(e);
-            toast("Save failed");
+            await loadSeats();
+            renderSummary();
+            renderSeats();
+            await loadInvoices();
+            renderInvoices();
         } finally {
-            showSpinner(false);
+            setLoading(false);
         }
     });
 
-    // Init
-    (async function init() {
-        showSpinner(true);
-        subscription = await fetchSubscription(SUB_ID);
-        accounts = await fetchAccounts();
-        renderAccounts();
-        seats = await fetchSeats(SUB_ID);
-        renderSubscription();
-        renderSeats();
-        wireSeatEvents();
-        updateSaveState();
-        showSpinner(false);
-    })();
-});
+    UI.applyBulk.addEventListener("click", async () => {
+        const names = parseUsernames(UI.bulkBox.value);
+        if (names.length === 0) return;
+
+        UI.bulkError.classList.add("hidden");
+        setLoading(true);
+        try {
+            await apiBulkAssign(state.currentSubId, names);
+            await loadSeats();
+            renderSummary();
+            renderSeats();
+            showToast("Bulk assigned");
+        } catch {
+            UI.bulkError.classList.remove("hidden");
+        } finally {
+            setLoading(false);
+        }
+    });
+
+    UI.clearBulk.addEventListener("click", () => {
+        UI.bulkBox.value = "";
+        UI.bulkError.classList.add("hidden");
+    });
+
+    UI.refresh.addEventListener("click", async () => {
+        setLoading(true);
+        try {
+            await Promise.all([loadSeats(), loadInvoices()]);
+            renderSummary();
+            renderSeats();
+            renderInvoices();
+            showToast("Refreshed");
+        } finally {
+            setLoading(false);
+        }
+    });
+
+    UI.btnAddSubscription?.addEventListener("click", () => {
+        location.href = "./checkout.html"
+    });
+
+    // Billing: Edit / Save / Cancel
+    UI.btnBillingEdit?.addEventListener("click", () => {
+        populateBillingForm(state.billing || {});
+        setBillingMode("edit");
+    });
+
+    UI.btnBillingCancel?.addEventListener("click", () => {
+        populateBillingForm(state.billing || {}); // revert
+        setBillingMode("view");
+    });
+
+    UI.btnBillingSave?.addEventListener("click", async () => {
+        if (!UI.billingForm) return;
+        const data = Object.fromEntries(new FormData(UI.billingForm).entries());
+        setLoading(true);
+        try {
+            await apiSaveBilling(data);
+            state.billing = { ...state.billing, ...data };
+            renderBillingView(state.billing);
+            setBillingMode("view");
+            showToast("Billing saved");
+        } finally {
+            setLoading(false);
+        }
+    });
+
+    UI.saveBilling?.addEventListener("click", async () => {
+        if (!UI.billingForm) return;
+        const data = Object.fromEntries(new FormData(UI.billingForm).entries());
+        setLoading(true);
+        try {
+            await apiSaveBilling(data);
+            state.billing = { ...state.billing, ...data };
+            renderBillingView(state.billing);
+            setBillingMode("view");
+            showToast("Billing saved");
+        } finally {
+            setLoading(false);
+        }
+    });
+}
+
+// Init
+(async function init() {
+    try {
+        setLoading(true);
+        state.user = await requireAuth();
+
+        wireEvents();
+
+        await loadSubscriptions();
+        renderSubscriptionSelector();
+
+        // enable add-subscription
+        if (UI.btnAddSubscription) UI.btnAddSubscription.disabled = false;
+
+        if (state.currentSubId) {
+            await Promise.all([loadSeats(), loadInvoices()]);
+            renderSummary();
+            renderSeats();
+            renderInvoices();
+        }
+
+        showPage(getRouteFromHash());
+        await loadBillingForm();
+    } finally {
+        setLoading(false);
+    }
+})();

@@ -1,7 +1,7 @@
+import { API } from "./ws-auth";
 
 const PRICE_PER_SEAT = 2500;
-const API_BASE_URL = 'http://localhost:55482'; // https://api.websharper.com
-const CHECKOUT_SESSION_ENDPOINT = `${API_BASE_URL}/checkout/session`;
+const CHECKOUT_SESSION_ENDPOINT = `${API}/checkout/session`;
 
 const format = n => `$${n.toLocaleString("en-US")}`;
 const clamp = n => Math.max(1, Math.min(999, n | 0));

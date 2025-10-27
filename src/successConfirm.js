@@ -1,5 +1,6 @@
 // Config 
-const API_BASE_URL = "http://localhost:55482";
+import { API } from "./ws-auth";
+
 const CONFIRM_PATH = "/checkout/confirm";
 
 // DOM elements
@@ -33,7 +34,7 @@ function renderDetails(data) {
 
 // API
 async function fetchConfirmation(sessionId) {
-  const url = `${API_BASE_URL}${CONFIRM_PATH}?session_id=${encodeURIComponent(sessionId)}`;
+  const url = `${API}${CONFIRM_PATH}?session_id=${encodeURIComponent(sessionId)}`;
   const response = await fetch(url, { method: "GET" });
 
   if (!response.ok) 

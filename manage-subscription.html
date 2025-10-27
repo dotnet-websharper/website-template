@@ -282,105 +282,260 @@
             </div>
         </header>
 
-        <main class="mx-auto max-w-6xl px-6 py-20">
-            <!-- Heading -->
-            <div class="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Seats & Access</h1>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Manage GitHub access for your WebSharper subscription.</p>
-                </div>
+        <main class="mx-auto max-w-6xl px-10 pt-28 pb-20">
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
+                <!-- Left: settings nav -->
+                <aside class="lg:sticky lg:top-24 h-max">
+                    <nav aria-label="Settings" class="rounded-xl border border-gray-200 p-3 dark:border-gray-800">
+                        <ul class="space-y-1 text-sm">
+                            <li>
+                                <button data-nav="subs"
+                                class="settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">
+                                My subscriptions
+                                </button>
+                            </li>
+                            <li>
+                                <button data-nav="billing"
+                                class="settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">
+                                Billing information
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </aside>
 
-                <div class="flex items-center gap-2">
-                    <button id="saveAll" class="rounded-xl h-10 px-4 bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800 disabled:opacity-50 disabled:cursor-not-allowed">
-                        Save changes
-                    </button>
-                    <button id="refresh" class="rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white">
-                        Refresh
-                    </button>
-                </div>
-            </div>
-
-            <!-- Subscription summary -->
-            <section class="mt-6 rounded-xl border border-gray-200 p-5 dark:border-gray-800">
-                <div class="flex flex-wrap items-center justify-between gap-4">
-                    <div class="space-y-1">
-                        <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
-                        <div id="planName" class="text-base font-medium text-gray-900 dark:text-white">-</div>
-                    </div>
-                    <div class="space-y-1">
-                        <div class="text-sm text-gray-600 dark:text-gray-400">Seats</div>
-                        <div class="text-base font-medium text-gray-900 dark:text-white">
-                            <span id="seatsUsed">0</span>/<span id="seatsTotal">0</span>
-                            <span id="seatsBadge" class="ml-2 text-xs rounded-full border px-2 py-0.5 border-gray-300 dark:border-white/20 text-gray-600 dark:text-gray-300">0 assigned, 0 available</span>
+                <!-- Right: dynamic content -->
+                <section id="settingsContent">
+                    <!-- Section: My subscriptions -->
+                    <div data-page="subs" class="space-y-6 hidden">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Seats &amp; Access</h1>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Manage GitHub access for your WebSharper subscription.</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="space-y-1">
-                        <div class="text-sm text-gray-600 dark:text-gray-400">Renews</div>
-                        <div id="renewsAt" class="text-base font-medium text-gray-900 dark:text-white">-</div>
-                    </div>
-                    <div class="space-y-1">
-                        <div class="text-sm text-gray-600 dark:text-gray-400">Status</div>
-                        <div id="subStatus" class="text-base font-medium text-gray-900 dark:text-white capitalize">-</div>
-                    </div>
-                    <div class="space-y-1">
-                        <div class="text-sm text-gray-600 dark:text-gray-400">Account</div>
-                        <label for="accountSelect" class="sr-only">Select account</label>
-                        <select id="accountSelect"
-                                class="min-w-[12rem] rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white">
-                            <option value="" disabled>Loading…</option>
-                        </select>
-                    </div>
-                </div>
 
-                <!-- Progress -->
-                <div class="mt-4">
-                    <div class="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-900">
-                        <div id="seatProgress" class="h-2 rounded-full bg-gray-900 dark:bg-white" style="width:0%"></div>
-                    </div>
-                </div>
-            </section>
+                        <!-- Subscription summary -->
+                        <section class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                            
+                            <div class="flex flex-wrap items-start justify-between gap-4">
+                                <div class="space-y-1">
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">Subscription</div>
+                                    <label for="subscriptionSelect" class="sr-only">Select subscription</label>
+                                    <div class="flex items-center gap-2">
+                                        <select id="subscriptionSelect"
+                                                class="min-w-[16rem] rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white">
+                                            <option disabled selected>Loading…</option>
+                                        </select>
+                                        <button id="btnAddSubscription"
+                                                class="ml-6 rounded-xl h-10 px-4 bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                disabled>
+                                            Add more subscription
+                                        </button>
+                                    </div>
+                                </div>
 
-            <!-- Bulk assign -->
-            <section class="mt-6 rounded-xl border border-gray-200 p-5 dark:border-gray-800">
-                <div class="flex items-start justify-between gap-4 flex-wrap">
-                    <div>
-                        <h2 class="font-semibold text-gray-900 dark:text-white">Bulk assign GitHub usernames</h2>
-                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Paste one or more GH usernames (comma/newline separated). We fill empty seats in order.</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button id="applyBulk" class="rounded-lg h-9 px-3 border border-gray-300 dark:border-white/20 text-sm text-gray-800 dark:text-white">Apply to empty seats</button>
-                        <button id="clearBulk" class="rounded-lg h-9 px-3 border border-gray-300 dark:border-white/20 text-sm text-gray-800 dark:text-white">Clear</button>
-                    </div>
-                </div>
-                <label for="bulkBox" class="sr-only">Bulk GitHub usernames</label>
-                <textarea id="bulkBox" rows="3" class="mt-3 w-full rounded-lg border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400" placeholder="alice, bob-dev, carol"></textarea>
-                <p id="bulkError" class="mt-2 hidden text-sm text-red-600">One or more usernames look invalid.</p>
-            </section>
+                                <div class="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-20">
+                                    <div class="space-y-1">
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
+                                        <div id="planName" class="text-base font-medium text-gray-900 dark:text-white">-</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">Seats</div>
+                                        <div class="text-base font-medium text-gray-900 dark:text-white">
+                                            <span id="seatsUsed">0</span>/<span id="seatsTotal">0</span>                                            
+                                        </div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">Renews</div>
+                                        <div id="renewsAt" class="text-base font-medium text-gray-900 dark:text-white">-</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">Status</div>
+                                        <div id="subStatus" class="text-base font-medium text-gray-900 dark:text-white capitalize">-</div>
+                                    </div>
+                                    </div>
+                            </div>
 
-            <!-- Seats table -->
-            <section class="mt-6 rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300">
-                            <tr>
-                                <th class="px-4 py-3 text-left">Seat</th>
-                                <th class="px-4 py-3 text-left">GitHub username</th>
-                                <th class="px-4 py-3 text-left">Status</th>
-                                <th class="px-4 py-3 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="seatsBody" class="divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
-                            <!-- rows injected -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+                            <!-- Progress -->
+                            <div class="mt-4">
+                                <div class="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-900">
+                                <div id="seatProgress" class="h-2 rounded-full bg-gray-900 dark:bg-white" style="width:0%"></div>
+                                </div>
+                            </div>
+                        </section>
 
-            <!-- Danger zone -->
-            <section class="mt-6 rounded-xl border border-red-200 p-5 dark:border-red-900/60">
-                <h2 class="font-semibold text-red-700 dark:text-red-400">Danger zone</h2>
-                <p class="mt-1 text-sm text-red-600 dark:text-red-300">Unassign removes GitHub access for that seat. You can reassign anytime.</p>
-            </section>
+                        <!-- Bulk assign -->
+                        <section class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                            <div class="flex items-start justify-between gap-4 flex-wrap">
+                                <div>
+                                    <h2 class="font-semibold text-gray-900 dark:text-white">Bulk assign GitHub usernames</h2>
+                                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                        Paste one or more GH usernames (comma/newline separated). We fill empty seats in order.
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button id="applyBulk" class="rounded-lg h-9 px-3 border border-gray-300 dark:border-white/20 text-sm text-gray-800 dark:text-white">
+                                        Apply to empty seats
+                                    </button>
+                                    <button id="clearBulk" class="rounded-lg h-9 px-3 border border-gray-300 dark:border-white/20 text-sm text-gray-800 dark:text-white">
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
+                            <label for="bulkBox" class="sr-only">Bulk GitHub usernames</label>
+                            <textarea id="bulkBox" rows="3"
+                                        class="mt-3 w-full rounded-lg border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400"
+                                        placeholder="alice, bob-dev, carol"></textarea>
+                            <p id="bulkError" class="mt-2 hidden text-sm text-red-600">One or more usernames look invalid.</p>
+                        </section>
+
+                        <!-- Seats table (dynamic) -->
+                        <section class="rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300">
+                                        <tr>
+                                        <th class="px-4 py-3 text-left">Seat</th>
+                                        <th class="px-4 py-3 text-left">GitHub username</th>
+                                        <th class="px-4 py-3 text-left">Status</th>
+                                        <th class="px-4 py-3 text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="seatsBody" class="divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+                                        <!-- rows injected -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- Invoices -->
+                        <section class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                            <div class="flex items-center justify-between">
+                                <h2 class="font-semibold text-gray-900 dark:text-white">Invoices</h2>
+                                <button id="refresh" class="rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white">
+                                Refresh
+                                </button>
+                            </div>
+                            <div class="mt-4 overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300">
+                                        <tr>
+                                        <th class="px-4 py-3 text-left">Invoice</th>
+                                        <th class="px-4 py-3 text-left">Date</th>
+                                        <th class="px-4 py-3 text-left">Amount</th>
+                                        <th class="px-4 py-3 text-left">Status</th>
+                                        <th class="px-4 py-3 text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="invoiceBody" class="divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+                                        <!-- rows injected -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- Danger zone -->
+                        <section class="rounded-xl border border-red-200 p-5 dark:border-red-900/60">
+                            <h2 class="font-semibold text-red-700 dark:text-red-400">Danger zone</h2>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-300">
+                                Unassign removes GitHub access for that seat. You can reassign anytime.
+                            </p>
+                        </section>
+                    </div>
+
+                    <!-- Section: Billing information -->
+                    <div data-page="billing" class="space-y-6 hidden">
+                        <!-- Single header row (kept) -->
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Billing information</h1>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                    Update invoice recipient details, VAT number, and address used for future invoices.
+                                </p>
+                            </div>
+
+                            <!-- Move edit controls up here -->
+                            <div class="flex gap-2">
+                                <button id="btnBillingEdit"
+                                        class="rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white">
+                                    Edit
+                                </button>
+                                <button id="btnBillingCancel"
+                                        class="hidden rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white">
+                                    Cancel
+                                </button>
+                                <button id="btnBillingSave"
+                                        class="hidden rounded-xl h-9 px-3 bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card with only the content (no inner heading) -->
+                        <section class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                            <!-- View mode (default) -->
+                            <div id="billingView" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <div class="text-gray-600 dark:text-gray-400">Company / Full name</div>
+                                    <div id="v_name" class="font-medium text-gray-900 dark:text-white">—</div>
+                                </div>
+                                <div>
+                                    <div class="text-gray-600 dark:text-gray-400">VAT / Tax ID</div>
+                                    <div id="v_vatin" class="font-medium text-gray-900 dark:text-white">—</div>
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <div class="text-gray-600 dark:text-gray-400">Address line 1</div>
+                                    <div id="v_line1" class="font-medium text-gray-900 dark:text-white">—</div>
+                                </div>
+                                <div>
+                                    <div class="text-gray-600 dark:text-gray-400">City</div>
+                                    <div id="v_city" class="font-medium text-gray-900 dark:text-white">—</div>
+                                </div>
+                                <div>
+                                    <div class="text-gray-600 dark:text-gray-400">Postal code</div>
+                                    <div id="v_postal_code" class="font-medium text-gray-900 dark:text-white">—</div>
+                                </div>
+                                <div>
+                                    <div class="text-gray-600 dark:text-gray-400">Country</div>
+                                    <div id="v_country" class="font-medium text-gray-900 dark:text-white">—</div>
+                                </div>
+                            </div>
+
+                            <!-- Edit mode -->
+                            <div id="billingEdit" class="hidden mt-4">
+                                <form id="billingForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm text-gray-600 dark:text-gray-300">Company / Full name</label>
+                                        <input name="name" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-gray-600 dark:text-gray-300">VAT / Tax ID</label>
+                                        <input name="vatin" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <label class="block text-sm text-gray-600 dark:text-gray-300">Address line 1</label>
+                                        <input name="line1" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-gray-600 dark:text-gray-300">City</label>
+                                        <input name="city" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-gray-600 dark:text-gray-300">Postal code</label>
+                                        <input name="postal_code" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-gray-600 dark:text-gray-300">Country</label>
+                                        <input name="country" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+
+                </section>
+            </div>
         </main>
 
         <!-- Toast -->

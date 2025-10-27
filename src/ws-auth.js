@@ -1,4 +1,4 @@
-const API = () => window.API_BASE || 'http://localhost:55482';
+export const API = 'http://localhost:55482';
 
 let cachedUser = undefined;
 const listeners = new Set();
@@ -29,7 +29,7 @@ export async function fetchMe(force = false) {
   if (cachedUser !== undefined && !force) 
 		return cachedUser;
   try {
-    const res = await fetch(`${API()}/auth/me`, { 
+    const res = await fetch(`${API}/auth/me`, { 
 			credentials: 'include', 
 			headers: { 'Accept': 'application/json' } 
 		});
@@ -52,7 +52,7 @@ export async function fetchMe(force = false) {
 
 export function buildStartUrl(returnUrl) {
   const pathAndQuery = returnUrl || (window.location.pathname + window.location.search);
-  return `${API()}/auth/github/start?returnUrl=${encodeURIComponent(pathAndQuery)}`;
+  return `${API}/auth/github/start?returnUrl=${encodeURIComponent(pathAndQuery)}`;
 }
 
 export function login(returnUrl) {
@@ -64,7 +64,7 @@ export function login(returnUrl) {
 
 export async function logout({ reload = false } = {}) {
   try { 
-		await fetch(`${API()}/auth/logout`, { 
+		await fetch(`${API}/auth/logout`, { 
 			method: 'POST', 
 			credentials: 'include' 
 		}); 
