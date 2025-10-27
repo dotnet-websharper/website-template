@@ -1,4 +1,4 @@
-export const API = 'http://localhost:55482';
+export const API = 'https://api.websharper.com/';
 
 let cachedUser = undefined;
 const listeners = new Set();
