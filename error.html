@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebSharper - Seats & Access</title>
+  <meta name="description" content="Manage GitHub access for your WebSharper subscription" />
+
+  <!-- Open Graph -->
+  <meta property="og:url" content="https://websharper.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="WebSharper" />
+  <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+  <meta property="og:image" content="" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="websharper.com" />
+  <meta property="twitter:url" content="https://websharper.com/" />
+  <meta name="twitter:title" content="WebSharper" />
+  <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+  <meta name="twitter:image" content="" />
+
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-white dark:bg-gray-950">
+  <!-- (Optional) paste your existing header here for full consistency -->
+
+  <main class="mx-auto max-w-3xl px-6 pt-28 pb-20">
+    <div class="rounded-2xl border border-gray-200 p-6 dark:border-gray-800 bg-white dark:bg-gray-950">
+      <div class="flex items-start gap-4">
+        <div class="h-10 w-10 rounded-full bg-red-50 text-red-600 grid place-items-center dark:bg-red-900/20">
+          <!-- Alert icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.72-1.36 3.485 0l6.518 11.59c.73 1.299-.207 2.911-1.742 2.911H3.48c-1.535 0-2.473-1.612-1.742-2.911l6.518-11.59zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v4a1 1 0 102 0V7a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+            <span id="e_title">Something went wrong</span>
+          </h1>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <span id="e_subtitle">We hit an error while processing your request.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="mt-5 flex flex-wrap gap-2">
+        <button id="btnBack"
+          class="rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white">
+          Go back
+        </button>
+        <a href="./" class="rounded-xl h-10 px-4 grid place-items-center bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800">
+          Home
+        </a>
+        <button id="btnCopy"
+          class="rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white">
+          Copy details
+        </button>
+      </div>
+
+      <!-- Nice summary row -->
+      <dl class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <dt class="text-sm text-gray-600 dark:text-gray-400">Status</dt>
+          <dd id="e_status" class="font-medium text-gray-900 dark:text-white">—</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-gray-600 dark:text-gray-400">Endpoint</dt>
+          <dd id="e_endpoint" class="font-medium text-gray-900 dark:text-white break-all">—</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-gray-600 dark:text-gray-400">Request ID</dt>
+          <dd id="e_rid" class="font-medium text-gray-900 dark:text-white">—</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-gray-600 dark:text-gray-400">Time</dt>
+          <dd id="e_time" class="font-medium text-gray-900 dark:text-white">—</dd>
+        </div>
+      </dl>
+
+      <!-- Details JSON -->
+      <div class="mt-6 snippet-code">
+        <label class="text-sm text-gray-600 dark:text-gray-400">Details</label>
+        <pre id="e_json" class="custom-scrollbar mt-2 max-h-[40vh] overflow-auto rounded-lg border border-gray-200 p-3 text-xs text-gray-800 dark:border-gray-800 dark:text-gray-100 bg-gray-50 dark:bg-gray-900/30"></pre>
+      </div>
+
+      <p class="mt-6 text-sm text-gray-600 dark:text-gray-400">
+        Tip: if this keeps happening, clear cookies for this site and try again. If the problem persists, share the copied details with us.
+      </p>
+    </div>
+  </main>
+
+  <div id="toast" class="fixed bottom-4 right-4 hidden rounded-lg px-4 py-2 text-sm bg-gray-900 text-white shadow-lg" aria-live="polite" role="status">
+    Copied to clipboard
+  </div>
+  <script type="module" src="./main.js"></script>
+  <script type="module" src="./src/error.js"></script>
+</body>
+</html>

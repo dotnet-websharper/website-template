@@ -1,4 +1,5 @@
 import { API } from "./ws-auth";
+import { safeFetch, redirectToError } from "./error-utils.js";
 
 // DOM helpers
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -113,14 +114,27 @@ function onSeatsBodyClick(e) {
 
 // Auth
 async function requireAuth() {
-    const res = await fetch(`${API}/auth/me`, { credentials: "include" });
-    if (res.status === 200) 
-        return res.json();
+    try {
+        // Ask the API who we are; throws on non-2xx
+        const me = await safeFetch(`${API}/auth/me`, { credentials: "include" });
+        return me;
+    } catch (err) {
+        const returnUrl = location.href; // preserve path, query, and hash
 
-    // Not authenticated -> redirect to GitHub OAuth and return back to this page
-    const returnUrl = "/manage-subscription.html";
-    location.href = `${API}/auth/github/start?returnUrl=${encodeURIComponent(returnUrl)}`;
-    throw new Error("Redirecting to login…");
+        // Not authenticated -> start GitHub OAuth, then come back here
+        if (err.status === 401 || err.status === 403) {
+            location.href = `${API}/auth/github/start?returnUrl=${encodeURIComponent(returnUrl)}`;
+            throw new Error("Redirecting to login…"); // stop further code
+        }
+
+        // Anything else -> show error page with context
+        redirectToError(err, {
+            endpoint: "/auth/me",
+            method: "GET",
+            title: "Could not verify your session"
+        });
+        throw err;
+    }
 }
 
 // Mock API (replace with real endpoints)
@@ -140,11 +154,11 @@ const mockDb = {
     ],
     seats: {
         sub_1: [
-            { seatNo: 1, username: "alice",   status: "assigned" },
+            { seatNo: 1, username: "alice", status: "assigned" },
             { seatNo: 2, username: "bob-dev", status: "assigned" },
-            { seatNo: 3, username: "",        status: "available" },
-            { seatNo: 4, username: "",        status: "available" },
-            { seatNo: 5, username: "",        status: "available" },
+            { seatNo: 3, username: "", status: "available" },
+            { seatNo: 4, username: "", status: "available" },
+            { seatNo: 5, username: "", status: "available" },
         ],
         sub_2: Array.from({ length: 10 }, (_, i) => ({ seatNo: i + 1, username: "", status: "available" })),
     },
