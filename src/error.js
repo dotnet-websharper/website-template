@@ -1,86 +1,64 @@
 // src/error.js
-const $ = (s, r = document) => r.querySelector(s);
-const show = (el, yes) => el.classList.toggle("hidden", !yes);
+import { buildStartUrl } from "./ws-auth.js";
 
-// Parse query string to object
-function params() {
-  const u = new URL(location.href);
-  return Object.fromEntries(u.searchParams.entries());
-}
-
-// Pull details from ?key=… (sessionStorage) or from query params
-function loadError() {
-  const p = params();
-
-  if (p.key) {
+function sanitizePath(urlLike) {
     try {
-      const raw = sessionStorage.getItem("ws_err_" + p.key);
-      if (raw) return JSON.parse(raw);
-    } catch { /* ignore */ }
-  }
-
-  // Fallback: read from query string
-  return {
-    status: Number(p.status) || undefined,
-    title: p.title || "Unexpected error",
-    message: p.message || "No additional details.",
-    endpoint: p.endpoint,
-    method: p.method,
-    requestId: p.rid,
-    when: p.ts ? new Date(Number(p.ts)).toISOString() : new Date().toISOString(),
-    page: p.page || document.referrer || location.href,
-    userAgent: navigator.userAgent,
-  };
+        const u = new URL(urlLike, document.baseURI);
+        if (u.origin !== window.location.origin) {
+            return "/website-template/";
+        }
+        u.searchParams.delete("auth_error");
+        const clean = u.pathname + (u.search ? u.search : "") + (u.hash || "");
+        if (!clean.startsWith("/website-template/")) return "/website-template/";
+        return clean;
+    } catch {
+        const [path, query = ""] = String(urlLike || "").split("?");
+        const qs = new URLSearchParams(query);
+        qs.delete("auth_error");
+        const q = qs.toString();
+        const p = path || "/website-template/";
+        return (p.startsWith("/website-template/") ? p : "/website-template/") + (q ? "?" + q : "");
+    }
 }
 
-function render(e) {
-  $("#e_title").textContent = e.title || "Something went wrong";
-  $("#e_subtitle").textContent = e.message || "";
-  $("#e_status").textContent = e.status ?? "—";
-  $("#e_endpoint").textContent = e.endpoint || "—";
-  $("#e_rid").textContent = e.requestId || "—";
-  $("#e_time").textContent = e.when || new Date().toISOString();
-
-  // Pretty JSON (include everything)
-  const json = {
-    status: e.status,
-    title: e.title,
-    message: e.message,
-    endpoint: e.endpoint,
-    method: e.method,
-    requestId: e.requestId,
-    when: e.when,
-    page: e.page,
-    userAgent: e.userAgent,
-    extra: e.extra || undefined,
-  };
-  $("#e_json").textContent = JSON.stringify(json, null, 2);
+function sameOriginReferrer() {
+    try {
+        if (!document.referrer) return null;
+        const r = new URL(document.referrer);
+        return r.origin === window.location.origin ? (r.pathname + r.search + r.hash) : null;
+    } catch { return null; }
 }
 
-function copyDetails() {
-  const text = $("#e_json").textContent;
-  if (!text) return;
-  navigator.clipboard?.writeText(text).then(() => {
-    const t = $("#toast");
-    t.classList.remove("hidden");
-    setTimeout(() => t.classList.add("hidden"), 1500);
-  }).catch(() => {
-    // Fallback: select and copy
-    const sel = window.getSelection();
-    const range = document.createRange();
-    range.selectNodeContents($("#e_json"));
-    sel.removeAllRanges();
-    sel.addRange(range);
-    try { document.execCommand("copy"); } catch {}
-    sel.removeAllRanges();
-  });
-}
+const params = new URLSearchParams(location.search);
+const code = params.get("code") || "unexpected";
 
-$("#btnBack").addEventListener("click", () => {
-  if (history.length > 1) history.back();
-  else location.href = "./";
+let previous =
+    params.get("from")
+    || sameOriginReferrer()
+    || "/website-template/";
+
+previous = sanitizePath(previous);
+
+const MESSAGES = {
+    invalid_state: "Sign-in failed, please try again.",
+    token: "GitHub sign-in failed during token exchange. Please try again.",
+    token_missing: "GitHub sign-in failed (no token).",
+    user: "GitHub sign-in failed when fetching your user info.",
+    user_parse: "GitHub sign-in failed (user data issue).",
+    db: "Sign-in temporarily unavailable. Please try again shortly.",
+    service: "Sign-in temporarily unavailable (service not configured).",
+    unexpected: "Unexpected error during sign-in. Please try again."
+};
+
+document.getElementById("msg").textContent = MESSAGES[code] || MESSAGES.unexpected;
+
+const back = document.getElementById("back");
+back.setAttribute("href", previous);
+back.addEventListener("click", (e) => {
+    e.preventDefault();
+    location.href = previous;
 });
-$("#btnCopy").addEventListener("click", copyDetails);
 
-// Go!
-render(loadError());
+document.getElementById("retry").addEventListener("click", () => {
+    location.href = buildStartUrl(previous);
+});

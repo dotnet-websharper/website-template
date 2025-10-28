@@ -1,51 +1,43 @@
-export const API = 'https://api.websharper.com/';
+export const API = 'http://localhost:55482';
 
 let cachedUser = undefined;
 const listeners = new Set();
 
 const equalUser = (a, b) => {
-    if (a === b) 
-        return true;
-    if (!a || !b) 
-        return false;
-
+    if (a === b) return true;
+    if (!a || !b) return false;
     return a.login === b.login && a.email === b.email && a.name === b.name && a.avatarUrl === b.avatarUrl;
 };
 
 const emit = () => {
-    for (const fn of listeners) { 
-		try { 
-			fn(cachedUser || null); 
-		} 
-		catch {} 
-	}
-
-    try { 
-        document.dispatchEvent(new CustomEvent('ws-auth-change', { detail: { user: cachedUser || null } })); 
+    for (const fn of listeners) {
+        try { fn(cachedUser || null); } catch {}
+    }
+    try {
+        document.dispatchEvent(new CustomEvent('ws-auth-change', { detail: { user: cachedUser || null } }));
     } catch {}
 };
 
 export async function fetchMe(force = false) {
-    if (cachedUser !== undefined && !force) 
-		return cachedUser;
+    if (cachedUser !== undefined && !force) return cachedUser;
     try {
-        const res = await fetch(`${API}/auth/me`, { 
-			credentials: 'include', 
-			headers: { 'Accept': 'application/json' } 
-		});
+        const res = await fetch(`${API}/auth/me`, {
+            credentials: 'include',
+            headers: { 'Accept': 'application/json' }
+        });
 
         const newUser = (res.status === 204 || res.status === 401) ? null : (res.ok ? await res.json() : null);
-        if (!equalUser(newUser, cachedUser)) { 
-                cachedUser = newUser; 
-        emit(); 
-            } else { 
-                cachedUser = newUser; 
-            }
+        if (!equalUser(newUser, cachedUser)) {
+            cachedUser = newUser;
+            emit();
+        } else {
+            cachedUser = newUser;
+        }
 
         return cachedUser;
     } catch {
-        cachedUser = null; 
-        emit(); 
+        cachedUser = null;
+        emit();
         return null;
     }
 }
@@ -56,34 +48,23 @@ export function buildStartUrl(returnUrl) {
 }
 
 export function login(returnUrl) {
-    try { 
-        sessionStorage.setItem("ws:flash", "login-ok"); 
-    } catch {}
+    try { sessionStorage.setItem("ws:flash", "login-ok"); } catch {}
     window.location.href = buildStartUrl(returnUrl);
 }
 
 export async function logout({ reload = false } = {}) {
-    try { 
-		await fetch(`${API}/auth/logout`, { 
-			method: 'POST', 
-			credentials: 'include' 
-		}); 
-	} catch {}
+    try {
+        await fetch(`${API}/auth/logout`, { method: 'POST', credentials: 'include' });
+    } catch {}
 
     cachedUser = null; emit();
-    emit();
-    try { 
-        document.dispatchEvent(new CustomEvent('ws-auth-logout')); 
-    } catch {}
-    if (reload) 
-        location.reload();
+    try { document.dispatchEvent(new CustomEvent('ws-auth-logout')); } catch {}
+    if (reload) location.reload();
 }
 
 export function onChange(handler, { fireImmediately = true } = {}) {
     listeners.add(handler);
-    if (fireImmediately) 
-        handler(cachedUser ?? null);
-
+    if (fireImmediately) handler(cachedUser ?? null);
     return () => listeners.delete(handler);
 }
 
@@ -99,11 +80,10 @@ export function mountGate({ authSectionId, paymentSectionId, emailInputId, login
 
     onChange((me) => {
         if (me) {
-        hide(elAuth); show(elPay);
-        if (elEmail && me.email && !elEmail.value) 
-            elEmail.value = me.email;
+            hide(elAuth); show(elPay);
+            if (elEmail && me.email && !elEmail.value) elEmail.value = me.email;
         } else {
-        show(elAuth); hide(elPay);
+            show(elAuth); hide(elPay);
         }
     });
 
