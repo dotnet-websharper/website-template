@@ -15,7 +15,8 @@ export default defineConfig({
                 register: resolve(__dirname, "register.html"),
                 checkout: resolve(__dirname, "checkout.html"),
                 dslAi: resolve(__dirname, "dsl-ai.html"),
-                manageSubs: resolve(__dirname, "manage-subscription.html")
+                manageSubs: resolve(__dirname, "manage-subscription.html"),
+                error: resolve(__dirname, "error.html")
             },
         },
     },
