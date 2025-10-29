@@ -1,66 +1,65 @@
-export const API = 'https://api.websharper.com';
-// export const API = 'http://localhost:55482';
+// export const API = 'https://api.websharper.com';
+export const API = 'http://localhost:55482';
 
 let cachedUser = undefined;
+let csrfToken = undefined;
 const listeners = new Set();
 
-const equalUser = (a, b) => {
-    if (a === b) return true;
-    if (!a || !b) return false;
-    return a.login === b.login && a.email === b.email && a.name === b.name && a.avatarUrl === b.avatarUrl;
-};
+const AUTH_CHANGE = 'ws-auth-change';
+const AUTH_LOGOUT = 'ws-auth-logout';
+const FLASH_KEY = 'ws:flash';
 
-const emit = () => {
-    for (const fn of listeners) {
-        try { fn(cachedUser || null); } catch {}
-    }
-    try {
-        document.dispatchEvent(new CustomEvent('ws-auth-change', { detail: { user: cachedUser || null } }));
-    } catch {}
-};
+// public api
 
 export async function fetchMe(force = false) {
-    if (cachedUser !== undefined && !force) return cachedUser;
+    if (cachedUser !== undefined && !force) 
+        return cachedUser;
     try {
-        const res = await fetch(`${API}/auth/me`, {
-            credentials: 'include',
-            headers: { 'Accept': 'application/json' }
-        });
-
-        const newUser = (res.status === 204 || res.status === 401) ? null : (res.ok ? await res.json() : null);
-        if (!equalUser(newUser, cachedUser)) {
-            cachedUser = newUser;
-            emit();
-        } else {
-            cachedUser = newUser;
+        const res = await getJson(api('/auth/me'));
+        if (!res.ok || isLoggedOutStatus(res.status)) { 
+            resetAuth(); 
+            return null; 
         }
 
+        const data = await res.json();
+        setUser(toUser(data));
         return cachedUser;
     } catch {
-        cachedUser = null;
-        emit();
+        resetAuth();
         return null;
     }
 }
 
+export function getCsrfToken() {
+    return csrfToken;
+}
+
 export function buildStartUrl(returnUrl) {
     const pathAndQuery = returnUrl || (window.location.pathname + window.location.search);
-    return `${API}/auth/github/start?returnUrl=${encodeURIComponent(pathAndQuery)}`;
+    return `${api('/auth/github/start')}?returnUrl=${encodeURIComponent(pathAndQuery)}`;
 }
 
 export function login(returnUrl) {
-    try { sessionStorage.setItem("ws:flash", "login-ok"); } catch {}
+    try { 
+        sessionStorage.setItem(FLASH_KEY, 'login-ok'); 
+    } catch {}
+
     window.location.href = buildStartUrl(returnUrl);
 }
 
 export async function logout({ reload = false } = {}) {
-    try {
-        await fetch(`${API}/auth/logout`, { method: 'POST', credentials: 'include' });
+    try { 
+        await postJson(api('/auth/logout'), { 'X-CSRF-Token': csrfToken || '' }); 
     } catch {}
 
-    cachedUser = null; emit();
-    try { document.dispatchEvent(new CustomEvent('ws-auth-logout')); } catch {}
-    if (reload) location.reload();
+    resetAuth();
+    emitEvent(AUTH_LOGOUT);
+
+    if (reload) { 
+        try { 
+            location.reload(); 
+        } catch {} 
+    }
 }
 
 export function onChange(handler, { fireImmediately = true } = {}) {
@@ -76,9 +75,6 @@ export function mountGate({ authSectionId, paymentSectionId, emailInputId, login
     const btnIn = loginBtnId ? document.getElementById(loginBtnId) : null;
     const btnOut = logoutBtnId ? document.getElementById(logoutBtnId) : null;
 
-    const show = el => el && el.classList.remove('hidden');
-    const hide = el => el && el.classList.add('hidden');
-
     onChange((me) => {
         if (me) {
             hide(elAuth); show(elPay);
@@ -88,14 +84,98 @@ export function mountGate({ authSectionId, paymentSectionId, emailInputId, login
         }
     });
 
-    if (btnIn)  btnIn.addEventListener('click', () => login());
+    if (btnIn) btnIn.addEventListener('click', () => login());
     if (btnOut) btnOut.addEventListener('click', () => logout({ reload: true }));
 
     fetchMe();
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => fetchMe());
-} else {
-    fetchMe();
+// entry point
+
+if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => fetchMe());
+    } else {
+        fetchMe();
+    }
+}
+
+// utilities
+
+function equalUser(a, b) {
+    if (a === b) 
+        return true;
+
+    if (!a || !b) 
+        return false;
+
+    return a.login === b.login && a.email === b.email && a.name === b.name && a.avatarUrl === b.avatarUrl;
+}
+
+function emitEvent(name, detail) {
+    try { 
+        document.dispatchEvent(new CustomEvent(name, { detail })); 
+    } catch {}
+}
+
+function emitAuthChange() {
+    for (const fn of listeners) { 
+        try { 
+            fn(cachedUser || null); 
+        } catch {} 
+    }
+
+    emitEvent(AUTH_CHANGE, { user: cachedUser || null });
+}
+
+function resetAuth() {
+    cachedUser = null;
+    csrfToken = undefined;
+    emitAuthChange();
+}
+
+function toUser(data) {
+    csrfToken = data.csrfToken || undefined;
+    return {
+        login: data.login,
+        name: data.name,
+        avatarUrl: data.avatarUrl,
+        email: data.email
+    };
+}
+
+function setUser(newUser) {
+    if (!equalUser(newUser, cachedUser)) {
+        cachedUser = newUser;
+        emitAuthChange();
+    } else {
+        cachedUser = newUser;
+    }
+}
+
+function api(p) { 
+    return `${API}${p}`; 
+}
+
+function show(el) { if (el) el.classList.remove('hidden'); }
+function hide(el) { if (el) el.classList.add('hidden'); }
+
+function getJson(url) {
+    return fetch(url, { 
+        method: 'GET', 
+        credentials: 'include', 
+        headers: { 'Accept': 'application/json' } 
+    });
+}
+
+function postJson(url, headers = {}) {
+    return fetch(url, { 
+        method: 'POST', 
+        credentials: 'include', 
+        headers: { 'Accept': 'application/json', ...headers } 
+    });
+}
+
+function isLoggedOutStatus(s) { 
+    return s === 204 || s === 401; 
 }
