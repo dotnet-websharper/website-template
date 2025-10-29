@@ -189,12 +189,15 @@
                         <span class="text-gray-950 dark:text-white font-medium">Payment</span>
                     </nav>
 
-                    <h1 class="mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3">Basic Support</h1>
-                    <p class="text-3xl font-bold text-gray-950 dark:text-white">$2,500 <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ Year</span> </p>
+                    <!-- Dynamic plan header -->
+                    <h1 id="wsPlanName" class="mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3">WebSharper Professional</h1>
+                    <p id="wsPlanPriceLine" class="text-3xl font-bold text-gray-950 dark:text-white">
+                        $2,500 <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ Year</span>
+                    </p>
                     
                     <p class="mt-8 text-gray-600 dark:text-gray-400">Our experienced WebSharper support team is available to help you make the right decisions.</p>
 
-                    <!-- Seat selector -->
+                    <!-- Seat selector (hidden for Freelancer) -->
                     <div id="wsSeatSelector" class="mt-6">
                         <label for="wsSeats" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Seats</label>
                         <div class="mt-2 flex items-center gap-2">
@@ -203,13 +206,13 @@
                                 -
                             </button>
                             <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1"
-                            class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" />
+                                   class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" />
                             <button type="button" id="wsPlus"
                                 class="h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 +
                             </button>
                         </div>
-                        <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Price is $2,500 per seat per year.</p>
+                        <p id="wsPriceHint" class="mt-2 text-xs text-gray-500 dark:text-gray-400">Price is $2,500 per seat per year.</p>
                     </div>
                     
                     <div class="fixed bottom-0 z-10 inset-x-0 px-12 border-t dark:border-gray-800 shadow-lg md:z-0 md:border-none md:shadow-none md:px-0 bg-white dark:bg-gray-900 dark:md:bg-transparent md:bg-transparent md:static mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400">
@@ -227,6 +230,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="pb-56 md:max-w-md md:w-1/2 md:pt-16 md:pb-16">
                     <!-- Login & Registration (default visible; hide after auth) -->
                     <section id="authSection" class="mt-12 md:mt-2 " >

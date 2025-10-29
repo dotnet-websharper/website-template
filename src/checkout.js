@@ -1,18 +1,37 @@
 import { API, getCsrfToken, fetchMe } from "./ws-auth";
 import { safeFetch, redirectToError } from "./error-utils.js";
 
-const PRICE_PER_SEAT = 2500;
+const PRICING = {
+    pro: {
+        month: { amount: 250, perSeat: true },   // USD / seat / month
+        year:  { amount: 2500, perSeat: true } // USD / seat / year
+    },
+    freelancer: {
+        month: { amount: 30, perSeat: false }, // USD / month (1 seat)
+        year:  { amount: 300, perSeat: false } // USD / year  (1 seat)
+    }
+};
+
 const CHECKOUT_SESSION_ENDPOINT = `${API}/checkout/session`;
 const SUPPORT_PLANS_URL = "/website-template/support.html#plans";
 const MANAGE_SUBSCRIPTION_URL = "/website-template/manage-subscription.html";
+
+let selectedPlan = "pro"; // "pro" | "freelancer"
+let selectedInterval = "year"; // "month" | "year"
 
 init();
 
 function init() {
     setupBackLink();
-    const seatsFromUrl = getSeatsFromUrl();
+
+    // Read URL params: ?plan=pro|freelancer&interval=month|year&seats=n
+    const params = readParams();
+    selectedPlan = params.plan;
+    selectedInterval = params.interval;
+
     const ui = collectUi();
-    initSeatSelector(ui, seatsFromUrl);
+    hydratePlanHeader(ui);
+    initSeatSelector(ui, params.seats);
     initCompanyToggle(ui);
 
     ui.country?.addEventListener("change", () => {
@@ -26,12 +45,23 @@ function init() {
 
 function collectUi() {
     return {
+        // header/price texts
+        planName: document.getElementById("wsPlanName"),
+        planPriceLine: document.getElementById("wsPlanPriceLine"),
+        priceHint: document.getElementById("wsPriceHint"),
+
+        // totals
         subtotal: document.getElementById("wsSubtotal"),
         taxes: document.getElementById("wsTaxes"),
         total: document.getElementById("wsTotal"),
+
+        // seats
+        seatBlock: document.getElementById("wsSeatSelector"),
         seatsInput: document.getElementById("wsSeats"),
         btnMinus: document.getElementById("wsMinus"),
         btnPlus: document.getElementById("wsPlus"),
+
+        // customer form
         email: document.getElementById("email"),
         street: document.getElementById("street"),
         city: document.getElementById("city"),
@@ -41,6 +71,8 @@ function collectUi() {
         companyBlk: document.getElementById("companyBlock"),
         companyName: document.getElementById("company-name"),
         vatin: document.getElementById("vatin"),
+
+        // actions
         continueBtn: document.getElementById("wsContinue"),
         toast: document.getElementById("toast")
     };
@@ -79,78 +111,136 @@ function setupBackLink() {
     });
 }
 
+// params
+
+function readParams() {
+    const queryParameters = new URLSearchParams(location.search);
+    const plan = (queryParameters.get("plan") || "pro").toLowerCase();
+    const interval = (queryParameters.get("interval") || "year").toLowerCase();
+    const seatsUrl = clamp(parseInt(queryParameters.get("seats") || "1", 10) || 1);
+    return {
+        plan: plan === "freelancer" ? "freelancer" : "pro",
+        interval: interval === "month" ? "month" : "year",
+        seats: seatsUrl
+    };
+}
+
+// header/price hydrate
+
+function hydratePlanHeader(ui) {
+    const isPro = selectedPlan === "pro";
+    const pricingValue = PRICING[selectedPlan][selectedInterval];
+
+    if (ui.planName) {
+        ui.planName.textContent = isPro ? "WebSharper Professional" : "Freelancer";
+    }
+
+    if (ui.planPriceLine) {
+        if (pricingValue.perSeat) {
+            // e.g. $2,500 / Year or $250 / Month — exact seat count appears in totals
+            ui.planPriceLine.innerHTML = `${usd(pricingValue.amount)} <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ ${cap(selectedInterval)}</span>`;
+        } else {
+            // Flat plan
+            ui.planPriceLine.innerHTML = `${usd(pricingValue.amount)} <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ ${cap(selectedInterval)}</span>`;
+        }
+    }
+
+    // Show/hide seat selector
+    if (ui.seatBlock) {
+        ui.seatBlock.classList.toggle("hidden", !pricingValue.perSeat);
+    }
+
+    // Price hint
+    if (ui.priceHint) {
+        if (pricingValue.perSeat) {
+            ui.priceHint.textContent = `Price is ${usd(pricingValue.amount)} per seat per ${selectedInterval}.`;
+        } else {
+            ui.priceHint.textContent = `Price is ${usd(pricingValue.amount)} per ${selectedInterval}.`;
+        }
+    }
+}
+
 // seats
 
 function initSeatSelector(ui, seatsFromUrl) {
-    if (ui.seatsInput) {
+    const isPerSeat = PRICING[selectedPlan][selectedInterval].perSeat;
+
+    if (isPerSeat && ui.seatsInput) {
         setSeats(ui, seatsFromUrl);
         ui.btnMinus?.addEventListener("click", () => setSeats(ui, (parseInt(ui.seatsInput.value || "1", 10) | 0) - 1));
         ui.btnPlus?.addEventListener("click", () => setSeats(ui, (parseInt(ui.seatsInput.value || "1", 10) | 0) + 1));
         ui.seatsInput.addEventListener("input", () => setSeats(ui, parseInt(ui.seatsInput.value || "1", 10)));
     } else {
-        updateTotals(ui, seatsFromUrl);
+        // Freelancer or no input => force 1 seat
+        if (ui.seatsInput) 
+            ui.seatsInput.value = "1";
+
+        updateTotals(ui, 1);
     }
 }
 
-function getSeatsFromUrl() {
-    const searchParams = new URLSearchParams(location.search);
-    return clamp(parseInt(searchParams.get("seats") || "1", 10));
-}
-
 function getCurrentSeats(ui, fallback) {
-    if (ui.seatsInput) return clamp(parseInt(ui.seatsInput.value || "1", 10));
+    const isPerSeat = PRICING[selectedPlan][selectedInterval].perSeat;
+    if (!isPerSeat) 
+        return 1;
+
+    if (ui.seatsInput) 
+        return clamp(parseInt(ui.seatsInput.value || "1", 10));
+
     return fallback;
 }
 
 function setSeats(ui, seats) {
-    const v = clamp(seats | 0);
-    if (ui.seatsInput) ui.seatsInput.value = String(v);
-    updateTotals(ui, v);
+    const clampedSeats = clamp(seats | 0);
+    if (ui.seatsInput) 
+        ui.seatsInput.value = String(clampedSeats);
+
+    updateTotals(ui, clampedSeats);
 }
+
+// VAT
 
 function vatRate(ui) {
-  const country = toIso2(ui.country?.value || "");
-  const isCompany = !!ui.companyCk?.checked;
-  const hasVatId = !!(ui.vatin?.value || "").trim();
+    const country = toIso2(ui.country?.value || "");
+    const isCompany = !!ui.companyCk?.checked;
+    const hasVatId = !!(ui.vatin?.value || "").trim();
 
-  // Minimal EU standard VAT rates
-  const EU_VAT = {
-    AT: 0.20, BE: 0.21, BG: 0.20, HR: 0.25, CY: 0.19, CZ: 0.21, DK: 0.25,
-    EE: 0.22, FI: 0.24, FR: 0.20, DE: 0.19, GR: 0.24, HU: 0.27, IE: 0.23,
-    IT: 0.22, LV: 0.21, LT: 0.21, LU: 0.17, MT: 0.18, NL: 0.21, PL: 0.23,
-    PT: 0.23, RO: 0.19, SK: 0.20, SI: 0.22, ES: 0.21, SE: 0.25
-  };
+    const EU_VAT = {
+        AT: 0.20, BE: 0.21, BG: 0.20, HR: 0.25, CY: 0.19, CZ: 0.21, DK: 0.25,
+        EE: 0.22, FI: 0.24, FR: 0.20, DE: 0.19, GR: 0.24, HU: 0.27, IE: 0.23,
+        IT: 0.22, LV: 0.21, LT: 0.21, LU: 0.17, MT: 0.18, NL: 0.21, PL: 0.23,
+        PT: 0.23, RO: 0.19, SK: 0.20, SI: 0.22, ES: 0.21, SE: 0.25
+    };
 
-  const isEU = country in EU_VAT;
+    const isEU = country in EU_VAT;
 
-  if (isCompany) {
-    if (country === "HU") 
-        return 0.27; // HU B2B
-
-    if (isEU && hasVatId) 
-        return 0; // EU B2B reverse charge
-    if (isEU && !hasVatId) 
-        return EU_VAT[country];
-
-    return 0; // Non-EU B2B
-  } else {
-    if (isEU) 
-        return EU_VAT[country]; // EU B2C: customer's rate
-    return 0;// Non-EU B2C
-  }
+    if (isCompany) {
+        if (country === "HU") return 0.27;          // HU B2B
+        if (isEU && hasVatId) return 0;             // EU B2B reverse charge
+        if (isEU && !hasVatId) return EU_VAT[country];
+        return 0;                                    // Non-EU B2B
+    } else {
+        if (isEU) return EU_VAT[country];            // EU B2C: customer's rate
+        return 0;                                    // Non-EU B2C
+    }
 }
 
+// totals
 
 function updateTotals(ui, seats) {
-    const v = clamp(seats | 0);
-    const subtotal = v * PRICE_PER_SEAT;
+    const pricingConfig = PRICING[selectedPlan][selectedInterval];
+    const perSeat = pricingConfig.perSeat;
+
+    const qty = perSeat ? clamp(seats | 0) : 1;
+    const subtotal = perSeat ? (qty * pricingConfig.amount) : pricingConfig.amount;
+
     const rate = vatRate(ui);
     const tax = Math.round(subtotal * rate);
     const total = subtotal + tax;
 
     if (ui.subtotal) 
         ui.subtotal.textContent = format(subtotal);
-
+    
     if (ui.taxes) 
         ui.taxes.textContent = format(tax);
 
@@ -165,7 +255,7 @@ function initCompanyToggle(ui) {
         const show = !!ui.companyCk?.checked;
         if (ui.companyBlk) 
             ui.companyBlk.classList.toggle("hidden", !show);
-
+        
         if (ui.companyName) 
             ui.companyName.required = show;
 
@@ -198,10 +288,8 @@ async function onContinueClick(ui) {
 
     try {
         const data = await startCheckout(token, payload);
-        if (data?.url) 
-            window.location.href = data.url;
-        else 
-            throw new Error("Unexpected response: missing checkout URL");
+        if (data?.url) window.location.href = data.url;
+        else throw new Error("Unexpected response: missing checkout URL");
     } catch (err) {
         handleCheckoutError(err, ui.toast);
     } finally {
@@ -234,10 +322,14 @@ async function ensureCsrfOrFail() {
 
 function buildCheckoutPayload(ui) {
     const draft = readDraft();
-    const seatsToSend = clamp(getCurrentSeats(ui, 1) || draft?.seats || 1);
+    const isPerSeat = PRICING[selectedPlan][selectedInterval].perSeat;
+    const seatsToSend = isPerSeat ? (clamp(getCurrentSeats(ui, 1) || draft?.seats || 1)) : 1;
+
     return {
         seats: seatsToSend,
         email: (ui.email?.value ?? "").trim() || draft?.customer?.email || null,
+        interval: selectedInterval, // "month" | "year"
+        plan: selectedPlan, // "pro" | "freelancer"
         billingAddress: {
             line1: (ui.street?.value ?? "").trim(),
             city: (ui.city?.value ?? "").trim(),
@@ -285,7 +377,11 @@ function handleCheckoutError(err, toast) {
 }
 
 function readDraft() {
-    try { return JSON.parse(sessionStorage.getItem("wsCheckoutDraft") || "{}"); } catch { return {}; }
+    try { 
+        return JSON.parse(sessionStorage.getItem("wsCheckoutDraft") || "{}"); 
+    } catch { 
+        return {}; 
+    }
 }
 
 function writeDraft(payload) {
@@ -301,8 +397,22 @@ function writeDraft(payload) {
 
 // tiny utils
 
-function clamp(n) { return Math.max(1, Math.min(999, n | 0)); }
-function format(n) { return `$${n.toLocaleString("en-US")}`; }
+function clamp(n) { 
+    return Math.max(1, Math.min(999, n | 0)); 
+}
+
+function usd(n) { 
+    return `$${n.toLocaleString("en-US")}`; 
+}
+
+function format(n) { 
+    return `$${n.toLocaleString("en-US")}`; 
+}
+
+function cap(s) { 
+    return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; 
+}
+
 function toIso2(val) {
     const map = { "hungary": "HU", "france": "FR", "united-kingdom": "GB" };
     return map[(val || "").toLowerCase()] || (val || "").toUpperCase().slice(0, 2);
