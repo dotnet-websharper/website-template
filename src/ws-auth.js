@@ -1,5 +1,5 @@
-// export const API = 'https://api.websharper.com';
-export const API = 'http://localhost:55482';
+export const API = 'https://api.websharper.com';
+// export const API = 'http://localhost:55482';
 
 let cachedUser = undefined;
 let csrfToken = undefined;

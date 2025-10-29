@@ -14,6 +14,11 @@ function init() {
     const ui = collectUi();
     initSeatSelector(ui, seatsFromUrl);
     initCompanyToggle(ui);
+
+    ui.country?.addEventListener("change", () => {
+        updateTotals(ui, getCurrentSeats(ui, 1));
+    });
+
     bindCheckout(ui);
 }
 
@@ -103,17 +108,54 @@ function setSeats(ui, seats) {
     updateTotals(ui, v);
 }
 
+function vatRate(ui) {
+  const country = toIso2(ui.country?.value || "");
+  const isCompany = !!ui.companyCk?.checked;
+  const hasVatId = !!(ui.vatin?.value || "").trim();
+
+  // Minimal EU standard VAT rates
+  const EU_VAT = {
+    AT: 0.20, BE: 0.21, BG: 0.20, HR: 0.25, CY: 0.19, CZ: 0.21, DK: 0.25,
+    EE: 0.22, FI: 0.24, FR: 0.20, DE: 0.19, GR: 0.24, HU: 0.27, IE: 0.23,
+    IT: 0.22, LV: 0.21, LT: 0.21, LU: 0.17, MT: 0.18, NL: 0.21, PL: 0.23,
+    PT: 0.23, RO: 0.19, SK: 0.20, SI: 0.22, ES: 0.21, SE: 0.25
+  };
+
+  const isEU = country in EU_VAT;
+
+  if (isCompany) {
+    if (country === "HU") 
+        return 0.27; // HU B2B
+
+    if (isEU && hasVatId) 
+        return 0; // EU B2B reverse charge
+    if (isEU && !hasVatId) 
+        return EU_VAT[country];
+
+    return 0; // Non-EU B2B
+  } else {
+    if (isEU) 
+        return EU_VAT[country]; // EU B2C: customer's rate
+    return 0;// Non-EU B2C
+  }
+}
+
+
 function updateTotals(ui, seats) {
     const v = clamp(seats | 0);
     const subtotal = v * PRICE_PER_SEAT;
+    const rate = vatRate(ui);
+    const tax = Math.round(subtotal * rate);
+    const total = subtotal + tax;
+
     if (ui.subtotal) 
         ui.subtotal.textContent = format(subtotal);
 
     if (ui.taxes) 
-        ui.taxes.textContent = "$0";
+        ui.taxes.textContent = format(tax);
 
     if (ui.total) 
-        ui.total.textContent = format(subtotal);
+        ui.total.textContent = format(total);
 }
 
 // company toggle
@@ -129,6 +171,8 @@ function initCompanyToggle(ui) {
 
         if (ui.vatin) 
             ui.vatin.required = show;
+
+        updateTotals(ui, getCurrentSeats(ui, 1));
     };
     ui.companyCk?.addEventListener("change", toggle);
     toggle();
