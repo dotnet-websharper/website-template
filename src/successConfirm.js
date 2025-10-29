@@ -44,7 +44,7 @@ function renderDetails(data) {
 async function fetchConfirmation(sessionId) {
     const url = `${API}${CONFIRM_PATH}?session_id=${encodeURIComponent(sessionId)}`;
     
-    return await safeFetch(url, { method: "GET", credentials: "include" });
+    return await safeFetch(url, { method: "GET" });
 }
 
 // Init
