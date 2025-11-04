@@ -1,0 +1,13 @@
+{
+  "name": "websharper.com",
+  "version": "1.0.0",
+  "scripts": {
+    "css:dev": "tailwindcss -i Styles/tailwind.css -o build/tailwind.css --watch",
+    "css:build": "tailwindcss -i Styles/tailwind.css -o build/tailwind.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.16",
+    "esbuild": "^0.19.9",
+    "tailwindcss": "^4.1.16"
+  }
+}

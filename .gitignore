@@ -1,0 +1,11 @@
+bin
+obj
+build
+.vs
+*.user
+*.suo
+*.log
+*.tmp
+node_modules
+temp
+dist
