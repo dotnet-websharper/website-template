@@ -1,16 +1,6 @@
 import { API, getCsrfToken, fetchMe } from "./ws-auth";
 import { safeFetch, redirectToError } from "./error-utils.js";
-
-const PRICING = {
-    pro: {
-        month: { amount: 250, perSeat: true },   // USD / seat / month
-        year:  { amount: 2500, perSeat: true } // USD / seat / year
-    },
-    freelancer: {
-        month: { amount: 30, perSeat: false }, // USD / month (1 seat)
-        year:  { amount: 300, perSeat: false } // USD / year  (1 seat)
-    }
-};
+import { hydrateCatalog, catalog } from "./plans.js";
 
 const CHECKOUT_SESSION_ENDPOINT = `${API}/checkout/session`;
 const SUPPORT_PLANS_URL = "/website-template/support.html#plans";
@@ -21,7 +11,7 @@ let selectedInterval = "year"; // "month" | "year"
 
 init();
 
-function init() {
+async function init() {
     setupBackLink();
 
     // Read URL params: ?plan=pro|freelancer&interval=month|year&seats=n
@@ -30,6 +20,8 @@ function init() {
     selectedInterval = params.interval;
 
     const ui = collectUi();
+
+    await hydrateCatalog();
     hydratePlanHeader(ui);
     initSeatSelector(ui, params.seats);
     initCompanyToggle(ui);
@@ -128,42 +120,47 @@ function readParams() {
 // header/price hydrate
 
 function hydratePlanHeader(ui) {
-    const isPro = selectedPlan === "pro";
-    const pricingValue = PRICING[selectedPlan][selectedInterval];
+    const pricingConfig = catalog[selectedPlan];
+    const priceCents = pricingConfig?.[selectedInterval]?.unitAmountCents || 0;
+    const price = priceCents / 100;
+    const perSeat = !!pricingConfig?.[selectedInterval]?.isPerSeat;
 
     if (ui.planName) {
-        ui.planName.textContent = isPro ? "WebSharper Professional" : "Freelancer";
+        ui.planName.textContent = pricingConfig?.name || (selectedPlan === "pro" ? "WebSharper Professional" : "Freelancer");
     }
 
     if (ui.planPriceLine) {
-        if (pricingValue.perSeat) {
+        if (perSeat) {
             // e.g. $2,500 / Year or $250 / Month — exact seat count appears in totals
-            ui.planPriceLine.innerHTML = `${usd(pricingValue.amount)} <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ ${cap(selectedInterval)}</span>`;
+            ui.planPriceLine.innerHTML = `${usd(price)} <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ ${cap(selectedInterval)}</span>`;
         } else {
             // Flat plan
-            ui.planPriceLine.innerHTML = `${usd(pricingValue.amount)} <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ ${cap(selectedInterval)}</span>`;
+            ui.planPriceLine.innerHTML = `${usd(price)} <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ ${cap(selectedInterval)}</span>`;
         }
     }
 
     // Show/hide seat selector
     if (ui.seatBlock) {
-        ui.seatBlock.classList.toggle("hidden", !pricingValue.perSeat);
+        ui.seatBlock.classList.toggle("hidden", !perSeat);
     }
 
     // Price hint
     if (ui.priceHint) {
-        if (pricingValue.perSeat) {
-            ui.priceHint.textContent = `Price is ${usd(pricingValue.amount)} per seat per ${selectedInterval}.`;
+        if (perSeat) {
+            ui.priceHint.textContent = `Price is ${usd(price)} per seat per ${selectedInterval}.`;
         } else {
-            ui.priceHint.textContent = `Price is ${usd(pricingValue.amount)} per ${selectedInterval}.`;
+            ui.priceHint.textContent = `Price is ${usd(price)} per ${selectedInterval}.`;
         }
     }
+
+    // Initial totals after header render
+    updateTotals(ui, getCurrentSeats(ui, 1));
 }
 
 // seats
 
 function initSeatSelector(ui, seatsFromUrl) {
-    const isPerSeat = PRICING[selectedPlan][selectedInterval].perSeat;
+    const isPerSeat = !!(catalog[selectedPlan]?.[selectedInterval]?.isPerSeat);
 
     if (isPerSeat && ui.seatsInput) {
         setSeats(ui, seatsFromUrl);
@@ -180,7 +177,7 @@ function initSeatSelector(ui, seatsFromUrl) {
 }
 
 function getCurrentSeats(ui, fallback) {
-    const isPerSeat = PRICING[selectedPlan][selectedInterval].perSeat;
+    const isPerSeat = catalog[selectedPlan]?.[selectedInterval]?.isPerSeat;
     if (!isPerSeat) 
         return 1;
 
@@ -225,14 +222,20 @@ function vatRate(ui) {
     }
 }
 
+function currentUnitAmountCents() {
+    const conf = catalog[selectedPlan] || FALLBACK[selectedPlan];
+    return conf?.[selectedInterval]?.unitAmountCents || 0;
+}
+
 // totals
 
 function updateTotals(ui, seats) {
-    const pricingConfig = PRICING[selectedPlan][selectedInterval];
-    const perSeat = pricingConfig.perSeat;
-
+    const perSeat = !!(catalog[selectedPlan]?.[selectedInterval]?.isPerSeat);
+    const unit = currentUnitAmountCents(); // cents
     const qty = perSeat ? clamp(seats | 0) : 1;
-    const subtotal = perSeat ? (qty * pricingConfig.amount) : pricingConfig.amount;
+
+    const subtotalCents = perSeat ? (qty * unit) : unit; // cents
+    const subtotal = subtotalCents / 100; // dollars
 
     const rate = vatRate(ui);
     const tax = Math.round(subtotal * rate);
@@ -281,7 +284,6 @@ async function onContinueClick(ui) {
     if (!token) return;
 
     const payload = buildCheckoutPayload(ui);
-    writeDraft(payload);
 
     const oldText = ui.continueBtn.textContent;
     disableButton(ui.continueBtn, "Processing…");
@@ -321,15 +323,13 @@ async function ensureCsrfOrFail() {
 }
 
 function buildCheckoutPayload(ui) {
-    const draft = readDraft();
-    const isPerSeat = PRICING[selectedPlan][selectedInterval].perSeat;
-    const seatsToSend = isPerSeat ? (clamp(getCurrentSeats(ui, 1) || draft?.seats || 1)) : 1;
+    const seatsToSend = clamp(getCurrentSeats(ui, 1));
 
     return {
         seats: seatsToSend,
         email: (ui.email?.value ?? "").trim() || draft?.customer?.email || null,
         interval: selectedInterval, // "month" | "year"
-        plan: selectedPlan, // "pro" | "freelancer"
+        planCode: selectedPlan, // "pro" | "freelancer"
         billingAddress: {
             line1: (ui.street?.value ?? "").trim(),
             city: (ui.city?.value ?? "").trim(),
@@ -374,25 +374,6 @@ function handleCheckoutError(err, toast) {
             message: "Something went wrong while starting the payment. Please try again."
         });
     }
-}
-
-function readDraft() {
-    try { 
-        return JSON.parse(sessionStorage.getItem("wsCheckoutDraft") || "{}"); 
-    } catch { 
-        return {}; 
-    }
-}
-
-function writeDraft(payload) {
-    try {
-        sessionStorage.setItem("wsCheckoutDraft", JSON.stringify({
-            seats: payload.seats,
-            customer: { email: payload.email },
-            address: payload.billingAddress,
-            company: payload.company
-        }));
-    } catch {}
 }
 
 // tiny utils
