@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -9,8 +9,11 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <Content Include="Styles\app.css" />
     <Compile Include="Client.fs" />
+    <Compile Include="Theme.fs" />
     <Compile Include="Main.fs" />
+    <Content Include="Layout.html" />
     <Content Include="Main.html" />
     <None Include="extra.files" />
     <None Include="package.json" />
@@ -30,6 +33,7 @@
 
   <Target Name="ESBuildBundle" AfterTargets="WebSharperCompile">
     <Exec Command="npm install" />
+	<Exec Command="npm run css:build"></Exec>
     <Exec Command="node ./esbuild.config.mjs" />
   </Target>
 

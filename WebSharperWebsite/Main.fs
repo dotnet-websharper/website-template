@@ -32,20 +32,39 @@ module Templating =
                 .Doc()
         )
 
+    let Layout ctx (body: Doc list) =
+        Content.Page(
+            Templates.LayoutTemplate()
+                .Body(body)
+                .Doc()
+        )
+
 
 module Site =
     open WebSharper.UI.Html
 
     open type WebSharper.UI.ClientServer
 
+    //let HomePage ctx =
+    //    Templating.Main ctx EndPoint.Home "Home" [
+    //        h1 [] [text "Say Hi to JavaScript!"]
+    //        div [] [client (Client.Main())]
+    //    ]
+
+    //let AboutPage ctx =
+    //    Templating.Main ctx EndPoint.About "About" [
+    //        h1 [] [text "About"]
+    //        p [] [text "This is a template WebSharper generated html application."]
+    //    ]
+
     let HomePage ctx =
-        Templating.Main ctx EndPoint.Home "Home" [
+        Templating.Layout ctx [
             h1 [] [text "Say Hi to JavaScript!"]
             div [] [client (Client.Main())]
         ]
 
     let AboutPage ctx =
-        Templating.Main ctx EndPoint.About "About" [
+        Templating.Layout ctx [
             h1 [] [text "About"]
             p [] [text "This is a template WebSharper generated html application."]
         ]

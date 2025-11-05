@@ -7,7 +7,8 @@ open WebSharper.UI.Templating
 
 [<JavaScript>]
 module Templates =   
-    type MainTemplate = Templating.Template<"Main.html", ClientLoad.FromDocument, ServerLoad.PerRequest>
+    type MainTemplate = Templating.Template<"Main.html">
+    type LayoutTemplate = Templating.Template<"Layout.html">
 
 [<JavaScript>]
 module Client =

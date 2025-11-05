@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+    font-family: "DM Sans", sans-serif;
+}
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, "Inter", sans-serif;
+}
+
