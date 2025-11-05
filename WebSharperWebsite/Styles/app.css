@@ -9,3 +9,110 @@
   --font-sans: ui-sans-serif, system-ui, "Inter", sans-serif;
 }
 
+.header-text {
+    @apply text-gray-950 dark:text-white;
+}
+
+.body-text {
+    @apply text-gray-700 dark:text-gray-300;
+}
+
+.hidden-open-icon {
+    @apply rotate-180 scale-0 opacity-0;
+}
+
+.visible-close-icon {
+    @apply rotate-180 scale-100 opacity-100;
+}
+
+.active-link span {
+    @apply translate-x-0 scale-105 opacity-100;
+}
+
+.active-link div {
+    @apply bg-lime-600 dark:!bg-lime-400;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    @apply h-1.5 w-1.5;
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.snippet-code:hover .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-200 transition-all duration-300 dark:bg-gray-800;
+}
+
+code {
+    @apply !font-mono;
+}
+
+.line-numbers .line-numbers-rows {
+    border-right: none !important;
+}
+
+.marquee {
+    animation: marquee 20s linear infinite;
+}
+
+.marquee-2 {
+    animation: marquee 25s linear infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(-100%, 0);
+    }
+}
+
+.content-list {
+    @apply list-disc list-outside ml-5;
+}
+
+.header {
+    @apply text-gray-950 dark:text-white text-3xl font-bold;
+}
+
+.sub-header {
+    @apply text-gray-800 dark:text-white text-2xl font-semibold;
+}
+
+.content {
+    @apply text-gray-700 dark:text-white;
+}
+
+.template-command-container {
+    @apply mt-4 flex flex-col md:flex-row gap-6;
+}
+
+.cli-wrapper {
+    @apply w-full md:w-1/2;
+}
+
+.cli {
+    @apply mt-2 flex w-max h-10 items-center gap-2 rounded-xl border border-gray-300 backdrop-blur-xl pl-4 pr-2 text-base font-medium leading-7 dark:border-gray-800 dark:bg-transparent overflow-hidden text-ellipsis whitespace-nowrap shadow-md shadow-gray-500 dark:shadow-sky-600;
+}
+
+.vscode-btn {
+    @apply text-white bg-blue-500 p-3 my-5 rounded-md hover:bg-blue-400 transition duration-300;
+}
+
+option {
+    @apply dark:text-gray-700;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
