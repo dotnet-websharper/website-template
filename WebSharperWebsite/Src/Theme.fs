@@ -43,7 +43,6 @@ module Theme =
         updateAllIframesTheme ()
 
     let Init () =
-        Console.Log("Theme.Init")
         let saved = JS.Window.LocalStorage.GetItem(ThemeKey)
         if saved = "dark" || (isNull saved && prefersDark()) then 
             setDark true 
@@ -53,7 +52,6 @@ module Theme =
         updateAllIframesTheme ()
 
     let Toggle () : unit =
-        Console.Log("Theme.Toggle")
         let next = 
             if currentTheme () = "dark" then 
                 "light" 

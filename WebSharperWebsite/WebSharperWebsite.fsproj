@@ -33,6 +33,10 @@
     <PackageReference Update="FSharp.Core" Version="10.0.100-rc2.25502.107" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\" />
+  </ItemGroup>
+
   <Target Name="ESBuildBundle" AfterTargets="WebSharperCompile">
     <Exec Command="npm install" />
 	<Exec Command="npm run css:build"></Exec>
