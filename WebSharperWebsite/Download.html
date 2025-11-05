@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About</title>
+</head>
+<body>
+    <main class="container">
+        <div ws-template="AboutTemplates">
+            <h1>About This Application</h1>
+            <p>This application is built using WebSharper, a web framework for F#.</p>
+            <p>It demonstrates basic client-server interaction and dynamic content rendering.</p>
+            <button ws-onclick="ClickMe">Click me</button>
+            <p>${Result}</p>
+        </div>
+
+    </main>
+    <script ws-replace="scripts"></script>
+</body>
+</html>
