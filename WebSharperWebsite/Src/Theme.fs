@@ -10,24 +10,24 @@ module Theme =
     [<Literal>] 
     let ThemeKey = "color-theme"
 
-    let prefersDark () : bool = JS.Window.MatchMedia("(prefers-color-scheme: dark)").Matches
+    let private prefersDark () : bool = JS.Window.MatchMedia("(prefers-color-scheme: dark)").Matches
 
-    let rootEl () = JS.Document.DocumentElement
+    let private rootEl () = JS.Document.DocumentElement
 
-    let setDark (on: bool) =
+    let private setDark (on: bool) =
         let root = rootEl()
         if on then 
             root.ClassList.Add("dark") 
         else 
             root.ClassList.Remove("dark")
 
-    let currentTheme () =
+    let private currentTheme () =
         if rootEl().ClassList.Contains("dark") then 
             "dark" 
         else 
             "light"
 
-    let updateAllIframesTheme () =
+    let private updateAllIframesTheme () =
         let theme = currentTheme ()
         let nodes = JS.Document.QuerySelectorAll(".themed-iframe")
 
@@ -37,7 +37,7 @@ module Theme =
             if not (isNull baseSrc) then
                 el.SetAttribute("src", baseSrc + "?theme=" + theme)
 
-    let applyTheme (theme: string) =
+    let private applyTheme (theme: string) =
         setDark (theme = "dark")
         JS.Window.LocalStorage.SetItem(ThemeKey, theme)
         updateAllIframesTheme ()

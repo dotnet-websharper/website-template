@@ -8,7 +8,7 @@ open WebSharper.UI.Templating
 
 [<JavaScript>]
 module Templates =   
-    //type MainTemplate = Templating.Template<"Main.html">
+    type MainTemplate = Templating.Template<"Main.html">
     type HomeTemplate = Templating.Template<"Home.html">
     type AbouTemplate = Templating.Template<"Download.html">
     type LayoutTemplate = Templating.Template<"Layout.html", ClientLoad.FromDocument, ServerLoad.PerRequest>
@@ -41,12 +41,17 @@ module Client =
 
     let Main () =
         let rvReversed = Var.Create ""
-        Templates.HomeTemplate.MainForm()
+        Templates.MainTemplate.MainForm()
             .OnSend(fun e ->
                 let res = DoSomething e.Vars.TextToReverse.Value
                 rvReversed := res
             )
             .Reversed(rvReversed.View)
+            .Doc()
+
+    let Home () =
+        Templates.HomeTemplate()
+            .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
             .Doc()
 
     let About () =

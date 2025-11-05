@@ -9,6 +9,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <Compile Include="Src\Clipboard.fs" />
     <Compile Include="Src\Theme.fs" />
     <Compile Include="Src\Client.fs" />
     <Compile Include="Src\Main.fs" />

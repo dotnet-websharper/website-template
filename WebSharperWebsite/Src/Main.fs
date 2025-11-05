@@ -66,13 +66,11 @@ module Site =
 
     let HomePage ctx =
         Templating.Layout ctx [
-            h1 [] [text "Say Hi to JavaScript!"]
-            div [] [client (Client.Main())]
+            div [] [client (Client.Home())]
         ]
 
     let AboutPage ctx =
         Templating.Layout ctx [
-            h1 [] [text "About"]
             div [] [client (Client.About())]
         ]
 
