@@ -43,9 +43,17 @@ module Client =
         Doc.Empty
 
     let Home () =
-        Templates.HomeTemplate()
-            .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
-            .Doc()
+        
+        if IsClient then
+            Templates.HomeTemplate()
+                .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
+                .InitCast(fun () ->
+                    VideoPlayer.Init("ws-template")
+                )
+                .Doc()
+        else
+            Templates.HomeTemplate()
+                .Doc()
 
     let Download () =
         Templates.DownloadTemplate()

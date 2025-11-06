@@ -9,5 +9,8 @@
     "@tailwindcss/cli": "^4.1.16",
     "esbuild": "^0.19.9",
     "tailwindcss": "^4.1.16"
+  },
+  "dependencies": {
+    "asciinema-player": "^3.12.1"
   }
 }
