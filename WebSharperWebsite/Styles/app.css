@@ -3,18 +3,28 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --color-brand-primary: #36b9ff; /* gives you text-brand-primary / bg-brand-primary, etc. */
-    --color-brand-secondary: #F2F2F2; /* only if you need it elsewhere */
+    --color-brand-primary: #36b9ff;
+    --color-brand-secondary: #F2F2F2;
+}
+
+@theme inline {
+    --color-gray-50: var(--color-slate-50);
+    --color-gray-100: var(--color-slate-100);
+    --color-gray-200: var(--color-slate-200);
+    --color-gray-300: var(--color-slate-300);
+    --color-gray-400: var(--color-slate-400);
+    --color-gray-500: var(--color-slate-500);
+    --color-gray-600: var(--color-slate-600);
+    --color-gray-700: var(--color-slate-700);
+    --color-gray-800: var(--color-slate-800);
+    --color-gray-900: var(--color-slate-900);
+    --color-gray-950: var(--color-slate-950);
 }
 
 @import "./prism-override.css";
 
 :root {
     font-family: "DM Sans", sans-serif;
-}
-
-@theme {
-  --font-sans: ui-sans-serif, system-ui, "Inter", sans-serif;
 }
 
 .header-text {

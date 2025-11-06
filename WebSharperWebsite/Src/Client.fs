@@ -53,6 +53,12 @@ module Client =
                 .InitSnippetCode(fun () ->
                     SnippetCode.Init()
                 )
+                .InitTabs(fun () ->
+                    SnippetTabs.InitTabs()
+                )
+                .OnTabClick(fun e ->
+                    SnippetTabs.OnTabClick e.Event
+                )
                 .Doc()
         else
             Templates.HomeTemplate()
