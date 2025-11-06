@@ -61,47 +61,47 @@ module Site =
 
     let HomePage ctx =
         Templating.Layout ctx [
-            client (Client.Home())
+            hydrate (Client.Home())
         ]
 
     let AboutPage ctx =
         Templating.Layout ctx [
-            client (Client.Download())
+            hydrate (Client.Download())
         ]
 
     let SupportPage ctx =
         Templating.Layout ctx [
-            client (Client.Support())
+            hydrate (Client.Support())
         ]
 
     let DslAiPage ctx =
         Templating.Layout ctx [
-            client (Client.DslAi())
+            hydrate (Client.DslAi())
         ]
 
     let CheckoutPage ctx =
         Templating.Layout ctx [
-            client (Client.Checkout())
+            hydrate (Client.Checkout())
         ]
 
     let ErrorPage ctx =
         Templating.Layout ctx [
-            client (Client.Error())
+            hydrate (Client.Error())
         ]
 
     let InvoicePage ctx =
         Templating.Layout ctx [
-            client (Client.Invoice())
+            hydrate (Client.Invoice())
         ]
 
     let ManageSubscriptionPage ctx =
         Templating.Layout ctx [
-            client (Client.ManageSubscription())
+            hydrate (Client.ManageSubscription())
         ]
 
     let SuccessPage ctx =
         Templating.Layout ctx [
-            client (Client.Success())
+            hydrate (Client.Success())
         ]
 
     [<Website>]

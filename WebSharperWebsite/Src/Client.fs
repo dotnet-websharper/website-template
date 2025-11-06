@@ -6,7 +6,6 @@ open WebSharper.UI
 open WebSharper.UI.Notation
 open WebSharper.UI.Templating
 
-[<JavaScript>]
 module Templates =   
     type LayoutTemplate = Templating.Template<"Layout.html", ClientLoad.FromDocument, ServerLoad.WhenChanged>
     type HomeTemplate = Templating.Template<"Home.html">
