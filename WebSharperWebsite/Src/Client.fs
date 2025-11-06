@@ -59,8 +59,13 @@ module Client =
                 .Doc()
 
     let Download () =
-        Templates.DownloadTemplate()
-            .Doc()
+        if IsClient then
+            Templates.DownloadTemplate()
+                .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
+                .Doc()
+        else
+            Templates.DownloadTemplate()
+                .Doc()
 
     let Support () =    
         Templates.SupportTemplate()

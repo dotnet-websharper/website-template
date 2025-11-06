@@ -41,13 +41,10 @@ module Clipboard =
 
     let CopyFromClosest (e: Runtime.Server.TemplateEvent<_, _, _>) =
         let button = e.Target
-        let btn =
-            match e.Event.Target with
-            | :? Element as el -> el
-            | _ -> JS.Document.ActiveElement |> As<Element>
+        let container = button.Closest("div")
 
-        let textElement = JS.Document.QuerySelector(".text-to-copy")
-        let textToCopy = textElement.TextContent
+        let textElement = container.QuerySelector(".text-to-copy")
+        let textToCopy = textElement.TextContent.Trim()
 
         let copyIcon = button.QuerySelector(".copy")
         let successIcon = button.QuerySelector(".success")
