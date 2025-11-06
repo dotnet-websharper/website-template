@@ -149,7 +149,7 @@
                                         <div>
                                             <pre aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></pre>
                                         </div>
-                                        <div class="relative w-full snippet-code">
+                                        <div class="relative w-full snippet-code" ws-onafterrender="InitSnippetCode">
                                             <div class="absolute inset-0 overflow-auto custom-scrollbar" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                 <!-- PrismaJs line numbers -->
                                                 <pre class="line-numbers language-fsharp custom-scrollbar !overflow-auto"><code class="mt-[-17px] text-sm block leading-[1.13rem] language-fsharp text-white">[&lt;JavaScript&gt;]
@@ -324,7 +324,7 @@ module Client =
                                     <div class="sm:pr-4">
                                         <pre aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></pre>
                                     </div>
-                                    <div class="relative w-full snippet-code">
+                                    <div class="relative w-full snippet-code" ws-onafterrender="InitSnippetCode">
                                         <div class="relative transition-all duration-1000 custom-scrollbar max-w-full overflow-y-hidden pr-0 sm:pr-[52%] lg:pr-[46.8%]" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                             <pre class="line-numbers language-fsharp inline-block min-w-max"><code class="mt-[-17px] block md:leading-[1.13rem] language-fsharp text-white">let x = Var.Create 1
 let y = Var.Create 1
@@ -487,7 +487,8 @@ main.appendChild(result);</code></pre>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
+                                             ws-onafterrender="InitSnippetCode">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">type Model = { name: string }
@@ -584,7 +585,8 @@ render();</code></pre>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
+                                             ws-onafterrender="InitSnippetCode">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">type Person = { name: string; age: int }
@@ -676,7 +678,8 @@ function ShowPerson(props) {
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
+                                             ws-onafterrender="InitSnippetCode">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">// Define the application's endpoints
@@ -769,7 +772,8 @@ let Website =
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
+                                             ws-onafterrender="InitSnippetCode">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">let router = Router.Infer&lt;EndPoint&gt;()
@@ -876,7 +880,8 @@ render(router.currentRoute);</code></pre>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
+                                             ws-onafterrender="InitSnippetCode">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="overflow-hidden p-4 pt-0"><code class="w-max overflow-hidden language-fsharp">type Article = { id: int; title: string; date: DateTime }
@@ -1001,7 +1006,8 @@ public static void Main()
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
+                                             ws-onafterrender="InitSnippetCode">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">IndexTemplate.Main()
@@ -1079,7 +1085,8 @@ public static void Main()
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
+                                             ws-onafterrender="InitSnippetCode">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">// Server-side, remote-callable function
@@ -1178,7 +1185,8 @@ CallServer();
                                     <div class="sm:pr-4">
                                         <div aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></div>
                                     </div>
-                                    <div class="relative w-full snippet-code">
+                                    <div class="relative w-full snippet-code"
+                                         ws-onafterrender="InitSnippetCode">
                                         <div class="relative transition-all duration-1000 custom-scrollbar max-w-full overflow-y-hidden pr-0 sm:pr-[52%] lg:pr-[46.8%]" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                             <pre class="-mb-20 !overflow-auto line-numbers language-fsharp inline-block min-w-max"><code class="mt-[-14px] block md:leading-[1.13rem] language-fsharp text-white">let LoginForm () =
     Form.Return (fun user pass -> user, pass)
@@ -1361,7 +1369,8 @@ createLoginForm();</code></pre>
 
                                 <!-- Worker.fs snippet -->
                                 <div class=" w-auto md:row-span-2 border md:border-r-0 md:border-b-0 border-gray-300/50 dark:border-white/10 dark:border-r-0">
-                                    <div class="flex w-full overflow-auto py-3 pl-3 font-mono text-xs snippet-code">
+                                    <div class="flex w-full overflow-auto py-3 pl-3 font-mono text-xs snippet-code"
+                                         ws-onafterrender="InitSnippetCode">
                                         <div>
                                             <div aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></div>
                                         </div>
@@ -1391,7 +1400,8 @@ worker.PostMessage("Hello, worker!")</code></pre>
                                             <span class="text-xs">index.js</span>
                                         </div>
                                     </div>
-                                    <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code">
+                                    <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code"
+                                         ws-onafterrender="InitSnippetCode">
                                         <div>
                                             <div aria-hidden="true" class="line-numbers hidden w-2 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40 sm:block"></div>
                                         </div>
@@ -1414,7 +1424,8 @@ worker.postMessage("Hello, worker!");
                                             <span class="text-xs">worker.js</span>
                                         </div>
                                     </div>
-                                    <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code">
+                                    <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code"
+                                         ws-onafterrender="InitSnippetCode">
                                         <div>
                                             <div aria-hidden="true" class="line-numbers hidden w-2 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40 sm:block"></div>
                                         </div>

@@ -50,6 +50,9 @@ module Client =
                 .InitCast(fun () ->
                     VideoPlayer.Init("ws-template")
                 )
+                .InitSnippetCode(fun () ->
+                    SnippetCode.Init()
+                )
                 .Doc()
         else
             Templates.HomeTemplate()

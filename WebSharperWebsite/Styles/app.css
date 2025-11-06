@@ -1,5 +1,13 @@
 @import "tailwindcss";
+
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-brand-primary: #36b9ff; /* gives you text-brand-primary / bg-brand-primary, etc. */
+    --color-brand-secondary: #F2F2F2; /* only if you need it elsewhere */
+}
+
+@import "./prism-override.css";
 
 :root {
     font-family: "DM Sans", sans-serif;
