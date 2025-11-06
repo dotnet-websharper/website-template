@@ -8,15 +8,19 @@ open WebSharper.UI.Templating
 
 [<JavaScript>]
 module Templates =   
-    type MainTemplate = Templating.Template<"Main.html">
+    type LayoutTemplate = Templating.Template<"Layout.html", ClientLoad.FromDocument, ServerLoad.WhenChanged>
     type HomeTemplate = Templating.Template<"Home.html">
-    type AbouTemplate = Templating.Template<"Download.html">
-    type LayoutTemplate = Templating.Template<"Layout.html", ClientLoad.FromDocument, ServerLoad.PerRequest>
+    type DownloadTemplate = Templating.Template<"Download.html">
+    type SupportTemplate = Templating.Template<"Support.html">
+    type DslAiTemplate = Templating.Template<"DslAi.html">
+    type CheckoutTemplate = Templating.Template<"Checkout.html">
+    type ErrorTemplate = Templating.Template<"Error.html">
+    type InvoiceTemplate = Templating.Template<"Invoice.html">
+    type ManageSubscriptionTemplate = Templating.Template<"ManageSubscription.html">
+    type SuccessTemplate = Templating.Template<"Success.html">
 
 [<JavaScript>]
 module Client =
-    let DoSomething (input: string) =
-        System.String(Array.rev(input.ToCharArray()))
 
     let byId (id: string) = JS.Document.GetElementById id
 
@@ -39,22 +43,39 @@ module Client =
             .Bind()
         Doc.Empty
 
-    let Main () =
-        let rvReversed = Var.Create ""
-        Templates.MainTemplate.MainForm()
-            .OnSend(fun e ->
-                let res = DoSomething e.Vars.TextToReverse.Value
-                rvReversed := res
-            )
-            .Reversed(rvReversed.View)
-            .Doc()
-
     let Home () =
         Templates.HomeTemplate()
             .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
             .Doc()
 
-    let About () =
-        Templates.AbouTemplate.AboutTemplates()
-            .ClickMe(fun _ -> JS.Alert("You clicked me!"))
+    let Download () =
+        Templates.DownloadTemplate()
+            .Doc()
+
+    let Support () =    
+        Templates.SupportTemplate()
+            .Doc()
+
+    let DslAi () =
+        Templates.DslAiTemplate()
+            .Doc()
+
+    let Checkout () =
+        Templates.CheckoutTemplate()
+            .Doc()
+
+    let Error () =
+        Templates.ErrorTemplate()
+            .Doc()
+
+    let Invoice () =
+        Templates.InvoiceTemplate()
+            .Doc()
+
+    let ManageSubscription () =
+        Templates.ManageSubscriptionTemplate()
+            .Doc()
+
+    let Success () =
+        Templates.SuccessTemplate()
             .Doc()

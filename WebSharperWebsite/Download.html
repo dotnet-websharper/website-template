@@ -1,21 +1,342 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About</title>
 </head>
 <body>
-    <main class="container">
-        <div ws-template="AboutTemplates">
-            <h1>About This Application</h1>
-            <p>This application is built using WebSharper, a web framework for F#.</p>
-            <p>It demonstrates basic client-server interaction and dynamic content rendering.</p>
-            <button ws-onclick="ClickMe">Click me</button>
-            <p>${Result}</p>
-        </div>
+    <main class="space-y-40">
+        <!-- header and hero section -->
+        <section>
+            <div class="mx-auto max-w-6xl px-6 pt-36 sm:pt-40 lg:px-8 lg:pb-8 lg:pt-48 xl:px-0 2xl:max-w-7xl">
+                <div class="relative z-10 text-center w-full">
+                    <h1 class="max-w-2xl mx-auto text-gray-950 dark:text-white text-4xl font-bold sm:text-5xl">Downloads</h1>
+                    <p class="mt-6 max-w-lg mx-auto text-lg leading-8 text-gray-700 dark:text-gray-300">Create your WebSharper project quickly.</p>
+                </div>
+                <div class="dark:hidden absolute -bottom-1/4 left-1/2 -z-20 h-[500px] w-screen -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.gray.200/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.gray.200/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)]"></div>
+                <div class="hidden dark:block absolute -bottom-1/4 left-1/2 -z-20 h-[500px] w-screen -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.gray.900/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.gray.900/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)]"></div>
+                <div class="absolute h-96 inset-x-[10%] -bottom-[20%] my-auto hidden dark:block -z-20">
+                    <div aria-hidden="true" class="grid grid-cols-2 -space-x-52 opacity-50 dark:opacity-50 2xl:mx-auto 2xl:max-w-6xl">
+                        <!--background colors here -->
+                        <div class="h-72 bg-gradient-to-br from-pink-400 to-purple-400 blur-3xl dark:from-blue-800"></div>
+                        <div class="h-96 rounded-full bg-gradient-to-r from-cyan-400 to-sky-300 blur-3xl dark:from-transparent dark:to-sky-950"></div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="lg:mt-0">
+
+                <div class="mt-10 px-6 max-w-2xl mx-auto content space-y-12 text-base leading-relaxed">
+                    <hr class="mt-10 border-t border-gray-300 dark:border-gray-700 w-full mx-auto" />
+                    <h2 class="text-3xl font-semibold header">Getting Started with WebSharper</h2>
+                    <ul class="space-y-2 content-list">
+                        <li>
+                            The simplest way is to use the
+                            <a href="#with-dotnet" class="text-sky-400 underline">
+                                dotnet CLI.
+                            </a>
+                        </li>
+                        <li>
+                            If you are using Windows, you can also install the
+                            <a href="#with-vs" class="text-sky-400 underline">
+                                Visual Studio extension.
+                            </a>
+                        </li>
+                        <li>
+                            The above options provide project templates to get you started quickly. You can also use WebSharper by simply adding it to an existing project with NuGet and
+                            <a href="https://developers.websharper.com/docs/v4.x/fs/project-variables" class="text-sky-400 underline" target="_blank">
+                                a wsconfig.json configuration file.
+                            </a>
+                            <div class="pl-4 mt-4 flex items-center justify-center gap-2 flex-col">
+                                <div class="cli">
+                                    <span class="text-xs text-gray-500">$</span>
+                                    <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet add package WebSharper.FSharp</span>
+                                    <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
+                                        <span class="sr-only">Copy</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="self-center">or</div>
+                                <div class="cli">
+                                    <span class="text-xs text-gray-500">$</span>
+                                    <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet add package WebSharper.CSharp</span>
+                                    <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
+                                        <span class="sr-only">Copy</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <h4 class="text-lg">
+                        WebSharper also has many bindings for popular JavaScript libraries.
+                        <a href="https://www.nuget.org/packages?q=title%3Awebsharper" class="text-sky-400 underline" target="_blank">
+                            Download them from NuGet.
+                        </a>
+                    </h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- using dotnet CLI section -->
+        <section id="with-dotnet" class="scroll-my-16">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl content">
+                <div>
+                    <h2 class="header">
+                        Using WebSharper with the dotnet CLI
+                    </h2>
+                    <p class="mt-6">
+                        The WebSharper dotnet templates can be used to create ASP.NET Core-based projects.
+                    </p>
+                </div>
+                <div class="mt-10">
+                    <h3 class="sub-header">
+                        Install the WebSharper project templates
+                    </h3>
+                    <p class="mt-4">
+                        To install the WebSharper project templates, use the following command:
+                    </p>
+                    <!-- command -->
+                    <div class="cli">
+                        <span class="text-xs text-gray-500">$</span>
+                        <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new install WebSharper.Templates</span>
+                        <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
+                            <span class="sr-only">Copy</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="mt-6">
+                        To update the templates to the latest version, you can use:
+                    </p>
+                    <!-- command -->
+                    <div class="cli">
+                        <span class="text-xs text-gray-500">$</span>
+                        <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new install &quot;WebSharper.Templates::*&quot;</span>
+                        <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
+                            <span class="sr-only">Copy</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <h3 class="sub-header">Create a new WebSharper project</h3>
+                    <p class="mt-4">You can create multiple types of project, both in C# and F#.</p>
+                    <ul class="content-list w-[80%]">
+                        <li class="mt-6">
+                            <p>The <strong>Web</strong> template creates an ASP.NET Core-hosted WebSharper application with both server-side and client-side code. Create it with:</p>
+                            <div class="template-command-container">
+                                <div class="cli-wrapper">
+                                    <!-- command -->
+                                    <div class="cli">
+                                        <span class="text-xs text-gray-500">$</span>
+                                        <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new websharper-web -lang f# -n ClientServer</span>
+                                        <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
+                                            <span class="sr-only">Copy</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mt-6">
+                            <p>The <strong>SPA</strong> template creates an ASP.NET Core-hosted Single-Page Application. Create it with:</p>
+                            <div class="template-command-container">
+                                <div class="cli-wrapper">
+
+                                    <!-- command -->
+                                    <div class="cli">
+                                        <span class="text-xs text-gray-500">$</span>
+                                        <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new websharper-spa -lang f# -n SPA</span>
+                                        <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
+                                            <span class="sr-only">Copy</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mt-6">
+                            <p>The <strong>Library</strong> template creates a simple class library compiled with WebSharper. Create it with:</p>
+                            <div class="template-command-container">
+                                <div class="cli-wrapper">
+
+                                    <!-- command -->
+                                    <div class="cli">
+                                        <span class="text-xs text-gray-500">$</span>
+                                        <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new websharper-lib -lang f# -n Library</span>
+                                        <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
+                                            <span class="sr-only">Copy</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mt-6">
+                            <p>The <strong>HTML</strong> template creates a statically-generated website. Create it with:</p>
+                            <div class="template-command-container">
+                                <div class="cli-wrapper">
+
+                                    <!-- command -->
+                                    <div class="cli">
+                                        <span class="text-xs text-gray-500">$</span>
+                                        <span class="block w-max font-mono text-xs text-gray-800 dark:text-white/70">dotnet new websharper-html -lang f# -n Offline</span>
+                                        <button class="copy-btn group h-9 w-9 text-gray-950 dark:text-gray-200">
+                                            <span class="sr-only">Copy</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="copy m-auto h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="success m-auto hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="failed hidden h-4 w-4 transition duration-100 group-hover:rotate-12 group-hover:text-gray-500 dark:group-hover:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- what's next? -->
+        <section>
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl content mb-5">
+                <h2 class="header">Where to go next?</h2>
+                <div>
+                    <p class="mt-4">Learn how to use WebSharper:</p>
+                    <ul class="content-list space-y-2">
+                        <li class="mt-4">
+                            <a class="text-blue-400 hover:underline transition duration-300" href="https://docs.websharper.com/core/Sitelets">Discover sitelets:</a>
+                            serving content, defining an HTTP APIs, using JSON, etc.
+                        </li>
+                        <li class="">
+                            <a class="text-blue-400 hover:underline transition duration-300" href="https://docs.websharper.com/ui">Learn about building reactive web UIs:</a>
+                            using HTML templates, adding dynamic behavior, handling client-side state, etc.
+                        </li>
+                        <li>
+                            <a class="text-blue-400 hover:underline transition duration-300"
+                               href="https://docs.websharper.com/core/GettingStarted">
+                                Read the basics:
+                            </a>
+                            setting up projects, using project templates, and understanding compilation.
+                        </li>
+                        <li>
+                            <a class="text-blue-400 hover:underline transition duration-300"
+                               href="https://try.websharper.com/">
+                                Play with online examples:
+                            </a>
+                            edit and run WebSharper snippets, and use them to bootstrap your projects
+                        </li>
+                        <li>
+                            <a class="text-blue-400 hover:underline transition duration-300"
+                               href="https://www.nuget.org/packages?q=websharper">
+                                Browse available NuGet packages.
+                            </a>
+                            find WebSharper libraries and add them to your projects.
+                        </li>
+                        <li>
+                            <a class="text-blue-400 hover:underline transition duration-300"
+                               href="https://docs.websharper.com/core/WSConfig">
+                                Learn about configuration:
+                            </a>
+                            understand <code>wsconfig.json</code> and other project settings.
+                        </li>
+                        <li>
+                            <a class="text-blue-400 hover:underline transition duration-300"
+                               href="https://docs.websharper.com/core/deploying">
+                                Deploy your application:
+                            </a>
+                            tips for publishing to servers, cloud, or static hosting.
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="mt-4">Engage with the community:</p>
+                    <ul class="content-list space-y-2">
+                        <li class="mt-4">
+                            <a class="text-blue-400 hover:underline transition duration-300" href="https://forums.websharper.com/topics/all">Ask your questions on the forums.</a>
+                        </li>
+                        <li>
+                            <a class="text-blue-400 hover:underline transition duration-300"
+                               href="https://github.com/dotnet-websharper/core/issues">
+                                Report bugs or suggest features on GitHub.
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-blue-400 hover:underline transition duration-300"
+                               href="https://github.com/dotnet-websharper">
+                                Browse the source code on GitHub.
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-blue-400 hover:underline transition duration-300"
+                               href="https://twitter.com/websharper">
+                                Follow WebSharper news on Twitter.
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <h3 class="my-16 header">Happy Coding!</h3>
+            </div>
+        </section>
     </main>
-    <script ws-replace="scripts"></script>
 </body>
 </html>

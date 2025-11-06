@@ -8,6 +8,13 @@ open WebSharper.UI.Server
 type EndPoint =
     | [<EndPoint "GET /">] Home
     | [<EndPoint "GET /download">] Download
+    | [<EndPoint "GET /support">] Support
+    | [<EndPoint "GET /dsl-ai">] DslAi
+    | [<EndPoint "GET /checkout">] Checkout
+    | [<EndPoint "GET /error">] Error
+    | [<EndPoint "GET /invoice">] Invoice
+    | [<EndPoint "GET /manage-subscription">] ManageSubscription
+    | [<EndPoint "GET /success">] Success
 
 module Templating =
     open WebSharper.UI.Html
@@ -52,26 +59,49 @@ module Site =
 
     open type WebSharper.UI.ClientServer
 
-    //let HomePage ctx =
-    //    Templating.Main ctx EndPoint.Home "Home" [
-    //        h1 [] [text "Say Hi to JavaScript!"]
-    //        div [] [client (Client.Main())]
-    //    ]
-
-    //let AboutPage ctx =
-    //    Templating.Main ctx EndPoint.About "About" [
-    //        h1 [] [text "About"]
-    //        p [] [text "This is a template WebSharper generated html application."]
-    //    ]
-
     let HomePage ctx =
         Templating.Layout ctx [
-            div [] [client (Client.Home())]
+            client (Client.Home())
         ]
 
     let AboutPage ctx =
         Templating.Layout ctx [
-            div [] [client (Client.About())]
+            client (Client.Download())
+        ]
+
+    let SupportPage ctx =
+        Templating.Layout ctx [
+            client (Client.Support())
+        ]
+
+    let DslAiPage ctx =
+        Templating.Layout ctx [
+            client (Client.DslAi())
+        ]
+
+    let CheckoutPage ctx =
+        Templating.Layout ctx [
+            client (Client.Checkout())
+        ]
+
+    let ErrorPage ctx =
+        Templating.Layout ctx [
+            client (Client.Error())
+        ]
+
+    let InvoicePage ctx =
+        Templating.Layout ctx [
+            client (Client.Invoice())
+        ]
+
+    let ManageSubscriptionPage ctx =
+        Templating.Layout ctx [
+            client (Client.ManageSubscription())
+        ]
+
+    let SuccessPage ctx =
+        Templating.Layout ctx [
+            client (Client.Success())
         ]
 
     [<Website>]
@@ -80,13 +110,23 @@ module Site =
             match action with
             | Home -> HomePage ctx
             | Download -> AboutPage ctx
+            | Support -> SupportPage ctx
+            | DslAi -> DslAiPage ctx
+            | Checkout -> CheckoutPage ctx
+            | Error -> ErrorPage ctx
+            | Invoice -> InvoicePage ctx
+            | ManageSubscription -> ManageSubscriptionPage ctx
+            | Success -> SuccessPage ctx
         )
 
 [<Sealed>]
 type Website() =
     interface IWebsite<EndPoint> with
         member this.Sitelet = Site.Main
-        member this.Actions = [Home; Download]
+        member this.Actions = [
+            Home; Download; Support; DslAi;
+            Checkout; Error; Invoice; ManageSubscription; Success
+        ]
 
 [<assembly: Website(typeof<Website>)>]
 do ()
