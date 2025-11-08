@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 </head>
-<body ws-onafterrender="AfterHomeRender">
-    <main class="space-y-40">
+<body>
+    <main class="space-y-40" ws-onafterrender="OnAfterRender">
         <section>
             <div class="mx-auto max-w-6xl px-6 pt-36 sm:pt-40 lg:px-8 lg:pb-12 lg:pt-48 xl:px-0 2xl:max-w-7xl">
                 <div class="relative z-10 text-center w-full">
@@ -83,16 +83,14 @@
                     <!-- GIF -->
                     <div class="mt-12 flex justify-center">
                         <div id="ws-template" 
-                             class="w-full max-w-3xl h-auto" 
-                             ws-onafterrender="InitCast"></div>
+                             class="w-full max-w-3xl h-auto"></div>
                     </div>
                 </div>
 
                 <!-- Sample code -->
                 <div id="code-snippet" class="scroll-my-16 relative z-10 mt-20 xl:w-4/5 mx-auto">
                     <div class="rounded-3xl p-px from-gray-200 to-gray-950/5 bg-gradient-to-b dark:from-gray-800 dark:to-gray-900">
-                        <div ws-onafterrender="InitTabs"
-                             data-name="snippet" class="rounded-[23px] border border-gray-200/10 bg-white shadow-xl shadow-gray-950/5 pb-3 pr-3 text-sm backdrop-blur-3xl dark:border-transparent dark:bg-gray-950 md:ml-0">
+                        <div data-name="snippet" class="rounded-[23px] border border-gray-200/10 bg-white shadow-xl shadow-gray-950/5 pb-3 pr-3 text-sm backdrop-blur-3xl dark:border-transparent dark:bg-gray-950 md:ml-0">
                             <div class="flex items-center gap-4 px-6 pt-2 pb-1">
                                 <div class="flex space-x-1.5">
                                     <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
@@ -153,7 +151,7 @@
                                         <div>
                                             <pre aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></pre>
                                         </div>
-                                        <div class="relative w-full snippet-code" ws-onafterrender="InitSnippetCode">
+                                        <div class="relative w-full snippet-code" >
                                             <div class="absolute inset-0 overflow-auto custom-scrollbar" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                 <!-- PrismaJs line numbers -->
                                                 <pre class="line-numbers language-fsharp custom-scrollbar !overflow-auto"><code class="mt-[-17px] text-sm block leading-[1.13rem] language-fsharp text-white">[&lt;JavaScript&gt;]
@@ -291,8 +289,7 @@ module Client =
                 </div>
                 <div class="relative mt-16">
                     <div class="relative z-10 border dark:border-gray-800 rounded-xl dark:bg-transparent dark:p-px">
-                        <div ws-onafterrender="InitTabs"
-                             data-name="snippet" class="rounded-[23px] text-sm backdrop-blur-3xl">
+                        <div data-name="snippet" class="rounded-[23px] text-sm backdrop-blur-3xl">
                             <div class="flex items-center gap-4 rounded-t-xl px-4 py-2 dark:bg-gray-950">
                                 <div class="flex space-x-1.5">
                                     <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
@@ -331,7 +328,7 @@ module Client =
                                     <div class="sm:pr-4">
                                         <pre aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></pre>
                                     </div>
-                                    <div class="relative w-full snippet-code" ws-onafterrender="InitSnippetCode">
+                                    <div class="relative w-full snippet-code" >
                                         <div class="relative transition-all duration-1000 custom-scrollbar max-w-full overflow-y-hidden pr-0 sm:pr-[52%] lg:pr-[46.8%]" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                             <pre class="line-numbers language-fsharp inline-block min-w-max"><code class="mt-[-17px] block md:leading-[1.13rem] language-fsharp text-white">let x = Var.Create 1
 let y = Var.Create 1
@@ -461,9 +458,7 @@ main.appendChild(result);</code></pre>
                                 </a>
                             </div>
                             <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                <div data-name="snippet" 
-                                     ws-onafterrender="InitTabs"
-                                     class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+                                <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
                                     <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
                                         <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
                                             <div class="flex space-x-1.5">
@@ -500,8 +495,7 @@ main.appendChild(result);</code></pre>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
-                                             ws-onafterrender="InitSnippetCode">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">type Model = { name: string }
@@ -565,8 +559,7 @@ render();</code></pre>
                                 </a>
                             </div>
                             <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                <div ws-onafterrender="InitTabs"
-                                     data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+                                <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
                                     <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
                                         <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
                                             <div class="flex space-x-1.5">
@@ -601,8 +594,7 @@ render();</code></pre>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
-                                             ws-onafterrender="InitSnippetCode">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">type Person = { name: string; age: int }
@@ -654,8 +646,7 @@ function ShowPerson(props) {
                                 </a>
                             </div>
                             <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                <div ws-onafterrender="InitTabs"
-                                     data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+                                <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
                                     <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
                                         <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
                                             <div class="flex space-x-1.5">
@@ -696,8 +687,7 @@ function ShowPerson(props) {
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
-                                             ws-onafterrender="InitSnippetCode">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">// Define the application's endpoints
@@ -757,8 +747,7 @@ let Website =
                                 </a>
                             </div>
                             <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                <div ws-onafterrender="InitTabs"
-                                     data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+                                <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
                                     <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
                                         <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
                                             <div class="flex space-x-1.5">
@@ -793,8 +782,7 @@ let Website =
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
-                                             ws-onafterrender="InitSnippetCode">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">let router = Router.Infer&lt;EndPoint&gt;()
@@ -872,8 +860,7 @@ render(router.currentRoute);</code></pre>
                                 </a>
                             </div>
                             <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                <div ws-onafterrender="InitTabs"
-                                     data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+                                <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
                                     <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
                                         <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
                                             <div class="flex space-x-1.5">
@@ -904,8 +891,7 @@ render(router.currentRoute);</code></pre>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
-                                             ws-onafterrender="InitSnippetCode">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="overflow-hidden p-4 pt-0"><code class="w-max overflow-hidden language-fsharp">type Article = { id: int; title: string; date: DateTime }
@@ -999,8 +985,7 @@ public static void Main()
                                 </a>
                             </div>
                             <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                <div ws-onafterrender="InitTabs"
-                                     data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+                                <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
                                     <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
                                         <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
                                             <div class="flex space-x-1.5">
@@ -1033,8 +1018,7 @@ public static void Main()
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
-                                             ws-onafterrender="InitSnippetCode">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">IndexTemplate.Main()
@@ -1079,8 +1063,7 @@ public static void Main()
                                 </a>
                             </div>
                             <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                <div ws-onafterrender="InitTabs"
-                                     data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+                                <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
                                     <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
                                         <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
                                             <div class="flex space-x-1.5">
@@ -1115,8 +1098,7 @@ public static void Main()
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl"
-                                             ws-onafterrender="InitSnippetCode">
+                                        <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
                                             <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
                                                 <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     <pre class="p-4 pt-0"><code class="w-max language-fsharp">// Server-side, remote-callable function
@@ -1178,8 +1160,7 @@ CallServer();
                 </div>
                 <div class="relative mt-16">
                     <div class="relative z-10 border dark:border-gray-800 rounded-xl dark:bg-transparent dark:p-px">
-                        <div ws-onafterrender="InitTabs"
-                             data-name="snippet" class="rounded-[23px] text-sm backdrop-blur-3xl">
+                        <div data-name="snippet" class="rounded-[23px] text-sm backdrop-blur-3xl">
                             <div class="flex items-center gap-4 rounded-t-xl px-4 py-2 dark:bg-gray-950">
                                 <div class="flex space-x-1.5">
                                     <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
@@ -1218,8 +1199,7 @@ CallServer();
                                     <div class="sm:pr-4">
                                         <div aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></div>
                                     </div>
-                                    <div class="relative w-full snippet-code"
-                                         ws-onafterrender="InitSnippetCode">
+                                    <div class="relative w-full snippet-code">
                                         <div class="relative transition-all duration-1000 custom-scrollbar max-w-full overflow-y-hidden pr-0 sm:pr-[52%] lg:pr-[46.8%]" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                             <pre class="-mb-20 !overflow-auto line-numbers language-fsharp inline-block min-w-max"><code class="mt-[-14px] block md:leading-[1.13rem] language-fsharp text-white">let LoginForm () =
     Form.Return (fun user pass -> user, pass)
@@ -1402,8 +1382,7 @@ createLoginForm();</code></pre>
 
                                 <!-- Worker.fs snippet -->
                                 <div class=" w-auto md:row-span-2 border md:border-r-0 md:border-b-0 border-gray-300/50 dark:border-white/10 dark:border-r-0">
-                                    <div class="flex w-full overflow-auto py-3 pl-3 font-mono text-xs snippet-code"
-                                         ws-onafterrender="InitSnippetCode">
+                                    <div class="flex w-full overflow-auto py-3 pl-3 font-mono text-xs snippet-code">
                                         <div>
                                             <div aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></div>
                                         </div>
@@ -1433,8 +1412,7 @@ worker.PostMessage("Hello, worker!")</code></pre>
                                             <span class="text-xs">index.js</span>
                                         </div>
                                     </div>
-                                    <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code"
-                                         ws-onafterrender="InitSnippetCode">
+                                    <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code">
                                         <div>
                                             <div aria-hidden="true" class="line-numbers hidden w-2 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40 sm:block"></div>
                                         </div>
@@ -1457,8 +1435,7 @@ worker.postMessage("Hello, worker!");
                                             <span class="text-xs">worker.js</span>
                                         </div>
                                     </div>
-                                    <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code"
-                                         ws-onafterrender="InitSnippetCode">
+                                    <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code">
                                         <div>
                                             <div aria-hidden="true" class="line-numbers hidden w-2 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40 sm:block"></div>
                                         </div>

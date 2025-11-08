@@ -21,6 +21,12 @@ module Templates =
 [<JavaScript>]
 module Client =
 
+    [<Inline "new URL($path, document.baseURI).toString()">]
+    let private toAbsoluteUrl (path: string) : string = X<string>
+
+    let importDynamic (path: string) =
+        JS.ImportDynamic (toAbsoluteUrl path) |> ignore
+
     let byId (id: string) = JS.Document.GetElementById id
 
     let ToggleMenu() =
@@ -44,16 +50,16 @@ module Client =
 
     let Home () =
         Templates.HomeTemplate()
-            .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
-            .InitCast(fun () -> VideoPlayer.Init("ws-template"))                
-            .InitSnippetCode(fun () ->
+            .OnAfterRender(fun () ->
+                VideoPlayer.Init("ws-template")
+
                 Theme.Init()
                 SnippetCode.Init()
+
+                importDynamic "Js/line-numbers.js"
+                SnippetCode.InitTabs() 
             )
-            .InitTabs(fun () ->
-                do JS.ImportDynamic("../../../Js/line-numbers.js") |> ignore
-                SnippetCode.InitTabs()                    
-            )
+            .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
             .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
             .Doc()
 
@@ -68,9 +74,9 @@ module Client =
 
     let DslAi () =
         Templates.DslAiTemplate()
-            .InitTabs(fun () ->
+            .OnAfterRender(fun () ->
                 SnippetCode.Init()
-                do JS.ImportDynamic("../../../Js/line-numbers.js") |> ignore
+                importDynamic "Js/line-numbers.js"
                 SnippetCode.InitTabs()                    
             )
             .Doc()

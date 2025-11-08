@@ -3,6 +3,7 @@
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.JavaScript.Dom
+open WebSharper.Core.Resources
 
 [<JavaScript>]
 module SnippetCode =
@@ -33,11 +34,6 @@ module SnippetCode =
             None 
         else 
             Some x
-
-    // Iterate NodeList as HTMLElements
-    let private iterNodes (nodes: NodeList) (f: HTMLElement -> unit) =
-        for i = 0 to int nodes.Length - 1 do
-            f (nodes.Item i :?> HTMLElement)
 
     // Query helper returning a sequence of HTMLElements
     let private queryAll (root: Element) (selector: string) : seq<HTMLElement> =
@@ -100,6 +96,7 @@ module SnippetCode =
             |> Option.iter (fun target -> showOnlyPanel root target)
 
     // Call after render by the template
+    [<Require(typeof<BaseResource>, "/Js/line-numbers.js")>]
     let InitTabs () : unit =
         let snippets = JS.Document.QuerySelectorAll("[data-name='snippet']")
         for i = 0 to int snippets.Length - 1 do
