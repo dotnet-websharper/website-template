@@ -1,3 +1,5 @@
+const scrollControllers = new WeakMap();
+
 function updateVisibleLineNumbers() {
     // Find the visible code block
     document.querySelectorAll('[role="tabpanel"]').forEach(panel => {
@@ -29,11 +31,17 @@ function updateVisibleLineNumbers() {
                 lineNumberEl.textContent = lines;
             };
 
-            // Set initial
+            // remove any previous listener for this wrapper
+            const prev = scrollControllers.get(wrapper);
+            if (prev) prev.abort();
+
+            const controller = new AbortController();
+            scrollControllers.set(wrapper, controller);
+
+            // initial render and bind listener
             syncScroll();
-            wrapper.removeEventListener('scroll', wrapper._lineScrollHandler);
-            wrapper._lineScrollHandler = syncScroll;
-            wrapper.addEventListener('scroll', syncScroll);
+            wrapper.addEventListener('scroll', syncScroll, { signal: controller.signal, passive: true });
+
         }
     });
 }
