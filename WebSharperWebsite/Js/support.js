@@ -1,5 +1,5 @@
-import { initSeatSelector } from "./seatSelector.js";
-import { initContactForm } from "./contactForm.js";
+import { initSeatSelector } from "./seat-selector.js";
+import { initContactForm } from "./contact-form.js";
 import { initPlans } from "./plans.js";
 
 document.addEventListener("DOMContentLoaded", () => {

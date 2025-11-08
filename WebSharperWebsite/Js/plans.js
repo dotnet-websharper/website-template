@@ -1,4 +1,5 @@
-import { API } from "./ws-auth";
+// const API = 'https://api.websharper.com';
+const API = 'http://localhost:55482';
 
 export const CACHE_KEY = "ws.planprices.v1";
 export const catalog = { 
@@ -166,12 +167,12 @@ export function initPlans() {
         const freeCur = currencyFor("freelancer").toUpperCase();
 
         if (proNote) {
-            const desc = catalog.pro?.description || proNote.textContent || "Ideal for teams";
+            const desc = catalog.pro?.description || "Assign GitHub usernames after purchase";
             proNote.textContent = `${desc}. Prices in ${proCur}.`;
         }
 
         if (freeNote) {
-            const desc = catalog.freelancer?.description || freeNote.textContent || "Ideal for solo developers";
+            const desc = catalog.freelancer?.description || "Ideal for solo developers";
             freeNote.textContent = `${desc}. Prices in ${freeCur}.`;
         }
     }
