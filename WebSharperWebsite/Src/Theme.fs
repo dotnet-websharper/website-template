@@ -34,10 +34,8 @@ module Theme =
         for i = 0 to int nodes.Length - 1 do
             let el = As<Element> nodes.[i]
             let baseSrc = el.GetAttribute("data-src")
-            Console.Log($"Updating iframe {baseSrc} to theme {theme}")
             if not (isNull baseSrc) then
                 let url = new URL(baseSrc, JS.Window.Location.Href)
-                Console.Log($"Parsed URL: {url.ToString()}")
                 url.SearchParams.Set("theme", theme)
                 el.SetAttribute("src", url.ToString())
 

@@ -1,64 +1,55 @@
-// /Js/line-numbers.js (ESM)
+const scrollControllers = new WeakMap();
 
-(function init() {
-  const run = () => {
-    function updateVisibleLineNumbers() {
-      document.querySelectorAll('[role="tabpanel"]').forEach(panel => {
+function updateVisibleLineNumbers() {
+    // Find the visible code block
+    document.querySelectorAll('[role="tabpanel"]').forEach(panel => {
         const isVisible = !panel.classList.contains('hidden');
+
         if (!isVisible) return;
 
         const codeBlock = panel.querySelector('code');
+        const lineNumberEl = panel.closest('.flex')?.querySelector('.line-numbers');
+        const wrapper = panel
 
-        // Narrow to your custom gutter, not Prism’s plugin class
-        const lineNumberEl =
-          panel.closest('.flex')?.querySelector('pre.line-numbers[aria-hidden="true"]');
+        if (codeBlock && lineNumberEl && wrapper) {
+            const lineCount = codeBlock.textContent.split('\n').length;
 
-        const wrapper = panel;
-        if (!codeBlock || !lineNumberEl || !wrapper) return;
+            const maxLines = 20;
+            const lineHeight = parseFloat(getComputedStyle(lineNumberEl).lineHeight);
+            const maxHeight = maxLines * lineHeight;
 
-        const lines = Math.max(1, codeBlock.textContent.replace(/\n$/, '').split('\n').length);
-        const lh = (() => {
-          const v = parseFloat(getComputedStyle(lineNumberEl).lineHeight);
-          if (Number.isFinite(v)) return v;
-          const fs = parseFloat(getComputedStyle(lineNumberEl).fontSize);
-          return Number.isFinite(fs) ? fs * 1.13 : 18; // fallback
-        })();
+            wrapper.style.maxHeight = `${maxHeight}px`;
+            wrapper.style.overflowY = lineCount > maxLines ? 'auto' : 'hidden';
+            lineNumberEl.style.maxHeight = `${maxHeight}px`;
+            lineNumberEl.style.overflowY = lineCount > maxLines ? 'auto' : 'hidden';
 
-        const maxLines = 20, maxH = maxLines * lh;
-        wrapper.style.maxHeight = `${maxH}px`;
-        wrapper.style.overflowY = lines > maxLines ? 'auto' : 'hidden';
-        lineNumberEl.style.maxHeight = `${maxH}px`;
-        lineNumberEl.style.overflowY = lines > maxLines ? 'auto' : 'hidden';
-        lineNumberEl.style.whiteSpace = 'pre';
+            const syncScroll = () => {
+                const scrollTop = wrapper.scrollTop;
+                const startLine = Math.floor(scrollTop / lineHeight);
+                const visibleLines = Math.min(maxLines, lineCount - startLine);
+                const lines = Array.from({ length: visibleLines }, (_, i) => i + 1 + startLine).join('\n');
+                lineNumberEl.textContent = lines;
+            };
 
-        const sync = () => {
-          const start = Math.floor(wrapper.scrollTop / lh);
-          const visible = Math.min(maxLines, lines - start);
-          let out = '';
-          for (let i = 0; i < visible; i++) out += (start + 1 + i) + '\n';
-          lineNumberEl.textContent = out.trimEnd();
-        };
+            // remove any previous listener for this wrapper
+            const prev = scrollControllers.get(wrapper);
+            if (prev) prev.abort();
 
-        sync();
-        wrapper.removeEventListener('scroll', wrapper._lineScrollHandler);
-        wrapper._lineScrollHandler = sync;
-        wrapper.addEventListener('scroll', sync);
-      });
-    }
+            const controller = new AbortController();
+            scrollControllers.set(wrapper, controller);
 
-    // initial + re-run on tab change
-    requestAnimationFrame(updateVisibleLineNumbers);
-    document.querySelectorAll('[role="tab"]').forEach(tab => {
-      tab.addEventListener('click', () => requestAnimationFrame(updateVisibleLineNumbers));
+            // initial render and bind listener
+            syncScroll();
+            wrapper.addEventListener('scroll', syncScroll, { signal: controller.signal, passive: true });
+
+        }
     });
+}
 
-    // if fonts matter for line-height, re-run after they’re ready
-    document.fonts?.ready?.then(() => requestAnimationFrame(updateVisibleLineNumbers));
-  };
+updateVisibleLineNumbers();
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', run, { once: true });
-  } else {
-    run();
-  }
-})();
+document.querySelectorAll('[role="tab"]').forEach(tab => {
+    tab.addEventListener('click', () => {
+        setTimeout(updateVisibleLineNumbers, 10); // slight delay for DOM update
+    });
+});

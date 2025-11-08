@@ -43,40 +43,24 @@ module Client =
         Doc.Empty
 
     let Home () =
-        
-        if IsClient then
-            Templates.HomeTemplate()
-                //.AfterHomeRender(fun () ->
-                    
-                //    //do JS.ImportFile("../../../Js/home.js")
-                //)
-                .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
-                .InitCast(fun () ->
-                    VideoPlayer.Init("ws-template")
-                )                
-                .InitSnippetCode(fun () ->
-                    Theme.Init()
-                    SnippetCode.Init()
-                )
-                .InitTabs(fun () ->
-                    SnippetTabs.InitTabs()
-                )
-                .OnTabClick(fun e ->
-                    SnippetTabs.OnTabClick e.Event
-                )
-                .Doc()
-        else
-            Templates.HomeTemplate()
-                .Doc()
+        Templates.HomeTemplate()
+            .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
+            .InitCast(fun () -> VideoPlayer.Init("ws-template"))                
+            .InitSnippetCode(fun () ->
+                Theme.Init()
+                SnippetCode.Init()
+            )
+            .InitTabs(fun () ->
+                do JS.ImportDynamic("../../../Js/line-numbers.js") |> ignore
+                SnippetCode.InitTabs()                    
+            )
+            .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
+            .Doc()
 
     let Download () =
-        if IsClient then
-            Templates.DownloadTemplate()
-                .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
-                .Doc()
-        else
-            Templates.DownloadTemplate()
-                .Doc()
+        Templates.DownloadTemplate()
+            .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
+            .Doc()
 
     let Support () =    
         Templates.SupportTemplate()
@@ -84,6 +68,11 @@ module Client =
 
     let DslAi () =
         Templates.DslAiTemplate()
+            .InitTabs(fun () ->
+                SnippetCode.Init()
+                do JS.ImportDynamic("../../../Js/line-numbers.js") |> ignore
+                SnippetCode.InitTabs()                    
+            )
             .Doc()
 
     let Checkout () =

@@ -27,9 +27,6 @@ module SnippetCode =
     let Init() = 
         highlightAll prism
 
-[<JavaScript>]
-module SnippetTabs =
-
     // Safe cast to option for nullable DOM values
     let private asOption<'T when 'T : null> (x: 'T) = 
         if isNull x then 
