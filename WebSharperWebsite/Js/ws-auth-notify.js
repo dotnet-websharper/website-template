@@ -1,5 +1,7 @@
-import { onChange } from './ws-auth.js';
-import { toast } from './ws-toast.js';
+const abs = (p) => new URL(p, document.baseURI).toString();
+
+const { onChange } = await import(abs("Js/ws-auth.js"));
+const { toast } = await import(abs("Js/ws-toast.js"));
 
 document.addEventListener('ws-auth-logout', () => {
   toast('Logged out.', { type: 'info' });

@@ -1,4 +1,6 @@
-import { buildStartUrl } from "./ws-auth.js";
+const abs = (p) => new URL(p, document.baseURI).toString();
+
+const { buildStartUrl } = await import(abs("Js/ws-auth.js"));
 
 function sanitizePath(urlLike) {
     try {

@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="tailwind.css">
 </head>
 <body class="bg-white dark:bg-gray-950 overflow-x-hidden">
-    <header class="absolute inset-x-0 z-20">
+    <header class="absolute inset-x-0 z-20" ws-attr="HeaderVisibility">
         <div class="px-6 py-4 lg:px-8">
             <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
                 <div class="flex lg:flex-1">
@@ -143,7 +143,6 @@
                             <div id="accountDropdown"
                                  class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5
                                             dark:bg-gray-900 dark:ring-white/10">
-                                <!-- Header (shown when authenticated) -->
                                 <div id="accountHeader"
                                      class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300"></div>
 
@@ -157,7 +156,7 @@
                                     Manage Subscription
                                 </a>
                                 <button id="btnLogout"
-                                        class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                        class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
                                                 dark:text-gray-200 dark:hover:bg-white/10">
                                     <!-- logout icon -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z" /><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z" /></svg>
@@ -166,7 +165,7 @@
 
                                 <!-- Unauthenticated items -->
                                 <button id="btnLogin"
-                                        class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                        class="cursor-pointer flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
                                                 dark:text-gray-200 dark:hover:bg-white/10">
                                     <!-- GitHub mark -->
                                     <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4">
@@ -292,7 +291,7 @@
     <main ws-replace="Body">
     </main>
 
-    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800">
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-attr="FooterVisibility">
         <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
             <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
                 <div>

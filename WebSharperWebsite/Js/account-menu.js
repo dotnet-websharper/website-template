@@ -1,4 +1,6 @@
-import { onChange, fetchMe, login, logout } from './ws-auth.js';
+const abs = (p) => new URL(p, document.baseURI).toString();
+
+const { onChange, fetchMe, login, logout } = await import(abs("Js/ws-auth.js"));
 
 const $ = (id) => document.getElementById(id);
 

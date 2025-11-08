@@ -233,5 +233,4 @@ export function initPlans() {
 
     updateUI();
     hydrateCatalog().finally(updateUI);
-    console.log("catalog", catalog);
 }

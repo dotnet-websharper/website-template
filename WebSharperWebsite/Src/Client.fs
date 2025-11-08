@@ -3,7 +3,6 @@
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
-open WebSharper.UI.Notation
 open WebSharper.UI.Templating
 
 module Templates =   
@@ -77,12 +76,16 @@ module Client =
             .OnAfterRender(fun () ->
                 SnippetCode.Init()
                 importDynamic "Js/line-numbers.js"
-                SnippetCode.InitTabs()                    
+                SnippetCode.InitTabs()       
             )
             .Doc()
 
     let Checkout () =
         Templates.CheckoutTemplate()
+            .OnAfterRender(fun () ->
+                importDynamic "Js/checkout-auth.js"
+                importDynamic "Js/checkout.js"
+            )
             .Doc()
 
     let Error () =
@@ -91,12 +94,21 @@ module Client =
 
     let Invoice () =
         Templates.InvoiceTemplate()
+            .OnAfterRender(fun () ->
+                importDynamic "Js/invoice.js"
+            )
             .Doc()
 
     let ManageSubscription () =
         Templates.ManageSubscriptionTemplate()
+            .OnAfterRender(fun () ->
+                importDynamic "Js/manage-subscription.js"
+            )
             .Doc()
 
     let Success () =
         Templates.SuccessTemplate()
+            .OnAfterRender(fun () ->
+                importDynamic "Js/success-confirm.js"
+            )
             .Doc()

@@ -1,6 +1,7 @@
-// Config
-import { API } from "./ws-auth";
-import { safeFetch, redirectToError } from "./error-utils.js";
+const abs = (p) => new URL(p, document.baseURI).toString();
+
+const { API } = await import(abs("Js/ws-auth.js"));
+const { safeFetch, redirectToError } = await import(abs("Js/error-utils.js"));
 
 const CONFIRM_PATH = "/checkout/confirm";
 

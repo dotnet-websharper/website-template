@@ -1,10 +1,12 @@
-import { API, getCsrfToken, fetchMe } from "./ws-auth";
-import { safeFetch, redirectToError } from "./error-utils.js";
-import { hydrateCatalog, catalog } from "./plans.js";
+const abs = (p) => new URL(p, document.baseURI).toString();
+
+const { API, getCsrfToken, fetchMe } = await import(abs("Js/ws-auth.js"));
+const { safeFetch, redirectToError } = await import(abs("Js/error-utils.js"));
+const { hydrateCatalog, catalog } = await import(abs("Js/plans.js"));
 
 const CHECKOUT_SESSION_ENDPOINT = `${API}/checkout/session`;
-const SUPPORT_PLANS_URL = "/website-template/support.html#plans";
-const MANAGE_SUBSCRIPTION_URL = "/website-template/manage-subscription.html";
+const SUPPORT_PLANS_URL = "/support.html#plans";
+const MANAGE_SUBSCRIPTION_URL = "/manage-subscription.html";
 
 let selectedPlan = "pro"; // "pro" | "freelancer"
 let selectedInterval = "year"; // "month" | "year"

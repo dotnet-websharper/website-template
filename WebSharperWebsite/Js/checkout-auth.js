@@ -1,4 +1,6 @@
-import { mountGate } from './ws-auth.js';
+const abs = (p) => new URL(p, document.baseURI).toString();
+
+const { mountGate } = await import(abs("Js/ws-auth.js"));
 
 function init() {
   mountGate({
@@ -11,7 +13,8 @@ function init() {
 }
 
 if (document.readyState === 'loading') {
+  console.log("checkout-auth.js");
   document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
+} else {  
+  init();  
 }
