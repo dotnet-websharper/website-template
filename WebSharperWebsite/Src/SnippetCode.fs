@@ -4,10 +4,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.JavaScript.Dom
 
-type Tailwind() =
-    inherit Resources.BaseResource("/tailwind.css")
-
-[<JavaScript; Require(typeof<Tailwind>)>]
+[<JavaScript>]
 module SnippetCode =
 
     // CSS side-effect imports (theme + plugin + overrides)

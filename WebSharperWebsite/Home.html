@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
 </head>
-<body>
+<body ws-onafterrender="AfterHomeRender">
     <main class="space-y-40">
         <section>
             <div class="mx-auto max-w-6xl px-6 pt-36 sm:pt-40 lg:px-8 lg:pb-12 lg:pt-48 xl:px-0 2xl:max-w-7xl">
                 <div class="relative z-10 text-center w-full">
                     <div id="track" class="relative">
                         <!-- Arrows -->
-                        <button id="mini-prev" class="absolute left-2 top-1/2 -translate-y-1/2 z-20 rounded-full p-2 dark:text-white">&#10094;</button>
-                        <button id="mini-next" class="absolute right-2 top-1/2 -translate-y-1/2 z-20 rounded-full p-2 dark:text-white">&#10095;</button>
+                        <button id="mini-prev" class="absolute left-2 top-1/2 -translate-y-1/2 z-20 rounded-full p-2 dark:text-white cursor-pointer">&#10094;</button>
+                        <button id="mini-next" class="absolute right-2 top-1/2 -translate-y-1/2 z-20 rounded-full p-2 dark:text-white cursor-pointer">&#10095;</button>
 
                         <div class="relative overflow-hidden">
                             <div id="mini-inner" class="flex w-full transition-transform duration-700 ease-out will-change-transform">
@@ -52,7 +52,7 @@
                                     <!-- was p-2 -->
                                     <div class="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-0 items-start">
                                         <div class="md:col-span-1 m-0 p-0">
-                                            <img src="./images/slay.png"
+                                            <img src="/Assets/images/slay.png"
                                                  alt="DSL + AI"
                                                  class="block w-full h-56 md:h-64 object-contain object-left-top m-0 p-0 rounded-none shadow-none select-none" />
                                         </div>
@@ -214,7 +214,7 @@ module Client =
 &lt;/html&gt;</code></pre>
                                             </div>
                                             <div class="absolute inset-0 hidden overflow-hidden" role="tabpanel" aria-labelledby="tab-2" data-lang="code-result">
-                                                <iframe src="./snippets/spa/index.html" class="w-full h-full pr-2 mr-4 rounded-md bg-white" frameborder="0"></iframe>
+                                                <iframe src="/snippets/spa/index.html" class="w-full h-full pr-2 mr-4 rounded-md bg-white" frameborder="0"></iframe>
                                             </div>
                                         </div>
                                     </div>
@@ -405,7 +405,7 @@ main.appendChild(result);</code></pre>
                                     <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>
                                 </div>
                             </div>
-                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="./snippets/add_two_numbers/index.html"></iframe>
+                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="/snippets/add_two_numbers/index.html" src="/snippets/add_two_numbers/index.html"></iframe>
                         </div>
                     </div>
                 </div>
@@ -1339,7 +1339,7 @@ createLoginForm();</code></pre>
                                     <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>
                                 </div>
                             </div>
-                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="./snippets/forms/index.html"></iframe>
+                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="/snippets/forms/index.html" src="/snippets/forms/index.html"></iframe>
                         </div>
                     </div>
                 </div>

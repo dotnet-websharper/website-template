@@ -46,11 +46,16 @@ module Client =
         
         if IsClient then
             Templates.HomeTemplate()
+                //.AfterHomeRender(fun () ->
+                    
+                //    //do JS.ImportFile("../../../Js/home.js")
+                //)
                 .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
                 .InitCast(fun () ->
                     VideoPlayer.Init("ws-template")
-                )
+                )                
                 .InitSnippetCode(fun () ->
+                    Theme.Init()
                     SnippetCode.Init()
                 )
                 .InitTabs(fun () ->

@@ -34,8 +34,12 @@ module Theme =
         for i = 0 to int nodes.Length - 1 do
             let el = As<Element> nodes.[i]
             let baseSrc = el.GetAttribute("data-src")
+            Console.Log($"Updating iframe {baseSrc} to theme {theme}")
             if not (isNull baseSrc) then
-                el.SetAttribute("src", baseSrc + "?theme=" + theme)
+                let url = new URL(baseSrc, JS.Window.Location.Href)
+                Console.Log($"Parsed URL: {url.ToString()}")
+                url.SearchParams.Set("theme", theme)
+                el.SetAttribute("src", url.ToString())
 
     let private applyTheme (theme: string) =
         setDark (theme = "dark")
@@ -43,13 +47,13 @@ module Theme =
         updateAllIframesTheme ()
 
     let Init () =
+        updateAllIframesTheme ()
+
         let saved = JS.Window.LocalStorage.GetItem(ThemeKey)
         if saved = "dark" || (isNull saved && prefersDark()) then 
             setDark true 
         else 
-            setDark false
-
-        updateAllIframesTheme ()
+            setDark false        
 
     let Toggle () : unit =
         let next = 
