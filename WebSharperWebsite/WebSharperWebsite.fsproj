@@ -9,7 +9,9 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <Compile Include="Src\Utils.fs" />
     <Compile Include="Src\SnippetCode.fs" />
+    <Compile Include="Src\AccountMenu.fs" />
     <Compile Include="Src\VideoPlayer.fs" />
     <Compile Include="Src\Clipboard.fs" />
     <Compile Include="Src\Theme.fs" />

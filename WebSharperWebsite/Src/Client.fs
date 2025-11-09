@@ -19,14 +19,7 @@ module Templates =
 
 [<JavaScript>]
 module Client =
-
-    [<Inline "new URL($path, document.baseURI).toString()">]
-    let private toAbsoluteUrl (path: string) : string = X<string>
-
-    let importDynamic (path: string) =
-        JS.ImportDynamic (toAbsoluteUrl path) |> ignore
-
-    let byId (id: string) = JS.Document.GetElementById id
+    open Utils
 
     let ToggleMenu() =
         let navmenu = byId "navmenu"
@@ -45,6 +38,7 @@ module Client =
             .ToggleMenu(fun _ -> ToggleMenu())
             .ToggleTheme(fun _ -> Theme.Toggle())
             .Bind()
+        AccountMenu.Init()
         Doc.Empty
 
     let Home () =
@@ -55,7 +49,7 @@ module Client =
                 Theme.Init()
                 SnippetCode.Init()
 
-                importDynamic "Js/line-numbers.js"
+                importDynamicIgnore "Js/line-numbers.js"
                 SnippetCode.InitTabs() 
             )
             .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
@@ -75,7 +69,7 @@ module Client =
         Templates.DslAiTemplate()
             .OnAfterRender(fun () ->
                 SnippetCode.Init()
-                importDynamic "Js/line-numbers.js"
+                importDynamicIgnore "Js/line-numbers.js"
                 SnippetCode.InitTabs()       
             )
             .Doc()
@@ -83,8 +77,8 @@ module Client =
     let Checkout () =
         Templates.CheckoutTemplate()
             .OnAfterRender(fun () ->
-                importDynamic "Js/checkout-auth.js"
-                importDynamic "Js/checkout.js"
+                importDynamicIgnore "Js/checkout-auth.js"
+                importDynamicIgnore "Js/checkout.js"
             )
             .Doc()
 
@@ -95,20 +89,20 @@ module Client =
     let Invoice () =
         Templates.InvoiceTemplate()
             .OnAfterRender(fun () ->
-                importDynamic "Js/invoice.js"
+                importDynamicIgnore "Js/invoice.js"
             )
             .Doc()
 
     let ManageSubscription () =
         Templates.ManageSubscriptionTemplate()
             .OnAfterRender(fun () ->
-                importDynamic "Js/manage-subscription.js"
+                importDynamicIgnore "Js/manage-subscription.js"
             )
             .Doc()
 
     let Success () =
         Templates.SuccessTemplate()
             .OnAfterRender(fun () ->
-                importDynamic "Js/success-confirm.js"
+                importDynamicIgnore "Js/success-confirm.js"
             )
             .Doc()
