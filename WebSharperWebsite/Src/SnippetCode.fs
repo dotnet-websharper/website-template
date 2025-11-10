@@ -7,6 +7,7 @@ open WebSharper.Core.Resources
 
 [<JavaScript>]
 module SnippetCode =
+    open Utils
 
     // CSS side-effect imports (theme + plugin + overrides)
     do JS.ImportFile "prismjs/themes/prism-dark.css"
@@ -34,14 +35,6 @@ module SnippetCode =
             None 
         else 
             Some x
-
-    // Query helper returning a sequence of HTMLElements
-    let private queryAll (root: Element) (selector: string) : seq<HTMLElement> =
-        let nodes = root.QuerySelectorAll(selector)
-        seq {
-            for i = 0 to int nodes.Length - 1 do
-                yield nodes.Item i :?> HTMLElement
-        }
 
     type IndicatorPos = { LeftPx: string; WidthPx: string }
 

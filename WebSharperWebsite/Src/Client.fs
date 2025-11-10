@@ -120,7 +120,7 @@ module Client =
     let ManageSubscription () =
         Templates.ManageSubscriptionTemplate()
             .OnAfterRender(fun () ->
-                importDynamicIgnore "Js/manage-subscription.js"
+                ManageSubscription.Init()
             )
             .Doc()
 

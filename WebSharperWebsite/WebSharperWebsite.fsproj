@@ -10,6 +10,7 @@
   
   <ItemGroup>
     <Compile Include="Src\Utils.fs" />
+    <Compile Include="Src\ManageSubscription.fs" />
     <Compile Include="Src\SnippetCode.fs" />
     <Compile Include="Src\AccountMenu.fs" />
     <Compile Include="Src\VideoPlayer.fs" />
