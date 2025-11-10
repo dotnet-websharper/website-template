@@ -123,16 +123,20 @@
                         <li class="relative" id="accountRoot">
                             <button id="accountBtn"
                                     class="cursor-pointer group flex h-8 w-8 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                    aria-haspopup="menu" aria-expanded="false" aria-label="Account">
+                                    aria-haspopup="menu" aria-expanded="false" aria-label="Account"
+                                    ws-attr="AccountBtnAria"
+                                    ws-onclick="AccountBtnClick"
+                                    ws-onkeydown="AccountBtnKeyDown">
                                 <!-- Avatar (shown when authenticated) -->
                                 <img id="accountAvatar"
                                      class="hidden h-8 w-8 rounded-full ring-1 ring-black/5 dark:ring-white/10"
-                                     src="" alt="User avatar" referrerpolicy="no-referrer" />
+                                     src="${AvatarSrc}" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
 
                                 <!-- Fallback user icon (shown when not authenticated) -->
                                 <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                      class="m-auto h-4 w-4 text-gray-700 transition duration-300 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white"
-                                     fill="currentColor" aria-hidden="true">
+                                     fill="currentColor" aria-hidden="true"
+                                     ws-attr="IconAttr">
                                     <path fill-rule="evenodd"
                                           d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z"
                                           clip-rule="evenodd" />
@@ -141,23 +145,27 @@
 
                             <!-- Dropdown -->
                             <div id="accountDropdown"
-                                 class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5
-                                            dark:bg-gray-900 dark:ring-white/10">
+                                 class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10"
+                                 ws-attr="DropdownAttr">
                                 <div id="accountHeader"
-                                     class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300"></div>
+                                     class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300"
+                                     ws-attr="HeaderAttrD">${AccountHeaderText}</div>
 
                                 <!-- Authenticated items -->
                                 <a id="btnManage"
                                    href="./manage-subscription.html"
                                    class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
-                                                dark:text-gray-200 dark:hover:bg-white/10">
+                                                dark:text-gray-200 dark:hover:bg-white/10"
+                                   ws-attr="BtnManageAttrD">
                                     <!-- wrench icon -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z" /></svg>
                                     Manage Subscription
                                 </a>
                                 <button id="btnLogout"
                                         class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
-                                                dark:text-gray-200 dark:hover:bg-white/10">
+                                                dark:text-gray-200 dark:hover:bg-white/10"
+                                        ws-attr="BtnLogoutAttrD"
+                                        ws-onclick="Logout">
                                     <!-- logout icon -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z" /><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z" /></svg>
                                     Log out
@@ -165,8 +173,9 @@
 
                                 <!-- Unauthenticated items -->
                                 <button id="btnLogin"
-                                        class="cursor-pointer flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
-                                                dark:text-gray-200 dark:hover:bg-white/10">
+                                        class="cursor-pointer flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10"
+                                        ws-attr="BtnLoginAttrD"
+                                        ws-onclick="Login">
                                     <!-- GitHub mark -->
                                     <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4">
                                         <path fill="currentColor"
@@ -239,11 +248,13 @@
                                 <div data-account-menu data-variant="mobile" class="flex flex-col gap-2">
                                     <!-- header shows email/name when logged in -->
                                     <div data-el="header"
-                                         class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300"></div>
+                                         class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300"
+                                         ws-attr="HeaderAttr">${AccountHeaderText}</div>
 
                                     <a data-el="manage" href="./manage-subscription.html"
                                        class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
-                                                dark:text-gray-200 dark:hover:bg-white/10">
+                                                dark:text-gray-200 dark:hover:bg-white/10"
+                                       ws-attr="BtnManageAttr">
                                         <!-- wrench icon -->
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                             <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z" />
@@ -252,8 +263,9 @@
                                     </a>
 
                                     <button data-el="logout"
-                                            class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
-                                                    dark:text-gray-200 dark:hover:bg-white/10">
+                                            class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10"
+                                            ws-attr="BtnLogoutAttr"
+                                            ws-onclick="Logout">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                             <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z" />
                                             <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z" />
@@ -262,8 +274,9 @@
                                     </button>
 
                                     <button data-el="login"
-                                            class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
-                                                    dark:text-gray-200 dark:hover:bg-white/10">
+                                            class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10"
+                                            ws-attr="BtnLoginAttr"
+                                            ws-onclick="Login">
                                         <!-- GitHub mark -->
                                         <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4">
                                             <path fill="currentColor"

@@ -37,8 +37,29 @@ module Client =
         Templates.LayoutTemplate()
             .ToggleMenu(fun _ -> ToggleMenu())
             .ToggleTheme(fun _ -> Theme.Toggle())
+            // Account menu bindings
+            .AccountBtnClick(AccountMenu.AccountBtnClick)
+            .AccountBtnKeyDown(AccountMenu.AccountBtnKeyDown)
+            .Login(AccountMenu.Login)
+            .Logout(AccountMenu.Logout)
+            .DropdownAttr(AccountMenu.DropdownAttr())
+            .AccountBtnAria(AccountMenu.AccountBtnAria())
+            .AvatarAttr(AccountMenu.AvatarAttr())
+            .AvatarSrc(AccountMenu.AvatarSrc)
+            .IconAttr(AccountMenu.IconAttr())           
+            .AccountHeaderText(AccountMenu.AccountHeaderText)
+            // Dropdown attributes
+            .HeaderAttrD(AccountMenu.HeaderAttr())
+            .BtnManageAttrD(AccountMenu.BtnManageAttr())
+            .BtnLoginAttrD(AccountMenu.BtnLoginAttr())
+            .BtnLogoutAttrD(AccountMenu.BtnLogoutAttr())
+            // Non-dropdown attributes
+            .HeaderAttr(AccountMenu.HeaderAttr())
+            .BtnManageAttr(AccountMenu.BtnManageAttr())
+            .BtnLoginAttr(AccountMenu.BtnLoginAttr())
+            .BtnLogoutAttr(AccountMenu.BtnLogoutAttr())
             .Bind()
-        AccountMenu.Init()
+        AccountMenu.InitGlobal()
         Doc.Empty
 
     let Home () =
@@ -84,6 +105,9 @@ module Client =
 
     let Error () =
         Templates.ErrorTemplate()
+            .OnAfterRender(fun () ->
+                importDynamicIgnore "Js/error.js"
+            )
             .Doc()
 
     let Invoice () =

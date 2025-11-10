@@ -3,207 +3,126 @@
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.JavaScript.Dom
+open WebSharper.UI
+open WebSharper.UI.Client
+open WebSharper.UI.Templating.Runtime.Server
 
 [<JavaScript>]
 module AccountMenu =
     open Utils
-    
-    type Controller = { 
-        Render : obj -> unit
-        SetAuthFunctions : (unit -> unit) * (unit -> unit) -> unit 
+
+    // Types coming from ws-auth.js
+    type User = {
+        login: string
+        name: string
+        avatarUrl: string
     }
 
-    let private AuthModulePath = toAbsoluteUrl "Js/ws-auth.js"
+    // Reactive state
+    let private isOpen = Var.Create false
+    let private user : Var<option<User>> = Var.Create None
 
-    let private showFlex (el: Element) (show: bool) =
-        if not (isNull el) then
-            el.ClassList.Toggle("hidden", not show) |> ignore
-            el.ClassList.Toggle("flex", show) |> ignore
+    let private isAuthedV = user.View |> View.Map Option.isSome
 
-    let private setText (el: Element) (text: string) =
-        if not (isNull el) then el.TextContent <- text
+    let private avatarSrcV =
+        user.View
+        |> View.Map (function
+            | Some user when not (System.String.IsNullOrWhiteSpace user.avatarUrl) -> user.avatarUrl
+            | _ -> "")
 
-    // Desktop controller
-    let private setupDesktop () : Controller option =
+    let private hasAvatarV = avatarSrcV |> View.Map ((<>) "")
+
+    let private displayNameV =
+        user.View
+        |> View.Map (function
+            | Some user when not (System.String.IsNullOrWhiteSpace user.login) -> user.login
+            | Some user when not (System.String.IsNullOrWhiteSpace user.name)  -> user.name
+            | Some _ | None -> "Account")
+
+    let private showAsFlex (showV: View<bool>) =
+        Attr.Concat [
+            Attr.DynamicClassPred "hidden" (showV |> View.Map not) // hide when false
+            Attr.DynamicClassPred "flex" showV // flex when true
+        ]
+
+    // Event handlers used by ws-on*
+    let AccountBtnClick (_: TemplateEvent<_, _, _>) =
+        isOpen.Value <- not isOpen.Value
+
+    let AccountBtnKeyDown (e: TemplateEvent<_, _, _>) =
+        let keyboardEvt = e.Event :> KeyboardEvent
+        match keyboardEvt.Key with
+        | "Enter" | " " ->
+            keyboardEvt.PreventDefault()
+            isOpen.Value <- not isOpen.Value
+        | "ArrowDown" ->
+            keyboardEvt.PreventDefault()
+            isOpen.Value <- true
+        | "Escape" ->
+            isOpen.Value <- false
+        | _ -> ()
+
+    // Will be wired after dynamic import
+    let mutable private doLogin : unit -> unit = fun () -> ()
+    let mutable private doLogout : unit -> unit = fun () -> ()
+
+    let Login (_: TemplateEvent<_, _, _>) = doLogin()
+    let Logout (_: TemplateEvent<_, _, _>) =
+        doLogout()
+        isOpen.Value <- false
+
+    // ws-attr holes (reactive classes/attrs)
+    let DropdownAttr () = Attr.DynamicClassPred "hidden" (isOpen.View |> View.Map not)
+    let AccountBtnAria () = Attr.Dynamic "aria-expanded" (isOpen.View |> View.Map (fun b -> if b then "true" else "false"))
+    let AvatarAttr () = Attr.DynamicClassPred "hidden" (hasAvatarV |> View.Map not)
+    let IconAttr () = Attr.DynamicClassPred "hidden" hasAvatarV
+
+    let HeaderAttr () = showAsFlex isAuthedV
+    let BtnManageAttr () = showAsFlex isAuthedV
+    let BtnLogoutAttr () = showAsFlex isAuthedV
+    let BtnLoginAttr () = showAsFlex (isAuthedV |> View.Map not)
+
+    // ${...} holes
+    let AvatarSrc : View<string> = avatarSrcV
+    let AccountHeaderText : View<string> = displayNameV
+
+    // One-time wiring for outside-click/Escape + ws-auth bridge
+    let InitGlobal () =
+        // Close when clicking outside the account root
         let root = byId "accountRoot"
-        let btn = byId "accountBtn"
-        let dropdown = byId "accountDropdown"
-        let avatar = byId "accountAvatar"
-        let icon = byId "accountIcon"
-        let header = byId "accountHeader"
-        let btnManage = byId "btnManage"
-        let btnLogin = byId "btnLogin"
-        let btnLogout = byId "btnLogout"
+        JS.Document.AddEventListener("click", fun (evt: Event) ->
+            if isOpen.Value then
+                match evt.Target with
+                | :? Node as n when not (isNull root) && not (root.Contains n) ->
+                    isOpen.Value <- false
+                | _ -> ()
+        )
+        // Close on Escape anywhere
+        JS.Document.AddEventListener("keydown", fun (evt: Event) ->
+            let keyboardEvt = evt :?> KeyboardEvent
+            if keyboardEvt.Key = "Escape" then isOpen.Value <- false
+        )
 
-        if isNull root || isNull btn || isNull dropdown then None else
-
-        let mutable isOpen = false
-        let setOpen (openState: bool) =
-            isOpen <- openState
-            dropdown.ClassList.Toggle("hidden", not openState) |> ignore
-            btn.SetAttribute("aria-expanded", if openState then "true" else "false")
-
-        let onOutsideClick (e: Dom.Event) =
-            match e.Target with
-            | :? Node as n when root.Contains n |> not -> setOpen false
-            | _ -> ()
-
-        let onEsc (e: Dom.Event) =
-            match e?key with
-            | "Escape" -> setOpen false
-            | _ -> ()
-
-        let onBtnKeyDown (e: Dom.Event) =
-            match e?key with
-            | "Enter" | " " ->
-                e.PreventDefault()
-                setOpen (not isOpen)
-            | "ArrowDown" ->
-                e.PreventDefault()
-                setOpen true
-            | _ -> ()
-
-        btn.AddEventListener("click", fun (_: Event) -> setOpen (not isOpen))
-        btn.AddEventListener("keydown", onBtnKeyDown)
-        JS.Document.AddEventListener("click", onOutsideClick)
-        JS.Document.AddEventListener("keydown", onEsc)
-
-        // Will be injected after we load ws-auth.js
-        let mutable doLogin : unit -> unit = fun () -> ()
-        let mutable doLogout : unit -> unit = fun () -> ()
-
-        if not (isNull btnLogin) then
-            btnLogin.AddEventListener("click", fun (_: Event) -> doLogin())
-
-        if not (isNull btnLogout) then
-            btnLogout.AddEventListener("click", fun (_: Event) ->
-                doLogout()
-                setOpen false
-            )
-
-        let render (user: obj) =
-            let authed = not (isNull user)
-
-            if authed then
-                let avatarUrl = user?avatarUrl |> As<string>
-                if not (isNull avatar) then
-                    if not (isNull avatarUrl) && avatarUrl <> "" then
-                        avatar?src <- avatarUrl
-                        avatar.ClassList.Remove("hidden")
-                        icon.ClassList.Add("hidden")
-                    else
-                        avatar?src <- ""
-                        avatar.ClassList.Add("hidden")
-                        icon.ClassList.Remove("hidden")
-
-                let displayName =
-                    let a = user?login |> As<string>
-                    if not (isNull a) && a <> "" then a
-                    else
-                        let b = user?name |> As<string>
-                        if isNull b || b = "" then "Account" else b
-
-                if not (isNull header) then
-                    setText header displayName
-                    header.ClassList.Remove("hidden")
-            else
-                if not (isNull avatar) then
-                    avatar?src <- ""
-                    avatar.ClassList.Add("hidden")
-                icon.ClassList.Remove("hidden")
-                if not (isNull header) then
-                    setText header ""
-                    header.ClassList.Add("hidden")
-
-            showFlex btnManage authed
-            showFlex btnLogout authed
-            showFlex btnLogin (not authed)
-
-        let setAuthFns (loginF, logoutF) =
-            doLogin  <- loginF
-            doLogout <- logoutF
-
-        Some { Render = render; SetAuthFunctions = setAuthFns }
-
-    // Mobile controller
-    let private setupMobile (root: Element) : Controller option =
-        if isNull root then None else
-
-        let header = root.QuerySelector("[data-el='header']") |> As<Element>
-        let btnManage = root.QuerySelector("[data-el='manage']") |> As<Element>
-        let btnLogin = root.QuerySelector("[data-el='login']")  |> As<Element>
-        let btnLogout = root.QuerySelector("[data-el='logout']") |> As<Element>
-
-        let mutable doLogin  : unit -> unit = fun () -> ()
-        let mutable doLogout : unit -> unit = fun () -> ()
-
-        if not (isNull btnLogin) then
-            btnLogin.AddEventListener("click", fun (_: Event) -> doLogin())
-        if not (isNull btnLogout) then
-            btnLogout.AddEventListener("click", fun (_: Event) -> doLogout())
-
-        let render (user: obj) =
-            let authed = not (isNull user)
-            if authed then
-                let name =
-                    let a = user?login |> As<string>
-                    if not (isNull a) && a <> "" then a
-                    else
-                        let b = user?name |> As<string>
-                        if isNull b || b = "" then "Account" else b
-
-                setText header name
-                showFlex header true
-            else
-                setText header ""
-                showFlex header false
-
-            showFlex btnManage authed
-            showFlex btnLogout authed
-            showFlex btnLogin (not authed)
-
-        let setAuthFns (loginF, logoutF) =
-            doLogin  <- loginF
-            doLogout <- logoutF
-
-        Some { Render = render; SetAuthFunctions = setAuthFns }
-
-    // Entry point
-    let Init () =
-        // Collect controllers (desktop + each mobile block)
-        let controllers = ResizeArray<Controller>()
-
-        match setupDesktop () with
-        | Some c -> controllers.Add c
-        | None -> ()
-
-        let nodes = JS.Document.QuerySelectorAll("[data-account-menu]")
-        for i = 0 to int nodes.Length - 1 do
-            let root = nodes.Item i |> As<Element>
-            // Skip the desktop root if it accidentally carries the data attribute
-            if isNull root || root.Id = "accountRoot" then () else
-            match setupMobile root with
-            | Some c -> controllers.Add c
-            | None -> ()
-
-        // Dynamically import ws-auth and wire everything
-        JS.ImportDynamic(AuthModulePath)
+        // Import ws-auth.js and wire auth state/actions
+        JS.ImportDynamic(toAbsoluteUrl "Js/ws-auth.js")
             .Then(fun m ->
-                let onChange : (obj -> unit) -> unit = m?onChange
+                let onChange : (User -> unit) -> unit = m?onChange
                 let fetchMe : unit -> unit = m?fetchMe
                 let loginJs : unit -> unit = m?login
                 let logoutJs : unit -> Promise<obj> = m?logout
 
-                let loginF () = loginJs()
-                let logoutF () = logoutJs() |> ignore
+                doLogin <- loginJs
+                doLogout <- (fun () -> logoutJs() |> ignore)
 
-                // give controllers the auth actions
-                for controller in controllers do controller.SetAuthFunctions (loginF, logoutF)
-
-                // react to auth state changes
-                onChange (fun user -> for controller in controllers do controller.Render user)
-
-                // ensure we render with fresh state at load
+                onChange (fun u ->
+                    if isNull (box u) then user.Value <- None
+                    else
+                        user.Value <- Some {
+                            login = u.login
+                            name = u.name
+                            avatarUrl = u.avatarUrl
+                        }
+                )
                 fetchMe()
                 box null)
             |> ignore
