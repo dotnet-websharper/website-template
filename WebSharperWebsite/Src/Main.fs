@@ -50,7 +50,6 @@ module Templating =
 
 
 module Site =
-    open WebSharper.UI.Html
     open type WebSharper.UI.ClientServer
 
     let HomePage =
@@ -90,7 +89,7 @@ module Site =
 
     let ManageSubscriptionPage =
         Templating.Layout EndPoint.ManageSubscription [
-            hydrate (Client.ManageSubscription())
+            client (Client.ManageSubscription())
         ]
 
     let SuccessPage =

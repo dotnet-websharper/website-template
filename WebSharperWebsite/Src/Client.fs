@@ -118,9 +118,10 @@ module Client =
             .Doc()
 
     let ManageSubscription () =
+        //WebSharperWebsite.ManageSubscription.Page.Doc()
         Templates.ManageSubscriptionTemplate()
             .OnAfterRender(fun () ->
-                ManageSubscription.Init()
+                WebSharperWebsite.ManageSubscription.Page.Init()
             )
             .Doc()
 

@@ -5,7 +5,7 @@ open WebSharper.JavaScript
 open WebSharper.JavaScript.Dom
 
 [<JavaScript>]
-module ManageSubscription =
+module ManageSub =
     open Utils
 
     let private toggleHidden (el: Element) (hidden: bool) =
