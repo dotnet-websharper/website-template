@@ -26,9 +26,9 @@ module State =
         | _     -> sprintf "%.2f %s" amountF currency
 
     let getRouteFromHash () =
-        let h = JS.Window.Location.Hash
-        let s = if h.StartsWith("#") then h.Substring(1) else h
-        if s = "" then "subs" else s
+        let hash = JS.Window.Location.Hash
+        let normalizedHash = if hash.StartsWith("#") then hash.Substring(1) else hash
+        if normalizedHash = "" then "subs" else normalizedHash
 
     let navigate (hash: string) =
         let target = "#" + hash

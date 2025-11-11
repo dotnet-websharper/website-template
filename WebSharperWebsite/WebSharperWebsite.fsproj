@@ -16,7 +16,6 @@
     <Compile Include="Src\ManageSubscription\Views.fs" />
     <Compile Include="Src\ManageSubscription\Controller.fs" />
     <Compile Include="Src\ManageSubscription\Page.fs" />
-    <Compile Include="Src\ManageSubscription.fs" />
     <Compile Include="Src\SnippetCode.fs" />
     <Compile Include="Src\AccountMenu.fs" />
     <Compile Include="Src\VideoPlayer.fs" />

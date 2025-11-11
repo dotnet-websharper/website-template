@@ -19,6 +19,31 @@ module Controller =
     [<Inline>]
     let private importErr ()  = JS.ImportDynamic (toAbsoluteUrl "Js/error-utils.js")
 
+    let HandleApplyBulk() =
+        let ui = collectUi ()
+        let names = State.parseUsernames ui.bulkBox.Value
+        if names.Length = 0 then () else
+        toggleHidden ui.bulkError true
+        setLoading ui true
+        try
+            try
+                Api.BulkAssign State.state.currentSubId names
+                State.state.seats <- Api.GetSeats State.state.currentSubId
+                renderSummary ui
+
+                Views.refreshSeats state.seats
+
+                showToast ui "Bulk assigned"
+            with _ ->
+                toggleHidden ui.bulkError false
+        finally
+            setLoading ui false
+
+    let HandleClearBulk() =
+        let ui = collectUi ()
+        ui.bulkBox.Value <- ""
+        toggleHidden ui.bulkError true
+
     // Verifies session
     let requireAuth () =
         importAuth()
@@ -110,32 +135,6 @@ module Controller =
                     setLoading ui false
             )
 
-        // Bulk apply / clear
-        if not (isNull ui.applyBulk) then
-            ui.applyBulk.AddEventListener("click", fun (_: Event) ->
-                let names = State.parseUsernames ui.bulkBox.Value
-                if names.Length = 0 then () else
-                toggleHidden ui.bulkError true
-                setLoading ui true
-                try
-                    try
-                        BulkAssign state.currentSubId names
-                        state.seats <- GetSeats state.currentSubId
-                        renderSummary ui
-                        renderSeats ui
-                        showToast ui "Bulk assigned"
-                    with _ ->
-                        toggleHidden ui.bulkError false
-                finally
-                    setLoading ui false
-            )
-
-        if not (isNull ui.clearBulk) then
-            ui.clearBulk.AddEventListener("click", fun (_: Event) ->
-                ui.bulkBox.Value <- ""
-                toggleHidden ui.bulkError true
-            )
-
         // Refresh
         if not (isNull ui.refresh) then
             ui.refresh.AddEventListener("click", fun (_: Event) ->
@@ -149,13 +148,6 @@ module Controller =
                     showToast ui "Refreshed"
                 finally
                     setLoading ui false
-            )
-
-        // Add subscription
-        if not (isNull ui.btnAddSubscription) then
-            ui.btnAddSubscription.Disabled <- false
-            ui.btnAddSubscription.AddEventListener("click", fun (_: Event) ->
-                JS.Window.Location.Href <- "./checkout.html"
             )
 
         // Billing edit/save/cancel (two buttons save the same)

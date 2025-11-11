@@ -63,9 +63,6 @@ module Types =
         seatsBody: Element
         bulkBox: HTMLInputElement
         bulkError: Element
-        applyBulk: Element
-        clearBulk: Element
-        btnAddSubscription: HTMLButtonElement
         refresh: Element
         invoiceBody: Element
         billingView: Element

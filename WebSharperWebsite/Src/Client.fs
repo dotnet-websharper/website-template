@@ -117,11 +117,22 @@ module Client =
             )
             .Doc()
 
+    open WebSharperWebsite.ManageSubscription
+
     let ManageSubscription () =
         //WebSharperWebsite.ManageSubscription.Page.Doc()
         Templates.ManageSubscriptionTemplate()
             .OnAfterRender(fun () ->
                 WebSharperWebsite.ManageSubscription.Page.Init()
+            )
+            .AddSubscriptionClick(fun _ -> 
+                JS.Window.Location.Href <- "./checkout.html"
+            )
+            .ApplyBulkClick(fun e ->
+                Controller.HandleApplyBulk()
+            )
+            .ClearBulkClick(fun _ ->
+                Controller.HandleClearBulk()
             )
             .Doc()
 

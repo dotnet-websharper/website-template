@@ -89,7 +89,7 @@ module Site =
 
     let ManageSubscriptionPage =
         Templating.Layout EndPoint.ManageSubscription [
-            client (Client.ManageSubscription())
+            hydrate (Client.ManageSubscription())
         ]
 
     let SuccessPage =
