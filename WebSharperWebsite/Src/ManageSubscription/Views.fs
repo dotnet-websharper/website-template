@@ -1,6 +1,9 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
 open WebSharper
+open WebSharper.UI
+open WebSharper.UI.Html
+open WebSharper.UI.Client
 open WebSharper.JavaScript
 open WebSharper.JavaScript.Dom
 open Types
@@ -106,39 +109,6 @@ module Views =
 
         if not (isNull ui.seatProgress) then
             ui.seatProgress?style?width <- string usedPercent + "%"
-
-    let renderSeats (ui: UiRefs) =
-        if isNull ui.seatsBody then () else
-        ui.seatsBody.InnerHTML <- ""
-        for seat in state.seats do
-            let tr = JS.Document.CreateElement("tr")
-            tr.InnerHTML <-
-                $"""
-                <td class="px-4 py-3">#{seat.seatNo}</td>
-                <td class="px-4 py-3">
-                    <input data-seat-input="{seat.seatNo}" value="{if System.String.IsNullOrEmpty seat.username then "" else seat.username}"
-                           class="w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm"
-                           placeholder="github-username" />
-                </td>
-                <td class="px-4 py-3">
-                    <span class="inline-flex items-center rounded-full border px-2 py-0.5 text-xs
-                        {if seat.status = "assigned" then "border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300"
-                         else "border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300"}">
-                        {seat.status}
-                    </span>
-                </td>
-                <td class="px-4 py-3 text-right whitespace-nowrap">
-                    <button data-action="assign" data-seat="{seat.seatNo}"
-                            class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20 mr-2">
-                        Assign
-                    </button>
-                    <button data-action="unassign" data-seat="{seat.seatNo}"
-                            class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20">
-                        Unassign
-                    </button>
-                </td>
-                """
-            ui.seatsBody.AppendChild(tr) |> ignore
 
     let renderInvoices (ui: UiRefs) =
         if isNull ui.invoiceBody then () else

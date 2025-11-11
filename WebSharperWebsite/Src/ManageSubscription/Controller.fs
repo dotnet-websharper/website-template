@@ -31,7 +31,7 @@ module Controller =
                 State.state.seats <- Api.GetSeats State.state.currentSubId
                 renderSummary ui
 
-                Views.refreshSeats state.seats
+                ViewsSeats.refreshSeats state.seats
 
                 showToast ui "Bulk assigned"
             with _ ->
@@ -95,7 +95,7 @@ module Controller =
 
             state.seats <- GetSeats state.currentSubId
             renderSummary ui
-            renderSeats ui
+            ViewsSeats.refreshSeats state.seats
             showToast ui "Updated"
         finally
             setLoading ui false
@@ -128,7 +128,7 @@ module Controller =
                 try
                     state.seats <- GetSeats state.currentSubId
                     renderSummary ui
-                    renderSeats ui
+                    ViewsSeats.refreshSeats state.seats
                     state.invoices <- GetInvoices state.currentSubId
                     renderInvoices ui
                 finally
@@ -142,7 +142,7 @@ module Controller =
                 try
                     state.seats <- GetSeats state.currentSubId
                     renderSummary ui
-                    renderSeats ui
+                    ViewsSeats.refreshSeats state.seats
                     state.invoices <- GetInvoices state.currentSubId
                     renderInvoices ui
                     showToast ui "Refreshed"
