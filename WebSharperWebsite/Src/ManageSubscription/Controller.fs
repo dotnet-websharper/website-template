@@ -126,11 +126,13 @@ module Controller =
                 state.currentSubId <- ui.subscriptionSelect?value
                 setLoading ui true
                 try
-                    state.seats <- GetSeats state.currentSubId
                     renderSummary ui
+
+                    state.seats <- GetSeats state.currentSubId                    
                     ViewsSeats.refreshSeats state.seats
+
                     state.invoices <- GetInvoices state.currentSubId
-                    renderInvoices ui
+                    ViewsInvoices.refreshInvoices state.invoices
                 finally
                     setLoading ui false
             )
@@ -140,11 +142,14 @@ module Controller =
             ui.refresh.AddEventListener("click", fun (_: Event) ->
                 setLoading ui true
                 try
-                    state.seats <- GetSeats state.currentSubId
                     renderSummary ui
+
+                    state.seats <- GetSeats state.currentSubId                    
                     ViewsSeats.refreshSeats state.seats
+
                     state.invoices <- GetInvoices state.currentSubId
-                    renderInvoices ui
+                    ViewsInvoices.refreshInvoices state.invoices
+
                     showToast ui "Refreshed"
                 finally
                     setLoading ui false

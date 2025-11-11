@@ -110,27 +110,6 @@ module Views =
         if not (isNull ui.seatProgress) then
             ui.seatProgress?style?width <- string usedPercent + "%"
 
-    let renderInvoices (ui: UiRefs) =
-        if isNull ui.invoiceBody then () else
-        ui.invoiceBody.InnerHTML <- ""
-        for inv in state.invoices do
-            let tr = JS.Document.CreateElement("tr")
-            tr.InnerHTML <-
-                $"""
-                <td class="px-4 py-3">{inv.id}</td>
-                <td class="px-4 py-3">{inv.date}</td>
-                <td class="px-4 py-3">{State.formatMoney inv.amount inv.currency}</td>
-                <td class="px-4 py-3 capitalize">{inv.status}</td>
-                <td class="px-4 py-3 text-right">
-                    <a class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20"
-                       href="./invoice.html?id={JS.EncodeURIComponent(inv.id)}&sub={JS.EncodeURIComponent(state.currentSubId)}"
-                       target="_blank" rel="noopener">
-                        View
-                    </a>
-                </td>
-                """
-            ui.invoiceBody.AppendChild(tr) |> ignore
-
     // Billing display
 
     let setBillingMode (ui: UiRefs) (mode: string) =

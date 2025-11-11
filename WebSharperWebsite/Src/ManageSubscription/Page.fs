@@ -37,8 +37,9 @@ module Page =
     let Init () =
         let ui = collectUi ()
         setLoading ui true
+
         ViewsSeats.mountSeats ui
-        ViewsSeats.refreshSeats (GetSeats state.currentSubId)
+        ViewsInvoices.mountInvoices ui
 
         let afterAuth (_: obj) =
             try
@@ -48,11 +49,13 @@ module Page =
                 renderSubscriptionSelector ui
 
                 if not (System.String.IsNullOrEmpty state.currentSubId) then
-                    loadSeats ()
                     renderSummary ui
-                    ViewsSeats.refreshSeats (GetSeats state.currentSubId)
+
+                    loadSeats ()                    
+                    ViewsSeats.refreshSeats state.seats
+
                     loadInvoices ()
-                    renderInvoices ui
+                    ViewsInvoices.refreshInvoices state.invoices
 
                 showPage ui (State.getRouteFromHash ())
                 loadBillingForm ui
