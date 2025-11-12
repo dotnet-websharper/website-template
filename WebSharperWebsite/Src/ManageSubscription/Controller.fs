@@ -44,6 +44,20 @@ module Controller =
         ui.bulkBox.Value <- ""
         toggleHidden ui.bulkError true
 
+    let HandleRefresh() =
+        let ui = collectUi ()
+        setLoading ui true
+        try                   
+            state.seats <- GetSeats state.currentSubId                    
+            ViewsSeats.refreshSeats state.seats
+
+            state.invoices <- GetInvoices state.currentSubId
+            ViewsInvoices.refreshInvoices state.invoices
+
+            showToast ui "Refreshed"
+        finally
+            setLoading ui false
+
     // Verifies session
     let requireAuth () =
         importAuth()
@@ -136,24 +150,6 @@ module Controller =
 
                     state.invoices <- GetInvoices state.currentSubId
                     ViewsInvoices.refreshInvoices state.invoices
-                finally
-                    setLoading ui false
-            )
-
-        // Refresh
-        if not (isNull ui.refresh) then
-            ui.refresh.AddEventListener("click", fun (_: Event) ->
-                setLoading ui true
-                try
-                    
-
-                    state.seats <- GetSeats state.currentSubId                    
-                    ViewsSeats.refreshSeats state.seats
-
-                    state.invoices <- GetInvoices state.currentSubId
-                    ViewsInvoices.refreshInvoices state.invoices
-
-                    showToast ui "Refreshed"
                 finally
                     setLoading ui false
             )

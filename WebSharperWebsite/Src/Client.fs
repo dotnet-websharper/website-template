@@ -134,6 +134,9 @@ module Client =
             .ClearBulkClick(fun _ ->
                 Controller.HandleClearBulk()
             )
+            .RefreshClick(fun _ ->
+                Controller.HandleRefresh()
+            )
             .Doc()
 
     let Success () =
