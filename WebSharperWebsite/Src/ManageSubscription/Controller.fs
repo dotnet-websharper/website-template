@@ -120,42 +120,6 @@ module Controller =
                             ) |> ignore
                     )  |> ignore
             )
-
-    // Handlers
-
-    let private onSeatsBodyClick (ui: UiRefs) (event: Dom.Event) =
-        let targetEl =
-            match event.Target with
-            | :? Element as el -> el
-            | _ -> null
-
-        if isNull targetEl then () else
-        let btn = targetEl.Closest("button[data-action]")
-        if isNull btn then () else
-
-        let seatNo =
-            match System.Int32.TryParse (btn.GetAttribute("data-seat")) with
-            | true, v -> v
-            | _ -> -1
-
-        if seatNo <= 0 then () else
-        let input = ui.seatsBody.QuerySelector($"""[data-seat-input="{seatNo}"]""") |> As<HTMLInputElement>
-        let username = if isNull input then "" else input.Value.Trim()
-
-        setLoading ui true
-        try
-            if btn.GetAttribute("data-action") = "assign" then
-                if username <> "" then AssignSeat state.currentSubId seatNo username
-            else
-                UnassignSeat state.currentSubId seatNo
-
-            state.seats <- GetSeats state.currentSubId
-            
-            ViewsSeats.refreshSeats state.seats
-            showToast ui "Updated"
-        finally
-            setLoading ui false
-
     // Wiring
 
     let wireEvents (ui: UiRefs) =
@@ -171,10 +135,6 @@ module Controller =
         JS.Window.AddEventListener("hashchange", (fun (_: Event) ->
             showPage ui (State.getRouteFromHash ())
         ))
-
-        // Seats table actions
-        if not (isNull ui.seatsBody) then
-            ui.seatsBody.AddEventListener("click", fun ev -> onSeatsBodyClick ui ev)
 
         // Subscription selector
         if not (isNull ui.subscriptionSelect) then
