@@ -125,6 +125,10 @@ module Client =
             .OnAfterRender(fun () ->
                 WebSharperWebsite.ManageSubscription.Page.Init()
             )
+            .SubscriptionChanged(fun e -> 
+                let id  = string e.Target?value 
+                Controller.HandleSubscriptionChange(id)
+            )
             .AddSubscriptionClick(fun _ -> 
                 JS.Window.Location.Href <- "./checkout.html"
             )

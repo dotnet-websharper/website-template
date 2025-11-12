@@ -100,6 +100,20 @@ module Controller =
         | None -> ()
         setBillingMode ui "view"
 
+    let HandleSubscriptionChange (subId: string) =
+        state.currentSubId <- subId
+        ViewsSubsSummary.selectedSubId.Value <- subId
+        let ui = collectUi ()
+        setLoading ui true
+        try
+            state.seats <- Api.GetSeats state.currentSubId                    
+            ViewsSeats.refreshSeats state.seats
+
+            state.invoices <- Api.GetInvoices state.currentSubId
+            ViewsInvoices.refreshInvoices state.invoices
+        finally
+            setLoading ui false
+
     // Verifies session
     let requireAuth () =
         importAuth()
@@ -135,21 +149,3 @@ module Controller =
         JS.Window.AddEventListener("hashchange", (fun (_: Event) ->
             showPage ui (State.getRouteFromHash ())
         ))
-
-        // Subscription selector
-        if not (isNull ui.subscriptionSelect) then
-            ui.subscriptionSelect.AddEventListener("change", fun (_: Event) ->
-                let id = ui.subscriptionSelect?value |> As<string>
-                state.currentSubId <- id
-                ViewsSubsSummary.selectedSubId.Value <- id
-
-                setLoading ui true
-                try
-                    state.seats <- GetSeats state.currentSubId                    
-                    ViewsSeats.refreshSeats state.seats
-
-                    state.invoices <- GetInvoices state.currentSubId
-                    ViewsInvoices.refreshInvoices state.invoices
-                finally
-                    setLoading ui false
-            )
