@@ -1,9 +1,6 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
 open WebSharper
-open WebSharper.UI
-open WebSharper.UI.Html
-open WebSharper.UI.Client
 open WebSharper.JavaScript
 open WebSharper.JavaScript.Dom
 open Types

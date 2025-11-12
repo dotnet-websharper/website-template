@@ -134,18 +134,3 @@ module Controller =
                             ) |> ignore
                     )  |> ignore
             )
-    // Wiring
-
-    let wireEvents (ui: UiRefs) =
-        // Tabs / hash routing
-        for t in ui.tabs do
-            t.AddEventListener("click", (fun (_: Event) ->
-                let nav = t?dataset?nav |> As<string>
-                if not (System.String.IsNullOrEmpty nav) then
-                    State.navigate nav
-                    showPage ui nav
-            ))
-
-        JS.Window.AddEventListener("hashchange", (fun (_: Event) ->
-            showPage ui (State.getRouteFromHash ())
-        ))

@@ -1,8 +1,6 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
 open WebSharper
-open WebSharper.JavaScript
-open WebSharper.JavaScript.Dom
 open Types
 
 [<JavaScript>]
@@ -24,16 +22,6 @@ module State =
         | "eur" -> sprintf "€%.2f" amountF
         | "gbp" -> sprintf "£%.2f" amountF
         | _     -> sprintf "%.2f %s" amountF currency
-
-    let getRouteFromHash () =
-        let hash = JS.Window.Location.Hash
-        let normalizedHash = if hash.StartsWith("#") then hash.Substring(1) else hash
-        if normalizedHash = "" then "subs" else normalizedHash
-
-    let navigate (hash: string) =
-        let target = "#" + hash
-        if JS.Window.Location.Hash <> target then
-            JS.Window.Location.Hash <- target
 
     let parseUsernames (str: string) =
         str.Split([| ' '; '\t'; '\r'; '\n'; ',' |], System.StringSplitOptions.RemoveEmptyEntries)

@@ -1,7 +1,6 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
 open WebSharper
-open WebSharper.JavaScript
 open Types
 open State
 open Views
@@ -37,7 +36,7 @@ module Page =
     let Init () =
         let ui = collectUi ()
         setLoading ui true
-
+        
         ViewsSeats.mountSeats ui
         ViewsInvoices.mountInvoices ui
         ViewsSubsSummary.mountSubscriptionSelect ui
@@ -45,7 +44,7 @@ module Page =
 
         let afterAuth (_: obj) =
             try
-                wireEvents ui
+                Nav.Mount ui
 
                 loadSubscriptions()
                 ViewsSubsSummary.refreshSubscriptions state.subs
@@ -61,7 +60,6 @@ module Page =
                     loadInvoices ()
                     ViewsInvoices.refreshInvoices state.invoices
 
-                showPage ui (State.getRouteFromHash ())
                 loadBillingForm ui
             finally
                 setLoading ui false

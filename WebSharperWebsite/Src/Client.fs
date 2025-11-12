@@ -125,31 +125,19 @@ module Client =
             .OnAfterRender(fun () ->
                 WebSharperWebsite.ManageSubscription.Page.Init()
             )
+            .GoSubs(fun _ -> Nav.GoTo Nav.Tab.Subs)
+            .GoBilling(fun _ -> Nav.GoTo Nav.Tab.Billing)
             .SubscriptionChanged(fun e -> 
-                let id  = string e.Target?value 
+                let id = string e.Target?value 
                 Controller.HandleSubscriptionChange(id)
             )
-            .AddSubscriptionClick(fun _ -> 
-                JS.Window.Location.Href <- "./checkout.html"
-            )
-            .ApplyBulkClick(fun e ->
-                Controller.HandleApplyBulk()
-            )
-            .ClearBulkClick(fun _ ->
-                Controller.HandleClearBulk()
-            )
-            .RefreshClick(fun _ ->
-                Controller.HandleRefresh()
-            )
-            .BillingEditClick(fun _ ->
-                Controller.HandleBillingEdit()
-            )
-            .BillingSaveClick(fun e ->
-                Controller.HandleBillingSave()
-            )
-            .BillingCancelClick(fun _ ->
-                Controller.HandleBillingCancel()
-            )
+            .AddSubscriptionClick(fun _ -> JS.Window.Location.Href <- "./checkout.html")
+            .ApplyBulkClick(fun e -> Controller.HandleApplyBulk())
+            .ClearBulkClick(fun _ -> Controller.HandleClearBulk())
+            .RefreshClick(fun _ -> Controller.HandleRefresh())
+            .BillingEditClick(fun _ -> Controller.HandleBillingEdit())
+            .BillingSaveClick(fun e -> Controller.HandleBillingSave())
+            .BillingCancelClick(fun _ -> Controller.HandleBillingCancel())
             .Doc()
 
     let Success () =
