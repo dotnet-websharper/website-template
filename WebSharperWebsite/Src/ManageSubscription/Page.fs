@@ -40,16 +40,20 @@ module Page =
 
         ViewsSeats.mountSeats ui
         ViewsInvoices.mountInvoices ui
+        ViewsSubsSummary.mountSubscriptionSelect ui
+        ViewsSubsSummary.mountSummary ui
 
         let afterAuth (_: obj) =
             try
                 wireEvents ui
 
-                loadSubscriptions ()
-                renderSubscriptionSelector ui
+                loadSubscriptions()
+                ViewsSubsSummary.refreshSubscriptions state.subs
+
+                state.currentSubId <- ViewsSubsSummary.selectedSubId.Value
 
                 if not (System.String.IsNullOrEmpty state.currentSubId) then
-                    renderSummary ui
+                    //renderSummary ui
 
                     loadSeats ()                    
                     ViewsSeats.refreshSeats state.seats

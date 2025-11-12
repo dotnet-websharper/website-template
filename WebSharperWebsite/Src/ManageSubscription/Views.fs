@@ -66,50 +66,6 @@ module Views =
             tab.ClassList.Toggle("bg-gray-100", active)       |> ignore
             tab.ClassList.Toggle("dark:bg-white/5", active)   |> ignore
 
-    // Renderers
-
-    let renderSubscriptionSelector (ui: UiRefs) =
-        let sel = ui.subscriptionSelect
-        if isNull sel then () else
-        sel.InnerHTML <- ""
-        for sub in state.subs do
-            let o = JS.Document.CreateElement("option") |> As<HTMLOptionElement>
-            o.Value <- sub.id
-            o.TextContent <- sub.label
-            sel.AppendChild(o) |> ignore
-
-        let exists = state.subs |> Array.exists (fun s -> s.id = state.currentSubId)
-        if not (System.String.IsNullOrEmpty state.currentSubId) && exists then
-            sel?value <- state.currentSubId
-        elif state.subs.Length > 0 then
-            state.currentSubId <- state.subs.[0].id
-            sel?value <- state.currentSubId
-
-    let renderSummary (ui: UiRefs) =
-        let subOpt = state.subs |> Array.tryFind (fun s -> s.id = state.currentSubId)
-
-        let used =
-            state.seats |> Array.filter (fun x -> x.status = "assigned") |> Array.length
-
-        let total = subOpt |> Option.map (fun s -> s.totalSeats) |> Option.defaultValue 0
-
-        ui.planName.TextContent <- subOpt |> Option.map (fun s -> s.plan) |> Option.defaultValue "-"
-        ui.seatsUsed.TextContent <- string used
-        ui.seatsTotal.TextContent <- string total
-
-        let renewsAtEl = byId "renewsAt"
-        let subStatusEl = byId "subStatus"
-
-        renewsAtEl.TextContent <- subOpt |> Option.map (fun s -> s.renewsAt) |> Option.defaultValue "-"
-        subStatusEl.TextContent <- subOpt |> Option.map (fun s -> s.status)  |> Option.defaultValue "-"
-
-        let usedPercent =
-            if total = 0 then 0
-            else int (System.Math.Round(float used / float total * 100.0))
-
-        if not (isNull ui.seatProgress) then
-            ui.seatProgress?style?width <- string usedPercent + "%"
-
     // Billing display
 
     let setBillingMode (ui: UiRefs) (mode: string) =

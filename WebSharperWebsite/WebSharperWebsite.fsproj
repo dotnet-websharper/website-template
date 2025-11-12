@@ -15,6 +15,7 @@
     <Compile Include="Src\ManageSubscription\State.fs" />
     <Compile Include="Src\ManageSubscription\Views.fs" />
     <Compile Include="Src\ManageSubscription\Views.Seats.fs" />
+    <Compile Include="Src\ManageSubscription\Views.SubsSummary.fs" />
     <Compile Include="Src\ManageSubscription\Views.Invoices.fs" />
     <Compile Include="Src\ManageSubscription\Controller.fs" />
     <Compile Include="Src\ManageSubscription\Page.fs" />

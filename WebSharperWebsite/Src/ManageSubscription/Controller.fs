@@ -29,7 +29,7 @@ module Controller =
             try
                 Api.BulkAssign State.state.currentSubId names
                 State.state.seats <- Api.GetSeats State.state.currentSubId
-                renderSummary ui
+                
 
                 ViewsSeats.refreshSeats state.seats
 
@@ -94,7 +94,7 @@ module Controller =
                 UnassignSeat state.currentSubId seatNo
 
             state.seats <- GetSeats state.currentSubId
-            renderSummary ui
+            
             ViewsSeats.refreshSeats state.seats
             showToast ui "Updated"
         finally
@@ -123,10 +123,13 @@ module Controller =
         // Subscription selector
         if not (isNull ui.subscriptionSelect) then
             ui.subscriptionSelect.AddEventListener("change", fun (_: Event) ->
-                state.currentSubId <- ui.subscriptionSelect?value
+                let id = ui.subscriptionSelect?value |> As<string>
+                state.currentSubId <- id
+                ViewsSubsSummary.selectedSubId.Value <- id
+
                 setLoading ui true
                 try
-                    renderSummary ui
+                    
 
                     state.seats <- GetSeats state.currentSubId                    
                     ViewsSeats.refreshSeats state.seats
@@ -142,7 +145,7 @@ module Controller =
             ui.refresh.AddEventListener("click", fun (_: Event) ->
                 setLoading ui true
                 try
-                    renderSummary ui
+                    
 
                     state.seats <- GetSeats state.currentSubId                    
                     ViewsSeats.refreshSeats state.seats
