@@ -109,10 +109,10 @@ module AccountMenu =
                 let onChange : (User -> unit) -> unit = m?onChange
                 let fetchMe : unit -> unit = m?fetchMe
                 let loginJs : unit -> unit = m?login
-                let logoutJs : unit -> Promise<obj> = m?logout
+                let logoutJs : obj -> Promise<obj> = m?logout
 
                 doLogin <- loginJs
-                doLogout <- (fun () -> logoutJs() |> ignore)
+                doLogout <- (fun () -> logoutJs (box {| reload = true |}) |> ignore)
 
                 onChange (fun u ->
                     if isNull (box u) then user.Value <- None

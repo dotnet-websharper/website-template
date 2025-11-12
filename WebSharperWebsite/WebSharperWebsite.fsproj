@@ -19,6 +19,7 @@
     <Compile Include="Src\ManageSubscription\Views.Invoices.fs" />
     <Compile Include="Src\ManageSubscription\Views.SubsSummary.fs" />
     <Compile Include="Src\ManageSubscription\Controller.fs" />
+    <Compile Include="Src\ManageSubscription\ViewsAuth.fs" />
     <Compile Include="Src\ManageSubscription\Page.fs" />
     <Compile Include="Src\SnippetCode.fs" />
     <Compile Include="Src\AccountMenu.fs" />

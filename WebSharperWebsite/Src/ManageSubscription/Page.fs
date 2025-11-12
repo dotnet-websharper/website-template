@@ -35,42 +35,39 @@ module Page =
     // Entry point
     let Init () =
         let ui = collectUi ()
+        toggleHidden ui.content true
         setLoading ui true
-        
-        ViewsSeats.mountSeats ui
-        ViewsInvoices.mountInvoices ui
-        ViewsSubsSummary.mountSubscriptionSelect ui
-        ViewsSubsSummary.mountSummary ui
 
-        let afterAuth (_: obj) =
+        let afterAuthSuccess () =
             try
-                Nav.Mount ui
+                ViewsSeats.mountSeats ui
+                ViewsInvoices.mountInvoices ui
+                ViewsSubsSummary.mountSubscriptionSelect ui
+                ViewsSubsSummary.mountSummary ui
 
                 loadSubscriptions()
                 ViewsSubsSummary.refreshSubscriptions state.subs
-
                 state.currentSubId <- ViewsSubsSummary.selectedSubId.Value
 
                 if not (System.String.IsNullOrEmpty state.currentSubId) then
-                    //renderSummary ui
-
                     loadSeats ()                    
                     ViewsSeats.refreshSeats state.seats
 
                     loadInvoices ()
                     ViewsInvoices.refreshInvoices state.invoices
 
+                Nav.Mount ui
                 loadBillingForm ui
             finally
+                toggleHidden ui.content false
                 setLoading ui false
 
-        try
-            requireAuth()
-                .Then(fun user ->
-                    state.user <- user
-                    afterAuth user
-                )
-                .Catch(fun _ -> afterAuth null)
-                |> ignore
-        with _ ->
-            afterAuth null
+        let afterAuthFail () =
+            setLoading ui false
+            ViewsAuth.showLoginPrompt ui.content
+            toggleHidden ui.content false
+
+        requireAuth()
+            .Then(fun _ -> afterAuthSuccess())
+            .Catch(fun _ -> afterAuthFail())
+            |> ignore

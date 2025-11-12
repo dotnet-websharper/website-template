@@ -2,7 +2,6 @@
 
 open WebSharper
 open WebSharper.JavaScript
-open WebSharper.JavaScript.Dom
 open Types
 open State
 open Views
@@ -14,10 +13,16 @@ module Controller =
 
     // dynamic imports for auth/error utils 
     [<Inline>]
-    let private importAuth () = JS.ImportDynamic (toAbsoluteUrl "Js/ws-auth.js")
+    let importAuth () = JS.ImportDynamic (toAbsoluteUrl "Js/ws-auth.js")
 
     [<Inline>]
-    let private importErr ()  = JS.ImportDynamic (toAbsoluteUrl "Js/error-utils.js")
+    let importErr ()  = JS.ImportDynamic (toAbsoluteUrl "Js/error-utils.js")
+
+    [<Inline "$0.safeFetch($1, $2)">]
+    let safeFetchInline (errMod: obj) (url: string) (init: obj) : Promise<obj> = X<_>
+
+    [<Inline "$0.redirectToError($1, $2)">]
+    let redirectToErrorInline (errMod: obj) (err: obj) (ctx: obj) : unit = X<_>
 
     let HandleApplyBulk() =
         let ui = collectUi ()
@@ -116,21 +121,12 @@ module Controller =
 
     // Verifies session
     let requireAuth () =
-        importAuth()
-            .Then(fun authMod ->
-                let api : string = authMod?API
-                importErr()
-                    .Then(fun errMod ->
-                        let safeFetch : string -> obj -> Promise<obj> = errMod?safeFetch
-                        let redirectToError : obj -> obj -> unit = errMod?redirectToError
-                        (safeFetch ($"{api}/auth/me") {| credentials = "include" |})
-                            .Catch(fun err ->
-                                let status = err?status |> As<int>
-                                if status = 401 || status = 403 then
-                                    let returnUrl = JS.Window.Location.Href
-                                    JS.Window.Location.Href <- $"{api}/auth/github/start?returnUrl={JS.EncodeURIComponent(returnUrl)}"
-                                else
-                                    redirectToError err (box {| endpoint = "/auth/me"; method = "GET"; title = "Could not verify your session" |})
-                            ) |> ignore
-                    )  |> ignore
-            )
+        promise {
+            let! authMod = importAuth()
+            let! me = authMod?fetchMe(true) |> As<Promise<obj>>
+
+            if isNull me then
+                return raise (System.Exception "unauthorized")
+            else
+                return me
+        }
