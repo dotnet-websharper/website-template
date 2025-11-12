@@ -58,6 +58,48 @@ module Controller =
         finally
             setLoading ui false
 
+    let HandleBillingEdit() =
+        let ui = collectUi ()
+        match state.billing with
+        | Some data -> populateBillingForm ui data
+        | None -> ()
+        setBillingMode ui "edit"
+
+    let HandleBillingSave() =
+        let ui = collectUi ()
+        if isNull ui.billingForm then () else
+        let formData = new FormData(ui.billingForm)
+        let get name =
+            if formData.Has(name) then
+                match formData.Get(name) with
+                | Union1Of2 (_: File)  -> ""
+                | Union2Of2 (s: string) -> s
+            else ""
+        let data = {
+            name = get "name"
+            vatin = get "vatin"
+            line1 = get "line1"
+            city = get "city"
+            postal_code = get "postal_code"
+            country = get "country"
+        }
+        setLoading ui true
+        try
+            Api.SaveBilling data
+            state.billing <- Some data
+            renderBillingView data
+            setBillingMode ui "view"
+            showToast ui "Billing saved"
+        finally
+            setLoading ui false
+
+    let HandleBillingCancel() =
+        let ui = collectUi ()
+        match state.billing with
+        | Some data -> populateBillingForm ui data
+        | None -> ()
+        setBillingMode ui "view"
+
     // Verifies session
     let requireAuth () =
         importAuth()
@@ -143,8 +185,6 @@ module Controller =
 
                 setLoading ui true
                 try
-                    
-
                     state.seats <- GetSeats state.currentSubId                    
                     ViewsSeats.refreshSeats state.seats
 
@@ -152,54 +192,4 @@ module Controller =
                     ViewsInvoices.refreshInvoices state.invoices
                 finally
                     setLoading ui false
-            )
-
-        // Billing edit/save/cancel (two buttons save the same)
-        if not (isNull ui.btnBillingEdit) then
-            ui.btnBillingEdit.AddEventListener("click", fun (_: Event) ->
-                match state.billing with
-                | Some data -> populateBillingForm ui data
-                | None -> ()
-                setBillingMode ui "edit"
-            )
-
-        let saveBillingHandler (_: Event) =
-            if isNull ui.billingForm then () else
-            let fd = new FormData(ui.billingForm)
-            let get name =
-                if fd.Has(name) then
-                    match fd.Get(name) with
-                    | Union1Of2 (_: File)  -> ""
-                    | Union2Of2 (s: string) -> s
-                else ""
-            let data = {
-                name = get "name"
-                vatin = get "vatin"
-                line1 = get "line1"
-                city = get "city"
-                postal_code = get "postal_code"
-                country = get "country"
-            }
-            setLoading ui true
-            try
-                Api.SaveBilling data
-                state.billing <- Some data
-                renderBillingView data
-                setBillingMode ui "view"
-                showToast ui "Billing saved"
-            finally
-                setLoading ui false
-
-        if not (isNull ui.btnBillingSave) then
-            ui.btnBillingSave.AddEventListener("click", saveBillingHandler)
-
-        if not (isNull ui.saveBilling) then
-            ui.saveBilling.AddEventListener("click", saveBillingHandler)
-
-        if not (isNull ui.btnBillingCancel) then
-            ui.btnBillingCancel.AddEventListener("click", fun (_: Event) ->
-                match state.billing with
-                | Some data -> populateBillingForm ui data
-                | None -> ()
-                setBillingMode ui "view"
             )

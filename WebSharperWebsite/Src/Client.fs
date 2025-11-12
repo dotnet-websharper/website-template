@@ -137,6 +137,15 @@ module Client =
             .RefreshClick(fun _ ->
                 Controller.HandleRefresh()
             )
+            .BillingEditClick(fun _ ->
+                Controller.HandleBillingEdit()
+            )
+            .BillingSaveClick(fun e ->
+                Controller.HandleBillingSave()
+            )
+            .BillingCancelClick(fun _ ->
+                Controller.HandleBillingCancel()
+            )
             .Doc()
 
     let Success () =

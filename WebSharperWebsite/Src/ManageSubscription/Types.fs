@@ -71,5 +71,4 @@ module Types =
         btnBillingEdit: Element
         btnBillingSave: Element
         btnBillingCancel: Element
-        saveBilling: Element
     }

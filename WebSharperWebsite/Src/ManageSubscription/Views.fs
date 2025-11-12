@@ -42,7 +42,6 @@ module Views =
             btnBillingEdit = byId "btnBillingEdit"
             btnBillingSave = byId "btnBillingSave"
             btnBillingCancel = byId "btnBillingCancel"
-            saveBilling = byId "saveBilling"
         }
 
     let setLoading (ui: UiRefs) (on: bool) =
