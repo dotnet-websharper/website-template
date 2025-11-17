@@ -11,7 +11,6 @@ open WebSharper.UI.Templating.Runtime.Server
 module AccountMenu =
     open Utils
 
-    // Types coming from ws-auth.js
     type User = {
         login: string
         name: string
@@ -62,14 +61,12 @@ module AccountMenu =
             isOpen.Value <- false
         | _ -> ()
 
-    // Will be wired after dynamic import
-    let mutable private doLogin : unit -> unit = fun () -> ()
-    let mutable private doLogout : unit -> unit = fun () -> ()
-
-    let Login (_: TemplateEvent<_, _, _>) = doLogin()
+    let Login (_: TemplateEvent<_, _, _>) = AuthClient.Login()
     let Logout (_: TemplateEvent<_, _, _>) =
-        doLogout()
-        isOpen.Value <- false
+        async {
+            do! AuthClient.Logout(true)
+            isOpen.Value <- false
+        } |> Async.StartImmediate
 
     // ws-attr holes (reactive classes/attrs)
     let DropdownAttr () = Attr.DynamicClassPred "hidden" (isOpen.View |> View.Map not)
@@ -86,43 +83,36 @@ module AccountMenu =
     let AvatarSrc : View<string> = avatarSrcV
     let AccountHeaderText : View<string> = displayNameV
 
-    // One-time wiring for outside-click/Escape + ws-auth bridge
-    let InitGlobal () =
-        // Close when clicking outside the account root
-        let root = byId "accountRoot"
-        JS.Document.AddEventListener("click", fun (evt: Event) ->
-            if isOpen.Value then
-                match evt.Target with
-                | :? Node as n when not (isNull root) && not (root.Contains n) ->
-                    isOpen.Value <- false
-                | _ -> ()
-        )
-        // Close on Escape anywhere
-        JS.Document.AddEventListener("keydown", fun (evt: Event) ->
-            let keyboardEvt = evt :?> KeyboardEvent
-            if keyboardEvt.Key = "Escape" then isOpen.Value <- false
-        )
+    let InitGlobal (): unit =
+        async {
+            // Close when clicking outside the account root
+            let root = byId "accountRoot"
+            JS.Document.AddEventListener("click", fun (evt: Event) ->
+                if isOpen.Value then
+                    match evt.Target with
+                    | :? Node as n when not (isNull root) && not (root.Contains n) ->
+                        isOpen.Value <- false
+                    | _ -> ()
+            )
+            // Close on Escape anywhere
+            JS.Document.AddEventListener("keydown", fun (evt: Event) ->
+                let keyboardEvt = evt :?> KeyboardEvent
+                if keyboardEvt.Key = "Escape" then isOpen.Value <- false
+            )
 
-        // Import ws-auth.js and wire auth state/actions
-        JS.ImportDynamic(toAbsoluteUrl "Js/ws-auth.js")
-            .Then(fun m ->
-                let onChange : (User -> unit) -> unit = m?onChange
-                let fetchMe : unit -> unit = m?fetchMe
-                let loginJs : unit -> unit = m?login
-                let logoutJs : obj -> Promise<obj> = m?logout
+            AuthClient.OnChange (fun uOpt ->
+                match uOpt with
+                | Some u ->
+                    user.Value <- Some ({
+                        login = u.login
+                        name = u.name
+                        avatarUrl = u.avatarUrl
+                    })
+                | None ->
+                    user.Value <- None
+            ) false
 
-                doLogin <- loginJs
-                doLogout <- (fun () -> logoutJs (box {| reload = true |}) |> ignore)
-
-                onChange (fun u ->
-                    if isNull (box u) then user.Value <- None
-                    else
-                        user.Value <- Some {
-                            login = u.login
-                            name = u.name
-                            avatarUrl = u.avatarUrl
-                        }
-                )
-                fetchMe()
-                box null)
-            |> ignore
+            let! _ = AuthClient.FetchMe()
+            ()
+        }
+        |> Async.StartImmediate

@@ -6,14 +6,11 @@ open Types
 open State
 open Views
 open Api
-open WebSharperWebsite.Utils
+open WebSharperWebsite
 
 [<JavaScript>]
 module Controller =
-
-    // dynamic imports for auth/error utils 
-    [<Inline>]
-    let importAuth () = JS.ImportDynamic (toAbsoluteUrl "Js/ws-auth.js")
+    open Utils
 
     [<Inline>]
     let importErr ()  = JS.ImportDynamic (toAbsoluteUrl "Js/error-utils.js")
@@ -83,11 +80,11 @@ module Controller =
     // Verifies session
     let requireAuth () =
         promise {
-            let! authMod = importAuth()
-            let! me = authMod?fetchMe(true) |> As<Promise<obj>>
+            let! me = AuthClient.FetchMe()
 
-            if isNull me then
+            match me with
+            | None ->
                 return raise (System.Exception "unauthorized")
-            else
-                return me
+            | Some user ->
+                return user
         }
