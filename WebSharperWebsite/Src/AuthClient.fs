@@ -7,15 +7,10 @@ open WebSharper.UI
 [<JavaScript>]
 module AuthClient = 
     [<Literal>]
-    let API = "http://localhost:55482"
+    let API = "https://api.websharper.com"
+    //let API = "http://localhost:55482"
 
-    let private api (p: string): string = API + p
-
-    type User = {
-        login: string
-        name: string
-        avatarUrl: string
-    }
+    do Remoting.EndPoint <- API
 
     let private userVar : Var<option<User>> = Var.Create None
     let private isFetchingVar : Var<bool> = Var.Create false
@@ -67,13 +62,19 @@ module AuthClient =
     let FetchMe() : Async<option<User>> =
         async {
             match userVar.Value with
-            | Some u -> return Some u
+            | Some user -> 
+                return Some user
             | _ ->
                 isFetchingVar.Value <- true
                 try
-                    let! userOpt = getJson<User> (api "/auth/me")
-                    userVar.Value <- userOpt
-                    return userOpt
+                    try
+                        let! serverUserOpt = Remote<IRemotingContract>.Me()
+                        userVar.Value <- serverUserOpt
+                        return serverUserOpt
+                    with ex ->
+                        Console.Error("AuthClient.FetchMe RPC failed", ex)
+                        userVar.Value <- None
+                        return None
                 finally
                     isFetchingVar.Value <- false
         }
@@ -84,14 +85,17 @@ module AuthClient =
     let BuildStartUrl () : string =
         let pathAndQuery = JS.Window.Location.Pathname + JS.Window.Location.Search
 
-        api ("/auth/github/start?returnUrl=" + JS.EncodeURIComponent(pathAndQuery))
+        API + "/auth/github/start?returnUrl=" + JS.EncodeURIComponent(pathAndQuery)
 
     let Login () : unit =
         JS.Window.Location.Href <- BuildStartUrl()
 
     let Logout (reload: bool) : Async<unit> =
         async {
-            let! _ok = postJson (api "/auth/logout")
+            try
+                do! Remote<IRemotingContract>.Logout()
+            with ex ->
+                Console.Error("AuthClient.Logout RPC failed", ex)
 
             userVar.Value <- None
 
