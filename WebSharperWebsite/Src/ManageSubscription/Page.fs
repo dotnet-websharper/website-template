@@ -32,6 +32,18 @@ module Page =
         populateBillingForm ui data
         setBillingMode ui "view"
 
+    let private chooseCurrentSubscription () =
+        if state.subs.Length = 0 then
+            state.currentSubId <- ""
+        else
+            // keep existing currentSubId if still valid, otherwise first one
+            let exists =
+                state.subs
+                |> Array.exists (fun s -> s.id = state.currentSubId)
+
+            if System.String.IsNullOrEmpty state.currentSubId || not exists then
+                state.currentSubId <- state.subs.[0].id
+
     // Entry point
     let Init () =
         let ui = collectUi ()
@@ -42,12 +54,9 @@ module Page =
             try
                 ViewsSeats.mountSeats ui
                 ViewsInvoices.mountInvoices ui
-                ViewsSubsSummary.mountSubscriptionSelect ui
-                ViewsSubsSummary.mountSummary ui
 
                 loadSubscriptions()
-                ViewsSubsSummary.refreshSubscriptions state.subs
-                state.currentSubId <- ViewsSubsSummary.selectedSubId.Value
+                chooseCurrentSubscription()
 
                 if not (System.String.IsNullOrEmpty state.currentSubId) then
                     loadSeats ()                    

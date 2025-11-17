@@ -24,31 +24,6 @@ module Controller =
     [<Inline "$0.redirectToError($1, $2)">]
     let redirectToErrorInline (errMod: obj) (err: obj) (ctx: obj) : unit = X<_>
 
-    let HandleApplyBulk() =
-        let ui = collectUi ()
-        let names = State.parseUsernames ui.bulkBox.Value
-        if names.Length = 0 then () else
-        toggleHidden ui.bulkError true
-        setLoading ui true
-        try
-            try
-                Api.BulkAssign State.state.currentSubId names
-                State.state.seats <- Api.GetSeats State.state.currentSubId
-                
-
-                ViewsSeats.refreshSeats state.seats
-
-                showToast ui "Bulk assigned"
-            with _ ->
-                toggleHidden ui.bulkError false
-        finally
-            setLoading ui false
-
-    let HandleClearBulk() =
-        let ui = collectUi ()
-        ui.bulkBox.Value <- ""
-        toggleHidden ui.bulkError true
-
     let HandleRefresh() =
         let ui = collectUi ()
         setLoading ui true
@@ -104,20 +79,6 @@ module Controller =
         | Some data -> populateBillingForm ui data
         | None -> ()
         setBillingMode ui "view"
-
-    let HandleSubscriptionChange (subId: string) =
-        state.currentSubId <- subId
-        ViewsSubsSummary.selectedSubId.Value <- subId
-        let ui = collectUi ()
-        setLoading ui true
-        try
-            state.seats <- Api.GetSeats state.currentSubId                    
-            ViewsSeats.refreshSeats state.seats
-
-            state.invoices <- Api.GetInvoices state.currentSubId
-            ViewsInvoices.refreshInvoices state.invoices
-        finally
-            setLoading ui false
 
     // Verifies session
     let requireAuth () =
