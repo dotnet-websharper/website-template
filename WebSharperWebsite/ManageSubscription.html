@@ -144,7 +144,28 @@
                                     </tr>
                                 </thead>
                                 <tbody id="invoiceBody" ws-anchor="InvoiceBody" class="divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
-                                    <!-- rows injected -->
+                                    <tr ws-template="InvoiceRow">
+                                        <td class="px-4 py-3">
+                                            ${InvoiceId}
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            ${Date}
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            ${Amount}
+                                        </td>
+                                        <td class="px-4 py-3 capitalize">
+                                            ${Status}
+                                        </td>
+                                        <td class="px-4 py-3 text-right">
+                                            <a class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20"
+                                               href="${Href}"
+                                               target="_blank"
+                                               rel="noopener">
+                                                View
+                                            </a>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
