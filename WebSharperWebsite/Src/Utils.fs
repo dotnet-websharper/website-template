@@ -3,6 +3,20 @@
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.JavaScript.Dom
+open WebSharper.UI
+open WebSharper.UI.Templating
+
+module Templates =   
+    type LayoutTemplate = Template<"Layout.html", ClientLoad.FromDocument, ServerLoad.WhenChanged>
+    type HomeTemplate = Template<"Home.html">
+    type DownloadTemplate = Template<"Download.html">
+    type SupportTemplate = Template<"Support.html">
+    type DslAiTemplate = Template<"DslAi.html">
+    type CheckoutTemplate = Template<"Checkout.html">
+    type ErrorTemplate = Template<"Error.html">
+    type InvoiceTemplate = Template<"Invoice.html">
+    type ManageSubscriptionTemplate = Template<"ManageSubscription.html">
+    type SuccessTemplate = Template<"Success.html">
 
 [<JavaScript>]
 module Utils = 

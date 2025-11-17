@@ -32,14 +32,26 @@ module Api =
         dict [
             "sub_1",
                 [|
-                    { seatNo = 1; username = "alice"; status = "assigned"  }
-                    { seatNo = 2; username = "bob-dev"; status = "assigned"  }
-                    { seatNo = 3; username = ""; status = "available" }
-                    { seatNo = 4; username = ""; status = "available" }
-                    { seatNo = 5; username = ""; status = "available" }
+                    // Group 1, expires 2026-07-12, auto renew on
+                    { seatNo = 1; username = "alice";   status = "assigned";  expiry = "2026-07-12"; autoRenew = true }
+                    { seatNo = 2; username = "bob-dev"; status = "assigned";  expiry = "2026-09-01"; autoRenew = true }
+                    { seatNo = 3; username = "";        status = "available"; expiry = "2026-07-12"; autoRenew = true }
+
+                    // Group 2, expires 2026-09-01, auto renew off
+                    { seatNo = 4; username = ""; status = "available"; expiry = "2026-09-01"; autoRenew = false }
+                    { seatNo = 5; username = ""; status = "available"; expiry = "2026-09-01"; autoRenew = false }
                 |]
+
             "sub_2",
-                Array.init 10 (fun i -> { seatNo = i + 1; username = ""; status = "available" })
+                // One big group, all expire on the same date, auto renew on
+                Array.init 10 (fun i ->
+                    {
+                        seatNo = i + 1
+                        username = ""
+                        status = "available"
+                        expiry = "2026-08-12"
+                        autoRenew = true
+                    })
         ]
         |> System.Collections.Generic.Dictionary
 
@@ -91,6 +103,14 @@ module Api =
                     let nextUsername = queue.Dequeue()
                     row.username <- nextUsername
                     row.status <- "assigned"
+        | _ -> ()
+
+    let SetAutoRenew (subId: string) (expiry: string) (autoRenew: bool) : unit =
+        match mockSeats.TryGetValue subId with
+        | true, rows ->
+            for row in rows do
+                if row.expiry = expiry then
+                    row.autoRenew <- autoRenew
         | _ -> ()
 
     let GetBilling () : BillingRecord = mockBilling

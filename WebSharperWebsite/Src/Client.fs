@@ -3,19 +3,6 @@
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
-open WebSharper.UI.Templating
-
-module Templates =   
-    type LayoutTemplate = Templating.Template<"Layout.html", ClientLoad.FromDocument, ServerLoad.WhenChanged>
-    type HomeTemplate = Templating.Template<"Home.html">
-    type DownloadTemplate = Templating.Template<"Download.html">
-    type SupportTemplate = Templating.Template<"Support.html">
-    type DslAiTemplate = Templating.Template<"DslAi.html">
-    type CheckoutTemplate = Templating.Template<"Checkout.html">
-    type ErrorTemplate = Templating.Template<"Error.html">
-    type InvoiceTemplate = Templating.Template<"Invoice.html">
-    type ManageSubscriptionTemplate = Templating.Template<"ManageSubscription.html">
-    type SuccessTemplate = Templating.Template<"Success.html">
 
 [<JavaScript>]
 module Client =
@@ -127,13 +114,7 @@ module Client =
             )
             .GoSubs(fun _ -> Nav.GoTo Nav.Tab.Subs)
             .GoBilling(fun _ -> Nav.GoTo Nav.Tab.Billing)
-            .SubscriptionChanged(fun e -> 
-                let id = string e.Target?value 
-                Controller.HandleSubscriptionChange(id)
-            )
-            .AddSubscriptionClick(fun _ -> JS.Window.Location.Href <- "./checkout.html")
-            .ApplyBulkClick(fun e -> Controller.HandleApplyBulk())
-            .ClearBulkClick(fun _ -> Controller.HandleClearBulk())
+            .AddSeatsClick(fun _ -> JS.Window.Location.Href <- "./checkout.html?plan=pro&interval=year&seats=1")
             .RefreshClick(fun _ -> Controller.HandleRefresh())
             .BillingEditClick(fun _ -> Controller.HandleBillingEdit())
             .BillingSaveClick(fun e -> Controller.HandleBillingSave())

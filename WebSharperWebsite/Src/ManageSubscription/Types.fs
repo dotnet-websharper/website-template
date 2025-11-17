@@ -21,6 +21,8 @@ module Types =
         seatNo: int
         mutable username: string
         mutable status: string
+        expiry: string
+        mutable autoRenew: bool
     }
 
     type InvoiceRecord = {
