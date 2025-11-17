@@ -27,7 +27,7 @@ module Client =
             // Account menu bindings
             .AccountBtnClick(AccountMenu.AccountBtnClick)
             .AccountBtnKeyDown(AccountMenu.AccountBtnKeyDown)
-            .Login(AccountMenu.Login)
+            .Login(fun _ -> AuthClient.Login())
             .Logout(AccountMenu.Logout)
             .DropdownAttr(AccountMenu.DropdownAttr())
             .AccountBtnAria(AccountMenu.AccountBtnAria())

@@ -11,20 +11,14 @@ open WebSharper.UI.Templating.Runtime.Server
 module AccountMenu =
     open Utils
 
-    type User = {
-        login: string
-        name: string
-        avatarUrl: string
-    }
-
     // Reactive state
     let private isOpen = Var.Create false
-    let private user : Var<option<User>> = Var.Create None
+    let private userV : View<option<User>> = AuthClient.UserView
 
-    let private isAuthedV = user.View |> View.Map Option.isSome
+    let private isAuthedV = AuthClient.IsAuthedView
 
     let private avatarSrcV =
-        user.View
+        userV
         |> View.Map (function
             | Some user when not (System.String.IsNullOrWhiteSpace user.avatarUrl) -> user.avatarUrl
             | _ -> "")
@@ -32,7 +26,7 @@ module AccountMenu =
     let private hasAvatarV = avatarSrcV |> View.Map ((<>) "")
 
     let private displayNameV =
-        user.View
+        userV
         |> View.Map (function
             | Some user when not (System.String.IsNullOrWhiteSpace user.login) -> user.login
             | Some user when not (System.String.IsNullOrWhiteSpace user.name)  -> user.name
@@ -61,11 +55,10 @@ module AccountMenu =
             isOpen.Value <- false
         | _ -> ()
 
-    let Login (_: TemplateEvent<_, _, _>) = AuthClient.Login()
     let Logout (_: TemplateEvent<_, _, _>) =
         async {
-            do! AuthClient.Logout(true)
             isOpen.Value <- false
+            do! AuthClient.Logout(true)           
         } |> Async.StartImmediate
 
     // ws-attr holes (reactive classes/attrs)
@@ -99,18 +92,6 @@ module AccountMenu =
                 let keyboardEvt = evt :?> KeyboardEvent
                 if keyboardEvt.Key = "Escape" then isOpen.Value <- false
             )
-
-            AuthClient.OnChange (fun uOpt ->
-                match uOpt with
-                | Some u ->
-                    user.Value <- Some ({
-                        login = u.login
-                        name = u.name
-                        avatarUrl = u.avatarUrl
-                    })
-                | None ->
-                    user.Value <- None
-            ) false
 
             let! _ = AuthClient.FetchMe()
             ()

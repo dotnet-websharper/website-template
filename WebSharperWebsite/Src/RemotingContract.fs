@@ -2,7 +2,6 @@
 
 open WebSharper
 
-[<CLIMutable>]
 type User =
     {
         login: string

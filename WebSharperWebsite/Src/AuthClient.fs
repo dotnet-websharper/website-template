@@ -15,6 +15,10 @@ module AuthClient =
     let private userVar : Var<option<User>> = Var.Create None
     let private isFetchingVar : Var<bool> = Var.Create false
 
+    let UserView : View<option<User>> = userVar.View
+    let IsAuthedView : View<bool> = userVar.View |> View.Map Option.isSome
+    let IsFetchingView : View<bool> = isFetchingVar.View
+
     let header() = new Headers(new Object<string>([| "Accept", "application/json" |]))
 
     let private getJson<'T> (url: string) : Async<option<'T>> =
