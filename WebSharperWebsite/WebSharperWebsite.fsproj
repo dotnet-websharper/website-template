@@ -12,6 +12,7 @@
 	<Compile Include="Src\Utils.fs" />
 	<Compile Include="Src\RemotingContract.fs" />
 	<Compile Include="Src\AuthClient.fs" />
+	<Compile Include="Src\SupportPlans.fs" />
 	<Compile Include="Src\ManageSubscription\Types.fs" />
     <Compile Include="Src\ManageSubscription\Api.fs" />
     <Compile Include="Src\ManageSubscription\State.fs" />
