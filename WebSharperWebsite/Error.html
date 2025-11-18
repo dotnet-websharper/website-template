@@ -13,8 +13,12 @@
                         </svg>
                     </div>
                     <div class="min-w-0">
-                        <h1 id="title" class="text-gray-800 dark:text-white text-3xl font-bold tracking-tight">Something went wrong</h1>
-                        <p id="msg" class="mt-2 text-base text-gray-600 dark:text-gray-400">
+                        <h1 id="title" class="text-gray-800 dark:text-white text-3xl font-bold tracking-tight"
+                            ws-hole="ErrorTitle">
+                            Something went wrong
+                        </h1>
+                        <p id="msg" class="mt-2 text-base text-gray-600 dark:text-gray-400"
+                           ws-hole="ErrorMessage">
                             An unexpected error occurred. Please try again.
                         </p>
                         <p id="details" class="hidden mt-2 text-xs text-gray-500 dark:text-gray-500"></p>
@@ -22,10 +26,14 @@
                 </div>
 
                 <div class="mt-8 flex flex-wrap gap-3">
-                    <button id="retry" class="h-11 px-5 rounded-xl bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800">
+                    <button id="retry" 
+                            class="h-11 px-5 rounded-xl bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800"
+                            ws-onclick="OnRetry">
                         Try again
                     </button>
-                    <a id="back" class="h-11 px-5 grid place-items-center rounded-xl border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white cursor-pointer">
+                    <a id="back" 
+                       class="h-11 px-5 grid place-items-center rounded-xl border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white cursor-pointer"
+                       ws-onclick="OnBack">
                         Go back
                     </a>
                     <a href="./" class="h-11 px-5 grid place-items-center rounded-xl border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white">

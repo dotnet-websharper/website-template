@@ -3,6 +3,7 @@
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
+open WebSharper.UI.Client
 
 [<JavaScript>]
 module Client =
@@ -91,11 +92,18 @@ module Client =
             .Doc()
 
     let Error () =
-        Templates.ErrorTemplate()
-            .OnAfterRender(fun () ->
-                importDynamicIgnore "Js/error.js"
-            )
-            .Doc()
+        if IsClient then 
+            Templates.ErrorTemplate()
+                .OnAfterRender(fun () -> Error.Init())
+                .ErrorTitle(Doc.TextView Error.Title)
+                .ErrorMessage(Doc.TextView Error.Message)
+                .OnRetry(fun _ -> Error.OnRetry())
+                .OnBack(fun _ -> Error.OnBack())            
+                .Doc()
+        else 
+            Templates.ErrorTemplate()         
+                .Doc()
+
 
     let Invoice () =
         Templates.InvoiceTemplate()

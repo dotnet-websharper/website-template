@@ -12,15 +12,6 @@ open WebSharperWebsite
 module Controller =
     open Utils
 
-    [<Inline>]
-    let importErr ()  = JS.ImportDynamic (toAbsoluteUrl "Js/error-utils.js")
-
-    [<Inline "$0.safeFetch($1, $2)">]
-    let safeFetchInline (errMod: obj) (url: string) (init: obj) : Promise<obj> = X<_>
-
-    [<Inline "$0.redirectToError($1, $2)">]
-    let redirectToErrorInline (errMod: obj) (err: obj) (ctx: obj) : unit = X<_>
-
     let HandleRefresh() =
         let ui = collectUi ()
         setLoading ui true

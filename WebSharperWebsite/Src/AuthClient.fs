@@ -86,10 +86,12 @@ module AuthClient =
     let GetUser() : option<User> =
         userVar.Value
 
+    let BuildStartUrlWithReturn (returnUrl: string) : string =
+        API + "/auth/github/start?returnUrl=" + JS.EncodeURIComponent(returnUrl)
+
     let BuildStartUrl () : string =
         let pathAndQuery = JS.Window.Location.Pathname + JS.Window.Location.Search
-
-        API + "/auth/github/start?returnUrl=" + JS.EncodeURIComponent(pathAndQuery)
+        BuildStartUrlWithReturn pathAndQuery
 
     let Login () : unit =
         JS.Window.Location.Href <- BuildStartUrl()
