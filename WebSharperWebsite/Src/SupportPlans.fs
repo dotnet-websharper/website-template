@@ -11,25 +11,22 @@ type Interval =
     | Month
     | Year
 
-type PriceInfo =
-    {
-        Amount: float
-        Currency: string
-    }
+type PriceInfo = {
+    Amount: float
+    Currency: string
+}
 
-type PlanEntry =
-    {
-        Name: string option
-        Description: string option
-        Month: PriceInfo option
-        Year: PriceInfo option
-    }
+type PlanEntry = {
+    Name: string option
+    Description: string option
+    Month: PriceInfo option
+    Year: PriceInfo option
+}
 
-type Catalog =
-    {
-        Pro: PlanEntry
-        Freelancer: PlanEntry
-    }
+type Catalog = {
+    Pro: PlanEntry
+    Freelancer: PlanEntry
+}
 
 type PlanPriceRecord = {
     planId: string
@@ -51,7 +48,7 @@ type PlansApiResponse = {
 [<JavaScript>]
 module SupportPlans =
 
-    let intervalAsQuery = function
+    let intervalAsString = function
         | Month -> "month"
         | Year  -> "year"
 
@@ -67,10 +64,10 @@ module SupportPlans =
         | Month -> "/ month"
         | Year  -> "/ year"
 
-    let private usd (n: float) : string =
-        "$" + n.ToString("N0")
+    let usd (n: float) : string =
+        "$" + n.ToString("N0", Globalization.CultureInfo("en-US"))
 
-    let private clampSeats (v: int) =
+    let clampSeats (v: int) =
         max 1 (min 999 v)
 
     let private isNotBlank (s: string) =
@@ -85,7 +82,7 @@ module SupportPlans =
     let private fallbackPro : PlanEntry =
         {
             Name = Some "Professional"
-            Description = Some "Ideal for teams"
+            Description = Some "Assign GitHub usernames after purchase"
             Month = Some { Amount = 250.0; Currency = "USD" }
             Year = Some { Amount = 2500.0; Currency = "USD" }
         }
@@ -265,7 +262,7 @@ module SupportPlans =
         Attr.Dynamic "href" (
             View.Map2 (fun interval seats ->
                 let seats = clampSeats seats
-                let intervalStr = intervalAsQuery interval
+                let intervalStr = intervalAsString interval
                 $"./checkout.html?plan=pro&interval={intervalStr}&seats={seats}"
             ) intervalVar.View SeatCount
         )
@@ -274,15 +271,15 @@ module SupportPlans =
         Attr.Dynamic "href" (
             intervalVar.View
             |> View.Map (fun interval ->
-                let intervalStr = intervalAsQuery interval
+                let intervalStr = intervalAsString interval
                 $"./checkout.html?plan=freelancer&interval={intervalStr}&seats=1"
             )
         )
 
 
-    let private adjustSeats (delta: int) =
+    let AdjustSeats (delta: int) (value: Var<string>) =
         let current =
-            SeatCountText.Value
+            value.Value
             |> fun s -> if isNull s then "" else s.Trim()
             |> fun s ->
                 match Int32.TryParse s with
@@ -290,7 +287,7 @@ module SupportPlans =
                 | _       -> 1
 
         let next = current + delta |> clampSeats
-        SeatCountText.Value <- string next
+        value.Value <- string next
 
     let OnBillMonth () =
         intervalVar.Value <- Month
@@ -299,10 +296,10 @@ module SupportPlans =
         intervalVar.Value <- Year
 
     let OnSeatMinus () =
-        adjustSeats -1
+        AdjustSeats -1 SeatCountText
 
     let OnSeatPlus () =
-        adjustSeats 1
+        AdjustSeats 1 SeatCountText
 
 
     [<Literal>]
@@ -324,7 +321,6 @@ module SupportPlans =
             let json = JSON.Stringify(box response)
             JS.Window.SessionStorage.SetItem(CacheKey, json)
         with _ -> ()
-
 
     let private updateEntryFromItem (entry: PlanEntry) (intervalStr: string) (pi: PriceInfo) (nameOpt: string option) (descOpt: string option) =
         let entry =
@@ -373,7 +369,7 @@ module SupportPlans =
 
         catalogVar.Value <- Array.fold updateFromItem catalogVar.Value items
 
-    let private fetchFromApi () : Async<PlansApiResponse option> =
+    let fetchFromApi () : Async<PlansApiResponse option> =
         async {
             try
                 let! resp =
@@ -397,16 +393,25 @@ module SupportPlans =
                 return None
         }
 
-    let HydrateCatalog () : Async<unit> =
+    let LoadOrFetchPlans () : Async<PlansApiResponse option> =
         async {
             match loadCache () with
             | Some cached ->
-                buildCatalog cached.items
+                return Some cached
             | None ->
-                let! responseOpt = fetchFromApi ()
-                match responseOpt with
-                | Some response when response.items.Length > 0 ->
-                    buildCatalog response.items
-                    saveCache response
-                | _ -> ()
+                let! respOpt = fetchFromApi ()
+                match respOpt with
+                | Some resp when resp.items.Length > 0 ->
+                    saveCache resp
+                    return Some resp
+                | _ ->
+                    return None
+        }
+
+    let HydrateCatalog () : Async<unit> =
+        async {
+            let! respOpt = LoadOrFetchPlans ()
+            match respOpt with
+            | Some resp -> buildCatalog resp.items
+            | None -> ()
         }

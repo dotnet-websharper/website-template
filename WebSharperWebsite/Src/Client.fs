@@ -113,13 +113,60 @@ module Client =
             )
             .Doc()
 
+    open Checkout.State
+    open Checkout.ViewsPricing
+    open Checkout.Controller
+    open Checkout.ViewsAttrs
+
     let Checkout () =
-        Templates.CheckoutTemplate()
-            .OnAfterRender(fun () ->
-                importDynamicIgnore "Js/checkout-auth.js"
-                importDynamicIgnore "Js/checkout.js"
-            )
-            .Doc()
+        if IsClient then
+            Templates.CheckoutTemplate()
+                .OnAfterRender(fun () -> OnAfterRender())
+
+                .BackLinkAttr(BackLinkAttr)
+                .BackLinkLabel(BackLinkLabel)
+
+                .AuthSectionAttr(AuthSectionAttr)
+                .PaymentSectionAttr(PaymentSectionAttr)
+                .PlanName(Doc.TextView PlanName)
+                .PlanPriceLine(PlanPriceLine |> Doc.BindView id)
+                .PriceHint(Doc.TextView PriceHint)
+
+                .SeatSelectorAttr(SeatSelectorAttr())
+                .SeatsText(SeatsText)
+                .OnSeatMinus(fun _ -> OnSeatMinus())
+                .OnSeatPlus(fun _ -> OnSeatPlus())
+
+                .Email(Email)
+                .Street(Street)
+                .City(City)
+                .Postal(Postal)
+
+                .Country(Country)
+                .IsCompany(IsCompany)
+                .CompanyBlockAttr(CompanyBlockAttr())
+                .CompanyName(CompanyName)
+                .CompanyNameAttr(CompanyNameAttr())
+                .Vatin(Vatin)
+                .VatinAttr(VatinAttr())
+
+                .Subtotal(Doc.TextView Subtotal)
+                .Taxes(Doc.TextView Taxes)
+                .Total(Doc.TextView Total)
+
+                .FormErrorDoc(FormErrorDoc)
+                .OnGitHubLogin(fun _ -> AuthClient.Login())
+
+                .ContinueButtonAttr(ContinueButtonAttr())
+                .ContinueText(Doc.TextView ContinueText.View)
+
+                .OnContinueClick(fun _ -> OnContinueClick())
+                .Doc()
+        else
+            Templates.CheckoutTemplate()
+                .IsCompany(false)
+                .CompanyBlockAttr(Html.attr.``class`` "hidden")
+                .Doc()
 
     let Error () =
         if IsClient then 

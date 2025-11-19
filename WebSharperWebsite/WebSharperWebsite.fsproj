@@ -13,6 +13,8 @@
 	<Compile Include="Src\RemotingContract.fs" />
 	<Compile Include="Src\AuthClient.fs" />
 	<Compile Include="Src\SupportPlans.fs" />
+	<Compile Include="Src\Error.fs" />
+	
 	<Compile Include="Src\ManageSubscription\Types.fs" />
     <Compile Include="Src\ManageSubscription\Api.fs" />
     <Compile Include="Src\ManageSubscription\State.fs" />
@@ -23,12 +25,17 @@
     <Compile Include="Src\ManageSubscription\Controller.fs" />
     <Compile Include="Src\ManageSubscription\ViewsAuth.fs" />
     <Compile Include="Src\ManageSubscription\Page.fs" />
+	<Compile Include="Src\Checkout\Types.fs" />
+	<Compile Include="Src\Checkout\CheckoutState.fs" />
+	<Compile Include="Src\Checkout\Views.Pricing.fs" />
+	<Compile Include="Src\Checkout\Views.Attrs.fs" />
+	<Compile Include="Src\Checkout\Api.fs" />
+	<Compile Include="Src\Checkout\Controller.fs" /> 
     <Compile Include="Src\SnippetCode.fs" />
     <Compile Include="Src\AccountMenu.fs" />
     <Compile Include="Src\VideoPlayer.fs" />
     <Compile Include="Src\Clipboard.fs" />
-    <Compile Include="Src\Theme.fs" />
-    <Compile Include="Src\Error.fs" />
+    <Compile Include="Src\Theme.fs" />    
     <Compile Include="Src\Client.fs" />
     <Compile Include="Src\Main.fs" />
     <Content Include="Styles\app.css" />
@@ -49,13 +56,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebSharper" Version="10.0.0.629-beta1" />    
-    <PackageReference Include="WebSharper.FSharp" Version="10.0.0.629-beta1" />
-    <PackageReference Include="WebSharper.UI" Version="10.0.0.629-beta1" />
+    <PackageReference Include="WebSharper" Version="10.0.0.634-beta1" />    
+    <PackageReference Include="WebSharper.FSharp" Version="10.0.0.634-beta1" />
+    <PackageReference Include="WebSharper.UI" Version="10.0.0.634-beta1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="10.0.100-rc2.25502.107" />
+    <PackageReference Update="FSharp.Core" Version="10.0.100" />
   </ItemGroup>
 
   <ItemGroup>

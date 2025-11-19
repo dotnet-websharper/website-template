@@ -110,9 +110,3 @@ module AuthClient =
                     JS.Window.Location.Reload()
                 with _ -> ()
         }
-
-    let OnChange (handler: option<User> -> unit) (fireImmediately: bool) : unit =
-        if fireImmediately then
-            handler userVar.Value
-
-        View.Sink handler userVar.View
