@@ -24,6 +24,7 @@
 	<Compile Include="Src\Checkout\Views.Attrs.fs" />
 	<Compile Include="Src\Checkout\Api.fs" />
 	<Compile Include="Src\Checkout\Controller.fs" />
+	<Compile Include="Src\Checkout\Success.fs" />
 	
 	<Compile Include="Src\ManageSubscription\Types.fs" />
     <Compile Include="Src\ManageSubscription\Api.fs" />

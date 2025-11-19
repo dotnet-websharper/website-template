@@ -124,7 +124,7 @@ module Client =
     let Checkout () =
         if IsClient then
             Templates.CheckoutTemplate()
-                .OnAfterRender(fun () -> OnAfterRender())
+                .OnAfterRender(OnAfterRender)
 
                 .BackLinkAttr(BackLinkAttr)
                 .BackLinkLabel(BackLinkLabel)
@@ -174,7 +174,7 @@ module Client =
     let Error () =
         if IsClient then 
             Templates.ErrorTemplate()
-                .OnAfterRender(fun () -> Error.Init())
+                .OnAfterRender(Error.Init)
                 .ErrorTitle(Doc.TextView Error.Title)
                 .ErrorMessage(Doc.TextView Error.Message)
                 .OnRetry(fun _ -> Error.OnRetry())
@@ -190,7 +190,7 @@ module Client =
     let Invoice () =
         if IsClient then
             Templates.InvoiceTemplate()
-                .OnAfterRender(fun () -> Invoice.OnAfterRender())
+                .OnAfterRender(Invoice.OnAfterRender)
                 .InvId(InvId)
                 .InvDate(InvDate)
                 .InvStatus(InvStatus)
@@ -206,9 +206,7 @@ module Client =
     let ManageSubscription () =
         if IsClient then 
             Templates.ManageSubscriptionTemplate()
-                .OnAfterRender(fun () ->
-                    WebSharperWebsite.ManageSubscription.Page.Init()
-                )
+                .OnAfterRender(ManageSubscription.Page.Init)
                 .GoSubs(fun _ -> Nav.GoTo Nav.Tab.Subs)
                 .GoBilling(fun _ -> Nav.GoTo Nav.Tab.Billing)
                 .AddSeatsClick(fun _ -> JS.Window.Location.Href <- "./checkout.html?plan=pro&interval=year&seats=1")
@@ -220,9 +218,17 @@ module Client =
         else 
             Templates.ManageSubscriptionTemplate().Doc()
             
+    open Checkout.Success
+
     let Success () =
-        Templates.SuccessTemplate()
-            .OnAfterRender(fun () ->
-                importDynamicIgnore "Js/success-confirm.js"
-            )
-            .Doc()
+        if IsClient then
+            Templates.SuccessTemplate()
+                .OnAfterRender(OnAfterRender)
+                .MessageText(MessageText)
+                .DetailsAttr(DetailsAttr)
+                .DetailsDoc(DetailsDoc)
+                .Doc()
+        else
+            Templates.SuccessTemplate()
+                .MessageText(Html.text "Confirming your payment…")
+                .Doc()
