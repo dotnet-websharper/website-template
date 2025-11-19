@@ -11,6 +11,7 @@ open WebSharperWebsite
 open Types
 open State
 open Api
+open Support.State
 
 [<JavaScript>]
 module Controller =
@@ -20,10 +21,10 @@ module Controller =
     // -----------------------------
 
     let OnSeatMinus () =
-        SupportPlans.AdjustSeats -1 SeatsText
+        AdjustSeats -1 SeatsText
 
     let OnSeatPlus () =
-        SupportPlans.AdjustSeats 1 SeatsText
+        AdjustSeats 1 SeatsText
 
     // -----------------------------
     // Checkout button

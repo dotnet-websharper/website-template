@@ -8,6 +8,9 @@ open WebSharper.UI.Client
 
 open WebSharperWebsite
 open Types
+open Support.Types
+open Support.State
+open Support.Api
 
 [<JavaScript>]
 module State =
@@ -77,11 +80,11 @@ module State =
         if s = "" then 1
         else
             match Int32.TryParse s with
-            | true, n -> SupportPlans.clampSeats n
+            | true, n -> clampSeats n
             | _ -> 1
 
     let getSeatsNow () =
-        SeatsText.Value |> parseSeats |> SupportPlans.clampSeats
+        SeatsText.Value |> parseSeats |> clampSeats
 
     // -----------------------------
     // Plans loading
@@ -89,7 +92,7 @@ module State =
 
     let ensurePlans () : Async<unit> =
         async {
-            let! respOpt = SupportPlans.LoadOrFetchPlans ()
+            let! respOpt = LoadOrFetchPlans ()
             match respOpt with
             | Some resp ->
                 plansVar.Value <- resp.items
@@ -115,7 +118,7 @@ module State =
 
         let seats =
             match Int32.TryParse(queryParameters.Get("seats")) with
-            | true, n -> SupportPlans.clampSeats n
+            | true, n -> clampSeats n
             | _ -> 1
 
         {
@@ -140,7 +143,7 @@ module State =
         {
             seats = seatsToSend
             email = Email.Value.Trim()
-            interval = SupportPlans.intervalAsString SelectedInterval.Value
+            interval = intervalAsString SelectedInterval.Value
             planCode =
                 match SelectedPlan.Value.ToLower() with
                 | "freelancer" -> "freelancer"

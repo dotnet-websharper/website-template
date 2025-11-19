@@ -10,6 +10,10 @@ open WebSharper.UI.Client
 open WebSharperWebsite
 open Types
 open State
+open Support.Types
+open Support.State
+open Support.ViewsPricing
+open Support.ViewsAttrs
 
 [<JavaScript>]
 module ViewsPricing =
@@ -26,7 +30,7 @@ module ViewsPricing =
         View.Map3
             (fun (items: PlanPriceRecord[]) (plan: string) interval ->
                 let code = plan.ToLower()
-                let intervalStr = SupportPlans.intervalAsString interval
+                let intervalStr = intervalAsString interval
 
                 items
                 |> Array.tryFind (fun p ->
@@ -76,7 +80,7 @@ module ViewsPricing =
                     | Interval.Year  -> "Year"
 
                 div [] [
-                    text (SupportPlans.usd amount + " ")
+                    text (usd amount + " ")
                     span [ attr.``class`` "text-base text-gray-600 dark:text-gray-400 font-normal" ] [
                         text ("/ " + period)
                     ]
@@ -104,9 +108,9 @@ module ViewsPricing =
 
                 match opt with
                 | Some p when p.isPerSeat ->
-                    sprintf "Price is %s per seat per %s." (SupportPlans.usd price) every
+                    sprintf "Price is %s per seat per %s." (usd price) every
                 | _ ->
-                    sprintf "Price is %s per %s." (SupportPlans.usd price) every
+                    sprintf "Price is %s per %s." (usd price) every
             )
             CurrentPlan
             SelectedInterval.View
@@ -152,7 +156,7 @@ module ViewsPricing =
     let SubtotalRaw : View<float> =
         View.Map3
             (fun opt isPerSeat seats ->
-                let qty = if isPerSeat then SupportPlans.clampSeats seats else 1
+                let qty = if isPerSeat then clampSeats seats else 1
                 let unit =
                     opt
                     |> Option.map (fun p -> p.unitAmountCents)
@@ -165,7 +169,7 @@ module ViewsPricing =
 
     let Subtotal : View<string> =
         SubtotalRaw
-        |> View.Map SupportPlans.usd
+        |> View.Map usd
 
     let TaxesRaw : View<float> =
         View.Map2
@@ -177,7 +181,7 @@ module ViewsPricing =
 
     let Taxes : View<string> =
         TaxesRaw
-        |> View.Map SupportPlans.usd
+        |> View.Map usd
 
     let TotalRaw : View<float> =
         View.Map2
@@ -187,4 +191,4 @@ module ViewsPricing =
 
     let Total : View<string> =
         TotalRaw
-        |> View.Map SupportPlans.usd
+        |> View.Map usd

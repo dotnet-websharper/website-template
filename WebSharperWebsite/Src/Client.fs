@@ -70,7 +70,10 @@ module Client =
             .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
             .Doc()
 
-    open SupportPlans
+    open Support.State
+    open Support.Api
+    open Support.ViewsAttrs
+    open Support.ViewsPricing
 
     let Support () =    
         if IsClient then

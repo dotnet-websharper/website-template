@@ -6,6 +6,8 @@ open WebSharperWebsite
 [<JavaScript>]
 module Types =
 
+    open Support.Types
+
     type SearchParams = {
         plan: string
         interval: Interval
