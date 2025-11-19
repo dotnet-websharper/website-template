@@ -43,7 +43,7 @@ module ViewsAttrs =
         Attr.Concat [
             Attr.Dynamic "href" backLinkHref.View
             on.click (fun _ e ->
-                let referrer : string = JS.Document?referrer |> string
+                let referrer : string = JS.Document.Referrer
 
                 if String.IsNullOrWhiteSpace referrer && JS.Window.History.Length > 1 then
                     e.PreventDefault()
