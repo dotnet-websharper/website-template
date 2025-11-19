@@ -31,9 +31,6 @@ module State =
         | Interval.Month -> "/ month"
         | Interval.Year -> "/ year"
 
-    let usd (n: float) : string =
-        "$" + n.ToString("N0", Globalization.CultureInfo("en-US"))
-
     let clampSeats (v: int) =
         max 1 (min 999 v)
 

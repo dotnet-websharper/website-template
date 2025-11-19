@@ -184,30 +184,41 @@ module Client =
             Templates.ErrorTemplate()         
                 .Doc()
 
+    open WebSharperWebsite.ManageSubscription
+    open Invoice
 
     let Invoice () =
-        Templates.InvoiceTemplate()
-            .OnAfterRender(fun () ->
-                importDynamicIgnore "Js/invoice.js"
-            )
-            .Doc()
-
-    open WebSharperWebsite.ManageSubscription
+        if IsClient then
+            Templates.InvoiceTemplate()
+                .OnAfterRender(fun () -> Invoice.OnAfterRender())
+                .InvId(InvId)
+                .InvDate(InvDate)
+                .InvStatus(InvStatus)
+                .InvAmount(InvAmount)
+                .InvSub(InvSub)
+                .BillToName(BillToName)
+                .BillToAddr(BillToAddr)
+                .BillToVat(BillToVat)
+                .Doc()
+        else 
+            Templates.InvoiceTemplate().Doc()    
 
     let ManageSubscription () =
-        //WebSharperWebsite.ManageSubscription.Page.Doc()
-        Templates.ManageSubscriptionTemplate()
-            .OnAfterRender(fun () ->
-                WebSharperWebsite.ManageSubscription.Page.Init()
-            )
-            .GoSubs(fun _ -> Nav.GoTo Nav.Tab.Subs)
-            .GoBilling(fun _ -> Nav.GoTo Nav.Tab.Billing)
-            .AddSeatsClick(fun _ -> JS.Window.Location.Href <- "./checkout.html?plan=pro&interval=year&seats=1")
-            .RefreshClick(fun _ -> Controller.HandleRefresh())
-            .BillingEditClick(fun _ -> Controller.HandleBillingEdit())
-            .BillingSaveClick(fun e -> Controller.HandleBillingSave())
-            .BillingCancelClick(fun _ -> Controller.HandleBillingCancel())
-            .Doc()
+        if IsClient then 
+            Templates.ManageSubscriptionTemplate()
+                .OnAfterRender(fun () ->
+                    WebSharperWebsite.ManageSubscription.Page.Init()
+                )
+                .GoSubs(fun _ -> Nav.GoTo Nav.Tab.Subs)
+                .GoBilling(fun _ -> Nav.GoTo Nav.Tab.Billing)
+                .AddSeatsClick(fun _ -> JS.Window.Location.Href <- "./checkout.html?plan=pro&interval=year&seats=1")
+                .RefreshClick(fun _ -> Controller.HandleRefresh())
+                .BillingEditClick(fun _ -> Controller.HandleBillingEdit())
+                .BillingSaveClick(fun e -> Controller.HandleBillingSave())
+                .BillingCancelClick(fun _ -> Controller.HandleBillingCancel())
+                .Doc()
+        else 
+            Templates.ManageSubscriptionTemplate().Doc()
             
     let Success () =
         Templates.SuccessTemplate()

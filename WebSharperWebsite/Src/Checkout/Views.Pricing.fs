@@ -8,6 +8,7 @@ open WebSharper.UI.Html
 open WebSharper.UI.Client
 
 open WebSharperWebsite
+open Utils
 open Types
 open State
 open Support.Types

@@ -5,7 +5,9 @@
 <body>
     <main class="mx-auto max-w-3xl p-6 text-gray-600 dark:text-white" ws-onafterrender="OnAfterRender">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-xl font-bold">Invoice <span id="invId"></span></h1>
+            <h1 class="text-xl font-bold">
+                Invoice <span ws-hole="InvId">-</span>
+            </h1>
             <a href="./manage-subscription.html#subs"
                class="rounded-md border px-3 py-2 text-sm border-gray-300 dark:border-white/20">Back</a>
         </div>
@@ -14,27 +16,27 @@
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Date</div>
-                    <div id="invDate" class="font-medium">-</div>
+                    <div ws-hole="InvDate" class="font-medium">-</div>
                 </div>
                 <div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Status</div>
-                    <div id="invStatus" class="font-medium capitalize">-</div>
+                    <div ws-hole="InvStatus" class="font-medium capitalize">-</div>
                 </div>
                 <div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Amount</div>
-                    <div id="invAmount" class="font-medium">-</div>
+                    <div ws-hole="InvAmount" class="font-medium">-</div>
                 </div>
                 <div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">Subscription</div>
-                    <div id="invSub" class="font-medium">-</div>
+                    <div ws-hole="InvSub" class="font-medium">-</div>
                 </div>
             </div>
             <hr class="border-gray-200 dark:border-white/10" />
-            <div id="billTo" class="text-sm">
+            <div class="text-sm">
                 <div class="text-gray-600 dark:text-gray-400">Bill to</div>
-                <div id="billToName">-</div>
-                <div id="billToAddr" class="text-gray-600 dark:text-gray-400">-</div>
-                <div id="billToVat" class="text-gray-600 dark:text-gray-400">-</div>
+                <div ws-hole="BillToName">-</div>
+                <div ws-hole="BillToAddr" class="text-gray-600 dark:text-gray-400">-</div>
+                <div ws-hole="BillToVat" class="text-gray-600 dark:text-gray-400">-</div>
             </div>
             <!-- Add line items if you expose them -->
             <div id="lineItems" class="mt-4"></div>
