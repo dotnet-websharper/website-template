@@ -4,8 +4,6 @@ open WebSharper
 open WebSharper.UI
 open WebSharper.UI.Html
 open WebSharper.UI.Client
-open WebSharper.JavaScript
-open WebSharper.JavaScript.Dom
 
 open Types
 open State
@@ -16,11 +14,16 @@ open WebSharperWebsite
 
 [<JavaScript>]
 module ViewsSeats =
+
     let seatsModel =
         ListModel.Create (fun (s: SeatRecord) -> s.seatNo) state.seats
 
-    let refreshSeats (newSeats: SeatRecord[]) =
+    let RefreshSeats (newSeats: SeatRecord[]) =
         seatsModel.Set newSeats
+
+    // -----------------------------
+    // Small helpers
+    // -----------------------------
 
     let private seatBadge (status: string) : Doc =
         let baseClass =
@@ -28,48 +31,52 @@ module ViewsSeats =
 
         let cls =
             if status = "assigned" then
-                baseClass +
-                "border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300"
+                baseClass
+                + "border-emerald-300 text-emerald-700 "
+                + "dark:border-emerald-700/40 dark:text-emerald-300"
             else
-                baseClass +
-                "border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300"
+                baseClass
+                + "border-gray-300 text-gray-600 "
+                + "dark:border-white/10 dark:text-gray-300"
+
         span [ attr.``class`` cls ] [ text status ]
 
-    let private refreshAfterChange (ui: UiRefs) =
+    let private refreshAfterChange () =
         state.seats <- GetSeats state.currentSubId
-        refreshSeats state.seats
-        showToast ui "Updated"
+        RefreshSeats state.seats
+        showToast "Updated"
 
     let private assignSeat (seatNo: int) (username: string) =
-        let ui = collectUi ()
-        if username <> "" then
-            setLoading ui true
+        if not (System.String.IsNullOrWhiteSpace username) then
+            setLoading true
             try
                 AssignSeat state.currentSubId seatNo username
-                refreshAfterChange ui
+                refreshAfterChange ()
             finally
-                setLoading ui false
+                setLoading false
 
     let private unassignSeat (seatNo: int) =
-        let ui = collectUi ()
-        setLoading ui true
+        setLoading true
         try
             UnassignSeat state.currentSubId seatNo
-            refreshAfterChange ui
+            refreshAfterChange ()
         finally
-            setLoading ui false
+            setLoading false
 
-    let private toggleAutoRenew (expiry: string) (currentValue: bool): unit = 
-        let ui = collectUi ()
+    let private toggleAutoRenew (expiry: string) (currentValue: bool) =
         let newValue = not currentValue
-        setLoading ui true
-        try 
+        setLoading true
+        try
             SetAutoRenew state.currentSubId expiry newValue
-            refreshAfterChange ui
+            refreshAfterChange ()
         finally
-            setLoading ui false
+            setLoading false
 
-    let private seatRowDoc (seat: SeatRecord): Doc = 
+    // -----------------------------
+    // Template docs
+    // -----------------------------
+
+    let private seatRowDoc (seat: SeatRecord) : Doc =
         let usernameVar = Var.Create seat.username
 
         Templates.ManageSubscriptionTemplate.SeatRow()
@@ -77,24 +84,31 @@ module ViewsSeats =
             .Username(usernameVar)
             .StatusBadge(seatBadge seat.status)
             .Expiry(seat.expiry)
-            .AssignSeat(fun t -> 
+            .AssignSeat(fun t ->
                 let username = t.Vars.Username.Value.Trim()
                 assignSeat seat.seatNo username
             )
-            .UnassignSeat(fun _ -> unassignSeat seat.seatNo)
+            .UnassignSeat(fun _ ->
+                unassignSeat seat.seatNo
+            )
             .Doc()
 
     let private groupHeaderDoc (expiry: string) (autoRenew: bool) : Doc =
         let baseBtn =
-            "relative inline-flex h-5 w-9 items-center rounded-full border text-xs transition-colors "
+            "relative inline-flex h-5 w-9 items-center rounded-full border " +
+            "text-xs transition-colors "
+
         let btnClasses =
             if autoRenew then
                 baseBtn + "bg-emerald-500 border-emerald-500"
             else
-                baseBtn + "bg-gray-300 border-gray-400 dark:bg-gray-700 dark:border-gray-600"
+                baseBtn
+                + "bg-gray-300 border-gray-400 "
+                + "dark:bg-gray-700 dark:border-gray-600"
 
         let baseDot =
             "inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform "
+
         let dotClasses =
             if autoRenew then
                 baseDot + "translate-x-4"
@@ -124,10 +138,8 @@ module ViewsSeats =
                         yield groupHeaderDoc expiry autoRenew
                         yield! groupSeats |> Seq.map seatRowDoc
                     })
-            |> Seq.toList
             |> Doc.Concat)
         |> Doc.EmbedView
 
-    let mountSeats (ui: UiRefs) =
-        if not (isNull ui.seatsBody) then
-            Doc.Run ui.seatsBody seatGroupsDoc
+    let SeatsBody : Doc =
+        seatGroupsDoc

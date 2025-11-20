@@ -3,19 +3,24 @@
 open WebSharper
 open WebSharper.UI
 open WebSharper.UI.Client
-open WebSharper.JavaScript
 
 open WebSharperWebsite
 
 [<JavaScript>]
 module ViewsAuth =
 
-    let loginPromptDoc : Doc =
-        Templates.ManageSubscriptionTemplate.LoginPrompt()
-            .LoginClick(fun _ ->
-                AuthClient.Login()
-            )
-            .Doc()
+    let private isAuthedV : View<bool> =
+        AuthClient.UserView
+        |> View.Map Option.isSome
 
-    let showLoginPrompt (host: Dom.Element) =
-        Doc.Run host loginPromptDoc
+    let LoginPromptAttr : Attr =
+        Attr.DynamicClassPred "hidden" isAuthedV
+
+    let ContentAttr : Attr =
+        Attr.DynamicClassPred "hidden" (
+            isAuthedV
+            |> View.Map not
+        )
+
+    let LoginClick (_: unit) =
+        AuthClient.Login()

@@ -204,19 +204,7 @@ module Client =
             Templates.InvoiceTemplate().Doc()    
 
     let ManageSubscription () =
-        if IsClient then 
-            Templates.ManageSubscriptionTemplate()
-                .OnAfterRender(ManageSubscription.Page.Init)
-                .GoSubs(fun _ -> Nav.GoTo Nav.Tab.Subs)
-                .GoBilling(fun _ -> Nav.GoTo Nav.Tab.Billing)
-                .AddSeatsClick(fun _ -> JS.Window.Location.Href <- "./checkout.html?plan=pro&interval=year&seats=1")
-                .RefreshClick(fun _ -> Controller.HandleRefresh())
-                .BillingEditClick(fun _ -> Controller.HandleBillingEdit())
-                .BillingSaveClick(fun e -> Controller.HandleBillingSave())
-                .BillingCancelClick(fun _ -> Controller.HandleBillingCancel())
-                .Doc()
-        else 
-            Templates.ManageSubscriptionTemplate().Doc()
+        Page.ManageSubscriptionDoc()
             
     open Checkout.Success
 

@@ -35,12 +35,5 @@ module Utils =
                 yield nodes.Item i :?> HTMLElement
         }
 
-    let queryAllDoc (selector: string) : seq<HTMLElement> =
-        let nodes = JS.Document.QuerySelectorAll(selector)
-        seq {
-            for i = 0 to int nodes.Length - 1 do
-                yield nodes.Item i :?> HTMLElement
-        }
-
     let usd (n: float) : string =
         "$" + n.ToString("N0", System.Globalization.CultureInfo("en-US"))

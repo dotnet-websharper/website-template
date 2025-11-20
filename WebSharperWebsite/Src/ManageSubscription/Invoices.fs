@@ -7,60 +7,62 @@ open WebSharper.JavaScript
 open WebSharper.UI
 open WebSharper.UI.Client
 
+open Types
+open Api
+
 [<JavaScript>]
 module Invoice =
 
-    open WebSharperWebsite.Checkout.Types
-
-    type InvoiceRecord = {
-        id: string
-        date: string
-        amount: int
-        currency: string
-        status: string
-        subscription: string option
-        billingAddress: BillingAddress
-        company: CompanyInfo option
-    }
-
-    let private mockInvoice (id: string) (sub: string option) : InvoiceRecord =
-        {
-            id = id
-            date = "2025-07-12"
-            amount = 250000
-            currency = "usd"
-            status = "paid"
-            subscription = sub
-            billingAddress = {
-                line1 = "Main St 1"
-                city = "Budapest"
-                postal_code = "1011"
-                country = "HU"
-            }
-            company = Some {
-                name = "ACME Inc."
-                vatin = "EU123"
-            }
-        }
-
-    let private loadInvoice (idOpt: string option) (_subOpt: string option) : Async<InvoiceRecord option> =
-        async {
-            let search = new URLSearchParams(JS.Window.Location.Search)
-            let id = search.Get("id")
-            let sub = search.Get("sub")
-            let id = if isNull id || id = "" then "inv_mock" else id
-            let sub = if isNull sub || sub = "" then None else Some sub
-
-            // TODO later: replace with real API call
-            return Some (mockInvoice id sub)
-        }
+    // -------------------------
+    // State
+    // -------------------------
 
     let private invoiceVar : Var<InvoiceRecord option> = Var.Create None
 
+    // -------------------------
+    // Helpers
+    // -------------------------
+
     let private money (cents: int) (ccy: string) =
         let n = float cents / 100.0
-        let c = if String.IsNullOrWhiteSpace ccy then "USD" else ccy.ToUpper()
+        let c =
+            if String.IsNullOrWhiteSpace ccy then "USD"
+            else ccy.ToUpper()
         n.ToString("C", Globalization.CultureInfo.InvariantCulture) + " " + c
+
+    let private getInvoiceIdFromQuery () : string option =
+        let search = new URLSearchParams(JS.Window.Location.Search)
+        let id = search.Get("id")
+        if isNull id || id = "" then None else Some id
+
+    let private loadInvoiceFromApi () : Async<InvoiceRecord option> =
+        async {
+            match getInvoiceIdFromQuery () with
+            | None ->
+                return None
+            | Some id ->
+                let subs = ListSubscriptions()
+
+                // search all invoices across all subs
+                let mutable found : InvoiceRecord option = None
+                let mutable i = 0
+
+                while i < subs.Length && found.IsNone do
+                    let subId = subs.[i].id
+                    let invoices = GetInvoices subId
+                    invoices
+                    |> Array.tryFind (fun inv -> inv.id = id)
+                    |> Option.iter (fun inv ->
+                        // enrich with subscription id if missing
+                        let inv' =
+                            match inv.subscription with
+                            | Some _ -> inv
+                            | None   -> { inv with subscription = Some subId }
+                        found <- Some inv')
+                    i <- i + 1
+
+                return found
+        }
 
     let InvId : Doc =
         invoiceVar.View
@@ -101,7 +103,7 @@ module Invoice =
                 inv.subscription
                 |> Option.filter (fun s -> not (String.IsNullOrWhiteSpace s))
                 |> Option.defaultValue "-"
-            | _ -> "-"
+            | None -> "-"
         )
         |> Doc.TextView
 
@@ -132,24 +134,26 @@ module Invoice =
         invoiceVar.View
         |> View.Map (function
             | Some inv ->
-                let billing = inv.billingAddress
-
-                let address = 
-                    [ billing.line1; billing.postal_code; billing.city; billing.country ]
+                match inv.billingAddress with
+                | Some billing ->
+                    [ billing.line1
+                      billing.postal_code
+                      billing.city
+                      billing.country ]
                     |> List.filter (fun s -> not (String.IsNullOrWhiteSpace s))
                     |> String.concat ", "
-
-                if String.IsNullOrWhiteSpace address then 
-                    "-" 
-                else 
-                    address
+                | None -> "-"
             | None -> "-"
         )
         |> Doc.TextView
 
+    // -------------------------
+    // Page init
+    // -------------------------
+
     let OnAfterRender () =
         async {
-            let! invOpt = loadInvoice None None
+            let! invOpt = loadInvoiceFromApi ()
             invoiceVar.Value <- invOpt
         }
         |> Async.StartImmediate

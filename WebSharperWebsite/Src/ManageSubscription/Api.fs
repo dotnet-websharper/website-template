@@ -10,20 +10,59 @@ module Api =
 
     // Mock DB - TODO: replace with real HTTP calls
     let mutable mockSubs = [|
-        { id = "sub_1"; label = "Professional (5 seats) — Jul 12 2025"; plan = "Professional"; totalSeats = 5; renewsAt = "2025-07-12"; status = "active";   currency = "usd" }
-        { id = "sub_2"; label = "Professional (10 seats) — Aug 12 2025"; plan = "Professional"; totalSeats = 10; renewsAt = "2025-08-12"; status = "trialing"; currency = "usd" }
+        { id = "sub_1"; label = "Professional (5 seats) — Jul 12 2025"; plan = "Professional"; 
+        totalSeats = 5; renewsAt = "2025-07-12"; status = "active";   currency = "usd" }
+
+        { id = "sub_2"; label = "Professional (10 seats) — Aug 12 2025"; plan = "Professional"; 
+        totalSeats = 10; renewsAt = "2025-08-12"; status = "trialing"; currency = "usd" }
     |]
 
     let mutable mockInvoices =
         dict [
             "sub_1",
                 [|
-                    { id = "inv_2025_0001"; date = "2025-07-12"; amount = 250000; currency = "usd"; status = "paid" }
-                    { id = "inv_2025_0002"; date = "2025-08-12"; amount = 250000; currency = "usd"; status = "open" }
+                    { 
+                        id = "inv_2025_0001"
+                        date = "2025-07-12"
+                        amount = 250000; 
+                        currency = "usd" 
+                        status = "paid"
+                        subscription = None
+                        billingAddress = Some { 
+                            line1 = "Main St 1" 
+                            city = "Budapest" 
+                            postal_code = "1011" 
+                            country = "HU" 
+                        }
+                        company = Some { 
+                            name = "ACME Inc." 
+                            vatin = "EU123" 
+                        }  
+                    }
+
+                    { 
+                        id = "inv_2025_0002"
+                        date = "2025-08-12"
+                        amount = 250000
+                        currency = "usd"
+                        status = "open"
+                        subscription = None
+                        billingAddress = Some { 
+                            line1 = "Main St 1" 
+                            city = "Budapest" 
+                            postal_code = "1011" 
+                            country = "HU" 
+                        }
+                        company = Some { 
+                            name = "ACME Inc." 
+                            vatin = "EU123" 
+                        } 
+                    }
                 |]
             "sub_2",
                 [|
-                    { id = "inv_2025_0003"; date = "2025-08-12"; amount = 500000; currency = "usd"; status = "paid" }
+                    { id = "inv_2025_0003"; date = "2025-08-12"; amount = 500000; currency = "usd"; 
+                    status = "paid"; subscription = None; billingAddress = None; company = None }
                 |]
         ]
         |> System.Collections.Generic.Dictionary

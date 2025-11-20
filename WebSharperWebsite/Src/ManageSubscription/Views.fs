@@ -1,97 +1,108 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
+open System
 open WebSharper
 open WebSharper.JavaScript
-open WebSharper.JavaScript.Dom
+open WebSharper.UI
+open WebSharper.UI.Client
 open Types
 open State
-open WebSharperWebsite.Utils
 
 [<JavaScript>]
 module Views =
 
-    // DOM helpers
+    // -------------------------
+    // UI types and state
+    // -------------------------
 
-    let toggleHidden (el: Element) (hidden: bool) =
-        if not (isNull el) then
-            el.ClassList.Toggle("hidden", hidden) |> ignore
+    type Page =
+        | Subs
+        | Billing
 
-    let collectUi () : UiRefs =
-        {
-            content = byId "settingsContent"
-            tabs = queryAllDoc ".settings-tab" |> As<Element seq> |> Array.ofSeq
-            pages = queryAllDoc "[data-page]"    |> As<Element seq> |> Array.ofSeq
-            toast = byId "toast"
-            spinner = byId "spinner"
-            subscriptionSelect = byId "subscriptionSelect"
-            planName = byId "planName"
-            seatsUsed = byId "seatsUsed"
-            seatsTotal = byId "seatsTotal"
-            seatProgress = byId "seatProgress"
-            seatsBody = byId "seatsBody"
-            bulkBox = byId "bulkBox" |> As
-            bulkError = byId "bulkError"
-            refresh = byId "refresh"
-            invoiceBody = byId "invoiceBody"
-            billingView = byId "billingView"
-            billingEdit = byId "billingEdit"
-            billingForm = byId "billingForm" |> As
-            btnBillingEdit = byId "btnBillingEdit"
-            btnBillingSave = byId "btnBillingSave"
-            btnBillingCancel = byId "btnBillingCancel"
-        }
+    let ActivePage : Var<Page> = Var.Create Page.Subs
 
-    let setLoading (ui: UiRefs) (on: bool) =
-        toggleHidden ui.spinner (not on)
+    let IsLoading : Var<bool> = Var.Create false
 
-    let showToast (ui: UiRefs) (msg: string) =
-        if not (isNull ui.toast) then
-            ui.toast.TextContent <- if System.String.IsNullOrWhiteSpace msg then "Saved" else msg
-            toggleHidden ui.toast false
-            JS.SetTimeout (fun () -> toggleHidden ui.toast true) 1600 |> ignore
+    let ToastMessage : Var<string option> = Var.Create None
 
-    // Navigation
+    // -------------------------
+    // Navigation attributes
+    // -------------------------
 
-    let showPage (ui: UiRefs) (pageKey: string) =
-        for page in ui.pages do
-            let active = page?dataset?page = pageKey
-            toggleHidden page (not active)
+    let SubsPageAttr : Attr =
+        Attr.DynamicClassPred "hidden" (
+            ActivePage.View
+            |> View.Map (fun page -> page <> Page.Subs)
+        )
 
-        for tab in ui.tabs do
-            let active = tab?dataset?nav = pageKey
-            tab.ClassList.Toggle("bg-gray-100", active)       |> ignore
-            tab.ClassList.Toggle("dark:bg-white/5", active)   |> ignore
+    let BillingPageAttr : Attr =
+        Attr.DynamicClassPred "hidden" (
+            ActivePage.View
+            |> View.Map (fun page -> page <> Page.Billing)
+        )
 
-    // Billing display
+    let SubsTabAttr : Attr =
+        let isActive =
+            ActivePage.View
+            |> View.Map (fun page -> page = Page.Subs)
 
-    let setBillingMode (ui: UiRefs) (mode: string) =
-        let editing = (mode = "edit")
-        toggleHidden ui.billingView editing
-        toggleHidden ui.billingEdit (not editing)
-        toggleHidden ui.btnBillingEdit editing
-        toggleHidden ui.btnBillingSave (not editing)
-        toggleHidden ui.btnBillingCancel (not editing)
+        Attr.Concat [
+            Attr.DynamicClassPred "bg-gray-100" isActive
+            Attr.DynamicClassPred "dark:bg-white/5" isActive
+        ]
 
-    let renderBillingView (data: BillingRecord) =
-        let setText id v =
-            let el = byId id
-            if not (isNull el) then
-                el.TextContent <- if System.String.IsNullOrWhiteSpace v then "—" else v
-        setText "v_name" data.name
-        setText "v_vatin" data.vatin
-        setText "v_line1" data.line1
-        setText "v_city" data.city
-        setText "v_postal_code" data.postal_code
-        setText "v_country" data.country
+    let BillingTabAttr : Attr =
+        let isActive =
+            ActivePage.View
+            |> View.Map (fun page -> page = Page.Billing)
 
-    let populateBillingForm (ui: UiRefs) (data: BillingRecord) =
-        if isNull ui.billingForm then () else
-        let setField (name: string) (value: string) =
-            let el = ui.billingForm.QuerySelector($"""[name="{name}"]""") |> As<HTMLInputElement>
-            if not (isNull el) then el.Value <- value
-        setField "name" data.name
-        setField "vatin" data.vatin
-        setField "line1" data.line1
-        setField "city" data.city
-        setField "postal_code" data.postal_code
-        setField "country" data.country
+        Attr.Concat [
+            Attr.DynamicClassPred "bg-gray-100" isActive
+            Attr.DynamicClassPred "dark:bg-white/5" isActive
+        ]
+
+    let ShowSubsPage () =
+        ActivePage.Value <- Page.Subs
+
+    let ShowBillingPage () =
+        ActivePage.Value <- Page.Billing
+
+    // -------------------------
+    // Spinner + Toast
+    // -------------------------
+
+    let SpinnerAttr : Attr =
+        // Spinner is hidden when NOT loading
+        Attr.DynamicClassPred "hidden" (
+            IsLoading.View
+            |> View.Map (fun isLoading -> not isLoading)
+        )
+
+    let ToastAttr : Attr =
+        // Toast is hidden when there is no message
+        Attr.DynamicClassPred "hidden" (
+            ToastMessage.View
+            |> View.Map Option.isNone
+        )
+
+    let ToastText : Doc =
+        ToastMessage.View
+        |> View.Map (function
+            | Some msg when not (String.IsNullOrWhiteSpace msg) -> msg
+            | _ -> "Saved"
+        )
+        |> Doc.TextView
+
+    let setLoading on =
+        IsLoading.Value <- on
+
+    let showToast msg =
+        let msg =
+            if String.IsNullOrWhiteSpace msg then "Saved" else msg
+
+        ToastMessage.Value <- Some msg
+
+        JS.SetTimeout 
+            (fun () -> ToastMessage.Value <- None)
+            1600
+        |> ignore

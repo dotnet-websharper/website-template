@@ -1,11 +1,10 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
 open WebSharper
-open WebSharper.JavaScript
-open WebSharper.JavaScript.Dom
 
 [<JavaScript>]
 module Types =
+    open WebSharperWebsite.Checkout.Types
 
     type SubRecord = {
         id: string
@@ -31,6 +30,9 @@ module Types =
         amount: int
         currency: string
         status: string
+        subscription: string option
+        billingAddress: BillingAddress option
+        company: CompanyInfo option
     }
 
     type BillingRecord = {
@@ -49,28 +51,4 @@ module Types =
         mutable seats: SeatRecord array
         mutable invoices: InvoiceRecord array
         mutable billing: BillingRecord option
-    }
-
-    type UiRefs = {
-        content: Element
-        tabs: Element array
-        pages: Element array
-        toast: Element
-        spinner: Element
-        subscriptionSelect: Element
-        planName: Element
-        seatsUsed: Element
-        seatsTotal: Element
-        seatProgress: Element
-        seatsBody: Element
-        bulkBox: HTMLInputElement
-        bulkError: Element
-        refresh: Element
-        invoiceBody: Element
-        billingView: Element
-        billingEdit: Element
-        billingForm: HTMLFormElement
-        btnBillingEdit: Element
-        btnBillingSave: Element
-        btnBillingCancel: Element
     }
