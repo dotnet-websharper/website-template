@@ -29,7 +29,10 @@
     <link rel="stylesheet" href="tailwind.css">
 </head>
 <body class="bg-white dark:bg-gray-950 overflow-x-hidden">
-    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-attr="HeaderVisibility">
+    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" 
+            ws-attr="HeaderVisibility" 
+            ws-onclick="CloseOnBackgroundClick"
+            ws-onkeydown="OnKeyDown">
         <div class="px-6 py-4 lg:px-8">
             <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
                 <div class="flex lg:flex-1">
@@ -120,7 +123,7 @@
                             </a>
                         </li>
                         <!-- Account -->
-                        <li class="relative" id="accountRoot">
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
                             <button id="accountBtn"
                                     class="cursor-pointer group flex h-8 w-8 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     aria-haspopup="menu" aria-expanded="false" aria-label="Account"
@@ -130,7 +133,7 @@
                                 <!-- Avatar (shown when authenticated) -->
                                 <img id="accountAvatar"
                                      class="hidden h-8 w-8 rounded-full ring-1 ring-black/5 dark:ring-white/10"
-                                     src="${AvatarSrc}" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
+                                     ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
 
                                 <!-- Fallback user icon (shown when not authenticated) -->
                                 <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -301,10 +304,10 @@
         </div>
     </header>
 
-    <main ws-replace="Body">
+    <main ws-hole="Body" ws-onclick="CloseOnBackgroundClick">
     </main>
 
-    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-attr="FooterVisibility">
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-attr="FooterVisibility" ws-onclick="CloseOnBackgroundClick">
         <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
             <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
                 <div>

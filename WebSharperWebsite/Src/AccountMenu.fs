@@ -1,7 +1,6 @@
 ﻿namespace WebSharperWebsite
 
 open WebSharper
-open WebSharper.JavaScript
 open WebSharper.JavaScript.Dom
 open WebSharper.UI
 open WebSharper.UI.Client
@@ -14,7 +13,6 @@ module AccountMenu =
     // Reactive state
     let private isOpen = Var.Create false
     let private userV : View<option<User>> = AuthClient.UserView
-
     let private isAuthedV = AuthClient.IsAuthedView
 
     let private avatarSrcV =
@@ -42,8 +40,8 @@ module AccountMenu =
     let AccountBtnClick (_: TemplateEvent<_, _, _>) =
         isOpen.Value <- not isOpen.Value
 
-    let AccountBtnKeyDown (e: TemplateEvent<_, _, _>) =
-        let keyboardEvt = e.Event :> KeyboardEvent
+    let AccountBtnKeyDown (e: TemplateEvent<_, _, KeyboardEvent>) =
+        let keyboardEvt = e.Event
         match keyboardEvt.Key with
         | "Enter" | " " ->
             keyboardEvt.PreventDefault()
@@ -58,13 +56,33 @@ module AccountMenu =
     let Logout (_: TemplateEvent<_, _, _>) =
         async {
             isOpen.Value <- false
-            do! AuthClient.Logout(true)           
+            do! AuthClient.Logout(true)
         } |> Async.StartImmediate
+
+    let CloseOnBackgroundClick (_: TemplateEvent<_, _, _>) =
+        if isOpen.Value then
+            isOpen.Value <- false
+
+    let StopPropagation (e: TemplateEvent<_, _, _>) =
+        e.Event.StopPropagation()
+
+    let CloseOnEscape (e: TemplateEvent<_, _, KeyboardEvent>) =
+        let keyboardEvt = e.Event
+        if keyboardEvt.Key = "Escape" then
+            isOpen.Value <- false
 
     // ws-attr holes (reactive classes/attrs)
     let DropdownAttr () = Attr.DynamicClassPred "hidden" (isOpen.View |> View.Map not)
     let AccountBtnAria () = Attr.Dynamic "aria-expanded" (isOpen.View |> View.Map (fun b -> if b then "true" else "false"))
-    let AvatarAttr () = Attr.DynamicClassPred "hidden" (hasAvatarV |> View.Map not)
+    let AvatarAttr () =
+        Attr.Concat [
+            // add/remove the src attribute depending on whether we have an avatar
+            Html.attr.srcDyn avatarSrcV
+
+            // hide the <img> when there is no avatar
+            Attr.DynamicClassPred "hidden" (hasAvatarV |> View.Map not)            
+        ]
+
     let IconAttr () = Attr.DynamicClassPred "hidden" hasAvatarV
 
     let HeaderAttr () = showAsFlex isAuthedV
@@ -72,27 +90,10 @@ module AccountMenu =
     let BtnLogoutAttr () = showAsFlex isAuthedV
     let BtnLoginAttr () = showAsFlex (isAuthedV |> View.Map not)
 
-    // ${...} holes
-    let AvatarSrc : View<string> = avatarSrcV
     let AccountHeaderText : View<string> = displayNameV
 
-    let InitGlobal (): unit =
+    let InitGlobal () : unit =
         async {
-            // Close when clicking outside the account root
-            let root = byId "accountRoot"
-            JS.Document.AddEventListener("click", fun (evt: Event) ->
-                if isOpen.Value then
-                    match evt.Target with
-                    | :? Node as n when not (isNull root) && not (root.Contains n) ->
-                        isOpen.Value <- false
-                    | _ -> ()
-            )
-            // Close on Escape anywhere
-            JS.Document.AddEventListener("keydown", fun (evt: Event) ->
-                let keyboardEvt = evt :?> KeyboardEvent
-                if keyboardEvt.Key = "Escape" then isOpen.Value <- false
-            )
-
             let! _ = AuthClient.FetchMe()
             ()
         }

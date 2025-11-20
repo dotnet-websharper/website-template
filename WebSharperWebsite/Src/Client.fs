@@ -26,14 +26,17 @@ module Client =
             .ToggleMenu(fun _ -> ToggleMenu())
             .ToggleTheme(fun _ -> Theme.Toggle())
             // Account menu bindings
+            .OnKeyDown(AccountMenu.CloseOnEscape)
+            .OnStopPropagation(AccountMenu.StopPropagation)
+            .CloseOnBackgroundClick(AccountMenu.CloseOnBackgroundClick)
+
             .AccountBtnClick(AccountMenu.AccountBtnClick)
-            .AccountBtnKeyDown(AccountMenu.AccountBtnKeyDown)
+            .AccountBtnKeyDown(fun e -> ())
             .Login(fun _ -> AuthClient.Login())
             .Logout(AccountMenu.Logout)
             .DropdownAttr(AccountMenu.DropdownAttr())
             .AccountBtnAria(AccountMenu.AccountBtnAria())
             .AvatarAttr(AccountMenu.AvatarAttr())
-            .AvatarSrc(AccountMenu.AvatarSrc)
             .IconAttr(AccountMenu.IconAttr())           
             .AccountHeaderText(AccountMenu.AccountHeaderText)
             // Dropdown attributes
