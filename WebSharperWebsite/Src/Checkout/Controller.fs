@@ -21,10 +21,10 @@ module Controller =
     // -----------------------------
 
     let OnSeatMinus () =
-        AdjustSeats -1 SeatsText
+        AdjustSeats -1 SeatsTextVar
 
     let OnSeatPlus () =
-        AdjustSeats 1 SeatsText
+        AdjustSeats 1 SeatsTextVar
 
     // -----------------------------
     // Checkout button
@@ -34,13 +34,13 @@ module Controller =
         String.IsNullOrWhiteSpace (if isNull s then "" else s)
 
     let private validateForm () : string option =
-        let email = Email.Value
-        let street = Street.Value
-        let city = City.Value
-        let postal = Postal.Value
-        let isCompany = IsCompany.Value
-        let companyName = CompanyName.Value
-        let vatin = Vatin.Value
+        let email = EmailVar.Value
+        let street = StreetVar.Value
+        let city = CityVar.Value
+        let postal = PostalVar.Value
+        let isCompany = IsCompanyVar.Value
+        let companyName = CompanyNameVar.Value
+        let vatin = VatinVar.Value
 
         if isBlank email then Some "Please enter your email."
         elif isBlank street then Some "Please enter your street address."
@@ -87,14 +87,4 @@ module Controller =
                 with _ ->
                     resetContinueButton ()
             }
-            |> Async.StartImmediate
-
-    // -----------------------------
-    // Page init
-    // -----------------------------
-
-    let OnAfterRender () =
-        resetContinueButton ()
-        computeBackLink ()
-        initFromQuery ()
-        ensurePlans () |> Async.StartImmediate
+            |> Async.StartImmediate    

@@ -24,7 +24,7 @@ module ViewsPricing =
     // -----------------------------
 
     let Seats : View<int> =
-        SeatsText.View
+        SeatsTextVar.View
         |> View.Map parseSeats
 
     let CurrentPlan : View<PlanPriceRecord option> =
@@ -40,8 +40,8 @@ module ViewsPricing =
                 )
             )
             plansVar.View
-            SelectedPlan.View
-            SelectedInterval.View
+            SelectedPlanVar.View
+            SelectedIntervalVar.View
 
     let IsPerSeat : View<bool> =
         CurrentPlan
@@ -57,7 +57,7 @@ module ViewsPricing =
             | Some p when not (String.IsNullOrWhiteSpace p.name) ->
                 p.name
             | _ ->
-                match SelectedPlan.Value with
+                match SelectedPlanVar.Value with
                 | "freelancer" -> "Freelancer"
                 | _ -> "WebSharper Professional"
         )
@@ -88,7 +88,7 @@ module ViewsPricing =
                 ]
             )
             CurrentPlan
-            SelectedInterval.View
+            SelectedIntervalVar.View
 
     let PriceHint : View<string> =
         View.Map2
@@ -114,7 +114,7 @@ module ViewsPricing =
                     sprintf "Price is %s per %s." (usd price) every
             )
             CurrentPlan
-            SelectedInterval.View
+            SelectedIntervalVar.View
 
     // -----------------------------
     // VAT and totals
@@ -150,9 +150,9 @@ module ViewsPricing =
                     if isEU then euVat.[countryIso]
                     else 0.0
             )
-            Country.View
-            IsCompany.View
-            Vatin.View
+            CountryVar.View
+            IsCompanyVar.View
+            VatinVar.View
 
     let SubtotalRaw : View<float> =
         View.Map3

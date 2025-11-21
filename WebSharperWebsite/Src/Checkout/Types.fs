@@ -38,3 +38,17 @@ module Types =
     type CheckoutResponse = {
         url: string
     }
+
+    type CheckoutForm = {
+        plan: string
+        interval: Interval
+        seatsText: string
+        email: string
+        street: string
+        city: string
+        postal: string
+        country: string
+        isCompany: bool
+        companyName: string
+        vatin: string
+    }

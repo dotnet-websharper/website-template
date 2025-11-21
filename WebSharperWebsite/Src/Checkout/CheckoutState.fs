@@ -4,7 +4,6 @@ open System
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
-open WebSharper.UI.Client
 
 open WebSharperWebsite
 open Types
@@ -50,19 +49,55 @@ module State =
 
     let plansVar : Var<PlanPriceRecord[]> = Var.Create [||]
 
-    let SelectedPlan : Var<string> = Var.Create "pro"
-    let SelectedInterval : Var<Interval> = Var.Create Interval.Year
-    let SeatsText : Var<string> = Var.Create "1"
+    let CheckoutFormVar : Var<CheckoutForm> =
+        Var.Create {
+            plan = "pro"
+            interval = Interval.Year
+            seatsText = "1"
+            email = ""
+            street = ""
+            city = ""
+            postal = ""
+            country = "hungary"
+            isCompany = false
+            companyName = ""
+            vatin = ""
+        }
 
-    let Email : Var<string> = Var.Create ""
-    let Street : Var<string> = Var.Create ""
-    let City : Var<string> = Var.Create ""
-    let Postal : Var<string> = Var.Create ""
 
-    let Country : Var<string> = Var.Create "hungary"
-    let IsCompany : Var<bool> = Var.Create false
-    let CompanyName : Var<string> = Var.Create ""
-    let Vatin : Var<string> = Var.Create ""
+    let SelectedPlanVar : Var<string> =
+        CheckoutFormVar.LensAuto (fun f -> f.plan)
+
+    let SelectedIntervalVar : Var<Interval> =
+        CheckoutFormVar.LensAuto (fun f -> f.interval)
+
+    let SeatsTextVar : Var<string> =
+        CheckoutFormVar.LensAuto (fun f -> f.seatsText)
+
+    let EmailVar : Var<string> =
+        CheckoutFormVar.LensAuto (fun f -> f.email)
+
+    let StreetVar : Var<string> =
+        CheckoutFormVar.LensAuto (fun f -> f.street)
+
+    let CityVar : Var<string> =
+        CheckoutFormVar.LensAuto (fun f -> f.city)
+
+    let PostalVar : Var<string> =
+        CheckoutFormVar.LensAuto (fun f -> f.postal)
+
+    let CountryVar : Var<string> =
+        CheckoutFormVar.LensAuto (fun f -> f.country)
+
+    let IsCompanyVar : Var<bool> =
+        CheckoutFormVar.LensAuto (fun f -> f.isCompany)
+
+    let CompanyNameVar : Var<string> =
+        CheckoutFormVar.LensAuto (fun f -> f.companyName)
+
+    let VatinVar : Var<string> =
+        CheckoutFormVar.LensAuto (fun f -> f.vatin)
+
 
     let ContinueText : Var<string> = Var.Create "Continue to payment"
     let ContinueDisabled : Var<bool> = Var.Create false
@@ -84,7 +119,7 @@ module State =
             | _ -> 1
 
     let getSeatsNow () =
-        SeatsText.Value |> parseSeats |> clampSeats
+        SeatsTextVar.Value |> parseSeats |> clampSeats
 
     // -----------------------------
     // Plans loading
@@ -122,44 +157,50 @@ module State =
             | _ -> 1
 
         {
-            plan = plan
+            plan   = plan
             interval = interval
-            seats = seats
+            seats  = seats
         }
 
     let initFromQuery () =
         let searchParams = readParams ()
-        SelectedPlan.Value <- searchParams.plan
-        SelectedInterval.Value <- searchParams.interval
-        SeatsText.Value <- searchParams.seats |> string
+
+        // Update only the relevant fields on the form
+        CheckoutFormVar.Value <-
+            { CheckoutFormVar.Value with
+                plan      = searchParams.plan
+                interval  = searchParams.interval
+                seatsText = string searchParams.seats
+            }
 
     // -----------------------------
     // Payload
     // -----------------------------
 
     let buildPayload () : CheckoutPayload =
-        let seatsToSend = getSeatsNow ()
+        let form = CheckoutFormVar.Value
+        let seatsToSend = form.seatsText |> parseSeats |> clampSeats
 
         {
             seats = seatsToSend
-            email = Email.Value.Trim()
-            interval = intervalAsString SelectedInterval.Value
+            email = form.email.Trim()
+            interval = intervalAsString form.interval
             planCode =
-                match SelectedPlan.Value.ToLower() with
+                match form.plan.ToLower() with
                 | "freelancer" -> "freelancer"
                 | _ -> "pro"
             billingAddress =
                 {
-                    line1 = Street.Value.Trim()
-                    city = City.Value.Trim()
-                    postal_code = Postal.Value.Trim()
-                    country = Country.Value |> toIso2
+                    line1       = form.street.Trim()
+                    city        = form.city.Trim()
+                    postal_code = form.postal.Trim()
+                    country     = form.country |> toIso2
                 }
             company =
-                if IsCompany.Value then
+                if form.isCompany then
                     Some {
-                        name  = CompanyName.Value.Trim()
-                        vatin = Vatin.Value.Trim()
+                        name  = form.companyName.Trim()
+                        vatin = form.vatin.Trim()
                     }
                 else None
         }

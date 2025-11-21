@@ -63,19 +63,19 @@ module ViewsAttrs =
 
     let CompanyNameAttr () : Attr =
         Attr.Concat [
-            Attr.DynamicBool "required" IsCompany.View
-            Attr.DynamicBool "disabled" (IsCompany.View |> View.Map not)
+            Attr.DynamicBool "required" IsCompanyVar.View
+            Attr.DynamicBool "disabled" (IsCompanyVar.View |> View.Map not)
         ]
 
     let VatinAttr () : Attr =
         Attr.Concat [
-            Attr.DynamicBool "required" IsCompany.View
-            Attr.DynamicBool "disabled" (IsCompany.View |> View.Map not)
+            Attr.DynamicBool "required" IsCompanyVar.View
+            Attr.DynamicBool "disabled" (IsCompanyVar.View |> View.Map not)
         ]
 
     let CompanyBlockAttr () : Attr =
         Attr.DynamicClassPred "hidden" (
-            IsCompany.View
+            IsCompanyVar.View
             |> View.Map not
         )
 
