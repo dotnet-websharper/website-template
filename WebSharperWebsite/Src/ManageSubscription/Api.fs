@@ -94,9 +94,17 @@ module Api =
         ]
         |> System.Collections.Generic.Dictionary
 
-    let mutable mockBilling = {
-        name = ""; vatin = ""; line1 = ""; city = ""
-        postal_code = ""; country = ""
+    let mutable mockBilling : BillingRecord = {
+        company = Some {
+            name = ""
+            vatin = ""
+        }
+        address = {
+            line1 = ""
+            city = ""
+            postal_code = ""
+            country = ""
+        }
     }
 
     // Mock API - replace with real endpoints later
@@ -116,48 +124,78 @@ module Api =
     let AssignSeat (subId: string) (seatNo: int) (username: string) : unit =
         match mockSeats.TryGetValue subId with
         | true, rows ->
-            rows
-            |> Array.tryFind (fun row -> row.seatNo = seatNo)
-            |> Option.iter (fun row ->
-                row.username <- username
-                row.status <- if username = "" then "available" else "assigned")
+            let updated =
+                rows
+                |> Array.map (fun row ->
+                    if row.seatNo = seatNo then
+                        {
+                            row with
+                                username = username
+                                status =
+                                    if System.String.IsNullOrWhiteSpace username then
+                                        "available"
+                                    else
+                                        "assigned"
+                        }
+                    else
+                        row
+                )
+            mockSeats.[subId] <- updated
         | _ -> ()
+
 
     let UnassignSeat (subId: string) (seatNo: int) : unit =
         match mockSeats.TryGetValue subId with
         | true, rows ->
-            rows
-            |> Array.tryFind (fun row -> row.seatNo = seatNo)
-            |> Option.iter (fun r ->
-                r.username <- ""
-                r.status <- "available")
+            let updated =
+                rows
+                |> Array.map (fun row ->
+                    if row.seatNo = seatNo then
+                        { row with username = ""; status = "available" }
+                    else
+                        row
+                )
+            mockSeats.[subId] <- updated
         | _ -> ()
+
 
     let BulkAssign (subId: string) (usernames: string array) : unit =
         match mockSeats.TryGetValue subId with
         | true, rows ->
             let queue = System.Collections.Generic.Queue(usernames)
-            for row in rows do
-                if queue.Count > 0 && row.username = "" then
-                    let nextUsername = queue.Dequeue()
-                    row.username <- nextUsername
-                    row.status <- "assigned"
+            let updated =
+                rows
+                |> Array.map (fun row ->
+                    if queue.Count > 0 && System.String.IsNullOrWhiteSpace row.username then
+                        let nextUsername = queue.Dequeue()
+                        {
+                            row with
+                                username = nextUsername
+                                status   = "assigned"
+                        }
+                    else
+                        row
+                )
+            mockSeats.[subId] <- updated
         | _ -> ()
+
 
     let SetAutoRenew (subId: string) (expiry: string) (autoRenew: bool) : unit =
         match mockSeats.TryGetValue subId with
         | true, rows ->
-            for row in rows do
-                if row.expiry = expiry then
-                    row.autoRenew <- autoRenew
+            let updated =
+                rows
+                |> Array.map (fun row ->
+                    if row.expiry = expiry then
+                        { row with autoRenew = autoRenew }
+                    else
+                        row
+                )
+            mockSeats.[subId] <- updated
         | _ -> ()
+
 
     let GetBilling () : BillingRecord = mockBilling
 
     let SaveBilling (data: BillingRecord) : unit =
-        mockBilling.name <- data.name
-        mockBilling.vatin <- data.vatin
-        mockBilling.line1 <- data.line1
-        mockBilling.city <- data.city
-        mockBilling.postal_code <- data.postal_code
-        mockBilling.country <- data.country
+        mockBilling <- data

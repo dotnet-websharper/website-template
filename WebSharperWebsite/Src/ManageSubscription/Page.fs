@@ -20,38 +20,47 @@ module Page =
     // -----------------------------
 
     let private loadSubscriptions () =
-        state.subs <- Api.ListSubscriptions ()
+        SubsVar.Value <- Api.ListSubscriptions ()
 
     let private loadSeats () =
-        if System.String.IsNullOrEmpty state.currentSubId then
-            state.seats <- [||]
+        let current = CurrentSubIdVar.Value
+        if System.String.IsNullOrEmpty current then
+            SeatsVar.Value <- [||]
+            ViewsSeats.RefreshSeats [||]
         else
-            state.seats <- Api.GetSeats state.currentSubId
+            let seats = Api.GetSeats current
+            SeatsVar.Value <- seats
+            ViewsSeats.RefreshSeats seats
 
     let private loadInvoices () =
-        if System.String.IsNullOrEmpty state.currentSubId then
-            state.invoices <- [||]
+        let current = CurrentSubIdVar.Value
+        if System.String.IsNullOrEmpty current then
+            InvoicesVar.Value <- [||]
+            ViewsInvoices.RefreshInvoices [||]
         else
-            state.invoices <- Api.GetInvoices state.currentSubId
+            let invoices = Api.GetInvoices current
+            InvoicesVar.Value <- invoices
+            ViewsInvoices.RefreshInvoices invoices
 
     let private loadBilling () =
         let data = Api.GetBilling ()
-        state.billing <- Some data
-        // push data into reactive Vars so template shows them
+        BillingVar.Value <- Some data
+
         ViewsBilling.SetBillingRecord (Some data)
         ViewsBilling.SetBillingMode ViewsBilling.BillingMode.Viewing
 
     let private chooseCurrentSubscription () =
-        if state.subs.Length = 0 then
-            state.currentSubId <- ""
+        let subs = SubsVar.Value
+        if subs.Length = 0 then
+            CurrentSubIdVar.Value <- ""
         else
-            // keep existing currentSubId if still valid, otherwise first one
+            let current = CurrentSubIdVar.Value
             let exists =
-                state.subs
-                |> Array.exists (fun s -> s.id = state.currentSubId)
+                subs
+                |> Array.exists (fun s -> s.id = current)
 
-            if System.String.IsNullOrEmpty state.currentSubId || not exists then
-                state.currentSubId <- state.subs.[0].id
+            if System.String.IsNullOrEmpty current || not exists then
+                CurrentSubIdVar.Value <- subs.[0].id
 
     let Init () =
         // Show spinner while we verify auth and load data
@@ -62,16 +71,8 @@ module Page =
                 // Load subscriptions and choose current
                 loadSubscriptions ()
                 chooseCurrentSubscription ()
-
-                // If we have a current subscription, load seats + invoices
-                if not (System.String.IsNullOrEmpty state.currentSubId) then
-                    loadSeats ()
-                    ViewsSeats.RefreshSeats state.seats
-
-                    loadInvoices ()
-                    ViewsInvoices.RefreshInvoices state.invoices
-
-                // Billing info
+                loadSeats ()
+                loadInvoices ()
                 loadBilling ()
             finally
                 Views.setLoading false

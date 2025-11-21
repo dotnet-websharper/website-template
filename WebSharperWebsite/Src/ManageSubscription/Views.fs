@@ -5,8 +5,6 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
 open WebSharper.UI.Client
-open Types
-open State
 
 [<JavaScript>]
 module Views =

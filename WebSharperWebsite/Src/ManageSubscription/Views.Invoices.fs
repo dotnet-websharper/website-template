@@ -14,7 +14,7 @@ open WebSharperWebsite
 module ViewsInvoices =
 
     let private invoicesModel =
-        ListModel.Create (fun (i: InvoiceRecord) -> i.id) state.invoices
+        ListModel.Create (fun (i: InvoiceRecord) -> i.id) InvoicesVar.Value
 
     let RefreshInvoices (newInvoices: InvoiceRecord[]) =
         invoicesModel.Set newInvoices
@@ -26,7 +26,7 @@ module ViewsInvoices =
                 "./invoice.html?id="
                 + JS.EncodeURIComponent inv.id
                 + "&sub="
-                + JS.EncodeURIComponent state.currentSubId
+                + JS.EncodeURIComponent CurrentSubIdVar.Value
             )
 
         Templates.ManageSubscriptionTemplate.InvoiceRow()

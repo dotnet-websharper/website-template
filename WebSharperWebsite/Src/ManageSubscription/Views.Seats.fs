@@ -16,7 +16,7 @@ open WebSharperWebsite
 module ViewsSeats =
 
     let seatsModel =
-        ListModel.Create (fun (s: SeatRecord) -> s.seatNo) state.seats
+        ListModel.Create (fun (s: SeatRecord) -> s.seatNo) SeatsVar.Value
 
     let RefreshSeats (newSeats: SeatRecord[]) =
         seatsModel.Set newSeats
@@ -41,16 +41,22 @@ module ViewsSeats =
 
         span [ attr.``class`` cls ] [ text status ]
 
+    let private usernameAttr (seat: SeatRecord) : Attr =
+        if seat.status = "assigned" then
+            Attr.Create "readonly" ""
+        else
+            Attr.Empty
+
     let private refreshAfterChange () =
-        state.seats <- GetSeats state.currentSubId
-        RefreshSeats state.seats
+        SeatsVar.Value <- GetSeats CurrentSubIdVar.Value
+        RefreshSeats SeatsVar.Value
         showToast "Updated"
 
     let private assignSeat (seatNo: int) (username: string) =
         if not (System.String.IsNullOrWhiteSpace username) then
             setLoading true
             try
-                AssignSeat state.currentSubId seatNo username
+                AssignSeat CurrentSubIdVar.Value seatNo username
                 refreshAfterChange ()
             finally
                 setLoading false
@@ -58,7 +64,7 @@ module ViewsSeats =
     let private unassignSeat (seatNo: int) =
         setLoading true
         try
-            UnassignSeat state.currentSubId seatNo
+            UnassignSeat CurrentSubIdVar.Value seatNo
             refreshAfterChange ()
         finally
             setLoading false
@@ -67,7 +73,7 @@ module ViewsSeats =
         let newValue = not currentValue
         setLoading true
         try
-            SetAutoRenew state.currentSubId expiry newValue
+            SetAutoRenew CurrentSubIdVar.Value expiry newValue
             refreshAfterChange ()
         finally
             setLoading false
@@ -82,6 +88,7 @@ module ViewsSeats =
         Templates.ManageSubscriptionTemplate.SeatRow()
             .SeatLabel($"#{seat.seatNo}")
             .Username(usernameVar)
+            .UsernameAttr(usernameAttr seat)
             .StatusBadge(seatBadge seat.status)
             .Expiry(seat.expiry)
             .AssignSeat(fun t ->

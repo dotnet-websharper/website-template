@@ -1,10 +1,13 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
 open WebSharper
+open WebSharperWebsite.Checkout
 
 [<JavaScript>]
 module Types =
-    open WebSharperWebsite.Checkout.Types
+
+    module CT = WebSharperWebsite.Checkout.Types
+    type User = WebSharperWebsite.User
 
     type SubRecord = {
         id: string
@@ -18,10 +21,10 @@ module Types =
 
     type SeatRecord = {
         seatNo: int
-        mutable username: string
-        mutable status: string
+        username: string
+        status: string
         expiry: string
-        mutable autoRenew: bool
+        autoRenew: bool
     }
 
     type InvoiceRecord = {
@@ -31,24 +34,20 @@ module Types =
         currency: string
         status: string
         subscription: string option
-        billingAddress: BillingAddress option
-        company: CompanyInfo option
+        billingAddress: CT.BillingAddress option
+        company: CT.CompanyInfo option
     }
 
     type BillingRecord = {
-        mutable name: string
-        mutable vatin: string
-        mutable line1: string
-        mutable city: string
-        mutable postal_code: string
-        mutable country: string
+        company: CT.CompanyInfo option
+        address: CT.BillingAddress
     }
 
     type State = {
-        mutable user: obj
-        mutable subs: SubRecord array
-        mutable currentSubId: string
-        mutable seats: SeatRecord array
-        mutable invoices: InvoiceRecord array
-        mutable billing: BillingRecord option
+        user: User option
+        subs: SubRecord array
+        currentSubId: string
+        seats: SeatRecord array
+        invoices: InvoiceRecord array
+        billing: BillingRecord option
     }

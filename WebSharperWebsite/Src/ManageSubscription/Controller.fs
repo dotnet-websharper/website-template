@@ -3,71 +3,57 @@
 open WebSharper
 open WebSharper.JavaScript
 
-open Types
 open State
 open ViewsBilling
-open Views
 open WebSharperWebsite
 
 [<JavaScript>]
 module Controller =
+    open Utils
 
     // Refresh seats + invoices for the current subscription
     let HandleRefresh () =
-        setLoading true
+        Views.setLoading true
         try
-            // Seats
-            state.seats <- Api.GetSeats state.currentSubId
-            ViewsSeats.RefreshSeats state.seats
+            let currentSubId = CurrentSubIdVar.Value
+            if not (System.String.IsNullOrEmpty currentSubId) then
+                let seats = Api.GetSeats currentSubId
+                SeatsVar.Value <- seats
+                ViewsSeats.RefreshSeats seats
 
-            // Invoices
-            state.invoices <- Api.GetInvoices state.currentSubId
-            ViewsInvoices.RefreshInvoices state.invoices
+                let invoices = Api.GetInvoices currentSubId
+                InvoicesVar.Value <- invoices
+                ViewsInvoices.RefreshInvoices invoices
 
-            showToast "Refreshed"
+                Views.showToast "Refreshed"
         finally
-            setLoading false
+            Views.setLoading false
 
     // Enter billing edit mode, pre-filling form from state.billing
     let HandleBillingEdit () =
-        match state.billing with
-        | Some data ->
-            // Push current billing into both view + edit Vars
-            SetBillingRecord (Some data)
-        | None ->
-            // No saved billing yet, clear the form
-            SetBillingRecord None
+        ViewsBilling.SetBillingRecord BillingVar.Value
+        ViewsBilling.SetBillingMode BillingMode.Editing
 
-        SetBillingMode BillingMode.Editing
-
-    // Save billing using Vars
+    // Save billing using BillingRecordVar
     let HandleBillingSave () =
-        // All billing fields come from the reactive Vars in Views
-        let data = CurrentBillingFromForm ()
+        let data = ViewsBilling.CurrentBillingFromForm ()
 
-        setLoading true
+        Views.setLoading true
         try
             Api.SaveBilling data
-            state.billing <- Some data
+            BillingVar.Value <- Some data
 
-            // Update view + form from saved data
-            SetBillingRecord (Some data)
-            SetBillingMode BillingMode.Viewing
-            showToast "Billing saved"
+            ViewsBilling.SetBillingMode BillingMode.Viewing
+            Views.showToast "Billing saved"
         finally
-            setLoading false
+            Views.setLoading false
 
     // Cancel billing edit and revert form to last saved state
     let HandleBillingCancel () =
-        match state.billing with
-        | Some data ->
-            SetBillingRecord (Some data)
-        | None ->
-            SetBillingRecord None
+        ViewsBilling.SetBillingRecord BillingVar.Value
+        ViewsBilling.SetBillingMode BillingMode.Viewing
 
-        SetBillingMode BillingMode.Viewing
-
-    // Verifies session and returns the user, or throws on unauthorized
+    // Verifies session and stores user in StateVar
     let requireAuth () =
         promise {
             let! me = AuthClient.FetchMe()
@@ -76,7 +62,6 @@ module Controller =
             | None ->
                 return raise (System.Exception "unauthorized")
             | Some user ->
-                // keep user in global state, same as before
-                state.user <- user
+                UserVar.Value <- Some user
                 return user
         }

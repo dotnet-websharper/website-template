@@ -5,174 +5,224 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
 open WebSharper.UI.Client
+
 open Types
+open WebSharperWebsite.Checkout
 
 [<JavaScript>]
 module ViewsBilling =
 
-    // -------------------------
-    // Types + state
-    // -------------------------
+    module CT = WebSharperWebsite.Checkout.Types
 
     type BillingMode =
         | Viewing
         | Editing
 
-    let BillingModeVar : Var<BillingMode> = Var.Create BillingMode.Viewing
+    let BillingRecordVar : Var<BillingRecord> =
+        Var.Create {
+            company = Some { name = ""; vatin = "" }
+            address = {
+                line1 = ""
+                city = ""
+                postal_code = ""
+                country = ""
+            }
+        }
 
-    let BillingRecordVar : Var<BillingRecord option> = Var.Create None
+    let BillingModeVar : Var<BillingMode> =
+        Var.Create BillingMode.Viewing
 
-    // Form Vars (bound with ws-var)
-    let BillingNameVar : Var<string> = Var.Create ""
-    let BillingVatinVar : Var<string> = Var.Create ""
-    let BillingLine1Var : Var<string> = Var.Create ""
-    let BillingCityVar : Var<string> = Var.Create ""
-    let BillingPostalVar : Var<string> = Var.Create ""
-    let BillingCountryVar : Var<string> = Var.Create ""
+    // -------------------------
+    // Helpers
+    // -------------------------
 
     let private orDash s =
         if String.IsNullOrWhiteSpace s then "—" else s
 
-    // -------------------------
-    // Billing view / edit mode attrs
-    // -------------------------
-
-    let BillingViewAttr : Attr =
-        // View card is hidden when editing
-        Attr.DynamicClassPred "hidden" (
-            BillingModeVar.View
-            |> View.Map (function
-                | BillingMode.Viewing -> false
-                | BillingMode.Editing -> true
-            )
-        )
-
-    let BillingEditAttr : Attr =
-        // Edit form is hidden when viewing
-        Attr.DynamicClassPred "hidden" (
-            BillingModeVar.View
-            |> View.Map (function
-                | BillingMode.Viewing -> true
-                | BillingMode.Editing -> false
-            )
-        )
-
-    let BtnBillingEditAttr : Attr =
-        // "Edit" button visible only in view mode
-        Attr.DynamicClassPred "hidden" (
-            BillingModeVar.View
-            |> View.Map (function
-                | BillingMode.Viewing -> false
-                | BillingMode.Editing -> true
-            )
-        )
-
-    let BtnBillingSaveAttr : Attr =
-        // "Save" button visible only in edit mode
-        Attr.DynamicClassPred "hidden" (
-            BillingModeVar.View
-            |> View.Map (function
-                | BillingMode.Viewing -> true
-                | BillingMode.Editing -> false
-            )
-        )
-
-    let BtnBillingCancelAttr : Attr =
-        // "Cancel" button visible only in edit mode
-        Attr.DynamicClassPred "hidden" (
-            BillingModeVar.View
-            |> View.Map (function
-                | BillingMode.Viewing -> true
-                | BillingMode.Editing -> false
-            )
-        )
-
     let SetBillingMode mode =
         BillingModeVar.Value <- mode
 
+    let SetBillingRecord (billingOpt: BillingRecord option) =
+        let value =
+            match billingOpt with
+            | Some billing -> billing
+            | None ->
+                {
+                    company = Some { name = ""; vatin = "" }
+                    address = {
+                        line1 = ""
+                        city = ""
+                        postal_code = ""
+                        country = ""
+                    }
+                }
+        BillingRecordVar.Value <- value
+
+    let CurrentBillingFromForm () : BillingRecord =
+        BillingRecordVar.Value
+
     // -------------------------
-    // "View mode" Docs (ws-hole on v_name, v_vatin, etc.)
+    // Lenses -> individual Vars
+    // -------------------------
+
+    // company.name
+    let BillingNameVar : Var<string> =
+        BillingRecordVar.Lens
+            (fun billing ->
+                match billing.company with
+                | Some companyInfo -> companyInfo.name
+                | None -> ""
+            )
+            (fun billing name ->
+                let company =
+                    match billing.company with
+                    | Some companyInfo -> { companyInfo with name = name }
+                    | None -> { 
+                        name = name
+                        vatin = ""
+                    }
+
+                { billing with company = Some company }
+            )
+        
+
+    // company.vatin
+    let BillingVatinVar : Var<string> =
+        BillingRecordVar.Lens
+            (fun billing ->
+                match billing.company with
+                | Some company -> company.vatin
+                | None -> ""
+            )
+            (fun billing vatin ->
+                let company =
+                    match billing.company with
+                    | Some c -> { c with vatin = vatin }
+                    | None -> { 
+                        name = ""
+                        vatin = vatin 
+                    }
+
+                { billing with company = Some company }
+            )
+        
+
+    // address.line1
+    let BillingLine1Var : Var<string> =
+        BillingRecordVar.Lens
+            (fun billing -> billing.address.line1)
+            (fun billing line1 ->
+                { billing with address = { billing.address with line1 = line1 } }
+            )
+        
+
+    // address.city
+    let BillingCityVar : Var<string> =
+        BillingRecordVar.Lens
+            (fun billing -> billing.address.city)
+            (fun billing city ->
+                { billing with address = { billing.address with city = city } }
+            )
+        
+
+    // address.postal_code
+    let BillingPostalVar : Var<string> =
+        BillingRecordVar.Lens
+            (fun billing -> billing.address.postal_code)
+            (fun billing postal ->
+                { billing with address = { billing.address with postal_code = postal } }
+            )
+        
+
+    // address.country
+    let BillingCountryVar : Var<string> =
+        BillingRecordVar.Lens
+            (fun billing -> billing.address.country)
+            (fun billing country ->
+                { billing with address = { billing.address with country = country } }
+            )
+        
+
+    // -------------------------
+    // View-mode Docs for ws-hole on v_name, v_vatin, etc.
     // -------------------------
 
     let BillingNameView : Doc =
         BillingRecordVar.View
-        |> View.Map (function
-            | Some b -> orDash b.name
-            | None -> "—"
-        )
+        |> View.Map (fun billing ->
+            match billing.company with
+            | Some companyInfo -> orDash companyInfo.name
+            | None -> "—")
         |> Doc.TextView
 
     let BillingVatinView : Doc =
         BillingRecordVar.View
-        |> View.Map (function
-            | Some b -> orDash b.vatin
-            | None -> "—"
-        )
+        |> View.Map (fun billing ->
+            match billing.company with
+            | Some companyInfo -> orDash companyInfo.vatin
+            | None -> "—")
         |> Doc.TextView
 
     let BillingLine1View : Doc =
         BillingRecordVar.View
-        |> View.Map (function
-            | Some b -> orDash b.line1
-            | None -> "—"
-        )
+        |> View.Map (fun billing -> orDash billing.address.line1)
         |> Doc.TextView
 
     let BillingCityView : Doc =
         BillingRecordVar.View
-        |> View.Map (function
-            | Some b -> orDash b.city
-            | None -> "—"
-        )
+        |> View.Map (fun billing -> orDash billing.address.city)
         |> Doc.TextView
 
     let BillingPostalView : Doc =
         BillingRecordVar.View
-        |> View.Map (function
-            | Some b -> orDash b.postal_code
-            | None -> "—"
-        )
+        |> View.Map (fun billing -> orDash billing.address.postal_code)
         |> Doc.TextView
 
     let BillingCountryView : Doc =
         BillingRecordVar.View
-        |> View.Map (function
-            | Some b -> orDash b.country
-            | None -> "—"
-        )
+        |> View.Map (fun billing -> orDash billing.address.country)
         |> Doc.TextView
 
     // -------------------------
-    // Sync helpers (used from Controller / Page)
+    // Visibility attrs for view/edit card
     // -------------------------
 
-    /// Set both the "view mode" record and the edit form Vars
-    let SetBillingRecord (bOpt: BillingRecord option) =
-        BillingRecordVar.Value <- bOpt
+    let BillingViewAttr : Attr =
+        Attr.DynamicClassPred "hidden" (
+            BillingModeVar.View
+            |> View.Map (function
+                | BillingMode.Viewing -> false
+                | BillingMode.Editing -> true)
+        )
 
-        match bOpt with
-        | Some data ->
-            BillingNameVar.Value <- data.name
-            BillingVatinVar.Value <- data.vatin
-            BillingLine1Var.Value <- data.line1
-            BillingCityVar.Value <- data.city
-            BillingPostalVar.Value <- data.postal_code
-            BillingCountryVar.Value <- data.country
-        | None ->
-            BillingNameVar.Value <- ""
-            BillingVatinVar.Value <- ""
-            BillingLine1Var.Value <- ""
-            BillingCityVar.Value <- ""
-            BillingPostalVar.Value <- ""
-            BillingCountryVar.Value <- ""
+    let BillingEditAttr : Attr =
+        Attr.DynamicClassPred "hidden" (
+            BillingModeVar.View
+            |> View.Map (function
+                | BillingMode.Viewing -> true
+                | BillingMode.Editing -> false)
+        )
 
-    /// Read the current form fields into a BillingRecord
-    let CurrentBillingFromForm () : BillingRecord =
-        {
-            name = BillingNameVar.Value.Trim()
-            vatin = BillingVatinVar.Value.Trim()
-            line1 = BillingLine1Var.Value.Trim()
-            city = BillingCityVar.Value.Trim()
-            postal_code = BillingPostalVar.Value.Trim()
-            country = BillingCountryVar.Value.Trim()
-        }
+    let BtnBillingEditAttr : Attr =
+        Attr.DynamicClassPred "hidden" (
+            BillingModeVar.View
+            |> View.Map (function
+                | BillingMode.Viewing -> false
+                | BillingMode.Editing -> true)
+        )
+
+    let BtnBillingSaveAttr : Attr =
+        Attr.DynamicClassPred "hidden" (
+            BillingModeVar.View
+            |> View.Map (function
+                | BillingMode.Viewing -> true
+                | BillingMode.Editing -> false)
+        )
+
+    let BtnBillingCancelAttr : Attr =
+        Attr.DynamicClassPred "hidden" (
+            BillingModeVar.View
+            |> View.Map (function
+                | BillingMode.Viewing -> true
+                | BillingMode.Editing -> false)
+        )
