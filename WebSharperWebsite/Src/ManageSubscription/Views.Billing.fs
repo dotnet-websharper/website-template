@@ -66,7 +66,7 @@ module ViewsBilling =
     // -------------------------
 
     // company.name
-    let BillingNameVar : Var<string> =
+    let CompanyNameVar : Var<string> =
         BillingRecordVar.Lens
             (fun billing ->
                 match billing.company with
@@ -87,7 +87,7 @@ module ViewsBilling =
         
 
     // company.vatin
-    let BillingVatinVar : Var<string> =
+    let CompanyVatinVar : Var<string> =
         BillingRecordVar.Lens
             (fun billing ->
                 match billing.company with
@@ -104,42 +104,6 @@ module ViewsBilling =
                     }
 
                 { billing with company = Some company }
-            )
-        
-
-    // address.line1
-    let BillingLine1Var : Var<string> =
-        BillingRecordVar.Lens
-            (fun billing -> billing.address.line1)
-            (fun billing line1 ->
-                { billing with address = { billing.address with line1 = line1 } }
-            )
-        
-
-    // address.city
-    let BillingCityVar : Var<string> =
-        BillingRecordVar.Lens
-            (fun billing -> billing.address.city)
-            (fun billing city ->
-                { billing with address = { billing.address with city = city } }
-            )
-        
-
-    // address.postal_code
-    let BillingPostalVar : Var<string> =
-        BillingRecordVar.Lens
-            (fun billing -> billing.address.postal_code)
-            (fun billing postal ->
-                { billing with address = { billing.address with postal_code = postal } }
-            )
-        
-
-    // address.country
-    let BillingCountryVar : Var<string> =
-        BillingRecordVar.Lens
-            (fun billing -> billing.address.country)
-            (fun billing country ->
-                { billing with address = { billing.address with country = country } }
             )
         
 

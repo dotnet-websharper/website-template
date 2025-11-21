@@ -130,12 +130,12 @@ module Page =
                 .BillingCountryView(ViewsBilling.BillingCountryView)
 
                 // billing form vars (ws-var on inputs in the edit form)
-                .BillingNameVar(ViewsBilling.BillingNameVar)
-                .BillingVatinVar(ViewsBilling.BillingVatinVar)
-                .BillingLine1Var(ViewsBilling.BillingLine1Var)
-                .BillingCityVar(ViewsBilling.BillingCityVar)
-                .BillingPostalVar(ViewsBilling.BillingPostalVar)
-                .BillingCountryVar(ViewsBilling.BillingCountryVar)
+                .BillingNameVar(ViewsBilling.CompanyNameVar)
+                .BillingVatinVar(ViewsBilling.CompanyVatinVar)
+                .BillingLine1Var(ViewsBilling.BillingRecordVar.V.address.line1)
+                .BillingCityVar(ViewsBilling.BillingRecordVar.V.address.city)
+                .BillingPostalVar(ViewsBilling.BillingRecordVar.V.address.postal_code)
+                .BillingCountryVar(ViewsBilling.BillingRecordVar.V.address.country)
 
                 // actions
                 .AddSeatsClick(fun _ ->
