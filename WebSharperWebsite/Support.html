@@ -5,7 +5,7 @@
 <body>
     <div class="space-y-20" ws-onafterrender="OnAfterRender">
         <!-- Hero / Banner -->
-        <section id="support-hero" class="pt-28 sm:pt-32">
+        <section class="pt-28 sm:pt-32">
             <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
                 <div class="grid items-center gap-8 md:grid-cols-12">
                     <div class="md:col-span-7 text-center md:text-left">
@@ -143,7 +143,7 @@
             </div>
         </section>
 
-        <section id="plans" class="scroll-my-16">
+        <section class="scroll-my-16">
             <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
                 <h2 class="text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
                     Choose your plan
@@ -180,8 +180,7 @@
                 <!-- Plans grid -->
                 <div class="mx-auto mt-8 grid max-w-6xl gap-6 sm:grid-cols-2">
                     <!-- Professional (per seat) -->
-                    <div id="wsProCard"
-                         class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200
+                    <div class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200
                                     dark:bg-gray-950 dark:border-gray-800"
                          data-price-month="250"
                          data-price-year="2500">
@@ -191,8 +190,7 @@
                                 <div ws-hole="ProName" class="text-2xl font-bold text-gray-950 dark:text-white">
                                     Professional
                                 </div>
-                                <div id="wsProPriceText"
-                                     class="mt-1 text-base text-gray-700 dark:text-gray-300">
+                                <div class="mt-1 text-base text-gray-700 dark:text-gray-300">
                                     <span ws-hole="ProPriceAmount">$2,500</span>
                                     <span class="text-gray-600 dark:text-gray-400" ws-hole="ProPriceLabel">
                                         / seat / year
@@ -304,16 +302,18 @@
         </section>
 
         <!-- contact us -->
-        <section id="contactUs" class="scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none">
+        <section class="scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none">
             <div class="mx-auto max-w-xl p-8 rounded content mb-10">
                 <h2 class="header text-center mb-8">Contact us</h2>
 
-                <form id="contactForm" method="post">
+                <form method="post">
 
                     <!-- Subject -->
                     <div class="mb-6">
                         <label for="emailSubject" class="block font-semibold mb-2">Subject</label>
-                        <input type="text" id="emailSubject" name="email-subject"
+                        <input type="text" 
+                               name="email-subject"
+                               ws-var="ContactSubjectVar"
                                class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
                                value="WebSharper support">
                     </div>
@@ -321,7 +321,8 @@
                     <!-- Message -->
                     <div class="mb-6">
                         <label for="emailMessage" class="block font-semibold mb-2">Message</label>
-                        <textarea id="emailMessage" name="email-message" rows="5"
+                        <textarea name="email-message" rows="5"
+                                  ws-var="ContactMessageVar"
                                   class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"></textarea>
                     </div>
 
@@ -330,21 +331,26 @@
                         <!-- Email -->
                         <div>
                             <label for="emailAddress" class="block font-semibold mb-2">Your email address</label>
-                            <input type="email" id="emailAddress" name="email-address"
+                            <input type="email"                                   
+                                   name="email-address"
+                                   ws-var="ContactEmailVar"
                                    class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
                         </div>
 
                         <!-- Name -->
                         <div>
                             <label for="emailName" class="block font-semibold mb-2">Your name</label>
-                            <input type="text" id="emailName" name="name"
+                            <input type="text" 
+                                   ws-var="ContactNameVar"
+                                   name="name"
                                    class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
                         </div>
 
                         <!-- Country -->
                         <div>
                             <label for="emailCountry" class="block font-semibold mb-2">Your country</label>
-                            <select id="emailCountry" name="email-country"
+                            <select name="email-country"
+                                    ws-var="ContactCountryVar"
                                     class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
                                 <option value="Afghanistan">Afghanistan</option>
                                 <option value="Albania">Albania</option>
@@ -547,9 +553,11 @@
 
                     <!-- Send Button -->
                     <div class="text-left">
-                        <button id="contact-form-button"
-                                class="bg-blue-500 text-white font-semibold px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-blue-400" disabled>
-                            Send
+                        <button ws-attr="ContactSendButtonAttr"
+                                type="button"
+                                ws-onclick="OnContactSendClick"
+                                class="bg-blue-500 text-white font-semibold px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-blue-400">
+                            ${ContactSendButtonText}
                         </button>
                     </div>
 

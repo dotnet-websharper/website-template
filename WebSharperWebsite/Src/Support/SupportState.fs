@@ -145,3 +145,34 @@ module State =
 
         let next = current + delta |> clampSeats
         value.Value <- string next
+
+    // -----------------------------
+    // Contact form
+    // -----------------------------
+
+    let ContactFormVar : Var<ContactForm> =
+        Var.Create {
+            subject = "WebSharper support"
+            message = ""
+            email = ""
+            name = ""
+            country = "United States"
+        }
+
+    let IsSendingVar : Var<bool> = Var.Create false
+
+    let private isValidEmail (email: string) =
+        if isNull email then false
+        else
+            let e = email.Trim()
+            e.Contains("@") && e.Contains(".")
+
+    let IsFormValid (form: ContactForm) : bool =
+        let hasMessage = not (String.IsNullOrWhiteSpace form.message)
+        let hasEmail = not (String.IsNullOrWhiteSpace form.email)
+        let hasName = not (String.IsNullOrWhiteSpace form.name)
+        hasMessage && hasEmail && hasName && isValidEmail form.email
+
+    let CanSendView : View<bool> =
+        ContactFormVar.View
+        |> View.Map IsFormValid

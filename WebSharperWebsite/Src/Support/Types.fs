@@ -42,3 +42,11 @@ module Types =
     type PlansApiResponse = {
         items: PlanPriceRecord[]
     }
+
+    type ContactForm = {
+        subject: string
+        message: string
+        email: string
+        name: string
+        country: string
+    }

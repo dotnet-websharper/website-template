@@ -73,42 +73,8 @@ module Client =
             .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
             .Doc()
 
-    open Support.State
-    open Support.Api
-    open Support.ViewsAttrs
-    open Support.ViewsPricing
-
     let Support () =    
-        if IsClient then
-            Templates.SupportTemplate()
-                .OnAfterRender(fun () ->
-                    HydrateCatalog() |> Async.StartImmediate
-                )
-                .ProName(Doc.TextView ProName)
-                .FreeName(Doc.TextView FreeName)
-                .ProPriceAmount(Doc.TextView ProPriceAmount)
-                .ProPriceLabel(Doc.TextView ProPriceLabel)
-                .FreePriceAmount(Doc.TextView FreePriceAmount)
-                .FreePriceLabel(Doc.TextView FreePriceLabel)
-                .ProTotalLabel(Doc.TextView ProTotalLabel)
-                .ProTotalAmount(Doc.TextView ProTotalAmount)
-                .FreeTotalLabel(Doc.TextView FreeTotalLabel)
-                .FreeTotalAmount(Doc.TextView FreeTotalAmount)
-                .ProNote(Doc.TextView ProNote)
-                .FreeNote(Doc.TextView FreeNote)
-                .BillMonthAttr(BillMonthAttr())
-                .BillYearAttr(BillYearAttr())
-                .ProCheckoutAttr(ProCheckoutAttr())
-                .FreeCheckoutAttr(FreeCheckoutAttr())
-                .SeatCount(SeatCountText)
-                .OnBillMonth(fun _ -> OnBillMonth())
-                .OnBillYear(fun _ -> OnBillYear())
-                .OnSeatMinus(fun _ -> OnSeatMinus())
-                .OnSeatPlus(fun _ -> OnSeatPlus())
-                .Doc()
-        else
-            Templates.SupportTemplate()
-                .Doc()
+        Support.Page.SupportDoc()
 
     let DslAi () =
         Templates.DslAiTemplate()

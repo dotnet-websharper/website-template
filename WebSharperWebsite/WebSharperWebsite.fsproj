@@ -16,8 +16,9 @@
 	<Compile Include="Src\Support\Types.fs" />
 	<Compile Include="Src\Support\SupportState.fs" />
 	<Compile Include="Src\Support\SupportViewsPricing.fs" />
-	<Compile Include="Src\Support\SupportViewsAttrs.fs" />
 	<Compile Include="Src\Support\SupportApi.fs" />
+	<Compile Include="Src\Support\SupportViewsAttrs.fs" />
+	<Compile Include="Src\Support\Page.fs" />
 	<Compile Include="Src\Checkout\Types.fs" />
 	<Compile Include="Src\Checkout\CheckoutState.fs" />
 	<Compile Include="Src\Checkout\Views.Pricing.fs" />

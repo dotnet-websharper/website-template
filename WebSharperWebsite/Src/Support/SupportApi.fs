@@ -122,3 +122,31 @@ module Api =
             | Some resp -> buildCatalog resp.items
             | None -> ()
         }
+
+    [<Literal>]
+    let private ContactEndpoint = "https://api.intellifactory.com/api/contact"
+
+    let SendContact (form: ContactForm) : Async<bool> =
+        async {
+            let formData = FormData()
+            formData.Append("subject", form.subject)
+            formData.Append("message", form.message)
+            formData.Append("email", form.email)
+            formData.Append("name", form.name)
+            formData.Append("country", form.country)
+
+            try
+                let! resp =
+                    JS.Fetch(
+                        ContactEndpoint,
+                        RequestOptions(
+                            Method = "POST",
+                            Body = formData
+                        )
+                    )
+                    |> Promise.AsAsync
+
+                return resp.Ok
+            with _ ->
+                return false
+        }

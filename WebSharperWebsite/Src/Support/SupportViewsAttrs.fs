@@ -3,8 +3,8 @@
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
-open WebSharper.UI.Html
 open WebSharper.UI.Client
+open WebSharper.UI.Templating.Runtime.Server
 
 open Types
 open State
@@ -60,14 +60,61 @@ module ViewsAttrs =
 
     // Handlers
 
-    let OnBillMonth () =
+    let OnBillMonth (_: TemplateEvent<_,_,_>) =
         intervalVar.Value <- Interval.Month
 
-    let OnBillYear () =
+    let OnBillYear (_: TemplateEvent<_,_,_>) =
         intervalVar.Value <- Interval.Year
 
-    let OnSeatMinus () =
+    let OnSeatMinus (_e: TemplateEvent<_,_,_>) =
         AdjustSeats -1 SeatCountText
 
-    let OnSeatPlus () =
+    let OnSeatPlus (_: TemplateEvent<_,_,_>) =
         AdjustSeats 1 SeatCountText
+
+    // -----------------------------
+    // Contact form
+    // -----------------------------
+
+    let ContactSendButtonAttr : Attr =     
+        Attr.DynamicBool "disabled" (
+            View.Map2
+                (fun canSend sending -> not canSend || sending)
+                CanSendView
+                IsSendingVar.View
+        )
+
+    let ContactSendButtonText : View<string> =
+        IsSendingVar.View
+        |> View.Map (fun sending -> if sending then "Sending..." else "Send")
+
+    let private resetForm () =
+        ContactFormVar.Value <-
+            {
+                subject = "WebSharper support"
+                message = ""
+                email = ""
+                name = ""
+                country = "United States"
+            }
+
+    let OnContactSendClick (e: TemplateEvent<_,_,_>) : unit =
+        e.Event.PreventDefault()
+        let form = ContactFormVar.Value
+
+        if not (IsFormValid form) then
+            JS.Alert("Please fill in all required fields.")
+        else
+            async {
+                IsSendingVar.Value <- true
+                try
+                    let! ok = Api.SendContact form
+                    if ok then
+                        JS.Alert("Message sent successfully!")
+                        resetForm ()
+                    else
+                        JS.Alert("Failed to send message. Please try again later.")
+                finally
+                    IsSendingVar.Value <- false
+            }
+            |> Async.StartImmediate
