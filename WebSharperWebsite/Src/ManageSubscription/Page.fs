@@ -16,38 +16,49 @@ open Api
 module Page =
 
     // -----------------------------
-    // Data loading helpers
+    // Data loading helpers (async)
     // -----------------------------
 
-    let private loadSubscriptions () =
-        SubsVar.Value <- Api.ListSubscriptions ()
+    let private loadSubscriptionsAsync () =
+        async {
+            let! subs = Api.ListSubscriptions ()
+            SubsVar.Value <- subs
+        }
 
-    let private loadSeats () =
-        let current = CurrentSubIdVar.Value
-        if System.String.IsNullOrEmpty current then
-            SeatsVar.Value <- [||]
-            ViewsSeats.RefreshSeats [||]
-        else
-            let seats = Api.GetSeats current
-            SeatsVar.Value <- seats
-            ViewsSeats.RefreshSeats seats
+    let private loadSeatsAsync () =
+        async {
+            let current = CurrentSubIdVar.Value
+            if System.String.IsNullOrEmpty current then
+                // No subscription, clear local state
+                SeatsVar.Value <- [||]
+                // seatsModel in ViewsSeats was created from initial SeatsVar (likely empty),
+                // so we don't need to touch it here
+                return ()
+            else
+                // Delegate actual fetching + model update to ViewsSeats
+                ViewsSeats.RefreshSeats ()
+        }
 
-    let private loadInvoices () =
-        let current = CurrentSubIdVar.Value
-        if System.String.IsNullOrEmpty current then
-            InvoicesVar.Value <- [||]
-            ViewsInvoices.RefreshInvoices [||]
-        else
-            let invoices = Api.GetInvoices current
-            InvoicesVar.Value <- invoices
-            ViewsInvoices.RefreshInvoices invoices
+    let private loadInvoicesAsync () =
+        async {
+            let current = CurrentSubIdVar.Value
+            if System.String.IsNullOrEmpty current then
+                InvoicesVar.Value <- [||]
+                ViewsInvoices.RefreshInvoices [||]
+            else
+                let! invoices = Api.GetInvoices current
+                InvoicesVar.Value <- invoices
+                ViewsInvoices.RefreshInvoices invoices
+        }
 
-    let private loadBilling () =
-        let data = Api.GetBilling ()
-        BillingVar.Value <- Some data
+    let private loadBillingAsync () =
+        async {
+            let! data = Api.GetBilling ()
+            BillingVar.Value <- Some data
 
-        ViewsBilling.SetBillingRecord (Some data)
-        ViewsBilling.SetBillingMode ViewsBilling.BillingMode.Viewing
+            ViewsBilling.SetBillingRecord (Some data)
+            ViewsBilling.SetBillingMode ViewsBilling.BillingMode.Viewing
+        }
 
     let private chooseCurrentSubscription () =
         let subs = SubsVar.Value
@@ -62,20 +73,32 @@ module Page =
             if System.String.IsNullOrEmpty current || not exists then
                 CurrentSubIdVar.Value <- subs.[0].id
 
+    let private loadAllAfterAuth () =
+        async {
+            Views.setLoading true
+            try
+                // Load subscriptions and choose current
+                do! loadSubscriptionsAsync ()
+                chooseCurrentSubscription ()
+
+                // Load seats and invoices for the current subscription
+                do! loadSeatsAsync ()
+                do! loadInvoicesAsync ()
+
+                // Load billing info
+                do! loadBillingAsync ()
+            finally
+                Views.setLoading false
+        }
+        |> Async.StartImmediate
+
     let Init () =
         // Show spinner while we verify auth and load data
         Views.setLoading true
 
         let afterAuthSuccess () =
-            try
-                // Load subscriptions and choose current
-                loadSubscriptions ()
-                chooseCurrentSubscription ()
-                loadSeats ()
-                loadInvoices ()
-                loadBilling ()
-            finally
-                Views.setLoading false
+            // Kick off the async loading pipeline
+            loadAllAfterAuth ()
 
         let afterAuthFail () =
             Views.setLoading false    

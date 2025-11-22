@@ -16,7 +16,6 @@ module Types =
         totalSeats: int
         renewsAt: string
         status: string
-        currency: string
     }
 
     type SeatRecord = {

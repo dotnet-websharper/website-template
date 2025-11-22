@@ -1,201 +1,177 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
+open System
 open WebSharper
 open WebSharper.JavaScript
-open WebSharper.JavaScript.Dom
+open WebSharperWebsite
+
 open Types
 
 [<JavaScript>]
 module Api =
 
-    // Mock DB - TODO: replace with real HTTP calls
-    let mutable mockSubs = [|
-        { id = "sub_1"; label = "Professional (5 seats) — Jul 12 2025"; plan = "Professional"; 
-        totalSeats = 5; renewsAt = "2025-07-12"; status = "active";   currency = "usd" }
+    // ----------------------
+    // Helpers
+    // ----------------------
 
-        { id = "sub_2"; label = "Professional (10 seats) — Aug 12 2025"; plan = "Professional"; 
-        totalSeats = 10; renewsAt = "2025-08-12"; status = "trialing"; currency = "usd" }
-    |]
+    let private toSubRecord (subscription: Subscription) : SubRecord =
+        {
+            id = string subscription.subscriptionId
+            label = sprintf "%s (%d seats) - %s" subscription.planName subscription.seats subscription.currentPeriodEnd
+            plan = subscription.planName
+            totalSeats = subscription.seats
+            renewsAt = subscription.currentPeriodEnd
+            status =
+                if subscription.cancelAtPeriodEnd then
+                    "canceling"
+                else
+                    "active"
+        }
 
-    let mutable mockInvoices =
-        dict [
-            "sub_1",
-                [|
-                    { 
-                        id = "inv_2025_0001"
-                        date = "2025-07-12"
-                        amount = 250000; 
-                        currency = "usd" 
-                        status = "paid"
-                        subscription = None
-                        billingAddress = Some { 
-                            line1 = "Main St 1" 
-                            city = "Budapest" 
-                            postal_code = "1011" 
-                            country = "HU" 
-                        }
-                        company = Some { 
-                            name = "ACME Inc." 
-                            vatin = "EU123" 
-                        }  
+    let private seatsFromSubscription (s: Subscription) : SeatRecord array =
+        let assigned = s.githubAssignedNames
+        let total = max s.seats assigned.Length
+
+        [|
+            for i = 0 to total - 1 do
+                let seatNo = i + 1
+                if i < assigned.Length then
+                    let username = assigned.[i]
+                    yield {
+                        seatNo = seatNo
+                        username = username
+                        status = "assigned"
+                        // No per-seat expiry in DB, reuse subscription period end
+                        expiry = s.currentPeriodEnd
+                        // If subscription is set to cancel at period end,
+                        // then "auto renew" is effectively off
+                        autoRenew = not s.cancelAtPeriodEnd
                     }
-
-                    { 
-                        id = "inv_2025_0002"
-                        date = "2025-08-12"
-                        amount = 250000
-                        currency = "usd"
-                        status = "open"
-                        subscription = None
-                        billingAddress = Some { 
-                            line1 = "Main St 1" 
-                            city = "Budapest" 
-                            postal_code = "1011" 
-                            country = "HU" 
-                        }
-                        company = Some { 
-                            name = "ACME Inc." 
-                            vatin = "EU123" 
-                        } 
-                    }
-                |]
-            "sub_2",
-                [|
-                    { id = "inv_2025_0003"; date = "2025-08-12"; amount = 500000; currency = "usd"; 
-                    status = "paid"; subscription = None; billingAddress = None; company = None }
-                |]
-        ]
-        |> System.Collections.Generic.Dictionary
-
-    let mutable mockSeats =
-        dict [
-            "sub_1",
-                [|
-                    // Group 1, expires 2026-07-12, auto renew on
-                    { seatNo = 1; username = "alice";   status = "assigned";  expiry = "2026-07-12"; autoRenew = true }
-                    { seatNo = 2; username = "bob-dev"; status = "assigned";  expiry = "2026-09-01"; autoRenew = true }
-                    { seatNo = 3; username = "";        status = "available"; expiry = "2026-07-12"; autoRenew = true }
-
-                    // Group 2, expires 2026-09-01, auto renew off
-                    { seatNo = 4; username = ""; status = "available"; expiry = "2026-09-01"; autoRenew = false }
-                    { seatNo = 5; username = ""; status = "available"; expiry = "2026-09-01"; autoRenew = false }
-                |]
-
-            "sub_2",
-                // One big group, all expire on the same date, auto renew on
-                Array.init 10 (fun i ->
-                    {
-                        seatNo = i + 1
+                else
+                    yield {
+                        seatNo = seatNo
                         username = ""
                         status = "available"
-                        expiry = "2026-08-12"
-                        autoRenew = true
-                    })
-        ]
-        |> System.Collections.Generic.Dictionary
+                        expiry = s.currentPeriodEnd
+                        autoRenew = not s.cancelAtPeriodEnd
+                    }
+        |]
 
-    let mutable mockBilling : BillingRecord = {
-        company = Some {
-            name = ""
-            vatin = ""
+    // ----------------------
+    // Public API (Async)
+    // ----------------------
+
+    let ListSubscriptions () : Async<SubRecord array> =
+        async {
+            let! subs = Remote<IRemotingContract>.GetSubscriptions()
+            return subs |> Array.map toSubRecord
         }
-        address = {
-            line1 = ""
-            city = ""
-            postal_code = ""
-            country = ""
+
+    let GetSeats (subId: string) : Async<SeatRecord array> =
+        async {
+            let! subs = Remote<IRemotingContract>.GetSubscriptions()
+            let maybeSub =
+                subs
+                |> Array.tryFind (fun s -> string s.subscriptionId = subId)
+
+            match maybeSub with
+            | None ->
+                return [||]
+            | Some sub ->
+                return seatsFromSubscription sub
         }
-    }
 
-    // Mock API - replace with real endpoints later
-    let ListSubscriptions () : SubRecord array =
-        mockSubs
+    let GetInvoices (_subId: string) : Async<InvoiceRecord array> =
+        async {
+            let! invs = Remote<IRemotingContract>.GetInvoices()
 
-    let GetSeats (subId: string) : SeatRecord array =
-        match mockSeats.TryGetValue subId with
-        | true, rows -> rows |> Array.map id
-        | _ -> [||]
+            return
+                invs
+                |> Array.map (fun i ->
+                    {
+                        id = i.title          // using title as display id
+                        date = i.date
+                        amount = i.amount
+                        currency = i.currency
+                        status = i.status
+                        subscription = None
+                        billingAddress = None
+                        company = None
+                    }
+                )
+        }
 
-    let GetInvoices (subId: string) : InvoiceRecord array =
-        match mockInvoices.TryGetValue subId with
-        | true, rows -> rows |> Array.map id
-        | _ -> [||]
+    let AssignSeat (subId: string) (_seatNo: int) (username: string) : Async<unit> =
+        async {
+            if String.IsNullOrWhiteSpace username then
+                return ()
+            else
+                do! Remote<IRemotingContract>.AddAssignment {
+                        subscriptionId = Guid.Parse subId
+                        githubAssignedName = username
+                    }
+        }
 
-    let AssignSeat (subId: string) (seatNo: int) (username: string) : unit =
-        match mockSeats.TryGetValue subId with
-        | true, rows ->
-            let updated =
-                rows
-                |> Array.map (fun row ->
-                    if row.seatNo = seatNo then
-                        {
-                            row with
-                                username = username
-                                status =
-                                    if System.String.IsNullOrWhiteSpace username then
-                                        "available"
-                                    else
-                                        "assigned"
+    let UnassignSeat (subId: string) (seatNo: int) : Async<unit> =
+        async {
+            let! subs = Remote<IRemotingContract>.GetSubscriptions()
+            let maybeSub =
+                subs
+                |> Array.tryFind (fun s -> string s.subscriptionId = subId)
+
+            match maybeSub with
+            | None ->
+                return ()
+            | Some sub ->
+                let idx = seatNo - 1
+                if idx >= 0 && idx < sub.githubAssignedNames.Length then
+                    let username = sub.githubAssignedNames.[idx]
+
+                    do! Remote<IRemotingContract>.RevokeAssignment {
+                            subscriptionId = sub.subscriptionId
+                            githubAssignedName = username
                         }
-                    else
-                        row
-                )
-            mockSeats.[subId] <- updated
-        | _ -> ()
+                else
+                    return ()
+        }
 
+    let SetAutoRenew (subId: string) (_expiry: string) (autoRenew: bool) : Async<unit> =
+        async {
+            do! Remote<IRemotingContract>.SetCancellationStatus {
+                    subscriptionId = Guid.Parse subId
+                    cancelAtPeriodEnd = not autoRenew
+                }
+        }
 
-    let UnassignSeat (subId: string) (seatNo: int) : unit =
-        match mockSeats.TryGetValue subId with
-        | true, rows ->
-            let updated =
-                rows
-                |> Array.map (fun row ->
-                    if row.seatNo = seatNo then
-                        { row with username = ""; status = "available" }
-                    else
-                        row
-                )
-            mockSeats.[subId] <- updated
-        | _ -> ()
+    // ----------------------
+    // Billing (still local)
+    // ----------------------
+    // DB schema you pasted has Invoices, Orders, etc.
+    // but nothing yet for billing address/company editor on the manage page,
+    // so we keep this in-memory for now.
 
+    let mutable private billingCache : BillingRecord option = None
 
-    let BulkAssign (subId: string) (usernames: string array) : unit =
-        match mockSeats.TryGetValue subId with
-        | true, rows ->
-            let queue = System.Collections.Generic.Queue(usernames)
-            let updated =
-                rows
-                |> Array.map (fun row ->
-                    if queue.Count > 0 && System.String.IsNullOrWhiteSpace row.username then
-                        let nextUsername = queue.Dequeue()
-                        {
-                            row with
-                                username = nextUsername
-                                status   = "assigned"
+    let GetBilling () : Async<BillingRecord> =
+        async {
+            match billingCache with
+            | Some b -> return b
+            | None ->
+                let value =
+                    {
+                        company = None
+                        address = {
+                            line1 = ""
+                            city = ""
+                            postal_code = ""
+                            country = ""
                         }
-                    else
-                        row
-                )
-            mockSeats.[subId] <- updated
-        | _ -> ()
+                    }
+                billingCache <- Some value
+                return value
+        }
 
-
-    let SetAutoRenew (subId: string) (expiry: string) (autoRenew: bool) : unit =
-        match mockSeats.TryGetValue subId with
-        | true, rows ->
-            let updated =
-                rows
-                |> Array.map (fun row ->
-                    if row.expiry = expiry then
-                        { row with autoRenew = autoRenew }
-                    else
-                        row
-                )
-            mockSeats.[subId] <- updated
-        | _ -> ()
-
-
-    let GetBilling () : BillingRecord = mockBilling
-
-    let SaveBilling (data: BillingRecord) : unit =
-        mockBilling <- data
+    let SaveBilling (data: BillingRecord) : Async<unit> =
+        async {
+            billingCache <- Some data
+        }

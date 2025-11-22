@@ -18,8 +18,17 @@ module ViewsSeats =
     let seatsModel =
         ListModel.Create (fun (s: SeatRecord) -> s.seatNo) SeatsVar.Value
 
-    let RefreshSeats (newSeats: SeatRecord[]) =
-        seatsModel.Set newSeats
+    // Load seats for the current subscription from the server
+    let private refreshSeatsAsync () =
+        async {
+            let subId = CurrentSubIdVar.Value
+            let! newSeats = Api.GetSeats subId
+            SeatsVar.Value <- newSeats
+            seatsModel.Set newSeats
+        }
+
+    let RefreshSeats () =
+        refreshSeatsAsync () |> Async.StartImmediate
 
     // -----------------------------
     // Small helpers
@@ -47,36 +56,43 @@ module ViewsSeats =
         else
             Attr.Empty
 
-    let private refreshAfterChange () =
-        SeatsVar.Value <- GetSeats CurrentSubIdVar.Value
-        RefreshSeats SeatsVar.Value
-        showToast "Updated"
-
     let private assignSeat (seatNo: int) (username: string) =
         if not (System.String.IsNullOrWhiteSpace username) then
-            setLoading true
-            try
-                AssignSeat CurrentSubIdVar.Value seatNo username
-                refreshAfterChange ()
-            finally
-                setLoading false
+            async {
+                setLoading true
+                try
+                    do! Api.AssignSeat CurrentSubIdVar.Value seatNo username
+                    do! refreshSeatsAsync ()
+                    showToast "Updated"
+                finally
+                    setLoading false
+            }
+            |> Async.StartImmediate
 
     let private unassignSeat (seatNo: int) =
-        setLoading true
-        try
-            UnassignSeat CurrentSubIdVar.Value seatNo
-            refreshAfterChange ()
-        finally
-            setLoading false
+        async {
+            setLoading true
+            try
+                do! Api.UnassignSeat CurrentSubIdVar.Value seatNo
+                do! refreshSeatsAsync ()
+                showToast "Updated"
+            finally
+                setLoading false
+        }
+        |> Async.StartImmediate
 
     let private toggleAutoRenew (expiry: string) (currentValue: bool) =
         let newValue = not currentValue
-        setLoading true
-        try
-            SetAutoRenew CurrentSubIdVar.Value expiry newValue
-            refreshAfterChange ()
-        finally
-            setLoading false
+        async {
+            setLoading true
+            try
+                do! Api.SetAutoRenew CurrentSubIdVar.Value expiry newValue
+                do! refreshSeatsAsync ()
+                showToast "Updated"
+            finally
+                setLoading false
+        }
+        |> Async.StartImmediate
 
     // -----------------------------
     // Template docs
@@ -102,8 +118,8 @@ module ViewsSeats =
 
     let private groupHeaderDoc (expiry: string) (autoRenew: bool) : Doc =
         let baseBtn =
-            "relative inline-flex h-5 w-9 items-center rounded-full border " +
-            "text-xs transition-colors "
+            "relative inline-flex h-5 w-9 items-center rounded-full border "
+            + "text-xs transition-colors "
 
         let btnClasses =
             if autoRenew then

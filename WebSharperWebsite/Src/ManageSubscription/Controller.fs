@@ -4,49 +4,55 @@ open WebSharper
 open WebSharper.JavaScript
 
 open State
+open Api
+open Views
 open ViewsBilling
+open ViewsInvoices
 open WebSharperWebsite
 
 [<JavaScript>]
 module Controller =
-    open Utils
 
-    // Refresh seats + invoices for the current subscription
+    // Refresh seats + invoices for the current subscription (async)
     let HandleRefresh () =
-        Views.setLoading true
-        try
-            let currentSubId = CurrentSubIdVar.Value
-            if not (System.String.IsNullOrEmpty currentSubId) then
-                let seats = Api.GetSeats currentSubId
-                SeatsVar.Value <- seats
-                ViewsSeats.RefreshSeats seats
+        async {
+            Views.setLoading true
+            try
+                let currentSubId = CurrentSubIdVar.Value
+                if not (System.String.IsNullOrEmpty currentSubId) then
+                    ViewsSeats.RefreshSeats()
 
-                let invoices = Api.GetInvoices currentSubId
-                InvoicesVar.Value <- invoices
-                ViewsInvoices.RefreshInvoices invoices
+                    let! invoices = Api.GetInvoices currentSubId
+                    InvoicesVar.Value <- invoices
+                    ViewsInvoices.RefreshInvoices invoices
 
-                Views.showToast "Refreshed"
-        finally
-            Views.setLoading false
+                    Views.showToast "Refreshed"
+            finally
+                Views.setLoading false
+        }
+        |> Async.StartImmediate
 
     // Enter billing edit mode, pre-filling form from state.billing
     let HandleBillingEdit () =
         ViewsBilling.SetBillingRecord BillingVar.Value
         ViewsBilling.SetBillingMode BillingMode.Editing
 
-    // Save billing using BillingRecordVar
+    // Save billing using BillingRecordVar (async)
     let HandleBillingSave () =
         let data = ViewsBilling.CurrentBillingFromForm ()
 
-        Views.setLoading true
-        try
-            Api.SaveBilling data
-            BillingVar.Value <- Some data
+        async {
+            Views.setLoading true
+            try
+                do! Api.SaveBilling data
+                BillingVar.Value <- Some data
 
-            ViewsBilling.SetBillingMode BillingMode.Viewing
-            Views.showToast "Billing saved"
-        finally
-            Views.setLoading false
+                ViewsBilling.SetBillingMode BillingMode.Viewing
+                Views.showToast "Billing saved"
+            finally
+                Views.setLoading false
+        }
+        |> Async.StartImmediate
 
     // Cancel billing edit and revert form to last saved state
     let HandleBillingCancel () =

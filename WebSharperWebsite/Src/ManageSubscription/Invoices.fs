@@ -13,10 +13,6 @@ open Api
 [<JavaScript>]
 module Invoice =
 
-    // -------------------------
-    // State
-    // -------------------------
-
     let private invoiceVar : Var<InvoiceRecord option> = Var.Create None
 
     // -------------------------
@@ -35,33 +31,38 @@ module Invoice =
         let id = search.Get("id")
         if isNull id || id = "" then None else Some id
 
+    // Look up one invoice by id across all subscriptions via async API
     let private loadInvoiceFromApi () : Async<InvoiceRecord option> =
         async {
             match getInvoiceIdFromQuery () with
             | None ->
                 return None
             | Some id ->
-                let subs = ListSubscriptions()
+                // load subs first
+                let! subs = ListSubscriptions()
 
-                // search all invoices across all subs
-                let mutable found : InvoiceRecord option = None
-                let mutable i = 0
+                // recursively walk subs, calling GetInvoices async
+                let rec loop i =
+                    async {
+                        if i >= subs.Length then
+                            return None
+                        else
+                            let subId = subs.[i].id
+                            let! invoices = GetInvoices subId
 
-                while i < subs.Length && found.IsNone do
-                    let subId = subs.[i].id
-                    let invoices = GetInvoices subId
-                    invoices
-                    |> Array.tryFind (fun inv -> inv.id = id)
-                    |> Option.iter (fun inv ->
-                        // enrich with subscription id if missing
-                        let inv' =
-                            match inv.subscription with
-                            | Some _ -> inv
-                            | None   -> { inv with subscription = Some subId }
-                        found <- Some inv')
-                    i <- i + 1
+                            match invoices |> Array.tryFind (fun inv -> inv.id = id) with
+                            | Some inv ->
+                                // enrich with subscription id if missing
+                                let inv' =
+                                    match inv.subscription with
+                                    | Some _ -> inv
+                                    | None   -> { inv with subscription = Some subId }
+                                return Some inv'
+                            | None ->
+                                return! loop (i + 1)
+                    }
 
-                return found
+                return! loop 0
         }
 
     let InvId : Doc =
