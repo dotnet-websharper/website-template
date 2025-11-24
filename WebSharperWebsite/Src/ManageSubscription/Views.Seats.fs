@@ -9,23 +9,16 @@ open Types
 open State
 open Api
 open Views
-
 open WebSharperWebsite
 
 [<JavaScript>]
 module ViewsSeats =
 
-    let seatsModel =
-        ListModel.Create
-            (fun (s: SeatRecord) -> s.subscriptionId + ":" + string s.seatNo)
-            SeatsVar.Value
-
-    // Load seats 
+    // Load seats for all subscriptions of the current user
     let private refreshSeatsAsync () =
         async {
             let! newSeats = Api.GetAllSeats ()
             SeatsVar.Value <- newSeats
-            seatsModel.Set newSeats
         }
 
     let RefreshSeats () =
@@ -82,14 +75,27 @@ module ViewsSeats =
         }
         |> Async.StartImmediate
 
+    let private toggleAutoRenew (subId: string) (expiry: string) (currentAutoRenew: bool) =
 
-    let private toggleAutoRenew (subId: string) (expiry: string) (currentValue: bool) =
-        let newValue = not currentValue
         async {
             setLoading true
             try
-                do! Api.SetAutoRenew subId expiry newValue
-                do! refreshSeatsAsync ()
+                let newAuto = not currentAutoRenew
+
+                let updatedSeats =
+                    SeatsVar.Value
+                    |> Array.map (fun s ->
+                        if s.subscriptionId = subId && s.expiry = expiry then
+                            { s with autoRenew = newAuto }
+                        else
+                            s
+                    )
+
+                SeatsVar.Value <- updatedSeats
+
+                let newCancelAtPeriodEnd = currentAutoRenew
+                do! Api.SetAutoRenew subId newCancelAtPeriodEnd
+
                 showToast "Updated"
             finally
                 setLoading false
@@ -148,10 +154,10 @@ module ViewsSeats =
             .Doc()
 
     let private seatGroupsDoc : Doc =
-        seatsModel.View
+        SeatsVar.View
         |> View.Map (fun seats ->
             seats
-            |> Seq.sortBy (fun s -> s.expiry, s.seatNo)
+            |> Seq.sortBy (fun s -> s.expiry, s.subscriptionId, s.seatNo)
             |> Seq.groupBy (fun s -> s.subscriptionId)
             |> Seq.collect (fun (subId, groupSeatsSeq) ->
                 let groupSeats = groupSeatsSeq |> Seq.toArray
@@ -166,7 +172,6 @@ module ViewsSeats =
                     })
             |> Doc.Concat)
         |> Doc.EmbedView
-
 
     let SeatsBody : Doc =
         seatGroupsDoc

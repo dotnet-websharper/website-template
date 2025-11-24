@@ -138,11 +138,11 @@ module Api =
                     return ()
         }
 
-    let SetAutoRenew (subId: string) (_expiry: string) (autoRenew: bool) : Async<unit> =
+    let SetAutoRenew (subId: string) (cancelAtPeriodEnd: bool) : Async<unit> =
         async {
             do! Remote<IRemotingContract>.SetCancellationStatus {
                     subscriptionId = Guid.Parse subId
-                    cancelAtPeriodEnd = not autoRenew
+                    cancelAtPeriodEnd = cancelAtPeriodEnd
                 }
         }
 
