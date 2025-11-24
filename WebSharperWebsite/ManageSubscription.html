@@ -82,9 +82,9 @@
                                 <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300">
                                     <tr>
                                         <th class="px-4 py-3 text-left">Seat</th>
-                                        <th class="px-4 py-3 text-left">GitHub username</th>
+                                        <th class="px-4 py-3 text-center">GitHub username</th>
                                         <th class="px-4 py-3 text-center">Status</th>
-                                        <th class="px-4 py-3 text-left">Expiry</th>
+                                        <th class="px-4 py-3 text-center">Expiry</th>
                                         <th class="px-4 py-3 text-right">Actions</th>
                                     </tr>
                                 </thead>
@@ -127,17 +127,19 @@
                                             <span ws-hole="StatusBadge"></span>
                                         </td>
 
-                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 text-center">
                                             ${Expiry}
                                         </td>
 
                                         <td class="px-4 py-3 text-right whitespace-nowrap">
                                             <button class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20 mr-2"
-                                                    ws-onclick="AssignSeat">
+                                                    ws-onclick="AssignSeat"
+                                                    ws-attr="AssignButtonAttr">
                                                 Assign
                                             </button>
                                             <button class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20"
-                                                    ws-onclick="UnassignSeat">
+                                                    ws-onclick="UnassignSeat"
+                                                    ws-attr="UnassignButtonAttr">
                                                 Unassign
                                             </button>
                                         </td>

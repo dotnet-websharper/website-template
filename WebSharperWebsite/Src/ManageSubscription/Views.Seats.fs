@@ -50,6 +50,19 @@ module ViewsSeats =
         else
             Attr.Empty
 
+    // Show Assign only when seat is available, Unassign only when seat is assigned
+    let private assignButtonAttr (seat: SeatRecord) : Attr =
+        if seat.status = "assigned" then
+            attr.style "display: none"
+        else
+            Attr.Empty
+
+    let private unassignButtonAttr (seat: SeatRecord) : Attr =
+        if seat.status = "assigned" then
+            Attr.Empty
+        else
+            attr.style "display: none"
+
     let private assignSeat (subId: string) (seatNo: int) (username: string) =
         if not (System.String.IsNullOrWhiteSpace username) then
             async {
@@ -75,8 +88,8 @@ module ViewsSeats =
         }
         |> Async.StartImmediate
 
+    // Optimistic toggle of auto-renew, then sync with backend
     let private toggleAutoRenew (subId: string) (expiry: string) (currentAutoRenew: bool) =
-
         async {
             setLoading true
             try
@@ -115,6 +128,8 @@ module ViewsSeats =
             .UsernameAttr(usernameAttr seat)
             .StatusBadge(seatBadge seat.status)
             .Expiry(seat.expiry)
+            .AssignButtonAttr(assignButtonAttr seat)
+            .UnassignButtonAttr(unassignButtonAttr seat)
             .AssignSeat(fun t ->
                 let username = t.Vars.Username.Value.Trim()
                 assignSeat seat.subscriptionId seat.seatNo username
