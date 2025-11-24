@@ -21,39 +21,27 @@ module State =
 
 
     let UserVar : Var<User option> =
-        StateVar.Lens
-            (fun s -> s.user)
-            (fun s v -> { s with user = v })
+        StateVar.LensAuto (fun s -> s.user)
         
 
     let SubsVar : Var<SubRecord array> =
-        StateVar.Lens
-            (fun s -> s.subs)
-            (fun s v -> { s with subs = v })
+        StateVar.LensAuto (fun s -> s.subs)
         
 
     let CurrentSubIdVar : Var<string> =
-        StateVar.Lens
-            (fun s -> s.currentSubId)
-            (fun s v -> { s with currentSubId = v })
+        StateVar.LensAuto (fun s -> s.currentSubId)
         
 
     let SeatsVar : Var<SeatRecord array> =
-        StateVar.Lens
-            (fun s -> s.seats)
-            (fun s v -> { s with seats = v })
+        StateVar.LensAuto (fun s -> s.seats)
         
 
     let InvoicesVar : Var<InvoiceRecord array> =
-        StateVar.Lens
-            (fun s -> s.invoices)
-            (fun s v -> { s with invoices = v })
+        StateVar.LensAuto (fun s -> s.invoices)
         
 
     let BillingVar : Var<BillingRecord option> =
-        StateVar.Lens
-            (fun s -> s.billing)
-            (fun s v -> { s with billing = v })
+        StateVar.LensAuto (fun s -> s.billing)
         
 
     let formatMoney (amount: int) (currency: string) =

@@ -21,21 +21,16 @@ module Page =
 
     let private loadSubscriptionsAsync () =
         async {
-            let! subs = Api.ListSubscriptions ()
-            SubsVar.Value <- subs
+            ViewsSeats.RefreshSeats ()
         }
 
     let private loadSeatsAsync () =
         async {
             let current = CurrentSubIdVar.Value
             if System.String.IsNullOrEmpty current then
-                // No subscription, clear local state
                 SeatsVar.Value <- [||]
-                // seatsModel in ViewsSeats was created from initial SeatsVar (likely empty),
-                // so we don't need to touch it here
                 return ()
             else
-                // Delegate actual fetching + model update to ViewsSeats
                 ViewsSeats.RefreshSeats ()
         }
 

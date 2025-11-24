@@ -191,15 +191,15 @@ module State =
                 | _ -> "pro"
             billingAddress =
                 {
-                    line1       = form.street.Trim()
-                    city        = form.city.Trim()
+                    line1 = form.street.Trim()
+                    city = form.city.Trim()
                     postal_code = form.postal.Trim()
-                    country     = form.country |> toIso2
+                    country = form.country |> toIso2
                 }
             company =
                 if form.isCompany then
                     Some {
-                        name  = form.companyName.Trim()
+                        name = form.companyName.Trim()
                         vatin = form.vatin.Trim()
                     }
                 else None

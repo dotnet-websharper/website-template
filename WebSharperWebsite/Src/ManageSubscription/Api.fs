@@ -28,33 +28,28 @@ module Api =
                     "active"
         }
 
-    let private seatsFromSubscription (s: Subscription) : SeatRecord array =
-        let assigned = s.githubAssignedNames
-        let total = max s.seats assigned.Length
+    let private seatsFromSubscription (subscription: Subscription) : SeatRecord array =
+        let assigned = subscription.githubAssignedNames
+        let total = max subscription.seats assigned.Length
 
         [|
             for i = 0 to total - 1 do
                 let seatNo = i + 1
-                if i < assigned.Length then
-                    let username = assigned.[i]
-                    yield {
-                        seatNo = seatNo
-                        username = username
-                        status = "assigned"
-                        // No per-seat expiry in DB, reuse subscription period end
-                        expiry = s.currentPeriodEnd
-                        // If subscription is set to cancel at period end,
-                        // then "auto renew" is effectively off
-                        autoRenew = not s.cancelAtPeriodEnd
-                    }
-                else
-                    yield {
+                let common =
+                    {
                         seatNo = seatNo
                         username = ""
-                        status = "available"
-                        expiry = s.currentPeriodEnd
-                        autoRenew = not s.cancelAtPeriodEnd
+                        status = ""
+                        expiry = subscription.currentPeriodEnd
+                        autoRenew = not subscription.cancelAtPeriodEnd
+                        subscriptionId = string subscription.subscriptionId
                     }
+
+                if i < assigned.Length then
+                    let username = assigned.[i]
+                    yield { common with username = username; status = "assigned" }
+                else
+                    yield { common with status = "available" }
         |]
 
     // ----------------------
@@ -65,6 +60,14 @@ module Api =
         async {
             let! subs = Remote<IRemotingContract>.GetSubscriptions()
             return subs |> Array.map toSubRecord
+        }
+
+    let GetAllSeats () : Async<SeatRecord array> =
+        async {
+            let! subs = Remote<IRemotingContract>.GetSubscriptions()
+            return
+                subs
+                |> Array.collect seatsFromSubscription
         }
 
     let GetSeats (subId: string) : Async<SeatRecord array> =

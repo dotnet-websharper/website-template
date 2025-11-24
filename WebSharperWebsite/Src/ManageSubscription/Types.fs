@@ -24,6 +24,7 @@ module Types =
         status: string
         expiry: string
         autoRenew: bool
+        subscriptionId: string
     }
 
     type InvoiceRecord = {

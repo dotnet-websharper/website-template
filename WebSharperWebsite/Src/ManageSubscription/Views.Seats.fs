@@ -16,13 +16,14 @@ open WebSharperWebsite
 module ViewsSeats =
 
     let seatsModel =
-        ListModel.Create (fun (s: SeatRecord) -> s.seatNo) SeatsVar.Value
+        ListModel.Create
+            (fun (s: SeatRecord) -> s.subscriptionId + ":" + string s.seatNo)
+            SeatsVar.Value
 
-    // Load seats for the current subscription from the server
+    // Load seats 
     let private refreshSeatsAsync () =
         async {
-            let subId = CurrentSubIdVar.Value
-            let! newSeats = Api.GetSeats subId
+            let! newSeats = Api.GetAllSeats ()
             SeatsVar.Value <- newSeats
             seatsModel.Set newSeats
         }
@@ -56,12 +57,12 @@ module ViewsSeats =
         else
             Attr.Empty
 
-    let private assignSeat (seatNo: int) (username: string) =
+    let private assignSeat (subId: string) (seatNo: int) (username: string) =
         if not (System.String.IsNullOrWhiteSpace username) then
             async {
                 setLoading true
                 try
-                    do! Api.AssignSeat CurrentSubIdVar.Value seatNo username
+                    do! Api.AssignSeat subId seatNo username
                     do! refreshSeatsAsync ()
                     showToast "Updated"
                 finally
@@ -69,11 +70,11 @@ module ViewsSeats =
             }
             |> Async.StartImmediate
 
-    let private unassignSeat (seatNo: int) =
+    let private unassignSeat (subId: string) (seatNo: int) =
         async {
             setLoading true
             try
-                do! Api.UnassignSeat CurrentSubIdVar.Value seatNo
+                do! Api.UnassignSeat subId seatNo
                 do! refreshSeatsAsync ()
                 showToast "Updated"
             finally
@@ -81,12 +82,13 @@ module ViewsSeats =
         }
         |> Async.StartImmediate
 
-    let private toggleAutoRenew (expiry: string) (currentValue: bool) =
+
+    let private toggleAutoRenew (subId: string) (expiry: string) (currentValue: bool) =
         let newValue = not currentValue
         async {
             setLoading true
             try
-                do! Api.SetAutoRenew CurrentSubIdVar.Value expiry newValue
+                do! Api.SetAutoRenew subId expiry newValue
                 do! refreshSeatsAsync ()
                 showToast "Updated"
             finally
@@ -109,14 +111,14 @@ module ViewsSeats =
             .Expiry(seat.expiry)
             .AssignSeat(fun t ->
                 let username = t.Vars.Username.Value.Trim()
-                assignSeat seat.seatNo username
+                assignSeat seat.subscriptionId seat.seatNo username
             )
             .UnassignSeat(fun _ ->
-                unassignSeat seat.seatNo
+                unassignSeat seat.subscriptionId seat.seatNo
             )
             .Doc()
 
-    let private groupHeaderDoc (expiry: string) (autoRenew: bool) : Doc =
+    let private groupHeaderDoc (subId: string) (expiry: string) (autoRenew: bool) : Doc =
         let baseBtn =
             "relative inline-flex h-5 w-9 items-center rounded-full border "
             + "text-xs transition-colors "
@@ -142,7 +144,7 @@ module ViewsSeats =
             .Expiry(expiry)
             .ToggleClasses(btnClasses)
             .DotClasses(dotClasses)
-            .ToggleAutoRenew(fun _ -> toggleAutoRenew expiry autoRenew)
+            .ToggleAutoRenew(fun _ -> toggleAutoRenew subId expiry autoRenew)
             .Doc()
 
     let private seatGroupsDoc : Doc =
@@ -150,19 +152,21 @@ module ViewsSeats =
         |> View.Map (fun seats ->
             seats
             |> Seq.sortBy (fun s -> s.expiry, s.seatNo)
-            |> Seq.groupBy (fun s -> s.expiry)
-            |> Seq.collect (fun (expiry, groupSeatsSeq) ->
+            |> Seq.groupBy (fun s -> s.subscriptionId)
+            |> Seq.collect (fun (subId, groupSeatsSeq) ->
                 let groupSeats = groupSeatsSeq |> Seq.toArray
                 if groupSeats.Length = 0 then
                     Seq.empty
                 else
+                    let expiry = groupSeats.[0].expiry
                     let autoRenew = groupSeats.[0].autoRenew
                     seq {
-                        yield groupHeaderDoc expiry autoRenew
+                        yield groupHeaderDoc subId expiry autoRenew
                         yield! groupSeats |> Seq.map seatRowDoc
                     })
             |> Doc.Concat)
         |> Doc.EmbedView
+
 
     let SeatsBody : Doc =
         seatGroupsDoc
