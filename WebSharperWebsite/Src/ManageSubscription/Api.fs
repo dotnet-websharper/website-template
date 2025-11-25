@@ -3,8 +3,7 @@
 open System
 open WebSharper
 open WebSharper.JavaScript
-open WebSharperWebsite
-
+open WebSharperWebApi
 open Types
 
 [<JavaScript>]

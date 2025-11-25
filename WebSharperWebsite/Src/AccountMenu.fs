@@ -5,6 +5,7 @@ open WebSharper.JavaScript.Dom
 open WebSharper.UI
 open WebSharper.UI.Client
 open WebSharper.UI.Templating.Runtime.Server
+open WebSharperWebApi
 
 [<JavaScript>]
 module AccountMenu =
@@ -27,7 +28,6 @@ module AccountMenu =
         userV
         |> View.Map (function
             | Some user when not (System.String.IsNullOrWhiteSpace user.login) -> user.login
-            | Some user when not (System.String.IsNullOrWhiteSpace user.name)  -> user.name
             | Some _ | None -> "Account")
 
     let private showAsFlex (showV: View<bool>) =

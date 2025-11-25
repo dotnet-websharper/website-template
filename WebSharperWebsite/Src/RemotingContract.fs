@@ -1,4 +1,4 @@
-﻿namespace WebSharperWebsite
+﻿namespace WebSharperWebApi
 
 open System
 open WebSharper
@@ -6,8 +6,17 @@ open WebSharper
 type User =
     {
         login : string
-        name : string
         avatarUrl : string
+    }
+
+type BillingData =
+    {
+        line1 : string      
+        city : string       
+        postalCode : string 
+        country : string    
+        companyName : string option
+        taxId : string option      
     }
 
 type Subscription =
@@ -48,6 +57,12 @@ type IRemotingContract =
 
     [<Remote>]
     abstract member Logout: unit -> Async<unit>
+
+    [<Remote>]
+    abstract member GetBillingData: unit -> Async<option<BillingData>>
+
+    [<Remote>]
+    abstract member SetBillingData: BillingData -> Async<unit>
 
     [<Remote>]
     abstract member GetSubscriptions: unit -> Async<Subscription[]>

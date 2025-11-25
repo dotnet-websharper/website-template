@@ -7,7 +7,7 @@ open WebSharperWebsite.Checkout
 module Types =
 
     module CT = WebSharperWebsite.Checkout.Types
-    type User = WebSharperWebsite.User
+    type User = WebSharperWebApi.User
 
     type SubRecord = {
         id: string

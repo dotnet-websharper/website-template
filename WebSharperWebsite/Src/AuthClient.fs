@@ -3,12 +3,13 @@
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
+open WebSharperWebApi
 
 [<JavaScript>]
 module AuthClient = 
     [<Literal>]
     let API = "https://api.websharper.com"
-    //let API = "http://localhost:55482"
+    //let API = "https://localhost:8234"
 
     do Remoting.EndPoint <- API
 
