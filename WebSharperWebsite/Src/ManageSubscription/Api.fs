@@ -147,11 +147,8 @@ module Api =
         }
 
     // ----------------------
-    // Billing (still local)
+    // Billing 
     // ----------------------
-    // DB schema you pasted has Invoices, Orders, etc.
-    // but nothing yet for billing address/company editor on the manage page,
-    // so we keep this in-memory for now.
 
     let mutable private billingCache : BillingRecord option = None
 
@@ -177,4 +174,10 @@ module Api =
     let SaveBilling (data: BillingRecord) : Async<unit> =
         async {
             billingCache <- Some data
+        }
+
+    let GetCustomerPortalLink () : Async<option<string>> =
+        async {
+            let! linkOpt = Remote<IRemotingContract>.GetCustomerPortalLink()
+            return linkOpt
         }

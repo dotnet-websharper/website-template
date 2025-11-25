@@ -53,6 +53,9 @@ type IRemotingContract =
     abstract member GetSubscriptions: unit -> Async<Subscription[]>
 
     [<Remote>]
+    abstract member GetCustomerPortalLink: unit -> Async<option<string>>
+
+    [<Remote>]
     abstract member AddAssignment: Assignment -> Async<unit>
 
     [<Remote>]

@@ -42,7 +42,8 @@ module State =
 
     let BillingVar : Var<BillingRecord option> =
         StateVar.LensAuto (fun s -> s.billing)
-        
+
+    let CustomerPortalLinkVar : Var<option<string>> = Var.Create None        
 
     let formatMoney (amount: int) (currency: string) =
         let amountF = float amount / 100.0
@@ -50,7 +51,7 @@ module State =
         | "usd" -> sprintf "$%.2f" amountF
         | "eur" -> sprintf "€%.2f" amountF
         | "gbp" -> sprintf "£%.2f" amountF
-        | _     -> sprintf "%.2f %s" amountF currency
+        | _ -> sprintf "%.2f %s" amountF currency
 
     let parseUsernames (str: string) =
         str.Split([| ' '; '\t'; '\r'; '\n'; ',' |], System.StringSplitOptions.RemoveEmptyEntries)

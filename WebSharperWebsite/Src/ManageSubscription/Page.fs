@@ -19,6 +19,12 @@ module Page =
     // Data loading helpers (async)
     // -----------------------------
 
+    let private loadCustomerPortalAsync () =
+        async {
+            let! linkOpt = Api.GetCustomerPortalLink ()
+            CustomerPortalLinkVar.Value <- linkOpt
+        }
+
     let private loadSubscriptionsAsync () =
         async {
             ViewsSeats.RefreshSeats ()
@@ -82,6 +88,9 @@ module Page =
 
                 // Load billing info
                 do! loadBillingAsync ()
+
+                // Load customer portal link
+                do! loadCustomerPortalAsync ()
             finally
                 Views.setLoading false
         }
@@ -113,6 +122,10 @@ module Page =
                 .GoBilling(fun _ -> Views.ShowBillingPage())
                 .SubsTabAttr(Views.SubsTabAttr)
                 .BillingTabAttr(Views.BillingTabAttr)
+
+                // customer poratal link
+                .CustomerPortalAttr(Views.CustomerPortalAttr)
+                .OpenCustomerPortal(fun _ -> Views.OpenCustomerPortal())
 
                 // page switching (My subscriptions / Billing information)
                 .SubsPageAttr(Views.SubsPageAttr)

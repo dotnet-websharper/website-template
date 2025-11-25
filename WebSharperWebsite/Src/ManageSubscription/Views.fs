@@ -6,6 +6,8 @@ open WebSharper.JavaScript
 open WebSharper.UI
 open WebSharper.UI.Client
 
+open State
+
 [<JavaScript>]
 module Views =
 
@@ -104,3 +106,18 @@ module Views =
             (fun () -> ToastMessage.Value <- None)
             1600
         |> ignore
+
+    let CustomerPortalAttr : Attr =
+        CustomerPortalLinkVar.View
+        |> View.Map (function
+            | None -> "display: none"
+            | Some _ -> ""
+        )
+        |> Attr.Dynamic "style"
+
+    let OpenCustomerPortal () =
+        match CustomerPortalLinkVar.Value with
+        | Some url ->
+            JS.Window.Open(url, "_blank") |> ignore
+        | None ->
+            showToast "Customer portal is not available yet."

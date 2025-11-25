@@ -157,9 +157,9 @@ module State =
             | _ -> 1
 
         {
-            plan   = plan
+            plan = plan
             interval = interval
-            seats  = seats
+            seats = seats
         }
 
     let initFromQuery () =
@@ -168,8 +168,8 @@ module State =
         // Update only the relevant fields on the form
         CheckoutFormVar.Value <-
             { CheckoutFormVar.Value with
-                plan      = searchParams.plan
-                interval  = searchParams.interval
+                plan = searchParams.plan
+                interval = searchParams.interval
                 seatsText = string searchParams.seats
             }
 

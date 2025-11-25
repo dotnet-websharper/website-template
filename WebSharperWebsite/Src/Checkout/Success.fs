@@ -154,8 +154,6 @@ module Success =
                         else
                             "Payment recorded; awaiting confirmation."
                 | None ->
-                    // 400 case already set a friendly message,
-                    // non-400 case redirects to the error page
                     ()
         }
         |> Async.StartImmediate
