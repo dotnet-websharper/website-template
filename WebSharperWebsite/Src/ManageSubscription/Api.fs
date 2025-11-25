@@ -156,22 +156,49 @@ module Api =
             match billingCache with
             | Some b -> return b
             | None ->
+                let! dataOpt = Remote<IRemotingContract>.GetBillingData()
                 let value =
-                    {
-                        company = None
-                        address = {
-                            line1 = ""
-                            city = ""
-                            postal_code = ""
-                            country = ""
+                    match dataOpt with
+                    | None ->
+                        {
+                            company = None
+                            address = {
+                                line1 = ""
+                                city = ""
+                                postal_code = ""
+                                country = ""
+                            }
                         }
-                    }
+                    | Some data ->
+                        {
+                            company = 
+                                data.companyName |> Option.map (fun cn ->
+                                    {
+                                        name = cn
+                                        vatin = data.taxId |> Option.defaultValue ""
+                                    }   
+                                )
+                            address = {
+                                line1 = data.line1
+                                city = data.city
+                                postal_code = data.postalCode
+                                country = data.country
+                            }
+                        }
                 billingCache <- Some value
                 return value
         }
 
     let SaveBilling (data: BillingRecord) : Async<unit> =
         async {
+            do! Remote<IRemotingContract>.SetBillingData {
+                    line1 = data.address.line1
+                    city = data.address.city     
+                    postalCode = data.address.postal_code
+                    country = data.address.country 
+                    companyName = data.company |> Option.map (fun c -> c.name)
+                    taxId = data.company |> Option.map (fun c -> c.vatin)
+                }
             billingCache <- Some data
         }
 

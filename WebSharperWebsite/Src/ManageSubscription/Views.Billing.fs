@@ -168,11 +168,14 @@ module ViewsBilling =
         )
 
     let BtnBillingEditAttr : Attr =
+        // show when not editing and there is data
         Attr.DynamicClassPred "hidden" (
-            BillingModeVar.View
-            |> View.Map (function
-                | BillingMode.Viewing -> false
-                | BillingMode.Editing -> true)
+            (BillingModeVar.View, BillingRecordVar.View)
+            ||> View.Map2 (fun mode billing ->
+                match mode, billing with
+                | BillingMode.Viewing, br when br.address.line1 <> "" -> false
+                | _ -> true
+            )
         )
 
     let BtnBillingSaveAttr : Attr =
