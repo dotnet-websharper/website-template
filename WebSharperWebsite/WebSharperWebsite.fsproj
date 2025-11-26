@@ -35,6 +35,7 @@
     <Compile Include="Src\ManageSubscription\Views.Billing.fs" />
     <Compile Include="Src\ManageSubscription\Views.Seats.fs" />
     <Compile Include="Src\ManageSubscription\Views.Invoices.fs" />
+    <Compile Include="src\managesubscription\Views.GitHub.fs" />
     <Compile Include="Src\ManageSubscription\Controller.fs" />
     <Compile Include="Src\ManageSubscription\ViewsAuth.fs" />
     <Compile Include="Src\ManageSubscription\Invoices.fs" />

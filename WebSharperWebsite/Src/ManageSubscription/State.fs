@@ -45,6 +45,8 @@ module State =
 
     let CustomerPortalLinkVar : Var<option<string>> = Var.Create None        
 
+    let GitHubOrgVar : Var<option<WebSharperWebApi.GitHubOrg>> = Var.Create None
+
     let formatMoney (amount: int) (currency: string) =
         let amountF = float amount / 100.0
         match currency.ToLower() with

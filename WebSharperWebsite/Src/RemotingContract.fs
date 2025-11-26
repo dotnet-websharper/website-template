@@ -11,6 +11,7 @@ type User =
 
 type BillingData =
     {
+        email : string
         line1 : string      
         city : string       
         postalCode : string 
@@ -43,12 +44,33 @@ type CancellationStatus =
 
 type Invoice = 
     {
-        title: string
-        date: string
-        amount: int
-        currency: string
-        status: string
-        url: string
+        title : string
+        date : string
+        amount : int
+        currency : string
+        status : string
+        url : string
+    }
+
+type GitHubOrgStatus =
+    | [<Constant "pending">] GitHubOrgPending
+    | [<Constant "active">] GitHubOrgActive
+
+    static member Parse s =
+        match s with
+        | "pending" -> GitHubOrgPending
+        | "active" -> GitHubOrgActive
+        | _ -> failwith "unrecognized GitHubOrgStatus"
+
+    override this.ToString() = 
+        match this with
+        | GitHubOrgPending -> "pending"
+        | GitHubOrgActive -> "active"
+
+type GitHubOrg =
+    {
+        name : string option
+        status : GitHubOrgStatus
     }
 
 type IRemotingContract =
@@ -81,3 +103,9 @@ type IRemotingContract =
 
     [<Remote>]
     abstract member GetInvoices: unit -> Async<Invoice[]>
+
+    [<Remote>]
+    abstract member GetGitHubOrg: unit -> Async<option<GitHubOrg>>
+
+    [<Remote>]
+    abstract member SetGitHubOrgName: string -> Async<unit>

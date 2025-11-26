@@ -19,6 +19,12 @@ module Page =
     // Data loading helpers (async)
     // -----------------------------
 
+    let private loadGitHubOrg () =
+        async {
+            let! orgOpt = Api.GetGitHubOrganization ()
+            GitHubOrgVar.Value <- orgOpt
+        }
+
     let private loadCustomerPortalAsync () =
         async {
             let! linkOpt = Api.GetCustomerPortalLink ()
@@ -78,19 +84,29 @@ module Page =
         async {
             Views.setLoading true
             try
-                // Load subscriptions and choose current
-                do! loadSubscriptionsAsync ()
-                chooseCurrentSubscription ()
+                do!
+                    Async.Parallel [|
+                        async {
+                            // Load subscriptions and choose current
+                            do! loadSubscriptionsAsync ()
+                            chooseCurrentSubscription ()
+                        }
 
-                // Load seats and invoices for the current subscription
-                do! loadSeatsAsync ()
-                do! loadInvoicesAsync ()
+                        // Load seats and invoices for the current subscription
+                        loadSeatsAsync ()
+                        loadInvoicesAsync ()
 
-                // Load billing info
-                do! loadBillingAsync ()
+                        // Load billing info
+                        loadBillingAsync ()
 
-                // Load customer portal link
-                do! loadCustomerPortalAsync ()
+                        // Load customer portal link
+                        loadCustomerPortalAsync ()
+
+                        // load github org status
+                        loadGitHubOrg ()
+                    |]
+                    |> Async.Ignore
+
             finally
                 Views.setLoading false
         }
@@ -116,12 +132,15 @@ module Page =
         if IsClient then
             Templates.ManageSubscriptionTemplate()
                 .OnAfterRender(Init)
-                
+
                 // nav tabs
                 .GoSubs(fun _ -> Views.ShowSubsPage())
                 .GoBilling(fun _ -> Views.ShowBillingPage())
                 .SubsTabAttr(Views.SubsTabAttr)
                 .BillingTabAttr(Views.BillingTabAttr)
+
+                // github organization
+                .GitHubOrg(ViewsGitHub.GitHubBody)
 
                 // customer poratal link
                 .CustomerPortalAttr(Views.CustomerPortalAttr)

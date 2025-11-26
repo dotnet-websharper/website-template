@@ -54,6 +54,56 @@
                 <div data-page="subs"
                      ws-attr="SubsPageAttr"
                      class="space-y-6 hidden">
+
+                    <div ws-replace="GitHubOrg"></div>
+
+                    <div ws-template="GitHubPendingInput" class="space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">GitHub organization</h1>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">No GitHub support organization is created for you yet. Please choose a name below.</p>
+                        </div>
+
+                        <div>
+                            <span class="text-sm">IntelliFactory-</span>
+                            <input ws-var="GitHubOrgName"
+                                   class="w-64 rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm"
+                                   placeholder="github-orgname-suffix" />
+                        </div>
+
+                        <div>
+                            <span class="mt-1 text-sm text-red-600 dark:text-red-300 mr-2">
+                                You can't change the name after you submit.
+                            </span>
+                            <button ws-onclick="SetGitHubOrgName"
+                                    class="rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm
+    text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900
+    hover:bg-gray-50 dark:hover:bg-gray-800">
+                                Set GitHub organization name
+                            </button>
+                        </div>
+                    </div>
+
+                    <div ws-template="GitHubPending" class="space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">GitHub organization</h1>
+                        </div>
+
+                        <div class="text-sm">Pending: IntelliFactory-${GitHubOrgName}</div>
+                    </div>
+
+                    <div ws-template="GitHubActive" class="space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">GitHub organization</h1>
+                        </div>
+
+                        <button ws-onclick="GoToGitHubOrg"
+                                class="rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm
+    text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900
+    hover:bg-gray-50 dark:hover:bg-gray-800">
+                            Go to GitHub organization
+                        </button>
+                    </div>
+
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Seats &amp; Access</h1>

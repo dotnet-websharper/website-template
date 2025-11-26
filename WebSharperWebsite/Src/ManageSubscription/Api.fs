@@ -192,6 +192,7 @@ module Api =
     let SaveBilling (data: BillingRecord) : Async<unit> =
         async {
             do! Remote<IRemotingContract>.SetBillingData {
+                    email = "" // not updated
                     line1 = data.address.line1
                     city = data.address.city     
                     postalCode = data.address.postal_code
@@ -207,3 +208,6 @@ module Api =
             let! linkOpt = Remote<IRemotingContract>.GetCustomerPortalLink()
             return linkOpt
         }
+
+    let GetGitHubOrganization () : Async<option<GitHubOrg>> =
+        Remote<IRemotingContract>.GetGitHubOrg()
