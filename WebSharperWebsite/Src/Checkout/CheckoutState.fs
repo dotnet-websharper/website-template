@@ -6,6 +6,7 @@ open WebSharper.JavaScript
 open WebSharper.UI
 
 open WebSharperWebsite
+open WebSharperWebApi
 open Types
 open Support.Types
 open Support.State
@@ -172,6 +173,25 @@ module State =
                 interval = searchParams.interval
                 seatsText = string searchParams.seats
             }
+
+    let initFromApi () =
+        async {
+            let! dataOpt = Remote<IRemotingContract>.GetBillingData()
+            match dataOpt with
+            | None -> ()
+            | Some data ->
+                CheckoutFormVar.Value <-
+                    { CheckoutFormVar.Value with
+                        email = data.email
+                        street = data.line1
+                        city = data.city
+                        postal = data.postalCode
+                        country = data.country
+                        isCompany = Option.isSome data.companyName
+                        companyName = data.companyName |> Option.defaultValue ""
+                        vatin = data.taxId |> Option.defaultValue ""
+                    }
+        }
 
     // -----------------------------
     // Payload

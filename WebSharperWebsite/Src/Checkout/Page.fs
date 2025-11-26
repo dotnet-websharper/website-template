@@ -17,6 +17,7 @@ module Page =
         resetContinueButton ()
         computeBackLink ()
         initFromQuery ()
+        initFromApi () |> Async.StartImmediate
         ensurePlans () |> Async.StartImmediate
 
     let CheckoutDoc () : Doc =
