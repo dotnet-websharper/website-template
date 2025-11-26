@@ -3,6 +3,7 @@
 open System
 open WebSharper
 open WebSharper.JavaScript
+open WebSharperWebsite
 open WebSharperWebApi
 open Types
 
@@ -103,18 +104,21 @@ module Api =
                 )
         }
 
-    let AssignSeat (subId: string) (_seatNo: int) (username: string) : Async<unit> =
+    let AssignSeat (subId: string) (_seatNo: int) (username: string) : Async<bool> =
         async {
             if String.IsNullOrWhiteSpace username then
-                return ()
+                return false
             else
-                do! Remote<IRemotingContract>.AddAssignment {
+                let! res = 
+                    Remote<IRemotingContract>.AddAssignment {
                         subscriptionId = Guid.Parse subId
                         githubAssignedName = username
                     }
+                Utils.alertError res
+                return res.IsOk
         }
 
-    let UnassignSeat (subId: string) (seatNo: int) : Async<unit> =
+    let UnassignSeat (subId: string) (seatNo: int) : Async<bool> =
         async {
             let! subs = Remote<IRemotingContract>.GetSubscriptions()
             let maybeSub =
@@ -123,26 +127,32 @@ module Api =
 
             match maybeSub with
             | None ->
-                return ()
+                return false
             | Some sub ->
                 let idx = seatNo - 1
                 if idx >= 0 && idx < sub.githubAssignedNames.Length then
                     let username = sub.githubAssignedNames.[idx]
 
-                    do! Remote<IRemotingContract>.RevokeAssignment {
+                    let! res = 
+                        Remote<IRemotingContract>.RevokeAssignment {
                             subscriptionId = sub.subscriptionId
                             githubAssignedName = username
                         }
+                    Utils.alertError res
+                    return res.IsOk
                 else
-                    return ()
+                    return false
         }
 
-    let SetAutoRenew (subId: string) (cancelAtPeriodEnd: bool) : Async<unit> =
+    let SetAutoRenew (subId: string) (cancelAtPeriodEnd: bool) : Async<bool> =
         async {
-            do! Remote<IRemotingContract>.SetCancellationStatus {
+            let! res =
+                Remote<IRemotingContract>.SetCancellationStatus {
                     subscriptionId = Guid.Parse subId
                     cancelAtPeriodEnd = cancelAtPeriodEnd
                 }
+            Utils.alertError res
+            return res.IsOk
         }
 
     // ----------------------
@@ -189,9 +199,10 @@ module Api =
                 return value
         }
 
-    let SaveBilling (data: BillingRecord) : Async<unit> =
+    let SaveBilling (data: BillingRecord) : Async<bool> =
         async {
-            do! Remote<IRemotingContract>.SetBillingData {
+            let! res = 
+                Remote<IRemotingContract>.SetBillingData {
                     email = "" // not updated
                     line1 = data.address.line1
                     city = data.address.city     
@@ -200,7 +211,10 @@ module Api =
                     companyName = data.company |> Option.map (fun c -> c.name)
                     taxId = data.company |> Option.map (fun c -> c.vatin)
                 }
-            billingCache <- Some data
+            Utils.alertError res
+            if res.IsOk then
+                billingCache <- Some data
+            return res.IsOk
         }
 
     let GetCustomerPortalLink () : Async<option<string>> =
@@ -211,3 +225,10 @@ module Api =
 
     let GetGitHubOrganization () : Async<option<GitHubOrg>> =
         Remote<IRemotingContract>.GetGitHubOrg()
+
+    let SetGitHubOrgName name : Async<bool> =
+        async {
+            let! res = Remote<IRemotingContract>.SetGitHubOrgName name
+            Utils.alertError res
+            return res.IsOk
+        }

@@ -68,9 +68,10 @@ module ViewsSeats =
             async {
                 setLoading true
                 try
-                    do! Api.AssignSeat subId seatNo username
-                    do! refreshSeatsAsync ()
-                    showToast "Updated"
+                    let! ok = Api.AssignSeat subId seatNo username
+                    if ok then
+                        do! refreshSeatsAsync ()
+                        showToast "Updated"
                 finally
                     setLoading false
             }
@@ -80,9 +81,10 @@ module ViewsSeats =
         async {
             setLoading true
             try
-                do! Api.UnassignSeat subId seatNo
-                do! refreshSeatsAsync ()
-                showToast "Updated"
+                let! ok = Api.UnassignSeat subId seatNo
+                if ok then
+                    do! refreshSeatsAsync ()
+                    showToast "Updated"
             finally
                 setLoading false
         }
@@ -107,9 +109,10 @@ module ViewsSeats =
                 SeatsVar.Value <- updatedSeats
 
                 let newCancelAtPeriodEnd = currentAutoRenew
-                do! Api.SetAutoRenew subId newCancelAtPeriodEnd
+                let! ok = Api.SetAutoRenew subId newCancelAtPeriodEnd
 
-                showToast "Updated"
+                if ok then
+                    showToast "Updated"
             finally
                 setLoading false
         }

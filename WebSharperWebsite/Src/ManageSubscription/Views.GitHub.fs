@@ -29,12 +29,13 @@ module ViewsGitHub =
                             async {
                                 Views.setLoading true
                                 try
-                                    do! Remote<IRemotingContract>.SetGitHubOrgName GitHubOrgName.Value
-                                    GitHubOrgVar.Value <- 
-                                        Some { 
-                                            name = Some GitHubOrgName.Value 
-                                            status = GitHubOrgPending
-                                        }
+                                    let! ok = Api.SetGitHubOrgName GitHubOrgName.Value
+                                    if ok then
+                                        GitHubOrgVar.Value <- 
+                                            Some { 
+                                                name = Some GitHubOrgName.Value 
+                                                status = GitHubOrgPending
+                                            }
                                 finally
                                     Views.setLoading false
                             }

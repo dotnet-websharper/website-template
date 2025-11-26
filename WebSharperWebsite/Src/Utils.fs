@@ -37,3 +37,8 @@ module Utils =
 
     let usd (n: float) : string =
         "$" + n.ToString("N0", System.Globalization.CultureInfo("en-US"))
+
+    let alertError (res: Result<_, string>) =
+        match res with
+        | Ok _ -> ()
+        | Error msg -> JS.Alert msg

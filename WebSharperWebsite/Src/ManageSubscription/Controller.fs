@@ -44,11 +44,12 @@ module Controller =
         async {
             Views.setLoading true
             try
-                do! Api.SaveBilling data
-                BillingVar.Value <- Some data
+                let! ok = Api.SaveBilling data
+                if ok then
+                    BillingVar.Value <- Some data
 
-                ViewsBilling.SetBillingMode BillingMode.Viewing
-                Views.showToast "Billing saved"
+                    ViewsBilling.SetBillingMode BillingMode.Viewing
+                    Views.showToast "Billing saved"
             finally
                 Views.setLoading false
         }

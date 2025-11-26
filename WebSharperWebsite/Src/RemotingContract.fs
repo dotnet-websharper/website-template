@@ -73,6 +73,8 @@ type GitHubOrg =
         status : GitHubOrgStatus
     }
 
+type ActionResult = Result<unit, string>
+
 type IRemotingContract =
     [<Remote>]
     abstract member Me: unit -> Async<User option>
@@ -84,7 +86,7 @@ type IRemotingContract =
     abstract member GetBillingData: unit -> Async<option<BillingData>>
 
     [<Remote>]
-    abstract member SetBillingData: BillingData -> Async<unit>
+    abstract member SetBillingData: BillingData -> Async<ActionResult>
 
     [<Remote>]
     abstract member GetSubscriptions: unit -> Async<Subscription[]>
@@ -93,13 +95,13 @@ type IRemotingContract =
     abstract member GetCustomerPortalLink: unit -> Async<option<string>>
 
     [<Remote>]
-    abstract member AddAssignment: Assignment -> Async<unit>
+    abstract member AddAssignment: Assignment -> Async<ActionResult>
 
     [<Remote>]
-    abstract member RevokeAssignment: Assignment -> Async<unit>
+    abstract member RevokeAssignment: Assignment -> Async<ActionResult>
 
     [<Remote>]
-    abstract member SetCancellationStatus: CancellationStatus -> Async<unit>
+    abstract member SetCancellationStatus: CancellationStatus -> Async<ActionResult>
 
     [<Remote>]
     abstract member GetInvoices: unit -> Async<Invoice[]>
@@ -108,4 +110,4 @@ type IRemotingContract =
     abstract member GetGitHubOrg: unit -> Async<option<GitHubOrg>>
 
     [<Remote>]
-    abstract member SetGitHubOrgName: string -> Async<unit>
+    abstract member SetGitHubOrgName: string -> Async<ActionResult>
