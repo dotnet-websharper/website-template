@@ -67,7 +67,7 @@ module ViewsSeats =
     // Helper to verify GitHub user existence
     let private verifyGitHubUser (username: string) =
         async {
-            let! response =  JS.Fetch("https://api.github.com/users/" + username.ToLower()) |> Promise.AsAsync
+            let! response =  JS.Fetch("https://api.github.com/users/" + username) |> Promise.AsAsync
 
             if response.Ok then
                 return true
@@ -154,7 +154,7 @@ module ViewsSeats =
             .UnassignButtonAttr(unassignButtonAttr seat)
             .AssignSeat(fun t ->
                 let username = t.Vars.Username.Value.Trim()
-                assignSeat seat.subscriptionId seat.seatNo username
+                assignSeat seat.subscriptionId seat.seatNo (username.ToLower())
             )
             .UnassignSeat(fun _ ->
                 unassignSeat seat.subscriptionId seat.seatNo
