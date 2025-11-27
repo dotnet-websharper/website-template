@@ -47,8 +47,17 @@ module Utils =
         | Error msg -> 
             Swal.Fire(
                 SweetAlertOptions(
-                    Title = "Error",
+                    Title = "Error!",
                     Text = msg,
                     Icon = SweetAlertIcon.Error
                 )
             ) |> ignore
+
+    let alertWarning (msg: string) =
+        Swal.Fire(
+            SweetAlertOptions(
+                Title = "Warning!",
+                Text = msg,
+                Icon = SweetAlertIcon.Warning
+            )
+        ) |> ignore

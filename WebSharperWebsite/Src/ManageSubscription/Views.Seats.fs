@@ -1,6 +1,7 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
 open WebSharper
+open WebSharper.JavaScript
 open WebSharper.UI
 open WebSharper.UI.Html
 open WebSharper.UI.Client
@@ -63,15 +64,33 @@ module ViewsSeats =
         else
             attr.style "display: none"
 
+    // Helper to verify GitHub user existence
+    let private verifyGitHubUser (username: string) =
+        async {
+            let! response =  JS.Fetch("https://api.github.com/users/" + username.ToLower()) |> Promise.AsAsync
+
+            if response.Ok then
+                return true
+            else
+                return false
+        }
+
     let private assignSeat (subId: string) (seatNo: int) (username: string) =
         if not (System.String.IsNullOrWhiteSpace username) then
             async {
                 setLoading true
                 try
-                    let! ok = Api.AssignSeat subId seatNo username
-                    if ok then
-                        do! refreshSeatsAsync ()
-                        showToast "Updated"
+                    // Check if user exists on GitHub
+                    let! exists = verifyGitHubUser username
+                    
+                    if exists then
+                        let! ok = Api.AssignSeat subId seatNo username
+                        if ok then
+                            do! refreshSeatsAsync ()
+                            showToast "Updated"
+                    else
+                        // Show warning if user not found
+                        Utils.alertWarning $"GitHub user '{username}' not found"
                 finally
                     setLoading false
             }
