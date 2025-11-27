@@ -15,6 +15,7 @@ open WebSharperWebApi
 module ViewsGitHub =
 
     let GitHubOrgName = Var.Create ""
+    let OrgPrefix = "IntelliFactory-"
 
     let GitHubBody =
         GitHubOrgVar.View.Doc(fun orgOpt ->
@@ -29,11 +30,14 @@ module ViewsGitHub =
                             async {
                                 Views.setLoading true
                                 try
-                                    let! ok = Api.SetGitHubOrgName GitHubOrgName.Value
+                                    let fullOrgName = OrgPrefix + GitHubOrgName.Value
+                                    
+                                    let! ok = Api.SetGitHubOrgName fullOrgName
+                                    
                                     if ok then
                                         GitHubOrgVar.Value <- 
                                             Some { 
-                                                name = Some GitHubOrgName.Value 
+                                                name = Some fullOrgName 
                                                 status = GitHubOrgPending
                                             }
                                 finally
@@ -42,14 +46,16 @@ module ViewsGitHub =
                             |> Async.StartImmediate
                         )
                         .Doc()
+                
                 | GitHubOrgPending, Some name ->
                     Templates.ManageSubscriptionTemplate.GitHubPending()
-                        .GitHubOrgName(name)
+                        .GitHubOrgName(name) 
                         .Doc()
+                
                 | GitHubOrgActive, Some name ->
                     Templates.ManageSubscriptionTemplate.GitHubActive()
                         .GoToGitHubOrg(fun _ ->
-                            JS.Window.Open("https://github.com/IntelliFactory-" + name, "_blank") |> ignore
+                            JS.Window.Open("https://github.com/" + name, "_blank") |> ignore
                         )
                         .Doc()
                 | _ -> Doc.Empty
