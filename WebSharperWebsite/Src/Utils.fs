@@ -20,6 +20,9 @@ module Templates =
 
 [<JavaScript>]
 module Utils = 
+
+    open WebSharper.SweetAlert
+
     [<Inline "new URL($path, document.baseURI).toString()">]
     let toAbsoluteUrl (path: string) : string = X<string>
 
@@ -36,9 +39,16 @@ module Utils =
         }
 
     let usd (n: float) : string =
-        "$" + n.ToString("N0", System.Globalization.CultureInfo("en-US"))
+        "$" + n.ToString("N0", System.Globalization.CultureInfo("en-US"))       
 
     let alertError (res: Result<_, string>) =
         match res with
         | Ok _ -> ()
-        | Error msg -> JS.Alert msg
+        | Error msg -> 
+            Swal.Fire(
+                SweetAlertOptions(
+                    Title = "Error",
+                    Text = msg,
+                    Icon = SweetAlertIcon.Error
+                )
+            ) |> ignore
