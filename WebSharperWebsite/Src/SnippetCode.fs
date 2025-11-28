@@ -89,7 +89,7 @@ module SnippetCode =
             |> Option.iter (fun target -> showOnlyPanel root target)
 
     // Call after render by the template
-    [<Require(typeof<BaseResource>, "website-template/Js/line-numbers.js")>]
+    [<Require(typeof<BaseResource>, "/Js/line-numbers.js")>]
     let InitTabs () : unit =
         let snippets = JS.Document.QuerySelectorAll("[data-name='snippet']")
         for i = 0 to int snippets.Length - 1 do
