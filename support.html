@@ -1,173 +1,152 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth overflow-x-hidden">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="/website-template/favicon.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
-        <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+    <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <!-- Facebook Meta Tags -->
-        <meta property="og:url" content="https://websharper.com/" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="WebSharper" />
-        <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
-        <meta property="og:image" content="" />
+    
+    <meta property="og:url" content="https://websharper.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WebSharper" />
+    <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta property="og:image" content="" />
 
-        <!-- Twitter Meta Tags -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="websharper.com" />
-        <meta property="twitter:url" content="https://websharper.com/" />
-        <meta name="twitter:title" content="WebSharper" />
-        <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
-        <meta name="twitter:image" content="" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="websharper.com" />
+    <meta property="twitter:url" content="https://websharper.com/" />
+    <meta name="twitter:title" content="WebSharper" />
+    <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta name="twitter:image" content="" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
-      <script type="module" crossorigin src="/website-template/assets/support--Yz8mMhB.js"></script>
-      <link rel="modulepreload" crossorigin href="/website-template/assets/main-DwOcRg7A.js">
-      <link rel="modulepreload" crossorigin href="/website-template/assets/plans-6iVeIsPt.js">
-      <link rel="stylesheet" crossorigin href="/website-template/assets/main-DNJglEoI.css">
-    </head>
-    <body class="bg-white dark:bg-gray-950">
-        <header class="absolute inset-x-0 z-20">
-            <div class="px-6 py-4 lg:px-8">
-                <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
-                    <div class="flex lg:flex-1">
-                        <a href="/" class="-m-1.5 p-1.5">
-                            <span class="sr-only">WebSharper logo</span>
-                            <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="/website-template/favicon.png" alt="websharper logo" width="164" height="164" />
-                        </a>
-                    </div>
-                    <div class="flex gap-4 lg:hidden">
-                        <button aria-label="switch theme" class="switcher group h-10 w-10 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
+    <link rel="stylesheet" href="tailwind.css" />
+</head>
+<body class="bg-white dark:bg-gray-950 overflow-x-hidden">
+    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
+        <div class="px-6 py-4 lg:px-8">
+            <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                <div class="flex lg:flex-1">
+                    <a href="/" class="-m-1.5 p-1.5">
+                        <span class="sr-only">WebSharper logo</span>
+                        <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="/Assets/favicon.png" alt="websharper logo" width="164" height="164" />
+                    </a>
+                </div>
+                <div class="flex gap-4 lg:hidden">
+                    <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-10 w-10 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <button ws-onclick="ToggleMenu" id="openMenu" type="button" class="cursor-pointer text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                        <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                            <span class="sr-only">Open main menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
                             </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </div>
+                        <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                            <span class="sr-only">Close menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
-                        </button>
-                        <button id="openMenu" type="button" class="text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
-                            <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
-                                <span class="sr-only">Open main menu</span>
-                                <!-- Heroicon name: outline/bars-3 -->
-                                <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                                </svg>
-                            </div>
-                            <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
-                                <span class="sr-only">Close menu</span>
-                                <!-- Heroicon name: outline/x-mark -->
-                                <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </div>
-                        </button>
-                    </div>
-                    <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
-                        <a href="./" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
-                        <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                        </div>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
+                    <a href="./" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
 
-                        <a href="./download.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Downloads</a>
+                    <a href="./download.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Downloads</a>
 
-                        <a href="https://intellifactory.com/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                    <a href="https://intellifactory.com/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+
+                    <a href="./support.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+
+                    <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
+
+                    <a href="./dsl-ai.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">DSL & AI</a>
+                </div>
+                <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                    <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-5 w-5 fill-gray-700 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <ul class="flex gap-1">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                </svg>
+                                <span class="sr-only">WebSharper GitHub organization</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                </svg>
+                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                </svg>
+                                <span class="sr-only">Join WebSharper community on Discord</span>
+                            </a>
+                        </li>
                         
-                        <a href="./support.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
+                            <button id="accountBtn" class="cursor-pointer group flex h-8 w-8 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-haspopup="menu" aria-expanded="false" aria-label="Account" ws-attr="AccountBtnAria" ws-onclick="AccountBtnClick" ws-onkeydown="AccountBtnKeyDown">
+                                
+                                <img id="accountAvatar" class="hidden h-8 w-8 rounded-full ring-1 ring-black/5 dark:ring-white/10" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
 
-                        <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
+                                
+                                <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" class="m-auto h-4 w-4 text-gray-700 transition duration-300 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" fill="currentColor" aria-hidden="true" ws-attr="IconAttr">
+                                    <path fill-rule="evenodd" d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
 
-                        <a href="./dsl-ai.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">DSL & AI</a>
-                    </div>
-                    <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
-                        <button aria-label="switch theme" class="switcher group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-5 w-5 fill-gray-700 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                            </svg>
-                        </button>
-                        <ul class="flex gap-1">
-                            <li>
-                                <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
-                                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-                                    </svg>
-                                    <span class="sr-only">WebSharper GitHub organization</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
-                                        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
-                                    </svg>
-                                    <span class="sr-only">Follow WebSharper on Twitter</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
-                                        <path
-                                            d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"
-                                        />
-                                    </svg>
-                                    <span class="sr-only">Join WebSharper community on Discord</span>
-                                </a>
-                            </li>
-                            <!-- Account -->
-                            <li class="relative" id="accountRoot">
-                                <button id="accountBtn"
-                                        class="group flex h-8 w-8 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                        aria-haspopup="menu" aria-expanded="false" aria-label="Account">
-                                    <!-- Avatar (shown when authenticated) -->
-                                    <img id="accountAvatar"
-                                        class="hidden h-8 w-8 rounded-full ring-1 ring-black/5 dark:ring-white/10"
-                                        src="" alt="User avatar" referrerpolicy="no-referrer" />
+                            
+                            <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10" ws-attr="DropdownAttr">
+                                <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
 
-                                    <!-- Fallback user icon (shown when not authenticated) -->
-                                    <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                        class="m-auto h-4 w-4 text-gray-700 transition duration-300 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white"
-                                        fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                            d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
+                                
+                                <a id="btnManage" href="./manage-subscription.html" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                                dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
+                                    Manage Subscription
+                                </a>
+                                <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                                dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path></svg>
+                                    Log out
                                 </button>
 
-                                <!-- Dropdown -->
-                                <div id="accountDropdown"
-                                    class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5
-                                            dark:bg-gray-900 dark:ring-white/10">
-                                    <!-- Header (shown when authenticated) -->
-                                    <div id="accountHeader"
-                                        class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300"></div>
-
-                                    <!-- Authenticated items -->
-                                    <a id="btnManage"
-                                        href="./manage-subscription.html"
-                                        class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
-                                                dark:text-gray-200 dark:hover:bg-white/10">
-                                        <!-- wrench icon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"/></svg>
-                                        Manage Subscription
-                                    </a>
-                                    <button id="btnLogout"
-                                            class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
-                                                dark:text-gray-200 dark:hover:bg-white/10">
-                                        <!-- logout icon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"/><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"/></svg>
-                                        Log out
-                                    </button>
-
-                                    <!-- Unauthenticated items -->
-                                    <button id="btnLogin"
-                                            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
-                                                dark:text-gray-200 dark:hover:bg-white/10">
-                                        <!-- GitHub mark -->
-                                        <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4"><path fill="currentColor"
-                                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                
+                                <button id="btnLogin" class="cursor-pointer flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLoginAttrD" ws-onclick="Login">
+                                    
+                                    <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
                                             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
                                             -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
                                             .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
@@ -175,96 +154,89 @@
                                             .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
                                             .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
                                             0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
-                                            c0-4.42-3.58-8-8-8z"/></svg>
-                                        Log in with GitHub
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-                <!-- Mobile menu, show/hide based on menu open state. -->
-                <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
-                    <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900/75 dark:backdrop-blur-3xl">
-                        <div class="mt-24 flow-root">
-                            <div class="divide-y divide-gray-200/10 dark:divide-white/10">
-                                <div class="flex flex-col space-y-6 py-6">
-                                    <a href="./" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
-                                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                    </svg>
+                                    Log in with GitHub
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900/75 dark:backdrop-blur-3xl">
+                    <div class="mt-24 flow-root">
+                        <div class="divide-y divide-gray-200/10 dark:divide-white/10">
+                            <div class="flex flex-col space-y-6 py-6">
+                                <a href="./" class="text-sm leading-6 text-gray-500 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
 
-                                    <a href="./download.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Downloads</a>
+                                <a href="./download.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Downloads</a>
 
-                                    <a href="https://intellifactory.com/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
-                                    
-                                    <a href="./support.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                                <a href="https://intellifactory.com/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
 
-                                    <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
+                                <a href="./support.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
 
-                                    <a href="./dsl-ai.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">DSL & AI</a>
-                                </div>
-                                <div class="py-4">
-                                    <ul class="-mx-3 flex">
-                                        <li>
-                                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
-                                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-                                                </svg>
-                                                <span class="sr-only">WebSharper GitHub organization</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
-                                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
-                                                </svg>
-                                                <span class="sr-only">Follow WebSharper on Twitter</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"
-                                                    />
-                                                </svg>
-                                                <span class="sr-only">Join WebSharper community on Discord</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!-- Account (mobile) -->
-                                <div class="py-6 border-t border-gray-200/10 dark:border-white/10">
-                                    <div data-account-menu data-variant="mobile" class="flex flex-col gap-2">
-                                        <!-- header shows email/name when logged in -->
-                                        <div data-el="header"
-                                            class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300"></div>
+                                <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
 
-                                        <a data-el="manage" href="./manage-subscription.html"
-                                        class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
-                                                dark:text-gray-200 dark:hover:bg-white/10">
-                                            <!-- wrench icon -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"/>
+                                <a href="./dsl-ai.html" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">DSL & AI</a>
+                            </div>
+                            <div class="py-4">
+                                <ul class="-mx-3 flex">
+                                    <li>
+                                        <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
                                             </svg>
-                                            Manage Subscription
+                                            <span class="sr-only">WebSharper GitHub organization</span>
                                         </a>
-
-                                        <button data-el="logout"
-                                                class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
-                                                    dark:text-gray-200 dark:hover:bg-white/10">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"/>
-                                                <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"/>
+                                    </li>
+                                    <li>
+                                        <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
                                             </svg>
-                                            Log out
-                                        </button>
+                                            <span class="sr-only">Follow WebSharper on Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                            </svg>
+                                            <span class="sr-only">Join WebSharper community on Discord</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="py-6 border-t border-gray-200/10 dark:border-white/10">
+                                <div data-account-menu="" data-variant="mobile" class="flex flex-col gap-2">
+                                    
+                                    <div data-el="header" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttr">${AccountHeaderText}</div>
 
-                                        <button data-el="login"
-                                                class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
-                                                    dark:text-gray-200 dark:hover:bg-white/10">
-                                            <!-- GitHub mark -->
-                                            <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4"><path fill="currentColor"
-                                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                    <a data-el="manage" href="./manage-subscription.html" class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                                dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttr">
+                                        
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
+                                        </svg>
+                                        Manage Subscription
+                                    </a>
+
+                                    <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path>
+                                            <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path>
+                                        </svg>
+                                        Log out
+                                    </button>
+
+                                    <button data-el="login" class="hidden w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLoginAttr" ws-onclick="Login">
+                                        
+                                        <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
                                                 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
                                                 -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
                                                 .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
@@ -272,620 +244,304 @@
                                                 .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
                                                 .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
                                                 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
-                                                c0-4.42-3.58-8-8-8z"/></svg>
-                                            Log in with GitHub
-                                        </button>
-                                    </div>
+                                                c0-4.42-3.58-8-8-8z"></path>
+                                        </svg>
+                                        Log in with GitHub
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <main class="space-y-20">
-            <!-- Hero / Banner -->
-            <section id="support-hero" class="pt-28 sm:pt-32">
-                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                    <div class="grid items-center gap-8 md:grid-cols-12">
-                        <div class="md:col-span-7 text-center md:text-left">
-                            <h1 class="font-bold tracking-tight text-gray-950 dark:text-white text-4xl sm:text-5xl">
-                                WebSharper Expert Support
-                            </h1>
-                            <p class="mt-3 text-base sm:text-lg leading-7 sm:leading-8 text-gray-700 dark:text-gray-300 max-w-2xl md:mx-0 mx-auto">
-                                Our experienced WebSharper support team is available to help you make the right decisions for your development project, and can save you hundreds of hours when important and difficult questions arise.
-                            </p>
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div><div ws-2><html lang="en">
+<head>
+</head>
+<body>
+    <div class="space-y-20">
+        
+        <section class="pt-28 sm:pt-32">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="grid items-center gap-8 md:grid-cols-12">
+                    <div class="md:col-span-7 text-center md:text-left">
+                        <h1 class="font-bold tracking-tight text-gray-950 dark:text-white text-4xl sm:text-5xl">
+                            WebSharper Expert Support
+                        </h1>
+                        <p class="mt-3 text-base sm:text-lg leading-7 sm:leading-8 text-gray-700 dark:text-gray-300 max-w-2xl md:mx-0 mx-auto">
+                            Our experienced WebSharper support team is available to help you make the right decisions for your development project, and can save you hundreds of hours when important and difficult questions arise.
+                        </p>
 
-                            <!-- Chips -->
-                            <div class="mt-4 flex flex-wrap justify-center md:justify-start gap-2">
-                                <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
-                                    Email & web support
-                                </span>
-                                <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
-                                    First response: 4h-2d
-                                </span>
-                                <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
-                                    Mentoring & training available
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Visual -->
-                        <div class="md:col-span-5">
-                            <figure class="rounded-2xl overflow-hidden shadow-md bg-white dark:bg-gray-900">
-                                <img src="./images/slay.png"
-                                    alt="WebSharper support: experts reviewing code and architecture"
-                                    class="w-full h-auto" />
-                            </figure>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="scroll-my-16">
-                <div class="mx-2 md:mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                    <div class="rounded-3xl overflow-hidden border dark:border-gray-800">
-                        <div class="py-12 lg:py-16 lg:px-16 border-b dark:border-gray-800">
-                            <h2 class="font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
-                                Quick, practical help from the people who build WebSharper
-                            </h2>
-                            <p class="mt-3 text-lg text-gray-700 dark:text-gray-300">
-                                Get senior guidance on architecture, performance, reactive UI, and integrations plus hands-on fixes when you need them.
-                            </p>
-                        </div>
-
-                        <div class="lg:px-16">
-                            <!-- Visual / proof -->
-                            <div class="lg:col-span-5 lg:-mr-10 py-12 md:py-16">
-                                <div class="relative">
-                                    <div class="absolute translate-y-1/2 mx-auto blur-3xl inset-0 rounded-t-full bg-brand-primary/20 dark:bg-brand-primary/20"></div>
-                                    <figure class="relative rounded-2xl overflow-hidden border bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 shadow-sm w-1/2 mx-auto">
-                                    
-                                        <img src="./images/slay.png" alt="Support walkthrough: issue context, guidance, and fix" class="w-full h-auto">
-                                    </figure>
-                                    <!-- short 15–20s looped video instead of static image -->
-                                    <!--
-                                    <video class="relative mt-4 w-full rounded-2xl border border-gray-200 dark:border-gray-800" autoplay muted loop playsinline poster="./images/support-video-poster.png">
-                                        <source src="./videos/support-teaser.mp4" type="video/mp4">
-                                    </video>
-                                    -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Support value props -->
-            <section class="mt-12">
-                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                    <ul class="grid gap-4 md:grid-cols-3">
-                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m7 9l5 3.5L17 9"/><path d="M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z"/></g></svg>
-                            <span>Email and web support</span>
-                            </h3>
-                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                                Email us your support queries, architectural or best practice questions, or post them to our dedicated support site.
-                            </p>
-                        </li>
-
-                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M8 9.5A1.25 1.25 0 1 0 8 12a1.25 1.25 0 0 0 0-2.5m4 0a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5m2.75 1.25a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0"/><path fill="currentColor" fill-rule="evenodd" d="M16.1 4.593a50.577 50.577 0 0 0-8.098-.04l-.193.015A4.93 4.93 0 0 0 3.25 9.483V18a.75.75 0 0 0 1.105.66l3.91-2.101a1.25 1.25 0 0 1 .593-.149h8.976c1.132 0 2.102-.81 2.305-1.923c.412-2.257.444-4.567.096-6.835l-.102-.669a2.666 2.666 0 0 0-2.408-2.252zM8.116 6.049a49.078 49.078 0 0 1 7.858.038l1.624.139c.536.046.972.453 1.053.985l.103.668a19.165 19.165 0 0 1-.09 6.339a.843.843 0 0 1-.829.692H8.858a2.75 2.75 0 0 0-1.302.328L4.75 16.746V9.483a3.43 3.43 0 0 1 3.171-3.42z" clip-rule="evenodd"/></svg>
-                            <span>Fast response time</span>
-                            </h3>
-                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                                Receive the first response to your queries from within 4 hours up to 2 days, depending on your selected support plan..
-                            </p>
-                        </li>
-
-                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 160c16-63.16 76.43-95.41 208-96a15.94 15.94 0 0 1 16 16v288a16 16 0 0 1-16 16c-128 0-177.45 25.81-208 64c-30.37-38-80-64-208-64c-9.88 0-16-8.05-16-17.93V80a15.94 15.94 0 0 1 16-16c131.57.59 192 32.84 208 96m0 0v288"/></svg>
-                            <span>Mentoring and training</span>
-                            </h3>
-                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                                Pick a Start-up or Enterprise plan and jumpstart your team's productivity with our online WebSharper training and mentoring.
-                            </p>
-                        </li>
-
-                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="currentColor" d="M7 3a2 2 0 0 1 4 0h1.5A1.5 1.5 0 0 1 14 4.5V7h-1a1 1 0 0 0 0 2h1v2.5a1.5 1.5 0 0 1-1.5 1.5H11a2 2 0 0 1-4 0H5.5A1.5 1.5 0 0 1 4 11.5V10a2 2 0 0 1 0-4V4.5A1.5 1.5 0 0 1 5.5 3zm2-1a1 1 0 0 0-1 1v1H5.5a.5.5 0 0 0-.5.5V7H4a1 1 0 0 0 0 2h1v2.5a.5.5 0 0 0 .5.5H8v1a1 1 0 0 0 2 0v-1h2.5a.5.5 0 0 0 .5-.5V10a2 2 0 0 1 0-4V4.5a.5.5 0 0 0-.5-.5H10V3a1 1 0 0 0-1-1"/></svg>
-                            <span>Extensions support</span>
-                            </h3>
-                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                                Working heavily with WebSharper extensions? Get the help you need with any issues you encounter in these extensions.
-                            </p>
-                        </li>
-
-                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m6.75 21l-.25-2.2l2.85-7.85q.375.35.813.588t.937.362l-2.75 7.55zm10.5 0l-1.6-1.55l-2.75-7.55q.5-.125.938-.363t.812-.587l2.85 7.85zM12 11q-1.25 0-2.125-.875T9 8q0-.975.563-1.737T11 5.2V3h2v2.2q.875.3 1.438 1.063T15 8q0 1.25-.875 2.125T12 11m0-2q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9"/></svg>
-                            <span>Architectural review</span>
-                            </h3>
-                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                                Next to support questions, we can also help you decide on the best architecture for your project, or give best practice guidelines for your team.
-                            </p>
-                        </li>
-
-                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 15v-3.062A3.938 3.938 0 0 0 15.063 8H8.936A3.938 3.938 0 0 0 5 11.938V15a7 7 0 1 0 14 0Z"/><path d="M16.5 8.5v-1a4.5 4.5 0 1 0-9 0v1"/><path stroke-linecap="round" d="M19 14h3M5 14H2M14.5 3.5L17 2M9.5 3.5L7 2m13.5 18l-2-.8m2-11.2l-2 .8M3.5 20l2-.8M3.5 8l2 .8M12 21.5V15"/></g></svg>
-                            <span>Priority bugfixes</span>
-                            </h3>
-                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                                Your support ticket jumps to the front of our priority queue and becomes the first to fix. Get the most timely help when you need it most.
-                            </p>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- <section id="plans" class="scroll-my-16">
-                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                    <h2 class="text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">Find a plan to power your team.</h2>
-                    <p class="text-center mt-4 text-lg text-gray-700 dark:text-gray-300">Find the perfect plan for your needs</p>
-                    <div class="mt-12 grid sm:max-w-md mx-auto md:max-w-full md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="h-fit p-8 shadow-sm shadow-gray-950/5 rounded-3xl bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800">
-                            <h3 class="text-xl text-gray-950 dark:text-white mb-3">Basic</h3>
-                            <p class="text-3xl font-bold text-gray-950 dark:text-white">$2,500 <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ Year</span> </p>
-                            
-
-                            <ul class="my-8 space-y-2 list-image-[url(/check-icon.svg)] dark:list-image-[url(/check-icon-dark.svg)] list-inside *:text-gray-600 *:dark:text-gray-400">
-                                <li class="list-item items-center">Email and web support</li>
-                                <li>2-day response time</li>
-                                <li>10 hour support time</li>
-                            </ul>
-
-                            <a href="./checkout.html" class="rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-600 before:bg-gradient-to-b before:from-gray-800 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-700 dark:hover:before:from-gray-300">
-                                <span class="relative">Get started</span>
-                            </a>
-                        </div>
-                        <div class="h-fit p-8 shadow-sm shadow-gray-950/5 rounded-3xl bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800">
-                            <h3 class="text-xl text-gray-950 dark:text-white mb-3">Startup</h3>
-                            <p class="text-3xl font-bold text-gray-950 dark:text-white">$10,500 <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ Year</span> </p>
-                            
-
-                            <ul class="my-8 space-y-2 list-image-[url(/check-icon.svg)] dark:list-image-[url(/check-icon-dark.svg)] list-inside *:text-gray-600 *:dark:text-gray-400">
-                                <li class="list-item items-center">Email and web support</li>
-                                <li>2-day response time</li>
-                                <li>2 Days of mentoring and learning</li>
-                                <li>25 hour support time</li>
-                                <li>Support time covers extensions</li>
-                                <li>10 hours architectural review</li>
-                                <li>2 priority bugfixes</li>
-                            </ul>
-
-                            <a href="./checkout.html" class="rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-600 before:bg-gradient-to-b before:from-gray-800 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-700 dark:hover:before:from-gray-300">
-                                <span class="relative">Get started</span>
-                            </a>
-                        </div>
-                        <div class="h-fit p-8 shadow-sm shadow-gray-950/5 rounded-3xl bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800">
-                            <h3 class="text-xl text-gray-950 dark:text-white mb-3">Enterprise</h3>
-                            <p class="text-3xl font-bold text-gray-950 dark:text-white">Custom </p>
-                            
-
-                            <ul class="my-8 space-y-2 list-image-[url(/check-icon.svg)] dark:list-image-[url(/check-icon-dark.svg)] list-inside *:text-gray-600 *:dark:text-gray-400">
-                                <li class="list-item items-center">Email, web and Skype support</li>
-                                <li>4-day response time</li>
-                                <li>5 Days of mentoring and learning</li>
-                                <li>100 hour support time</li>
-                                <li>Support time covers extensions</li>
-                                <li>20 hours architectural review</li>
-                                <li>10 priority bugfixes</li>
-                            </ul>
-
-                            <a href="#contactUs" class="rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-600 before:bg-gradient-to-b before:from-gray-800 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-700 dark:hover:before:from-gray-300">
-                                <span class="relative">Contact Us</span>
-                            </a>
+                        
+                        <div class="mt-4 flex flex-wrap justify-center md:justify-start gap-2">
+                            <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
+                                Email & web support
+                            </span>
+                            <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
+                                First response: 4h-2d
+                            </span>
+                            <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
+                                Mentoring & training available
+                            </span>
                         </div>
                     </div>
 
-                    <div class="mt-16 max-w-2xl mx-auto text-center">
-                        <p class="text-2xl text-gray-950 dark:text-white">" Saepe nulla ab nobis itaque corporis fuga illo doloribus sequi esse aspernatur impedit nihil quisquam, voluptates placeat architecto adipisci id cum enim. "</p>
-                        <div class="mt-6 justify-center flex gap-3">
-                            <img class="size-11 rounded-full" src="https://ampire.netlify.app/images/avatars/avatar-4.webp" alt="user avatar" width="200" height="200" loading="lazy">
-                            <div class="text-left">
-                                <h2 class="font-medium text-gray-950 dark:text-white">Dan Doe</h2>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Founder CEO</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="hidden md:block">
-                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                    <h2 class="text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">Compare plans</h2>
-                    <p class="text-center mt-4 text-lg text-gray-700 dark:text-gray-300">Find the perfect plan for your needs</p>
-                    <table class="mt-12 h-px w-full table-fixed">
-                        <caption class="sr-only">
-                            Pricing plan comparison
-                        </caption>
-                        <thead>
-                            <tr>
-                                <th class="w-1/3 px-6 pb-4 text-left text-sm font-medium text-gray-900" scope="col">
-                                    <span class="sr-only">Feature by</span>
-                                    <span></span>
-                                </th>
-                                <th class="w-1/3 px-6 pb-4 text-left text-lg font-medium leading-6 text-gray-900" scope="col"></th>
-                                <th class="w-1/3 px-6 pb-4 text-left text-lg font-medium leading-6 text-gray-900" scope="col"></th>
-                                <th class="w-1/3 px-6 pb-4 text-left text-lg font-medium leading-6 text-gray-900" scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y text-gray-600 text-sm dark:text-gray-400 divide-gray-200 border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800 [&amp;>*]:divide-x [&amp;>*]:divide-gray-200 [&amp;>*]:dark:divide-gray-700">
-                            <tr class="sticky -top-px z-10 bg-white dark:bg-gray-950">
-                                <th class="py-8 px-6 text-left align-top text-sm font-medium text-gray-900 dark:border-gray-900" scope="row"></th>
-
-                                <td class="h-full border-t border py-8 px-6 dark:border-gray-800 bg-white dark:bg-gray-950 relative">
-                                    <div class="relative h-full">
-                                        <h3 class="text-sm text-gray-950 dark:text-white mb-1">Basic</h3>
-                                        <p class="text-2xl font-bold text-gray-950 dark:text-white">$2,500 <span class="text-sm text-gray-600 dark:text-gray-400 font-normal">/ Year</span> </p>
-                                        <a href="./checkout.html" class="mt-3 rounded-lg h-9 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-600 before:bg-gradient-to-b before:from-gray-800 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-700 dark:hover:before:from-gray-300">
-                                            <span class="relative text-sm">Get started</span>
-                                        </a>
-                                    </div>
-                                </td>
-
-                                <td class="h-full border-t border-r py-8 px-6 dark:border-gray-800 bg-white dark:bg-gray-950 relative">
-                                    <div class="relative h-full">
-                                        <h3 class="text-sm text-gray-950 dark:text-white mb-1">Startup</h3>
-                                        <p class="text-2xl font-bold text-gray-950 dark:text-white">$10,000 <span class="text-sm text-gray-600 dark:text-gray-400 font-normal">/ Year</span> </p>
-                                        <a href="./checkout.html" class="mt-3 rounded-lg h-9 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-600 before:bg-gradient-to-b before:from-gray-800 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-700 dark:hover:before:from-gray-300">
-                                            <span class="relative text-sm">Get started</span>
-                                        </a>
-                                    </div>
-                                </td>
-                                <td class="h-full border-t border-r py-8 px-6 dark:border-gray-800 bg-white dark:bg-gray-950 relative">
-                                    <div class="relative h-full">
-                                        <h3 class="text-sm text-gray-950 dark:text-white mb-1">Enterprise</h3>
-                                        <p class="text-2xl font-bold text-gray-950 dark:text-white">Custom </p>
-                                        <a href="#contactUs" class="mt-3 rounded-lg h-9 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-600 before:bg-gradient-to-b before:from-gray-800 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-700 dark:hover:before:from-gray-300">
-                                            <span class="relative text-sm">Contact Us</span>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th class="bg-gray-50 py-3 pl-6 text-left text-sm font-medium text-gray-900 dark:bg-gray-900 dark:text-white border dark:border-gray-800" colspan="4" scope="colgroup">Features</th>
-                            </tr>
-
-                            <tr class="divide-x dark:divide-gray-800 border-x">
-                                <th class="py-5 px-6 text-left text-sm font-normal text-gray-950 dark:text-white" scope="row">
-                                    Email and web support
-                                </th>
-
-                                <td class="py-5 px-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mx-auto size-6 text-gray-950 dark:text-brand-primary">
-                                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="sr-only">Included</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mx-auto size-6 text-gray-950 dark:text-brand-primary">
-                                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="sr-only">Included</span>
-                                </td>
-                                <td class="py-5 px-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mx-auto size-6 text-gray-950 dark:text-brand-primary">
-                                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="sr-only">Included</span>
-                                </td>
-                            </tr>
-                            <tr class="divide-x dark:divide-gray-800 border-x">
-                                <th class="py-5 px-6 text-left text-sm font-normal text-gray-950 dark:text-white" scope="row">
-                                    Response time
-                                </th>
-
-                                <td class="py-5 px-6 text-center">
-                                    <span>2 Days</span>
-                                </td>
-
-                                <td class="py-5 px-6 text-center">
-                                    <span>2 Days</span>
-                                </td>
-                                <td class="py-5 px-6 text-center">
-                                    <span>4 Days</span>
-                                </td>
-                            </tr>
-                            <tr class="divide-x dark:divide-gray-800 border-x">
-                                <th class="py-5 px-6 text-left text-sm font-normal text-gray-950 dark:text-white" scope="row">
-                                    Support time
-                                </th>
-
-                                <td class="py-5 px-6 text-center">
-                                    <span>10 Hours</span>
-                                </td>
-
-                                <td class="py-5 px-6 text-center">
-                                    <span>25 Hours</span>
-                                </td>
-                                <td class="py-5 px-6 text-center">
-                                    <span>100 Hours</span>
-                                </td>
-                            </tr>
-                            <tr class="divide-x dark:divide-gray-800 border-x">
-                                <th class="py-5 px-6 text-left text-sm font-normal text-gray-950 dark:text-white" scope="row">
-                                    Mentoring and training
-                                </th>
-
-                                <td class="py-5 px-6 text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mx-auto static size-6 text-gray-950 dark:text-white opacity-50">
-                                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="sr-only">Not Included</span>
-                                </td>
-
-                                <td class="py-5 px-6 text-center">
-                                    <span>2 Days</span>
-                                </td>
-                                <td class="py-5 px-6 text-center">
-                                    <span>5 Days</span>
-                                </td>
-                            </tr>
-                            <tr class="divide-x dark:divide-gray-800 border-x">
-                                <th class="py-5 px-6 text-left text-sm font-normal text-gray-950 dark:text-white" scope="row">
-                                    Support time covers extensions
-                                </th>
-
-                                <td class="py-5 px-6 text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mx-auto h-6 w-6 text-gray-950 dark:text-white opacity-50">
-                                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="sr-only">Not Included</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mx-auto size-6 text-gray-950 dark:text-brand-primary">
-                                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="sr-only">Included</span>
-                                </td>
-                                <td class="py-5 px-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mx-auto size-6 text-gray-950 dark:text-brand-primary">
-                                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="sr-only">Included</span>
-                                </td>
-                            </tr>
-                            <tr class="divide-x dark:divide-gray-800 border-x">
-                                <th class="py-5 px-6 text-left text-sm font-normal text-gray-950 dark:text-white" scope="row">
-                                    Architectural review
-                                </th>
-
-                                <td class="py-5 px-6 text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mx-auto size-6 text-gray-950 dark:text-white opacity-50">
-                                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="sr-only">Not Included</span>
-                                </td>
-
-                                <td class="py-5 px-6 text-center">
-                                    <span>10 Hours</span>
-                                </td>
-                                <td class="py-5 px-6 text-center">
-                                    <span>20 Hours</span>
-                                </td>
-                            </tr>
-                            <tr class="divide-x dark:divide-gray-800 border-x">
-                                <th class="py-5 px-6 text-left text-sm font-normal text-gray-950 dark:text-white" scope="row">
-                                    Priority bugfixes
-                                </th>
-
-                                <td class="py-5 px-6 text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mx-auto size-6 text-gray-950 dark:text-white opacity-50">
-                                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="sr-only">Not Included</span>
-                                </td>
-
-                                <td class="py-5 px-6 text-center">
-                                    <span>2</span>
-                                </td>
-                                <td class="py-5 px-6 text-center">
-                                    <span>10</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section> -->
-            
-            <section id="plans" class="scroll-my-16">
-                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                    <h2 class="text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
-                        Choose your plan
-                    </h2>
-                    <p class="text-center mt-3 text-lg text-gray-700 dark:text-gray-300">
-                        Monthly or yearly billing, per-seat for teams or a freelancer option.
-                    </p>
-
-                    <!-- Billing period toggle -->
-                    <div class="mx-auto mt-6 flex w-full max-w-xs items-center justify-center rounded-xl border border-gray-200 bg-white p-1
-                                dark:bg-gray-950 dark:border-gray-800">
-                        <button id="wsBillMonth"
-                                type="button"
-                                class="dark:text-white text-gray-700 text flex-1 rounded-lg py-2 text-sm font-medium transition
-                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white
-                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900"
-                                data-active="false"
-                                aria-pressed="false">
-                            Per month
-                        </button>
-                        <button id="wsBillYear"
-                                type="button"
-                                class="dark:text-white text-gray-700 flex-1 rounded-lg py-2 text-sm font-medium transition
-                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white
-                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900"
-                                data-active="true"
-                                aria-pressed="true">
-                            Per year
-                        </button>
-                    </div>
-
-                    <!-- Plans grid -->
-                    <div class="mx-auto mt-8 grid max-w-6xl gap-6 sm:grid-cols-2">
-                        <!-- Professional (per seat) -->
-                        <div id="wsProCard"
-                            class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200 
-                                    dark:bg-gray-950 dark:border-gray-800"
-                            data-price-month="250" 
-                            data-price-year="2500">
-                            <div class="flex items-start justify-between gap-4">
-                                <div>
-                                    <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
-                                    <div id="wsProName" class="text-2xl font-bold text-gray-950 dark:text-white">
-                                        
-                                    </div>
-                                    <div id="wsProPriceText"
-                                        class="mt-1 text-base text-gray-700 dark:text-gray-300">
-                                        $2,500 <span class="text-gray-600 dark:text-gray-400">/ seat / year</span>
-                                    </div>
-                                </div>
-
-                                <!-- Seat selector -->
-                                <div class="flex items-center gap-2">
-                                    <button id="wsSeatsMinus"
-                                            class="h-10 w-10 rounded-xl border border-gray-300 text-gray-800
-                                                dark:border-white/20 dark:text-white"
-                                            aria-label="Decrease seats"
-                                            type="button">-</button>
-                                    <input id="wsSeatCount"
-                                        type="number"
-                                        inputmode="numeric"
-                                        min="1"
-                                        step="1"
-                                        value="1"
-                                        class="w-20 text-center rounded-xl border border-gray-300 bg-transparent
-                                                dark:border-white/20 text-gray-900 dark:text-white h-10"
-                                        aria-label="Seat count">
-                                    <button id="wsSeatsPlus"
-                                            class="h-10 w-10 rounded-xl border border-gray-300 text-gray-800
-                                                dark:border-white/20 dark:text-white"
-                                            aria-label="Increase seats"
-                                            type="button">+</button>
-                                </div>
-                            </div>
-
-                            <!-- Total -->
-                            <div class="mt-4 flex items-center justify-between">
-                                <div id="wsProTotalLabel" class="text-sm text-gray-600 dark:text-gray-400">Total (yearly)</div>
-                                <div id="wsProTotal" class="text-xl font-semibold text-gray-950 dark:text-white">$2,500</div>
-                            </div>
-
-                            <!-- CTA -->
-                            <a id="wsProCheckout"
-                            href="./checkout.html?plan=pro&interval=year&seats=1"
-                            class="w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
-                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative
-                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
-                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200
-                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4">
-                                <span class="relative text-sm">Continue to checkout</span>
-                            </a>
-
-                            <p id="wsProNote" class="mt-3 text-xs text-gray-600 dark:text-gray-400 text-center">
-                                
-                            </p>
-                        </div>
-
-                        <!-- Freelancer (1 seat) -->
-                        <div id="wsFreeCard"
-                            class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200 
-                                    dark:bg-gray-950 dark:border-gray-800"
-                            data-price-month="30"
-                            data-price-year="300">
-                            <div class="flex items-start justify-between gap-4">
-                                <div>
-                                    <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
-                                    <div id="wsFreeName" class="text-2xl font-bold text-gray-950 dark:text-white">
-                                        
-                                    </div>
-                                    <div id="wsFreePriceText"
-                                        class="mt-1 text-base text-gray-700 dark:text-gray-300">
-                                        $300 <span class="text-gray-600 dark:text-gray-400">/ year</span>
-                                    </div>
-                                </div>
-                                <div class="rounded-xl border border-gray-300 px-3 h-10 flex items-center
-                                            text-gray-800 dark:border-white/20 dark:text-white">
-                                    1 seat
-                                </div>
-                            </div>
-
-                            <!-- Total -->
-                            <div class="mt-4 flex items-center justify-between">
-                                <div id="wsFreeTotalLabel" class="text-sm text-gray-600 dark:text-gray-400">Total (yearly)</div>
-                                <div id="wsFreeTotal" class="text-xl font-semibold text-gray-950 dark:text-white">$300</div>
-                            </div>
-
-                            <!-- CTA -->
-                            <a id="wsFreeCheckout"
-                            href="./checkout.html?plan=freelancer&interval=year&seats=1"
-                            class="w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
-                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative
-                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
-                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200
-                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4">
-                                <span class="relative text-sm">Continue to checkout</span>
-                            </a>
-
-                            <p id="wsFreeNote" class="mt-3 text-xs text-gray-600 dark:text-gray-400 text-center">
-                                
-                            </p>
-                        </div>
-                    </div>
-                </div>    
-            </section>
-            
-            <!-- contact us -->
-            <section id="contactUs" class="scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none">
-                <div class="mx-auto max-w-xl p-8 rounded content mb-10">
-                    <h2 class="header text-center mb-8">Contact us</h2>
                     
-                    <form id="contactForm" method="post">
+                    <div class="md:col-span-5">
+                        <figure class="rounded-2xl overflow-hidden shadow-md bg-white dark:bg-gray-900">
+                            <img src="./Assets/images/slay.png" alt="WebSharper support: experts reviewing code and architecture" class="w-full h-auto" />
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                        <!-- Subject -->
-                        <div class="mb-6">
-                            <label for="emailSubject" class="block font-semibold mb-2">Subject</label>
-                            <input type="text" id="emailSubject" name="email-subject"
-                                class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
-                                value="WebSharper support">
+        <section class="scroll-my-16">
+            <div class="mx-2 md:mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="rounded-3xl overflow-hidden border dark:border-gray-800">
+                    <div class="py-12 lg:py-16 lg:px-16 border-b dark:border-gray-800">
+                        <h2 class="font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
+                            Quick, practical help from the people who build WebSharper
+                        </h2>
+                        <p class="mt-3 text-lg text-gray-700 dark:text-gray-300">
+                            Get senior guidance on architecture, performance, reactive UI, and integrations plus hands-on fixes when you need them.
+                        </p>
+                    </div>
+
+                    <div class="lg:px-16">
+                        
+                        <div class="lg:col-span-5 lg:-mr-10 py-12 md:py-16">
+                            <div class="relative">
+                                <div class="absolute translate-y-1/2 mx-auto blur-3xl inset-0 rounded-t-full bg-brand-primary/20 dark:bg-brand-primary/20"></div>
+                                <figure class="relative rounded-2xl overflow-hidden border bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 shadow-sm w-1/2 mx-auto">
+
+                                    <img src="./Assets/images/slay.png" alt="Support walkthrough: issue context, guidance, and fix" class="w-full h-auto" />
+                                </figure>
+                                
+                                
+                            </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                        <!-- Message -->
-                        <div class="mb-6">
-                            <label for="emailMessage" class="block font-semibold mb-2">Message</label>
-                            <textarea id="emailMessage" name="email-message" rows="5"
-                                    class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"></textarea>
-                        </div>
+        
+        <section class="mt-12">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <ul class="grid gap-4 md:grid-cols-3">
+                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m7 9l5 3.5L17 9"></path><path d="M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z"></path></g></svg>
+                            <span>Email and web support</span>
+                        </h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                            Email us your support queries, architectural or best practice questions, or post them to our dedicated support site.
+                        </p>
+                    </li>
 
-                        <!-- Row with Email, Name, Country -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                            <!-- Email -->
+                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path fill="currentColor" d="M8 9.5A1.25 1.25 0 1 0 8 12a1.25 1.25 0 0 0 0-2.5m4 0a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5m2.75 1.25a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0"></path><path fill="currentColor" fill-rule="evenodd" d="M16.1 4.593a50.577 50.577 0 0 0-8.098-.04l-.193.015A4.93 4.93 0 0 0 3.25 9.483V18a.75.75 0 0 0 1.105.66l3.91-2.101a1.25 1.25 0 0 1 .593-.149h8.976c1.132 0 2.102-.81 2.305-1.923c.412-2.257.444-4.567.096-6.835l-.102-.669a2.666 2.666 0 0 0-2.408-2.252zM8.116 6.049a49.078 49.078 0 0 1 7.858.038l1.624.139c.536.046.972.453 1.053.985l.103.668a19.165 19.165 0 0 1-.09 6.339a.843.843 0 0 1-.829.692H8.858a2.75 2.75 0 0 0-1.302.328L4.75 16.746V9.483a3.43 3.43 0 0 1 3.171-3.42z" clip-rule="evenodd"></path></svg>
+                            <span>Fast response time</span>
+                        </h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                            Receive the first response to your queries from within 4 hours up to 2 days, depending on your selected support plan..
+                        </p>
+                    </li>
+
+                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 160c16-63.16 76.43-95.41 208-96a15.94 15.94 0 0 1 16 16v288a16 16 0 0 1-16 16c-128 0-177.45 25.81-208 64c-30.37-38-80-64-208-64c-9.88 0-16-8.05-16-17.93V80a15.94 15.94 0 0 1 16-16c131.57.59 192 32.84 208 96m0 0v288"></path></svg>
+                            <span>Mentoring and training</span>
+                        </h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                            Pick a Start-up or Enterprise plan and jumpstart your team's productivity with our online WebSharper training and mentoring.
+                        </p>
+                    </li>
+
+                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16"><path fill="currentColor" d="M7 3a2 2 0 0 1 4 0h1.5A1.5 1.5 0 0 1 14 4.5V7h-1a1 1 0 0 0 0 2h1v2.5a1.5 1.5 0 0 1-1.5 1.5H11a2 2 0 0 1-4 0H5.5A1.5 1.5 0 0 1 4 11.5V10a2 2 0 0 1 0-4V4.5A1.5 1.5 0 0 1 5.5 3zm2-1a1 1 0 0 0-1 1v1H5.5a.5.5 0 0 0-.5.5V7H4a1 1 0 0 0 0 2h1v2.5a.5.5 0 0 0 .5.5H8v1a1 1 0 0 0 2 0v-1h2.5a.5.5 0 0 0 .5-.5V10a2 2 0 0 1 0-4V4.5a.5.5 0 0 0-.5-.5H10V3a1 1 0 0 0-1-1"></path></svg>
+                            <span>Extensions support</span>
+                        </h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                            Working heavily with WebSharper extensions? Get the help you need with any issues you encounter in these extensions.
+                        </p>
+                    </li>
+
+                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path fill="currentColor" d="m6.75 21l-.25-2.2l2.85-7.85q.375.35.813.588t.937.362l-2.75 7.55zm10.5 0l-1.6-1.55l-2.75-7.55q.5-.125.938-.363t.812-.587l2.85 7.85zM12 11q-1.25 0-2.125-.875T9 8q0-.975.563-1.737T11 5.2V3h2v2.2q.875.3 1.438 1.063T15 8q0 1.25-.875 2.125T12 11m0-2q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9"></path></svg>
+                            <span>Architectural review</span>
+                        </h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                            Next to support questions, we can also help you decide on the best architecture for your project, or give best practice guidelines for your team.
+                        </p>
+                    </li>
+
+                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 15v-3.062A3.938 3.938 0 0 0 15.063 8H8.936A3.938 3.938 0 0 0 5 11.938V15a7 7 0 1 0 14 0Z"></path><path d="M16.5 8.5v-1a4.5 4.5 0 1 0-9 0v1"></path><path stroke-linecap="round" d="M19 14h3M5 14H2M14.5 3.5L17 2M9.5 3.5L7 2m13.5 18l-2-.8m2-11.2l-2 .8M3.5 20l2-.8M3.5 8l2 .8M12 21.5V15"></path></g></svg>
+                            <span>Priority bugfixes</span>
+                        </h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                            Your support ticket jumps to the front of our priority queue and becomes the first to fix. Get the most timely help when you need it most.
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="scroll-my-16">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <h2 class="text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
+                    Choose your plan
+                </h2>
+                <p class="text-center mt-3 text-lg text-gray-700 dark:text-gray-300">
+                    Monthly or yearly billing, per-seat for teams or a freelancer option.
+                </p>
+
+                
+                <div class="mx-auto mt-6 flex w-full max-w-xs items-center justify-center rounded-xl border border-gray-200 bg-white p-1
+                                dark:bg-gray-950 dark:border-gray-800">
+                    <button type="button" class="cursor-pointer dark:text-white text-gray-700 text flex-1 rounded-lg py-2 text-sm font-medium transition
+                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white
+                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900" data-active="false" aria-pressed="false">
+                        Per month
+                    </button>
+                    <button type="button" class="cursor-pointer dark:text-white text-gray-700 flex-1 rounded-lg py-2 text-sm font-medium transition
+                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white
+                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900" data-active="true" aria-pressed="true">
+                        Per year
+                    </button>
+                </div>
+
+                
+                <div class="mx-auto mt-8 grid max-w-6xl gap-6 sm:grid-cols-2">
+                    
+                    <div class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200
+                                    dark:bg-gray-950 dark:border-gray-800" data-price-month="250" data-price-year="2500">
+                        <div class="flex items-start justify-between gap-4">
                             <div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
+                                <div class="text-2xl font-bold text-gray-950 dark:text-white"></div>
+                                <div class="mt-1 text-base text-gray-700 dark:text-gray-300">
+                                    <span></span>
+                                    <span class="text-gray-600 dark:text-gray-400"></span>
+                                </div>
+                            </div>
+
+                            
+                            <div class="flex items-center gap-2">
+                                <button class="cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800
+                                                dark:border-white/20 dark:text-white" aria-label="Decrease seats" type="button">
+                                    -
+                                </button>
+                                <input type="text" inputmode="numeric" pattern="[0-9]*" min="1" step="1" value="1" class="w-20 text-center rounded-xl border border-gray-300 bg-transparent dark:border-white/20 text-gray-900 dark:text-white h-10" aria-label="Seat count" ws-var="091f0314-51ec-4f5d-a8e8-bd5885806285::seatcount" />
+                                <button class="cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800
+                                                dark:border-white/20 dark:text-white" aria-label="Increase seats" type="button">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+
+                        
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="text-sm text-gray-600 dark:text-gray-400"></div>
+                            <div class="text-xl font-semibold text-gray-950 dark:text-white"></div>
+                        </div>
+
+                        
+                        <a class="w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
+                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative
+                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
+                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200
+                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4">
+                            <span class="relative text-sm">Continue to checkout</span>
+                        </a>
+
+                        <p class="mt-3 text-xs text-gray-600 dark:text-gray-400 text-center"></p>
+                    </div>
+
+                    
+                    <div class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200
+                                    dark:bg-gray-950 dark:border-gray-800">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
+                                <div class="text-2xl font-bold text-gray-950 dark:text-white"></div>
+                                <div class="mt-1 text-base text-gray-700 dark:text-gray-300">
+                                    <span></span>
+                                    <span class="text-gray-600 dark:text-gray-400"></span>
+                                </div>
+                            </div>
+                            <div class="rounded-xl border border-gray-300 px-3 h-10 flex items-center
+                                            text-gray-800 dark:border-white/20 dark:text-white">
+                                1 seat
+                            </div>
+                        </div>
+
+                        
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="text-sm text-gray-600 dark:text-gray-400"></div>
+                            <div class="text-xl font-semibold text-gray-950 dark:text-white"></div>
+                        </div>
+
+                        
+                        <a class="w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
+                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative
+                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
+                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200
+                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4">
+                            <span class="relative text-sm">Continue to checkout</span>
+                        </a>
+
+                        <p class="mt-3 text-xs text-gray-600 dark:text-gray-400 text-center"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none">
+            <div class="mx-auto max-w-xl p-8 rounded content mb-10">
+                <h2 class="header text-center mb-8">Contact us</h2>
+
+                <form method="post">
+
+                    
+                    <div class="mb-6">
+                        <label for="emailSubject" class="block font-semibold mb-2">Subject</label>
+                        <input type="text" name="email-subject" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" value="WebSharper support" ws-var="091f0314-51ec-4f5d-a8e8-bd5885806285::contactsubjectvar" />
+                    </div>
+
+                    
+                    <div class="mb-6">
+                        <label for="emailMessage" class="block font-semibold mb-2">Message</label>
+                        <textarea name="email-message" rows="5" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="091f0314-51ec-4f5d-a8e8-bd5885806285::contactmessagevar"></textarea>
+                    </div>
+
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        
+                        <div>
                             <label for="emailAddress" class="block font-semibold mb-2">Your email address</label>
-                            <input type="email" id="emailAddress" name="email-address"
-                                    class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
-                            </div>
+                            <input type="email" name="email-address" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="091f0314-51ec-4f5d-a8e8-bd5885806285::contactemailvar" />
+                        </div>
 
-                            <!-- Name -->
-                            <div>
+                        
+                        <div>
                             <label for="emailName" class="block font-semibold mb-2">Your name</label>
-                            <input type="text" id="emailName" name="name"
-                                    class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
-                            </div>
+                            <input type="text" name="name" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="091f0314-51ec-4f5d-a8e8-bd5885806285::contactnamevar" />
+                        </div>
 
-                            <!-- Country -->
-                            <div>
+                        
+                        <div>
                             <label for="emailCountry" class="block font-semibold mb-2">Your country</label>
-                            <select id="emailCountry" name="email-country"
-                                    class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
+                            <select name="email-country" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="091f0314-51ec-4f5d-a8e8-bd5885806285::contactcountryvar">
                                 <option value="Afghanistan">Afghanistan</option>
                                 <option value="Albania">Albania</option>
                                 <option value="Algeria">Algeria</option>
@@ -1071,7 +727,7 @@
                                 <option value="Ukraine">Ukraine</option>
                                 <option value="United Arab Emirates">United Arab Emirates</option>
                                 <option value="United Kingdom">United Kingdom</option>
-                                <option value="United States" selected>United States</option>
+                                <option value="United States" selected="">United States</option>
                                 <option value="Uruguay">Uruguay</option>
                                 <option value="Uzbekistan">Uzbekistan</option>
                                 <option value="Vanuatu">Vanuatu</option>
@@ -1082,126 +738,140 @@
                                 <option value="Zambia">Zambia</option>
                                 <option value="Zimbabwe">Zimbabwe</option>
                             </select>
-                            </div>
                         </div>
+                    </div>
 
-                        <!-- Send Button -->
-                        <div class="text-left">
-                            <button 
-                                id="contact-form-button"
-                                class="bg-blue-500 text-white font-semibold px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-blue-400" disabled>
+                    
+                    <div class="text-left">
+                        <button disabled="" type="button" class="bg-blue-500 text-white font-semibold px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-blue-400">
                             Send
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html></div></main>
+
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Channels</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Code of conduct</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-2 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-3 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Tutorials</a>
+                        </li>
+                        <li>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blog</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row-start-1 col-span-2 lg:row-start-auto">
+                    <form action="" meethod="post">
+                        <h2 class="font-semibold text-gray-800 dark:text-white">Subscribe now</h2>
+                        <p class="text-sm mt-2 text-gray-700 dark:text-gray-300">Stay updated on new releases and features, guides, and case studies.</p>
+
+                        <div class="mt-8 flex gap-2">
+                            <input placeholder="Email" class="w-full bg-white rounded-md shadow-sm shadow-gray-950/5 border border-gray-300 bg-transparent px-3.5 py-2 text-sm text-gray-500 placeholder-gray-500 invalid:border-red-500 dark:border-gray-700 dark:hover:border-gray-600 dark:text-white dark:placeholder-gray-200 dark:bg-gray-900" type="email" name="email" id="email" />
+                            <button type="submit" class="w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                                <span class="relative text-sm">Subscribe</span>
                             </button>
                         </div>
-
                     </form>
                 </div>
-            </section>
+            </div>
 
-        </main>
-
-        <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800">
-            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
-                    <div>
-                        <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
-                        <ul class="mt-6 space-y-2">
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
-                            </li>
-                        </ul>
+            <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
+                <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                    <div class="flex gap-4 items-center">
+                        <a href="/">
+                            <img class="size-8" src="./Assets/favicon.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <span class="sr-only">WebSharper logo</span>
+                        </a>
+                        <span class="">© WebSharper 2009 - Present</span>
                     </div>
-                    <div>
-                        <span class="text-sm font-semibold text-gray-950 dark:text-white">Channels</span>
-                        <ul class="mt-6 space-y-2">
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Code of conduct</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="sm:col-start-2 md:col-start-auto">
-                        <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
-                        <ul class="mt-6 space-y-2">
-                            <li>
-                                <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
-                            </li>
-                            <li>
-                                <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="sm:col-start-3 md:col-start-auto">
-                        <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
-                        <ul class="mt-6 space-y-2">
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Tutorials</a>
-                            </li>
-                            <li>
-                                <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blog</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="row-start-1 col-span-2 lg:row-start-auto">
-                        <form action="">
-                            <h2 class="font-semibold text-gray-800 dark:text-white">Subscribe now</h2>
-                            <p class="text-sm mt-2 text-gray-700 dark:text-gray-300">Stay updated on new releases and features, guides, and case studies.</p>
-
-                            <div class="mt-8 flex gap-2">
-                                <input placeholder="Email" class="w-full bg-white rounded-md shadow-sm shadow-gray-950/5 border border-gray-300 bg-transparent px-3.5 py-2 text-sm text-gray-500 placeholder-gray-500 invalid:border-red-500 dark:border-gray-700 dark:hover:border-gray-600 dark:text-white dark:placeholder-gray-200 dark:bg-gray-900" type="email" name="email" id="email" />
-                                <button type="submit" class="w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
-                                    <span class="relative text-sm">Subscribe</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
-                    <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
-                        <div class="flex gap-4 items-center">
-                            <a href="/">
-                                <img class="size-8" src="/website-template/favicon.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
-                                <span class="sr-only">WebSharper logo</span>
-                            </a>
-                            <span class="">© WebSharper 2009 - Present</span>
-                        </div>
-                        <span>Latest version is 4.7.3.424</span>
-                    </div>
+                    <span>Latest version is 9.0.1</span>
                 </div>
             </div>
-        </footer>
-    </body>
+        </div>
+    </footer>
+
+    <link type="text/css" rel="stylesheet" href="/Scripts/WebSharper/all.css"></link>
+<script src="./Scripts/WebSharper/all.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+let e2 = document.querySelector("[ws-2]");
+wsbundle.Support().ReplaceInDom(e2);
+});
+</script>
+
+    <script type="module" src="/Js/main.js"></script>
+</body>
 </html>
