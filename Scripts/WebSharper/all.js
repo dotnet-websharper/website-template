@@ -119,7 +119,7 @@ ${r}
                                     <!-- was p-2 -->\r
                                     <div class="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-0 items-start">\r
                                         <div class="md:col-span-1 m-0 p-0">\r
-                                            <img src="/Assets/images/slay.png" alt="DSL + AI" class="block w-full h-56 md:h-64 object-contain object-left-top m-0 p-0 rounded-none shadow-none select-none">\r
+                                            <img src="./Assets/images/slay.png" alt="DSL + AI" class="block w-full h-56 md:h-64 object-contain object-left-top m-0 p-0 rounded-none shadow-none select-none">\r
                                         </div>\r
 \r
                                         <div class="md:col-span-2 text-center md:text-left self-start">\r
@@ -271,7 +271,7 @@ module Client =\r
 &lt;/html&gt;</code></pre>\r
                                             </div>\r
                                             <div class="absolute inset-0 hidden overflow-hidden" role="tabpanel" aria-labelledby="tab-2" data-lang="code-result">\r
-                                                <iframe src="/snippets/spa/index.html" class="w-full h-full pr-2 mr-4 rounded-md bg-white" frameborder="0"></iframe>\r
+                                                <iframe src="./snippets/spa/index.html" class="w-full h-full pr-2 mr-4 rounded-md bg-white" frameborder="0"></iframe>\r
                                             </div>\r
                                         </div>\r
                                     </div>\r
@@ -458,7 +458,7 @@ main.appendChild(result);</code></pre>\r
                                     <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>\r
                                 </div>\r
                             </div>\r
-                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="/snippets/add_two_numbers/index.html" src="/snippets/add_two_numbers/index.html"></iframe>\r
+                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="./snippets/add_two_numbers/index.html" src="./snippets/add_two_numbers/index.html"></iframe>\r
                         </div>\r
                     </div>\r
                 </div>\r
@@ -1351,7 +1351,7 @@ createLoginForm();</code></pre>\r
                                     <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>\r
                                 </div>\r
                             </div>\r
-                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="/snippets/forms/index.html" src="/snippets/forms/index.html"></iframe>\r
+                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="./snippets/forms/index.html" src="./snippets/forms/index.html"></iframe>\r
                         </div>\r
                     </div>\r
                 </div>\r
@@ -1578,7 +1578,7 @@ worker.postMessage("Hello, worker!");\r
                                     <!-- was p-2 -->\r
                                     <div class="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-0 items-start">\r
                                         <div class="md:col-span-1 m-0 p-0">\r
-                                            <img src="/Assets/images/slay.png" alt="DSL + AI" class="block w-full h-56 md:h-64 object-contain object-left-top m-0 p-0 rounded-none shadow-none select-none">\r
+                                            <img src="./Assets/images/slay.png" alt="DSL + AI" class="block w-full h-56 md:h-64 object-contain object-left-top m-0 p-0 rounded-none shadow-none select-none">\r
                                         </div>\r
 \r
                                         <div class="md:col-span-2 text-center md:text-left self-start">\r
@@ -1730,7 +1730,7 @@ module Client =\r
 &lt;/html&gt;</code></pre>\r
                                             </div>\r
                                             <div class="absolute inset-0 hidden overflow-hidden" role="tabpanel" aria-labelledby="tab-2" data-lang="code-result">\r
-                                                <iframe src="/snippets/spa/index.html" class="w-full h-full pr-2 mr-4 rounded-md bg-white" frameborder="0"></iframe>\r
+                                                <iframe src="./snippets/spa/index.html" class="w-full h-full pr-2 mr-4 rounded-md bg-white" frameborder="0"></iframe>\r
                                             </div>\r
                                         </div>\r
                                     </div>\r
@@ -1917,7 +1917,7 @@ main.appendChild(result);</code></pre>\r
                                     <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>\r
                                 </div>\r
                             </div>\r
-                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="/snippets/add_two_numbers/index.html" src="/snippets/add_two_numbers/index.html"></iframe>\r
+                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="./snippets/add_two_numbers/index.html" src="./snippets/add_two_numbers/index.html"></iframe>\r
                         </div>\r
                     </div>\r
                 </div>\r
@@ -2810,7 +2810,7 @@ createLoginForm();</code></pre>\r
                                     <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>\r
                                 </div>\r
                             </div>\r
-                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="/snippets/forms/index.html" src="/snippets/forms/index.html"></iframe>\r
+                            <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="./snippets/forms/index.html" src="./snippets/forms/index.html"></iframe>\r
                         </div>\r
                     </div>\r
                 </div>\r
@@ -3867,7 +3867,7 @@ type Address {\r
             <!-- Hero video -->\r
             <div class="mt-8 overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">\r
                 <video class="w-full h-auto" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="">\r
-                    <source src="/Assets/videos/ws-plugin-demo.mp4" type="video/mp4">\r
+                    <source src="./Assets/videos/ws-plugin-demo.mp4" type="video/mp4">\r
                     Your browser does not support the video tag.\r
                 </video>\r
             </div>\r
@@ -4192,7 +4192,7 @@ type Address {\r
             <!-- Hero video -->\r
             <div class="mt-8 overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">\r
                 <video class="w-full h-auto" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="">\r
-                    <source src="/Assets/videos/ws-plugin-demo.mp4" type="video/mp4">\r
+                    <source src="./Assets/videos/ws-plugin-demo.mp4" type="video/mp4">\r
                     Your browser does not support the video tag.\r
                 </video>\r
             </div>\r
@@ -5559,9 +5559,9 @@ type Address {\r
         <div class="hidden md:block fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800"></div>\r
         <div class="max-w-6xl mx-auto px-12 gap-20 md:flex">\r
             <div class="md:w-1/2 md:pr-20 pt-16">\r
-                <a href="/" class="rounded-full">\r
+                <a href="./" class="rounded-full">\r
                     <span class="sr-only">WebSharper logo</span>\r
-                    <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="/Assets/favicon.png" alt="websharper logo" width="164" height="164">\r
+                    <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="./Assets/favicon.png" alt="websharper logo" width="164" height="164">\r
                 </a>\r
 \r
                 <nav class="mt-8 flex gap-3 items-center">\r
@@ -5730,9 +5730,9 @@ type Address {\r
         <div class="hidden md:block fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800"></div>\r
         <div class="max-w-6xl mx-auto px-12 gap-20 md:flex">\r
             <div class="md:w-1/2 md:pr-20 pt-16">\r
-                <a href="/" class="rounded-full">\r
+                <a href="./" class="rounded-full">\r
                     <span class="sr-only">WebSharper logo</span>\r
-                    <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="/Assets/favicon.png" alt="websharper logo" width="164" height="164">\r
+                    <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="./Assets/favicon.png" alt="websharper logo" width="164" height="164">\r
                 </a>\r
 \r
                 <nav class="mt-8 flex gap-3 items-center">\r
