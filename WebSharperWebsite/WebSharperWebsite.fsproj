@@ -81,7 +81,7 @@
 
   <Target Name="ESBuildBundle" AfterTargets="WebSharperCompile">
     <Exec Command="npm install" />
-	<Exec Command="npm run css:build"></Exec>
+	  <Exec Command="npm run css:build" />
     <Exec Command="node ./esbuild.config.mjs" />
   </Target>
 
