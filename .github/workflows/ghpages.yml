@@ -24,6 +24,15 @@ jobs:
         with:
           node-version: 'lts/*'
 
+      - name: Add GitHub registry NuGet source
+        run: 
+          dotnet nuget 
+            add source https://nuget.pkg.github.com/dotnet-websharper/index.json 
+            --name github 
+            --username intellifactory-gh 
+            --password ${{ secrets.PAT_PACKAGE }} 
+            --store-password-in-clear-text
+
       - name: Build project
         run: dotnet build -c Release
 
