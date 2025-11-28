@@ -463,7 +463,7 @@ function FetchMe(){
   });
 }
 function BuildStartUrlWithReturn(returnUrl){
-  return"https://localhost:8234/auth/github/start?returnUrl="+encodeURIComponent(returnUrl);
+  return"https://api.websharper.com/auth/github/start?returnUrl="+encodeURIComponent(returnUrl);
 }
 function UserView(){
   return _c_20.UserView;
@@ -1375,7 +1375,7 @@ function messageVar(){
 }
 function fetchConfirmation(sessionId){
   return Delay(() => {
-    const url="https://localhost:8234/checkout/confirm?session_id="+encodeURIComponent(sessionId);
+    const url="https://api.websharper.com/checkout/confirm?session_id="+encodeURIComponent(sessionId);
     return TryWith(Delay(() => {
       let r;
       return Bind_1(AsAsync(globalThis.fetch(url, (r={},r.method="GET",r.credentials="include",r.headers=header(),r))), (a) =>!a.ok?Return(null):Bind_1(AsAsync(a.json()), (a_1) => Return(Some(a_1))));
@@ -2111,7 +2111,7 @@ function loadCache(){
 function fetchFromApi(){
   return Delay(() => TryWith(Delay(() => {
     let r;
-    return Bind_1(AsAsync(globalThis.fetch("https://localhost:8234/plans/prices", (r={},r.method="GET",r.credentials="include",r.headers=header(),r))), (a) =>!a.ok?Return(null):Bind_1(AsAsync(a.json()), (a_1) => Return(Some(a_1))));
+    return Bind_1(AsAsync(globalThis.fetch("https://api.websharper.com/plans/prices", (r={},r.method="GET",r.credentials="include",r.headers=header(),r))), (a) =>!a.ok?Return(null):Bind_1(AsAsync(a.json()), (a_1) => Return(Some(a_1))));
   }), () => Return(null)));
 }
 function saveCache(response){
@@ -5459,7 +5459,7 @@ function startCheckout(payload){
     };
     return TryWith(Delay(() => {
       let r;
-      return Bind_1(AsAsync(globalThis.fetch("https://localhost:8234/checkout/session", (r={},r.method="POST",r.credentials="include",r.headers=header(),r.body=JSON.stringify(payload),r))), (a) =>!a.ok?(checkoutError(),Return(null)):Bind_1(AsAsync(a.json()), (a_1) => Return(Some(a_1))));
+      return Bind_1(AsAsync(globalThis.fetch("https://api.websharper.com/checkout/session", (r={},r.method="POST",r.credentials="include",r.headers=header(),r.body=JSON.stringify(payload),r))), (a) =>!a.ok?(checkoutError(),Return(null)):Bind_1(AsAsync(a.json()), (a_1) => Return(Some(a_1))));
     }), () => {
       checkoutError();
       return Return(null);
@@ -6179,8 +6179,8 @@ let _c_20=Lazy((_i) => class $StartupCode_AuthClient {
   static userVar;
   static API;
   static {
-    this.API="https://localhost:8234";
-    set_EndPoint("https://localhost:8234");
+    this.API="https://api.websharper.com";
+    set_EndPoint("https://api.websharper.com");
     this.userVar=_c_1.Create_1(null);
     this.isFetchingVar=_c_1.Create_1(false);
     this.UserView=userVar().View;
