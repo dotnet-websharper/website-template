@@ -197,33 +197,28 @@ module State =
     // Payload
     // -----------------------------
 
-    let buildPayload () : CheckoutPayload =
+    let buildPayload () =
         let form = CheckoutFormVar.Value
         let seatsToSend = form.seatsText |> parseSeats |> clampSeats
 
         {
-            seats = seatsToSend
-            email = form.email.Trim()
-            interval = intervalAsString form.interval
             planCode =
                 match form.plan.ToLower() with
                 | "freelancer" -> "freelancer"
                 | _ -> "pro"
-            billingAddress =
+            interval = intervalAsString form.interval
+            seats = seatsToSend
+            billingData = 
                 {
-                    line1 = form.street.Trim()
-                    city = form.city.Trim()
-                    postal_code = form.postal.Trim()
+                    email = form.email.Trim()
+                    line1 = form.street.Trim()    
+                    city = form.city.Trim()     
+                    postalCode = form.postal.Trim()
                     country = form.country |> toIso2
+                    companyName = if form.isCompany then Some (form.companyName.Trim()) else None
+                    taxId = if form.isCompany then Some (form.vatin.Trim()) else None   
                 }
-            company =
-                if form.isCompany then
-                    Some {
-                        name = form.companyName.Trim()
-                        vatin = form.vatin.Trim()
-                    }
-                else None
-        }
+        } : WebSharperWebApi.CheckoutRequest
 
     // -----------------------------
     // Back link computation

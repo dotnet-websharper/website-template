@@ -73,6 +73,14 @@ type GitHubOrg =
         status : GitHubOrgStatus
     }
 
+type CheckoutRequest = 
+    { 
+        planCode: string // "pro" | "freelancer"
+        interval: string // "month" | "year"
+        seats: int
+        billingData: BillingData
+    }
+
 type ActionResult = Result<unit, string>
 
 type IRemotingContract =
@@ -111,3 +119,6 @@ type IRemotingContract =
 
     [<Remote>]
     abstract member SetGitHubOrgName: string -> Async<ActionResult>
+
+    [<Remote>]
+    abstract member StripeCheckout : CheckoutRequest -> Async<Result<string, string>>

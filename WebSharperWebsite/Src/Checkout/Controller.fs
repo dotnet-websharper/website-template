@@ -79,8 +79,8 @@ module Controller =
                     let! responseOpt = startCheckout payload
 
                     match responseOpt with
-                    | Some response when not (String.IsNullOrWhiteSpace response.url) ->
-                        JS.Window.Location.Href <- response.url
+                    | Some url when not (String.IsNullOrWhiteSpace url) ->
+                        JS.Window.Location.Href <- url
                         resetContinueButton ()
                     | _ -> 
                         resetContinueButton ()

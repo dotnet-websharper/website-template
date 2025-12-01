@@ -4,40 +4,29 @@ open WebSharper
 open WebSharper.JavaScript
 
 open WebSharperWebsite
-open Types
+open WebSharperWebApi
 
 [<JavaScript>]
 module Api =
 
-    let startCheckout (payload: CheckoutPayload) : Async<CheckoutResponse option> =
+    let startCheckout (payload: CheckoutRequest) : Async<string option> =
         async {
-            let checkoutError () =
+            let checkoutError err =
                 Error.RedirectToError {
                     Title = Some "Checkout failed"
-                    Message = Some "Something went wrong while starting the payment. Please try again."
+                    Message = Some (err + " Please try again.")
                     Page = None
                 }
 
             try
-                let! resp =
-                    JS.Fetch(
-                        AuthClient.API + "/checkout/session",
-                        RequestOptions(
-                            Method = "POST",
-                            Credentials = RequestCredentials.Include,
-                            Headers = AuthClient.header(),
-                            Body = Json.Serialize(payload)
-                        )
-                    )
-                    |> Promise.AsAsync
+                let! resp = Remote<IRemotingContract>.StripeCheckout(payload)
 
-                if not resp.Ok then
-                    checkoutError ()
+                match resp with
+                | Ok url -> return Some url
+                | Error msg ->
+                    checkoutError msg
                     return None
-                else
-                    let! data = resp.Json() |> Promise.AsAsync
-                    return Some (data |> As<CheckoutResponse>)
             with _ ->
-                checkoutError ()
+                checkoutError "Failed to connect to the server."
                 return None
         }
