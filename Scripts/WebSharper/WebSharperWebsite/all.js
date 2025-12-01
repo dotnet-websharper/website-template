@@ -2316,12 +2316,14 @@ function backLinkHref(){
 function readParams(){
   let o;
   const queryParameters=new URLSearchParams(globalThis.location.search);
-  let _2=queryParameters.get("plan").toLowerCase()=="freelancer"?"freelancer":"pro";
-  let _3=queryParameters.get("interval").toLowerCase()=="month"?Month:Year;
-  const m=(o=0,[TryParse(queryParameters.get("seats"), {get:() => o, set:(v) => {
+  const m=queryParameters.get("plan");
+  let _2=!(m==null)&&m.toLowerCase()=="freelancer"?"freelancer":"pro";
+  const m_1=queryParameters.get("interval");
+  let _3=!(m_1==null)&&m_1.toLowerCase()=="month"?Month:Year;
+  const m_2=(o=0,[TryParse(queryParameters.get("seats"), {get:() => o, set:(v) => {
     o=v;
   }}), o]);
-  let _4=m[0]?clampSeats(m[1]):1;
+  let _4=m_2[0]?clampSeats(m_2[1]):1;
   return New_13(_2, _3, _4);
 }
 function plansVar(){
