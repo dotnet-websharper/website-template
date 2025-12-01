@@ -122,34 +122,7 @@ module ViewsPricing =
 
     let VatRate : View<float> =
         View.Map3
-            (fun country isCompany vatin ->
-                let countryIso = toIso2 country
-
-                let euVat =
-                    dict [
-                        "AT", 0.20; "BE", 0.21; "BG", 0.20; "HR", 0.25; "CY", 0.19
-                        "CZ", 0.21; "DK", 0.25; "EE", 0.22; "FI", 0.24; "FR", 0.20
-                        "DE", 0.19; "GR", 0.24; "HU", 0.27; "IE", 0.23; "IT", 0.22
-                        "LV", 0.21; "LT", 0.21; "LU", 0.17; "MT", 0.18; "NL", 0.21
-                        "PL", 0.23; "PT", 0.23; "RO", 0.19; "SK", 0.20; "SI", 0.22
-                        "ES", 0.21; "SE", 0.25
-                    ]
-
-                let hasVatId =
-                    not (String.IsNullOrWhiteSpace vatin)
-
-                let isEU =
-                    euVat.ContainsKey countryIso
-
-                if isCompany then
-                    if countryIso = "HU" then 0.27
-                    elif isEU && hasVatId then 0.0
-                    elif isEU && not hasVatId then euVat.[countryIso]
-                    else 0.0
-                else
-                    if isEU then euVat.[countryIso]
-                    else 0.0
-            )
+            WebSharperWebApi.Shared.getVATRate
             CountryVar.View
             IsCompanyVar.View
             VatinVar.View
