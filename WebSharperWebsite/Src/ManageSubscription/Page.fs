@@ -33,6 +33,8 @@ module Page =
 
     let private loadSubscriptionsAsync () =
         async {
+            let! subs = Api.ListSubscriptions ()
+            SubsVar.Value <- subs
             ViewsSeats.RefreshSeats ()
         }
 
@@ -188,6 +190,7 @@ module Page =
                 .BillingCountryVar(ViewsBilling.BillingRecordVar.V.address.country)
 
                 // actions
+                .AddSeatsButtonAttr(ViewsSeats.AddSeatsButtonAttr)
                 .AddSeatsClick(fun _ ->
                     JS.Window.Location.Href <- "./checkout.html?plan=pro&interval=year&seats=1"
                 )

@@ -45,34 +45,41 @@ module ViewsSeats =
 
         span [ attr.``class`` cls ] [ text status ]
 
-    let private usernameAttr (seat: SeatRecord) : Attr =
-        if seat.status = "assigned" then
+    let private usernameAttr (seat: SeatRecord) (isLocked: bool) : Attr =
+        if isLocked || seat.status = "assigned" then
             Attr.Create "readonly" ""
         else
             Attr.Empty
 
-    // Show Assign only when seat is available, Unassign only when seat is assigned
-    let private assignButtonAttr (seat: SeatRecord) : Attr =
-        if seat.status = "assigned" then
+    let private assignButtonAttr (seat: SeatRecord) (isLocked: bool) : Attr =
+        if isLocked || seat.status = "assigned" then
             attr.style "display: none"
         else
             Attr.Empty
 
-    let private unassignButtonAttr (seat: SeatRecord) : Attr =
-        if seat.status = "assigned" then
+    let private unassignButtonAttr (seat: SeatRecord) (isLocked: bool) : Attr =
+        if isLocked || seat.status = "assigned" then
             Attr.Empty
         else
             attr.style "display: none"
 
-    // Helper to verify GitHub user existence
+    let AddSeatsButtonAttr : Attr =
+        SubsVar.View
+        |> View.Map (fun subs ->
+            let isFreelancer = 
+                subs |> Array.exists (fun s -> s.plan.ToLower().Contains("freelancer"))
+            
+            if isFreelancer then
+                "display: none"
+            else
+                ""
+        )
+        |> Attr.Dynamic "style"
+
     let private verifyGitHubUser (username: string) =
         async {
             let! response =  JS.Fetch("https://api.github.com/users/" + username) |> Promise.AsAsync
-
-            if response.Ok then
-                return true
-            else
-                return false
+            return response.Ok
         }
 
     let private assignSeat (subId: string) (seatNo: int) (username: string) =
@@ -80,16 +87,13 @@ module ViewsSeats =
             async {
                 setLoading true
                 try
-                    // Check if user exists on GitHub
                     let! exists = verifyGitHubUser username
-                    
                     if exists then
                         let! ok = Api.AssignSeat subId seatNo username
                         if ok then
                             do! refreshSeatsAsync ()
                             showToast "Updated"
                     else
-                        // Show warning if user not found
                         Utils.alertWarning $"GitHub user '{username}' not found"
                 finally
                     setLoading false
@@ -109,13 +113,11 @@ module ViewsSeats =
         }
         |> Async.StartImmediate
 
-    // Optimistic toggle of auto-renew, then sync with backend
     let private toggleAutoRenew (subId: string) (expiry: string) (currentAutoRenew: bool) =
         async {
             setLoading true
             try
                 let newAuto = not currentAutoRenew
-
                 let updatedSeats =
                     SeatsVar.Value
                     |> Array.map (fun s ->
@@ -124,14 +126,9 @@ module ViewsSeats =
                         else
                             s
                     )
-
                 SeatsVar.Value <- updatedSeats
-
-                let newCancelAtPeriodEnd = currentAutoRenew
-                let! ok = Api.SetAutoRenew subId newCancelAtPeriodEnd
-
-                if ok then
-                    showToast "Updated"
+                let! ok = Api.SetAutoRenew subId currentAutoRenew
+                if ok then showToast "Updated"
             finally
                 setLoading false
         }
@@ -141,20 +138,36 @@ module ViewsSeats =
     // Template docs
     // -----------------------------
 
-    let private seatRowDoc (seat: SeatRecord) : Doc =
-        let usernameVar = Var.Create seat.username
+    let private setGhUsernameForFreelancer (seat: SeatRecord) (isLocked: bool) (forcedUsername: string option) =
+        if isLocked && seat.status <> "assigned" && Option.isSome forcedUsername then
+            let userToAssign = forcedUsername.Value
+            
+            do assignSeat seat.subscriptionId seat.seatNo (userToAssign.ToLower())
+            seat.status <- "assigned"
+
+    let private seatRowDoc (seat: SeatRecord) (isLocked: bool) (forcedUsername: string option) : Doc =
+        let effectiveUsername = 
+            if isLocked && Option.isSome forcedUsername then 
+                forcedUsername.Value 
+            else 
+                seat.username
+            
+        let usernameVar = Var.Create effectiveUsername
+
+        setGhUsernameForFreelancer seat isLocked forcedUsername
 
         Templates.ManageSubscriptionTemplate.SeatRow()
             .SeatLabel($"#{seat.seatNo}")
             .Username(usernameVar)
-            .UsernameAttr(usernameAttr seat)
+            .UsernameAttr(usernameAttr seat isLocked)
             .StatusBadge(seatBadge seat.status)
             .Expiry(seat.expiry)
-            .AssignButtonAttr(assignButtonAttr seat)
-            .UnassignButtonAttr(unassignButtonAttr seat)
+            .AssignButtonAttr(assignButtonAttr seat isLocked)
+            .UnassignButtonAttr(unassignButtonAttr seat isLocked)
             .AssignSeat(fun t ->
-                let username = t.Vars.Username.Value.Trim()
-                assignSeat seat.subscriptionId seat.seatNo (username.ToLower())
+                if not isLocked then
+                    let username = t.Vars.Username.Value.Trim()
+                    assignSeat seat.subscriptionId seat.seatNo (username.ToLower())
             )
             .UnassignSeat(fun _ ->
                 unassignSeat seat.subscriptionId seat.seatNo
@@ -191,8 +204,7 @@ module ViewsSeats =
             .Doc()
 
     let private seatGroupsDoc : Doc =
-        SeatsVar.View
-        |> View.Map (fun seats ->
+        View.Map3 (fun seats (subs: SubRecord array) (userOpt: User option) ->
             seats
             |> Seq.sortBy (fun s -> s.expiry, s.subscriptionId, s.seatNo)
             |> Seq.groupBy (fun s -> s.subscriptionId)
@@ -201,13 +213,28 @@ module ViewsSeats =
                 if groupSeats.Length = 0 then
                     Seq.empty
                 else
+                    let subOption = subs |> Array.tryFind (fun s -> s.id = subId.ToLower())
+                    
+                    let isFreelancer = 
+                        match subOption with
+                        | Some s -> s.plan.ToLower().Contains("freelancer")
+                        | None -> false
+
+                    let forcedUsername = 
+                        if isFreelancer then
+                            userOpt |> Option.map (fun u -> u.login.ToLower())
+                        else
+                            None
+
                     let expiry = groupSeats.[0].expiry
                     let autoRenew = groupSeats.[0].autoRenew
+                    
                     seq {
                         yield groupHeaderDoc subId expiry autoRenew
-                        yield! groupSeats |> Seq.map seatRowDoc
+                        yield! groupSeats |> Seq.map (fun s -> seatRowDoc s isFreelancer forcedUsername)
                     })
             |> Doc.Concat)
+            SeatsVar.View SubsVar.View State.UserVar.View
         |> Doc.EmbedView
 
     let SeatsBody : Doc =

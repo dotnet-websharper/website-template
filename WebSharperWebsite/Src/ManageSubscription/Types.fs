@@ -21,7 +21,7 @@ module Types =
     type SeatRecord = {
         seatNo: int
         username: string
-        status: string
+        mutable status: string
         expiry: string
         autoRenew: bool
         subscriptionId: string
