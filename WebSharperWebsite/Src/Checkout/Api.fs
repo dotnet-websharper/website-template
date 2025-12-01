@@ -26,7 +26,7 @@ module Api =
                             Method = "POST",
                             Credentials = RequestCredentials.Include,
                             Headers = AuthClient.header(),
-                            Body = JSON.Stringify(payload)
+                            Body = Json.Serialize(payload)
                         )
                     )
                     |> Promise.AsAsync
