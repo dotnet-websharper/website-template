@@ -27,6 +27,60 @@
 
     <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
     <link rel="stylesheet" href="tailwind.css" />
+    <script>
+        const DOC = document.documentElement;
+        const THEME_KEY = "color-theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", theme === "dark");
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || (saved === null && prefersDark())) return "dark";
+            return "light";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            localStorage.setItem(THEME_KEY, theme);
+            updateAllIframesTheme(theme);
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY && (e.newValue === "dark" || e.newValue === "light")) {
+                setThemeClass(e.newValue);
+                updateAllIframesTheme(e.newValue);
+            }
+        });
+
+    </script>
 </head>
 <body class="bg-white dark:bg-gray-950 overflow-x-hidden">
     <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">

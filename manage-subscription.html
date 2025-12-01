@@ -27,6 +27,60 @@
 
     <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
     <link rel="stylesheet" href="tailwind.css" />
+    <script>
+        const DOC = document.documentElement;
+        const THEME_KEY = "color-theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", theme === "dark");
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || (saved === null && prefersDark())) return "dark";
+            return "light";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            localStorage.setItem(THEME_KEY, theme);
+            updateAllIframesTheme(theme);
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY && (e.newValue === "dark" || e.newValue === "light")) {
+                setThemeClass(e.newValue);
+                updateAllIframesTheme(e.newValue);
+            }
+        });
+
+    </script>
 </head>
 <body class="bg-white dark:bg-gray-950 overflow-x-hidden">
     <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
@@ -448,27 +502,27 @@ hover:bg-gray-50 dark:hover:bg-gray-800">
                             <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm text-gray-600 dark:text-gray-300">Company / Full name</label>
-                                    <input name="name" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="3e13bc4f-2c52-4c0a-adad-561b76da4166::billingnamevar" />
+                                    <input name="name" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="e13fa101-a9f1-48a3-9438-4296ae4334e6::billingnamevar" />
                                 </div>
                                 <div>
                                     <label class="block text-sm text-gray-600 dark:text-gray-300">VAT / Tax ID</label>
-                                    <input name="vatin" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="3e13bc4f-2c52-4c0a-adad-561b76da4166::billingvatinvar" />
+                                    <input name="vatin" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="e13fa101-a9f1-48a3-9438-4296ae4334e6::billingvatinvar" />
                                 </div>
                                 <div class="sm:col-span-2">
                                     <label class="block text-sm text-gray-600 dark:text-gray-300">Address line 1</label>
-                                    <input name="line1" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="3e13bc4f-2c52-4c0a-adad-561b76da4166::billingline1var" />
+                                    <input name="line1" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="e13fa101-a9f1-48a3-9438-4296ae4334e6::billingline1var" />
                                 </div>
                                 <div>
                                     <label class="block text-sm text-gray-600 dark:text-gray-300">City</label>
-                                    <input name="city" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="3e13bc4f-2c52-4c0a-adad-561b76da4166::billingcityvar" />
+                                    <input name="city" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="e13fa101-a9f1-48a3-9438-4296ae4334e6::billingcityvar" />
                                 </div>
                                 <div>
                                     <label class="block text-sm text-gray-600 dark:text-gray-300">Postal code</label>
-                                    <input name="postal_code" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="3e13bc4f-2c52-4c0a-adad-561b76da4166::billingpostalvar" />
+                                    <input name="postal_code" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="e13fa101-a9f1-48a3-9438-4296ae4334e6::billingpostalvar" />
                                 </div>
                                 <div>
                                     <label class="block text-sm text-gray-600 dark:text-gray-300">Country</label>
-                                    <input name="country" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="3e13bc4f-2c52-4c0a-adad-561b76da4166::billingcountryvar" />
+                                    <input name="country" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" ws-var="e13fa101-a9f1-48a3-9438-4296ae4334e6::billingcountryvar" />
                                 </div>
                             </form>
                         </div>

@@ -27,6 +27,60 @@
 
     <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
     <link rel="stylesheet" href="tailwind.css" />
+    <script>
+        const DOC = document.documentElement;
+        const THEME_KEY = "color-theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", theme === "dark");
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || (saved === null && prefersDark())) return "dark";
+            return "light";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            localStorage.setItem(THEME_KEY, theme);
+            updateAllIframesTheme(theme);
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY && (e.newValue === "dark" || e.newValue === "light")) {
+                setThemeClass(e.newValue);
+                updateAllIframesTheme(e.newValue);
+            }
+        });
+
+    </script>
 </head>
 <body class="bg-white dark:bg-gray-950 overflow-x-hidden">
     <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
@@ -440,7 +494,7 @@
                                                 dark:border-white/20 dark:text-white" aria-label="Decrease seats" type="button">
                                     -
                                 </button>
-                                <input type="text" inputmode="numeric" pattern="[0-9]*" min="1" step="1" value="1" class="w-20 text-center rounded-xl border border-gray-300 bg-transparent dark:border-white/20 text-gray-900 dark:text-white h-10" aria-label="Seat count" ws-var="b9696dc2-55ff-47bc-ac9b-3e6bc00f0842::seatcount" />
+                                <input type="text" inputmode="numeric" pattern="[0-9]*" min="1" step="1" value="1" class="w-20 text-center rounded-xl border border-gray-300 bg-transparent dark:border-white/20 text-gray-900 dark:text-white h-10" aria-label="Seat count" ws-var="f3b417f6-3a37-47d9-a268-cd9afcae26e3::seatcount" />
                                 <button class="cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800
                                                 dark:border-white/20 dark:text-white" aria-label="Increase seats" type="button">
                                     +
@@ -515,13 +569,13 @@
                     
                     <div class="mb-6">
                         <label for="emailSubject" class="block font-semibold mb-2">Subject</label>
-                        <input type="text" name="email-subject" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" value="WebSharper support" ws-var="b9696dc2-55ff-47bc-ac9b-3e6bc00f0842::contactsubjectvar" />
+                        <input type="text" name="email-subject" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" value="WebSharper support" ws-var="f3b417f6-3a37-47d9-a268-cd9afcae26e3::contactsubjectvar" />
                     </div>
 
                     
                     <div class="mb-6">
                         <label for="emailMessage" class="block font-semibold mb-2">Message</label>
-                        <textarea name="email-message" rows="5" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="b9696dc2-55ff-47bc-ac9b-3e6bc00f0842::contactmessagevar"></textarea>
+                        <textarea name="email-message" rows="5" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="f3b417f6-3a37-47d9-a268-cd9afcae26e3::contactmessagevar"></textarea>
                     </div>
 
                     
@@ -529,19 +583,19 @@
                         
                         <div>
                             <label for="emailAddress" class="block font-semibold mb-2">Your email address</label>
-                            <input type="email" name="email-address" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="b9696dc2-55ff-47bc-ac9b-3e6bc00f0842::contactemailvar" />
+                            <input type="email" name="email-address" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="f3b417f6-3a37-47d9-a268-cd9afcae26e3::contactemailvar" />
                         </div>
 
                         
                         <div>
                             <label for="emailName" class="block font-semibold mb-2">Your name</label>
-                            <input type="text" name="name" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="b9696dc2-55ff-47bc-ac9b-3e6bc00f0842::contactnamevar" />
+                            <input type="text" name="name" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="f3b417f6-3a37-47d9-a268-cd9afcae26e3::contactnamevar" />
                         </div>
 
                         
                         <div>
                             <label for="emailCountry" class="block font-semibold mb-2">Your country</label>
-                            <select name="email-country" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="b9696dc2-55ff-47bc-ac9b-3e6bc00f0842::contactcountryvar">
+                            <select name="email-country" class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400" ws-var="f3b417f6-3a37-47d9-a268-cd9afcae26e3::contactcountryvar">
                                 <option value="Afghanistan">Afghanistan</option>
                                 <option value="Albania">Albania</option>
                                 <option value="Algeria">Algeria</option>
