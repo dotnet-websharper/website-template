@@ -14,7 +14,7 @@ module Api =
             let checkoutError err =
                 Error.RedirectToError {
                     Title = Some "Checkout failed"
-                    Message = Some (err + " Please try again.")
+                    Message = Some (err + ". Please try again.")
                     Page = None
                 }
 
@@ -27,6 +27,6 @@ module Api =
                     checkoutError msg
                     return None
             with _ ->
-                checkoutError "Failed to connect to the server."
+                checkoutError "Failed to connect to the server"
                 return None
         }
