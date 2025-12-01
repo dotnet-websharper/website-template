@@ -131,13 +131,13 @@ module State =
         let queryParameters = new URLSearchParams(JS.Window.Location.Search)
 
         let plan =
-            match queryParameters.Get("plan").ToLower() with
-            | "freelancer" -> "freelancer"
+            match queryParameters.Get("plan") with
+            | s when not (isNull s) && s.ToLower() = "freelancer" -> "freelancer"
             | _ -> "pro"
 
         let interval =
-            match queryParameters.Get("interval").ToLower() with
-            | "month" -> Interval.Month
+            match queryParameters.Get("interval") with
+            | s when not (isNull s) && s.ToLower() = "month" -> Interval.Month
             | _ -> Interval.Year
 
         let seats =
