@@ -5487,10 +5487,10 @@ let _c_13=Lazy((_i) => class Pricing {
 function startCheckout(payload){
   return Delay(() => {
     const checkoutError=(err) => {
-      RedirectToError(New_6(Some("Checkout failed"), Some(err+" Please try again."), null));
+      RedirectToError(New_6(Some("Checkout failed"), Some(err+". Please try again."), null));
     };
     return TryWith(Delay(() => Bind_1(StripeCheckout(payload), (a) => a.$==1?(checkoutError(a.$0),Return(null)):Return(Some(a.$0)))), () => {
-      checkoutError("Failed to connect to the server.");
+      checkoutError("Failed to connect to the server");
       return Return(null);
     });
   });
