@@ -1,5 +1,5 @@
 export { default as Runtime } from "../WebSharper.Core.JavaScript/Runtime.js"
-import { MarkResizable, SetOptional, Lazy, Create as Create_2, GetOptional, CreateFuncWithArgs, DeleteEmptyFields } from "../WebSharper.Core.JavaScript/Runtime.js"
+import { MarkResizable, SetOptional, Create as Create_2, Lazy, GetOptional, CreateFuncWithArgs, DeleteEmptyFields } from "../WebSharper.Core.JavaScript/Runtime.js"
 import * as _1 from "asciinema-player"
 import sweetalert2 from "sweetalert2"
 import "prismjs/themes/prism-dark.css"
@@ -662,7 +662,7 @@ function showOnlyPanel(root, targetName){
 function measureIndicatorPos(tab, container){
   let c;
   let c_1;
-  return New_16((c=tab.getBoundingClientRect().left-container.getBoundingClientRect().left,String(c))+"px", (c_1=tab.getBoundingClientRect().width,String(c_1))+"px");
+  return New_19((c=tab.getBoundingClientRect().left-container.getBoundingClientRect().left,String(c))+"px", (c_1=tab.getBoundingClientRect().width,String(c_1))+"px");
 }
 function applyIndicatorPos(indicator, pos){
   indicator.style.left=pos.LeftPx;
@@ -946,7 +946,7 @@ function DecodeJson_GitHubOrg(){
   return Decoder_GitHubOrg?Decoder_GitHubOrg:Decoder_GitHubOrg=(DecodeRecord(void 0, [["name", Id_1(), 1], ["status", DecodeJson_GitHubOrgStatus, 0]]))();
 }
 function DecodeJson_GitHubOrgStatus(){
-  return Decoder_GitHubOrgStatus?Decoder_GitHubOrgStatus:Decoder_GitHubOrgStatus=(DecodeUnion(void 0, "$", [null, null]))();
+  return Decoder_GitHubOrgStatus?Decoder_GitHubOrgStatus:Decoder_GitHubOrgStatus=(DecodeUnion((o) => Create_2(GitHubOrgStatus, o), "$", [null, null]))();
 }
 function SupportDoc(){
   const F=FreeCheckoutAttr();
@@ -2302,20 +2302,7 @@ function ContinueDisabled(){
 function buildPayload(){
   const form=CheckoutFormVar().Get();
   const seatsToSend=clampSeats(parseSeats(form.seatsText));
-  return{
-    planCode:form.plan.toLowerCase()=="freelancer"?"freelancer":"pro", 
-    interval:intervalAsString(form.interval), 
-    seats:seatsToSend, 
-    billingData:{
-      email:Trim(form.email), 
-      line1:Trim(form.street), 
-      city:Trim(form.city), 
-      postalCode:Trim(form.postal), 
-      country:form.country, 
-      companyName:form.isCompany?Some(Trim(form.companyName)):null, 
-      taxId:form.isCompany?Some(Trim(form.vatin)):null
-    }
-  };
+  return New_15(form.plan.toLowerCase()=="freelancer"?"freelancer":"pro", intervalAsString(form.interval), seatsToSend, New_14(Trim(form.email), Trim(form.street), Trim(form.city), Trim(form.postal), form.country, form.isCompany?Some(Trim(form.companyName)):null, form.isCompany?Some(Trim(form.vatin)):null));
 }
 function CheckoutFormVar(){
   return _c_11.CheckoutFormVar;
@@ -2356,9 +2343,6 @@ function SelectedIntervalVar(){
 }
 function SelectedPlanVar(){
   return _c_11.SelectedPlanVar;
-}
-function toIso2(value){
-  return value==null?"":Trim(value).toUpperCase();
 }
 function PaymentSectionAttr(){
   return _c_12.PaymentSectionAttr;
@@ -2592,7 +2576,7 @@ function toggleAutoRenew(subId, expiry, currentAutoRenew){
     setLoading(true);
     return TryFinally(Delay(() => {
       const newAuto=!currentAutoRenew;
-      SeatsVar().Set(map_1((s) => s.subscriptionId==subId&&s.expiry==expiry?New_14(s.seatNo, s.username, s.status, s.expiry, newAuto, s.subscriptionId):s, SeatsVar().Get()));
+      SeatsVar().Set(map_1((s) => s.subscriptionId==subId&&s.expiry==expiry?New_16(s.seatNo, s.username, s.status, s.expiry, newAuto, s.subscriptionId):s, SeatsVar().Get()));
       return Bind_1(SetAutoRenew(subId, currentAutoRenew), (a) => a?(showToast("Updated"),Zero()):Zero());
     }), () => {
       setLoading(false);
@@ -3155,7 +3139,7 @@ function Insert(elem, tree){
   }
   loop(tree);
   const arr=nodes.slice(0);
-  let _2=New_15(elem, Flags(tree), arr, oar.length===0?null:Some((el) => {
+  let _2=New_18(elem, Flags(tree), arr, oar.length===0?null:Some((el) => {
     iter((f) => {
       f(el);
     }, oar);
@@ -3166,7 +3150,7 @@ function Updates(dyn){
   return MapTreeReduce((x) => x.NChanged, Const(), Map2Unit, dyn.DynNodes);
 }
 function Empty(e){
-  return New_15(e, 0, [], null);
+  return New_18(e, 0, [], null);
 }
 function HasExitAnim(attr_1){
   const flag=2;
@@ -5463,13 +5447,7 @@ let _c_13=Lazy((_i) => class Pricing {
       const every=_3.$==1?"year":"month";
       return _2!=null&&_2.$==1&&(_2.$0.isPerSeat&&(_4=_2.$0,true))?((((_5) =>(_6) =>(_7) => _5("Price is "+toSafe(_6)+" per seat per "+toSafe(_7)+"."))((x) => x))(usd(price)))(every):((((_5) =>(_6) =>(_7) => _5("Price is "+toSafe(_6)+" per "+toSafe(_7)+"."))((x) => x))(usd(price)))(every);
     }, CurrentPlan(), SelectedIntervalVar().View);
-    this.VatRate=Map3((_2, _3, _4) => {
-      const countryIso=toIso2(_2);
-      const euVat=dict([["AT", 0.2], ["BE", 0.21], ["BG", 0.2], ["HR", 0.25], ["CY", 0.19], ["CZ", 0.21], ["DK", 0.25], ["EE", 0.22], ["FI", 0.24], ["FR", 0.2], ["DE", 0.19], ["GR", 0.24], ["HU", 0.27], ["IE", 0.23], ["IT", 0.22], ["LV", 0.21], ["LT", 0.21], ["LU", 0.17], ["MT", 0.18], ["NL", 0.21], ["PL", 0.23], ["PT", 0.23], ["RO", 0.19], ["SK", 0.2], ["SI", 0.22], ["ES", 0.21], ["SE", 0.25]]);
-      const hasVatId=!IsNullOrWhiteSpace(_4);
-      const isEU=euVat.ContainsKey(countryIso);
-      return _3?countryIso=="HU"?0.27:isEU&&hasVatId?0:isEU&&!hasVatId?euVat.Item(countryIso):0:isEU?euVat.Item(countryIso):0;
-    }, CountryVar().View, IsCompanyVar().View, VatinVar().View);
+    this.VatRate=Map3(getVATRate, CountryVar().View, IsCompanyVar().View, VatinVar().View);
     this.SubtotalRaw=Map3((_2, _3, _4) => {
       let _5=_3?clampSeats(_4):1;
       const o=_2==null?null:Some(_2.$0.unitAmountCents);
@@ -5517,7 +5495,7 @@ function LinkPrevElement(el, children){
   InsertDoc(el.parentNode, children, el);
 }
 function CreateDelimitedRunState(ldelim, rdelim, doc){
-  return New_18(get_Empty_1(), CreateDelimitedElemNode(ldelim, rdelim, EmptyAttr(), doc));
+  return New_21(get_Empty_1(), CreateDelimitedElemNode(ldelim, rdelim, EmptyAttr(), doc));
 }
 function PerformAnimatedUpdate(childrenOnly, st, doc){
   return get_UseAnimations()?Delay(() => {
@@ -5536,7 +5514,7 @@ function PerformSyncUpdate(childrenOnly, st, doc){
   st.PreviousNodes=cur;
 }
 function CreateRunState(parent, doc){
-  return New_18(get_Empty_1(), CreateElemNode(parent, EmptyAttr(), doc));
+  return New_21(get_Empty_1(), CreateElemNode(parent, EmptyAttr(), doc));
 }
 function InsertDoc(parent, doc, pos){
   while(true)
@@ -5795,15 +5773,7 @@ function SaveBilling(data){
     let _2=o==null?null:Some(o.$0.name);
     const o_1=data.company;
     let _3=o_1==null?null:Some(o_1.$0.vatin);
-    let _4={
-      email:"", 
-      line1:data.address.line1, 
-      city:data.address.city, 
-      postalCode:data.address.postal_code, 
-      country:data.address.country, 
-      companyName:_2, 
-      taxId:_3
-    };
+    let _4=New_14("", data.address.line1, data.address.city, data.address.postal_code, data.address.country, _2, _3);
     let _5=SetBillingData(_4);
     return Bind_1(_5, (a) => {
       alertError(a);
@@ -5855,13 +5825,13 @@ function GetAllSeats(){
   return Delay(() => Bind_1(GetSubscriptions(), (a) => Return(collect_1(seatsFromSubscription, a))));
 }
 function SetAutoRenew(subId, cancelAtPeriodEnd){
-  return Delay(() => Bind_1(SetCancellationStatus({subscriptionId:Parse(subId), cancelAtPeriodEnd:cancelAtPeriodEnd}), (a) => {
+  return Delay(() => Bind_1(SetCancellationStatus(New_22(Parse(subId), cancelAtPeriodEnd)), (a) => {
     alertError(a);
     return Return(a.$==0);
   }));
 }
 function AssignSeat(subId, _2, username){
-  return Delay(() => IsNullOrWhiteSpace(username)?Return(false):Bind_1(AddAssignment({subscriptionId:Parse(subId), githubAssignedName:username}), (a) => {
+  return Delay(() => IsNullOrWhiteSpace(username)?Return(false):Bind_1(AddAssignment(New_23(Parse(subId), username)), (a) => {
     alertError(a);
     return Return(a.$==0);
   }));
@@ -5872,7 +5842,7 @@ function UnassignSeat(subId, seatNo){
     if(maybeSub!=null&&maybeSub.$==1){
       const sub=maybeSub.$0;
       const idx=seatNo-1;
-      return idx>=0&&idx<length(sub.githubAssignedNames)?Bind_1(RevokeAssignment({subscriptionId:sub.subscriptionId, githubAssignedName:get(sub.githubAssignedNames, idx)}), (a_1) => {
+      return idx>=0&&idx<length(sub.githubAssignedNames)?Bind_1(RevokeAssignment(New_23(sub.subscriptionId, get(sub.githubAssignedNames, idx))), (a_1) => {
         alertError(a_1);
         return Return(a_1.$==0);
       }):Return(false);
@@ -5889,8 +5859,8 @@ function seatsFromSubscription(subscription){
   const b=length(assigned);
   const total=Compare(a, b)===1?a:b;
   return ofSeq(delay(() => collect((i) => {
-    const common=New_14(i+1, "", "", subscription.currentPeriodEnd, !subscription.cancelAtPeriodEnd, String(subscription.subscriptionId));
-    return i<length(assigned)?[New_14(common.seatNo, get(assigned, i), "assigned", common.expiry, common.autoRenew, common.subscriptionId)]:[New_14(common.seatNo, common.username, "available", common.expiry, common.autoRenew, common.subscriptionId)];
+    const common=New_16(i+1, "", "", subscription.currentPeriodEnd, !subscription.cancelAtPeriodEnd, String(subscription.subscriptionId));
+    return i<length(assigned)?[New_16(common.seatNo, get(assigned, i), "assigned", common.expiry, common.autoRenew, common.subscriptionId)]:[New_16(common.seatNo, common.username, "available", common.expiry, common.autoRenew, common.subscriptionId)];
   }, range(0, total-1))));
 }
 function New_5(id, label, plan, totalSeats, renewsAt, status){
@@ -6092,7 +6062,7 @@ let _c_19=Lazy((_i) => class GitHub {
               setLoading(true);
               return TryFinally(Delay(() => {
                 const fullOrgName=OrgPrefix()+GitHubOrgName().Get();
-                return Bind_1(SetGitHubOrgName_1(fullOrgName), (a) => a?(GitHubOrgVar().Set(Some({name:Some(fullOrgName), status:"pending"})),Zero()):Zero());
+                return Bind_1(SetGitHubOrgName_1(fullOrgName), (a) => a?(GitHubOrgVar().Set(Some(New_17(Some(fullOrgName), "pending"))),Zero()):Zero());
               }), () => {
                 setLoading(false);
               });
@@ -6502,10 +6472,38 @@ function New_13(plan, interval, seats){
     seats:seats
   };
 }
+function New_14(email, line1, city, postalCode, country, companyName, taxId){
+  return{
+    email:email, 
+    line1:line1, 
+    city:city, 
+    postalCode:postalCode, 
+    country:country, 
+    companyName:companyName, 
+    taxId:taxId
+  };
+}
 function toSafe(s){
   return s==null?"":s;
 }
-function New_14(seatNo, username, status, expiry, autoRenew, subscriptionId){
+function getVATRate(country, isCompany, vatin){
+  const countryIso=country==null?"":Trim(country).toUpperCase();
+  const hasVatId=!IsNullOrWhiteSpace(vatin);
+  const isEU=euVat().ContainsKey(countryIso);
+  return isCompany?countryIso=="HU"?0.27:isEU&&hasVatId?0:isEU&&!hasVatId?euVat().Item(countryIso):0:isEU?euVat().Item(countryIso):0;
+}
+function euVat(){
+  return _c_29.euVat;
+}
+function New_15(planCode, interval, seats, billingData){
+  return{
+    planCode:planCode, 
+    interval:interval, 
+    seats:seats, 
+    billingData:billingData
+  };
+}
+function New_16(seatNo, username, status, expiry, autoRenew, subscriptionId){
   return{
     seatNo:seatNo, 
     username:username, 
@@ -6567,6 +6565,9 @@ function Create(key, init_2){
 function CreateWithStorage(key, storage){
   return new ListModel("New", key, storage);
 }
+function New_17(name, status){
+  return{name:name, status:status};
+}
 let _c_22=Lazy((_i) => class $StartupCode_State {
   static {
     _c_22=_i(this);
@@ -6581,13 +6582,13 @@ let _c_22=Lazy((_i) => class $StartupCode_State {
   static UserVar;
   static StateVar;
   static {
-    this.StateVar=_c_1.Create_1(New_17(null, [], "", [], [], null));
-    this.UserVar=_c_1.Lens(StateVar(), (s) => s.user, (_2, _3) => New_17(_3, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
-    this.SubsVar=_c_1.Lens(StateVar(), (s) => s.subs, (_2, _3) => New_17(_2.user, _3, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
-    this.CurrentSubIdVar=_c_1.Lens(StateVar(), (s) => s.currentSubId, (_2, _3) => New_17(_2.user, _2.subs, _3, _2.seats, _2.invoices, _2.billing));
-    this.SeatsVar=_c_1.Lens(StateVar(), (s) => s.seats, (_2, _3) => New_17(_2.user, _2.subs, _2.currentSubId, _3, _2.invoices, _2.billing));
-    this.InvoicesVar=_c_1.Lens(StateVar(), (s) => s.invoices, (_2, _3) => New_17(_2.user, _2.subs, _2.currentSubId, _2.seats, _3, _2.billing));
-    this.BillingVar=_c_1.Lens(StateVar(), (s) => s.billing, (_2, _3) => New_17(_2.user, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _3));
+    this.StateVar=_c_1.Create_1(New_20(null, [], "", [], [], null));
+    this.UserVar=_c_1.Lens(StateVar(), (s) => s.user, (_2, _3) => New_20(_3, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
+    this.SubsVar=_c_1.Lens(StateVar(), (s) => s.subs, (_2, _3) => New_20(_2.user, _3, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
+    this.CurrentSubIdVar=_c_1.Lens(StateVar(), (s) => s.currentSubId, (_2, _3) => New_20(_2.user, _2.subs, _3, _2.seats, _2.invoices, _2.billing));
+    this.SeatsVar=_c_1.Lens(StateVar(), (s) => s.seats, (_2, _3) => New_20(_2.user, _2.subs, _2.currentSubId, _3, _2.invoices, _2.billing));
+    this.InvoicesVar=_c_1.Lens(StateVar(), (s) => s.invoices, (_2, _3) => New_20(_2.user, _2.subs, _2.currentSubId, _2.seats, _3, _2.billing));
+    this.BillingVar=_c_1.Lens(StateVar(), (s) => s.billing, (_2, _3) => New_20(_2.user, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _3));
     this.CustomerPortalLinkVar=_c_1.Create_1(null);
     this.GitHubOrgVar=_c_1.Create_1(null);
   }
@@ -6891,7 +6892,7 @@ class CancellationTokenSource extends Object_1 {
     this.init=1;
   }
 }
-function New_15(DynElem, DynFlags, DynNodes, OnAfterRender_4){
+function New_18(DynElem, DynFlags, DynNodes, OnAfterRender_4){
   const _2={
     DynElem:DynElem, 
     DynFlags:DynFlags, 
@@ -6900,7 +6901,7 @@ function New_15(DynElem, DynFlags, DynNodes, OnAfterRender_4){
   SetOptional(_2, "OnAfterRender", OnAfterRender_4);
   return _2;
 }
-function New_16(LeftPx, WidthPx){
+function New_19(LeftPx, WidthPx){
   return{LeftPx:LeftPx, WidthPx:WidthPx};
 }
 class NonStandardPromiseRejectionException extends Error {
@@ -7146,6 +7147,12 @@ function nonNegative(){
 function InMemory(init_2){
   return new ArrayStorage(init_2);
 }
+class GitHubOrgStatus {
+  toString(){
+    return this=="active"?"active":"pending";
+  }
+  $;
+}
 class Text extends TemplateHole {
   name;
   fillWith;
@@ -7170,7 +7177,7 @@ class Text extends TemplateHole {
     this.fillWith=fillWith;
   }
 }
-function New_17(user, subs, currentSubId, seats, invoices, billing){
+function New_20(user, subs, currentSubId, seats, invoices, billing){
   return{
     user:user, 
     subs:subs, 
@@ -7208,13 +7215,13 @@ function DateFormatter(date, format){
   }
 }
 function longDays(){
-  return _c_30.longDays;
+  return _c_31.longDays;
 }
 function padLeft(minLength, x){
   return x.length<minLength?replicate(minLength-x.length, "0")+x:x;
 }
 function longMonths(){
-  return _c_30.longMonths;
+  return _c_31.longMonths;
 }
 function dateOffsetString(d){
   const offset=d.getTimezoneOffset()*-60000;
@@ -7391,13 +7398,13 @@ function parseRepeatToken(format, pos, patternChar){
   return tokenLength;
 }
 function shortDays(){
-  return _c_30.shortDays;
+  return _c_31.shortDays;
 }
 function padRight(minLength, x){
   return x.length<minLength?x+replicate(minLength-x.length, "0"):x;
 }
 function shortMonths(){
-  return _c_30.shortMonths;
+  return _c_31.shortMonths;
 }
 function parseQuotedString(format, pos){
   const quoteChar=format[pos];
@@ -7465,7 +7472,7 @@ function get_Empty(){
   return Anim(Empty_1());
 }
 function BatchUpdatesEnabled(){
-  return _c_29.BatchUpdatesEnabled;
+  return _c_30.BatchUpdatesEnabled;
 }
 function StartProcessor(procAsync){
   const st=[0];
@@ -7690,6 +7697,15 @@ class CheckedInput {
   $0;
   $1;
 }
+let _c_29=Lazy((_i) => class $StartupCode_RemotingContract {
+  static {
+    _c_29=_i(this);
+  }
+  static euVat;
+  static {
+    this.euVat=dict([["AT", 0.2], ["BE", 0.21], ["BG", 0.2], ["HR", 0.25], ["CY", 0.19], ["CZ", 0.21], ["DK", 0.25], ["EE", 0.22], ["FI", 0.24], ["FR", 0.2], ["DE", 0.19], ["GR", 0.24], ["HU", 0.27], ["IE", 0.23], ["IT", 0.22], ["LV", 0.21], ["LT", 0.21], ["LU", 0.17], ["MT", 0.18], ["NL", 0.21], ["PL", 0.23], ["PT", 0.23], ["RO", 0.19], ["SK", 0.2], ["SI", 0.22], ["ES", 0.21], ["SE", 0.25]]);
+  }
+});
 class ArrayStorage extends Object_1 {
   init;
   SSet(coll){
@@ -7703,7 +7719,7 @@ class ArrayStorage extends Object_1 {
     this.init=init_2;
   }
 }
-function New_18(PreviousNodes, Top){
+function New_21(PreviousNodes, Top){
   return{PreviousNodes:PreviousNodes, Top:Top};
 }
 function get_Empty_1(){
@@ -7770,7 +7786,7 @@ function Intersect(a, a_1){
   return NodeSet(Intersect_1(a.$0, a_1.$0));
 }
 function UseAnimations(){
-  return _c_31.UseAnimations;
+  return _c_32.UseAnimations;
 }
 function Actions(a){
   return ConcatActions(choose((a_1) => a_1.$==1?Some(a_1.$0):null, ToArray_1(a.$0)));
@@ -7810,9 +7826,9 @@ function Prolong(nextDuration, anim){
   const last=Create_1(() => anim.Compute(anim.Duration));
   return{Compute:(t_9) => t_9>=dur?last.f():comp(t_9), Duration:nextDuration};
 }
-let _c_29=Lazy((_i) => class Proxy {
+let _c_30=Lazy((_i) => class Proxy {
   static {
-    _c_29=_i(this);
+    _c_30=_i(this);
   }
   static BatchUpdatesEnabled;
   static {
@@ -7934,9 +7950,15 @@ class KeyCollection extends Object_1 {
     this.d=d;
   }
 }
-let _c_30=Lazy((_i) => class Pervasives {
+function New_22(subscriptionId, cancelAtPeriodEnd){
+  return{subscriptionId:subscriptionId, cancelAtPeriodEnd:cancelAtPeriodEnd};
+}
+function New_23(subscriptionId, githubAssignedName){
+  return{subscriptionId:subscriptionId, githubAssignedName:githubAssignedName};
+}
+let _c_31=Lazy((_i) => class Pervasives {
   static {
-    _c_30=_i(this);
+    _c_31=_i(this);
   }
   static longMonths;
   static shortMonths;
@@ -7949,9 +7971,9 @@ let _c_30=Lazy((_i) => class Pervasives {
     this.longMonths=ofArray(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]);
   }
 });
-let _c_31=Lazy((_i) => class $StartupCode_Animation {
+let _c_32=Lazy((_i) => class $StartupCode_Animation {
   static {
-    _c_31=_i(this);
+    _c_32=_i(this);
   }
   static UseAnimations;
   static CubicInOut;
@@ -7995,7 +8017,7 @@ function Concat_1(xs){
   return TreeReduce(Empty_1(), Append_1, x);
 }
 function Empty_1(){
-  return _c_32.Empty;
+  return _c_33.Empty;
 }
 class KeyNotFoundException extends Error {
   constructor(i, _2){
@@ -8123,7 +8145,7 @@ class FormatException extends Error {
   }
 }
 function Create_1(f){
-  return New_19(false, f, forceLazy);
+  return New_24(false, f, forceLazy);
 }
 function forceLazy(){
   const v=this.v();
@@ -8135,16 +8157,16 @@ function forceLazy(){
 function cachedLazy(){
   return this.v;
 }
-let _c_32=Lazy((_i) => class $StartupCode_AppendList {
+let _c_33=Lazy((_i) => class $StartupCode_AppendList {
   static {
-    _c_32=_i(this);
+    _c_33=_i(this);
   }
   static Empty;
   static {
     this.Empty={$:0};
   }
 });
-function New_19(created, evalOrVal, force){
+function New_24(created, evalOrVal, force){
   return{
     c:created, 
     v:evalOrVal, 
