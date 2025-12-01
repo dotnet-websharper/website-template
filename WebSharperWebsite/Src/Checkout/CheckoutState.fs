@@ -26,20 +26,8 @@ module State =
     // -----------------------------
 
     let toIso2 (value: string) =
-        let v = (if isNull value then "" else value).Trim().ToLower()
-        let map =
-            dict [
-                "hungary", "HU"
-                "france", "FR"
-                "united-kingdom", "GB"
-            ]
-        match map.TryGetValue v with
-        | true, iso -> iso
-        | _ ->
-            if v.Length >= 2 then
-                v.Substring(0, 2).ToUpper()
-            else
-                v.ToUpper()
+        if isNull value then "" 
+        else value.Trim().ToUpper()
 
     // -----------------------------
     // Vars
@@ -59,7 +47,7 @@ module State =
             street = ""
             city = ""
             postal = ""
-            country = "hungary"
+            country = "HU"
             isCompany = false
             companyName = ""
             vatin = ""
@@ -214,7 +202,7 @@ module State =
                     line1 = form.street.Trim()    
                     city = form.city.Trim()     
                     postalCode = form.postal.Trim()
-                    country = form.country |> toIso2
+                    country = form.country
                     companyName = if form.isCompany then Some (form.companyName.Trim()) else None
                     taxId = if form.isCompany then Some (form.vatin.Trim()) else None   
                 }
