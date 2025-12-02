@@ -864,9 +864,10 @@ let Encoder_CheckoutRequest;
 let Decoder_FSharpResult_2;
 let Decoder_FSharpResult_3;
 let Decoder_FSharpOption_1;
+let Decoder_FSharpOption_2;
+let Decoder_Subscription;
 let Decoder_GitHubOrgStatus;
 let Decoder_GitHubOrg;
-let Decoder_FSharpOption_2;
 let Decoder_FSharpOption_3;
 let Decoder_BillingData;
 let Decoder_FSharpOption_4;
@@ -930,6 +931,9 @@ function EncodeJson_CheckoutRequest(){
 function DecodeJson_FSharpResult_2(){
   return Decoder_FSharpResult_2?Decoder_FSharpResult_2:Decoder_FSharpResult_2=(DecodeUnion(void 0, "$", [[0, [["$0", "ResultValue", Id_1(), 0]]], [1, [["$0", "ErrorValue", Id_1(), 0]]]]))();
 }
+function DecodeJson_Subscription(){
+  return Decoder_Subscription?Decoder_Subscription:Decoder_Subscription=(DecodeRecord(void 0, [["subscriptionId", Id_1(), 0], ["planName", Id_1(), 0], ["currentPeriodEnd", Id_1(), 0], ["cancelAtPeriodEnd", Id_1(), 0], ["seats", Id_1(), 0], ["githubAssignedNames", DecodeArray(DecodeJson_FSharpOption_2), 0]]))();
+}
 function seatgrouprow(h){
   return h?GetOrLoadTemplate("managesubscription", Some("seatgrouprow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                        <td colspan=\"5\" class=\"px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-100\">\r\n                                            <div class=\"flex items-center justify-between gap-4\">\r\n                                                <div class=\"text-xs sm:text-sm\">\r\n                                                    Expires on ${Expiry}\r\n                                                </div>\r\n                                                <div class=\"flex items-center gap-2\">\r\n                                                    <span class=\"text-xs text-gray-600 dark:text-gray-300\">\r\n                                                        Renew automatically\r\n                                                    </span>\r\n\r\n                                                    <button ws-onclick=\"ToggleAutoRenew\" class=\"${ToggleClasses}\">\r\n                                                        <span class=\"${DotClasses}\"></span>\r\n                                                    </button>\r\n                                                </div>\r\n                                            </div>\r\n                                        </td>\r\n                                    </tr>"), h):PrepareTemplate("managesubscription", Some("seatgrouprow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                        <td colspan=\"5\" class=\"px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-100\">\r\n                                            <div class=\"flex items-center justify-between gap-4\">\r\n                                                <div class=\"text-xs sm:text-sm\">\r\n                                                    Expires on ${Expiry}\r\n                                                </div>\r\n                                                <div class=\"flex items-center gap-2\">\r\n                                                    <span class=\"text-xs text-gray-600 dark:text-gray-300\">\r\n                                                        Renew automatically\r\n                                                    </span>\r\n\r\n                                                    <button ws-onclick=\"ToggleAutoRenew\" class=\"${ToggleClasses}\">\r\n                                                        <span class=\"${DotClasses}\"></span>\r\n                                                    </button>\r\n                                                </div>\r\n                                            </div>\r\n                                        </td>\r\n                                    </tr>"));
 }
@@ -948,11 +952,11 @@ function DecodeJson_FSharpResult_3(){
 function DecodeJson_BillingData(){
   return Decoder_BillingData?Decoder_BillingData:Decoder_BillingData=(DecodeRecord(void 0, [["email", Id_1(), 0], ["line1", Id_1(), 0], ["city", Id_1(), 0], ["postalCode", Id_1(), 0], ["country", Id_1(), 0], ["companyName", Id_1(), 1], ["taxId", Id_1(), 1]]))();
 }
-function DecodeJson_FSharpOption_3(){
-  return Decoder_FSharpOption_3?Decoder_FSharpOption_3:Decoder_FSharpOption_3=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", Id_1(), 0]]]]))();
-}
 function DecodeJson_FSharpOption_2(){
-  return Decoder_FSharpOption_2?Decoder_FSharpOption_2:Decoder_FSharpOption_2=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", DecodeJson_GitHubOrg, 0]]]]))();
+  return Decoder_FSharpOption_2?Decoder_FSharpOption_2:Decoder_FSharpOption_2=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", Id_1(), 0]]]]))();
+}
+function DecodeJson_FSharpOption_3(){
+  return Decoder_FSharpOption_3?Decoder_FSharpOption_3:Decoder_FSharpOption_3=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", DecodeJson_GitHubOrg, 0]]]]))();
 }
 function DecodeJson_GitHubOrg(){
   return Decoder_GitHubOrg?Decoder_GitHubOrg:Decoder_GitHubOrg=(DecodeRecord(void 0, [["name", Id_1(), 1], ["status", DecodeJson_GitHubOrgStatus, 0]]))();
@@ -2476,8 +2480,8 @@ function IsPerSeat(){
 function SubtotalRaw(){
   return _c_14.SubtotalRaw;
 }
-function VatRate(){
-  return _c_14.VatRate;
+function VatPercentage(){
+  return _c_14.VatPercentage;
 }
 function TaxesRaw(){
   return _c_14.TaxesRaw;
@@ -3143,7 +3147,7 @@ function StripeCheckout(_2){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/StripeCheckout", [(EncodeJson_CheckoutRequest())(_2)]), (o) => Return((DecodeJson_FSharpResult_2())(o)));
 }
 function GetSubscriptions(){
-  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetSubscriptions", []), (o) => Return(o));
+  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetSubscriptions", []), (o) => Return(((DecodeArray(DecodeJson_Subscription))())(o)));
 }
 function GetInvoices(){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetInvoices", []), (o) => Return(o));
@@ -3155,10 +3159,10 @@ function SetGitHubOrgName(_2){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/SetGitHubOrgName", [_2]), (o) => Return((DecodeJson_FSharpResult_3())(o)));
 }
 function GetCustomerPortalLink(){
-  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetCustomerPortalLink", []), (o) => Return((DecodeJson_FSharpOption_3())(o)));
+  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetCustomerPortalLink", []), (o) => Return((DecodeJson_FSharpOption_2())(o)));
 }
 function GetGitHubOrg(){
-  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetGitHubOrg", []), (o) => Return((DecodeJson_FSharpOption_2())(o)));
+  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetGitHubOrg", []), (o) => Return((DecodeJson_FSharpOption_3())(o)));
 }
 function SetCancellationStatus(_2){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/SetCancellationStatus", [_2]), (o) => Return((DecodeJson_FSharpResult_3())(o)));
@@ -4309,6 +4313,11 @@ function foldBack(f, arr, zero){
 function pick(f, arr){
   const m=tryPick(f, arr);
   return m==null?FailWith("KeyNotFoundException"):m.$0;
+}
+function mapi(f, arr){
+  const y=new Array(arr.length);
+  for(let i=0, _2=arr.length-1;i<=_2;i++)y[i]=f(i, arr[i]);
+  return y;
 }
 function create(size, value){
   const r=new Array(size);
@@ -5549,7 +5558,7 @@ let _c_14=Lazy((_i) => class Pricing {
   static TaxesRaw;
   static Subtotal;
   static SubtotalRaw;
-  static VatRate;
+  static VatPercentage;
   static PriceHint;
   static PlanInterval;
   static PlanPrice;
@@ -5583,7 +5592,7 @@ let _c_14=Lazy((_i) => class Pricing {
       const every=_3.$==1?"year":"month";
       return _2!=null&&_2.$==1&&(_2.$0.isPerSeat&&(_4=_2.$0,true))?((((_5) =>(_6) =>(_7) => _5("Price is "+toSafe(_6)+" per seat per "+toSafe(_7)+"."))((x) => x))(usd(price)))(every):((((_5) =>(_6) =>(_7) => _5("Price is "+toSafe(_6)+" per "+toSafe(_7)+"."))((x) => x))(usd(price)))(every);
     }, CurrentPlan(), SelectedIntervalVar().View);
-    this.VatRate=Map3(getVATRate, CountryVar().View, IsCompanyVar().View, VatinVar().View);
+    this.VatPercentage=Map3(getVATPercentage, CountryVar().View, IsCompanyVar().View, VatinVar().View);
     this.SubtotalRaw=Map3((_2, _3, _4) => {
       let _5=_3?clampSeats(_4):1;
       const o=_2==null?null:Some(_2.$0.unitAmountCents);
@@ -5592,7 +5601,7 @@ let _c_14=Lazy((_i) => class Pricing {
       return _7/100;
     }, CurrentPlan(), IsPerSeat(), Seats());
     this.Subtotal=Map(usd, SubtotalRaw());
-    this.TaxesRaw=Map2((_2, _3) => Math.round(_2*_3), SubtotalRaw(), VatRate());
+    this.TaxesRaw=Map2((_2, _3) => Math.round(_2*_3/100), SubtotalRaw(), VatPercentage());
     this.Taxes=Map(usd, TaxesRaw());
     this.TotalRaw=Map2((_2, _3) => _2+_3, SubtotalRaw(), TaxesRaw());
     this.Total=Map(usd, TotalRaw());
@@ -5908,8 +5917,8 @@ function SetAutoRenew(subId, cancelAtPeriodEnd){
     return Return(a.$==0);
   }));
 }
-function AssignSeat(subId, _2, username){
-  return Delay(() => IsNullOrWhiteSpace(username)?Return(false):Bind_1(AddAssignment(New_23(Parse(subId), username)), (a) => {
+function AssignSeat(subId, seatNo, username){
+  return Delay(() => IsNullOrWhiteSpace(username)?Return(false):Bind_1(AddAssignment(New_23(Parse(subId), username, seatNo)), (a) => {
     alertError(a);
     return Return(a.$==0);
   }));
@@ -5920,10 +5929,17 @@ function UnassignSeat(subId, seatNo){
     if(maybeSub!=null&&maybeSub.$==1){
       const sub=maybeSub.$0;
       const idx=seatNo-1;
-      return idx>=0&&idx<length(sub.githubAssignedNames)?Bind_1(RevokeAssignment(New_23(sub.subscriptionId, get(sub.githubAssignedNames, idx))), (a_1) => {
-        alertError(a_1);
-        return Return(a_1.$==0);
-      }):Return(false);
+      if(idx>=0&&idx<length(sub.githubAssignedNames)){
+        const o=get(sub.githubAssignedNames, idx);
+        let _2=o==null?"":o.$0;
+        let _3=New_23(sub.subscriptionId, _2, seatNo);
+        let _4=RevokeAssignment(_3);
+        return Bind_1(_4, (a_1) => {
+          alertError(a_1);
+          return Return(a_1.$==0);
+        });
+      }
+      else return Return(false);
     }
     else return Return(false);
   }));
@@ -5932,14 +5948,7 @@ function billingCache(){
   return _c_27.billingCache;
 }
 function seatsFromSubscription(subscription){
-  const assigned=subscription.githubAssignedNames;
-  const a=subscription.seats;
-  const b=length(assigned);
-  const total=Compare(a, b)===1?a:b;
-  return ofSeq(delay(() => collect((i) => {
-    const common=New_16(i+1, "", "", subscription.currentPeriodEnd, !subscription.cancelAtPeriodEnd, String(subscription.subscriptionId));
-    return i<length(assigned)?[New_16(common.seatNo, get(assigned, i), "assigned", common.expiry, common.autoRenew, common.subscriptionId)]:[New_16(common.seatNo, common.username, "available", common.expiry, common.autoRenew, common.subscriptionId)];
-  }, range(0, total-1))));
+  return mapi((_2, _3) => New_16(_2+1, _3==null?"":_3.$0, _3!=null?"assigned":"available", subscription.currentPeriodEnd, !subscription.cancelAtPeriodEnd, String(subscription.subscriptionId)), subscription.githubAssignedNames);
 }
 function New_5(id, label, plan, totalSeats, renewsAt, status){
   return{
@@ -6572,11 +6581,11 @@ function New_15(planCode, interval, seats, billingData){
 function toSafe(s){
   return s==null?"":s;
 }
-function getVATRate(country, isCompany, vatin){
+function getVATPercentage(country, isCompany, vatin){
   const countryIso=country==null?"":Trim(country).toUpperCase();
   const hasVatId=!IsNullOrWhiteSpace(vatin);
   const isEU=euVat().ContainsKey(countryIso);
-  return isCompany?countryIso=="HU"?0.27:isEU&&hasVatId?0:isEU&&!hasVatId?euVat().Item(countryIso):0:isEU?euVat().Item(countryIso):0;
+  return isCompany?countryIso=="HU"?27:isEU&&hasVatId?0:isEU&&!hasVatId?euVat().Item(countryIso):0:isEU?euVat().Item(countryIso):0;
 }
 function euVat(){
   return _c_30.euVat;
@@ -6925,6 +6934,9 @@ function DecodeUnion(t_9, discr, cases){
 function Id_1(){
   return() =>(x) => x;
 }
+function DecodeArray(decEl){
+  return EncodeArray(decEl);
+}
 function EncodeRecord(_2, fields){
   return() =>(x) => {
     const o={};
@@ -6944,6 +6956,9 @@ function EncodeRecord(_2, fields){
     }, fields);
     return o;
   };
+}
+function EncodeArray(encEl){
+  return() =>(a) => map_1(encEl(), a);
 }
 function DecodeRecord(t_9, fields){
   return() =>(x) => {
@@ -7781,7 +7796,7 @@ let _c_30=Lazy((_i) => class $StartupCode_RemotingContract {
   }
   static euVat;
   static {
-    this.euVat=dict([["AT", 0.2], ["BE", 0.21], ["BG", 0.2], ["HR", 0.25], ["CY", 0.19], ["CZ", 0.21], ["DK", 0.25], ["EE", 0.22], ["FI", 0.24], ["FR", 0.2], ["DE", 0.19], ["GR", 0.24], ["HU", 0.27], ["IE", 0.23], ["IT", 0.22], ["LV", 0.21], ["LT", 0.21], ["LU", 0.17], ["MT", 0.18], ["NL", 0.21], ["PL", 0.23], ["PT", 0.23], ["RO", 0.19], ["SK", 0.2], ["SI", 0.22], ["ES", 0.21], ["SE", 0.25]]);
+    this.euVat=dict([["AT", 20], ["BE", 21], ["BG", 20], ["HR", 25], ["CY", 19], ["CZ", 21], ["DK", 25], ["EE", 22], ["FI", 24], ["FR", 20], ["DE", 19], ["GR", 24], ["HU", 27], ["IE", 23], ["IT", 22], ["LV", 21], ["LT", 21], ["LU", 17], ["MT", 18], ["NL", 21], ["PL", 23], ["PT", 23], ["RO", 19], ["SK", 20], ["SI", 22], ["ES", 21], ["SE", 25]]);
   }
 });
 class ArrayStorage extends Object_1 {
@@ -8031,8 +8046,12 @@ class KeyCollection extends Object_1 {
 function New_22(subscriptionId, cancelAtPeriodEnd){
   return{subscriptionId:subscriptionId, cancelAtPeriodEnd:cancelAtPeriodEnd};
 }
-function New_23(subscriptionId, githubAssignedName){
-  return{subscriptionId:subscriptionId, githubAssignedName:githubAssignedName};
+function New_23(subscriptionId, githubAssignedName, position){
+  return{
+    subscriptionId:subscriptionId, 
+    githubAssignedName:githubAssignedName, 
+    position:position
+  };
 }
 let _c_32=Lazy((_i) => class Pervasives {
   static {
