@@ -30,7 +30,7 @@ type Subscription =
         currentPeriodEnd : string
         cancelAtPeriodEnd : bool
         seats : int
-        githubAssignedNames : string[]
+        githubAssignedNames : string option[]
     }
 
 [<JavaScript; Prototype false>]
@@ -38,6 +38,7 @@ type Assignment =
     {
         subscriptionId : Guid
         githubAssignedName : string
+        position : int
     }
 
 [<JavaScript; Prototype false>]
@@ -136,15 +137,15 @@ type IRemotingContract =
 module Shared =
     let euVat =
         dict [
-            "AT", 0.20; "BE", 0.21; "BG", 0.20; "HR", 0.25; "CY", 0.19
-            "CZ", 0.21; "DK", 0.25; "EE", 0.22; "FI", 0.24; "FR", 0.20
-            "DE", 0.19; "GR", 0.24; "HU", 0.27; "IE", 0.23; "IT", 0.22
-            "LV", 0.21; "LT", 0.21; "LU", 0.17; "MT", 0.18; "NL", 0.21
-            "PL", 0.23; "PT", 0.23; "RO", 0.19; "SK", 0.20; "SI", 0.22
-            "ES", 0.21; "SE", 0.25
+            "AT", 20; "BE", 21; "BG", 20; "HR", 25; "CY", 19
+            "CZ", 21; "DK", 25; "EE", 22; "FI", 24; "FR", 20
+            "DE", 19; "GR", 24; "HU", 27; "IE", 23; "IT", 22
+            "LV", 21; "LT", 21; "LU", 17; "MT", 18; "NL", 21
+            "PL", 23; "PT", 23; "RO", 19; "SK", 20; "SI", 22
+            "ES", 21; "SE", 25
         ]
 
-    let getVATRate (country: string) (isCompany: bool) (vatin: string) =
+    let getVATPercentage (country: string) (isCompany: bool) (vatin: string) =
 
         let countryIso = 
             if isNull country then "" 
@@ -157,10 +158,10 @@ module Shared =
             euVat.ContainsKey countryIso
 
         if isCompany then
-            if countryIso = "HU" then 0.27
-            elif isEU && hasVatId then 0.0
+            if countryIso = "HU" then 27
+            elif isEU && hasVatId then 0
             elif isEU && not hasVatId then euVat[countryIso]
-            else 0.0
+            else 0
         else
             if isEU then euVat[countryIso]
-            else 0.0
+            else 0

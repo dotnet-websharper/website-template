@@ -29,28 +29,17 @@ module Api =
         }
 
     let private seatsFromSubscription (subscription: Subscription) : SeatRecord array =
-        let assigned = subscription.githubAssignedNames
-        let total = max subscription.seats assigned.Length
-
-        [|
-            for i = 0 to total - 1 do
-                let seatNo = i + 1
-                let common =
-                    {
-                        seatNo = seatNo
-                        username = ""
-                        status = ""
-                        expiry = subscription.currentPeriodEnd
-                        autoRenew = not subscription.cancelAtPeriodEnd
-                        subscriptionId = string subscription.subscriptionId
-                    }
-
-                if i < assigned.Length then
-                    let username = assigned.[i]
-                    yield { common with username = username; status = "assigned" }
-                else
-                    yield { common with status = "available" }
-        |]
+        subscription.githubAssignedNames
+        |> Array.mapi (fun i a ->
+            {
+                seatNo = i + 1
+                username = a |> Option.defaultValue ""
+                status = if Option.isSome a then "assigned" else "available"
+                expiry = subscription.currentPeriodEnd
+                autoRenew = not subscription.cancelAtPeriodEnd
+                subscriptionId = string subscription.subscriptionId
+            }
+        )
 
     // ----------------------
     // Public API (Async)
@@ -104,7 +93,7 @@ module Api =
                 )
         }
 
-    let AssignSeat (subId: string) (_seatNo: int) (username: string) : Async<bool> =
+    let AssignSeat (subId: string) (seatNo: int) (username: string) : Async<bool> =
         async {
             if String.IsNullOrWhiteSpace username then
                 return false
@@ -113,6 +102,7 @@ module Api =
                     Remote<IRemotingContract>.AddAssignment {
                         subscriptionId = Guid.Parse subId
                         githubAssignedName = username
+                        position = seatNo
                     }
                 Utils.alertError res
                 return res.IsOk
@@ -136,7 +126,8 @@ module Api =
                     let! res = 
                         Remote<IRemotingContract>.RevokeAssignment {
                             subscriptionId = sub.subscriptionId
-                            githubAssignedName = username
+                            githubAssignedName = username |> Option.defaultValue ""
+                            position = seatNo
                         }
                     Utils.alertError res
                     return res.IsOk

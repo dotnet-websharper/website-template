@@ -116,9 +116,9 @@ module ViewsPricing =
     // VAT and totals
     // -----------------------------
 
-    let VatRate : View<float> =
+    let VatPercentage : View<int> =
         View.Map3
-            WebSharperWebApi.Shared.getVATRate
+            WebSharperWebApi.Shared.getVATPercentage
             CountryVar.View
             IsCompanyVar.View
             VatinVar.View
@@ -143,11 +143,11 @@ module ViewsPricing =
 
     let TaxesRaw : View<float> =
         View.Map2
-            (fun subtotal vatRate ->
-                Math.Round(subtotal * vatRate)
+            (fun subtotal vatPercentage ->
+                Math.Round(subtotal * float vatPercentage / 100.)
             )
             SubtotalRaw
-            VatRate
+            VatPercentage
 
     let Taxes : View<string> =
         TaxesRaw
