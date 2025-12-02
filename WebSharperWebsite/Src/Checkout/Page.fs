@@ -112,7 +112,7 @@ module Page =
                     |> BindSmoothLoader (
                         BackLinkLabel.View 
                         |> View.Map (fun s -> 
-                            if s.Contains "Manage" then "w-40 h-5 !align-baseline" else "w-12 h-5 !align-baseline"
+                            if s.Contains "Manage" then "w-40 h-5 !align-middle" else "w-12 h-5 !align-middle"
                         )
                     ) ""
                 )
@@ -150,7 +150,7 @@ module Page =
                 .RightSideContent(
                     Templates.CheckoutTemplate.RightSkeleton().Doc()
                 )
-                .BackLinkLabel(SSRSkeleton "w-12 h-5 !align-baseline" "") 
+                .BackLinkLabel(SSRSkeleton "w-12 h-5 !align-middle" "") 
                 .PlanName(SSRSkeleton "w-64 h-6" "")
                 .PriceHint(SSRSkeleton "w-64 h-4" "")
                 .PlanPrice(SSRSkeleton "w-24 h-8" "")
