@@ -18,7 +18,7 @@ module ViewsAttrs =
     // Auth-based visibility
     // -----------------------------
 
-    let private isAuthedV : View<bool> =
+    let isAuthedV : View<bool> =
         AuthClient.UserView
         |> View.Map Option.isSome
 

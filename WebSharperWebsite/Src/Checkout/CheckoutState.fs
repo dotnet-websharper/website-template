@@ -164,7 +164,14 @@ module State =
 
     let initFromApi () =
         async {
-            let! dataOpt = Remote<IRemotingContract>.GetBillingData()
+            let! dataOpt = 
+                async {
+                    try 
+                        return! Remote<IRemotingContract>.GetBillingData()
+                    with _ -> 
+                        return None
+                }
+
             match dataOpt with
             | None -> ()
             | Some data ->
@@ -195,7 +202,10 @@ module State =
                 | "freelancer" -> "freelancer"
                 | _ -> "pro"
             interval = intervalAsString form.interval
-            seats = seatsToSend
+            seats = 
+                match form.plan.ToLower() with
+                | "freelancer" -> 1
+                | _ -> seatsToSend
             billingData = 
                 {
                     email = form.email.Trim()

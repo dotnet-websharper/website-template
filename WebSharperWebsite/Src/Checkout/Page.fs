@@ -15,10 +15,12 @@ module Page =
     open Controller
 
     let IsLoading = Var.Create true
-
-    let BindSmoothLoader (widthHeightClass: string) (justifyClass: string) (actualContent: Doc) =
+    let BindSmoothLoader (widthHeightClass: View<string>) (justifyClass: string) (actualContent: Doc) =
         Templates.CheckoutTemplate.SmoothTextLoader()
-            .WrapperClasses(widthHeightClass)
+            .WrapperClasses(
+                widthHeightClass 
+                |> View.Map (fun w -> "transition-all duration-300 ease-in-out " + w)
+            )
             .SkeletonAttr(
                 let isSet = 
                     IsLoading.View
@@ -38,7 +40,7 @@ module Page =
 
     let SSRSkeleton (widthHeightClass: string) (justifyClass: string) =        
         Templates.CheckoutTemplate.SmoothTextLoader()
-            .WrapperClasses(widthHeightClass)
+            .WrapperClasses("transition-all duration-300 ease-in-out " + widthHeightClass)
             .SkeletonAttr(Attr.Empty) 
             .ContentAttr([attr.``class`` justifyClass])
             .Content(Doc.Empty)
@@ -51,11 +53,13 @@ module Page =
 
         async {
             IsLoading.Value <- true
-                        
+            
             let! _ = Async.Parallel [| 
-                initFromApi ()
+                initFromApi()
                 ensurePlans () 
             |]
+            
+            do! Async.Sleep 500
             
             IsLoading.Value <- false
         }
@@ -67,65 +71,88 @@ module Page =
                 .OnAfterRender(OnAfterRender)
 
                 .BackLinkAttr(BackLinkAttr)
-                .AuthSectionAttr(AuthSectionAttr)
-                .PaymentSectionAttr(PaymentSectionAttr)
+                
+                .RightSideContent(
+                    View.Map2 (fun loading loggedIn ->
+                        if loading then
+                            Templates.CheckoutTemplate.RightSkeleton().Doc()
+                        elif not loggedIn then
+                            Templates.CheckoutTemplate.AuthForm()
+                                .OnGitHubLogin(fun _ -> AuthClient.Login())
+                                .Doc()
+                        else
+                            Templates.CheckoutTemplate.PaymentForm()
+                                .Email(EmailVar)
+                                .Street(StreetVar)
+                                .City(CityVar)
+                                .Postal(PostalVar)
+                                .Country(CountryVar)
+                                .IsCompany(IsCompanyVar)
+                                .CompanyBlockAttr(CompanyBlockAttr())
+                                .CompanyName(CompanyNameVar)
+                                .CompanyNameAttr(CompanyNameAttr())
+                                .Vatin(VatinVar)
+                                .VatinAttr(VatinAttr())
+                                .FormErrorDoc(FormErrorDoc)
+                                .ContinueButtonAttr(ContinueButtonAttr())
+                                .ContinueText(Doc.TextView ContinueText.View)
+                                .OnContinueClick(fun _ -> OnContinueClick())
+                                .Doc()
+                    ) IsLoading.View isAuthedV
+                    |> Doc.EmbedView
+                )
+
+                // Animating the Seat Selector visibility
                 .SeatSelectorAttr(SeatSelectorAttr())
+                
                 .SeatsText(SeatsTextVar)
                 .OnSeatMinus(fun _ -> OnSeatMinus())
                 .OnSeatPlus(fun _ -> OnSeatPlus())
-                .Email(EmailVar)
-                .Street(StreetVar)
-                .City(CityVar)
-                .Postal(PostalVar)
-                .Country(CountryVar)
-                .IsCompany(IsCompanyVar)
-                .CompanyBlockAttr(CompanyBlockAttr())
-                .CompanyName(CompanyNameVar)
-                .CompanyNameAttr(CompanyNameAttr())
-                .Vatin(VatinVar)
-                .VatinAttr(VatinAttr())
-                .FormErrorDoc(FormErrorDoc)
-                .OnGitHubLogin(fun _ -> AuthClient.Login())
-                .ContinueButtonAttr(ContinueButtonAttr())
-                .ContinueText(Doc.TextView ContinueText.View)
-                .OnContinueClick(fun _ -> OnContinueClick())
-
+                
                 .BackLinkLabel(
                     Doc.TextView BackLinkLabel.View
-                    |> BindSmoothLoader "w-10 h-5" ""
+                    |> BindSmoothLoader (
+                        BackLinkLabel.View 
+                        |> View.Map (fun s -> 
+                            if s.Contains "Manage" then "w-40 h-5 !align-baseline" else "w-12 h-5 !align-baseline"
+                        )
+                    ) ""
                 )
                 .PlanName(
                     Doc.TextView PlanName
-                    |> BindSmoothLoader "w-64 h-6" ""
+                    |> BindSmoothLoader (View.Const "w-64 h-6") ""
                 )
                 .PlanPrice(
                     Doc.TextView PlanPrice
-                    |> BindSmoothLoader "w-24 h-8" ""
+                    |> BindSmoothLoader (View.Const "w-24 h-8") ""
                 )
                 .PlanInterval(
                     Doc.TextView PlanInterval
-                    |> BindSmoothLoader "w-12 h-5" ""
+                    |> BindSmoothLoader (View.Const "w-12 h-5") ""
                 )
                 .PriceHint(
                     Doc.TextView PriceHint
-                    |> BindSmoothLoader "w-64 h-4" ""
+                    |> BindSmoothLoader (View.Const "w-64 h-4") ""
                 )
                 .Subtotal(
                     Doc.TextView Subtotal
-                    |> BindSmoothLoader "w-14 h-6" "justify-end"
+                    |> BindSmoothLoader (View.Const "w-14 h-6") "justify-end"
                 )
                 .Taxes(
                     Doc.TextView Taxes
-                    |> BindSmoothLoader "w-14 h-6" "justify-end"
+                    |> BindSmoothLoader (View.Const "w-14 h-6") "justify-end"
                 )
                 .Total(
                     Doc.TextView Total
-                    |> BindSmoothLoader "w-14 h-6" "justify-end"
+                    |> BindSmoothLoader (View.Const "w-14 h-6") "justify-end"
                 )
                 .Doc()
         else
             Templates.CheckoutTemplate()
-                .BackLinkLabel(SSRSkeleton "w-10 h-5" "")
+                .RightSideContent(
+                    Templates.CheckoutTemplate.RightSkeleton().Doc()
+                )
+                .BackLinkLabel(SSRSkeleton "w-12 h-5 !align-baseline" "") 
                 .PlanName(SSRSkeleton "w-64 h-6" "")
                 .PriceHint(SSRSkeleton "w-64 h-4" "")
                 .PlanPrice(SSRSkeleton "w-24 h-8" "")
@@ -133,7 +160,5 @@ module Page =
                 .Subtotal(SSRSkeleton "w-14 h-6" "justify-end")
                 .Taxes(SSRSkeleton "w-14 h-6" "justify-end")
                 .Total(SSRSkeleton "w-14 h-6" "justify-end")
-                                
-                .IsCompany(false)
-                .CompanyBlockAttr(Html.attr.``class`` "hidden")
+                
                 .Doc()
