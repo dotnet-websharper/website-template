@@ -1041,7 +1041,7 @@ function CheckoutDoc(){
   const x_6=Doc.TextView(PlanName());
   const P_3=BindSmoothLoader(Const("w-64 h-6"), "", x_6);
   const x_7=Doc.TextView(BackLinkLabel().View);
-  const B=BindSmoothLoader(Map((s) => s.indexOf("Manage")!=-1?"w-40 h-5 !align-baseline":"w-12 h-5 !align-baseline", BackLinkLabel().View), "", x_7);
+  const B=BindSmoothLoader(Map((s) => s.indexOf("Manage")!=-1?"w-40 h-5 !align-middle":"w-12 h-5 !align-middle", BackLinkLabel().View), "", x_7);
   const S_1=SeatSelectorAttr();
   const R=Doc.EmbedView(Map2((_3, _4) => {
     if(_3){
