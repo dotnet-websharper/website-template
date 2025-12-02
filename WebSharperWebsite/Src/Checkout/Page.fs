@@ -59,8 +59,6 @@ module Page =
                 ensurePlans () 
             |]
             
-            do! Async.Sleep 500
-            
             IsLoading.Value <- false
         }
         |> Async.StartImmediate
