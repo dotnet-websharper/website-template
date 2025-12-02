@@ -315,6 +315,8 @@
 <head>
 </head>
 <body>
+    
+
     <div>
         <div class="hidden md:block fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800"></div>
         <div class="max-w-6xl mx-auto px-12 gap-20 md:flex">
@@ -325,46 +327,114 @@
                 </a>
 
                 <nav class="mt-8 flex gap-3 items-center">
-                    <a id="backLink" href="./support.html#plans" class="text-gray-600 dark:text-gray-300 hover:underline hover:text-blue-600 dark:hover:text-blue-400"></a>
+                    <a id="backLink" href="./support.html#plans" class="text-gray-600 dark:text-gray-300 hover:underline hover:text-blue-600 dark:hover:text-blue-400"><span class="relative inline-block align-bottom w-10 h-5">
+        <span class="block w-full h-full transition-opacity duration-500 ease-out">
+            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+        </span>
+        <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+            
+        </span>
+    </span></a>
                     <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" fill="currentColor" class="text-gray-400 dark:text-gray-600 size-4">
                         <path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
                     </svg>
                     <span class="text-gray-950 dark:text-white font-medium">Payment</span>
                 </nav>
 
-                
-                <h1 class="mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3"></h1>
-                <p class="text-3xl font-bold text-gray-950 dark:text-white"></p>
+                <h1 class="mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3">
+                    <span><span class="relative inline-block align-bottom w-64 h-6">
+        <span class="block w-full h-full transition-opacity duration-500 ease-out">
+            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+        </span>
+        <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+            
+        </span>
+    </span></span>
+                </h1>
+
+                <p class="text-3xl font-bold text-gray-950 dark:text-white flex items-baseline gap-1">
+                    <span><span class="relative inline-block align-bottom w-24 h-8">
+        <span class="block w-full h-full transition-opacity duration-500 ease-out">
+            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+        </span>
+        <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+            
+        </span>
+    </span></span>
+                    <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ <span><span class="relative inline-block align-bottom w-12 h-5">
+        <span class="block w-full h-full transition-opacity duration-500 ease-out">
+            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+        </span>
+        <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+            
+        </span>
+    </span></span></span>
+                </p>
 
                 <p class="mt-8 text-gray-600 dark:text-gray-400">Our experienced WebSharper support team is available to help you make the right decisions.</p>
 
-                
                 <div id="wsSeatSelector" class="mt-6">
                     <label for="wsSeats" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Seats</label>
                     <div class="mt-2 flex items-center gap-2">
                         <button type="button" id="wsMinus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                             -
                         </button>
-                        <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1" class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" ws-var="dcda0219-7e18-41f7-b111-379997be13b8::seatstext" />
+                        <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1" class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" ws-var="e05edbfe-6f34-4679-ab79-a832716d1c29::seatstext" />
                         <button type="button" id="wsPlus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                             +
                         </button>
                     </div>
-                    <p id="wsPriceHint" class="mt-2 text-xs text-gray-500 dark:text-gray-400"></p>
+                    <p id="wsPriceHint" class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                        <span><span class="relative inline-block align-bottom w-64 h-4">
+        <span class="block w-full h-full transition-opacity duration-500 ease-out">
+            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+        </span>
+        <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+            
+        </span>
+    </span></span>
+                    </p>
                 </div>
 
                 <div class="fixed bottom-0 z-10 inset-x-0 px-12 border-t dark:border-gray-800 shadow-lg md:z-0 md:border-none md:shadow-none md:px-0 bg-white dark:bg-gray-900 dark:md:bg-transparent md:bg-transparent md:static mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400">
                     <div class="py-3 flex justify-between">
                         <p>Subtotal</p>
-                        <p id="wsSubtotal" aria-live="polite" class="font-medium text-gray-950 dark:text-white"></p>
+                        <p aria-live="polite" class="font-medium text-gray-950 dark:text-white">
+                            <span><span class="relative inline-block align-bottom w-14 h-6">
+        <span class="block w-full h-full transition-opacity duration-500 ease-out">
+            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+        </span>
+        <span class="justify-end" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+            
+        </span>
+    </span></span>
+                        </p>
                     </div>
                     <div class="py-3 flex justify-between">
                         <p>Taxes</p>
-                        <p id="wsTaxes" class="font-medium text-gray-950 dark:text-white"></p>
+                        <p class="font-medium text-gray-950 dark:text-white">
+                            <span><span class="relative inline-block align-bottom w-14 h-6">
+        <span class="block w-full h-full transition-opacity duration-500 ease-out">
+            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+        </span>
+        <span class="justify-end" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+            
+        </span>
+    </span></span>
+                        </p>
                     </div>
                     <div class="py-3 flex justify-between">
                         <p class="text-gray-950 dark:text-white font-medium">Total</p>
-                        <p id="wsTotal" aria-live="polite" class="font-medium text-gray-950 dark:text-white"></p>
+                        <p aria-live="polite" class="font-medium text-gray-950 dark:text-white">
+                            <span><span class="relative inline-block align-bottom w-14 h-6">
+        <span class="block w-full h-full transition-opacity duration-500 ease-out">
+            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+        </span>
+        <span class="justify-end" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+            
+        </span>
+    </span></span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -401,19 +471,19 @@
                     <div class="mt-12 space-y-6">
                         <div class="mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2">
                             <label class="block font-medium text-sm" for="email">Email</label>
-                            <input class="peer w-full focus:outline rounded-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" type="email" required="" id="email" name="email" ws-var="dcda0219-7e18-41f7-b111-379997be13b8::email" />
+                            <input class="peer w-full focus:outline rounded-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" type="email" required="" id="email" name="email" ws-var="e05edbfe-6f34-4679-ab79-a832716d1c29::email" />
                             <span class="hidden peer-invalid:hidden peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-red-600 dark:text-red-400 text-sm">Please enter your email</span>
                         </div>
                         <div class="mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2">
                             <label class="block font-medium text-sm" for="country">Billing address</label>
 
                             
-                            <input id="street" name="street" placeholder="Street address" required="" class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" ws-var="dcda0219-7e18-41f7-b111-379997be13b8::street" />
+                            <input id="street" name="street" placeholder="Street address" required="" class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" ws-var="e05edbfe-6f34-4679-ab79-a832716d1c29::street" />
 
                             
                             <div class="grid grid-cols-3 gap-2">
-                                <input id="city" name="city" placeholder="City" required="" class="col-span-2 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" ws-var="dcda0219-7e18-41f7-b111-379997be13b8::city" />
-                                <input id="postal" name="postal" placeholder="Postal Code" required="" class="col-span-1 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" ws-var="dcda0219-7e18-41f7-b111-379997be13b8::postal" />
+                                <input id="city" name="city" placeholder="City" required="" class="col-span-2 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" ws-var="e05edbfe-6f34-4679-ab79-a832716d1c29::city" />
+                                <input id="postal" name="postal" placeholder="Postal Code" required="" class="col-span-1 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" ws-var="e05edbfe-6f34-4679-ab79-a832716d1c29::postal" />
                             </div>
 
                             
@@ -421,7 +491,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" fill="currentColor" class="absolute pointer-events-none inset-y-0 my-auto right-3 size-4">
                                     <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
                                 </svg>
-                                <select name="country" id="country" required="" class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" ws-var="dcda0219-7e18-41f7-b111-379997be13b8::country">
+                                <select name="country" id="country" required="" class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" ws-var="e05edbfe-6f34-4679-ab79-a832716d1c29::country">
                                     <option value="AF">Afghanistan</option>
                                     <option value="AL">Albania</option>
                                     <option value="DZ">Algeria</option>
@@ -623,7 +693,7 @@
 
                         <div class="peer">
                             <label for="company" class="flex items-center">
-                                <input class="size-0 peer" type="checkbox" id="company" name="company" ws-var="dcda0219-7e18-41f7-b111-379997be13b8::iscompany" />
+                                <input class="size-0 peer" type="checkbox" id="company" name="company" ws-var="e05edbfe-6f34-4679-ab79-a832716d1c29::iscompany" />
                                 <div role="checkbox" class="shadow shadow-gray-700/5 outline-2 outline-offset-1 outline-blue-600 dark:outline-blue-500 peer-focus:outline size-[1.125rem] group peer relative flex appearance-none items-center justify-center border transition *:-rotate-12 *:scale-50 *:opacity-0 peer-checked:*:-rotate-6 peer-checked:*:scale-100 peer-checked:*:opacity-100 duration-150 before:absolute before:m-auto before:shadow-inner peer-checked:before:border-t peer-checked:before:bg-blue-600 peer-disabled:before:hidden before:border-transparent before:bg-white active:ring-[3px] active:ring-blue-600/10 peer-checked:before:border-gray-800 dark:border-gray-800 dark:bg-transparent dark:before:border dark:peer-checked:before:border-transparent peer-checked:before:shadow-white/10 dark:peer-checked:before:shadow-white/20 dark:peer-checked:before:bg-blue-600 peer-checked:border-none before:border-none border-gray-300 hover:border-gray-400/75 dark:hover:border-gray-700 before:inset-0 p-0 before:shadow-gray-950/5 dark:before:shadow-white/5 dark:before:bg-transparent bg-transparent before:size-full rounded before:rounded-[3px] peer-checked:before:rounded">
                                     <span class="transition-all duration-200 relative text-white peer-disabled:text-gray-300 dark:peer-disabled:text-gray-700 pointer-events-none">
                                         <svg class="size-4" viewbox="0 0 46 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -637,8 +707,8 @@
                         <div id="companyBlock" class="hidden" class="hidden peer-has-[:checked]:block mt-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2.5">
                             <label class="block font-medium text-sm" for="company-name">Company</label>
                             <div class="-space-y-px">
-                                <input placeholder="Name" class="hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-t-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" required="" id="company-name" name="company-name" ws-var="dcda0219-7e18-41f7-b111-379997be13b8::companyname" />
-                                <input placeholder="VATIN" class="hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-b-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" id="vatin" name="vatin" ws-var="dcda0219-7e18-41f7-b111-379997be13b8::vatin" />
+                                <input placeholder="Name" class="hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-t-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" required="" id="company-name" name="company-name" ws-var="e05edbfe-6f34-4679-ab79-a832716d1c29::companyname" />
+                                <input placeholder="VATIN" class="hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-b-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" id="vatin" name="vatin" ws-var="e05edbfe-6f34-4679-ab79-a832716d1c29::vatin" />
                             </div>
                             <span class="flex gap-2 leading-normal peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-gray-500 dark:text-gray-400 text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" fill="currentColor" class="w-4 h-4 mt-0.5">
