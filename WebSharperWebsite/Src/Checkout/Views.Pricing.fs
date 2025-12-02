@@ -62,33 +62,29 @@ module ViewsPricing =
                 | _ -> "WebSharper Professional"
         )
 
-    let PlanPriceLine : View<Doc> =
-        View.Map2
-            (fun opt interval ->
-                let defaultAmount =
-                    match interval with
-                    | Interval.Month -> 250.0
-                    | Interval.Year  -> 2500.0
+    let PlanPrice: View<string> =
+        CurrentPlan
+        |> View.Map (fun planPriceOpt ->
+            let defaultAmount =
+                match SelectedIntervalVar.Value with
+                | Interval.Month -> 250.0
+                | Interval.Year  -> 2500.0
 
-                let amount =
-                    opt
-                    |> Option.map (fun p -> float p.unitAmountCents / 100.0)
-                    |> Option.defaultValue defaultAmount
+            let amount =
+                planPriceOpt
+                |> Option.map (fun p -> float p.unitAmountCents / 100.0)
+                |> Option.defaultValue defaultAmount
 
-                let period =
-                    match interval with
-                    | Interval.Month -> "Month"
-                    | Interval.Year  -> "Year"
+            usd amount
+        )
 
-                div [] [
-                    text (usd amount + " ")
-                    span [ attr.``class`` "text-base text-gray-600 dark:text-gray-400 font-normal" ] [
-                        text ("/ " + period)
-                    ]
-                ]
-            )
-            CurrentPlan
-            SelectedIntervalVar.View
+    let PlanInterval: View<string> =
+        SelectedIntervalVar.View
+        |> View.Map (fun interval ->
+            match interval with
+            | Interval.Month -> "month"
+            | Interval.Year  -> "year"
+        )
 
     let PriceHint : View<string> =
         View.Map2

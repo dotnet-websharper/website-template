@@ -22,9 +22,6 @@ module ViewsAttrs =
         AuthClient.UserView
         |> View.Map Option.isSome
 
-    let BackLinkLabel : Doc =
-        Doc.TextView backLinkLabel.View
-
     let ContinueTextView : View<string> =
         ContinueText.View
 
@@ -56,10 +53,20 @@ module ViewsAttrs =
     // -----------------------------
 
     let SeatSelectorAttr () : Attr =
-        Attr.DynamicClassPred "hidden" (
-            IsPerSeat
-            |> View.Map (fun perSeat -> not perSeat)
-        )
+        let classValue = 
+            SelectedPlanVar.View
+            |> View.Map (fun p ->
+                let isPro = p.ToLower() <> "freelancer"
+                let baseClasses = "transition-all duration-500 ease-in-out overflow-hidden"
+                        
+                if isPro then
+                    baseClasses + " mt-6 max-h-[300px] opacity-100"
+                else
+                    baseClasses + " max-h-0 opacity-0"
+            )
+        
+        classValue
+        |> Attr.Dynamic "class"
 
     let CompanyNameAttr () : Attr =
         Attr.Concat [

@@ -34,7 +34,7 @@ module State =
     // -----------------------------
 
     let backLinkHref  = Var.Create SupportPlansUrl
-    let backLinkLabel = Var.Create "Plans"
+    let BackLinkLabel = Var.Create "Plans"
 
     let plansVar : Var<PlanPriceRecord[]> = Var.Create [||]
 
@@ -227,4 +227,4 @@ module State =
                 label <- "Plans"
 
         backLinkHref.Value <- dest
-        backLinkLabel.Value <- label
+        BackLinkLabel.Value <- label

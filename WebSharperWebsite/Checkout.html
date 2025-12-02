@@ -3,6 +3,15 @@
 <head>
 </head>
 <body>
+    <span ws-template="SmoothTextLoader" class="relative inline-block align-bottom ${WrapperClasses}">
+        <span ws-attr="SkeletonAttr" class="block w-full h-full transition-opacity duration-500 ease-out">
+            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+        </span>
+        <span ws-attr="ContentAttr" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+            <span ws-replace="Content" class="w-full"></span>
+        </span>
+    </span>
+
     <div ws-onafterrender="OnAfterRender">
         <div class="hidden md:block fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800"></div>
         <div class="max-w-6xl mx-auto px-12 gap-20 md:flex">
@@ -13,7 +22,7 @@
                 </a>
 
                 <nav class="mt-8 flex gap-3 items-center">
-                    <a id="backLink" 
+                    <a id="backLink"
                        ws-attr="BackLinkAttr"
                        href="./support.html#plans"
                        ws-hole="BackLinkLabel"
@@ -26,20 +35,18 @@
                     <span class="text-gray-950 dark:text-white font-medium">Payment</span>
                 </nav>
 
-                <!-- Dynamic plan header -->
-                <h1 ws-hole="PlanName"
-                    class="mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3">
-                    WebSharper Professional
+                <h1 class="mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3">
+                    <span ws-hole="PlanName"></span>
                 </h1>
-                <p ws-hole="PlanPriceLine"
-                   class="text-3xl font-bold text-gray-950 dark:text-white">
-                    $2,500 <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ Year</span>
+
+                <p class="text-3xl font-bold text-gray-950 dark:text-white flex items-baseline gap-1">
+                    <span ws-hole="PlanPrice"></span>
+                    <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ <span ws-hole="PlanInterval"></span></span>
                 </p>
 
                 <p class="mt-8 text-gray-600 dark:text-gray-400">Our experienced WebSharper support team is available to help you make the right decisions.</p>
 
-                <!-- Seat selector (hidden for Freelancer) -->
-                <div id="wsSeatSelector" 
+                <div id="wsSeatSelector"
                      ws-attr="SeatSelectorAttr"
                      class="mt-6">
                     <label for="wsSeats" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Seats</label>
@@ -62,38 +69,29 @@
                             +
                         </button>
                     </div>
-                    <p id="wsPriceHint" 
-                       ws-hole="PriceHint"
+                    <p id="wsPriceHint"
                        class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                        Price is $2,500 per seat per year.
+                        <span ws-hole="PriceHint"></span>
                     </p>
                 </div>
 
                 <div class="fixed bottom-0 z-10 inset-x-0 px-12 border-t dark:border-gray-800 shadow-lg md:z-0 md:border-none md:shadow-none md:px-0 bg-white dark:bg-gray-900 dark:md:bg-transparent md:bg-transparent md:static mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400">
                     <div class="py-3 flex justify-between">
                         <p>Subtotal</p>
-                        <p id="wsSubtotal"
-                           ws-hole="Subtotal"
-                           aria-live="polite"
-                           class="font-medium text-gray-950 dark:text-white">
-                            $2,500
+                        <p aria-live="polite" class="font-medium text-gray-950 dark:text-white">
+                            <span ws-hole="Subtotal"></span>
                         </p>
                     </div>
                     <div class="py-3 flex justify-between">
                         <p>Taxes</p>
-                        <p id="wsTaxes"
-                           ws-hole="Taxes"
-                           class="font-medium text-gray-950 dark:text-white">
-                            $0
+                        <p class="font-medium text-gray-950 dark:text-white">
+                            <span ws-hole="Taxes"></span>
                         </p>
                     </div>
                     <div class="py-3 flex justify-between">
                         <p class="text-gray-950 dark:text-white font-medium">Total</p>
-                        <p id="wsTotal"
-                           ws-hole="Total"
-                           aria-live="polite"
-                           class="font-medium text-gray-950 dark:text-white">
-                            $2,500
+                        <p aria-live="polite" class="font-medium text-gray-950 dark:text-white">
+                            <span ws-hole="Total"></span>
                         </p>
                     </div>
                 </div>
@@ -101,8 +99,8 @@
 
             <div class="pb-56 md:max-w-md md:w-1/2 md:pt-16 md:pb-16">
                 <!-- Login & Registration (default visible; hide after auth) -->
-                <section id="authSection" 
-                         class="mt-12 md:mt-2" 
+                <section id="authSection"
+                         class="mt-12 md:mt-2"
                          ws-attr="AuthSectionAttr">
                     <h2 class="text-xl font-semibold text-gray-950 dark:text:white">Login & Registration</h2>
                     <p class="mt-3 text-gray-600 dark:text-gray-400">
