@@ -37,7 +37,8 @@ module Client =
             .DropdownAttr(AccountMenu.DropdownAttr())
             .AccountBtnAria(AccountMenu.AccountBtnAria())
             .AvatarAttr(AccountMenu.AvatarAttr())
-            .IconAttr(AccountMenu.IconAttr())           
+            .IconAttr(AccountMenu.IconAttr())
+            .SkeletonAttr(AccountMenu.SkeletonAttr())
             .AccountHeaderText(AccountMenu.AccountHeaderText)
             // Dropdown attributes
             .HeaderAttrD(AccountMenu.HeaderAttr())

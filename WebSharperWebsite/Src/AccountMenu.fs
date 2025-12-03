@@ -15,6 +15,8 @@ module AccountMenu =
     let private isOpen = Var.Create false
     let private userV : View<option<User>> = AuthClient.UserView
     let private isAuthedV = AuthClient.IsAuthedView
+    
+    let private isLoading = Var.Create true
 
     let private avatarSrcV =
         userV
@@ -74,16 +76,23 @@ module AccountMenu =
     // ws-attr holes (reactive classes/attrs)
     let DropdownAttr () = Attr.DynamicClassPred "hidden" (isOpen.View |> View.Map not)
     let AccountBtnAria () = Attr.Dynamic "aria-expanded" (isOpen.View |> View.Map (fun b -> if b then "true" else "false"))
+    
+    let SkeletonAttr () = 
+        Attr.DynamicClassPred "opacity-0 hidden" (isLoading.View |> View.Map not)
+
     let AvatarAttr () =
         Attr.Concat [
-            // add/remove the src attribute depending on whether we have an avatar
             Html.attr.srcDyn avatarSrcV
-
-            // hide the <img> when there is no avatar
+            
             Attr.DynamicClassPred "hidden" (hasAvatarV |> View.Map not)            
+            Attr.DynamicClassPred "opacity-0" isLoading.View
         ]
 
-    let IconAttr () = Attr.DynamicClassPred "hidden" hasAvatarV
+    let IconAttr () = 
+        Attr.Concat [
+            Attr.DynamicClassPred "hidden" hasAvatarV
+            Attr.DynamicClassPred "opacity-0" isLoading.View
+        ]
 
     let HeaderAttr () = showAsFlex isAuthedV
     let BtnManageAttr () = showAsFlex isAuthedV
@@ -94,7 +103,12 @@ module AccountMenu =
 
     let InitGlobal () : unit =
         async {
+            isLoading.Value <- true
+            
             let! _ = AuthClient.FetchMe()
-            ()
+            
+            do! Async.Sleep 500
+            
+            isLoading.Value <- false
         }
         |> Async.StartImmediate
