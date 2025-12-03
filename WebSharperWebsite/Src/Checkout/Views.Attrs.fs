@@ -7,7 +7,7 @@ open WebSharper.UI
 open WebSharper.UI.Html
 open WebSharper.UI.Client
 
-open WebSharperWebsite
+open WebSharperWebsite.AuthClient
 open State
 open ViewsPricing 
 
@@ -18,19 +18,15 @@ module ViewsAttrs =
     // Auth-based visibility
     // -----------------------------
 
-    let isAuthedV : View<bool> =
-        AuthClient.UserView
-        |> View.Map Option.isSome
-
     let ContinueTextView : View<string> =
         ContinueText.View
 
     let AuthSectionAttr : Attr =
-        Attr.DynamicClassPred "hidden" isAuthedV
+        Attr.DynamicClassPred "hidden" IsAuthedView
 
     let PaymentSectionAttr : Attr =
         Attr.Dynamic "class" (
-            isAuthedV
+            IsAuthedView
             |> View.Map (fun isAuthed ->
                 if isAuthed then "" else "hidden"
             )

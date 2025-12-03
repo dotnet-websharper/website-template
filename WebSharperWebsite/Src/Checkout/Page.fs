@@ -96,7 +96,7 @@ module Page =
                                 .ContinueText(Doc.TextView ContinueText.View)
                                 .OnContinueClick(fun _ -> OnContinueClick())
                                 .Doc()
-                    ) IsLoading.View isAuthedV
+                    ) IsLoading.View AuthClient.IsAuthedView
                     |> Doc.EmbedView
                 )
 

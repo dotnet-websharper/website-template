@@ -15,6 +15,23 @@ open WebSharperWebsite
 [<JavaScript>]
 module ViewsSeats =
 
+    let BindSmoothLoader (widthClass: string) (isLoading: View<bool>) (content: Doc) =
+        Templates.ManageSubscriptionTemplate.SmoothTextLoader()
+            .WrapperClasses(widthClass) // e.g. "w-24 h-5"
+            .SkeletonAttr(
+                // If NOT loading, hide the skeleton (opacity-0)
+                Attr.DynamicClassPred "opacity-0" (isLoading |> View.Map not)
+            )
+            .ContentAttr(
+                [
+                    // If loading, hide the content (opacity-0) and disable pointer events
+                    Attr.DynamicClassPred "opacity-0" isLoading
+                    Attr.DynamicClassPred "pointer-events-none" isLoading
+                ]
+            )
+            .Content(content)
+            .Doc()
+
     // Load seats for all subscriptions of the current user
     let private refreshSeatsAsync () =
         async {

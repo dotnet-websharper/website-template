@@ -30,16 +30,24 @@ module Views =
     // -------------------------
 
     let SubsPageAttr : Attr =
-        Attr.DynamicClassPred "hidden" (
-            ActivePage.View
-            |> View.Map (fun page -> page <> Page.Subs)
+        ActivePage.View
+        |> View.Map (fun page ->
+            if page = Page.Subs then 
+                "space-y-6"
+            else 
+                "space-y-6 hidden"
         )
+        |> Attr.Dynamic "class"
 
     let BillingPageAttr : Attr =
-        Attr.DynamicClassPred "hidden" (
-            ActivePage.View
-            |> View.Map (fun page -> page <> Page.Billing)
+        ActivePage.View
+        |> View.Map (fun page ->
+            if page = Page.Billing then 
+                "space-y-6" 
+            else 
+                "space-y-6 hidden"
         )
+        |> Attr.Dynamic "class"
 
     let SubsTabAttr : Attr =
         let isActive =
@@ -68,15 +76,8 @@ module Views =
         ActivePage.Value <- Page.Billing
 
     // -------------------------
-    // Spinner + Toast
+    // Toast
     // -------------------------
-
-    let SpinnerAttr : Attr =
-        // Spinner is hidden when NOT loading
-        Attr.DynamicClassPred "hidden" (
-            IsLoading.View
-            |> View.Map (fun isLoading -> not isLoading)
-        )
 
     let ToastAttr : Attr =
         // Toast is hidden when there is no message
@@ -106,14 +107,6 @@ module Views =
             (fun () -> ToastMessage.Value <- None)
             1600
         |> ignore
-
-    let CustomerPortalAttr : Attr =
-        CustomerPortalLinkVar.View
-        |> View.Map (function
-            | None -> "display: none"
-            | Some _ -> ""
-        )
-        |> Attr.Dynamic "style"
 
     let OpenCustomerPortal () =
         match CustomerPortalLinkVar.Value with
