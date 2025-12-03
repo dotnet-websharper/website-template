@@ -17,14 +17,15 @@ module ViewsSeats =
 
     let BindSmoothLoader (widthClass: string) (isLoading: View<bool>) (content: Doc) =
         Templates.ManageSubscriptionTemplate.SmoothTextLoader()
-            .WrapperClasses(widthClass) // e.g. "w-24 h-5"
+            .WrapperClasses(widthClass) 
             .SkeletonAttr(
-                // If NOT loading, hide the skeleton (opacity-0)
-                Attr.DynamicClassPred "opacity-0" (isLoading |> View.Map not)
+                [
+                    Attr.DynamicClassPred "opacity-0" (isLoading |> View.Map not)
+                    Attr.Class "relative z-10 pointer-events-none"
+                ]
             )
             .ContentAttr(
                 [
-                    // If loading, hide the content (opacity-0) and disable pointer events
                     Attr.DynamicClassPred "opacity-0" isLoading
                     Attr.DynamicClassPred "pointer-events-none" isLoading
                 ]
@@ -32,7 +33,6 @@ module ViewsSeats =
             .Content(content)
             .Doc()
 
-    // Load seats for all subscriptions of the current user
     let private refreshSeatsAsync () =
         async {
             let! newSeats = Api.GetAllSeats ()
@@ -43,55 +43,8 @@ module ViewsSeats =
         refreshSeatsAsync () |> Async.StartImmediate
 
     // -----------------------------
-    // Small helpers
+    // Actions
     // -----------------------------
-
-    let private seatBadge (status: string) : Doc =
-        let baseClass =
-            "inline-flex items-center rounded-full border px-2 py-0.5 text-xs "
-
-        let cls =
-            if status = "assigned" then
-                baseClass
-                + "border-emerald-300 text-emerald-700 "
-                + "dark:border-emerald-700/40 dark:text-emerald-300"
-            else
-                baseClass
-                + "border-gray-300 text-gray-600 "
-                + "dark:border-white/10 dark:text-gray-300"
-
-        span [ attr.``class`` cls ] [ text status ]
-
-    let private usernameAttr (seat: SeatRecord) (isLocked: bool) : Attr =
-        if isLocked || seat.status = "assigned" then
-            Attr.Create "readonly" ""
-        else
-            Attr.Empty
-
-    let private assignButtonAttr (seat: SeatRecord) (isLocked: bool) : Attr =
-        if isLocked || seat.status = "assigned" then
-            attr.style "display: none"
-        else
-            Attr.Empty
-
-    let private unassignButtonAttr (seat: SeatRecord) (isLocked: bool) : Attr =
-        if isLocked || seat.status = "assigned" then
-            Attr.Empty
-        else
-            attr.style "display: none"
-
-    let AddSeatsButtonAttr : Attr =
-        SubsVar.View
-        |> View.Map (fun subs ->
-            let isFreelancer = 
-                subs |> Array.exists (fun s -> s.plan.ToLower().Contains("freelancer"))
-            
-            if isFreelancer then
-                "display: none"
-            else
-                ""
-        )
-        |> Attr.Dynamic "style"
 
     let private verifyGitHubUser (username: string) =
         async {
@@ -99,10 +52,10 @@ module ViewsSeats =
             return response.Ok
         }
 
-    let private assignSeat (subId: string) (seatNo: int) (username: string) =
+    let private assignSeat (subId: string) (seatNo: int) (username: string) (loading: Var<bool>) =
         if not (System.String.IsNullOrWhiteSpace username) then
             async {
-                setLoading true
+                loading.Value <- true
                 try
                     let! exists = verifyGitHubUser username
                     if exists then
@@ -113,26 +66,26 @@ module ViewsSeats =
                     else
                         Utils.alertWarning $"GitHub user '{username}' not found"
                 finally
-                    setLoading false
+                    loading.Value <- false
             }
             |> Async.StartImmediate
 
-    let private unassignSeat (subId: string) (seatNo: int) =
+    let private unassignSeat (subId: string) (seatNo: int) (loading: Var<bool>) =
         async {
-            setLoading true
+            loading.Value <- true
             try
                 let! ok = Api.UnassignSeat subId seatNo
                 if ok then
                     do! refreshSeatsAsync ()
                     showToast "Updated"
             finally
-                setLoading false
+                loading.Value <- false
         }
         |> Async.StartImmediate
 
-    let private toggleAutoRenew (subId: string) (expiry: string) (currentAutoRenew: bool) =
+    let private toggleAutoRenew (subId: string) (expiry: string) (currentAutoRenew: bool) (loading: Var<bool>) =
         async {
-            setLoading true
+            loading.Value <- true
             try
                 let newAuto = not currentAutoRenew
                 let updatedSeats =
@@ -147,77 +100,136 @@ module ViewsSeats =
                 let! ok = Api.SetAutoRenew subId currentAutoRenew
                 if ok then showToast "Updated"
             finally
-                setLoading false
+                loading.Value <- false
         }
         |> Async.StartImmediate
+
+    // -----------------------------
+    // Small helpers
+    // -----------------------------
+
+    let private seatBadge (status: string) : Doc =
+        let baseClass =
+            "inline-flex items-center rounded-full border px-2 py-0.5 text-xs "
+
+        let cls =
+            if status = "assigned" then
+                baseClass + "border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300"
+            else
+                baseClass + "border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300"
+
+        span [ attr.``class`` cls ] [ text status ]
+
+    let private usernameAttr (seat: SeatRecord) (isLocked: bool) : Attr =
+        if isLocked || seat.status = "assigned" then Attr.Create "readonly" "" else Attr.Empty
+
+    let private assignButtonAttr (seat: SeatRecord) (isLocked: bool) (loading: View<bool>) : Attr =
+        if isLocked || seat.status = "assigned" then
+            attr.style "display: none"
+        else
+            Attr.DynamicClassPred "disabled" loading
+
+    let private unassignButtonAttr (seat: SeatRecord) (isLocked: bool) (loading: View<bool>) : Attr =
+        if isLocked || seat.status = "assigned" then
+            Attr.DynamicClassPred "disabled" loading
+        else
+            attr.style "display: none"
+
+    let AddSeatsButtonAttr : Attr =
+        SubsVar.View
+        |> View.Map (fun subs ->
+            let isFreelancer = 
+                subs |> Array.exists (fun s -> s.plan.ToLower().Contains("freelancer"))
+            if isFreelancer then 
+                "display: none" 
+            else 
+                ""
+        )
+        |> Attr.Dynamic "style"
 
     // -----------------------------
     // Template docs
     // -----------------------------
 
-    let private setGhUsernameForFreelancer (seat: SeatRecord) (isLocked: bool) (forcedUsername: string option) =
+    let private setGhUsernameForFreelancer (seat: SeatRecord) (isLocked: bool) (forcedUsername: string option) (loading: Var<bool>) =
         if isLocked && seat.status <> "assigned" && Option.isSome forcedUsername then
             let userToAssign = forcedUsername.Value
             
-            do assignSeat seat.subscriptionId seat.seatNo (userToAssign.ToLower())
+            do assignSeat seat.subscriptionId seat.seatNo (userToAssign.ToLower()) loading
             seat.status <- "assigned"
 
     let private seatRowDoc (seat: SeatRecord) (isLocked: bool) (forcedUsername: string option) : Doc =
+        let isProcessing = Var.Create false
+        
         let effectiveUsername = 
             if isLocked && Option.isSome forcedUsername then 
                 forcedUsername.Value 
             else 
                 seat.username
-            
+        
         let usernameVar = Var.Create effectiveUsername
 
-        setGhUsernameForFreelancer seat isLocked forcedUsername
+        // Auto-assign for freelancers if needed
+        setGhUsernameForFreelancer seat isLocked forcedUsername isProcessing
 
         Templates.ManageSubscriptionTemplate.SeatRow()
             .SeatLabel($"#{seat.seatNo}")
-            .Username(usernameVar)
-            .UsernameAttr(usernameAttr seat isLocked)
-            .StatusBadge(seatBadge seat.status)
-            .Expiry(seat.expiry)
-            .AssignButtonAttr(assignButtonAttr seat isLocked)
-            .UnassignButtonAttr(unassignButtonAttr seat isLocked)
-            .AssignSeat(fun t ->
+            
+            .UsernameWidget(
+                Doc.InputType.Text [
+                    attr.``class`` "w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm"
+                    attr.placeholder "github-username"
+                    usernameAttr seat isLocked
+                ] usernameVar
+                |> BindSmoothLoader "w-full h-8" isProcessing.View
+            )
+            
+            .StatusBadge(
+                seatBadge seat.status
+                |> BindSmoothLoader "w-16 h-6" isProcessing.View
+            )
+            
+            .Expiry(
+                text seat.expiry
+                |> BindSmoothLoader "w-24 h-5" isProcessing.View
+            )
+
+            .AssignButtonAttr(assignButtonAttr seat isLocked isProcessing.View)
+            .UnassignButtonAttr(unassignButtonAttr seat isLocked isProcessing.View)
+            
+            .AssignSeat(fun _ ->
                 if not isLocked then
-                    let username = t.Vars.Username.Value.Trim()
-                    assignSeat seat.subscriptionId seat.seatNo (username.ToLower())
+                    let username = usernameVar.Value.Trim()
+                    assignSeat seat.subscriptionId seat.seatNo (username.ToLower()) isProcessing
             )
             .UnassignSeat(fun _ ->
-                unassignSeat seat.subscriptionId seat.seatNo
+                unassignSeat seat.subscriptionId seat.seatNo isProcessing
             )
             .Doc()
 
     let private groupHeaderDoc (subId: string) (expiry: string) (autoRenew: bool) : Doc =
-        let baseBtn =
-            "relative inline-flex h-5 w-9 items-center rounded-full border "
-            + "text-xs transition-colors "
+        let isProcessing = Var.Create false
 
+        let baseBtn = "relative inline-flex h-5 w-9 items-center rounded-full border text-xs transition-colors "
         let btnClasses =
-            if autoRenew then
-                baseBtn + "bg-emerald-500 border-emerald-500"
-            else
-                baseBtn
-                + "bg-gray-300 border-gray-400 "
-                + "dark:bg-gray-700 dark:border-gray-600"
+            if autoRenew then baseBtn + "bg-emerald-500 border-emerald-500"
+            else baseBtn + "bg-gray-300 border-gray-400 dark:bg-gray-700 dark:border-gray-600"
 
-        let baseDot =
-            "inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform "
-
+        let baseDot = "inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform "
         let dotClasses =
-            if autoRenew then
-                baseDot + "translate-x-4"
-            else
-                baseDot + "translate-x-0"
+            if autoRenew then baseDot + "translate-x-4"
+            else baseDot + "translate-x-0"
 
         Templates.ManageSubscriptionTemplate.SeatGroupRow()
-            .Expiry(expiry)
+            .Expiry(
+                text expiry 
+                |> BindSmoothLoader "w-24 h-5" isProcessing.View
+            )
             .ToggleClasses(btnClasses)
             .DotClasses(dotClasses)
-            .ToggleAutoRenew(fun _ -> toggleAutoRenew subId expiry autoRenew)
+            .ToggleAutoRenew(fun _ -> 
+                toggleAutoRenew subId expiry autoRenew isProcessing
+            )
             .Doc()
 
     let private seatGroupsDoc : Doc =
