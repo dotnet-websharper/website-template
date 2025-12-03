@@ -703,15 +703,26 @@ function usd(n){
   return"$"+String(n);
 }
 function alertError(res){
-  if(res.$==1){
-    let r;
-    const msg=res.$0;
-    sweetalert2.fire((r={},r.title="Error!",r.text=msg,r.icon="error",r));
-  }
+  if(res.$==1)sweetalert2.fire(swalDefaults("Error!", res.$0, "error"));
+}
+function swalDefaults(title, msg, icon){
+  let r;
+  r={};
+  r.title=title;
+  r.text=msg;
+  r.icon=icon;
+  r.buttonsStyling=false;
+  r.customClass={
+    popup:"rounded-xl shadow-2xl p-6", 
+    title:"text-xl font-bold text-gray-900 dark:text-white mb-1", 
+    htmlContainer:"text-sm text-gray-600 dark:text-gray-400", 
+    confirmButton:"inline-flex items-center justify-center rounded-lg h-10 px-4 text-sm font-medium text-white dark:text-gray-950 bg-gray-950 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors ml-2", 
+    icon:"transform scale-75 mt-4"
+  };
+  return r;
 }
 function alertWarning(msg){
-  let r;
-  sweetalert2.fire((r={},r.title="Warning!",r.text=msg,r.icon="warning",r));
+  sweetalert2.fire(swalDefaults("Warning!", msg, "warning"));
 }
 function CopyFromClosest(e){
   const button=e.Target;
