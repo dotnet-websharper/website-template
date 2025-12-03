@@ -23,6 +23,7 @@ export function Layout(){
   const B_4=BtnLoginAttr();
   const B_5=BtnManageAttr();
   const H_1=HeaderAttr();
+  const S=SkeletonAttr();
   const I=IconAttr();
   const A=AvatarAttr();
   const A_1=AccountBtnAria();
@@ -57,15 +58,16 @@ export function Layout(){
   const this_3=(this_2.h.push(new Attribute("accountbtnaria", A_1)),this_2);
   const this_4=(this_3.h.push(new Attribute("avatarattr", A)),this_3);
   const this_5=(this_4.h.push(new Attribute("iconattr", I)),this_4);
-  const this_6=(this_5.h.push(new TextView("accountheadertext", AccountHeaderText())),this_5);
-  const this_7=(this_6.h.push(new Attribute("headerattrd", H_1)),this_6);
-  const this_8=(this_7.h.push(new Attribute("btnmanageattrd", B_5)),this_7);
-  const this_9=(this_8.h.push(new Attribute("btnloginattrd", B_4)),this_8);
-  const this_10=(this_9.h.push(new Attribute("btnlogoutattrd", B_3)),this_9);
-  const this_11=(this_10.h.push(new Attribute("headerattr", H)),this_10);
-  const this_12=(this_11.h.push(new Attribute("btnmanageattr", B_2)),this_11);
-  const this_13=(this_12.h.push(new Attribute("btnloginattr", B_1)),this_12);
-  const builder=(this_13.h.push(new Attribute("btnlogoutattr", B)),this_13);
+  const this_6=(this_5.h.push(new Attribute("skeletonattr", S)),this_5);
+  const this_7=(this_6.h.push(new TextView("accountheadertext", AccountHeaderText())),this_6);
+  const this_8=(this_7.h.push(new Attribute("headerattrd", H_1)),this_7);
+  const this_9=(this_8.h.push(new Attribute("btnmanageattrd", B_5)),this_8);
+  const this_10=(this_9.h.push(new Attribute("btnloginattrd", B_4)),this_9);
+  const this_11=(this_10.h.push(new Attribute("btnlogoutattrd", B_3)),this_10);
+  const this_12=(this_11.h.push(new Attribute("headerattr", H)),this_11);
+  const this_13=(this_12.h.push(new Attribute("btnmanageattr", B_2)),this_12);
+  const this_14=(this_13.h.push(new Attribute("btnloginattr", B_1)),this_13);
+  const builder=(this_14.h.push(new Attribute("btnlogoutattr", B)),this_14);
   const p=CompleteHoles(builder.k, builder.h, []);
   builder.i=new TemplateInstance(p[1], RunFullDocTemplate(p[0]));
   InitGlobal();
@@ -322,10 +324,13 @@ function AccountBtnAria(){
   return Dynamic("aria-expanded", Map((b) => b?"true":"false", isOpen().View));
 }
 function AvatarAttr(){
-  return Attr.Concat([Dynamic("src", avatarSrcV()), DynamicClassPred("hidden", Map((v) =>!v, hasAvatarV()))]);
+  return Attr.Concat([Dynamic("src", avatarSrcV()), DynamicClassPred("hidden", Map((v) =>!v, hasAvatarV())), DynamicClassPred("opacity-0", isLoading().View)]);
 }
 function IconAttr(){
-  return DynamicClassPred("hidden", hasAvatarV());
+  return Attr.Concat([DynamicClassPred("hidden", hasAvatarV()), DynamicClassPred("opacity-0", isLoading().View)]);
+}
+function SkeletonAttr(){
+  return DynamicClassPred("opacity-0 hidden", Map((v) =>!v, isLoading().View));
 }
 function HeaderAttr(){
   return showAsFlex(isAuthedV());
@@ -340,7 +345,13 @@ function BtnLogoutAttr(){
   return showAsFlex(isAuthedV());
 }
 function InitGlobal(){
-  StartImmediate(Delay(() => Bind_1(FetchMe(), () => Zero())), null);
+  StartImmediate(Delay(() => {
+    isLoading().Set(true);
+    return Bind_1(FetchMe(), () => Bind_1(Sleep(500), () => {
+      isLoading().Set(false);
+      return Zero();
+    }));
+  }), null);
 }
 function isOpen(){
   return _c.isOpen;
@@ -350,6 +361,9 @@ function avatarSrcV(){
 }
 function hasAvatarV(){
   return _c.hasAvatarV;
+}
+function isLoading(){
+  return _c.isLoading;
 }
 function showAsFlex(showV){
   return Attr.Concat([DynamicClassPred("hidden", Map((v) =>!v, showV)), DynamicClassPred("flex", showV)]);
@@ -462,20 +476,20 @@ function FetchMe(){
     }));
   });
 }
+function IsAuthedView(){
+  return _c_12.IsAuthedView;
+}
 function BuildStartUrlWithReturn(returnUrl){
   return"https://api.websharper.com/auth/github/start?returnUrl="+encodeURIComponent(returnUrl);
 }
 function UserView(){
-  return _c_21.UserView;
-}
-function IsAuthedView(){
-  return _c_21.IsAuthedView;
+  return _c_12.UserView;
 }
 function userVar(){
-  return _c_21.userVar;
+  return _c_12.userVar;
 }
 function isFetchingVar(){
-  return _c_21.isFetchingVar;
+  return _c_12.isFetchingVar;
 }
 function header(){
   return new Headers(Object.fromEntries([["Accept", "application/json"]]));
@@ -542,8 +556,15 @@ class Doc extends Object_1 {
     const c=Doc.Concat(children);
     return Elt_1.New(globalThis.document.createElement(name), a, c);
   }
+  static Input(attr_1, var_1){
+    return Doc.InputInternal("input", () => append(attr_1, [Value(var_1)]));
+  }
   static Flatten(view){
     return Doc.EmbedView(Map((x) => Doc.Concat(x), view));
+  }
+  static InputInternal(elemTy, attr_1){
+    const el=globalThis.document.createElement(elemTy);
+    return Elt_1.New(el, Attr.Concat(attr_1(el)), Doc.Empty);
   }
   ReplaceInDom(elt){
     const rdelim=globalThis.document.createTextNode("");
@@ -904,8 +925,20 @@ function paymentform(h){
 function t_1(h){
   return h?GetOrLoadTemplate("checkout", null, () => ParseHTMLIntoFakeRoot("<html lang=\"en\">\r\n<head>\r\n</head>\r\n<body>\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    <!-- Main Container -->\r\n    <div ws-onafterrender=\"OnAfterRender\">\r\n        <div class=\"hidden md:block fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800\"></div>\r\n        <div class=\"max-w-6xl mx-auto px-12 gap-20 md:flex\">\r\n\r\n            <div class=\"md:w-1/2 md:pr-20 pt-16\">\r\n                <a href=\"./\" class=\"rounded-full\">\r\n                    <span class=\"sr-only\">WebSharper logo</span>\r\n                    <img class=\"h-9 w-9 rounded-full bg-white dark:bg-transparent\" src=\"./Assets/favicon.png\" alt=\"websharper logo\" width=\"164\" height=\"164\">\r\n                </a>\r\n\r\n                <nav class=\"mt-8 flex gap-3 items-center\">\r\n                    <a id=\"backLink\" ws-attr=\"BackLinkAttr\" href=\"./support.html#plans\" ws-hole=\"BackLinkLabel\" class=\"text-gray-600 dark:text-gray-300 hover:underline hover:text-blue-600 dark:hover:text-blue-400\">\r\n                        Plans\r\n                    </a>\r\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"text-gray-400 dark:text-gray-600 size-4\">\r\n                        <path fill-rule=\"evenodd\" d=\"M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                    </svg>\r\n                    <span class=\"text-gray-950 dark:text-white font-medium\">Payment</span>\r\n                </nav>\r\n\r\n                <h1 class=\"mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3\">\r\n                    <span ws-hole=\"PlanName\"></span>\r\n                </h1>\r\n\r\n                <p class=\"text-3xl font-bold text-gray-950 dark:text-white flex items-baseline gap-1\">\r\n                    <span ws-hole=\"PlanPrice\"></span>\r\n                    <span class=\"text-base text-gray-600 dark:text-gray-400 font-normal\">/ <span ws-hole=\"PlanInterval\"></span></span>\r\n                </p>\r\n\r\n                <p class=\"mt-8 text-gray-600 dark:text-gray-400\">Our experienced WebSharper support team is available to help you make the right decisions.</p>\r\n\r\n                <div id=\"wsSeatSelector\" ws-attr=\"SeatSelectorAttr\" class=\"mt-6\">\r\n                    <label for=\"wsSeats\" class=\"block text-sm font-medium text-gray-700 dark:text-gray-300\">Seats</label>\r\n                    <div class=\"mt-2 flex items-center gap-2\">\r\n                        <button type=\"button\" id=\"wsMinus\" ws-onclick=\"OnSeatMinus\" class=\"cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50\">\r\n                            -\r\n                        </button>\r\n                        <input id=\"wsSeats\" name=\"wsSeats\" ws-var=\"SeatsText\" inputmode=\"numeric\" pattern=\"[0-9]*\" value=\"1\" class=\"h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white\">\r\n                        <button type=\"button\" id=\"wsPlus\" ws-onclick=\"OnSeatPlus\" class=\"cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50\">\r\n                            +\r\n                        </button>\r\n                    </div>\r\n                    <p id=\"wsPriceHint\" class=\"mt-2 text-xs text-gray-500 dark:text-gray-400\">\r\n                        <span ws-hole=\"PriceHint\"></span>\r\n                    </p>\r\n                </div>\r\n\r\n                <div class=\"fixed bottom-0 z-10 inset-x-0 px-12 border-t dark:border-gray-800 shadow-lg md:z-0 md:border-none md:shadow-none md:px-0 bg-white dark:bg-gray-900 dark:md:bg-transparent md:bg-transparent md:static mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400\">\r\n                    <div class=\"py-3 flex justify-between\">\r\n                        <p>Subtotal</p>\r\n                        <p aria-live=\"polite\" class=\"font-medium text-gray-950 dark:text-white\">\r\n                            <span ws-hole=\"Subtotal\"></span>\r\n                        </p>\r\n                    </div>\r\n                    <div class=\"py-3 flex justify-between\">\r\n                        <p>Taxes</p>\r\n                        <p class=\"font-medium text-gray-950 dark:text-white\">\r\n                            <span ws-hole=\"Taxes\"></span>\r\n                        </p>\r\n                    </div>\r\n                    <div class=\"py-3 flex justify-between\">\r\n                        <p class=\"text-gray-950 dark:text-white font-medium\">Total</p>\r\n                        <p aria-live=\"polite\" class=\"font-medium text-gray-950 dark:text-white\">\r\n                            <span ws-hole=\"Total\"></span>\r\n                        </p>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"pb-56 md:max-w-md md:w-1/2 md:pt-16 md:pb-16\">\r\n                <div ws-replace=\"RightSideContent\"></div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</body>\r\n</html>"), h):PrepareTemplate("checkout", null, () => ParseHTMLIntoFakeRoot("<html lang=\"en\">\r\n<head>\r\n</head>\r\n<body>\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    <!-- Main Container -->\r\n    <div ws-onafterrender=\"OnAfterRender\">\r\n        <div class=\"hidden md:block fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800\"></div>\r\n        <div class=\"max-w-6xl mx-auto px-12 gap-20 md:flex\">\r\n\r\n            <div class=\"md:w-1/2 md:pr-20 pt-16\">\r\n                <a href=\"./\" class=\"rounded-full\">\r\n                    <span class=\"sr-only\">WebSharper logo</span>\r\n                    <img class=\"h-9 w-9 rounded-full bg-white dark:bg-transparent\" src=\"./Assets/favicon.png\" alt=\"websharper logo\" width=\"164\" height=\"164\">\r\n                </a>\r\n\r\n                <nav class=\"mt-8 flex gap-3 items-center\">\r\n                    <a id=\"backLink\" ws-attr=\"BackLinkAttr\" href=\"./support.html#plans\" ws-hole=\"BackLinkLabel\" class=\"text-gray-600 dark:text-gray-300 hover:underline hover:text-blue-600 dark:hover:text-blue-400\">\r\n                        Plans\r\n                    </a>\r\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"text-gray-400 dark:text-gray-600 size-4\">\r\n                        <path fill-rule=\"evenodd\" d=\"M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                    </svg>\r\n                    <span class=\"text-gray-950 dark:text-white font-medium\">Payment</span>\r\n                </nav>\r\n\r\n                <h1 class=\"mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3\">\r\n                    <span ws-hole=\"PlanName\"></span>\r\n                </h1>\r\n\r\n                <p class=\"text-3xl font-bold text-gray-950 dark:text-white flex items-baseline gap-1\">\r\n                    <span ws-hole=\"PlanPrice\"></span>\r\n                    <span class=\"text-base text-gray-600 dark:text-gray-400 font-normal\">/ <span ws-hole=\"PlanInterval\"></span></span>\r\n                </p>\r\n\r\n                <p class=\"mt-8 text-gray-600 dark:text-gray-400\">Our experienced WebSharper support team is available to help you make the right decisions.</p>\r\n\r\n                <div id=\"wsSeatSelector\" ws-attr=\"SeatSelectorAttr\" class=\"mt-6\">\r\n                    <label for=\"wsSeats\" class=\"block text-sm font-medium text-gray-700 dark:text-gray-300\">Seats</label>\r\n                    <div class=\"mt-2 flex items-center gap-2\">\r\n                        <button type=\"button\" id=\"wsMinus\" ws-onclick=\"OnSeatMinus\" class=\"cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50\">\r\n                            -\r\n                        </button>\r\n                        <input id=\"wsSeats\" name=\"wsSeats\" ws-var=\"SeatsText\" inputmode=\"numeric\" pattern=\"[0-9]*\" value=\"1\" class=\"h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white\">\r\n                        <button type=\"button\" id=\"wsPlus\" ws-onclick=\"OnSeatPlus\" class=\"cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50\">\r\n                            +\r\n                        </button>\r\n                    </div>\r\n                    <p id=\"wsPriceHint\" class=\"mt-2 text-xs text-gray-500 dark:text-gray-400\">\r\n                        <span ws-hole=\"PriceHint\"></span>\r\n                    </p>\r\n                </div>\r\n\r\n                <div class=\"fixed bottom-0 z-10 inset-x-0 px-12 border-t dark:border-gray-800 shadow-lg md:z-0 md:border-none md:shadow-none md:px-0 bg-white dark:bg-gray-900 dark:md:bg-transparent md:bg-transparent md:static mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400\">\r\n                    <div class=\"py-3 flex justify-between\">\r\n                        <p>Subtotal</p>\r\n                        <p aria-live=\"polite\" class=\"font-medium text-gray-950 dark:text-white\">\r\n                            <span ws-hole=\"Subtotal\"></span>\r\n                        </p>\r\n                    </div>\r\n                    <div class=\"py-3 flex justify-between\">\r\n                        <p>Taxes</p>\r\n                        <p class=\"font-medium text-gray-950 dark:text-white\">\r\n                            <span ws-hole=\"Taxes\"></span>\r\n                        </p>\r\n                    </div>\r\n                    <div class=\"py-3 flex justify-between\">\r\n                        <p class=\"text-gray-950 dark:text-white font-medium\">Total</p>\r\n                        <p aria-live=\"polite\" class=\"font-medium text-gray-950 dark:text-white\">\r\n                            <span ws-hole=\"Total\"></span>\r\n                        </p>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"pb-56 md:max-w-md md:w-1/2 md:pt-16 md:pb-16\">\r\n                <div ws-replace=\"RightSideContent\"></div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</body>\r\n</html>"));
 }
+function skeleton(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("skeleton"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] transition-opacity duration-500 ease-out\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <div class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800 space-y-1\">\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n            </div>\r\n        </aside>\r\n\r\n        <div class=\"space-y-6\">\r\n\r\n            <div class=\"space-y-3\">\r\n                <div class=\"h-8 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                <div class=\"h-4 w-full max-w-lg bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n\r\n                <div class=\"flex items-center gap-2 mt-2\">\r\n                    <div class=\"h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-9 w-64 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mt-1\"></div>\r\n            </div>\r\n\r\n            <div class=\"flex flex-wrap items-center justify-between gap-3 pt-4\">\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-4 w-80 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"h-10 w-48 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden\">\r\n                <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                    <div class=\"space-y-2\">\r\n                        <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                        <div class=\"h-4 w-96 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    </div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"bg-gray-50 dark:bg-gray-900/50 h-10 w-full border-t border-b border-gray-200 dark:border-gray-800 animate-pulse\"></div>\r\n\r\n                <div class=\"divide-y divide-gray-200 dark:divide-gray-800\">\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 p-5\">\r\n                <div class=\"flex items-center justify-between mb-4\">\r\n                    <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-10 w-full bg-gray-5 dark:bg-gray-900/50 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-red-100 p-5 dark:border-red-900/30\">\r\n                <div class=\"h-6 w-32 bg-red-100 dark:bg-red-900/50 rounded animate-pulse mb-2\"></div>\r\n                <div class=\"h-4 w-96 bg-red-100 dark:bg-red-900/50 rounded animate-pulse\"></div>\r\n            </div>\r\n        </div>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("skeleton"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] transition-opacity duration-500 ease-out\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <div class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800 space-y-1\">\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n            </div>\r\n        </aside>\r\n\r\n        <div class=\"space-y-6\">\r\n\r\n            <div class=\"space-y-3\">\r\n                <div class=\"h-8 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                <div class=\"h-4 w-full max-w-lg bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n\r\n                <div class=\"flex items-center gap-2 mt-2\">\r\n                    <div class=\"h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-9 w-64 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mt-1\"></div>\r\n            </div>\r\n\r\n            <div class=\"flex flex-wrap items-center justify-between gap-3 pt-4\">\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-4 w-80 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"h-10 w-48 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden\">\r\n                <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                    <div class=\"space-y-2\">\r\n                        <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                        <div class=\"h-4 w-96 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    </div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"bg-gray-50 dark:bg-gray-900/50 h-10 w-full border-t border-b border-gray-200 dark:border-gray-800 animate-pulse\"></div>\r\n\r\n                <div class=\"divide-y divide-gray-200 dark:divide-gray-800\">\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 p-5\">\r\n                <div class=\"flex items-center justify-between mb-4\">\r\n                    <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-10 w-full bg-gray-5 dark:bg-gray-900/50 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-red-100 p-5 dark:border-red-900/30\">\r\n                <div class=\"h-6 w-32 bg-red-100 dark:bg-red-900/50 rounded animate-pulse mb-2\"></div>\r\n                <div class=\"h-4 w-96 bg-red-100 dark:bg-red-900/50 rounded animate-pulse\"></div>\r\n            </div>\r\n        </div>\r\n    </div>"));
+}
+function loginprompt(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("loginprompt"), () => ParseHTMLIntoFakeRoot("<div class=\"rounded-xl border p-6 dark:border-gray-800 dark:text-white text-gray-800 max-w-lg mx-auto mt-12 animate-[fadeIn_0.5s_ease-out]\">\r\n        <h3 class=\"text-lg font-semibold mb-2\">\r\n            Please log in\r\n        </h3>\r\n\r\n        <p class=\"text-sm text-gray-600 dark:text-gray-400 mb-4\">\r\n            You need to be signed in to manage your subscription.\r\n        </p>\r\n\r\n        <button ws-onclick=\"LoginClick\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n            <span class=\"relative text-sm\">\r\n                Log in with GitHub\r\n            </span>\r\n        </button>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("loginprompt"), () => ParseHTMLIntoFakeRoot("<div class=\"rounded-xl border p-6 dark:border-gray-800 dark:text-white text-gray-800 max-w-lg mx-auto mt-12 animate-[fadeIn_0.5s_ease-out]\">\r\n        <h3 class=\"text-lg font-semibold mb-2\">\r\n            Please log in\r\n        </h3>\r\n\r\n        <p class=\"text-sm text-gray-600 dark:text-gray-400 mb-4\">\r\n            You need to be signed in to manage your subscription.\r\n        </p>\r\n\r\n        <button ws-onclick=\"LoginClick\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n            <span class=\"relative text-sm\">\r\n                Log in with GitHub\r\n            </span>\r\n        </button>\r\n    </div>"));
+}
+function authenticatedcontent(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("authenticatedcontent"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] animate-[fadeIn_0.5s_ease-out]\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <nav aria-label=\"Settings\" class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800\">\r\n                <ul class=\"space-y-1 text-sm\">\r\n                    <li>\r\n                        <button data-nav=\"subs\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoSubs\" ws-attr=\"SubsTabAttr\">\r\n                            My subscriptions\r\n                        </button>\r\n                    </li>\r\n                    <li>\r\n                        <button data-nav=\"billing\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoBilling\" ws-attr=\"BillingTabAttr\">\r\n                            Billing information\r\n                        </button>\r\n                    </li>\r\n                </ul>\r\n            </nav>\r\n        </aside>\r\n\r\n        <section>\r\n            <div data-page=\"subs\" ws-attr=\"SubsPageAttr\" class=\"space-y-6 hidden\">\r\n\r\n                <div ws-replace=\"GitHubOrg\"></div>\r\n\r\n                \r\n\r\n                \r\n\r\n                \r\n\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Seats &amp; Access</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Manage GitHub access for your WebSharper subscription.</p>\r\n                    </div>\r\n                    <button ws-onclick=\"OpenCustomerPortal\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Manage billing in Stripe\r\n                    </button>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800\">\r\n                    <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                        <div>\r\n                            <h2 class=\"font-semibold text-gray-900 dark:text-white\">Add seats</h2>\r\n                            <p class=\"mt-1 text-sm text-gray-600 dark:text-gray-400\">You can add more Professional seats in this section. Each new seat is valid for one year.</p>\r\n                        </div>\r\n                        <div>\r\n                            <button ws-onclick=\"AddSeatsClick\" ws-attr=\"AddSeatsButtonAttr\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                                <span class=\"relative text-sm\">Add seats</span>\r\n                            </button>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Seat</th>\r\n                                    <th class=\"px-4 py-3 text-center\">GitHub username</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Expiry</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"SeatsBody\" class=\"divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n\r\n                                \r\n\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div class=\"flex items-center justify-between\">\r\n                        <h2 class=\"font-semibold text-gray-900 dark:text-white\">Invoices</h2>\r\n                        <button ws-onclick=\"RefreshClick\" class=\"rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white\">Refresh</button>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Invoice</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Date</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Amount</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"InvoiceBody\" class=\"divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-red-200 p-5 dark:border-red-900/60\">\r\n                    <h2 class=\"font-semibold text-red-700 dark:text-red-400\">Danger zone</h2>\r\n                    <p class=\"mt-1 text-sm text-red-600 dark:text-red-300\">Unassign removes GitHub access for that seat. You can reassign anytime.</p>\r\n                </section>\r\n            </div>\r\n\r\n            <div data-page=\"billing\" ws-attr=\"BillingPageAttr\" class=\"space-y-6 hidden\">\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Billing information</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Update invoice recipient details, VAT number, and address used for future invoices.</p>\r\n                    </div>\r\n                    <div class=\"flex gap-2\">\r\n                        <button ws-onclick=\"BillingEditClick\" ws-attr=\"BtnBillingEditAttr\" class=\"rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white\">Edit</button>\r\n                        <button ws-onclick=\"BillingCancelClick\" ws-attr=\"BtnBillingCancelAttr\" class=\"hidden rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white\">Cancel</button>\r\n                        <button ws-onclick=\"BillingSaveClick\" ws-attr=\"BtnBillingSaveAttr\" class=\"hidden rounded-xl h-9 px-3 bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800\">Save</button>\r\n                    </div>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div ws-attr=\"BillingViewAttr\" class=\"grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm\">\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Company / Full name</div>\r\n                            <div ws-hole=\"BillingNameView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">VAT / Tax ID</div>\r\n                            <div ws-hole=\"BillingVatinView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div class=\"sm:col-span-2\">\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Address line 1</div>\r\n                            <div ws-hole=\"BillingLine1View\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">City</div>\r\n                            <div ws-hole=\"BillingCityView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Postal code</div>\r\n                            <div ws-hole=\"BillingPostalView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Country</div>\r\n                            <div ws-hole=\"BillingCountryView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div ws-attr=\"BillingEditAttr\" class=\"hidden mt-4\">\r\n                        <form class=\"grid grid-cols-1 sm:grid-cols-2 gap-4\">\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Company / Full name</label>\r\n                                <input ws-var=\"BillingNameVar\" name=\"name\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">VAT / Tax ID</label>\r\n                                <input ws-var=\"BillingVatinVar\" name=\"vatin\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                            <div class=\"sm:col-span-2\">\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Address line 1</label>\r\n                                <input ws-var=\"BillingLine1Var\" name=\"line1\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">City</label>\r\n                                <input ws-var=\"BillingCityVar\" name=\"city\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Postal code</label>\r\n                                <input ws-var=\"BillingPostalVar\" name=\"postal_code\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Country</label>\r\n                                <input ws-var=\"BillingCountryVar\" name=\"country\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                        </form>\r\n                    </div>\r\n                </section>\r\n            </div>\r\n        </section>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("authenticatedcontent"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] animate-[fadeIn_0.5s_ease-out]\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <nav aria-label=\"Settings\" class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800\">\r\n                <ul class=\"space-y-1 text-sm\">\r\n                    <li>\r\n                        <button data-nav=\"subs\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoSubs\" ws-attr=\"SubsTabAttr\">\r\n                            My subscriptions\r\n                        </button>\r\n                    </li>\r\n                    <li>\r\n                        <button data-nav=\"billing\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoBilling\" ws-attr=\"BillingTabAttr\">\r\n                            Billing information\r\n                        </button>\r\n                    </li>\r\n                </ul>\r\n            </nav>\r\n        </aside>\r\n\r\n        <section>\r\n            <div data-page=\"subs\" ws-attr=\"SubsPageAttr\" class=\"space-y-6 hidden\">\r\n\r\n                <div ws-replace=\"GitHubOrg\"></div>\r\n\r\n                \r\n\r\n                \r\n\r\n                \r\n\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Seats &amp; Access</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Manage GitHub access for your WebSharper subscription.</p>\r\n                    </div>\r\n                    <button ws-onclick=\"OpenCustomerPortal\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Manage billing in Stripe\r\n                    </button>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800\">\r\n                    <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                        <div>\r\n                            <h2 class=\"font-semibold text-gray-900 dark:text-white\">Add seats</h2>\r\n                            <p class=\"mt-1 text-sm text-gray-600 dark:text-gray-400\">You can add more Professional seats in this section. Each new seat is valid for one year.</p>\r\n                        </div>\r\n                        <div>\r\n                            <button ws-onclick=\"AddSeatsClick\" ws-attr=\"AddSeatsButtonAttr\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                                <span class=\"relative text-sm\">Add seats</span>\r\n                            </button>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Seat</th>\r\n                                    <th class=\"px-4 py-3 text-center\">GitHub username</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Expiry</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"SeatsBody\" class=\"divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n\r\n                                \r\n\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div class=\"flex items-center justify-between\">\r\n                        <h2 class=\"font-semibold text-gray-900 dark:text-white\">Invoices</h2>\r\n                        <button ws-onclick=\"RefreshClick\" class=\"rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white\">Refresh</button>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Invoice</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Date</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Amount</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"InvoiceBody\" class=\"divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-red-200 p-5 dark:border-red-900/60\">\r\n                    <h2 class=\"font-semibold text-red-700 dark:text-red-400\">Danger zone</h2>\r\n                    <p class=\"mt-1 text-sm text-red-600 dark:text-red-300\">Unassign removes GitHub access for that seat. You can reassign anytime.</p>\r\n                </section>\r\n            </div>\r\n\r\n            <div data-page=\"billing\" ws-attr=\"BillingPageAttr\" class=\"space-y-6 hidden\">\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Billing information</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Update invoice recipient details, VAT number, and address used for future invoices.</p>\r\n                    </div>\r\n                    <div class=\"flex gap-2\">\r\n                        <button ws-onclick=\"BillingEditClick\" ws-attr=\"BtnBillingEditAttr\" class=\"rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white\">Edit</button>\r\n                        <button ws-onclick=\"BillingCancelClick\" ws-attr=\"BtnBillingCancelAttr\" class=\"hidden rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white\">Cancel</button>\r\n                        <button ws-onclick=\"BillingSaveClick\" ws-attr=\"BtnBillingSaveAttr\" class=\"hidden rounded-xl h-9 px-3 bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800\">Save</button>\r\n                    </div>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div ws-attr=\"BillingViewAttr\" class=\"grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm\">\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Company / Full name</div>\r\n                            <div ws-hole=\"BillingNameView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">VAT / Tax ID</div>\r\n                            <div ws-hole=\"BillingVatinView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div class=\"sm:col-span-2\">\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Address line 1</div>\r\n                            <div ws-hole=\"BillingLine1View\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">City</div>\r\n                            <div ws-hole=\"BillingCityView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Postal code</div>\r\n                            <div ws-hole=\"BillingPostalView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Country</div>\r\n                            <div ws-hole=\"BillingCountryView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div ws-attr=\"BillingEditAttr\" class=\"hidden mt-4\">\r\n                        <form class=\"grid grid-cols-1 sm:grid-cols-2 gap-4\">\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Company / Full name</label>\r\n                                <input ws-var=\"BillingNameVar\" name=\"name\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">VAT / Tax ID</label>\r\n                                <input ws-var=\"BillingVatinVar\" name=\"vatin\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                            <div class=\"sm:col-span-2\">\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Address line 1</label>\r\n                                <input ws-var=\"BillingLine1Var\" name=\"line1\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">City</label>\r\n                                <input ws-var=\"BillingCityVar\" name=\"city\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Postal code</label>\r\n                                <input ws-var=\"BillingPostalVar\" name=\"postal_code\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Country</label>\r\n                                <input ws-var=\"BillingCountryVar\" name=\"country\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                            </div>\r\n                        </form>\r\n                    </div>\r\n                </section>\r\n            </div>\r\n        </section>\r\n    </div>"));
+}
+function contentwrapper(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("contentwrapper"), () => ParseHTMLIntoFakeRoot("<div>\r\n        <div ws-attr=\"SkeletonAttr\">\r\n            <div ws-replace=\"Skeleton\"></div>\r\n        </div>\r\n        <div ws-replace=\"Content\"></div>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("contentwrapper"), () => ParseHTMLIntoFakeRoot("<div>\r\n        <div ws-attr=\"SkeletonAttr\">\r\n            <div ws-replace=\"Skeleton\"></div>\r\n        </div>\r\n        <div ws-replace=\"Content\"></div>\r\n    </div>"));
+}
 function t_2(h){
-  return h?GetOrLoadTemplate("managesubscription", null, () => ParseHTMLIntoFakeRoot("<html lang=\"en\">\r\n<head>\r\n</head>\r\n<body>\r\n    <div class=\"mx-auto max-w-6xl px-10 pt-28 pb-20\" ws-onafterrender=\"OnAfterRender\">\r\n        <div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]\">\r\n            <!-- Left: settings nav -->\r\n            <aside class=\"lg:sticky lg:top-24 h-max\">\r\n                <nav aria-label=\"Settings\" class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800\">\r\n                    <ul class=\"space-y-1 text-sm\">\r\n                        <li>\r\n                            <button data-nav=\"subs\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoSubs\" ws-attr=\"SubsTabAttr\">\r\n                                My subscriptions\r\n                            </button>\r\n                        </li>\r\n                        <li>\r\n                            <button data-nav=\"billing\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoBilling\" ws-attr=\"BillingTabAttr\">\r\n                                Billing information\r\n                            </button>\r\n                        </li>\r\n                    </ul>\r\n                </nav>\r\n            </aside>\r\n\r\n            <!-- Login prompt block -->\r\n            <div ws-attr=\"LoginPromptAttr\" class=\"rounded-xl border p-6 dark:border-gray-800 dark:text-white text-gray-800\">\r\n                <h3 class=\"text-lg font-semibold mb-2\">\r\n                    Please log in\r\n                </h3>\r\n\r\n                <p class=\"text-sm text-gray-600 dark:text-gray-400 mb-4\">\r\n                    You need to be signed in to manage your subscription.\r\n                </p>\r\n\r\n                <button ws-onclick=\"LoginClick\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                    <span class=\"relative text-sm\">\r\n                        Log in with GitHub\r\n                    </span>\r\n                </button>\r\n            </div>\r\n\r\n            <!-- Right: dynamic content -->\r\n            <section ws-attr=\"ContentAttr\">\r\n                <!-- Section: My subscriptions -->\r\n                <div data-page=\"subs\" ws-attr=\"SubsPageAttr\" class=\"space-y-6 hidden\">\r\n\r\n                    <div ws-replace=\"GitHubOrg\"></div>\r\n\r\n                    \r\n\r\n                    \r\n\r\n                    \r\n\r\n                    <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                        <div>\r\n                            <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Seats &amp; Access</h1>\r\n                            <p class=\"text-sm text-gray-600 dark:text-gray-400\">Manage GitHub access for your WebSharper subscription.</p>\r\n                        </div>\r\n\r\n                        <button ws-onclick=\"OpenCustomerPortal\" ws-attr=\"CustomerPortalAttr\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm\r\ntext-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900\r\nhover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                            Manage billing in Stripe\r\n                        </button>\r\n                    </div>\r\n\r\n                    <!-- Seats table (dynamic) -->\r\n                    <section class=\"rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800\">\r\n                        <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                            <div>\r\n                                <h2 class=\"font-semibold text-gray-900 dark:text-white\">Add seats</h2>\r\n                                <p class=\"mt-1 text-sm text-gray-600 dark:text-gray-400\">\r\n                                    You can add more Professional seats in this section. Each new seat is valid for one year.\r\n                                </p>\r\n                            </div>\r\n                            <div>\r\n                                <button ws-onclick=\"AddSeatsClick\" ws-attr=\"AddSeatsButtonAttr\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                                    <span class=\"relative text-sm\">Add seats</span>\r\n                                </button>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"mt-4 overflow-x-auto\">\r\n                            <table class=\"w-full text-sm\">\r\n                                <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                    <tr>\r\n                                        <th class=\"px-4 py-3 text-left\">Seat</th>\r\n                                        <th class=\"px-4 py-3 text-center\">GitHub username</th>\r\n                                        <th class=\"px-4 py-3 text-center\">Status</th>\r\n                                        <th class=\"px-4 py-3 text-center\">Expiry</th>\r\n                                        <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                    </tr>\r\n                                </thead>\r\n                                <tbody ws-hole=\"SeatsBody\" class=\"divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                                    <!-- Group header row -->\r\n                                    \r\n\r\n                                    <!-- Seat row -->\r\n                                    \r\n                                </tbody>\r\n                            </table>\r\n                        </div>\r\n                    </section>\r\n\r\n                    <!-- Invoices -->\r\n                    <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                        <div class=\"flex items-center justify-between\">\r\n                            <h2 class=\"font-semibold text-gray-900 dark:text-white\">Invoices</h2>\r\n                            <button ws-onclick=\"RefreshClick\" class=\"rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white\">\r\n                                Refresh\r\n                            </button>\r\n                        </div>\r\n                        <div class=\"mt-4 overflow-x-auto\">\r\n                            <table class=\"w-full text-sm\">\r\n                                <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                    <tr>\r\n                                        <th class=\"px-4 py-3 text-left\">Invoice</th>\r\n                                        <th class=\"px-4 py-3 text-left\">Date</th>\r\n                                        <th class=\"px-4 py-3 text-left\">Amount</th>\r\n                                        <th class=\"px-4 py-3 text-left\">Status</th>\r\n                                        <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                    </tr>\r\n                                </thead>\r\n                                <tbody ws-hole=\"InvoiceBody\" class=\"divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                                    \r\n                                </tbody>\r\n                            </table>\r\n                        </div>\r\n                    </section>\r\n\r\n                    <!-- Danger zone -->\r\n                    <section class=\"rounded-xl border border-red-200 p-5 dark:border-red-900/60\">\r\n                        <h2 class=\"font-semibold text-red-700 dark:text-red-400\">Danger zone</h2>\r\n                        <p class=\"mt-1 text-sm text-red-600 dark:text-red-300\">\r\n                            Unassign removes GitHub access for that seat. You can reassign anytime.\r\n                        </p>\r\n                    </section>\r\n                </div>\r\n\r\n                <!-- Section: Billing information -->\r\n                <div data-page=\"billing\" ws-attr=\"BillingPageAttr\" class=\"space-y-6 hidden\">\r\n                    <!-- Single header row (kept) -->\r\n                    <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                        <div>\r\n                            <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Billing information</h1>\r\n                            <p class=\"text-sm text-gray-600 dark:text-gray-400\">\r\n                                Update invoice recipient details, VAT number, and address used for future invoices.\r\n                            </p>\r\n                        </div>\r\n\r\n                        <!-- Move edit controls up here -->\r\n                        <div class=\"flex gap-2\">\r\n                            <button ws-onclick=\"BillingEditClick\" ws-attr=\"BtnBillingEditAttr\" class=\"rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white\">\r\n                                Edit\r\n                            </button>\r\n                            <button ws-onclick=\"BillingCancelClick\" ws-attr=\"BtnBillingCancelAttr\" class=\"hidden rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white\">\r\n                                Cancel\r\n                            </button>\r\n                            <button ws-onclick=\"BillingSaveClick\" ws-attr=\"BtnBillingSaveAttr\" class=\"hidden rounded-xl h-9 px-3 bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800\">\r\n                                Save\r\n                            </button>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <!-- Card with only the content (no inner heading) -->\r\n                    <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                        <!-- View mode (default) -->\r\n                        <div ws-attr=\"BillingViewAttr\" class=\"grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm\">\r\n                            <div>\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">Company / Full name</div>\r\n                                <div ws-hole=\"BillingNameView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                            <div>\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">VAT / Tax ID</div>\r\n                                <div ws-hole=\"BillingVatinView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                            <div class=\"sm:col-span-2\">\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">Address line 1</div>\r\n                                <div ws-hole=\"BillingLine1View\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                            <div>\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">City</div>\r\n                                <div ws-hole=\"BillingCityView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                            <div>\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">Postal code</div>\r\n                                <div ws-hole=\"BillingPostalView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                            <div>\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">Country</div>\r\n                                <div ws-hole=\"BillingCountryView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <!-- Edit mode -->\r\n                        <div ws-attr=\"BillingEditAttr\" class=\"hidden mt-4\">\r\n                            <form class=\"grid grid-cols-1 sm:grid-cols-2 gap-4\">\r\n                                <div>\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Company / Full name</label>\r\n                                    <input ws-var=\"BillingNameVar\" name=\"name\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                                <div>\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">VAT / Tax ID</label>\r\n                                    <input ws-var=\"BillingVatinVar\" name=\"vatin\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                                <div class=\"sm:col-span-2\">\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Address line 1</label>\r\n                                    <input ws-var=\"BillingLine1Var\" name=\"line1\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                                <div>\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">City</label>\r\n                                    <input ws-var=\"BillingCityVar\" name=\"city\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                                <div>\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Postal code</label>\r\n                                    <input ws-var=\"BillingPostalVar\" name=\"postal_code\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                                <div>\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Country</label>\r\n                                    <input ws-var=\"BillingCountryVar\" name=\"country\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                            </form>\r\n                        </div>\r\n                    </section>\r\n                </div>\r\n\r\n            </section>\r\n        </div>\r\n    </div>\r\n\r\n    <!-- Toast -->\r\n    <div ws-attr=\"ToastAttr\" ws-hole=\"ToastText\" class=\"fixed bottom-4 right-4 hidden rounded-lg px-4 py-2 text-sm bg-gray-900 text-white shadow-lg\" aria-live=\"polite\" role=\"status\">\r\n        Saved\r\n    </div>\r\n\r\n    <!-- Simple full-page spinner -->\r\n    <div ws-attr=\"SpinnerAttr\" class=\"hidden fixed inset-0 z-50 bg-white/50 dark:bg-black/40 backdrop-blur-sm\">\r\n        <div class=\"absolute inset-0 m-auto h-12 w-12 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-white\"></div>\r\n    </div>\r\n</body>\r\n</html>"), h):PrepareTemplate("managesubscription", null, () => ParseHTMLIntoFakeRoot("<html lang=\"en\">\r\n<head>\r\n</head>\r\n<body>\r\n    <div class=\"mx-auto max-w-6xl px-10 pt-28 pb-20\" ws-onafterrender=\"OnAfterRender\">\r\n        <div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]\">\r\n            <!-- Left: settings nav -->\r\n            <aside class=\"lg:sticky lg:top-24 h-max\">\r\n                <nav aria-label=\"Settings\" class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800\">\r\n                    <ul class=\"space-y-1 text-sm\">\r\n                        <li>\r\n                            <button data-nav=\"subs\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoSubs\" ws-attr=\"SubsTabAttr\">\r\n                                My subscriptions\r\n                            </button>\r\n                        </li>\r\n                        <li>\r\n                            <button data-nav=\"billing\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoBilling\" ws-attr=\"BillingTabAttr\">\r\n                                Billing information\r\n                            </button>\r\n                        </li>\r\n                    </ul>\r\n                </nav>\r\n            </aside>\r\n\r\n            <!-- Login prompt block -->\r\n            <div ws-attr=\"LoginPromptAttr\" class=\"rounded-xl border p-6 dark:border-gray-800 dark:text-white text-gray-800\">\r\n                <h3 class=\"text-lg font-semibold mb-2\">\r\n                    Please log in\r\n                </h3>\r\n\r\n                <p class=\"text-sm text-gray-600 dark:text-gray-400 mb-4\">\r\n                    You need to be signed in to manage your subscription.\r\n                </p>\r\n\r\n                <button ws-onclick=\"LoginClick\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                    <span class=\"relative text-sm\">\r\n                        Log in with GitHub\r\n                    </span>\r\n                </button>\r\n            </div>\r\n\r\n            <!-- Right: dynamic content -->\r\n            <section ws-attr=\"ContentAttr\">\r\n                <!-- Section: My subscriptions -->\r\n                <div data-page=\"subs\" ws-attr=\"SubsPageAttr\" class=\"space-y-6 hidden\">\r\n\r\n                    <div ws-replace=\"GitHubOrg\"></div>\r\n\r\n                    \r\n\r\n                    \r\n\r\n                    \r\n\r\n                    <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                        <div>\r\n                            <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Seats &amp; Access</h1>\r\n                            <p class=\"text-sm text-gray-600 dark:text-gray-400\">Manage GitHub access for your WebSharper subscription.</p>\r\n                        </div>\r\n\r\n                        <button ws-onclick=\"OpenCustomerPortal\" ws-attr=\"CustomerPortalAttr\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm\r\ntext-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900\r\nhover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                            Manage billing in Stripe\r\n                        </button>\r\n                    </div>\r\n\r\n                    <!-- Seats table (dynamic) -->\r\n                    <section class=\"rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800\">\r\n                        <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                            <div>\r\n                                <h2 class=\"font-semibold text-gray-900 dark:text-white\">Add seats</h2>\r\n                                <p class=\"mt-1 text-sm text-gray-600 dark:text-gray-400\">\r\n                                    You can add more Professional seats in this section. Each new seat is valid for one year.\r\n                                </p>\r\n                            </div>\r\n                            <div>\r\n                                <button ws-onclick=\"AddSeatsClick\" ws-attr=\"AddSeatsButtonAttr\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                                    <span class=\"relative text-sm\">Add seats</span>\r\n                                </button>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"mt-4 overflow-x-auto\">\r\n                            <table class=\"w-full text-sm\">\r\n                                <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                    <tr>\r\n                                        <th class=\"px-4 py-3 text-left\">Seat</th>\r\n                                        <th class=\"px-4 py-3 text-center\">GitHub username</th>\r\n                                        <th class=\"px-4 py-3 text-center\">Status</th>\r\n                                        <th class=\"px-4 py-3 text-center\">Expiry</th>\r\n                                        <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                    </tr>\r\n                                </thead>\r\n                                <tbody ws-hole=\"SeatsBody\" class=\"divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                                    <!-- Group header row -->\r\n                                    \r\n\r\n                                    <!-- Seat row -->\r\n                                    \r\n                                </tbody>\r\n                            </table>\r\n                        </div>\r\n                    </section>\r\n\r\n                    <!-- Invoices -->\r\n                    <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                        <div class=\"flex items-center justify-between\">\r\n                            <h2 class=\"font-semibold text-gray-900 dark:text-white\">Invoices</h2>\r\n                            <button ws-onclick=\"RefreshClick\" class=\"rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white\">\r\n                                Refresh\r\n                            </button>\r\n                        </div>\r\n                        <div class=\"mt-4 overflow-x-auto\">\r\n                            <table class=\"w-full text-sm\">\r\n                                <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                    <tr>\r\n                                        <th class=\"px-4 py-3 text-left\">Invoice</th>\r\n                                        <th class=\"px-4 py-3 text-left\">Date</th>\r\n                                        <th class=\"px-4 py-3 text-left\">Amount</th>\r\n                                        <th class=\"px-4 py-3 text-left\">Status</th>\r\n                                        <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                    </tr>\r\n                                </thead>\r\n                                <tbody ws-hole=\"InvoiceBody\" class=\"divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                                    \r\n                                </tbody>\r\n                            </table>\r\n                        </div>\r\n                    </section>\r\n\r\n                    <!-- Danger zone -->\r\n                    <section class=\"rounded-xl border border-red-200 p-5 dark:border-red-900/60\">\r\n                        <h2 class=\"font-semibold text-red-700 dark:text-red-400\">Danger zone</h2>\r\n                        <p class=\"mt-1 text-sm text-red-600 dark:text-red-300\">\r\n                            Unassign removes GitHub access for that seat. You can reassign anytime.\r\n                        </p>\r\n                    </section>\r\n                </div>\r\n\r\n                <!-- Section: Billing information -->\r\n                <div data-page=\"billing\" ws-attr=\"BillingPageAttr\" class=\"space-y-6 hidden\">\r\n                    <!-- Single header row (kept) -->\r\n                    <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                        <div>\r\n                            <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Billing information</h1>\r\n                            <p class=\"text-sm text-gray-600 dark:text-gray-400\">\r\n                                Update invoice recipient details, VAT number, and address used for future invoices.\r\n                            </p>\r\n                        </div>\r\n\r\n                        <!-- Move edit controls up here -->\r\n                        <div class=\"flex gap-2\">\r\n                            <button ws-onclick=\"BillingEditClick\" ws-attr=\"BtnBillingEditAttr\" class=\"rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white\">\r\n                                Edit\r\n                            </button>\r\n                            <button ws-onclick=\"BillingCancelClick\" ws-attr=\"BtnBillingCancelAttr\" class=\"hidden rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white\">\r\n                                Cancel\r\n                            </button>\r\n                            <button ws-onclick=\"BillingSaveClick\" ws-attr=\"BtnBillingSaveAttr\" class=\"hidden rounded-xl h-9 px-3 bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800\">\r\n                                Save\r\n                            </button>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <!-- Card with only the content (no inner heading) -->\r\n                    <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                        <!-- View mode (default) -->\r\n                        <div ws-attr=\"BillingViewAttr\" class=\"grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm\">\r\n                            <div>\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">Company / Full name</div>\r\n                                <div ws-hole=\"BillingNameView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                            <div>\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">VAT / Tax ID</div>\r\n                                <div ws-hole=\"BillingVatinView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                            <div class=\"sm:col-span-2\">\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">Address line 1</div>\r\n                                <div ws-hole=\"BillingLine1View\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                            <div>\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">City</div>\r\n                                <div ws-hole=\"BillingCityView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                            <div>\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">Postal code</div>\r\n                                <div ws-hole=\"BillingPostalView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                            <div>\r\n                                <div class=\"text-gray-600 dark:text-gray-400\">Country</div>\r\n                                <div ws-hole=\"BillingCountryView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <!-- Edit mode -->\r\n                        <div ws-attr=\"BillingEditAttr\" class=\"hidden mt-4\">\r\n                            <form class=\"grid grid-cols-1 sm:grid-cols-2 gap-4\">\r\n                                <div>\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Company / Full name</label>\r\n                                    <input ws-var=\"BillingNameVar\" name=\"name\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                                <div>\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">VAT / Tax ID</label>\r\n                                    <input ws-var=\"BillingVatinVar\" name=\"vatin\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                                <div class=\"sm:col-span-2\">\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Address line 1</label>\r\n                                    <input ws-var=\"BillingLine1Var\" name=\"line1\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                                <div>\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">City</label>\r\n                                    <input ws-var=\"BillingCityVar\" name=\"city\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                                <div>\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Postal code</label>\r\n                                    <input ws-var=\"BillingPostalVar\" name=\"postal_code\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                                <div>\r\n                                    <label class=\"block text-sm text-gray-600 dark:text-gray-300\">Country</label>\r\n                                    <input ws-var=\"BillingCountryVar\" name=\"country\" class=\"mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white\">\r\n                                </div>\r\n                            </form>\r\n                        </div>\r\n                    </section>\r\n                </div>\r\n\r\n            </section>\r\n        </div>\r\n    </div>\r\n\r\n    <!-- Toast -->\r\n    <div ws-attr=\"ToastAttr\" ws-hole=\"ToastText\" class=\"fixed bottom-4 right-4 hidden rounded-lg px-4 py-2 text-sm bg-gray-900 text-white shadow-lg\" aria-live=\"polite\" role=\"status\">\r\n        Saved\r\n    </div>\r\n\r\n    <!-- Simple full-page spinner -->\r\n    <div ws-attr=\"SpinnerAttr\" class=\"hidden fixed inset-0 z-50 bg-white/50 dark:bg-black/40 backdrop-blur-sm\">\r\n        <div class=\"absolute inset-0 m-auto h-12 w-12 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-white\"></div>\r\n    </div>\r\n</body>\r\n</html>"));
+  return h?GetOrLoadTemplate("managesubscription", null, () => ParseHTMLIntoFakeRoot("<html lang=\"en\">\r\n<head>\r\n</head>\r\n<body>\r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    <div class=\"mx-auto max-w-6xl px-10 pt-28 pb-20\" ws-onafterrender=\"OnAfterRender\">\r\n        <div ws-replace=\"MainContent\"></div>\r\n    </div>\r\n\r\n    <div ws-attr=\"ToastAttr\" ws-hole=\"ToastText\" class=\"fixed bottom-4 right-4 hidden rounded-lg px-4 py-2 text-sm bg-gray-900 text-white shadow-lg\" aria-live=\"polite\" role=\"status\">Saved</div>\r\n\r\n    <div ws-attr=\"SpinnerAttr\" class=\"hidden fixed inset-0 z-50 bg-white/50 dark:bg-black/40 backdrop-blur-sm\">\r\n        <div class=\"absolute inset-0 m-auto h-12 w-12 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-white\"></div>\r\n    </div>\r\n</body>\r\n</html>"), h):PrepareTemplate("managesubscription", null, () => ParseHTMLIntoFakeRoot("<html lang=\"en\">\r\n<head>\r\n</head>\r\n<body>\r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    <div class=\"mx-auto max-w-6xl px-10 pt-28 pb-20\" ws-onafterrender=\"OnAfterRender\">\r\n        <div ws-replace=\"MainContent\"></div>\r\n    </div>\r\n\r\n    <div ws-attr=\"ToastAttr\" ws-hole=\"ToastText\" class=\"fixed bottom-4 right-4 hidden rounded-lg px-4 py-2 text-sm bg-gray-900 text-white shadow-lg\" aria-live=\"polite\" role=\"status\">Saved</div>\r\n\r\n    <div ws-attr=\"SpinnerAttr\" class=\"hidden fixed inset-0 z-50 bg-white/50 dark:bg-black/40 backdrop-blur-sm\">\r\n        <div class=\"absolute inset-0 m-auto h-12 w-12 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-white\"></div>\r\n    </div>\r\n</body>\r\n</html>"));
 }
 function smoothtextloader(h){
   return h?GetOrLoadTemplate("checkout", Some("smoothtextloader"), () => ParseHTMLIntoFakeRoot("<span class=\"relative inline-block align-bottom ${WrapperClasses}\">\r\n        <span ws-attr=\"SkeletonAttr\" class=\"block w-full h-full transition-opacity duration-500 ease-out\">\r\n            <span class=\"block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full\"></span>\r\n        </span>\r\n        <span ws-attr=\"ContentAttr\" class=\"absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center\">\r\n            <span ws-replace=\"Content\" class=\"w-full\"></span>\r\n        </span>\r\n    </span>"), h):PrepareTemplate("checkout", Some("smoothtextloader"), () => ParseHTMLIntoFakeRoot("<span class=\"relative inline-block align-bottom ${WrapperClasses}\">\r\n        <span ws-attr=\"SkeletonAttr\" class=\"block w-full h-full transition-opacity duration-500 ease-out\">\r\n            <span class=\"block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full\"></span>\r\n        </span>\r\n        <span ws-attr=\"ContentAttr\" class=\"absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center\">\r\n            <span ws-replace=\"Content\" class=\"w-full\"></span>\r\n        </span>\r\n    </span>"));
@@ -914,13 +947,13 @@ function DecodeJson_FSharpOption_1(){
   return Decoder_FSharpOption_1?Decoder_FSharpOption_1:Decoder_FSharpOption_1=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", Id_1(), 0]]]]))();
 }
 function githubactive(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("githubactive"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                        <div>\r\n                            <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                        </div>\r\n\r\n                        <button ws-onclick=\"GoToGitHubOrg\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm\r\n    text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900\r\n    hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                            Go to GitHub organization\r\n                        </button>\r\n                    </div>"), h):PrepareTemplate("managesubscription", Some("githubactive"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                        <div>\r\n                            <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                        </div>\r\n\r\n                        <button ws-onclick=\"GoToGitHubOrg\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm\r\n    text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900\r\n    hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                            Go to GitHub organization\r\n                        </button>\r\n                    </div>"));
+  return h?GetOrLoadTemplate("managesubscription", Some("githubactive"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <button ws-onclick=\"GoToGitHubOrg\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Go to GitHub organization\r\n                    </button>\r\n                </div>"), h):PrepareTemplate("managesubscription", Some("githubactive"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <button ws-onclick=\"GoToGitHubOrg\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Go to GitHub organization\r\n                    </button>\r\n                </div>"));
 }
 function githubpending(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("githubpending"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                        <div>\r\n                            <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                        </div>\r\n\r\n                        <div class=\"text-sm\">Pending: ${GitHubOrgName}</div>\r\n                    </div>"), h):PrepareTemplate("managesubscription", Some("githubpending"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                        <div>\r\n                            <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                        </div>\r\n\r\n                        <div class=\"text-sm\">Pending: ${GitHubOrgName}</div>\r\n                    </div>"));
+  return h?GetOrLoadTemplate("managesubscription", Some("githubpending"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <div class=\"text-sm\">Pending: ${GitHubOrgName}</div>\r\n                </div>"), h):PrepareTemplate("managesubscription", Some("githubpending"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <div class=\"text-sm\">Pending: ${GitHubOrgName}</div>\r\n                </div>"));
 }
 function githubpendinginput(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("githubpendinginput"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                        <div>\r\n                            <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                            <p class=\"text-sm text-gray-600 dark:text-gray-400\">No GitHub support organization is created for you yet. Please choose a name below.</p>\r\n                        </div>\r\n\r\n                        <div>\r\n                            <span class=\"text-sm\">IntelliFactory-</span>\r\n                            <input ws-var=\"GitHubOrgName\" class=\"w-64 rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm\" placeholder=\"github-orgname-suffix\">\r\n                        </div>\r\n\r\n                        <div>\r\n                            <span class=\"mt-1 text-sm text-red-600 dark:text-red-300 mr-2\">\r\n                                You can't change the name after you submit.\r\n                            </span>\r\n                            <button ws-onclick=\"SetGitHubOrgName\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm\r\n    text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900\r\n    hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                                Set GitHub organization name\r\n                            </button>\r\n                        </div>\r\n                    </div>"), h):PrepareTemplate("managesubscription", Some("githubpendinginput"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                        <div>\r\n                            <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                            <p class=\"text-sm text-gray-600 dark:text-gray-400\">No GitHub support organization is created for you yet. Please choose a name below.</p>\r\n                        </div>\r\n\r\n                        <div>\r\n                            <span class=\"text-sm\">IntelliFactory-</span>\r\n                            <input ws-var=\"GitHubOrgName\" class=\"w-64 rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm\" placeholder=\"github-orgname-suffix\">\r\n                        </div>\r\n\r\n                        <div>\r\n                            <span class=\"mt-1 text-sm text-red-600 dark:text-red-300 mr-2\">\r\n                                You can't change the name after you submit.\r\n                            </span>\r\n                            <button ws-onclick=\"SetGitHubOrgName\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm\r\n    text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900\r\n    hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                                Set GitHub organization name\r\n                            </button>\r\n                        </div>\r\n                    </div>"));
+  return h?GetOrLoadTemplate("managesubscription", Some("githubpendinginput"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">No GitHub support organization is created for you yet. Please choose a name below.</p>\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"text-sm\">IntelliFactory-</span>\r\n                        <input ws-var=\"GitHubOrgName\" class=\"w-64 rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm\" placeholder=\"github-orgname-suffix\">\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"mt-1 text-sm text-red-600 dark:text-red-300 mr-2\">You can't change the name after you submit.</span>\r\n                        <button ws-onclick=\"SetGitHubOrgName\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                            Set GitHub organization name\r\n                        </button>\r\n                    </div>\r\n                </div>"), h):PrepareTemplate("managesubscription", Some("githubpendinginput"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">No GitHub support organization is created for you yet. Please choose a name below.</p>\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"text-sm\">IntelliFactory-</span>\r\n                        <input ws-var=\"GitHubOrgName\" class=\"w-64 rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm\" placeholder=\"github-orgname-suffix\">\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"mt-1 text-sm text-red-600 dark:text-red-300 mr-2\">You can't change the name after you submit.</span>\r\n                        <button ws-onclick=\"SetGitHubOrgName\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                            Set GitHub organization name\r\n                        </button>\r\n                    </div>\r\n                </div>"));
 }
 function DecodeJson_FSharpOption_4(){
   return Decoder_FSharpOption_4?Decoder_FSharpOption_4:Decoder_FSharpOption_4=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", DecodeJson_BillingData, 0]]]]))();
@@ -935,13 +968,13 @@ function DecodeJson_Subscription(){
   return Decoder_Subscription?Decoder_Subscription:Decoder_Subscription=(DecodeRecord(void 0, [["subscriptionId", Id_1(), 0], ["planName", Id_1(), 0], ["currentPeriodEnd", Id_1(), 0], ["cancelAtPeriodEnd", Id_1(), 0], ["seats", Id_1(), 0], ["githubAssignedNames", DecodeArray(DecodeJson_FSharpOption_2), 0]]))();
 }
 function seatgrouprow(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("seatgrouprow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                        <td colspan=\"5\" class=\"px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-100\">\r\n                                            <div class=\"flex items-center justify-between gap-4\">\r\n                                                <div class=\"text-xs sm:text-sm\">\r\n                                                    Expires on ${Expiry}\r\n                                                </div>\r\n                                                <div class=\"flex items-center gap-2\">\r\n                                                    <span class=\"text-xs text-gray-600 dark:text-gray-300\">\r\n                                                        Renew automatically\r\n                                                    </span>\r\n\r\n                                                    <button ws-onclick=\"ToggleAutoRenew\" class=\"${ToggleClasses}\">\r\n                                                        <span class=\"${DotClasses}\"></span>\r\n                                                    </button>\r\n                                                </div>\r\n                                            </div>\r\n                                        </td>\r\n                                    </tr>"), h):PrepareTemplate("managesubscription", Some("seatgrouprow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                        <td colspan=\"5\" class=\"px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-100\">\r\n                                            <div class=\"flex items-center justify-between gap-4\">\r\n                                                <div class=\"text-xs sm:text-sm\">\r\n                                                    Expires on ${Expiry}\r\n                                                </div>\r\n                                                <div class=\"flex items-center gap-2\">\r\n                                                    <span class=\"text-xs text-gray-600 dark:text-gray-300\">\r\n                                                        Renew automatically\r\n                                                    </span>\r\n\r\n                                                    <button ws-onclick=\"ToggleAutoRenew\" class=\"${ToggleClasses}\">\r\n                                                        <span class=\"${DotClasses}\"></span>\r\n                                                    </button>\r\n                                                </div>\r\n                                            </div>\r\n                                        </td>\r\n                                    </tr>"));
+  return h?GetOrLoadTemplate("managesubscription", Some("seatgrouprow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                    <td colspan=\"5\" class=\"px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-100\">\r\n                                        <div class=\"flex items-center justify-between gap-4\">\r\n                                            <div class=\"text-xs sm:text-sm\">Expires on <span ws-replace=\"Expiry\"></span></div>\r\n                                            <div class=\"flex items-center gap-2\">\r\n                                                <span class=\"text-xs text-gray-600 dark:text-gray-300\">Renew automatically</span>\r\n                                                <button ws-onclick=\"ToggleAutoRenew\" class=\"${ToggleClasses}\"><span class=\"${DotClasses}\"></span></button>\r\n                                            </div>\r\n                                        </div>\r\n                                    </td>\r\n                                </tr>"), h):PrepareTemplate("managesubscription", Some("seatgrouprow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                    <td colspan=\"5\" class=\"px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-100\">\r\n                                        <div class=\"flex items-center justify-between gap-4\">\r\n                                            <div class=\"text-xs sm:text-sm\">Expires on <span ws-replace=\"Expiry\"></span></div>\r\n                                            <div class=\"flex items-center gap-2\">\r\n                                                <span class=\"text-xs text-gray-600 dark:text-gray-300\">Renew automatically</span>\r\n                                                <button ws-onclick=\"ToggleAutoRenew\" class=\"${ToggleClasses}\"><span class=\"${DotClasses}\"></span></button>\r\n                                            </div>\r\n                                        </div>\r\n                                    </td>\r\n                                </tr>"));
 }
 function seatrow(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("seatrow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                        <td class=\"px-4 py-3\">\r\n                                            ${SeatLabel}\r\n                                        </td>\r\n\r\n                                        <td class=\"px-4 py-3\">\r\n                                            <input ws-var=\"Username\" ws-attr=\"UsernameAttr\" class=\"w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm\" placeholder=\"github-username\">\r\n                                        </td>\r\n\r\n                                        <td class=\"px-4 py-3 text-center\">\r\n                                            <span ws-hole=\"StatusBadge\"></span>\r\n                                        </td>\r\n\r\n                                        <td class=\"px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 text-center\">\r\n                                            ${Expiry}\r\n                                        </td>\r\n\r\n                                        <td class=\"px-4 py-3 text-right whitespace-nowrap\">\r\n                                            <button class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20 mr-2\" ws-onclick=\"AssignSeat\" ws-attr=\"AssignButtonAttr\">\r\n                                                Assign\r\n                                            </button>\r\n                                            <button class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20\" ws-onclick=\"UnassignSeat\" ws-attr=\"UnassignButtonAttr\">\r\n                                                Unassign\r\n                                            </button>\r\n                                        </td>\r\n                                    </tr>"), h):PrepareTemplate("managesubscription", Some("seatrow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                        <td class=\"px-4 py-3\">\r\n                                            ${SeatLabel}\r\n                                        </td>\r\n\r\n                                        <td class=\"px-4 py-3\">\r\n                                            <input ws-var=\"Username\" ws-attr=\"UsernameAttr\" class=\"w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm\" placeholder=\"github-username\">\r\n                                        </td>\r\n\r\n                                        <td class=\"px-4 py-3 text-center\">\r\n                                            <span ws-hole=\"StatusBadge\"></span>\r\n                                        </td>\r\n\r\n                                        <td class=\"px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 text-center\">\r\n                                            ${Expiry}\r\n                                        </td>\r\n\r\n                                        <td class=\"px-4 py-3 text-right whitespace-nowrap\">\r\n                                            <button class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20 mr-2\" ws-onclick=\"AssignSeat\" ws-attr=\"AssignButtonAttr\">\r\n                                                Assign\r\n                                            </button>\r\n                                            <button class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20\" ws-onclick=\"UnassignSeat\" ws-attr=\"UnassignButtonAttr\">\r\n                                                Unassign\r\n                                            </button>\r\n                                        </td>\r\n                                    </tr>"));
+  return h?GetOrLoadTemplate("managesubscription", Some("seatrow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                    <td class=\"px-4 py-3\" ws-hole=\"SeatLabel\"></td>\r\n\r\n                                    <td class=\"px-4 py-3\">\r\n                                        <div ws-replace=\"UsernameWidget\"></div>\r\n                                    </td>\r\n\r\n                                    <td class=\"px-4 py-3 text-center\"><span ws-hole=\"StatusBadge\"></span></td>\r\n\r\n                                    <td class=\"px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 text-center\" ws-hole=\"Expiry\"></td>\r\n\r\n                                    <td class=\"px-4 py-3 text-right whitespace-nowrap\">\r\n                                        <button class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20 mr-2\" ws-onclick=\"AssignSeat\" ws-attr=\"AssignButtonAttr\">Assign</button>\r\n                                        <button class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20\" ws-onclick=\"UnassignSeat\" ws-attr=\"UnassignButtonAttr\">Unassign</button>\r\n                                    </td>\r\n                                </tr>"), h):PrepareTemplate("managesubscription", Some("seatrow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                    <td class=\"px-4 py-3\" ws-hole=\"SeatLabel\"></td>\r\n\r\n                                    <td class=\"px-4 py-3\">\r\n                                        <div ws-replace=\"UsernameWidget\"></div>\r\n                                    </td>\r\n\r\n                                    <td class=\"px-4 py-3 text-center\"><span ws-hole=\"StatusBadge\"></span></td>\r\n\r\n                                    <td class=\"px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 text-center\" ws-hole=\"Expiry\"></td>\r\n\r\n                                    <td class=\"px-4 py-3 text-right whitespace-nowrap\">\r\n                                        <button class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20 mr-2\" ws-onclick=\"AssignSeat\" ws-attr=\"AssignButtonAttr\">Assign</button>\r\n                                        <button class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20\" ws-onclick=\"UnassignSeat\" ws-attr=\"UnassignButtonAttr\">Unassign</button>\r\n                                    </td>\r\n                                </tr>"));
 }
 function invoicerow(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("invoicerow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                        <td class=\"px-4 py-3\">\r\n                                            ${InvoiceId}\r\n                                        </td>\r\n                                        <td class=\"px-4 py-3\">\r\n                                            ${Date}\r\n                                        </td>\r\n                                        <td class=\"px-4 py-3\">\r\n                                            ${Amount}\r\n                                        </td>\r\n                                        <td class=\"px-4 py-3 capitalize\">\r\n                                            ${Status}\r\n                                        </td>\r\n                                        <td class=\"px-4 py-3 text-right\">\r\n                                            <a class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20\" href=\"${Href}\" target=\"_blank\" rel=\"noopener\">\r\n                                                View\r\n                                            </a>\r\n                                        </td>\r\n                                    </tr>"), h):PrepareTemplate("managesubscription", Some("invoicerow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                        <td class=\"px-4 py-3\">\r\n                                            ${InvoiceId}\r\n                                        </td>\r\n                                        <td class=\"px-4 py-3\">\r\n                                            ${Date}\r\n                                        </td>\r\n                                        <td class=\"px-4 py-3\">\r\n                                            ${Amount}\r\n                                        </td>\r\n                                        <td class=\"px-4 py-3 capitalize\">\r\n                                            ${Status}\r\n                                        </td>\r\n                                        <td class=\"px-4 py-3 text-right\">\r\n                                            <a class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20\" href=\"${Href}\" target=\"_blank\" rel=\"noopener\">\r\n                                                View\r\n                                            </a>\r\n                                        </td>\r\n                                    </tr>"));
+  return h?GetOrLoadTemplate("managesubscription", Some("invoicerow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                    <td class=\"px-4 py-3\">${InvoiceId}</td>\r\n                                    <td class=\"px-4 py-3\">${Date}</td>\r\n                                    <td class=\"px-4 py-3\">${Amount}</td>\r\n                                    <td class=\"px-4 py-3 capitalize\">${Status}</td>\r\n                                    <td class=\"px-4 py-3 text-right\">\r\n                                        <a class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20\" href=\"${Href}\" target=\"_blank\" rel=\"noopener\">View</a>\r\n                                    </td>\r\n                                </tr>"), h):PrepareTemplate("managesubscription", Some("invoicerow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                    <td class=\"px-4 py-3\">${InvoiceId}</td>\r\n                                    <td class=\"px-4 py-3\">${Date}</td>\r\n                                    <td class=\"px-4 py-3\">${Amount}</td>\r\n                                    <td class=\"px-4 py-3 capitalize\">${Status}</td>\r\n                                    <td class=\"px-4 py-3 text-right\">\r\n                                        <a class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20\" href=\"${Href}\" target=\"_blank\" rel=\"noopener\">View</a>\r\n                                    </td>\r\n                                </tr>"));
 }
 function EncodeJson_BillingData(){
   return Encoder_BillingData?Encoder_BillingData:Encoder_BillingData=(EncodeRecord(void 0, [["email", Id_1(), 0], ["line1", Id_1(), 0], ["city", Id_1(), 0], ["postalCode", Id_1(), 0], ["country", Id_1(), 0], ["companyName", Id_1(), 1], ["taxId", Id_1(), 1]]))();
@@ -1094,7 +1127,7 @@ function CheckoutDoc(){
       let _7=(b_3.i=i_3,i_3);
       return _7.Doc;
     }
-  }, IsLoading().View, isAuthedV_1()));
+  }, IsLoading().View, IsAuthedView()));
   const this_1=new ProviderBuilder("New_1");
   const this_2=(this_1.h.push(new AfterRenderQ("onafterrender", "", () => {
     OnAfterRender();
@@ -1135,7 +1168,7 @@ function OnAfterRender(){
   }), null);
 }
 function IsLoading(){
-  return _c_12.IsLoading;
+  return _c_13.IsLoading;
 }
 function BindSmoothLoader(widthHeightClass, justifyClass, actualContent){
   const C=ofArray([DynamicClassPred("opacity-0", IsLoading().View), DynamicClassPred("pointer-events-none", IsLoading().View), Class(justifyClass)]);
@@ -1294,87 +1327,120 @@ function getInvoiceIdFromQuery(){
   return id==null||id==""?null:Some(id);
 }
 function ManageSubscriptionDoc(){
-  const this_1=new ProviderBuilder("New_1");
-  const t_9=(this_1.h.push(new AfterRenderQ("onafterrender", "", () => {
-    Init_4();
-  })),this_1);
-  const t_10=(t_9.h.push(EventQ2(t_9.k, "gosubs", () => t_9.i, () => {
-    ShowSubsPage();
-  })),t_9);
-  const this_2=(t_10.h.push(EventQ2(t_10.k, "gobilling", () => t_10.i, () => {
-    ShowBillingPage();
-  })),t_10);
-  const this_3=(this_2.h.push(new Attribute("substabattr", SubsTabAttr())),this_2);
-  const this_4=(this_3.h.push(new Attribute("billingtabattr", BillingTabAttr())),this_3);
-  const this_5=(this_4.h.push(new Elt("githuborg", GitHubBody())),this_4);
-  const t_11=(this_5.h.push(new Attribute("customerportalattr", CustomerPortalAttr())),this_5);
-  const this_6=(t_11.h.push(EventQ2(t_11.k, "opencustomerportal", () => t_11.i, () => {
-    OpenCustomerPortal();
-  })),t_11);
-  const this_7=(this_6.h.push(new Attribute("subspageattr", SubsPageAttr())),this_6);
-  const this_8=(this_7.h.push(new Attribute("billingpageattr", BillingPageAttr())),this_7);
-  const this_9=(this_8.h.push(new Attribute("loginpromptattr", LoginPromptAttr())),this_8);
-  const t_12=(this_9.h.push(new Attribute("contentattr", ContentAttr())),this_9);
-  const this_10=(t_12.h.push(EventQ2(t_12.k, "loginclick", () => t_12.i, () => {
-    LoginClick();
-  })),t_12);
-  const this_11=(this_10.h.push(new Elt("seatsbody", SeatsBody())),this_10);
-  const this_12=(this_11.h.push(new Elt("invoicebody", InvoicesBody())),this_11);
-  const this_13=(this_12.h.push(new Attribute("spinnerattr", SpinnerAttr())),this_12);
-  const this_14=(this_13.h.push(new Attribute("toastattr", ToastAttr())),this_13);
-  const this_15=(this_14.h.push(new Elt("toasttext", ToastText())),this_14);
-  const this_16=(this_15.h.push(new Attribute("billingviewattr", BillingViewAttr())),this_15);
-  const this_17=(this_16.h.push(new Attribute("billingeditattr", BillingEditAttr())),this_16);
-  const this_18=(this_17.h.push(new Attribute("btnbillingeditattr", BtnBillingEditAttr())),this_17);
-  const this_19=(this_18.h.push(new Attribute("btnbillingsaveattr", BtnBillingSaveAttr())),this_18);
-  const this_20=(this_19.h.push(new Attribute("btnbillingcancelattr", BtnBillingCancelAttr())),this_19);
-  const this_21=(this_20.h.push(new Elt("billingnameview", BillingNameView())),this_20);
-  const this_22=(this_21.h.push(new Elt("billingvatinview", BillingVatinView())),this_21);
-  const this_23=(this_22.h.push(new Elt("billingline1view", BillingLine1View())),this_22);
-  const this_24=(this_23.h.push(new Elt("billingcityview", BillingCityView())),this_23);
-  const this_25=(this_24.h.push(new Elt("billingpostalview", BillingPostalView())),this_24);
-  const this_26=(this_25.h.push(new Elt("billingcountryview", BillingCountryView())),this_25);
-  const this_27=(this_26.h.push(new VarStr("billingnamevar", CompanyNameVar_1())),this_26);
-  const this_28=(this_27.h.push(new VarStr("billingvatinvar", CompanyVatinVar())),this_27);
-  const this_29=(this_28.h.push(new VarStr("billingline1var", _c_1.Lens(BillingRecordVar(), (_3) => _3.address.line1, (_3, _4) => New_2(_3.company, New_1(_4, _3.address.city, _3.address.postal_code, _3.address.country))))),this_28);
-  const this_30=(this_29.h.push(new VarStr("billingcityvar", _c_1.Lens(BillingRecordVar(), (_3) => _3.address.city, (_3, _4) => New_2(_3.company, New_1(_3.address.line1, _4, _3.address.postal_code, _3.address.country))))),this_29);
-  const this_31=(this_30.h.push(new VarStr("billingpostalvar", _c_1.Lens(BillingRecordVar(), (_3) => _3.address.postal_code, (_3, _4) => New_2(_3.company, New_1(_3.address.line1, _3.address.city, _4, _3.address.country))))),this_30);
-  const this_32=(this_31.h.push(new VarStr("billingcountryvar", _c_1.Lens(BillingRecordVar(), (_3) => _3.address.country, (_3, _4) => New_2(_3.company, New_1(_3.address.line1, _3.address.city, _3.address.postal_code, _4))))),this_31);
-  const t_13=(this_32.h.push(new Attribute("addseatsbuttonattr", AddSeatsButtonAttr())),this_32);
-  const t_14=(t_13.h.push(EventQ2(t_13.k, "addseatsclick", () => t_13.i, () => {
-    globalThis.location.href="./checkout.html?plan=pro&interval=year&seats=1";
-  })),t_13);
-  const t_15=(t_14.h.push(EventQ2(t_14.k, "refreshclick", () => t_14.i, () => {
-    HandleRefresh();
-  })),t_14);
-  const t_16=(t_15.h.push(EventQ2(t_15.k, "billingeditclick", () => t_15.i, () => {
-    HandleBillingEdit();
-  })),t_15);
-  const t_17=(t_16.h.push(EventQ2(t_16.k, "billingsaveclick", () => t_16.i, () => {
-    HandleBillingSave();
-  })),t_16);
-  const b=(t_17.h.push(EventQ2(t_17.k, "billingcancelclick", () => t_17.i, () => {
-    HandleBillingCancel();
-  })),t_17);
-  const p=CompleteHoles(b.k, b.h, [["billingnamevar", 0, null], ["billingvatinvar", 0, null], ["billingline1var", 0, null], ["billingcityvar", 0, null], ["billingpostalvar", 0, null], ["billingcountryvar", 0, null]]);
-  const i=new TemplateInstance(p[1], t_2(p[0]));
+  const b=new ProviderBuilder("New_1");
+  const p=CompleteHoles(b.k, b.h, []);
+  const i=new TemplateInstance(p[1], skeleton(p[0]));
   let _2=(b.i=i,i);
-  return _2.Doc;
+  const skeletonDoc=_2.Doc;
+  const C=Doc.EmbedView(Map2((_5, _6) => {
+    if(_5){
+      const b_3=new ProviderBuilder("New_1");
+      const p_3=CompleteHoles(b_3.k, b_3.h, []);
+      const i_3=new TemplateInstance(p_3[1], skeleton(p_3[0]));
+      let _7=(b_3.i=i_3,i_3);
+      return _7.Doc;
+    }
+    else if(!_6){
+      const t_9=new ProviderBuilder("New_1");
+      const b_4=(t_9.h.push(EventQ2(t_9.k, "loginclick", () => t_9.i, () => {
+        LoginClick();
+      })),t_9);
+      const p_4=CompleteHoles(b_4.k, b_4.h, []);
+      const i_4=new TemplateInstance(p_4[1], loginprompt(p_4[0]));
+      let _8=(b_4.i=i_4,i_4);
+      return _8.Doc;
+    }
+    else {
+      const t_10=new ProviderBuilder("New_1");
+      const t_11=(t_10.h.push(EventQ2(t_10.k, "gosubs", () => t_10.i, () => {
+        ShowSubsPage();
+      })),t_10);
+      const this_8=(t_11.h.push(EventQ2(t_11.k, "gobilling", () => t_11.i, () => {
+        ShowBillingPage();
+      })),t_11);
+      const this_9=(this_8.h.push(new Attribute("substabattr", SubsTabAttr())),this_8);
+      const this_10=(this_9.h.push(new Attribute("billingtabattr", BillingTabAttr())),this_9);
+      const t_12=(this_10.h.push(new Elt("githuborg", GitHubBody())),this_10);
+      const this_11=(t_12.h.push(EventQ2(t_12.k, "opencustomerportal", () => t_12.i, () => {
+        OpenCustomerPortal();
+      })),t_12);
+      const this_12=(this_11.h.push(new Attribute("subspageattr", SubsPageAttr())),this_11);
+      const this_13=(this_12.h.push(new Attribute("billingpageattr", BillingPageAttr())),this_12);
+      const this_14=(this_13.h.push(new Elt("seatsbody", SeatsBody())),this_13);
+      const this_15=(this_14.h.push(new Elt("invoicebody", InvoicesBody())),this_14);
+      const this_16=(this_15.h.push(new Attribute("billingviewattr", BillingViewAttr())),this_15);
+      const this_17=(this_16.h.push(new Attribute("billingeditattr", BillingEditAttr())),this_16);
+      const this_18=(this_17.h.push(new Attribute("btnbillingeditattr", BtnBillingEditAttr())),this_17);
+      const this_19=(this_18.h.push(new Attribute("btnbillingsaveattr", BtnBillingSaveAttr())),this_18);
+      const this_20=(this_19.h.push(new Attribute("btnbillingcancelattr", BtnBillingCancelAttr())),this_19);
+      const this_21=(this_20.h.push(new Elt("billingnameview", BillingNameView())),this_20);
+      const this_22=(this_21.h.push(new Elt("billingvatinview", BillingVatinView())),this_21);
+      const this_23=(this_22.h.push(new Elt("billingline1view", BillingLine1View())),this_22);
+      const this_24=(this_23.h.push(new Elt("billingcityview", BillingCityView())),this_23);
+      const this_25=(this_24.h.push(new Elt("billingpostalview", BillingPostalView())),this_24);
+      const this_26=(this_25.h.push(new Elt("billingcountryview", BillingCountryView())),this_25);
+      const this_27=(this_26.h.push(new VarStr("billingnamevar", CompanyNameVar_1())),this_26);
+      const this_28=(this_27.h.push(new VarStr("billingvatinvar", CompanyVatinVar())),this_27);
+      const this_29=(this_28.h.push(new VarStr("billingline1var", _c_1.Lens(BillingRecordVar(), (_10) => _10.address.line1, (_10, _11) => New_2(_10.company, New_1(_11, _10.address.city, _10.address.postal_code, _10.address.country))))),this_28);
+      const this_30=(this_29.h.push(new VarStr("billingcityvar", _c_1.Lens(BillingRecordVar(), (_10) => _10.address.city, (_10, _11) => New_2(_10.company, New_1(_10.address.line1, _11, _10.address.postal_code, _10.address.country))))),this_29);
+      const this_31=(this_30.h.push(new VarStr("billingpostalvar", _c_1.Lens(BillingRecordVar(), (_10) => _10.address.postal_code, (_10, _11) => New_2(_10.company, New_1(_10.address.line1, _10.address.city, _11, _10.address.country))))),this_30);
+      const this_32=(this_31.h.push(new VarStr("billingcountryvar", _c_1.Lens(BillingRecordVar(), (_10) => _10.address.country, (_10, _11) => New_2(_10.company, New_1(_10.address.line1, _10.address.city, _10.address.postal_code, _11))))),this_31);
+      const t_13=(this_32.h.push(new Attribute("addseatsbuttonattr", AddSeatsButtonAttr())),this_32);
+      const t_14=(t_13.h.push(EventQ2(t_13.k, "addseatsclick", () => t_13.i, () => {
+        globalThis.location.href="./checkout.html?plan=pro&interval=year&seats=1";
+      })),t_13);
+      const t_15=(t_14.h.push(EventQ2(t_14.k, "refreshclick", () => t_14.i, () => {
+        HandleRefresh();
+      })),t_14);
+      const t_16=(t_15.h.push(EventQ2(t_15.k, "billingeditclick", () => t_15.i, () => {
+        HandleBillingEdit();
+      })),t_15);
+      const t_17=(t_16.h.push(EventQ2(t_16.k, "billingsaveclick", () => t_16.i, () => {
+        HandleBillingSave();
+      })),t_16);
+      const b_5=(t_17.h.push(EventQ2(t_17.k, "billingcancelclick", () => t_17.i, () => {
+        HandleBillingCancel();
+      })),t_17);
+      const p_5=CompleteHoles(b_5.k, b_5.h, [["billingnamevar", 0, null], ["billingvatinvar", 0, null], ["billingline1var", 0, null], ["billingcityvar", 0, null], ["billingpostalvar", 0, null], ["billingcountryvar", 0, null]]);
+      const i_5=new TemplateInstance(p_5[1], authenticatedcontent(p_5[0]));
+      let _9=(b_5.i=i_5,i_5);
+      return _9.Doc;
+    }
+  }, isLoading_1().View, IsAuthedView()));
+  const S=DynamicClassPred("hidden", Map((v) =>!v, isLoading_1().View));
+  const this_1=new ProviderBuilder("New_1");
+  const this_2=(this_1.h.push(new Elt("skeleton", skeletonDoc)),this_1);
+  const this_3=(this_2.h.push(new Attribute("skeletonattr", S)),this_2);
+  const b_1=(this_3.h.push(new Elt("content", C)),this_3);
+  const p_1=CompleteHoles(b_1.k, b_1.h, []);
+  const i_1=new TemplateInstance(p_1[1], contentwrapper(p_1[0]));
+  let _3=(b_1.i=i_1,i_1);
+  const M=_3.Doc;
+  const this_4=new ProviderBuilder("New_1");
+  const this_5=(this_4.h.push(new AfterRenderQ("onafterrender", "", () => {
+    Init_4();
+  })),this_4);
+  const this_6=(this_5.h.push(new Elt("maincontent", M)),this_5);
+  const this_7=(this_6.h.push(new Attribute("toastattr", ToastAttr())),this_6);
+  const b_2=(this_7.h.push(new Elt("toasttext", ToastText())),this_7);
+  const p_2=CompleteHoles(b_2.k, b_2.h, []);
+  const i_2=new TemplateInstance(p_2[1], t_2(p_2[0]));
+  let _4=(b_2.i=i_2,i_2);
+  return _4.Doc;
 }
 function Init_4(){
-  setLoading(true);
-  (requireAuth().then(() => loadAllAfterAuth()))["catch"](() => setLoading(false));
+  (requireAuth().then(() => loadAllAfterAuth()))["catch"](() => isLoading_1().Set(false));
+}
+function isLoading_1(){
+  return _c_17.isLoading;
 }
 function loadAllAfterAuth(){
-  StartImmediate(Delay(() => {
-    setLoading(true);
-    return TryFinally(Delay(() => Bind_1(Parallel([Delay(() => Bind_1(loadSubscriptionsAsync(), () => {
-      chooseCurrentSubscription();
-      return Zero();
-    })), loadSeatsAsync(), loadInvoicesAsync(), loadBillingAsync(), loadCustomerPortalAsync(), loadGitHubOrg()]), () => Return(null))), () => {
-      setLoading(false);
-    });
-  }), null);
+  StartImmediate(Delay(() => TryFinally(Delay(() => Bind_1(Parallel([Delay(() => Bind_1(loadSubscriptionsAsync(), () => {
+    chooseCurrentSubscription();
+    return Zero();
+  })), loadSeatsAsync(), loadInvoicesAsync(), loadBillingAsync(), loadCustomerPortalAsync(), loadGitHubOrg()]), () => Return(null))), () => {
+    isLoading_1().Set(false);
+  })), null);
 }
 function loadSubscriptionsAsync(){
   return Delay(() => Bind_1(ListSubscriptions(), (a) => {
@@ -1499,9 +1565,6 @@ function GetFieldValues(o){
   return r;
 }
 class TemplateHole extends Object_1 {
-  static Value(th){
-    return th.ValueObj;
-  }
   ApplyVarHole(el){
     console.warn("Not a var hole: ", this.Name);
   }
@@ -1529,9 +1592,6 @@ class Attribute extends TemplateHole {
   get Value(){
     return this.fillWith;
   }
-  get ValueObj(){
-    return this.Value;
-  }
   constructor(name, fillWith){
     super();
     this.name=name;
@@ -1546,12 +1606,6 @@ class TextView extends TemplateHole {
   }
   WithName(n){
     return new TextView(n, this.fillWith);
-  }
-  get ValueObj(){
-    return this.Value;
-  }
-  get Value(){
-    return this.fillWith;
   }
   ForTextView(){
     return Some(this.fillWith);
@@ -1573,6 +1627,7 @@ let _c=Lazy((_i) => class $StartupCode_AccountMenu {
   static displayNameV;
   static hasAvatarV;
   static avatarSrcV;
+  static isLoading;
   static isAuthedV;
   static userV;
   static isOpen;
@@ -1580,6 +1635,7 @@ let _c=Lazy((_i) => class $StartupCode_AccountMenu {
     this.isOpen=_c_1.Create_1(false);
     this.userV=UserView();
     this.isAuthedV=IsAuthedView();
+    this.isLoading=_c_1.Create_1(true);
     this.avatarSrcV=Map((a) => a!=null&&a.$==1?!IsNullOrWhiteSpace(a.$0.avatarUrl)?a.$0.avatarUrl:"":"", userV());
     this.hasAvatarV=Map((y) =>""!=y, avatarSrcV());
     this.displayNameV=Map((a) => a==null?"Account":!IsNullOrWhiteSpace(a.$0.login)?a.$0.login:"Account", userV());
@@ -1734,9 +1790,6 @@ class EventQ extends TemplateHole {
   get Value(){
     return this.fillWith;
   }
-  get ValueObj(){
-    return this.Value;
-  }
   constructor(name, key, fillWith){
     super();
     this.name=name;
@@ -1774,6 +1827,13 @@ function OnAfterRender_3(callback){
 function Value(var_1){
   return ValueWith(StringApply(), var_1);
 }
+function ValueWith(bind, var_1){
+  const p=bind(var_1);
+  return AppendTree(Attr.A3(p[0]), DynamicCustom(p[1], p[2]));
+}
+function DynamicCustom(set_1, view){
+  return Dynamic_1(view, set_1);
+}
 function FloatValueUnchecked(var_1){
   return ValueWith(FloatApplyUnchecked(), var_1);
 }
@@ -1788,13 +1848,6 @@ function FileValue(var_1){
 }
 function StringListValue(var_1){
   return ValueWith(StringListApply(), var_1);
-}
-function ValueWith(bind, var_1){
-  const p=bind(var_1);
-  return AppendTree(Attr.A3(p[0]), DynamicCustom(p[1], p[2]));
-}
-function DynamicCustom(set_1, view){
-  return Dynamic_1(view, set_1);
 }
 function Map(fn, a){
   return CreateLazy(() => Map_1(fn, a()));
@@ -1922,9 +1975,6 @@ class AfterRenderQ extends TemplateHole {
   }
   get Value(){
     return this.fillWith;
-  }
-  get ValueObj(){
-    return this.Value;
   }
   constructor(name, key, fillWith){
     super();
@@ -2383,9 +2433,6 @@ function SelectedIntervalVar(){
 function BackLinkAttr(){
   return _c_11.BackLinkAttr;
 }
-function isAuthedV_1(){
-  return _c_11.isAuthedV;
-}
 function CompanyBlockAttr(){
   return DynamicClassPred("hidden", Map((v) =>!v, IsCompanyVar().View));
 }
@@ -2402,7 +2449,7 @@ function SeatSelectorAttr(){
   return Dynamic("class", Map((p) => p.toLowerCase()!="freelancer"?"transition-all duration-500 ease-in-out overflow-hidden mt-6 max-h-[300px] opacity-100":"transition-all duration-500 ease-in-out overflow-hidden max-h-0 opacity-0", SelectedPlanVar().View));
 }
 function FormErrorDoc(){
-  return _c_13.FormErrorDoc;
+  return _c_14.FormErrorDoc;
 }
 function OnContinueClick(){
   const m=validateForm();
@@ -2442,52 +2489,52 @@ function validateForm(){
   return isBlank(email)?Some("Please enter your email."):isBlank(street)?Some("Please enter your street address."):isBlank(city)?Some("Please enter your city."):isBlank(postal)?Some("Please enter your postal code."):isCompany&&isBlank(companyName)?Some("Please enter the company name."):isCompany&&isBlank(vatin)?Some("Please enter the VAT number."):null;
 }
 function FormError(){
-  return _c_13.FormError;
+  return _c_14.FormError;
 }
 function isBlank(s){
   return IsNullOrWhiteSpace(s==null?"":s);
 }
 function PlanName(){
-  return _c_14.PlanName;
+  return _c_15.PlanName;
 }
 function PlanPrice(){
-  return _c_14.PlanPrice;
+  return _c_15.PlanPrice;
 }
 function PlanInterval(){
-  return _c_14.PlanInterval;
+  return _c_15.PlanInterval;
 }
 function PriceHint(){
-  return _c_14.PriceHint;
+  return _c_15.PriceHint;
 }
 function Subtotal(){
-  return _c_14.Subtotal;
+  return _c_15.Subtotal;
 }
 function Taxes(){
-  return _c_14.Taxes;
+  return _c_15.Taxes;
 }
 function Total(){
-  return _c_14.Total;
+  return _c_15.Total;
 }
 function CurrentPlan(){
-  return _c_14.CurrentPlan;
+  return _c_15.CurrentPlan;
 }
 function Seats(){
-  return _c_14.Seats;
+  return _c_15.Seats;
 }
 function IsPerSeat(){
-  return _c_14.IsPerSeat;
+  return _c_15.IsPerSeat;
 }
 function SubtotalRaw(){
-  return _c_14.SubtotalRaw;
+  return _c_15.SubtotalRaw;
 }
 function VatPercentage(){
-  return _c_14.VatPercentage;
+  return _c_15.VatPercentage;
 }
 function TaxesRaw(){
-  return _c_14.TaxesRaw;
+  return _c_15.TaxesRaw;
 }
 function TotalRaw(){
-  return _c_14.TotalRaw;
+  return _c_15.TotalRaw;
 }
 class Elt extends TemplateHole {
   name;
@@ -2500,9 +2547,6 @@ class Elt extends TemplateHole {
   }
   get Value(){
     return this.fillWith;
-  }
-  get ValueObj(){
-    return this.Value;
   }
   constructor(name, fillWith){
     super();
@@ -2588,24 +2632,78 @@ let _c_3=Lazy((_i) => class $StartupCode_Invoices {
     }, invoiceVar().View));
   }
 });
+function ToastText(){
+  return _c_16.ToastText;
+}
+function ToastAttr(){
+  return _c_16.ToastAttr;
+}
+function BillingPageAttr(){
+  return _c_16.BillingPageAttr;
+}
+function SubsPageAttr(){
+  return _c_16.SubsPageAttr;
+}
+function BillingTabAttr(){
+  return _c_16.BillingTabAttr;
+}
+function SubsTabAttr(){
+  return _c_16.SubsTabAttr;
+}
+function ShowSubsPage(){
+  ActivePage().Set(Subs);
+}
+function ShowBillingPage(){
+  ActivePage().Set(Billing);
+}
+function OpenCustomerPortal(){
+  const m=CustomerPortalLinkVar().Get();
+  if(m==null)showToast("Customer portal is not available yet.");
+  else globalThis.open(m.$0, "_blank");
+}
+function ActivePage(){
+  return _c_16.ActivePage;
+}
+function showToast(msg){
+  const msg_1=IsNullOrWhiteSpace(msg)?"Saved":msg;
+  ToastMessage().Set(Some(msg_1));
+  setTimeout(() => {
+    ToastMessage().Set(null);
+  }, 1600);
+}
+function setLoading(on){
+  IsLoading_1().Set(on);
+}
+function ToastMessage(){
+  return _c_16.ToastMessage;
+}
+function IsLoading_1(){
+  return _c_16.IsLoading;
+}
+function LoginClick(){
+  Login();
+}
 function AddSeatsButtonAttr(){
-  return _c_15.AddSeatsButtonAttr;
+  return _c_18.AddSeatsButtonAttr;
 }
 function SeatsBody(){
-  return _c_15.SeatsBody;
+  return _c_18.SeatsBody;
 }
 function RefreshSeats(){
   StartImmediate(refreshSeatsAsync(), null);
 }
 function groupHeaderDoc(subId, expiry, autoRenew){
+  const isProcessing=_c_1.Create_1(false);
   const baseBtn="relative inline-flex h-5 w-9 items-center rounded-full border text-xs transition-colors ";
   const baseDot="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ";
+  const x=Doc.TextNode(expiry);
+  const E=BindSmoothLoader_1("w-24 h-5", isProcessing.View, x);
   const this_1=new ProviderBuilder("New_1");
-  const this_2=(this_1.h.push(new Text("expiry", expiry)),this_1);
-  const this_3=(this_2.h.push(new Text("toggleclasses", autoRenew?baseBtn+"bg-emerald-500 border-emerald-500":baseBtn+"bg-gray-300 border-gray-400 "+"dark:bg-gray-700 dark:border-gray-600")),this_2);
+  const this_2=(this_1.h.push(new Elt("expiry", E)),this_1);
+  const this_3=(this_2.h.push(new Text("toggleclasses", autoRenew?baseBtn+"bg-emerald-500 border-emerald-500":baseBtn+"bg-gray-300 border-gray-400 dark:bg-gray-700 dark:border-gray-600")),this_2);
   const t_9=(this_3.h.push(new Text("dotclasses", autoRenew?baseDot+"translate-x-4":baseDot+"translate-x-0")),this_3);
   const b=(t_9.h.push(EventQ2(t_9.k, "toggleautorenew", () => t_9.i, () => {
-    toggleAutoRenew(subId, expiry, autoRenew);
+    toggleAutoRenew(subId, expiry, autoRenew, isProcessing);
   })),t_9);
   const p=CompleteHoles(b.k, b.h, []);
   const i=new TemplateInstance(p[1], seatgrouprow(p[0]));
@@ -2613,33 +2711,37 @@ function groupHeaderDoc(subId, expiry, autoRenew){
   return _2.Doc;
 }
 function seatRowDoc(seat, isLocked, forcedUsername){
+  const isProcessing=_c_1.Create_1(false);
   const usernameVar=_c_1.Create_1(isLocked&&forcedUsername!=null?forcedUsername.$0:seat.username);
-  setGhUsernameForFreelancer(seat, isLocked, forcedUsername);
-  const U=unassignButtonAttr(seat, isLocked);
-  const A=assignButtonAttr(seat, isLocked);
-  const S=seatBadge(seat.status);
-  const U_1=usernameAttr(seat, isLocked);
+  setGhUsernameForFreelancer(seat, isLocked, forcedUsername, isProcessing);
+  const U=unassignButtonAttr(seat, isLocked, isProcessing.View);
+  const A=assignButtonAttr(seat, isLocked, isProcessing.View);
+  const x=Doc.TextNode(seat.expiry);
+  const E=BindSmoothLoader_1("w-24 h-5", isProcessing.View, x);
+  const x_1=seatBadge(seat.status);
+  const S=BindSmoothLoader_1("w-16 h-6", isProcessing.View, x_1);
+  const x_2=Doc.Input([Attr.Create("class", "w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm"), Attr.Create("placeholder", "github-username"), usernameAttr(seat, isLocked)], usernameVar);
+  const U_1=BindSmoothLoader_1("w-full h-8", isProcessing.View, x_2);
   const this_1=new ProviderBuilder("New_1");
   const this_2=(this_1.h.push(new Text("seatlabel", "#"+String(seat.seatNo))),this_1);
-  const this_3=(this_2.h.push(new VarStr("username", usernameVar)),this_2);
-  const this_4=(this_3.h.push(new Attribute("usernameattr", U_1)),this_3);
-  const this_5=(this_4.h.push(new Elt("statusbadge", S)),this_4);
-  const this_6=(this_5.h.push(new Text("expiry", seat.expiry)),this_5);
-  const this_7=(this_6.h.push(new Attribute("assignbuttonattr", A)),this_6);
-  const t_9=(this_7.h.push(new Attribute("unassignbuttonattr", U)),this_7);
-  const t_10=(t_9.h.push(EventQ2(t_9.k, "assignseat", () => t_9.i, (t_11) => {
-    if(!isLocked)assignSeat(seat.subscriptionId, seat.seatNo, Trim(TemplateHole.Value(t_11.Vars.Hole("username")).Get()).toLowerCase());
+  const this_3=(this_2.h.push(new Elt("usernamewidget", U_1)),this_2);
+  const this_4=(this_3.h.push(new Elt("statusbadge", S)),this_3);
+  const this_5=(this_4.h.push(new Elt("expiry", E)),this_4);
+  const this_6=(this_5.h.push(new Attribute("assignbuttonattr", A)),this_5);
+  const t_9=(this_6.h.push(new Attribute("unassignbuttonattr", U)),this_6);
+  const t_10=(t_9.h.push(EventQ2(t_9.k, "assignseat", () => t_9.i, () => {
+    if(!isLocked)assignSeat(seat.subscriptionId, seat.seatNo, Trim(usernameVar.Get()).toLowerCase(), isProcessing);
   })),t_9);
   const b=(t_10.h.push(EventQ2(t_10.k, "unassignseat", () => t_10.i, () => {
-    unassignSeat(seat.subscriptionId, seat.seatNo);
+    unassignSeat(seat.subscriptionId, seat.seatNo, isProcessing);
   })),t_10);
-  const p=CompleteHoles(b.k, b.h, [["username", 0, null]]);
+  const p=CompleteHoles(b.k, b.h, []);
   const i=new TemplateInstance(p[1], seatrow(p[0]));
   let _2=(b.i=i,i);
   return _2.Doc;
 }
 function seatGroupsDoc(){
-  return _c_15.seatGroupsDoc;
+  return _c_18.seatGroupsDoc;
 }
 function refreshSeatsAsync(){
   return Delay(() => Bind_1(GetAllSeats(), (a) => {
@@ -2647,21 +2749,34 @@ function refreshSeatsAsync(){
     return Zero();
   }));
 }
-function toggleAutoRenew(subId, expiry, currentAutoRenew){
+function BindSmoothLoader_1(widthClass, isLoading_2, content){
+  const C=ofArray([DynamicClassPred("opacity-0", isLoading_2), DynamicClassPred("pointer-events-none", isLoading_2)]);
+  const S=ofArray([DynamicClassPred("opacity-0", Map((v) =>!v, isLoading_2)), Class("relative z-10 pointer-events-none")]);
+  const this_1=new ProviderBuilder("New_1");
+  const this_2=(this_1.h.push(new Text("wrapperclasses", widthClass)),this_1);
+  const this_3=(this_2.h.push(new Attribute("skeletonattr", Attr.Concat(S))),this_2);
+  const this_4=(this_3.h.push(new Attribute("contentattr", Attr.Concat(C))),this_3);
+  const b=(this_4.h.push(new Elt("content", content)),this_4);
+  const p=CompleteHoles(b.k, b.h, []);
+  const i=new TemplateInstance(p[1], smoothtextloader(p[0]));
+  let _2=(b.i=i,i);
+  return _2.Doc;
+}
+function toggleAutoRenew(subId, expiry, currentAutoRenew, loading){
   StartImmediate(Delay(() => {
-    setLoading(true);
+    loading.Set(true);
     return TryFinally(Delay(() => {
       const newAuto=!currentAutoRenew;
       SeatsVar().Set(map_1((s) => s.subscriptionId==subId&&s.expiry==expiry?New_16(s.seatNo, s.username, s.status, s.expiry, newAuto, s.subscriptionId):s, SeatsVar().Get()));
       return Bind_1(SetAutoRenew(subId, currentAutoRenew), (a) => a?(showToast("Updated"),Zero()):Zero());
     }), () => {
-      setLoading(false);
+      loading.Set(false);
     });
   }), null);
 }
-function setGhUsernameForFreelancer(seat, isLocked, forcedUsername){
+function setGhUsernameForFreelancer(seat, isLocked, forcedUsername, loading){
   if(isLocked&&seat.status!="assigned"&&forcedUsername!=null){
-    assignSeat(seat.subscriptionId, seat.seatNo, forcedUsername.$0.toLowerCase());
+    assignSeat(seat.subscriptionId, seat.seatNo, forcedUsername.$0.toLowerCase(), loading);
     seat.status="assigned";
   }
 }
@@ -2669,33 +2784,33 @@ function usernameAttr(seat, isLocked){
   return isLocked||seat.status=="assigned"?Attr.Create("readonly", ""):EmptyAttr();
 }
 function seatBadge(status){
-  return Doc.Element("span", [Attr.Create("class", status=="assigned"?"inline-flex items-center rounded-full border px-2 py-0.5 text-xs border-emerald-300 text-emerald-700 "+"dark:border-emerald-700/40 dark:text-emerald-300":"inline-flex items-center rounded-full border px-2 py-0.5 text-xs border-gray-300 text-gray-600 "+"dark:border-white/10 dark:text-gray-300")], [Doc.TextNode(status)]);
+  return Doc.Element("span", [Attr.Create("class", status=="assigned"?"inline-flex items-center rounded-full border px-2 py-0.5 text-xs border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300":"inline-flex items-center rounded-full border px-2 py-0.5 text-xs border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300")], [Doc.TextNode(status)]);
 }
-function assignButtonAttr(seat, isLocked){
-  return isLocked||seat.status=="assigned"?Attr.Create("style", "display: none"):EmptyAttr();
+function assignButtonAttr(seat, isLocked, loading){
+  return isLocked||seat.status=="assigned"?Attr.Create("style", "display: none"):DynamicClassPred("disabled", loading);
 }
-function unassignButtonAttr(seat, isLocked){
-  return isLocked||seat.status=="assigned"?EmptyAttr():Attr.Create("style", "display: none");
+function unassignButtonAttr(seat, isLocked, loading){
+  return isLocked||seat.status=="assigned"?DynamicClassPred("disabled", loading):Attr.Create("style", "display: none");
 }
-function assignSeat(subId, seatNo, username){
+function assignSeat(subId, seatNo, username, loading){
   if(!IsNullOrWhiteSpace(username))StartImmediate(Delay(() => {
-    setLoading(true);
+    loading.Set(true);
     return TryFinally(Delay(() => Bind_1(verifyGitHubUser(username), (a) => a?Bind_1(AssignSeat(subId, seatNo, username), (a_1) => a_1?Bind_1(refreshSeatsAsync(), () => {
       showToast("Updated");
       return Zero();
     }):Zero()):(alertWarning("GitHub user '"+username+"' not found"),Zero()))), () => {
-      setLoading(false);
+      loading.Set(false);
     });
   }), null);
 }
-function unassignSeat(subId, seatNo){
+function unassignSeat(subId, seatNo, loading){
   StartImmediate(Delay(() => {
-    setLoading(true);
+    loading.Set(true);
     return TryFinally(Delay(() => Bind_1(UnassignSeat(subId, seatNo), (a) => a?Bind_1(refreshSeatsAsync(), () => {
       showToast("Updated");
       return Zero();
     }):Zero())), () => {
-      setLoading(false);
+      loading.Set(false);
     });
   }), null);
 }
@@ -2703,46 +2818,46 @@ function verifyGitHubUser(username){
   return Delay(() => Bind_1(AsAsync(globalThis.fetch("https://api.github.com/users/"+username)), (a) => Return(a.ok)));
 }
 function BillingRecordVar(){
-  return _c_16.BillingRecordVar;
+  return _c_19.BillingRecordVar;
 }
 function CompanyVatinVar(){
-  return _c_16.CompanyVatinVar;
+  return _c_19.CompanyVatinVar;
 }
 function CompanyNameVar_1(){
-  return _c_16.CompanyNameVar;
+  return _c_19.CompanyNameVar;
 }
 function BillingCountryView(){
-  return _c_16.BillingCountryView;
+  return _c_19.BillingCountryView;
 }
 function BillingPostalView(){
-  return _c_16.BillingPostalView;
+  return _c_19.BillingPostalView;
 }
 function BillingCityView(){
-  return _c_16.BillingCityView;
+  return _c_19.BillingCityView;
 }
 function BillingLine1View(){
-  return _c_16.BillingLine1View;
+  return _c_19.BillingLine1View;
 }
 function BillingVatinView(){
-  return _c_16.BillingVatinView;
+  return _c_19.BillingVatinView;
 }
 function BillingNameView(){
-  return _c_16.BillingNameView;
+  return _c_19.BillingNameView;
 }
 function BtnBillingCancelAttr(){
-  return _c_16.BtnBillingCancelAttr;
+  return _c_19.BtnBillingCancelAttr;
 }
 function BtnBillingSaveAttr(){
-  return _c_16.BtnBillingSaveAttr;
+  return _c_19.BtnBillingSaveAttr;
 }
 function BtnBillingEditAttr(){
-  return _c_16.BtnBillingEditAttr;
+  return _c_19.BtnBillingEditAttr;
 }
 function BillingEditAttr(){
-  return _c_16.BillingEditAttr;
+  return _c_19.BillingEditAttr;
 }
 function BillingViewAttr(){
-  return _c_16.BillingViewAttr;
+  return _c_19.BillingViewAttr;
 }
 function SetBillingRecord(billingOpt){
   const value=billingOpt==null?New_2(Some(New_4("", "")), New_1("", "", "", "")):billingOpt.$0;
@@ -2758,7 +2873,7 @@ function orDash(s){
   return IsNullOrWhiteSpace(s)?"\u2014":s;
 }
 function BillingModeVar(){
-  return _c_16.BillingModeVar;
+  return _c_19.BillingModeVar;
 }
 function New_1(line1, city, postal_code, country){
   return{
@@ -2771,68 +2886,14 @@ function New_1(line1, city, postal_code, country){
 function New_2(company, address){
   return{company:company, address:address};
 }
-function ToastText(){
-  return _c_17.ToastText;
-}
-function ToastAttr(){
-  return _c_17.ToastAttr;
-}
-function SpinnerAttr(){
-  return _c_17.SpinnerAttr;
-}
-function BillingPageAttr(){
-  return _c_17.BillingPageAttr;
-}
-function SubsPageAttr(){
-  return _c_17.SubsPageAttr;
-}
-function CustomerPortalAttr(){
-  return _c_17.CustomerPortalAttr;
-}
-function BillingTabAttr(){
-  return _c_17.BillingTabAttr;
-}
-function SubsTabAttr(){
-  return _c_17.SubsTabAttr;
-}
-function ShowSubsPage(){
-  ActivePage().Set(Subs);
-}
-function ShowBillingPage(){
-  ActivePage().Set(Billing);
-}
-function OpenCustomerPortal(){
-  const m=CustomerPortalLinkVar().Get();
-  if(m==null)showToast("Customer portal is not available yet.");
-  else globalThis.open(m.$0, "_blank");
-}
-function setLoading(on){
-  IsLoading_1().Set(on);
-}
-function ActivePage(){
-  return _c_17.ActivePage;
-}
-function showToast(msg){
-  const msg_1=IsNullOrWhiteSpace(msg)?"Saved":msg;
-  ToastMessage().Set(Some(msg_1));
-  setTimeout(() => {
-    ToastMessage().Set(null);
-  }, 1600);
-}
-function IsLoading_1(){
-  return _c_17.IsLoading;
-}
-function ToastMessage(){
-  return _c_17.ToastMessage;
-}
 function InvoicesBody(){
-  return _c_18.InvoicesBody;
+  return _c_20.InvoicesBody;
 }
 function RefreshInvoices(newInvoices){
   invoicesModel().Set(newInvoices);
 }
 function invoicesModel(){
-  return _c_18.invoicesModel;
+  return _c_20.invoicesModel;
 }
 function invoiceRowV(_2, invoiceV){
   const hrefV=Map((inv) =>"./invoice.html?id="+encodeURIComponent(inv.id)+"&sub="+encodeURIComponent(CurrentSubIdVar().Get()), invoiceV);
@@ -2852,28 +2913,16 @@ function invoiceRowV(_2, invoiceV){
   return _3.Doc;
 }
 function invoicesDoc(){
-  return _c_18.invoicesDoc;
-}
-function ContentAttr(){
-  return _c_19.ContentAttr;
-}
-function LoginPromptAttr(){
-  return _c_19.LoginPromptAttr;
-}
-function LoginClick(){
-  Login();
-}
-function isAuthedV_2(){
-  return _c_19.isAuthedV;
+  return _c_20.invoicesDoc;
 }
 function GitHubBody(){
-  return _c_20.GitHubBody;
+  return _c_21.GitHubBody;
 }
 function GitHubOrgName(){
-  return _c_20.GitHubOrgName;
+  return _c_21.GitHubOrgName;
 }
 function OrgPrefix(){
-  return _c_20.OrgPrefix;
+  return _c_21.OrgPrefix;
 }
 function HandleRefresh(){
   StartImmediate(Delay(() => {
@@ -2988,6 +3037,26 @@ function StartImmediate(c, ctOpt){
     if(a.$==1)UncaughtAsyncError(a.$0);
   }, ct));
 }
+function Sleep(ms){
+  return(c) => {
+    let pending;
+    let creg;
+    pending=void 0;
+    creg=void 0;
+    pending=setTimeout(() => {
+      creg.Dispose();
+      scheduler().Fork(() => {
+        c.k(Ok(null));
+      });
+    }, ms);
+    creg=Register(c.ct, () => {
+      clearTimeout(pending);
+      scheduler().Fork(() => {
+        cancel(c);
+      });
+    });
+  };
+}
 function Zero(){
   return _c_22.Zero;
 }
@@ -3036,6 +3105,20 @@ function TryFinally(run, f){
     }, c.ct));
   };
 }
+function Register(ct, callback){
+  if(ct===noneCT())return{Dispose(){
+    return null;
+  }};
+  else {
+    const i=ct.r.push(callback)-1;
+    return{Dispose(){
+      return set(ct.r, i, () => { });
+    }};
+  }
+}
+function cancel(c){
+  c.k(Cc(new OperationCanceledException("New", c.ct)));
+}
 function Parallel(cs){
   const cs_1=ofSeq(cs);
   return length(cs_1)===0?Return([]):(c) => {
@@ -3068,11 +3151,11 @@ function Parallel(cs){
     }))(i));
   };
 }
-function cancel(c){
-  c.k(Cc(new OperationCanceledException("New", c.ct)));
-}
 function scheduler(){
   return _c_22.scheduler;
+}
+function noneCT(){
+  return _c_22.noneCT;
 }
 function FromContinuations(subscribe){
   return(c) => {
@@ -3119,20 +3202,6 @@ function Start(c, ctOpt){
 }
 function GetCT(){
   return _c_22.GetCT;
-}
-function Register(ct, callback){
-  if(ct===noneCT())return{Dispose(){
-    return null;
-  }};
-  else {
-    const i=ct.r.push(callback)-1;
-    return{Dispose(){
-      return set(ct.r, i, () => { });
-    }};
-  }
-}
-function noneCT(){
-  return _c_22.noneCT;
 }
 function Logout_2(){
   return(new AjaxRemotingProvider()).Async("IRemotingContract/Logout", []);
@@ -4473,14 +4542,8 @@ class VarStr extends TemplateHole {
   WithName(n){
     return new VarStr(n, this.fillWith);
   }
-  get ValueObj(){
-    return this.Value;
-  }
   ApplyVarHole(el){
     applyTypedVarHole(StringApply(), this.fillWith, el);
-  }
-  get Value(){
-    return this.fillWith;
   }
   ForTextView(){
     return Some(this.fillWith.View);
@@ -4506,14 +4569,8 @@ class VarFloatUnchecked extends TemplateHole {
   WithName(n){
     return new VarFloatUnchecked(n, this.fillWith);
   }
-  get ValueObj(){
-    return this.Value;
-  }
   ApplyVarHole(el){
     applyTypedVarHole(FloatApplyUnchecked(), this.fillWith, el);
-  }
-  get Value(){
-    return this.fillWith;
   }
   ForTextView(){
     return Some(Map(String, this.fillWith.View));
@@ -4539,14 +4596,8 @@ class VarBool extends TemplateHole {
   WithName(n){
     return new VarBool(n, this.fillWith);
   }
-  get ValueObj(){
-    return this.Value;
-  }
   ApplyVarHole(el){
     applyTypedVarHole(BoolCheckedApply(), this.fillWith, el);
-  }
-  get Value(){
-    return this.fillWith;
   }
   ForTextView(){
     return Some(Map(String, this.fillWith.View));
@@ -4572,14 +4623,8 @@ class VarDateTime extends TemplateHole {
   WithName(n){
     return new VarDateTime(n, this.fillWith);
   }
-  get ValueObj(){
-    return this.Value;
-  }
   ApplyVarHole(el){
     applyTypedVarHole(DateTimeApplyUnchecked(), this.fillWith, el);
-  }
-  get Value(){
-    return this.fillWith;
   }
   ForTextView(){
     return Some(Map((v) =>(new Date(v)).toLocaleString(), this.fillWith.View));
@@ -4605,14 +4650,8 @@ class VarFile extends TemplateHole {
   WithName(n){
     return new VarFile(n, this.fillWith);
   }
-  get ValueObj(){
-    return this.Value;
-  }
   ApplyVarHole(el){
     applyTypedVarHole(FileApplyUnchecked(), this.fillWith, el);
-  }
-  get Value(){
-    return this.fillWith;
   }
   ForTextView(){
     return Some(Map(String, this.fillWith.View));
@@ -4641,9 +4680,6 @@ class VarDomElement extends TemplateHole {
   get Value(){
     return this.fillWith;
   }
-  get ValueObj(){
-    return this.Value;
-  }
   ApplyVarHole(el){ }
   constructor(name, fillWith){
     super();
@@ -4660,14 +4696,8 @@ class VarStrList extends TemplateHole {
   WithName(n){
     return new VarStrList(n, this.fillWith);
   }
-  get ValueObj(){
-    return this.Value;
-  }
   ApplyVarHole(el){
     applyTypedVarHole(StringListApply(), this.fillWith, el);
-  }
-  get Value(){
-    return this.fillWith;
   }
   ForTextView(){
     return Some(Map((l) => concat(",", l), this.fillWith.View));
@@ -4907,7 +4937,7 @@ function PrepareTemplateStrict(baseName, name, fakeroot, prepareLocalTemplate){
   }
 }
 function RenderedFullDocTemplate(){
-  return _c_28.RenderedFullDocTemplate;
+  return _c_29.RenderedFullDocTemplate;
 }
 function ChildrenTemplate(el, fillWith){
   let _2;
@@ -4918,13 +4948,13 @@ function ChildrenTemplate(el, fillWith){
   return!Equals(m, null)&&m.length===1&&(get(m, 0)instanceof Node&&(Equals(get(m, 0).nodeType, Node.ELEMENT_NODE)&&(_2=get(m, 0),true)))?Elt_1.TreeNode(docTreeNode, updates):Doc.Mk(TreeDoc(docTreeNode), updates);
 }
 function set_RenderedFullDocTemplate(_2){
-  _c_28.RenderedFullDocTemplate=_2;
+  _c_29.RenderedFullDocTemplate=_2;
 }
 function LocalTemplatesLoaded(){
-  return _c_28.LocalTemplatesLoaded;
+  return _c_29.LocalTemplatesLoaded;
 }
 function set_LocalTemplatesLoaded(_2){
-  _c_28.LocalTemplatesLoaded=_2;
+  _c_29.LocalTemplatesLoaded=_2;
 }
 function LoadNestedTemplates(root, baseName){
   const loadedTpls=LoadedTemplateFile(baseName);
@@ -4972,7 +5002,7 @@ function LoadNestedTemplates(root, baseName){
     prepareTemplate(head(rawTpls.Keys));
 }
 function LoadedTemplates(){
-  return _c_28.LoadedTemplates;
+  return _c_29.LoadedTemplates;
 }
 function foreachNotPreserved(root, selector, f){
   IterSelector(root, selector, (p) => {
@@ -5260,7 +5290,7 @@ function InlineTemplate(el, fillWith){
   return[_8, TreeReduce(Const(), Map2Unit, updates)];
 }
 function GlobalHoles(){
-  return _c_28.GlobalHoles;
+  return _c_29.GlobalHoles;
 }
 function FakeRootSingle(el){
   el.removeAttribute("ws-template");
@@ -5293,7 +5323,7 @@ function FakeRootFromHTMLTemplate(parent){
   return fakeroot;
 }
 function TextHoleRE(){
-  return _c_28.TextHoleRE;
+  return _c_29.TextHoleRE;
 }
 function foreachNotPreservedwsDOM(selector, f){
   IterSelectorDoc(selector, (p) => {
@@ -5455,27 +5485,45 @@ let _c_11=Lazy((_i) => class Attrs {
   static PaymentSectionAttr;
   static AuthSectionAttr;
   static ContinueTextView;
-  static isAuthedV;
   static {
-    this.isAuthedV=Map((o) => o!=null, UserView());
     this.ContinueTextView=ContinueText().View;
-    this.AuthSectionAttr=DynamicClassPred("hidden", isAuthedV_1());
-    this.PaymentSectionAttr=Dynamic("class", Map((isAuthed) => isAuthed?"":"hidden", isAuthedV_1()));
+    this.AuthSectionAttr=DynamicClassPred("hidden", IsAuthedView());
+    this.PaymentSectionAttr=Dynamic("class", Map((isAuthed) => isAuthed?"":"hidden", IsAuthedView()));
     this.BackLinkAttr=Attr.Concat([Dynamic("href", backLinkHref().View), Handler("click", () =>(e) => IsNullOrWhiteSpace(globalThis.document.referrer)&&globalThis.history.length>1?(e.preventDefault(),globalThis.history.back()):null)]);
   }
 });
-let _c_12=Lazy((_i) => class $StartupCode_Page {
+let _c_12=Lazy((_i) => class $StartupCode_AuthClient {
   static {
     _c_12=_i(this);
+  }
+  static IsFetchingView;
+  static IsAuthedView;
+  static UserView;
+  static isFetchingVar;
+  static userVar;
+  static API;
+  static {
+    this.API="https://api.websharper.com";
+    set_EndPoint("https://api.websharper.com");
+    this.userVar=_c_1.Create_1(null);
+    this.isFetchingVar=_c_1.Create_1(false);
+    this.UserView=userVar().View;
+    this.IsAuthedView=Map((o) => o!=null, userVar().View);
+    this.IsFetchingView=isFetchingVar().View;
+  }
+});
+let _c_13=Lazy((_i) => class $StartupCode_Page {
+  static {
+    _c_13=_i(this);
   }
   static IsLoading;
   static {
     this.IsLoading=_c_1.Create_1(true);
   }
 });
-let _c_13=Lazy((_i) => class $StartupCode_Controller {
+let _c_14=Lazy((_i) => class $StartupCode_Controller {
   static {
-    _c_13=_i(this);
+    _c_14=_i(this);
   }
   static FormErrorDoc;
   static FormError;
@@ -5548,9 +5596,9 @@ function tail(l){
 function listEmpty(){
   return FailWith("The input list was empty.");
 }
-let _c_14=Lazy((_i) => class Pricing {
+let _c_15=Lazy((_i) => class Pricing {
   static {
-    _c_14=_i(this);
+    _c_15=_i(this);
   }
   static Total;
   static TotalRaw;
@@ -5878,7 +5926,7 @@ function SetGitHubOrgName_1(name){
   }));
 }
 function set_billingCache(_2){
-  _c_27.billingCache=_2;
+  _c_28.billingCache=_2;
 }
 function GetBilling(){
   return Delay(() => billingCache()==null?Bind_1(GetBillingData(), (a) => {
@@ -5910,6 +5958,9 @@ function GetGitHubOrganization(){
 }
 function GetAllSeats(){
   return Delay(() => Bind_1(GetSubscriptions(), (a) => Return(collect_1(seatsFromSubscription, a))));
+}
+function billingCache(){
+  return _c_28.billingCache;
 }
 function SetAutoRenew(subId, cancelAtPeriodEnd){
   return Delay(() => Bind_1(SetCancellationStatus(New_22(Parse(subId), cancelAtPeriodEnd)), (a) => {
@@ -5944,9 +5995,6 @@ function UnassignSeat(subId, seatNo){
     else return Return(false);
   }));
 }
-function billingCache(){
-  return _c_27.billingCache;
-}
 function seatsFromSubscription(subscription){
   return mapi((_2, _3) => New_16(_2+1, _3==null?"":_3.$0, _3!=null?"assigned":"available", subscription.currentPeriodEnd, !subscription.cancelAtPeriodEnd, String(subscription.subscriptionId)), subscription.githubAssignedNames);
 }
@@ -5960,9 +6008,47 @@ function New_5(id, label, plan, totalSeats, renewsAt, status){
     status:status
   };
 }
-let _c_15=Lazy((_i) => class Seats_1 {
+let _c_16=Lazy((_i) => class $StartupCode_Views {
   static {
-    _c_15=_i(this);
+    _c_16=_i(this);
+  }
+  static ToastText;
+  static ToastAttr;
+  static BillingTabAttr;
+  static SubsTabAttr;
+  static BillingPageAttr;
+  static SubsPageAttr;
+  static ToastMessage;
+  static IsLoading;
+  static ActivePage;
+  static {
+    this.ActivePage=_c_1.Create_1(Subs);
+    this.IsLoading=_c_1.Create_1(false);
+    this.ToastMessage=_c_1.Create_1(null);
+    this.SubsPageAttr=Dynamic("class", Map((page) => page.$===0?"space-y-6":"space-y-6 hidden", ActivePage().View));
+    this.BillingPageAttr=Dynamic("class", Map((page) => page.$===1?"space-y-6":"space-y-6 hidden", ActivePage().View));
+    const isActive=Map((page) => page.$===0, ActivePage().View);
+    let _2=Attr.Concat([DynamicClassPred("bg-gray-100", isActive), DynamicClassPred("dark:bg-white/5", isActive)]);
+    this.SubsTabAttr=_2;
+    const isActive_1=Map((page) => page.$===1, ActivePage().View);
+    let _3=Attr.Concat([DynamicClassPred("bg-gray-100", isActive_1), DynamicClassPred("dark:bg-white/5", isActive_1)]);
+    this.BillingTabAttr=_3;
+    this.ToastAttr=DynamicClassPred("hidden", Map((o) => o==null, ToastMessage().View));
+    this.ToastText=Doc.TextView(Map((a) => a!=null&&a.$==1?!IsNullOrWhiteSpace(a.$0)?a.$0:"Saved":"Saved", ToastMessage().View));
+  }
+});
+let _c_17=Lazy((_i) => class $StartupCode_ManageSubPage {
+  static {
+    _c_17=_i(this);
+  }
+  static isLoading;
+  static {
+    this.isLoading=_c_1.Create_1(true);
+  }
+});
+let _c_18=Lazy((_i) => class Seats_1 {
+  static {
+    _c_18=_i(this);
   }
   static SeatsBody;
   static seatGroupsDoc;
@@ -5985,9 +6071,9 @@ let _c_15=Lazy((_i) => class Seats_1 {
     this.SeatsBody=seatGroupsDoc();
   }
 });
-let _c_16=Lazy((_i) => class Billing_1 {
+let _c_19=Lazy((_i) => class Billing_1 {
   static {
-    _c_16=_i(this);
+    _c_19=_i(this);
   }
   static BtnBillingCancelAttr;
   static BtnBillingSaveAttr;
@@ -6044,42 +6130,9 @@ let _c_16=Lazy((_i) => class Billing_1 {
     this.BtnBillingCancelAttr=DynamicClassPred("hidden", Map((a) => a.$!=1, BillingModeVar().View));
   }
 });
-let _c_17=Lazy((_i) => class $StartupCode_Views {
+let _c_20=Lazy((_i) => class Invoices {
   static {
-    _c_17=_i(this);
-  }
-  static CustomerPortalAttr;
-  static ToastText;
-  static ToastAttr;
-  static SpinnerAttr;
-  static BillingTabAttr;
-  static SubsTabAttr;
-  static BillingPageAttr;
-  static SubsPageAttr;
-  static ToastMessage;
-  static IsLoading;
-  static ActivePage;
-  static {
-    this.ActivePage=_c_1.Create_1(Subs);
-    this.IsLoading=_c_1.Create_1(false);
-    this.ToastMessage=_c_1.Create_1(null);
-    this.SubsPageAttr=DynamicClassPred("hidden", Map((page) => page.$!==0, ActivePage().View));
-    this.BillingPageAttr=DynamicClassPred("hidden", Map((page) => page.$!==1, ActivePage().View));
-    const isActive=Map((page) => page.$===0, ActivePage().View);
-    let _2=Attr.Concat([DynamicClassPred("bg-gray-100", isActive), DynamicClassPred("dark:bg-white/5", isActive)]);
-    this.SubsTabAttr=_2;
-    const isActive_1=Map((page) => page.$===1, ActivePage().View);
-    let _3=Attr.Concat([DynamicClassPred("bg-gray-100", isActive_1), DynamicClassPred("dark:bg-white/5", isActive_1)]);
-    this.BillingTabAttr=_3;
-    this.SpinnerAttr=DynamicClassPred("hidden", Map((isLoading) =>!isLoading, IsLoading_1().View));
-    this.ToastAttr=DynamicClassPred("hidden", Map((o) => o==null, ToastMessage().View));
-    this.ToastText=Doc.TextView(Map((a) => a!=null&&a.$==1?!IsNullOrWhiteSpace(a.$0)?a.$0:"Saved":"Saved", ToastMessage().View));
-    this.CustomerPortalAttr=Dynamic("style", Map((a) => a!=null&&a.$==1?"":"display: none", CustomerPortalLinkVar().View));
-  }
-});
-let _c_18=Lazy((_i) => class Invoices {
-  static {
-    _c_18=_i(this);
+    _c_20=_i(this);
   }
   static InvoicesBody;
   static invoicesDoc;
@@ -6090,22 +6143,9 @@ let _c_18=Lazy((_i) => class Invoices {
     this.InvoicesBody=invoicesDoc();
   }
 });
-let _c_19=Lazy((_i) => class $StartupCode_ViewsAuth {
+let _c_21=Lazy((_i) => class GitHub {
   static {
-    _c_19=_i(this);
-  }
-  static ContentAttr;
-  static LoginPromptAttr;
-  static isAuthedV;
-  static {
-    this.isAuthedV=Map((o) => o!=null, UserView());
-    this.LoginPromptAttr=DynamicClassPred("hidden", isAuthedV_2());
-    this.ContentAttr=DynamicClassPred("hidden", Map((v) =>!v, isAuthedV_2()));
-  }
-});
-let _c_20=Lazy((_i) => class GitHub {
-  static {
-    _c_20=_i(this);
+    _c_21=_i(this);
   }
   static GitHubBody;
   static OrgPrefix;
@@ -6179,11 +6219,11 @@ function InvoicesVar(){
 function BillingVar(){
   return _c_23.BillingVar;
 }
-function SubsVar(){
-  return _c_23.SubsVar;
-}
 function UserVar(){
   return _c_23.UserVar;
+}
+function SubsVar(){
+  return _c_23.SubsVar;
 }
 function SeatsVar(){
   return _c_23.SeatsVar;
@@ -6260,26 +6300,6 @@ class ConcreteVar extends Var {
     this.id=Int();
   }
 }
-let _c_21=Lazy((_i) => class $StartupCode_AuthClient {
-  static {
-    _c_21=_i(this);
-  }
-  static IsFetchingView;
-  static IsAuthedView;
-  static UserView;
-  static isFetchingVar;
-  static userVar;
-  static API;
-  static {
-    this.API="https://api.websharper.com";
-    set_EndPoint("https://api.websharper.com");
-    this.userVar=_c_1.Create_1(null);
-    this.isFetchingVar=_c_1.Create_1(false);
-    this.UserView=userVar().View;
-    this.IsAuthedView=Map((o) => o!=null, userVar().View);
-    this.IsFetchingView=isFetchingVar().View;
-  }
-});
 function New_7(k, ct){
   return{k:k, ct:ct};
 }
@@ -6569,6 +6589,43 @@ function New_14(email, line1, city, postalCode, country, companyName, taxId){
     taxId:taxId
   };
 }
+function set_EndPoint(_2){
+  _c_27.EndPoint=_2;
+}
+function AjaxProvider(){
+  return _c_27.AjaxProvider;
+}
+function makePayload(data){
+  return JSON.stringify(data);
+}
+function makeHeaders(headers){
+  return NewFromSeq(map_1((_2) =>[_2[0], _2[1]], distinctBy_1((t_9) => t_9[0], headers.concat([["content-type", "application/json"]]))));
+}
+function EndPoint(){
+  return _c_27.EndPoint;
+}
+function ajax(async, url, headers, data, ok, err, csrf){
+  let xhr=new XMLHttpRequest();
+  let csrf_1=document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*csrftoken\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
+  xhr.open("POST", url, async);
+  if(async==true)xhr.withCredentials=true;
+  let h;
+  for(var h_1 in headers)xhr.setRequestHeader(h_1, headers[h_1]);
+  if(csrf_1)xhr.setRequestHeader("x-csrftoken", csrf_1);
+  function k(){
+    if(xhr.status==200)ok(xhr.responseText);
+    else if(csrf&&xhr.status==403&&xhr.responseText=="CSRF")csrf();
+    else {
+      let msg="Response status is not 200: ";
+      err(new Error(msg+xhr.status));
+    }
+  }
+  if("onload"in xhr)xhr.onload=xhr.onerror=xhr.onabort=k;
+  else xhr.onreadystatechange=() => {
+    if(xhr.readyState==4)k();
+  };
+  xhr.send(data);
+}
 class attr extends Object_1 { }
 function New_15(planCode, interval, seats, billingData){
   return{
@@ -6680,43 +6737,6 @@ let _c_23=Lazy((_i) => class $StartupCode_State {
     this.GitHubOrgVar=_c_1.Create_1(null);
   }
 });
-function set_EndPoint(_2){
-  _c_29.EndPoint=_2;
-}
-function AjaxProvider(){
-  return _c_29.AjaxProvider;
-}
-function makePayload(data){
-  return JSON.stringify(data);
-}
-function makeHeaders(headers){
-  return NewFromSeq(map_1((_2) =>[_2[0], _2[1]], distinctBy_1((t_9) => t_9[0], headers.concat([["content-type", "application/json"]]))));
-}
-function EndPoint(){
-  return _c_29.EndPoint;
-}
-function ajax(async, url, headers, data, ok, err, csrf){
-  let xhr=new XMLHttpRequest();
-  let csrf_1=document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*csrftoken\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
-  xhr.open("POST", url, async);
-  if(async==true)xhr.withCredentials=true;
-  let h;
-  for(var h_1 in headers)xhr.setRequestHeader(h_1, headers[h_1]);
-  if(csrf_1)xhr.setRequestHeader("x-csrftoken", csrf_1);
-  function k(){
-    if(xhr.status==200)ok(xhr.responseText);
-    else if(csrf&&xhr.status==403&&xhr.responseText=="CSRF")csrf();
-    else {
-      let msg="Response status is not 200: ";
-      err(new Error(msg+xhr.status));
-    }
-  }
-  if("onload"in xhr)xhr.onload=xhr.onerror=xhr.onabort=k;
-  else xhr.onreadystatechange=() => {
-    if(xhr.readyState==4)k();
-  };
-  xhr.send(data);
-}
 class Scheduler extends Object_1 {
   idle;
   robin;
@@ -6972,6 +6992,27 @@ function DecodeRecord(t_9, fields){
     return t_9===void 0?o:t_9(o);
   };
 }
+class OperationCanceledException extends Error {
+  ct;
+  constructor(i, _2, _3, _4){
+    let ct;
+    if(i=="New"){
+      ct=_2;
+      i="New_1";
+      _2="The operation was canceled.";
+      _3=null;
+      _4=ct;
+    }
+    if(i=="New_1"){
+      const message=_2;
+      const inner=_3;
+      const ct_1=_4;
+      super(message);
+      this.inner=inner;
+      this.ct=ct_1;
+    }
+  }
+}
 class CancellationTokenSource extends Object_1 {
   init;
   c;
@@ -7200,6 +7241,17 @@ function TryParse_1(s, min, max_1, r){
   if(ok)r.set(x);
   return ok;
 }
+let _c_27=Lazy((_i) => class $StartupCode_Remoting {
+  static {
+    _c_27=_i(this);
+  }
+  static AjaxProvider;
+  static EndPoint;
+  static {
+    this.EndPoint=globalThis.location.origin;
+    this.AjaxProvider=new XhrProvider();
+  }
+});
 function groupBy_1(f, a){
   const d=new Dictionary("New_5");
   const keys=[];
@@ -7258,9 +7310,6 @@ class Text extends TemplateHole {
   get Value(){
     return this.fillWith;
   }
-  get ValueObj(){
-    return this.Value;
-  }
   get AsChoiceView(){
     return Choice1Of2(this.fillWith);
   }
@@ -7280,9 +7329,9 @@ function New_20(user, subs, currentSubId, seats, invoices, billing){
     billing:billing
   };
 }
-let _c_27=Lazy((_i) => class $StartupCode_Api {
+let _c_28=Lazy((_i) => class $StartupCode_Api {
   static {
-    _c_27=_i(this);
+    _c_28=_i(this);
   }
   static billingCache;
   static {
@@ -7584,9 +7633,9 @@ function StartProcessor(procAsync){
     else Equals(m, 1)?st[0]=2:void 0;
   };
 }
-let _c_28=Lazy((_i) => class $StartupCode_Templates {
+let _c_29=Lazy((_i) => class $StartupCode_Templates {
   static {
-    _c_28=_i(this);
+    _c_29=_i(this);
   }
   static RenderedFullDocTemplate;
   static TextHoleRE;
@@ -7625,38 +7674,6 @@ class Elt_1 extends Doc {
     this.updates_1=updates;
     this.elt=elt;
     this.rvUpdates=rvUpdates;
-  }
-}
-let _c_29=Lazy((_i) => class $StartupCode_Remoting {
-  static {
-    _c_29=_i(this);
-  }
-  static AjaxProvider;
-  static EndPoint;
-  static {
-    this.EndPoint=globalThis.location.origin;
-    this.AjaxProvider=new XhrProvider();
-  }
-});
-class OperationCanceledException extends Error {
-  ct;
-  constructor(i, _2, _3, _4){
-    let ct;
-    if(i=="New"){
-      ct=_2;
-      i="New_1";
-      _2="The operation was canceled.";
-      _3=null;
-      _4=ct;
-    }
-    if(i=="New_1"){
-      const message=_2;
-      const inner=_3;
-      const ct_1=_4;
-      super(message);
-      this.inner=inner;
-      this.ct=ct_1;
-    }
   }
 }
 function ApplyValue(get_1, set_1, var_1){
@@ -7789,6 +7806,13 @@ class CheckedInput {
   $;
   $0;
   $1;
+}
+class XhrProvider extends Object_1 {
+  Async(url, headers, data, ok, err){
+    ajax(true, url, headers, data, ok, err, () => {
+      ajax(true, url, headers, data, ok, err, void 0);
+    });
+  }
 }
 let _c_30=Lazy((_i) => class $StartupCode_RemotingContract {
   static {
@@ -7946,9 +7970,6 @@ class Event_1 extends TemplateHole {
   WithName(n){
     return new Event_1(n, this.fillWith);
   }
-  get ValueObj(){
-    return this.Value;
-  }
   constructor(name, fillWith){
     super();
     this.name=name;
@@ -7966,9 +7987,6 @@ class AfterRender_1 extends TemplateHole {
   }
   WithName(n){
     return new AfterRender_1(n, this.fillWith);
-  }
-  get ValueObj(){
-    return this.Value;
   }
   constructor(name, fillWith){
     super();
@@ -8014,13 +8032,6 @@ class ValueCollection extends Object_1 {
   constructor(d){
     super();
     this.d=d;
-  }
-}
-class XhrProvider extends Object_1 {
-  Async(url, headers, data, ok, err){
-    ajax(true, url, headers, data, ok, err, () => {
-      ajax(true, url, headers, data, ok, err, void 0);
-    });
   }
 }
 function Clear(a){
