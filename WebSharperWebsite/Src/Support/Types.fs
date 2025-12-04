@@ -26,23 +26,6 @@ module Types =
         Freelancer: PlanEntry
     }
 
-    type PlanPriceRecord = {
-        planId: string
-        code: string
-        name: string
-        description: string option
-        isPerSeat: bool
-        maxSeats: int option
-        interval: string          // "month" | "year"
-        currency: string          // e.g. "usd"
-        unitAmountCents: int      // per seat if isPerSeat = true, otherwise flat
-        stripePriceId: string option
-    }
-
-    type PlansApiResponse = {
-        items: PlanPriceRecord[]
-    }
-
     type ContactForm = {
         subject: string
         message: string

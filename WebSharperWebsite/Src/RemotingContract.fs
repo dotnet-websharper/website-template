@@ -91,6 +91,19 @@ type CheckoutRequest =
         billingData: BillingData
     }
 
+[<JavaScript; Prototype false>]
+type PlanPrice = 
+    {
+        code: string
+        name: string
+        description: string option
+        isPerSeat: bool
+        maxSeats: int option
+        interval: string          // "month" | "year"
+        currency: string          // e.g. "usd"
+        unitAmountCents: int      // per seat if isPerSeat = true, otherwise flat
+    }
+
 type ActionResult = Result<unit, string>
 
 type IRemotingContract =
@@ -132,6 +145,9 @@ type IRemotingContract =
 
     [<Remote>]
     abstract member StripeCheckout : CheckoutRequest -> Async<Result<string, string>>
+
+    [<Remote>]
+    abstract member GetPlanPrices : unit -> Async<PlanPrice[]>
 
 [<JavaScript>]
 module Shared =

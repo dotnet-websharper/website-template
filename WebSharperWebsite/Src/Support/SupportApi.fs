@@ -4,6 +4,7 @@ open WebSharper
 open WebSharper.JavaScript
 
 open WebSharperWebsite
+open WebSharperWebApi
 
 open Types
 open State
@@ -14,18 +15,18 @@ module Api =
     [<Literal>]
     let private CacheKey = "planprices"
 
-    let private loadCache () : PlansApiResponse option =
+    let private loadCache () : PlanPrice[] option =
         try
             let raw: string = JS.Window.SessionStorage.GetItem(CacheKey)
             if isNull (box raw) || System.String.IsNullOrWhiteSpace raw then
                 None
             else
-                let parsed : PlansApiResponse = JSON.Parse(raw) |> As
+                let parsed : PlanPrice[] = JSON.Parse(raw) |> As
                 Some parsed
         with _ ->
             None
 
-    let private saveCache (response: PlansApiResponse) =
+    let private saveCache (response: PlanPrice[]) =
         try
             let json = JSON.Stringify(box response)
             JS.Window.SessionStorage.SetItem(CacheKey, json)
@@ -49,8 +50,8 @@ module Api =
         | "year"  -> { entry with Year  = Some pi }
         | _       -> entry
 
-    let private buildCatalog (items: PlanPriceRecord[]) =
-        let updateFromItem (catalog: Catalog) (item: PlanPriceRecord) =
+    let private buildCatalog (items: PlanPrice[]) =
+        let updateFromItem (catalog: Catalog) (item: PlanPrice) =
             let code = (item.code |> string).ToLower()
             let intervalStr = (item.interval |> string).ToLower()
 
@@ -76,31 +77,18 @@ module Api =
 
         catalogVar.Value <- Array.fold updateFromItem catalogVar.Value items
 
-    let fetchFromApi () : Async<PlansApiResponse option> =
+    let fetchFromApi () : Async<PlanPrice[] option> =
         async {
             try
                 let! resp =
-                    JS.Fetch(
-                        AuthClient.API + "/plans/prices",
-                        RequestOptions(
-                            Method = "GET",
-                            Credentials = RequestCredentials.Include,
-                            Headers = AuthClient.header()
-                        )
-                    )
-                    |> Promise.AsAsync
+                    Remote<IRemotingContract>.GetPlanPrices()
 
-                if not resp.Ok then
-                    return None
-                else
-                    let! data = resp.Json() |> Promise.AsAsync
-                    let parsed : PlansApiResponse = data |> As
-                    return Some parsed
+                return Some resp
             with _ ->
                 return None
         }
 
-    let LoadOrFetchPlans () : Async<PlansApiResponse option> =
+    let LoadOrFetchPlans () : Async<PlanPrice[] option> =
         async {
             match loadCache () with
             | Some cached ->
@@ -108,7 +96,7 @@ module Api =
             | None ->
                 let! respOpt = fetchFromApi ()
                 match respOpt with
-                | Some resp when resp.items.Length > 0 ->
+                | Some resp when resp.Length > 0 ->
                     saveCache resp
                     return Some resp
                 | _ ->
@@ -119,7 +107,7 @@ module Api =
         async {
             let! respOpt = LoadOrFetchPlans ()
             match respOpt with
-            | Some resp -> buildCatalog resp.items
+            | Some resp -> buildCatalog resp
             | None -> ()
         }
 

@@ -36,7 +36,7 @@ module State =
     let backLinkHref  = Var.Create SupportPlansUrl
     let BackLinkLabel = Var.Create "Plans"
 
-    let plansVar : Var<PlanPriceRecord[]> = Var.Create [||]
+    let plansVar : Var<PlanPrice[]> = Var.Create [||]
 
     let CheckoutFormVar : Var<CheckoutForm> =
         Var.Create {
@@ -119,7 +119,7 @@ module State =
             let! respOpt = LoadOrFetchPlans ()
             match respOpt with
             | Some resp ->
-                plansVar.Value <- resp.items
+                plansVar.Value <- resp
             | None -> ()
         }
 

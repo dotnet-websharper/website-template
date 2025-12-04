@@ -8,6 +8,7 @@ open WebSharper.UI.Html
 open WebSharper.UI.Client
 
 open WebSharperWebsite
+open WebSharperWebApi
 open Utils
 open Types
 open State
@@ -27,9 +28,9 @@ module ViewsPricing =
         SeatsTextVar.View
         |> View.Map parseSeats
 
-    let CurrentPlan : View<PlanPriceRecord option> =
+    let CurrentPlan : View<PlanPrice option> =
         View.Map3
-            (fun (items: PlanPriceRecord[]) (plan: string) interval ->
+            (fun (items: PlanPrice[]) (plan: string) interval ->
                 let code = plan.ToLower()
                 let intervalStr = intervalAsString interval
 
