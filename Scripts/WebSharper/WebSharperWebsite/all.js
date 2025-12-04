@@ -898,6 +898,7 @@ let Decoder_FSharpResult_3;
 let Decoder_FSharpOption_1;
 let Decoder_FSharpOption_2;
 let Decoder_Subscription;
+let Decoder_PlanPrice;
 let Decoder_GitHubOrgStatus;
 let Decoder_GitHubOrg;
 let Decoder_FSharpOption_3;
@@ -992,6 +993,9 @@ function EncodeJson_BillingData(){
 }
 function DecodeJson_FSharpResult_3(){
   return Decoder_FSharpResult_3?Decoder_FSharpResult_3:Decoder_FSharpResult_3=(DecodeUnion(void 0, "$", [[0, [["$0", "ResultValue", Id_1(), 0]]], [1, [["$0", "ErrorValue", Id_1(), 0]]]]))();
+}
+function DecodeJson_PlanPrice(){
+  return Decoder_PlanPrice?Decoder_PlanPrice:Decoder_PlanPrice=(DecodeRecord(void 0, [["code", Id_1(), 0], ["name", Id_1(), 0], ["description", Id_1(), 1], ["isPerSeat", Id_1(), 0], ["maxSeats", Id_1(), 1], ["interval", Id_1(), 0], ["currency", Id_1(), 0], ["unitAmountCents", Id_1(), 0]]))();
 }
 function DecodeJson_BillingData(){
   return Decoder_BillingData?Decoder_BillingData:Decoder_BillingData=(DecodeRecord(void 0, [["email", Id_1(), 0], ["line1", Id_1(), 0], ["city", Id_1(), 0], ["postalCode", Id_1(), 0], ["country", Id_1(), 0], ["companyName", Id_1(), 1], ["taxId", Id_1(), 1]]))();
@@ -2214,14 +2218,14 @@ function New(subject, message, email, name, country){
   };
 }
 function HydrateCatalog(){
-  return Delay(() => Bind_1(LoadOrFetchPlans(), (a) => a==null?Zero():(buildCatalog(a.$0.items),Zero())));
+  return Delay(() => Bind_1(LoadOrFetchPlans(), (a) => a==null?Zero():(buildCatalog(a.$0),Zero())));
 }
 function LoadOrFetchPlans(){
   return Delay(() => {
     const m=loadCache();
     return m==null?Bind_1(fetchFromApi(), (a) => {
       let _2;
-      return a!=null&&a.$==1&&(length(a.$0.items)>0&&(_2=a.$0,true))?(saveCache(_2),Return(Some(_2))):Return(null);
+      return a!=null&&a.$==1&&(length(a.$0)>0&&(_2=a.$0,true))?(saveCache(_2),Return(Some(_2))):Return(null);
     }):Return(Some(m.$0));
   });
 }
@@ -2260,10 +2264,7 @@ function loadCache(){
   }
 }
 function fetchFromApi(){
-  return Delay(() => TryWith(Delay(() => {
-    let r;
-    return Bind_1(AsAsync(globalThis.fetch("https://api.websharper.com/plans/prices", (r={},r.method="GET",r.credentials="include",r.headers=header(),r))), (a) =>!a.ok?Return(null):Bind_1(AsAsync(a.json()), (a_1) => Return(Some(a_1))));
-  }), () => Return(null)));
+  return Delay(() => TryWith(Delay(() => Bind_1(GetPlanPrices(), (a) => Return(Some(a)))), () => Return(null)));
 }
 function saveCache(response){
   try {
@@ -2389,7 +2390,7 @@ function ensurePlans(){
     if(a==null)return Zero();
     else {
       const resp=a.$0;
-      plansVar().Set(resp.items);
+      plansVar().Set(resp);
       return Zero();
     }
   }));
@@ -3234,6 +3235,9 @@ function GetInvoices(){
 }
 function SetBillingData(_2){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/SetBillingData", [(EncodeJson_BillingData())(_2)]), (o) => Return((DecodeJson_FSharpResult_3())(o)));
+}
+function GetPlanPrices(){
+  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetPlanPrices", []), (o) => Return(((DecodeArray(DecodeJson_PlanPrice))())(o)));
 }
 function SetGitHubOrgName(_2){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/SetGitHubOrgName", [_2]), (o) => Return((DecodeJson_FSharpResult_3())(o)));
