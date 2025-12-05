@@ -480,7 +480,7 @@ function IsAuthedView(){
   return _c_12.IsAuthedView;
 }
 function BuildStartUrlWithReturn(returnUrl){
-  return"https://api.websharper.com/auth/github/start?returnUrl="+encodeURIComponent(returnUrl);
+  return"https://api.websharper.io/auth/github/start?returnUrl="+encodeURIComponent(returnUrl);
 }
 function UserView(){
   return _c_12.UserView;
@@ -1537,7 +1537,7 @@ function messageVar(){
 }
 function fetchConfirmation(sessionId){
   return Delay(() => {
-    const url="https://api.websharper.com/checkout/confirm?session_id="+encodeURIComponent(sessionId);
+    const url="https://api.websharper.io/checkout/confirm?session_id="+encodeURIComponent(sessionId);
     return TryWith(Delay(() => {
       let r;
       return Bind_1(AsAsync(globalThis.fetch(url, (r={},r.method="GET",r.credentials="include",r.headers=header(),r))), (a) =>!a.ok?Return(null):Bind_1(AsAsync(a.json()), (a_1) => Return(Some(a_1))));
@@ -5518,8 +5518,8 @@ let _c_12=Lazy((_i) => class $StartupCode_AuthClient {
   static userVar;
   static API;
   static {
-    this.API="https://api.websharper.com";
-    set_EndPoint("https://api.websharper.com");
+    this.API="https://api.websharper.io";
+    set_EndPoint("https://api.websharper.io");
     this.userVar=_c_1.Create_1(null);
     this.isFetchingVar=_c_1.Create_1(false);
     this.UserView=userVar().View;
