@@ -104,6 +104,20 @@ type PlanPrice =
         unitAmountCents: int      // per seat if isPerSeat = true, otherwise flat
     }
 
+[<JavaScript; Prototype false>]
+type ConfirmResponse = 
+    { 
+        sessionId: string
+        email: string
+        customerId: string
+        subscriptionId: string
+        seats: int
+        amountTotal: int
+        currency: string
+        paid: bool
+        status: string 
+    }
+
 type ActionResult = Result<unit, string>
 
 type IRemotingContract =
@@ -149,6 +163,9 @@ type IRemotingContract =
     [<Remote>]
     abstract member GetPlanPrices : unit -> Async<PlanPrice[]>
 
+    [<Remote>]
+    abstract member ConfirmStripeOrder : string -> Async<Result<ConfirmResponse, string>>
+
 [<JavaScript>]
 module Shared =
     let euVat =
@@ -161,11 +178,16 @@ module Shared =
             "ES", 21; "SE", 25
         ]
 
+    let getCountryIso (country: string) = 
+        if isNull country then "" 
+        else country.Trim().ToUpper()
+
+    let isEU (country: string) =
+        euVat.ContainsKey (getCountryIso country)
+
     let getVATPercentage (country: string) (isCompany: bool) (vatin: string) =
 
-        let countryIso = 
-            if isNull country then "" 
-            else country.Trim().ToUpper()
+        let countryIso = getCountryIso country
 
         let hasVatId =
             not (String.IsNullOrWhiteSpace vatin)

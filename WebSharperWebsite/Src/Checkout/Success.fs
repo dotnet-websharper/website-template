@@ -1,6 +1,7 @@
 ﻿namespace WebSharperWebsite.Checkout
 
 open WebSharperWebsite
+open WebSharperWebApi
 
 open System
 open WebSharper
@@ -12,25 +13,11 @@ open WebSharper.UI.Client
 [<JavaScript>]
 module Success =
 
-    [<Literal>]
-    let private ConfirmPath = "/checkout/confirm"
-
-    // Response from GET /checkout/confirm?session_id=...
-    type ConfirmationResponse = {
-        seats: int
-        email: string
-        amountTotal: int
-        currency: string
-        status: string
-        subscriptionId: string
-        paid: bool
-    }
-
     // -------------------------
     // State
     // -------------------------
 
-    let private confirmationVar : Var<ConfirmationResponse option> =
+    let private confirmationVar : Var<ConfirmResponse option> =
         Var.Create None
 
     let private messageVar : Var<string> =
@@ -91,41 +78,18 @@ module Success =
     // API call
     // -------------------------
 
-    let private fetchConfirmation (sessionId: string) : Async<ConfirmationResponse option> =
+    let private fetchConfirmation (sessionId: string) : Async<ConfirmResponse option> =
         async {
-            let url =
-                AuthClient.API
-                + ConfirmPath
-                + "?session_id="
-                + JS.EncodeURIComponent sessionId
-
-            let redirectError () =
-                Error.RedirectToError {
-                    Title = Some "Payment confirmation failed"
-                    Message = None
-                    Page = None
-                }
-
             try
                 let! resp =
-                    JS.Fetch(
-                        url,
-                        RequestOptions(
-                            Method = "GET",
-                            Credentials = RequestCredentials.Include,
-                            Headers = AuthClient.header()
-                        )
-                    )
-                    |> Promise.AsAsync
+                    Remote<IRemotingContract>.ConfirmStripeOrder sessionId
 
-                if not resp.Ok then
+                match resp with
+                | Error _ ->
                     return None
-                else
-                    let! data = resp.Json() |> Promise.AsAsync
-                    let conf = data |> As<ConfirmationResponse>
+                | Ok conf -> 
                     return Some conf
             with _ ->
-                redirectError()
                 return None
         }
 
