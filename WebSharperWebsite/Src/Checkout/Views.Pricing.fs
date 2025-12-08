@@ -163,3 +163,11 @@ module ViewsPricing =
     let Total : View<string> =
         TotalRaw
         |> View.Map usd
+
+    open WebSharper.UI.Html
+
+    let CountryOptionsDoc : Doc list =
+        WebSharperWebsite.Countries.List
+        |> List.map (fun (code, name) ->
+            Html.option [Html.attr.value code] [Doc.TextNode name]
+        )

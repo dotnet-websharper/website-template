@@ -85,6 +85,7 @@ module Page =
                                 .City(CityVar)
                                 .Postal(PostalVar)
                                 .Country(CountryVar)
+                                .CountryOptions(ViewsPricing.CountryOptionsDoc)
                                 .IsCompany(IsCompanyVar)
                                 .CompanyBlockAttr(CompanyBlockAttr())
                                 .CompanyName(CompanyNameVar)

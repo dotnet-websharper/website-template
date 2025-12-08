@@ -1,5 +1,8 @@
 ﻿namespace WebSharperWebsite
 
+open WebSharper
+
+[<JavaScript>]
 module Countries =
 
     let List = [

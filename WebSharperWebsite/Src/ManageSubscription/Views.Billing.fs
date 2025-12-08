@@ -142,10 +142,28 @@ module ViewsBilling =
         |> View.Map (fun billing -> orDash billing.address.postal_code)
         |> Doc.TextView
 
+    let CountriesList = WebSharperWebsite.Countries.List
+
     let BillingCountryView : Doc =
         BillingRecordVar.View
-        |> View.Map (fun billing -> orDash billing.address.country)
+        |> View.Map (fun billing ->
+            let code = billing.address.country
+            
+            let nameOpt = 
+                CountriesList
+                |> List.tryPick (fun (c, name) -> if c = code then Some name else None)
+            
+            match nameOpt with
+            | Some name -> name
+            | None -> orDash code
+        )
         |> Doc.TextView
+
+    let BillingCountryOptions : Doc list =
+        CountriesList
+        |> List.map (fun (code, name) ->
+            Html.option [Html.attr.value code] [Doc.TextNode name]
+        )
 
     // -------------------------
     // Visibility attrs for view/edit card
@@ -168,12 +186,11 @@ module ViewsBilling =
         )
 
     let BtnBillingEditAttr : Attr =
-        // show when not editing and there is data
         Attr.DynamicClassPred "hidden" (
-            (BillingModeVar.View, BillingRecordVar.View)
-            ||> View.Map2 (fun mode billing ->
-                match mode, billing with
-                | BillingMode.Viewing, br when br.address.line1 <> "" -> false
+            BillingModeVar.View
+            |> View.Map (fun mode ->
+                match mode with
+                | BillingMode.Viewing -> false
                 | _ -> true
             )
         )

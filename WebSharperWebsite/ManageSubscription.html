@@ -143,7 +143,7 @@
                     </div>
                     <div>
                         <span class="text-sm">IntelliFactory-</span>
-                        <input ws-var="GitHubOrgName" class="w-64 rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm" placeholder="github-orgname-suffix" />
+                        <input ws-var="GitHubOrgName" class="w-64 hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" placeholder="github-orgname-suffix" />
                     </div>
                     <div>
                         <span class="mt-1 text-sm text-red-600 dark:text-red-300 mr-2">You can't change the name after you submit.</span>
@@ -277,9 +277,11 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400">Update invoice recipient details, VAT number, and address used for future invoices.</p>
                     </div>
                     <div class="flex gap-2">
-                        <button ws-onclick="BillingEditClick" ws-attr="BtnBillingEditAttr" class="rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white">Edit</button>
-                        <button ws-onclick="BillingCancelClick" ws-attr="BtnBillingCancelAttr" class="hidden rounded-xl h-9 px-3 border border-gray-300 text-sm text-gray-800 dark:border-white/20 dark:text-white">Cancel</button>
-                        <button ws-onclick="BillingSaveClick" ws-attr="BtnBillingSaveAttr" class="hidden rounded-xl h-9 px-3 bg-gray-950 text-white dark:bg-white dark:text-gray-950 border border-gray-950 dark:border-gray-800">Save</button>
+                        <button ws-onclick="BillingEditClick" ws-attr="BtnBillingEditAttr" class="rounded-lg h-10 px-4 border border-gray-300 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800">Edit</button>
+                        <button ws-onclick="BillingCancelClick" ws-attr="BtnBillingCancelAttr" class="hidden rounded-lg h-10 px-4 border border-gray-300 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800">Cancel</button>
+                        <button ws-onclick="BillingSaveClick" ws-attr="BtnBillingSaveAttr" class="hidden rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                            <span class="relative text-sm">Save</span>
+                        </button>
                     </div>
                 </div>
 
@@ -314,28 +316,38 @@
                     <div ws-attr="BillingEditAttr" class="hidden mt-4">
                         <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm text-gray-600 dark:text-gray-300">Company / Full name</label>
-                                <input ws-var="BillingNameVar" name="name" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                <label class="block text-sm text-gray-600 dark:text-gray-300 mb-1">Company / Full name</label>
+                                <input ws-var="BillingNameVar" name="name" class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" />
                             </div>
                             <div>
-                                <label class="block text-sm text-gray-600 dark:text-gray-300">VAT / Tax ID</label>
-                                <input ws-var="BillingVatinVar" name="vatin" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                <label class="block text-sm text-gray-600 dark:text-gray-300 mb-1">VAT / Tax ID</label>
+                                <input ws-var="BillingVatinVar" name="vatin" class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" />
                             </div>
                             <div class="sm:col-span-2">
-                                <label class="block text-sm text-gray-600 dark:text-gray-300">Address line 1</label>
-                                <input ws-var="BillingLine1Var" name="line1" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                <label class="block text-sm text-gray-600 dark:text-gray-300 mb-1">Address line 1</label>
+                                <input ws-var="BillingLine1Var" name="line1" class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" />
                             </div>
                             <div>
-                                <label class="block text-sm text-gray-600 dark:text-gray-300">City</label>
-                                <input ws-var="BillingCityVar" name="city" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                <label class="block text-sm text-gray-600 dark:text-gray-300 mb-1">City</label>
+                                <input ws-var="BillingCityVar" name="city" class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" />
                             </div>
                             <div>
-                                <label class="block text-sm text-gray-600 dark:text-gray-300">Postal code</label>
-                                <input ws-var="BillingPostalVar" name="postal_code" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                <label class="block text-sm text-gray-600 dark:text-gray-300 mb-1">Postal code</label>
+                                <input ws-var="BillingPostalVar" name="postal_code" class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5" />
                             </div>
                             <div>
-                                <label class="block text-sm text-gray-600 dark:text-gray-300">Country</label>
-                                <input ws-var="BillingCountryVar" name="country" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white" />
+                                <label class="block text-sm text-gray-600 dark:text-gray-300 mb-1">Country</label>
+                                <div class="relative">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="absolute pointer-events-none inset-y-0 my-auto right-3 size-4 text-gray-500 dark:text-gray-400">
+                                        <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <select ws-var="BillingCountryVar"
+                                            name="country"
+                                            class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5">
+                                        <option value="" disabled selected>Select your country</option>
+                                        <div ws-replace="CountryOptions"></div>
+                                    </select>
+                                </div>
                             </div>
                         </form>
                     </div>

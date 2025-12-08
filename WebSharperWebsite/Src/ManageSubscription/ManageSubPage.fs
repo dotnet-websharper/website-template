@@ -197,6 +197,7 @@ module Page =
                                         .BillingCityVar(ViewsBilling.BillingRecordVar.V.address.city)
                                         .BillingPostalVar(ViewsBilling.BillingRecordVar.V.address.postal_code)
                                         .BillingCountryVar(ViewsBilling.BillingRecordVar.V.address.country)
+                                        .CountryOptions(ViewsBilling.BillingCountryOptions)
 
                                         // actions
                                         .AddSeatsButtonAttr(ViewsSeats.AddSeatsButtonAttr)
