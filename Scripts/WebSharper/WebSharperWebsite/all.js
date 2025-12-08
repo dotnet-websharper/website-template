@@ -2714,10 +2714,9 @@ function groupHeaderDoc(subId, expiry, autoRenew){
   let _2=(b.i=i,i);
   return _2.Doc;
 }
-function seatRowDoc(seat, isLocked, forcedUsername){
+function seatRowDoc(seat, isLocked){
   const isProcessing=_c_1.Create_1(false);
-  const usernameVar=_c_1.Create_1(isLocked&&forcedUsername!=null?forcedUsername.$0:seat.username);
-  setGhUsernameForFreelancer(seat, isLocked, forcedUsername, isProcessing);
+  const usernameVar=_c_1.Create_1(seat.username);
   const U=unassignButtonAttr(seat, isLocked, isProcessing.View);
   const A=assignButtonAttr(seat, isLocked, isProcessing.View);
   const x=Doc.TextNode(seat.expiry);
@@ -2777,12 +2776,6 @@ function toggleAutoRenew(subId, expiry, currentAutoRenew, loading){
       loading.Set(false);
     });
   }), null);
-}
-function setGhUsernameForFreelancer(seat, isLocked, forcedUsername, loading){
-  if(isLocked&&seat.status!=SeatStatus.Assigned.AsString&&forcedUsername!=null){
-    assignSeat(seat.subscriptionId, seat.seatNo, forcedUsername.$0.toLowerCase(), loading);
-    seat.status=SeatStatus.Assigned.AsString;
-  }
 }
 function usernameAttr(seat, isLocked){
   return isLocked||SeatStatus.FromString(seat.status).$===0?Attr.Create("readonly", ""):EmptyAttr();
@@ -6044,19 +6037,18 @@ let _c_18=Lazy((_i) => class Seats_1 {
   static AddSeatsButtonAttr;
   static {
     this.AddSeatsButtonAttr=Dynamic("style", Map((subs) => exists_1((s) => s.plan.toLowerCase().indexOf("freelancer")!=-1, subs)?"display: none":"", SubsVar().View));
-    this.seatGroupsDoc=Doc.EmbedView(Map3((_2, _3, _4) => Doc.Concat(collect((_5) => {
-      const subId=_5[0];
-      const groupSeats=ofSeq(_5[1]);
+    this.seatGroupsDoc=Doc.EmbedView(Map2((_2, _3) => Doc.Concat(collect((_4) => {
+      const subId=_4[0];
+      const groupSeats=ofSeq(_4[1]);
       if(length(groupSeats)===0)return[];
       else {
         const subOption=tryFind((s) => s.id==subId.toLowerCase(), _3);
         const isFreelancer=subOption==null?false:subOption.$0.plan.toLowerCase().indexOf("freelancer")!=-1;
-        const forcedUsername=isFreelancer?_4==null?null:Some(_4.$0.login.toLowerCase()):null;
         const expiry=get(groupSeats, 0).expiry;
         const autoRenew=get(groupSeats, 0).autoRenew;
-        return delay(() => append([groupHeaderDoc(subId, expiry, autoRenew)], delay(() => map((s) => seatRowDoc(s, isFreelancer, forcedUsername), groupSeats))));
+        return delay(() => append([groupHeaderDoc(subId, expiry, autoRenew)], delay(() => map((s) => seatRowDoc(s, isFreelancer), groupSeats))));
       }
-    }, groupBy((s) => s.subscriptionId, sortBy((s) =>[s.expiry, s.subscriptionId, s.seatNo], _2)))), SeatsVar().View, SubsVar().View, UserVar().View));
+    }, groupBy((s) => s.subscriptionId, sortBy((s) =>[s.expiry, s.subscriptionId, s.seatNo], _2)))), SeatsVar().View, SubsVar().View));
     this.SeatsBody=seatGroupsDoc();
   }
 });
@@ -7574,13 +7566,13 @@ let _c_30=Lazy((_i) => class $StartupCode_RemotingContract {
   }
 });
 class SeatStatus {
+  static FromString(s){
+    return s.toLowerCase()=="assigned"?SeatStatus.Assigned:SeatStatus.Unassigned;
+  }
   get AsString(){
     return this.$==1?"unassigned":"assigned";
   }
   static Assigned=Create_2(SeatStatus, {$:0});
-  static FromString(s){
-    return s.toLowerCase()=="assigned"?SeatStatus.Assigned:SeatStatus.Unassigned;
-  }
   static Unassigned=Create_2(SeatStatus, {$:1});
   $;
 }
