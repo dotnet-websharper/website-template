@@ -682,7 +682,7 @@ function showOnlyPanel(root, targetName){
 function measureIndicatorPos(tab, container){
   let c;
   let c_1;
-  return New_19((c=tab.getBoundingClientRect().left-container.getBoundingClientRect().left,String(c))+"px", (c_1=tab.getBoundingClientRect().width,String(c_1))+"px");
+  return New_18((c=tab.getBoundingClientRect().left-container.getBoundingClientRect().left,String(c))+"px", (c_1=tab.getBoundingClientRect().width,String(c_1))+"px");
 }
 function applyIndicatorPos(indicator, pos){
   indicator.style.left=pos.LeftPx;
@@ -701,7 +701,10 @@ function queryAll(root, selector){
 function usd(n){
   return"$"+String(n);
 }
-function alertError(res){
+function alertError(msg){
+  sweetalert2.fire(swalDefaults("Error!", msg, "error"));
+}
+function alertErrorFromResult(res){
   if(res.$==1)sweetalert2.fire(swalDefaults("Error!", res.$0, "error"));
 }
 function swalDefaults(title, msg, icon){
@@ -1263,18 +1266,6 @@ function sameOriginReferer(){
 }
 function messageForCode(code){
   return code=="invalid_state"?"Sign-in failed, please try again.":code=="token"?"GitHub sign-in failed during token exchange. Please try again.":code=="token_missing"?"GitHub sign-in failed (no token).":code=="user"?"GitHub sign-in failed when fetching your user info.":code=="user_parse"?"GitHub sign-in failed (user data issue).":code=="db"?"Sign-in temporarily unavailable. Please try again shortly.":code=="service"?"Sign-in temporarily unavailable (service not configured).":"Unexpected error during sign-in. Please try again.";
-}
-function RedirectToError(ctx){
-  const o=ctx.Title;
-  const title=o==null?"Request error":o.$0;
-  const o_1=ctx.Message;
-  const m=o_1==null?"":o_1.$0;
-  const message=m.length>300?Substring(m, 0, 300):m;
-  const v=globalThis.location.href;
-  const o_2=ctx.Page;
-  const page=o_2==null?v:o_2.$0;
-  const q=new URLSearchParams(Object.fromEntries([["title", title], ["message", message], ["ts", DateFormatter(Date.now(), "o")], ["page", page]]));
-  globalThis.location.href="./error.html?"+String(q);
 }
 function BillToVat(){
   return _c_3.BillToVat;
@@ -2395,7 +2386,7 @@ function ContinueDisabled(){
 function buildPayload(){
   const form=CheckoutFormVar().Get();
   const seatsToSend=clampSeats(parseSeats(form.seatsText));
-  return New_15(form.plan.toLowerCase()=="freelancer"?"freelancer":"pro", intervalAsString(form.interval), form.plan.toLowerCase()=="freelancer"?1:seatsToSend, New_13(Trim(form.email), Trim(form.street), Trim(form.city), Trim(form.postal), form.country, form.isCompany?Some(Trim(form.companyName)):null, form.isCompany?Some(Trim(form.vatin)):null));
+  return New_14(form.plan.toLowerCase()=="freelancer"?"freelancer":"pro", intervalAsString(form.interval), form.plan.toLowerCase()=="freelancer"?1:seatsToSend, New_13(Trim(form.email), Trim(form.street), Trim(form.city), Trim(form.postal), form.country, form.isCompany?Some(Trim(form.companyName)):null, form.isCompany?Some(Trim(form.vatin)):null));
 }
 function SelectedPlanVar(){
   return _c_10.SelectedPlanVar;
@@ -2773,7 +2764,7 @@ function toggleAutoRenew(subId, expiry, currentAutoRenew, loading){
     loading.Set(true);
     return TryFinally(Delay(() => {
       const newAuto=!currentAutoRenew;
-      SeatsVar().Set(map_1((s) => s.subscriptionId==subId&&s.expiry==expiry?New_16(s.seatNo, s.username, s.status, s.expiry, newAuto, s.subscriptionId):s, SeatsVar().Get()));
+      SeatsVar().Set(map_1((s) => s.subscriptionId==subId&&s.expiry==expiry?New_15(s.seatNo, s.username, s.status, s.expiry, newAuto, s.subscriptionId):s, SeatsVar().Get()));
       return Bind_1(SetAutoRenew(subId, currentAutoRenew), (a) => a?(showToast("Updated"),Zero()):Zero());
     }), () => {
       loading.Set(false);
@@ -3294,7 +3285,7 @@ function Insert(elem, tree){
   }
   loop(tree);
   const arr=nodes.slice(0);
-  let _2=New_18(elem, Flags(tree), arr, oar.length===0?null:Some((el) => {
+  let _2=New_17(elem, Flags(tree), arr, oar.length===0?null:Some((el) => {
     iter((f) => {
       f(el);
     }, oar);
@@ -3305,7 +3296,7 @@ function Updates(dyn){
   return MapTreeReduce((x) => x.NChanged, Const(), Map2Unit, dyn.DynNodes);
 }
 function Empty(e){
-  return New_18(e, 0, [], null);
+  return New_17(e, 0, [], null);
 }
 function HasExitAnim(attr_1){
   const flag=2;
@@ -3930,9 +3921,6 @@ function StartsWith(t_9, s){
 function SplitChars(s, sep, opts){
   return Split(s, new RegExp("["+RegexEscape(sep.join(""))+"]"), opts);
 }
-function Substring(s, ix, ct){
-  return s.substr(ix, ct);
-}
 function forall(f, s){
   return forall_1(f, protect(s));
 }
@@ -3948,8 +3936,8 @@ function protect(s){
 function SplitWith(str, pat){
   return str.split(pat);
 }
-function replicate(count, s){
-  return create(count, s).join("");
+function Substring(s, ix, ct){
+  return s.substr(ix, ct);
 }
 class HashSet extends Object_1 {
   equals;
@@ -4250,23 +4238,6 @@ function max(s){
         if(Compare(x, m)===1)m=x;
       }
     return m;
-  }
-  finally {
-    const _2=e;
-    if(typeof _2=="object"&&isIDisposable(_2))e.Dispose();
-  }
-}
-function nth(index, s){
-  if(index<0)FailWith("negative index requested");
-  let pos=-1;
-  const e=Get(s);
-  try {
-    while(pos<index)
-      {
-        !e.MoveNext()?insufficient():void 0;
-        pos=pos+1;
-      }
-    return e.Current;
   }
   finally {
     const _2=e;
@@ -5549,15 +5520,10 @@ let _c_14=Lazy((_i) => class $StartupCode_Controller {
   }
 });
 function startCheckout(payload){
-  return Delay(() => {
-    const checkoutError=(err) => {
-      RedirectToError(New_14(Some("Checkout failed"), Some(err+". Please try again."), null));
-    };
-    return TryWith(Delay(() => Bind_1(StripeCheckout(payload), (a) => a.$==1?(checkoutError(a.$0),Return(null)):Return(Some(a.$0)))), () => {
-      checkoutError("Failed to connect to the server");
-      return Return(null);
-    });
-  });
+  return Delay(() => TryWith(Delay(() => Bind_1(StripeCheckout(payload), (a) => a.$==1?(alertError(a.$0),Return(null)):Return(Some(a.$0)))), () => {
+    alertError("Something went wrong. Please contact support or try again later.");
+    return Return(null);
+  }));
 }
 function ofArray(arr){
   let r=FSharpList.Empty;
@@ -5687,7 +5653,7 @@ function LinkPrevElement(el, children){
   InsertDoc(el.parentNode, children, el);
 }
 function CreateDelimitedRunState(ldelim, rdelim, doc){
-  return New_21(get_Empty_1(), CreateDelimitedElemNode(ldelim, rdelim, EmptyAttr(), doc));
+  return New_20(get_Empty_1(), CreateDelimitedElemNode(ldelim, rdelim, EmptyAttr(), doc));
 }
 function PerformAnimatedUpdate(childrenOnly, st, doc){
   return get_UseAnimations()?Delay(() => {
@@ -5706,7 +5672,7 @@ function PerformSyncUpdate(childrenOnly, st, doc){
   st.PreviousNodes=cur;
 }
 function CreateRunState(parent, doc){
-  return New_21(get_Empty_1(), CreateElemNode(parent, EmptyAttr(), doc));
+  return New_20(get_Empty_1(), CreateElemNode(parent, EmptyAttr(), doc));
 }
 function InsertDoc(parent, doc, pos){
   while(true)
@@ -5921,7 +5887,7 @@ function SaveBilling(data){
     let _4=New_13("", data.address.line1, data.address.city, data.address.postal_code, data.address.country, _2, _3);
     let _5=SetBillingData(_4);
     return Bind_1(_5, (a) => {
-      alertError(a);
+      alertErrorFromResult(a);
       return Combine(a.$==0?(set_billingCache(Some(data)),Zero()):Zero(), Delay(() => Return(a.$==0)));
     });
   });
@@ -5931,7 +5897,7 @@ function toSubRecord(subscription){
 }
 function SetGitHubOrgName_1(name){
   return Delay(() => Bind_1(SetGitHubOrgName(name), (a) => {
-    alertError(a);
+    alertErrorFromResult(a);
     return Return(a.$==0);
   }));
 }
@@ -5973,14 +5939,14 @@ function billingCache(){
   return _c_28.billingCache;
 }
 function SetAutoRenew(subId, cancelAtPeriodEnd){
-  return Delay(() => Bind_1(SetCancellationStatus(New_22(Parse(subId), cancelAtPeriodEnd)), (a) => {
-    alertError(a);
+  return Delay(() => Bind_1(SetCancellationStatus(New_21(Parse(subId), cancelAtPeriodEnd)), (a) => {
+    alertErrorFromResult(a);
     return Return(a.$==0);
   }));
 }
 function AssignSeat(subId, seatNo, username){
-  return Delay(() => IsNullOrWhiteSpace(username)?Return(false):Bind_1(AddAssignment(New_23(Parse(subId), username, seatNo)), (a) => {
-    alertError(a);
+  return Delay(() => IsNullOrWhiteSpace(username)?Return(false):Bind_1(AddAssignment(New_22(Parse(subId), username, seatNo)), (a) => {
+    alertErrorFromResult(a);
     return Return(a.$==0);
   }));
 }
@@ -5993,10 +5959,10 @@ function UnassignSeat(subId, seatNo){
       if(idx>=0&&idx<length(sub.githubAssignedNames)){
         const o=get(sub.githubAssignedNames, idx);
         let _2=o==null?"":o.$0;
-        let _3=New_23(sub.subscriptionId, _2, seatNo);
+        let _3=New_22(sub.subscriptionId, _2, seatNo);
         let _4=RevokeAssignment(_3);
         return Bind_1(_4, (a_1) => {
-          alertError(a_1);
+          alertErrorFromResult(a_1);
           return Return(a_1.$==0);
         });
       }
@@ -6006,7 +5972,7 @@ function UnassignSeat(subId, seatNo){
   }));
 }
 function seatsFromSubscription(subscription){
-  return mapi((_2, _3) => New_16(_2+1, _3==null?"":_3.$0, _3!=null?"assigned":"available", subscription.currentPeriodEnd, !subscription.cancelAtPeriodEnd, String(subscription.subscriptionId)), subscription.githubAssignedNames);
+  return mapi((_2, _3) => New_15(_2+1, _3==null?"":_3.$0, _3!=null?"assigned":"available", subscription.currentPeriodEnd, !subscription.cancelAtPeriodEnd, String(subscription.subscriptionId)), subscription.githubAssignedNames);
 }
 function New_5(id, label, plan, totalSeats, renewsAt, status){
   return{
@@ -6199,7 +6165,7 @@ let _c_21=Lazy((_i) => class GitHub {
               setLoading(true);
               return TryFinally(Delay(() => {
                 const fullOrgName=OrgPrefix()+GitHubOrgName().Get();
-                return Bind_1(SetGitHubOrgName_1(fullOrgName), (a) => a?(GitHubOrgVar().Set(Some(New_17(Some(fullOrgName), "pending"))),Zero()):Zero());
+                return Bind_1(SetGitHubOrgName_1(fullOrgName), (a) => a?(GitHubOrgVar().Set(Some(New_16(Some(fullOrgName), "pending"))),Zero()):Zero());
               }), () => {
                 setLoading(false);
               });
@@ -6415,9 +6381,6 @@ class FSharpList {
       $1:Tail
     });
   }
-  get_Item(x){
-    return nth(x, this);
-  }
   GetEnumerator(){
     return new T(this, null, (e) => {
       const m=e.s;
@@ -6630,14 +6593,7 @@ function ajax(async, url, headers, data, ok, err, csrf){
   xhr.send(data);
 }
 class attr extends Object_1 { }
-function New_14(Title_1, Message_1, Page){
-  return{
-    Title:Title_1, 
-    Message:Message_1, 
-    Page:Page
-  };
-}
-function New_15(planCode, interval, seats, billingData){
+function New_14(planCode, interval, seats, billingData){
   return{
     planCode:planCode, 
     interval:interval, 
@@ -6660,7 +6616,7 @@ function getCountryIso(country){
 function euVat(){
   return _c_30.euVat;
 }
-function New_16(seatNo, username, status, expiry, autoRenew, subscriptionId){
+function New_15(seatNo, username, status, expiry, autoRenew, subscriptionId){
   return{
     seatNo:seatNo, 
     username:username, 
@@ -6722,7 +6678,7 @@ function Create(key, init_2){
 function CreateWithStorage(key, storage){
   return new ListModel("New", key, storage);
 }
-function New_17(name, status){
+function New_16(name, status){
   return{name:name, status:status};
 }
 let _c_23=Lazy((_i) => class $StartupCode_State {
@@ -6739,13 +6695,13 @@ let _c_23=Lazy((_i) => class $StartupCode_State {
   static UserVar;
   static StateVar;
   static {
-    this.StateVar=_c_1.Create_1(New_20(null, [], "", [], [], null));
-    this.UserVar=_c_1.Lens(StateVar(), (s) => s.user, (_2, _3) => New_20(_3, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
-    this.SubsVar=_c_1.Lens(StateVar(), (s) => s.subs, (_2, _3) => New_20(_2.user, _3, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
-    this.CurrentSubIdVar=_c_1.Lens(StateVar(), (s) => s.currentSubId, (_2, _3) => New_20(_2.user, _2.subs, _3, _2.seats, _2.invoices, _2.billing));
-    this.SeatsVar=_c_1.Lens(StateVar(), (s) => s.seats, (_2, _3) => New_20(_2.user, _2.subs, _2.currentSubId, _3, _2.invoices, _2.billing));
-    this.InvoicesVar=_c_1.Lens(StateVar(), (s) => s.invoices, (_2, _3) => New_20(_2.user, _2.subs, _2.currentSubId, _2.seats, _3, _2.billing));
-    this.BillingVar=_c_1.Lens(StateVar(), (s) => s.billing, (_2, _3) => New_20(_2.user, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _3));
+    this.StateVar=_c_1.Create_1(New_19(null, [], "", [], [], null));
+    this.UserVar=_c_1.Lens(StateVar(), (s) => s.user, (_2, _3) => New_19(_3, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
+    this.SubsVar=_c_1.Lens(StateVar(), (s) => s.subs, (_2, _3) => New_19(_2.user, _3, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
+    this.CurrentSubIdVar=_c_1.Lens(StateVar(), (s) => s.currentSubId, (_2, _3) => New_19(_2.user, _2.subs, _3, _2.seats, _2.invoices, _2.billing));
+    this.SeatsVar=_c_1.Lens(StateVar(), (s) => s.seats, (_2, _3) => New_19(_2.user, _2.subs, _2.currentSubId, _3, _2.invoices, _2.billing));
+    this.InvoicesVar=_c_1.Lens(StateVar(), (s) => s.invoices, (_2, _3) => New_19(_2.user, _2.subs, _2.currentSubId, _2.seats, _3, _2.billing));
+    this.BillingVar=_c_1.Lens(StateVar(), (s) => s.billing, (_2, _3) => New_19(_2.user, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _3));
     this.CustomerPortalLinkVar=_c_1.Create_1(null);
     this.GitHubOrgVar=_c_1.Create_1(null);
   }
@@ -7039,7 +6995,7 @@ class CancellationTokenSource extends Object_1 {
     this.init=1;
   }
 }
-function New_18(DynElem, DynFlags, DynNodes, OnAfterRender_4){
+function New_17(DynElem, DynFlags, DynNodes, OnAfterRender_4){
   const _2={
     DynElem:DynElem, 
     DynFlags:DynFlags, 
@@ -7048,7 +7004,7 @@ function New_18(DynElem, DynFlags, DynNodes, OnAfterRender_4){
   SetOptional(_2, "OnAfterRender", OnAfterRender_4);
   return _2;
 }
-function New_19(LeftPx, WidthPx){
+function New_18(LeftPx, WidthPx){
   return{LeftPx:LeftPx, WidthPx:WidthPx};
 }
 class NonStandardPromiseRejectionException extends Error {
@@ -7332,7 +7288,7 @@ class Text extends TemplateHole {
     this.fillWith=fillWith;
   }
 }
-function New_20(user, subs, currentSubId, seats, invoices, billing){
+function New_19(user, subs, currentSubId, seats, invoices, billing){
   return{
     user:user, 
     subs:subs, 
@@ -7595,238 +7551,6 @@ class XhrProvider extends Object_1 {
     });
   }
 }
-function DateFormatter(date, format){
-  const d=new Date(date);
-  switch(format){
-    case"D":
-      return String(longDays().get_Item(d.getDay()))+", "+padLeft(2, String(d.getDate()))+" "+String(longMonths().get_Item(d.getMonth()))+" "+String(d.getFullYear());
-    case"d":
-      return padLeft(2, String(d.getMonth()+1))+"/"+padLeft(2, String(d.getDate()))+"/"+String(d.getFullYear());
-    case"T":
-      return padLeft(2, String(d.getHours()))+":"+padLeft(2, String(d.getMinutes()))+":"+padLeft(2, String(d.getSeconds()));
-    case"t":
-      return padLeft(2, String(d.getHours()))+":"+padLeft(2, String(d.getMinutes()));
-    case"o":
-    case"O":
-      return String(d.getFullYear())+"-"+padLeft(2, String(d.getMonth()+1))+"-"+padLeft(2, String(d.getDate()))+"T"+padLeft(2, String(d.getHours()))+":"+padLeft(2, String(d.getMinutes()))+":"+padLeft(2, String(d.getSeconds()))+"."+padLeft(3, String(d.getMilliseconds()))+dateOffsetString(d);
-    default:
-      return dateToStringWithCustomFormat(d, format);
-  }
-}
-function longDays(){
-  return _c_33.longDays;
-}
-function padLeft(minLength, x){
-  return x.length<minLength?replicate(minLength-x.length, "0")+x:x;
-}
-function longMonths(){
-  return _c_33.longMonths;
-}
-function dateOffsetString(d){
-  const offset=d.getTimezoneOffset()*-60000;
-  const offset_1=Math.abs(offset);
-  return(offset<0?"-":"+")+padLeft(2, String(toInt(offset_1/3600000)))+":"+padLeft(2, String(toInt(offset_1%3600000/60000)));
-}
-function dateToStringWithCustomFormat(d, format){
-  let cursorPos=0;
-  let tokenLength=0;
-  let result="";
-  const appendToResult=(s) => {
-    result=result+s;
-  };
-  while(cursorPos<format.length)
-    ((() => {
-      const token=format[cursorPos];
-      switch(token){
-        case"d":
-          tokenLength=parseRepeatToken(format, cursorPos, "d");
-          cursorPos=cursorPos+tokenLength;
-          switch(tokenLength){
-            case 1:
-              return appendToResult(String(d.getDate()));
-            case 2:
-              return appendToResult(padLeft(2, String(d.getDate())));
-            case 3:
-              return appendToResult(String(shortDays().get_Item(d.getDay())));
-            default:
-            case 4:
-              return appendToResult(String(longDays().get_Item(d.getDay())));
-          }
-          break;
-        case"f":
-          tokenLength=parseRepeatToken(format, cursorPos, "f");
-          cursorPos=cursorPos+tokenLength;
-          switch(tokenLength){
-            case 3:
-            case 2:
-            case 1:
-              const precision=toInt(10**(3-tokenLength));
-              return appendToResult(padLeft(tokenLength, String(d.getMilliseconds()/precision>>0)));
-            case 7:
-            case 6:
-            case 5:
-            case 4:
-              return appendToResult(padRight(tokenLength, String(d.getMilliseconds())));
-            default:
-              return FailWith("Input string was not in a correct format.");
-          }
-          break;
-        case"F":
-          tokenLength=parseRepeatToken(format, cursorPos, "F");
-          cursorPos=cursorPos+tokenLength;
-          switch(tokenLength){
-            case 3:
-            case 2:
-            case 1:
-              const precision_1=toInt(10**(3-tokenLength));
-              const value=d.getMilliseconds()/precision_1>>0;
-              return value!==0?appendToResult(padLeft(tokenLength, String(value))):null;
-            case 7:
-            case 6:
-            case 5:
-            case 4:
-              const value_1=d.getMilliseconds();
-              return value_1!==0?appendToResult(padLeft(3, String(value_1))):null;
-            default:
-              return FailWith("Input string was not in a correct format.");
-          }
-          break;
-        case"g":
-          tokenLength=parseRepeatToken(format, cursorPos, "g");
-          cursorPos=cursorPos+tokenLength;
-          return appendToResult("A.D.");
-        case"h":
-          tokenLength=parseRepeatToken(format, cursorPos, "h");
-          cursorPos=cursorPos+tokenLength;
-          const hours=d.getHours()%12;
-          return appendToResult(tokenLength===1||tokenLength===2&&false?hours===0?"12":String(hours):hours===0?"12":padLeft(2, String(hours)));
-        case"H":
-          tokenLength=parseRepeatToken(format, cursorPos, "H");
-          cursorPos=cursorPos+tokenLength;
-          return appendToResult(tokenLength===1||tokenLength===2&&false?String(d.getHours()):padLeft(2, String(d.getHours())));
-        case"K":
-          tokenLength=parseRepeatToken(format, cursorPos, "K");
-          cursorPos=cursorPos+tokenLength;
-          return appendToResult(replicate(tokenLength, dateOffsetString(d)));
-        case"m":
-          tokenLength=parseRepeatToken(format, cursorPos, "m");
-          cursorPos=cursorPos+tokenLength;
-          return appendToResult(tokenLength===1||tokenLength===2&&false?String(d.getMinutes()):padLeft(2, String(d.getMinutes())));
-        case"M":
-          let _2;
-          tokenLength=parseRepeatToken(format, cursorPos, "M");
-          cursorPos=cursorPos+tokenLength;
-          switch(tokenLength){
-            case 1:
-              _2=String(d.getMonth()+1);
-              break;
-            case 2:
-              _2=padLeft(2, String(d.getMonth()+1));
-              break;
-            case 3:
-              _2=String(shortMonths().get_Item(d.getMonth()));
-              break;
-            default:
-            case 4:
-              _2=String(longMonths().get_Item(d.getMonth()));
-              break;
-          }
-          return appendToResult(_2);
-        case"s":
-          tokenLength=parseRepeatToken(format, cursorPos, "s");
-          cursorPos=cursorPos+tokenLength;
-          return appendToResult(tokenLength===1||tokenLength===2&&false?String(d.getSeconds()):padLeft(2, String(d.getSeconds())));
-        case"t":
-          tokenLength=parseRepeatToken(format, cursorPos, "t");
-          cursorPos=cursorPos+tokenLength;
-          return appendToResult(tokenLength===1||tokenLength===2&&false?d.getHours()<12?"A":"P":d.getHours()<12?"AM":"PM");
-        case"y":
-          tokenLength=parseRepeatToken(format, cursorPos, "y");
-          cursorPos=cursorPos+tokenLength;
-          return appendToResult(tokenLength===1?String(d.getFullYear()%100):tokenLength===2?padLeft(2, String(d.getFullYear()%100)):padLeft(tokenLength, String(d.getFullYear())));
-        case"z":
-          tokenLength=parseRepeatToken(format, cursorPos, "z");
-          cursorPos=cursorPos+tokenLength;
-          const utcOffsetText=dateOffsetString(d);
-          const sign=Substring(utcOffsetText, 0, 1);
-          const hours_1=Substring(utcOffsetText, 1, 2);
-          const minutes=Substring(utcOffsetText, 4, 2);
-          return appendToResult(tokenLength===1?sign+(StartsWith(hours_1, "0")?hours_1.substring(1):hours_1):tokenLength===2?sign+hours_1:sign+hours_1+":"+minutes);
-        case":":
-          cursorPos=cursorPos+1;
-          return appendToResult(":");
-        case"/":
-          cursorPos=cursorPos+1;
-          return appendToResult("/");
-        case"'":
-        case"\"":
-          const p=parseQuotedString(format, cursorPos);
-          cursorPos=cursorPos+p[1];
-          return appendToResult(p[0]);
-        case"%":
-          const nextChar=parseNextChar(format, cursorPos);
-          return nextChar!=null&&nextChar.$0!=="%"?(cursorPos=cursorPos+2,appendToResult(dateToStringWithCustomFormat(d, nextChar.$0))):FailWith("Invalid format string");
-        case"\\":
-          const m=parseNextChar(format, cursorPos);
-          if(m==null)return FailWith("Invalid format string");
-          else {
-            const nextChar2=m.$0;
-            cursorPos=cursorPos+2;
-            return appendToResult(nextChar2);
-          }
-          break;
-        default:
-          appendToResult(token);
-          {
-            cursorPos=cursorPos+1;
-            return;
-          }
-          break;
-      }
-    })());
-  return result;
-}
-function parseRepeatToken(format, pos, patternChar){
-  let tokenLength=0;
-  let internalPos=pos;
-  while(internalPos<format.length&&format[internalPos]===patternChar)
-    {
-      internalPos=internalPos+1;
-      tokenLength=tokenLength+1;
-    }
-  return tokenLength;
-}
-function shortDays(){
-  return _c_33.shortDays;
-}
-function padRight(minLength, x){
-  return x.length<minLength?x+replicate(minLength-x.length, "0"):x;
-}
-function shortMonths(){
-  return _c_33.shortMonths;
-}
-function parseQuotedString(format, pos){
-  const quoteChar=format[pos];
-  let result="";
-  let foundQuote=false;
-  let pos_1=pos;
-  let earlyBreak=false;
-  while(pos_1<format.length&&!earlyBreak)
-    {
-      pos_1=pos_1+1;
-      const currentChar=format[pos_1];
-      if(currentChar===quoteChar){
-        foundQuote=true;
-        earlyBreak=true;
-      }
-      else currentChar==="\\"?pos_1<format.length?(pos_1=pos_1+1,result=result+format[pos_1]):FailWith("Invalid string format"):result=result+currentChar;
-    }
-  if(!foundQuote)FailWith("Invalid string format could not find matching quote for "+String(quoteChar));
-  return[result, pos_1-pos+1];
-}
-function parseNextChar(format, pos){
-  return pos>=format.length-1?null:Some(format[pos+1]);
-}
 let _c_30=Lazy((_i) => class $StartupCode_RemotingContract {
   static {
     _c_30=_i(this);
@@ -7849,7 +7573,7 @@ class ArrayStorage extends Object_1 {
     this.init=init_2;
   }
 }
-function New_21(PreviousNodes, Top){
+function New_20(PreviousNodes, Top){
   return{PreviousNodes:PreviousNodes, Top:Top};
 }
 function get_Empty_1(){
@@ -8067,10 +7791,10 @@ class KeyCollection extends Object_1 {
     this.d=d;
   }
 }
-function New_22(subscriptionId, cancelAtPeriodEnd){
+function New_21(subscriptionId, cancelAtPeriodEnd){
   return{subscriptionId:subscriptionId, cancelAtPeriodEnd:cancelAtPeriodEnd};
 }
-function New_23(subscriptionId, githubAssignedName, position){
+function New_22(subscriptionId, githubAssignedName, position){
   return{
     subscriptionId:subscriptionId, 
     githubAssignedName:githubAssignedName, 
@@ -8123,7 +7847,7 @@ function Concat_1(xs){
   return TreeReduce(Empty_1(), Append_1, x);
 }
 function Empty_1(){
-  return _c_34.Empty;
+  return _c_33.Empty;
 }
 class KeyNotFoundException extends Error {
   constructor(i, _2){
@@ -8137,21 +7861,6 @@ class KeyNotFoundException extends Error {
     }
   }
 }
-let _c_33=Lazy((_i) => class Pervasives {
-  static {
-    _c_33=_i(this);
-  }
-  static longMonths;
-  static shortMonths;
-  static longDays;
-  static shortDays;
-  static {
-    this.shortDays=ofArray(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
-    this.longDays=ofArray(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]);
-    this.shortMonths=ofArray(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]);
-    this.longMonths=ofArray(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]);
-  }
-});
 class Easing extends Object_1 {
   transformTime;
   static Custom(f){
@@ -8266,7 +7975,7 @@ class FormatException extends Error {
   }
 }
 function Create_1(f){
-  return New_24(false, f, forceLazy);
+  return New_23(false, f, forceLazy);
 }
 function forceLazy(){
   const v=this.v();
@@ -8278,16 +7987,16 @@ function forceLazy(){
 function cachedLazy(){
   return this.v;
 }
-let _c_34=Lazy((_i) => class $StartupCode_AppendList {
+let _c_33=Lazy((_i) => class $StartupCode_AppendList {
   static {
-    _c_34=_i(this);
+    _c_33=_i(this);
   }
   static Empty;
   static {
     this.Empty={$:0};
   }
 });
-function New_24(created, evalOrVal, force){
+function New_23(created, evalOrVal, force){
   return{
     c:created, 
     v:evalOrVal, 
