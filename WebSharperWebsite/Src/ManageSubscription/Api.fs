@@ -104,7 +104,7 @@ module Api =
                         githubAssignedName = username
                         position = seatNo
                     }
-                Utils.alertError res
+                Utils.alertErrorFromResult res
                 return res.IsOk
         }
 
@@ -129,7 +129,7 @@ module Api =
                             githubAssignedName = username |> Option.defaultValue ""
                             position = seatNo
                         }
-                    Utils.alertError res
+                    Utils.alertErrorFromResult res
                     return res.IsOk
                 else
                     return false
@@ -142,7 +142,7 @@ module Api =
                     subscriptionId = Guid.Parse subId
                     cancelAtPeriodEnd = cancelAtPeriodEnd
                 }
-            Utils.alertError res
+            Utils.alertErrorFromResult res
             return res.IsOk
         }
 
@@ -202,7 +202,7 @@ module Api =
                     companyName = data.company |> Option.map (fun c -> c.name)
                     taxId = data.company |> Option.map (fun c -> c.vatin)
                 }
-            Utils.alertError res
+            Utils.alertErrorFromResult res
             if res.IsOk then
                 billingCache <- Some data
             return res.IsOk
@@ -220,6 +220,6 @@ module Api =
     let SetGitHubOrgName name : Async<bool> =
         async {
             let! res = Remote<IRemotingContract>.SetGitHubOrgName name
-            Utils.alertError res
+            Utils.alertErrorFromResult res
             return res.IsOk
         }
