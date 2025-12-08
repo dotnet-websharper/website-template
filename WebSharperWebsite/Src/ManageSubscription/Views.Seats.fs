@@ -177,27 +177,10 @@ module ViewsSeats =
     // Template docs
     // -----------------------------
 
-    let private setGhUsernameForFreelancer (seat: SeatRecord) (isLocked: bool) (forcedUsername: string option) (loading: Var<bool>) =
-        if isLocked && seat.status <> SeatStatus.Assigned.AsString && Option.isSome forcedUsername then
-            let userToAssign = forcedUsername.Value
-            
-            do assignSeat seat.subscriptionId seat.seatNo (userToAssign.ToLower()) loading
-
-            seat.status <- SeatStatus.Assigned.AsString
-
-    let private seatRowDoc (seat: SeatRecord) (isLocked: bool) (forcedUsername: string option) : Doc =
+    let private seatRowDoc (seat: SeatRecord) (isLocked: bool) : Doc =
         let isProcessing = Var.Create false
-        
-        let effectiveUsername = 
-            if isLocked && Option.isSome forcedUsername then 
-                forcedUsername.Value 
-            else 
-                seat.username
-        
-        let usernameVar = Var.Create effectiveUsername
-
-        // Auto-assign for freelancers if needed
-        setGhUsernameForFreelancer seat isLocked forcedUsername isProcessing
+                
+        let usernameVar = Var.Create seat.username
 
         Templates.ManageSubscriptionTemplate.SeatRow()
             .SeatLabel($"#{seat.seatNo}")
@@ -260,7 +243,7 @@ module ViewsSeats =
             .Doc()
 
     let private seatGroupsDoc : Doc =
-        View.Map3 (fun seats (subs: SubRecord array) (userOpt: User option) ->
+        View.Map2 (fun seats (subs: SubRecord array) ->
             seats
             |> Seq.sortBy (fun s -> s.expiry, s.subscriptionId, s.seatNo)
             |> Seq.groupBy (fun s -> s.subscriptionId)
@@ -276,21 +259,15 @@ module ViewsSeats =
                         | Some s -> s.plan.ToLower().Contains("freelancer")
                         | None -> false
 
-                    let forcedUsername = 
-                        if isFreelancer then
-                            userOpt |> Option.map (fun u -> u.login.ToLower())
-                        else
-                            None
-
                     let expiry = groupSeats.[0].expiry
                     let autoRenew = groupSeats.[0].autoRenew
                     
                     seq {
                         yield groupHeaderDoc subId expiry autoRenew
-                        yield! groupSeats |> Seq.map (fun s -> seatRowDoc s isFreelancer forcedUsername)
+                        yield! groupSeats |> Seq.map (fun s -> seatRowDoc s isFreelancer)
                     })
             |> Doc.Concat)
-            SeatsVar.View SubsVar.View State.UserVar.View
+            SeatsVar.View SubsVar.View
         |> Doc.EmbedView
 
     let SeatsBody : Doc =
