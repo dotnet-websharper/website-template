@@ -153,10 +153,13 @@ module ViewsSeats =
 
     let private unassignButtonAttr (seat: SeatRecord) (isLocked: bool) (loading: View<bool>) : Attr =
         let status = SeatStatus.FromString seat.status
-        if isLocked || status = Assigned then
-            Attr.DynamicClassPred "disabled" loading
-        else
+        if status <> Assigned || isLocked then
             attr.style "display: none"
+        else
+            Attr.Concat [
+                Attr.DynamicProp "disabled" loading
+                Attr.DynamicClassPred "opacity-50 cursor-not-allowed" loading
+            ]
 
     let AddSeatsButtonAttr : Attr =
         SubsVar.View
