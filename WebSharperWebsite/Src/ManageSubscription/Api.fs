@@ -104,7 +104,9 @@ module Api =
                         githubAssignedName = username
                         position = seatNo
                     }
-                Utils.alertErrorFromResult res
+
+                Utils.handleErrorFromResult res Views.showToast
+
                 return res.IsOk
         }
 
@@ -129,7 +131,9 @@ module Api =
                             githubAssignedName = username |> Option.defaultValue ""
                             position = seatNo
                         }
-                    Utils.alertErrorFromResult res
+                    
+                    Utils.handleErrorFromResult res Views.showToast
+
                     return res.IsOk
                 else
                     return false

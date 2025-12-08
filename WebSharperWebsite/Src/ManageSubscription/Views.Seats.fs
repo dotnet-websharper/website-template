@@ -15,6 +15,20 @@ open WebSharperWebsite
 [<JavaScript>]
 module ViewsSeats =
 
+    type SeatStatus =
+        | Assigned
+        | Unassigned
+
+        member this.AsString =
+            match this with
+            | Assigned -> "assigned"
+            | Unassigned -> "unassigned"
+
+        static member FromString (s: string) =
+            match s.ToLower() with
+            | "assigned" -> Assigned
+            | _ -> Unassigned
+
     let BindSmoothLoader (widthClass: string) (isLoading: View<bool>) (content: Doc) =
         Templates.ManageSubscriptionTemplate.SmoothTextLoader()
             .WrapperClasses(widthClass) 
@@ -64,7 +78,7 @@ module ViewsSeats =
                             do! refreshSeatsAsync ()
                             showToast "Updated"
                     else
-                        Utils.alertWarning $"GitHub user '{username}' not found"
+                        showToast $"GitHub user '{username}' not found"
                 finally
                     loading.Value <- false
             }
@@ -108,29 +122,38 @@ module ViewsSeats =
     // Small helpers
     // -----------------------------
 
-    let private seatBadge (status: string) : Doc =
+    let private seatBadge (statusStr: string) : Doc =
         let baseClass =
             "inline-flex items-center rounded-full border px-2 py-0.5 text-xs "
 
+        let status = SeatStatus.FromString statusStr
+        
         let cls =
-            if status = "assigned" then
+            match status with
+            | Assigned -> 
                 baseClass + "border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300"
-            else
+            | Unassigned -> 
                 baseClass + "border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300"
 
-        span [ attr.``class`` cls ] [ text status ]
+        span [ attr.``class`` cls ] [ text status.AsString ]
 
     let private usernameAttr (seat: SeatRecord) (isLocked: bool) : Attr =
-        if isLocked || seat.status = "assigned" then Attr.Create "readonly" "" else Attr.Empty
+        let status = SeatStatus.FromString seat.status
+        if isLocked || status = Assigned then 
+            Attr.Create "readonly" "" 
+        else 
+            Attr.Empty
 
     let private assignButtonAttr (seat: SeatRecord) (isLocked: bool) (loading: View<bool>) : Attr =
-        if isLocked || seat.status = "assigned" then
+        let status = SeatStatus.FromString seat.status
+        if isLocked || status = Assigned then
             attr.style "display: none"
         else
             Attr.DynamicClassPred "disabled" loading
 
     let private unassignButtonAttr (seat: SeatRecord) (isLocked: bool) (loading: View<bool>) : Attr =
-        if isLocked || seat.status = "assigned" then
+        let status = SeatStatus.FromString seat.status
+        if isLocked || status = Assigned then
             Attr.DynamicClassPred "disabled" loading
         else
             attr.style "display: none"
@@ -152,11 +175,12 @@ module ViewsSeats =
     // -----------------------------
 
     let private setGhUsernameForFreelancer (seat: SeatRecord) (isLocked: bool) (forcedUsername: string option) (loading: Var<bool>) =
-        if isLocked && seat.status <> "assigned" && Option.isSome forcedUsername then
+        if isLocked && seat.status <> SeatStatus.Assigned.AsString && Option.isSome forcedUsername then
             let userToAssign = forcedUsername.Value
             
             do assignSeat seat.subscriptionId seat.seatNo (userToAssign.ToLower()) loading
-            seat.status <- "assigned"
+
+            seat.status <- SeatStatus.Assigned.AsString
 
     let private seatRowDoc (seat: SeatRecord) (isLocked: bool) (forcedUsername: string option) : Doc =
         let isProcessing = Var.Create false

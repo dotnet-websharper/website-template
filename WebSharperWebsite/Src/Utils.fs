@@ -62,13 +62,17 @@ module Utils =
             )
         )
 
-    let alertErrorFromResult (res: Result<_, string>) =
+    let handleErrorFromResult (res: Result<_, string>) (func: string -> unit) = 
         match res with
         | Ok _ -> ()
         | Error msg -> 
+            func msg
+
+    let alertErrorFromResult (res: Result<_, string>) =
+        handleErrorFromResult res (fun msg ->
             Swal.Fire(
                 swalDefaults "Error!" msg SweetAlertIcon.Error
-            ) |> ignore
+            ) |> ignore)
 
     let alertError (msg: string) =
         Swal.Fire(
