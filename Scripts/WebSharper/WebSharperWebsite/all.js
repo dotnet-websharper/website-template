@@ -1823,6 +1823,11 @@ function Handler(name, callback){
     el.addEventListener(name, (d) =>(callback(el))(d), false);
   });
 }
+function DynamicProp(name, view){
+  return Dynamic_1(view, (el) =>(v) => {
+    el[name]=v;
+  });
+}
 function OnAfterRender_3(callback){
   return Attr.A4(callback);
 }
@@ -2791,7 +2796,7 @@ function assignButtonAttr(seat, isLocked, loading){
   return isLocked||SeatStatus.FromString(seat.status).$===0?Attr.Create("style", "display: none"):DynamicClassPred("disabled", loading);
 }
 function unassignButtonAttr(seat, isLocked, loading){
-  return isLocked||SeatStatus.FromString(seat.status).$===0?DynamicClassPred("disabled", loading):Attr.Create("style", "display: none");
+  return SeatStatus.FromString(seat.status).$!==0||isLocked?Attr.Create("style", "display: none"):Attr.Concat([DynamicProp("disabled", loading), DynamicClassPred("opacity-50 cursor-not-allowed", loading)]);
 }
 function assignSeat(subId, seatNo, username, loading){
   if(!IsNullOrWhiteSpace(username))StartImmediate(Delay(() => {
