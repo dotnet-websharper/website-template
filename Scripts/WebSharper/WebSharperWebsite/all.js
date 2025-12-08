@@ -705,7 +705,9 @@ function alertError(msg){
   sweetalert2.fire(swalDefaults("Error!", msg, "error"));
 }
 function alertErrorFromResult(res){
-  if(res.$==1)sweetalert2.fire(swalDefaults("Error!", res.$0, "error"));
+  handleErrorFromResult(res, (msg) => {
+    sweetalert2.fire(swalDefaults("Error!", msg, "error"));
+  });
 }
 function swalDefaults(title, msg, icon){
   let r;
@@ -723,8 +725,8 @@ function swalDefaults(title, msg, icon){
   };
   return r;
 }
-function alertWarning(msg){
-  sweetalert2.fire(swalDefaults("Warning!", msg, "warning"));
+function handleErrorFromResult(res, func){
+  if(res.$==1)func(res.$0);
 }
 function CopyFromClosest(e){
   const button=e.Target;
@@ -2772,22 +2774,24 @@ function toggleAutoRenew(subId, expiry, currentAutoRenew, loading){
   }), null);
 }
 function setGhUsernameForFreelancer(seat, isLocked, forcedUsername, loading){
-  if(isLocked&&seat.status!="assigned"&&forcedUsername!=null){
+  if(isLocked&&seat.status!=SeatStatus.Assigned.AsString&&forcedUsername!=null){
     assignSeat(seat.subscriptionId, seat.seatNo, forcedUsername.$0.toLowerCase(), loading);
-    seat.status="assigned";
+    seat.status=SeatStatus.Assigned.AsString;
   }
 }
 function usernameAttr(seat, isLocked){
-  return isLocked||seat.status=="assigned"?Attr.Create("readonly", ""):EmptyAttr();
+  return isLocked||SeatStatus.FromString(seat.status).$===0?Attr.Create("readonly", ""):EmptyAttr();
 }
-function seatBadge(status){
-  return Doc.Element("span", [Attr.Create("class", status=="assigned"?"inline-flex items-center rounded-full border px-2 py-0.5 text-xs border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300":"inline-flex items-center rounded-full border px-2 py-0.5 text-xs border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300")], [Doc.TextNode(status)]);
+function seatBadge(statusStr){
+  const baseClass="inline-flex items-center rounded-full border px-2 py-0.5 text-xs ";
+  const status=SeatStatus.FromString(statusStr);
+  return Doc.Element("span", [Attr.Create("class", status.$==1?baseClass+"border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300":baseClass+"border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300")], [Doc.TextNode(status.AsString)]);
 }
 function assignButtonAttr(seat, isLocked, loading){
-  return isLocked||seat.status=="assigned"?Attr.Create("style", "display: none"):DynamicClassPred("disabled", loading);
+  return isLocked||SeatStatus.FromString(seat.status).$===0?Attr.Create("style", "display: none"):DynamicClassPred("disabled", loading);
 }
 function unassignButtonAttr(seat, isLocked, loading){
-  return isLocked||seat.status=="assigned"?DynamicClassPred("disabled", loading):Attr.Create("style", "display: none");
+  return isLocked||SeatStatus.FromString(seat.status).$===0?DynamicClassPred("disabled", loading):Attr.Create("style", "display: none");
 }
 function assignSeat(subId, seatNo, username, loading){
   if(!IsNullOrWhiteSpace(username))StartImmediate(Delay(() => {
@@ -2795,7 +2799,7 @@ function assignSeat(subId, seatNo, username, loading){
     return TryFinally(Delay(() => Bind_1(verifyGitHubUser(username), (a) => a?Bind_1(AssignSeat(subId, seatNo, username), (a_1) => a_1?Bind_1(refreshSeatsAsync(), () => {
       showToast("Updated");
       return Zero();
-    }):Zero()):(alertWarning("GitHub user '"+username+"' not found"),Zero()))), () => {
+    }):Zero()):(showToast("GitHub user '"+username+"' not found"),Zero()))), () => {
       loading.Set(false);
     });
   }), null);
@@ -5946,7 +5950,9 @@ function SetAutoRenew(subId, cancelAtPeriodEnd){
 }
 function AssignSeat(subId, seatNo, username){
   return Delay(() => IsNullOrWhiteSpace(username)?Return(false):Bind_1(AddAssignment(New_22(Parse(subId), username, seatNo)), (a) => {
-    alertErrorFromResult(a);
+    handleErrorFromResult(a, (m) => {
+      showToast(m);
+    });
     return Return(a.$==0);
   }));
 }
@@ -5962,7 +5968,9 @@ function UnassignSeat(subId, seatNo){
         let _3=New_22(sub.subscriptionId, _2, seatNo);
         let _4=RevokeAssignment(_3);
         return Bind_1(_4, (a_1) => {
-          alertErrorFromResult(a_1);
+          handleErrorFromResult(a_1, (m) => {
+            showToast(m);
+          });
           return Return(a_1.$==0);
         });
       }
@@ -7560,6 +7568,17 @@ let _c_30=Lazy((_i) => class $StartupCode_RemotingContract {
     this.euVat=dict([["AT", 20], ["BE", 21], ["BG", 20], ["HR", 25], ["CY", 19], ["CZ", 21], ["DK", 25], ["EE", 22], ["FI", 24], ["FR", 20], ["DE", 19], ["GR", 24], ["HU", 27], ["IE", 23], ["IT", 22], ["LV", 21], ["LT", 21], ["LU", 17], ["MT", 18], ["NL", 21], ["PL", 23], ["PT", 23], ["RO", 19], ["SK", 20], ["SI", 22], ["ES", 21], ["SE", 25]]);
   }
 });
+class SeatStatus {
+  get AsString(){
+    return this.$==1?"unassigned":"assigned";
+  }
+  static Assigned=Create_2(SeatStatus, {$:0});
+  static FromString(s){
+    return s.toLowerCase()=="assigned"?SeatStatus.Assigned:SeatStatus.Unassigned;
+  }
+  static Unassigned=Create_2(SeatStatus, {$:1});
+  $;
+}
 class ArrayStorage extends Object_1 {
   init;
   SSet(coll){
