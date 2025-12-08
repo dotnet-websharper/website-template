@@ -45,7 +45,7 @@ module ViewsAttrs =
             View.Map2 (fun interval seats ->
                 let seats = clampSeats seats
                 let intervalStr = intervalAsString interval
-                $"./checkout.html?plan=pro&interval={intervalStr}&seats={seats}"
+                $"./checkout?plan=pro&interval={intervalStr}&seats={seats}"
             ) intervalVar.View SeatCount
         )
 
@@ -54,7 +54,7 @@ module ViewsAttrs =
             intervalVar.View
             |> View.Map (fun interval ->
                 let intervalStr = intervalAsString interval
-                $"./checkout.html?plan=freelancer&interval={intervalStr}&seats=1"
+                $"./checkout?plan=freelancer&interval={intervalStr}&seats=1"
             )
         )
 

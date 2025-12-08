@@ -23,7 +23,7 @@ module ViewsInvoices =
         let hrefV =
             invoiceV
             |> View.Map (fun inv ->
-                "./invoice.html?id="
+                "./invoice?id="
                 + JS.EncodeURIComponent inv.id
                 + "&sub="
                 + JS.EncodeURIComponent CurrentSubIdVar.Value

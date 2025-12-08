@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <StartAction>Program</StartAction>
     <StartProgram>dotnet</StartProgram>
-    <StartArguments>serve --tls --port 5173</StartArguments>
+    <StartArguments>serve --tls --port 5173 --default-extensions:.html,.htm</StartArguments>
     <StartWorkingDirectory>$(MSBuildThisFileDirectory)bin\html</StartWorkingDirectory>
   </PropertyGroup>
   

@@ -201,7 +201,7 @@ module Page =
                                         // actions
                                         .AddSeatsButtonAttr(ViewsSeats.AddSeatsButtonAttr)
                                         .AddSeatsClick(fun _ ->
-                                            JS.Window.Location.Href <- "./checkout.html?plan=pro&interval=year&seats=1"
+                                            JS.Window.Location.Href <- "./checkout?plan=pro&interval=year&seats=1"
                                         )
                                         .RefreshClick(fun _ -> Controller.HandleRefresh())
                                         .BillingEditClick(fun _ -> Controller.HandleBillingEdit())

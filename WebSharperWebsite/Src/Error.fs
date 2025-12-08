@@ -99,7 +99,7 @@ module Error =
             "page", page
         |]))
 
-        JS.Window.Location.Href <- "./error.html?" + q.ToString()
+        JS.Window.Location.Href <- "./error?" + q.ToString()
 
     let Init () =
         let searchParams = new URLSearchParams(JS.Window.Location.Search)

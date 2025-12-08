@@ -13,7 +13,7 @@ type EndPoint =
     | [<EndPoint "GET /checkout">] Checkout
     | [<EndPoint "GET /error">] Error
     | [<EndPoint "GET /invoice">] Invoice
-    | [<EndPoint "GET /manage-subscription">] ManageSubscription
+    | [<EndPoint "GET /manage">] ManageSubscription
     | [<EndPoint "GET /success">] Success
 
 module Templating =

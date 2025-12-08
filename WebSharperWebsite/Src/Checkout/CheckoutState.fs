@@ -16,10 +16,10 @@ open Support.Api
 module State =
 
     [<Literal>]
-    let SupportPlansUrl = "/support.html#plans"
+    let SupportPlansUrl = "/support#plans"
 
     [<Literal>]
-    let ManageSubscriptionUrl = "/manage-subscription.html"
+    let ManageSubscriptionUrl = "/manage"
 
     // -----------------------------
     // Small helpers
@@ -229,10 +229,10 @@ module State =
         let mutable label = "Plans"
 
         if not (String.IsNullOrWhiteSpace referrer) then
-            if referrer.EndsWith("/manage-subscription.html") then
+            if referrer.EndsWith("/manage") then
                 dest <- ManageSubscriptionUrl
                 label <- "Manage subscription"
-            elif referrer.EndsWith("/support.html") then
+            elif referrer.EndsWith("/support") then
                 dest <- SupportPlansUrl
                 label <- "Plans"
 
