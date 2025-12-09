@@ -24,6 +24,9 @@ module Utils =
 
     open WebSharper.SweetAlert
 
+    [<Literal>]
+    let SupportPlansUrl = "/support#plans"
+
     [<Inline "new URL($path, document.baseURI).toString()">]
     let toAbsoluteUrl (path: string) : string = X<string>
 

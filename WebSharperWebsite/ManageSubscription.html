@@ -4,6 +4,27 @@
 </head>
 <body>
 
+    <div ws-template="NoSubscriptionWidget" class="rounded-xl border p-10 dark:border-gray-800 dark:text-white text-gray-800 max-w-lg mx-auto mt-12 text-center animate-[fadeIn_0.5s_ease-out]">
+        <div class="mb-4 flex justify-center text-gray-400 dark:text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+            </svg>
+        </div>
+
+        <h2 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">You have no active subscriptions</h2>
+
+        <p class="mb-8 text-gray-600 dark:text-gray-400 leading-relaxed">
+            Start a subscription to unlock premium features, manage seats, and access your invoices directly from this dashboard.
+        </p>
+
+        <button ws-onclick="OnSubscribeClick"
+                class="mx-auto w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 transition-all">
+            <span class="relative text-sm font-medium">
+                View Plans & Subscribe
+            </span>
+        </button>
+    </div>
+
     <div ws-template="ContentWrapper">
         <div ws-attr="SkeletonAttr">
             <div ws-replace="Skeleton"></div>
@@ -343,7 +364,7 @@
                                     </svg>
                                     <select ws-var="BillingCountryVar"
                                             name="country"
-                                            class="w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5">
+                                            class="cursor-pointer w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5">
                                         <option value="" disabled selected>Select your country</option>
                                         <div ws-replace="CountryOptions"></div>
                                     </select>

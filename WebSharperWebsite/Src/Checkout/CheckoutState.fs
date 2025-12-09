@@ -7,16 +7,16 @@ open WebSharper.UI
 
 open WebSharperWebsite
 open WebSharperWebApi
+
 open Types
+open Utils
+
 open Support.Types
 open Support.State
 open Support.Api
 
 [<JavaScript>]
 module State =
-
-    [<Literal>]
-    let SupportPlansUrl = "/support#plans"
 
     [<Literal>]
     let MyAccountUrl = "/account"
