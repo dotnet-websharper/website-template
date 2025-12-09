@@ -555,15 +555,15 @@ class Doc extends Object_1 {
       PerformSyncUpdate(childrenOnly, st, doc.docNode);
     }, doc.updates);
   }
-  static ConvertSeqBy(key, render, view){
-    const a=render;
-    let _2=MapSeqCachedViewBy(key, (_3, _4) =>(a(_3))(_4), view);
-    return Doc.Flatten(_2);
-  }
   static Element(name, attr_1, children){
     const a=Attr.Concat(attr_1);
     const c=Doc.Concat(children);
     return Elt_1.New(globalThis.document.createElement(name), a, c);
+  }
+  static ConvertSeqBy(key, render, view){
+    const a=render;
+    let _2=MapSeqCachedViewBy(key, (_3, _4) =>(a(_3))(_4), view);
+    return Doc.Flatten(_2);
   }
   static Input(attr_1, var_1){
     return Doc.InputInternal("input", () => append(attr_1, [Value(var_1)]));
@@ -692,7 +692,7 @@ function showOnlyPanel(root, targetName){
 function measureIndicatorPos(tab, container){
   let c;
   let c_1;
-  return New_18((c=tab.getBoundingClientRect().left-container.getBoundingClientRect().left,String(c))+"px", (c_1=tab.getBoundingClientRect().width,String(c_1))+"px");
+  return New_19((c=tab.getBoundingClientRect().left-container.getBoundingClientRect().left,String(c))+"px", (c_1=tab.getBoundingClientRect().width,String(c_1))+"px");
 }
 function applyIndicatorPos(indicator, pos){
   indicator.style.left=pos.LeftPx;
@@ -714,11 +714,6 @@ function usd(n){
 function alertError(msg){
   sweetalert2.fire(swalDefaults("Error!", msg, "error"));
 }
-function alertErrorFromResult(res){
-  handleErrorFromResult(res, (msg) => {
-    sweetalert2.fire(swalDefaults("Error!", msg, "error"));
-  });
-}
 function swalDefaults(title, msg, icon){
   let r;
   r={};
@@ -734,6 +729,11 @@ function swalDefaults(title, msg, icon){
     icon:"transform scale-75 mt-4"
   };
   return r;
+}
+function alertErrorFromResult(res){
+  handleErrorFromResult(res, (msg) => {
+    sweetalert2.fire(swalDefaults("Error!", msg, "error"));
+  });
 }
 function handleErrorFromResult(res, func){
   if(res.$==1)func(res.$0);
@@ -935,7 +935,7 @@ function content_2(h){
   return h?GetOrLoadTemplate("success", Some("content"), () => ParseHTMLIntoFakeRoot("\r\n        <div class=\"max-w-xl mx-auto px-6 py-16 text-center\" ws-onafterrender=\"OnAfterRender\">\r\n            <h1 class=\"text-3xl font-bold text-gray-950 dark:text-white\">Thanks! \ud83c\udf89</h1>\r\n\r\n            <p id=\"wsMsg\" ws-hole=\"MessageText\" class=\"mt-3 text-gray-600 dark:text-gray-400\">\r\n                Confirming your payment\u2026\r\n            </p>\r\n\r\n            <div id=\"wsDetails\" class=\"mt-6 text-md text-gray-700 dark:text-gray-300 space-y-4\" ws-attr=\"DetailsAttr\" ws-hole=\"DetailsDoc\">\r\n            </div>\r\n\r\n            <a href=\"./account\" class=\"mt-8 inline-flex items-center justify-center rounded-xl h-10 px-4 bg-gray-950 text-white dark:bg-white dark:text-gray-950\">\r\n                My account\r\n            </a>\r\n        </div>\r\n    "), h):PrepareTemplate("success", Some("content"), () => ParseHTMLIntoFakeRoot("\r\n        <div class=\"max-w-xl mx-auto px-6 py-16 text-center\" ws-onafterrender=\"OnAfterRender\">\r\n            <h1 class=\"text-3xl font-bold text-gray-950 dark:text-white\">Thanks! \ud83c\udf89</h1>\r\n\r\n            <p id=\"wsMsg\" ws-hole=\"MessageText\" class=\"mt-3 text-gray-600 dark:text-gray-400\">\r\n                Confirming your payment\u2026\r\n            </p>\r\n\r\n            <div id=\"wsDetails\" class=\"mt-6 text-md text-gray-700 dark:text-gray-300 space-y-4\" ws-attr=\"DetailsAttr\" ws-hole=\"DetailsDoc\">\r\n            </div>\r\n\r\n            <a href=\"./account\" class=\"mt-8 inline-flex items-center justify-center rounded-xl h-10 px-4 bg-gray-950 text-white dark:bg-white dark:text-gray-950\">\r\n                My account\r\n            </a>\r\n        </div>\r\n    "));
 }
 function content(h){
-  return h?GetOrLoadTemplate("support", Some("content"), () => ParseHTMLIntoFakeRoot("\r\n        <div class=\"space-y-20\" ws-onafterrender=\"OnAfterRender\">\r\n            <!-- Hero / Banner -->\r\n            <section class=\"pt-28 sm:pt-32\">\r\n                <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <div class=\"grid items-center gap-8 md:grid-cols-12\">\r\n                        <div class=\"md:col-span-7 text-center md:text-left\">\r\n                            <h1 class=\"font-bold tracking-tight text-gray-950 dark:text-white text-4xl sm:text-5xl\">\r\n                                WebSharper Expert Support\r\n                            </h1>\r\n                            <p class=\"mt-3 text-base sm:text-lg leading-7 sm:leading-8 text-gray-700 dark:text-gray-300 max-w-2xl md:mx-0 mx-auto\">\r\n                                Our experienced WebSharper support team is available to help you make the right decisions for your development project, and can save you hundreds of hours when important and difficult questions arise.\r\n                            </p>\r\n\r\n                            <!-- Chips -->\r\n                            <div class=\"mt-4 flex flex-wrap justify-center md:justify-start gap-2\">\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    Email & web support\r\n                                </span>\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    First response: 4h-2d\r\n                                </span>\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    Mentoring & training available\r\n                                </span>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <!-- Visual -->\r\n                        <div class=\"md:col-span-5\">\r\n                            <figure class=\"rounded-2xl overflow-hidden shadow-md bg-white dark:bg-gray-900\">\r\n                                <img src=\"./Assets/images/slay.png\" alt=\"WebSharper support: experts reviewing code and architecture\" class=\"w-full h-auto\">\r\n                            </figure>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <section class=\"scroll-my-16\">\r\n                <div class=\"mx-2 md:mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <div class=\"rounded-3xl overflow-hidden border dark:border-gray-800\">\r\n                        <div class=\"py-12 lg:py-16 lg:px-16 border-b dark:border-gray-800\">\r\n                            <h2 class=\"font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white\">\r\n                                Quick, practical help from the people who build WebSharper\r\n                            </h2>\r\n                            <p class=\"mt-3 text-lg text-gray-700 dark:text-gray-300\">\r\n                                Get senior guidance on architecture, performance, reactive UI, and integrations plus hands-on fixes when you need them.\r\n                            </p>\r\n                        </div>\r\n\r\n                        <div class=\"lg:px-16\">\r\n                            <!-- Visual / proof -->\r\n                            <div class=\"lg:col-span-5 lg:-mr-10 py-12 md:py-16\">\r\n                                <div class=\"relative\">\r\n                                    <div class=\"absolute translate-y-1/2 mx-auto blur-3xl inset-0 rounded-t-full bg-brand-primary/20 dark:bg-brand-primary/20\"></div>\r\n                                    <figure class=\"relative rounded-2xl overflow-hidden border bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 shadow-sm w-1/2 mx-auto\">\r\n\r\n                                        <img src=\"./Assets/images/slay.png\" alt=\"Support walkthrough: issue context, guidance, and fix\" class=\"w-full h-auto\">\r\n                                    </figure>\r\n                                    <!-- short 15\ufffd20s looped video instead of static image -->\r\n                                    <!--\r\n                                    <video class=\"relative mt-4 w-full rounded-2xl border border-gray-200 dark:border-gray-800\" autoplay muted loop playsinline poster=\"./Assets/images/support-video-poster.png\">\r\n                                        <source src=\"./videos/support-teaser.mp4\" type=\"video/mp4\">\r\n                                    </video>\r\n                                    -->\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <!-- Support value props -->\r\n            <section class=\"mt-12\">\r\n                <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <ul class=\"grid gap-4 md:grid-cols-3\">\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m7 9l5 3.5L17 9\"></path><path d=\"M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z\"></path></g></svg>\r\n                                <span>Email and web support</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Email us your support queries, architectural or best practice questions, or post them to our dedicated support site.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M8 9.5A1.25 1.25 0 1 0 8 12a1.25 1.25 0 0 0 0-2.5m4 0a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5m2.75 1.25a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0\"></path><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M16.1 4.593a50.577 50.577 0 0 0-8.098-.04l-.193.015A4.93 4.93 0 0 0 3.25 9.483V18a.75.75 0 0 0 1.105.66l3.91-2.101a1.25 1.25 0 0 1 .593-.149h8.976c1.132 0 2.102-.81 2.305-1.923c.412-2.257.444-4.567.096-6.835l-.102-.669a2.666 2.666 0 0 0-2.408-2.252zM8.116 6.049a49.078 49.078 0 0 1 7.858.038l1.624.139c.536.046.972.453 1.053.985l.103.668a19.165 19.165 0 0 1-.09 6.339a.843.843 0 0 1-.829.692H8.858a2.75 2.75 0 0 0-1.302.328L4.75 16.746V9.483a3.43 3.43 0 0 1 3.171-3.42z\" clip-rule=\"evenodd\"></path></svg>\r\n                                <span>Fast response time</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Receive the first response to your queries from within 4 hours up to 2 days, depending on your selected support plan..\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 512 512\"><path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"32\" d=\"M256 160c16-63.16 76.43-95.41 208-96a15.94 15.94 0 0 1 16 16v288a16 16 0 0 1-16 16c-128 0-177.45 25.81-208 64c-30.37-38-80-64-208-64c-9.88 0-16-8.05-16-17.93V80a15.94 15.94 0 0 1 16-16c131.57.59 192 32.84 208 96m0 0v288\"></path></svg>\r\n                                <span>Mentoring and training</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Pick a Start-up or Enterprise plan and jumpstart your team's productivity with our online WebSharper training and mentoring.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\"><path fill=\"currentColor\" d=\"M7 3a2 2 0 0 1 4 0h1.5A1.5 1.5 0 0 1 14 4.5V7h-1a1 1 0 0 0 0 2h1v2.5a1.5 1.5 0 0 1-1.5 1.5H11a2 2 0 0 1-4 0H5.5A1.5 1.5 0 0 1 4 11.5V10a2 2 0 0 1 0-4V4.5A1.5 1.5 0 0 1 5.5 3zm2-1a1 1 0 0 0-1 1v1H5.5a.5.5 0 0 0-.5.5V7H4a1 1 0 0 0 0 2h1v2.5a.5.5 0 0 0 .5.5H8v1a1 1 0 0 0 2 0v-1h2.5a.5.5 0 0 0 .5-.5V10a2 2 0 0 1 0-4V4.5a.5.5 0 0 0-.5-.5H10V3a1 1 0 0 0-1-1\"></path></svg>\r\n                                <span>Extensions support</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Working heavily with WebSharper extensions? Get the help you need with any issues you encounter in these extensions.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"m6.75 21l-.25-2.2l2.85-7.85q.375.35.813.588t.937.362l-2.75 7.55zm10.5 0l-1.6-1.55l-2.75-7.55q.5-.125.938-.363t.812-.587l2.85 7.85zM12 11q-1.25 0-2.125-.875T9 8q0-.975.563-1.737T11 5.2V3h2v2.2q.875.3 1.438 1.063T15 8q0 1.25-.875 2.125T12 11m0-2q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9\"></path></svg>\r\n                                <span>Architectural review</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Next to support questions, we can also help you decide on the best architecture for your project, or give best practice guidelines for your team.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"M19 15v-3.062A3.938 3.938 0 0 0 15.063 8H8.936A3.938 3.938 0 0 0 5 11.938V15a7 7 0 1 0 14 0Z\"></path><path d=\"M16.5 8.5v-1a4.5 4.5 0 1 0-9 0v1\"></path><path stroke-linecap=\"round\" d=\"M19 14h3M5 14H2M14.5 3.5L17 2M9.5 3.5L7 2m13.5 18l-2-.8m2-11.2l-2 .8M3.5 20l2-.8M3.5 8l2 .8M12 21.5V15\"></path></g></svg>\r\n                                <span>Priority bugfixes</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Your support ticket jumps to the front of our priority queue and becomes the first to fix. Get the most timely help when you need it most.\r\n                            </p>\r\n                        </li>\r\n                    </ul>\r\n                </div>\r\n            </section>\r\n\r\n            <section class=\"scroll-my-16\">\r\n                <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <h2 class=\"text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white\">\r\n                        Choose your plan\r\n                    </h2>\r\n                    <p class=\"text-center mt-3 text-lg text-gray-700 dark:text-gray-300\">\r\n                        Monthly or yearly billing, per-seat for teams or a freelancer option.\r\n                    </p>\r\n\r\n                    <!-- Billing period toggle -->\r\n                    <div class=\"mx-auto mt-6 flex w-full max-w-xs items-center justify-center rounded-xl border border-gray-200 bg-white p-1\r\n                                dark:bg-gray-950 dark:border-gray-800\">\r\n                        <button ws-onclick=\"OnBillMonth\" ws-attr=\"BillMonthAttr\" type=\"button\" class=\"cursor-pointer dark:text-white text-gray-700 text flex-1 rounded-lg py-2 text-sm font-medium transition\r\n                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white\r\n                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900\" data-active=\"false\" aria-pressed=\"false\">\r\n                            Per month\r\n                        </button>\r\n                        <button ws-onclick=\"OnBillYear\" ws-attr=\"BillYearAttr\" type=\"button\" class=\"cursor-pointer dark:text-white text-gray-700 flex-1 rounded-lg py-2 text-sm font-medium transition\r\n                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white\r\n                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900\" data-active=\"true\" aria-pressed=\"true\">\r\n                            Per year\r\n                        </button>\r\n                    </div>\r\n\r\n                    <!-- Plans grid -->\r\n                    <div class=\"mx-auto mt-8 grid max-w-6xl gap-6 sm:grid-cols-2\">\r\n                        <!-- Professional (per seat) -->\r\n                        <div class=\"rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200\r\n                                    dark:bg-gray-950 dark:border-gray-800\" data-price-month=\"250\" data-price-year=\"2500\">\r\n                            <div class=\"flex items-start justify-between gap-4\">\r\n                                <div>\r\n                                    <div class=\"text-sm text-gray-600 dark:text-gray-400\">Plan</div>\r\n                                    <div ws-hole=\"ProName\" class=\"text-2xl font-bold text-gray-950 dark:text-white\">\r\n                                        Professional\r\n                                    </div>\r\n                                    <div class=\"mt-1 text-base text-gray-700 dark:text-gray-300\">\r\n                                        <span ws-hole=\"ProPriceAmount\">$2,500</span>\r\n                                        <span class=\"text-gray-600 dark:text-gray-400\" ws-hole=\"ProPriceLabel\">\r\n                                            / seat / year\r\n                                        </span>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                <!-- Seat selector -->\r\n                                <div class=\"flex items-center gap-2\">\r\n                                    <button ws-onclick=\"OnSeatMinus\" class=\"cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800\r\n                                                dark:border-white/20 dark:text-white\" aria-label=\"Decrease seats\" type=\"button\">\r\n                                        -\r\n                                    </button>\r\n                                    <input type=\"text\" ws-var=\"SeatCount\" inputmode=\"numeric\" pattern=\"[0-9]*\" min=\"1\" step=\"1\" value=\"1\" class=\"w-20 text-center rounded-xl border border-gray-300 bg-transparent dark:border-white/20 text-gray-900 dark:text-white h-10\" aria-label=\"Seat count\">\r\n                                    <button ws-onclick=\"OnSeatPlus\" class=\"cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800\r\n                                                dark:border-white/20 dark:text-white\" aria-label=\"Increase seats\" type=\"button\">\r\n                                        +\r\n                                    </button>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- Total -->\r\n                            <div class=\"mt-4 flex items-center justify-between\">\r\n                                <div class=\"text-sm text-gray-600 dark:text-gray-400\" ws-hole=\"ProTotalLabel\">\r\n                                    Total (yearly)\r\n                                </div>\r\n                                <div class=\"text-xl font-semibold text-gray-950 dark:text-white\" ws-hole=\"ProTotalAmount\">\r\n                                    $2,500\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- CTA -->\r\n                            <a ws-attr=\"ProCheckoutAttr\" class=\"w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800\r\n                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative\r\n                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500\r\n                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200\r\n                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4\">\r\n                                <span class=\"relative text-sm\">Continue to checkout</span>\r\n                            </a>\r\n\r\n                            <p class=\"mt-3 text-xs text-gray-600 dark:text-gray-400 text-center\" ws-hole=\"ProNote\">\r\n                                Assign GitHub usernames after purchase. Prices in USD.\r\n                            </p>\r\n                        </div>\r\n\r\n                        <!-- Freelancer (1 seat) -->\r\n                        <div class=\"rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200\r\n                                    dark:bg-gray-950 dark:border-gray-800\">\r\n                            <div class=\"flex items-start justify-between gap-4\">\r\n                                <div>\r\n                                    <div class=\"text-sm text-gray-600 dark:text-gray-400\">Plan</div>\r\n                                    <div ws-hole=\"FreeName\" class=\"text-2xl font-bold text-gray-950 dark:text-white\">\r\n                                        Freelancer\r\n                                    </div>\r\n                                    <div class=\"mt-1 text-base text-gray-700 dark:text-gray-300\">\r\n                                        <span ws-hole=\"FreePriceAmount\">$300</span>\r\n                                        <span class=\"text-gray-600 dark:text-gray-400\" ws-hole=\"FreePriceLabel\">\r\n                                            / year\r\n                                        </span>\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"rounded-xl border border-gray-300 px-3 h-10 flex items-center\r\n                                            text-gray-800 dark:border-white/20 dark:text-white\">\r\n                                    1 seat\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- Total -->\r\n                            <div class=\"mt-4 flex items-center justify-between\">\r\n                                <div class=\"text-sm text-gray-600 dark:text-gray-400\" ws-hole=\"FreeTotalLabel\">\r\n                                    Total (yearly)\r\n                                </div>\r\n                                <div class=\"text-xl font-semibold text-gray-950 dark:text-white\" ws-hole=\"FreeTotalAmount\">\r\n                                    $300\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- CTA -->\r\n                            <a ws-attr=\"FreeCheckoutAttr\" class=\"w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800\r\n                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative\r\n                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500\r\n                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200\r\n                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4\">\r\n                                <span class=\"relative text-sm\">Continue to checkout</span>\r\n                            </a>\r\n\r\n                            <p class=\"mt-3 text-xs text-gray-600 dark:text-gray-400 text-center\" ws-hole=\"FreeNote\">\r\n                                Ideal for solo developers. Prices in USD.\r\n                            </p>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <!-- contact us -->\r\n            <section class=\"scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none\">\r\n                <div class=\"mx-auto max-w-xl p-8 rounded content mb-10\">\r\n                    <h2 class=\"header text-center mb-8\">Contact us</h2>\r\n\r\n                    <form method=\"post\">\r\n\r\n                        <!-- Subject -->\r\n                        <div class=\"mb-6\">\r\n                            <label for=\"emailSubject\" class=\"block font-semibold mb-2\">Subject</label>\r\n                            <input type=\"text\" name=\"email-subject\" ws-var=\"ContactSubjectVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\" value=\"WebSharper support\">\r\n                        </div>\r\n\r\n                        <!-- Message -->\r\n                        <div class=\"mb-6\">\r\n                            <label for=\"emailMessage\" class=\"block font-semibold mb-2\">Message</label>\r\n                            <textarea name=\"email-message\" rows=\"5\" ws-var=\"ContactMessageVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\"></textarea>\r\n                        </div>\r\n\r\n                        <!-- Row with Email, Name, Country -->\r\n                        <div class=\"grid grid-cols-1 md:grid-cols-3 gap-4 mb-6\">\r\n                            <!-- Email -->\r\n                            <div>\r\n                                <label for=\"emailAddress\" class=\"block font-semibold mb-2\">Your email address</label>\r\n                                <input type=\"email\" name=\"email-address\" ws-var=\"ContactEmailVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                            </div>\r\n\r\n                            <!-- Name -->\r\n                            <div>\r\n                                <label for=\"emailName\" class=\"block font-semibold mb-2\">Your name</label>\r\n                                <input type=\"text\" ws-var=\"ContactNameVar\" name=\"name\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                            </div>\r\n\r\n                            <!-- Country -->\r\n                            <div>\r\n                                <label for=\"emailCountry\" class=\"block font-semibold mb-2\">Your country</label>\r\n                                <select name=\"email-country\" ws-var=\"ContactCountryVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                                    <option value=\"Afghanistan\">Afghanistan</option>\r\n                                    <option value=\"Albania\">Albania</option>\r\n                                    <option value=\"Algeria\">Algeria</option>\r\n                                    <option value=\"Andorra\">Andorra</option>\r\n                                    <option value=\"Angola\">Angola</option>\r\n                                    <option value=\"Antigua and Barbuda\">Antigua and Barbuda</option>\r\n                                    <option value=\"Argentina\">Argentina</option>\r\n                                    <option value=\"Armenia\">Armenia</option>\r\n                                    <option value=\"Australia\">Australia</option>\r\n                                    <option value=\"Austria\">Austria</option>\r\n                                    <option value=\"Azerbaijan\">Azerbaijan</option>\r\n                                    <option value=\"Bahamas\">Bahamas</option>\r\n                                    <option value=\"Bahrain\">Bahrain</option>\r\n                                    <option value=\"Bangladesh\">Bangladesh</option>\r\n                                    <option value=\"Barbados\">Barbados</option>\r\n                                    <option value=\"Belarus\">Belarus</option>\r\n                                    <option value=\"Belgium\">Belgium</option>\r\n                                    <option value=\"Belize\">Belize</option>\r\n                                    <option value=\"Benin\">Benin</option>\r\n                                    <option value=\"Bhutan\">Bhutan</option>\r\n                                    <option value=\"Bolivia\">Bolivia</option>\r\n                                    <option value=\"Bosnia and Herzegovina\">Bosnia and Herzegovina</option>\r\n                                    <option value=\"Botswana\">Botswana</option>\r\n                                    <option value=\"Brazil\">Brazil</option>\r\n                                    <option value=\"Brunei\">Brunei</option>\r\n                                    <option value=\"Bulgaria\">Bulgaria</option>\r\n                                    <option value=\"Burkina Faso\">Burkina Faso</option>\r\n                                    <option value=\"Burundi\">Burundi</option>\r\n                                    <option value=\"Cabo Verde\">Cabo Verde</option>\r\n                                    <option value=\"Cambodia\">Cambodia</option>\r\n                                    <option value=\"Cameroon\">Cameroon</option>\r\n                                    <option value=\"Canada\">Canada</option>\r\n                                    <option value=\"Central African Republic\">Central African Republic</option>\r\n                                    <option value=\"Chad\">Chad</option>\r\n                                    <option value=\"Chile\">Chile</option>\r\n                                    <option value=\"China\">China</option>\r\n                                    <option value=\"Colombia\">Colombia</option>\r\n                                    <option value=\"Comoros\">Comoros</option>\r\n                                    <option value=\"Congo (Congo-Brazzaville)\">Congo (Congo-Brazzaville)</option>\r\n                                    <option value=\"Costa Rica\">Costa Rica</option>\r\n                                    <option value=\"Croatia\">Croatia</option>\r\n                                    <option value=\"Cuba\">Cuba</option>\r\n                                    <option value=\"Cyprus\">Cyprus</option>\r\n                                    <option value=\"Czech Republic\">Czech Republic</option>\r\n                                    <option value=\"Democratic Republic of the Congo\">Democratic Republic of the Congo</option>\r\n                                    <option value=\"Denmark\">Denmark</option>\r\n                                    <option value=\"Djibouti\">Djibouti</option>\r\n                                    <option value=\"Dominica\">Dominica</option>\r\n                                    <option value=\"Dominican Republic\">Dominican Republic</option>\r\n                                    <option value=\"Ecuador\">Ecuador</option>\r\n                                    <option value=\"Egypt\">Egypt</option>\r\n                                    <option value=\"El Salvador\">El Salvador</option>\r\n                                    <option value=\"Equatorial Guinea\">Equatorial Guinea</option>\r\n                                    <option value=\"Eritrea\">Eritrea</option>\r\n                                    <option value=\"Estonia\">Estonia</option>\r\n                                    <option value=\"Eswatini\">Eswatini</option>\r\n                                    <option value=\"Ethiopia\">Ethiopia</option>\r\n                                    <option value=\"Fiji\">Fiji</option>\r\n                                    <option value=\"Finland\">Finland</option>\r\n                                    <option value=\"France\">France</option>\r\n                                    <option value=\"Gabon\">Gabon</option>\r\n                                    <option value=\"Gambia\">Gambia</option>\r\n                                    <option value=\"Georgia\">Georgia</option>\r\n                                    <option value=\"Germany\">Germany</option>\r\n                                    <option value=\"Ghana\">Ghana</option>\r\n                                    <option value=\"Greece\">Greece</option>\r\n                                    <option value=\"Grenada\">Grenada</option>\r\n                                    <option value=\"Guatemala\">Guatemala</option>\r\n                                    <option value=\"Guinea\">Guinea</option>\r\n                                    <option value=\"Guinea-Bissau\">Guinea-Bissau</option>\r\n                                    <option value=\"Guyana\">Guyana</option>\r\n                                    <option value=\"Haiti\">Haiti</option>\r\n                                    <option value=\"Honduras\">Honduras</option>\r\n                                    <option value=\"Hungary\">Hungary</option>\r\n                                    <option value=\"Iceland\">Iceland</option>\r\n                                    <option value=\"India\">India</option>\r\n                                    <option value=\"Indonesia\">Indonesia</option>\r\n                                    <option value=\"Iran\">Iran</option>\r\n                                    <option value=\"Iraq\">Iraq</option>\r\n                                    <option value=\"Ireland\">Ireland</option>\r\n                                    <option value=\"Israel\">Israel</option>\r\n                                    <option value=\"Italy\">Italy</option>\r\n                                    <option value=\"Jamaica\">Jamaica</option>\r\n                                    <option value=\"Japan\">Japan</option>\r\n                                    <option value=\"Jordan\">Jordan</option>\r\n                                    <option value=\"Kazakhstan\">Kazakhstan</option>\r\n                                    <option value=\"Kenya\">Kenya</option>\r\n                                    <option value=\"Kiribati\">Kiribati</option>\r\n                                    <option value=\"Kuwait\">Kuwait</option>\r\n                                    <option value=\"Kyrgyzstan\">Kyrgyzstan</option>\r\n                                    <option value=\"Laos\">Laos</option>\r\n                                    <option value=\"Latvia\">Latvia</option>\r\n                                    <option value=\"Lebanon\">Lebanon</option>\r\n                                    <option value=\"Lesotho\">Lesotho</option>\r\n                                    <option value=\"Liberia\">Liberia</option>\r\n                                    <option value=\"Libya\">Libya</option>\r\n                                    <option value=\"Liechtenstein\">Liechtenstein</option>\r\n                                    <option value=\"Lithuania\">Lithuania</option>\r\n                                    <option value=\"Luxembourg\">Luxembourg</option>\r\n                                    <option value=\"Madagascar\">Madagascar</option>\r\n                                    <option value=\"Malawi\">Malawi</option>\r\n                                    <option value=\"Malaysia\">Malaysia</option>\r\n                                    <option value=\"Maldives\">Maldives</option>\r\n                                    <option value=\"Mali\">Mali</option>\r\n                                    <option value=\"Malta\">Malta</option>\r\n                                    <option value=\"Marshall Islands\">Marshall Islands</option>\r\n                                    <option value=\"Mauritania\">Mauritania</option>\r\n                                    <option value=\"Mauritius\">Mauritius</option>\r\n                                    <option value=\"Mexico\">Mexico</option>\r\n                                    <option value=\"Micronesia\">Micronesia</option>\r\n                                    <option value=\"Moldova\">Moldova</option>\r\n                                    <option value=\"Monaco\">Monaco</option>\r\n                                    <option value=\"Mongolia\">Mongolia</option>\r\n                                    <option value=\"Montenegro\">Montenegro</option>\r\n                                    <option value=\"Morocco\">Morocco</option>\r\n                                    <option value=\"Mozambique\">Mozambique</option>\r\n                                    <option value=\"Myanmar (Burma)\">Myanmar (Burma)</option>\r\n                                    <option value=\"Namibia\">Namibia</option>\r\n                                    <option value=\"Nauru\">Nauru</option>\r\n                                    <option value=\"Nepal\">Nepal</option>\r\n                                    <option value=\"Netherlands\">Netherlands</option>\r\n                                    <option value=\"New Zealand\">New Zealand</option>\r\n                                    <option value=\"Nicaragua\">Nicaragua</option>\r\n                                    <option value=\"Niger\">Niger</option>\r\n                                    <option value=\"Nigeria\">Nigeria</option>\r\n                                    <option value=\"North Korea\">North Korea</option>\r\n                                    <option value=\"North Macedonia\">North Macedonia</option>\r\n                                    <option value=\"Norway\">Norway</option>\r\n                                    <option value=\"Oman\">Oman</option>\r\n                                    <option value=\"Pakistan\">Pakistan</option>\r\n                                    <option value=\"Palau\">Palau</option>\r\n                                    <option value=\"Palestine\">Palestine</option>\r\n                                    <option value=\"Panama\">Panama</option>\r\n                                    <option value=\"Papua New Guinea\">Papua New Guinea</option>\r\n                                    <option value=\"Paraguay\">Paraguay</option>\r\n                                    <option value=\"Peru\">Peru</option>\r\n                                    <option value=\"Philippines\">Philippines</option>\r\n                                    <option value=\"Poland\">Poland</option>\r\n                                    <option value=\"Portugal\">Portugal</option>\r\n                                    <option value=\"Qatar\">Qatar</option>\r\n                                    <option value=\"Romania\">Romania</option>\r\n                                    <option value=\"Russia\">Russia</option>\r\n                                    <option value=\"Rwanda\">Rwanda</option>\r\n                                    <option value=\"Saint Kitts and Nevis\">Saint Kitts and Nevis</option>\r\n                                    <option value=\"Saint Lucia\">Saint Lucia</option>\r\n                                    <option value=\"Saint Vincent and the Grenadines\">Saint Vincent and the Grenadines</option>\r\n                                    <option value=\"Samoa\">Samoa</option>\r\n                                    <option value=\"San Marino\">San Marino</option>\r\n                                    <option value=\"Sao Tome and Principe\">Sao Tome and Principe</option>\r\n                                    <option value=\"Saudi Arabia\">Saudi Arabia</option>\r\n                                    <option value=\"Senegal\">Senegal</option>\r\n                                    <option value=\"Serbia\">Serbia</option>\r\n                                    <option value=\"Seychelles\">Seychelles</option>\r\n                                    <option value=\"Sierra Leone\">Sierra Leone</option>\r\n                                    <option value=\"Singapore\">Singapore</option>\r\n                                    <option value=\"Slovakia\">Slovakia</option>\r\n                                    <option value=\"Slovenia\">Slovenia</option>\r\n                                    <option value=\"Solomon Islands\">Solomon Islands</option>\r\n                                    <option value=\"Somalia\">Somalia</option>\r\n                                    <option value=\"South Africa\">South Africa</option>\r\n                                    <option value=\"South Korea\">South Korea</option>\r\n                                    <option value=\"South Sudan\">South Sudan</option>\r\n                                    <option value=\"Spain\">Spain</option>\r\n                                    <option value=\"Sri Lanka\">Sri Lanka</option>\r\n                                    <option value=\"Sudan\">Sudan</option>\r\n                                    <option value=\"Suriname\">Suriname</option>\r\n                                    <option value=\"Sweden\">Sweden</option>\r\n                                    <option value=\"Switzerland\">Switzerland</option>\r\n                                    <option value=\"Syria\">Syria</option>\r\n                                    <option value=\"Taiwan\">Taiwan</option>\r\n                                    <option value=\"Tajikistan\">Tajikistan</option>\r\n                                    <option value=\"Tanzania\">Tanzania</option>\r\n                                    <option value=\"Thailand\">Thailand</option>\r\n                                    <option value=\"Timor-Leste\">Timor-Leste</option>\r\n                                    <option value=\"Togo\">Togo</option>\r\n                                    <option value=\"Tonga\">Tonga</option>\r\n                                    <option value=\"Trinidad and Tobago\">Trinidad and Tobago</option>\r\n                                    <option value=\"Tunisia\">Tunisia</option>\r\n                                    <option value=\"Turkey\">Turkey</option>\r\n                                    <option value=\"Turkmenistan\">Turkmenistan</option>\r\n                                    <option value=\"Tuvalu\">Tuvalu</option>\r\n                                    <option value=\"Uganda\">Uganda</option>\r\n                                    <option value=\"Ukraine\">Ukraine</option>\r\n                                    <option value=\"United Arab Emirates\">United Arab Emirates</option>\r\n                                    <option value=\"United Kingdom\">United Kingdom</option>\r\n                                    <option value=\"United States\" selected=\"\">United States</option>\r\n                                    <option value=\"Uruguay\">Uruguay</option>\r\n                                    <option value=\"Uzbekistan\">Uzbekistan</option>\r\n                                    <option value=\"Vanuatu\">Vanuatu</option>\r\n                                    <option value=\"Vatican City\">Vatican City</option>\r\n                                    <option value=\"Venezuela\">Venezuela</option>\r\n                                    <option value=\"Vietnam\">Vietnam</option>\r\n                                    <option value=\"Yemen\">Yemen</option>\r\n                                    <option value=\"Zambia\">Zambia</option>\r\n                                    <option value=\"Zimbabwe\">Zimbabwe</option>\r\n                                </select>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <!-- Send Button -->\r\n                        <div class=\"text-left\">\r\n                            <button ws-attr=\"ContactSendButtonAttr\" type=\"button\" ws-onclick=\"OnContactSendClick\" class=\"bg-blue-500 text-white font-semibold px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-blue-400\">\r\n                                ${ContactSendButtonText}\r\n                            </button>\r\n                        </div>\r\n\r\n                    </form>\r\n                </div>\r\n            </section>\r\n\r\n        </div>\r\n    "), h):PrepareTemplate("support", Some("content"), () => ParseHTMLIntoFakeRoot("\r\n        <div class=\"space-y-20\" ws-onafterrender=\"OnAfterRender\">\r\n            <!-- Hero / Banner -->\r\n            <section class=\"pt-28 sm:pt-32\">\r\n                <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <div class=\"grid items-center gap-8 md:grid-cols-12\">\r\n                        <div class=\"md:col-span-7 text-center md:text-left\">\r\n                            <h1 class=\"font-bold tracking-tight text-gray-950 dark:text-white text-4xl sm:text-5xl\">\r\n                                WebSharper Expert Support\r\n                            </h1>\r\n                            <p class=\"mt-3 text-base sm:text-lg leading-7 sm:leading-8 text-gray-700 dark:text-gray-300 max-w-2xl md:mx-0 mx-auto\">\r\n                                Our experienced WebSharper support team is available to help you make the right decisions for your development project, and can save you hundreds of hours when important and difficult questions arise.\r\n                            </p>\r\n\r\n                            <!-- Chips -->\r\n                            <div class=\"mt-4 flex flex-wrap justify-center md:justify-start gap-2\">\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    Email & web support\r\n                                </span>\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    First response: 4h-2d\r\n                                </span>\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    Mentoring & training available\r\n                                </span>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <!-- Visual -->\r\n                        <div class=\"md:col-span-5\">\r\n                            <figure class=\"rounded-2xl overflow-hidden shadow-md bg-white dark:bg-gray-900\">\r\n                                <img src=\"./Assets/images/slay.png\" alt=\"WebSharper support: experts reviewing code and architecture\" class=\"w-full h-auto\">\r\n                            </figure>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <section class=\"scroll-my-16\">\r\n                <div class=\"mx-2 md:mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <div class=\"rounded-3xl overflow-hidden border dark:border-gray-800\">\r\n                        <div class=\"py-12 lg:py-16 lg:px-16 border-b dark:border-gray-800\">\r\n                            <h2 class=\"font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white\">\r\n                                Quick, practical help from the people who build WebSharper\r\n                            </h2>\r\n                            <p class=\"mt-3 text-lg text-gray-700 dark:text-gray-300\">\r\n                                Get senior guidance on architecture, performance, reactive UI, and integrations plus hands-on fixes when you need them.\r\n                            </p>\r\n                        </div>\r\n\r\n                        <div class=\"lg:px-16\">\r\n                            <!-- Visual / proof -->\r\n                            <div class=\"lg:col-span-5 lg:-mr-10 py-12 md:py-16\">\r\n                                <div class=\"relative\">\r\n                                    <div class=\"absolute translate-y-1/2 mx-auto blur-3xl inset-0 rounded-t-full bg-brand-primary/20 dark:bg-brand-primary/20\"></div>\r\n                                    <figure class=\"relative rounded-2xl overflow-hidden border bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 shadow-sm w-1/2 mx-auto\">\r\n\r\n                                        <img src=\"./Assets/images/slay.png\" alt=\"Support walkthrough: issue context, guidance, and fix\" class=\"w-full h-auto\">\r\n                                    </figure>\r\n                                    <!-- short 15\ufffd20s looped video instead of static image -->\r\n                                    <!--\r\n                                    <video class=\"relative mt-4 w-full rounded-2xl border border-gray-200 dark:border-gray-800\" autoplay muted loop playsinline poster=\"./Assets/images/support-video-poster.png\">\r\n                                        <source src=\"./videos/support-teaser.mp4\" type=\"video/mp4\">\r\n                                    </video>\r\n                                    -->\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <!-- Support value props -->\r\n            <section class=\"mt-12\">\r\n                <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <ul class=\"grid gap-4 md:grid-cols-3\">\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m7 9l5 3.5L17 9\"></path><path d=\"M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z\"></path></g></svg>\r\n                                <span>Email and web support</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Email us your support queries, architectural or best practice questions, or post them to our dedicated support site.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M8 9.5A1.25 1.25 0 1 0 8 12a1.25 1.25 0 0 0 0-2.5m4 0a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5m2.75 1.25a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0\"></path><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M16.1 4.593a50.577 50.577 0 0 0-8.098-.04l-.193.015A4.93 4.93 0 0 0 3.25 9.483V18a.75.75 0 0 0 1.105.66l3.91-2.101a1.25 1.25 0 0 1 .593-.149h8.976c1.132 0 2.102-.81 2.305-1.923c.412-2.257.444-4.567.096-6.835l-.102-.669a2.666 2.666 0 0 0-2.408-2.252zM8.116 6.049a49.078 49.078 0 0 1 7.858.038l1.624.139c.536.046.972.453 1.053.985l.103.668a19.165 19.165 0 0 1-.09 6.339a.843.843 0 0 1-.829.692H8.858a2.75 2.75 0 0 0-1.302.328L4.75 16.746V9.483a3.43 3.43 0 0 1 3.171-3.42z\" clip-rule=\"evenodd\"></path></svg>\r\n                                <span>Fast response time</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Receive the first response to your queries from within 4 hours up to 2 days, depending on your selected support plan..\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 512 512\"><path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"32\" d=\"M256 160c16-63.16 76.43-95.41 208-96a15.94 15.94 0 0 1 16 16v288a16 16 0 0 1-16 16c-128 0-177.45 25.81-208 64c-30.37-38-80-64-208-64c-9.88 0-16-8.05-16-17.93V80a15.94 15.94 0 0 1 16-16c131.57.59 192 32.84 208 96m0 0v288\"></path></svg>\r\n                                <span>Mentoring and training</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Pick a Start-up or Enterprise plan and jumpstart your team's productivity with our online WebSharper training and mentoring.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\"><path fill=\"currentColor\" d=\"M7 3a2 2 0 0 1 4 0h1.5A1.5 1.5 0 0 1 14 4.5V7h-1a1 1 0 0 0 0 2h1v2.5a1.5 1.5 0 0 1-1.5 1.5H11a2 2 0 0 1-4 0H5.5A1.5 1.5 0 0 1 4 11.5V10a2 2 0 0 1 0-4V4.5A1.5 1.5 0 0 1 5.5 3zm2-1a1 1 0 0 0-1 1v1H5.5a.5.5 0 0 0-.5.5V7H4a1 1 0 0 0 0 2h1v2.5a.5.5 0 0 0 .5.5H8v1a1 1 0 0 0 2 0v-1h2.5a.5.5 0 0 0 .5-.5V10a2 2 0 0 1 0-4V4.5a.5.5 0 0 0-.5-.5H10V3a1 1 0 0 0-1-1\"></path></svg>\r\n                                <span>Extensions support</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Working heavily with WebSharper extensions? Get the help you need with any issues you encounter in these extensions.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"m6.75 21l-.25-2.2l2.85-7.85q.375.35.813.588t.937.362l-2.75 7.55zm10.5 0l-1.6-1.55l-2.75-7.55q.5-.125.938-.363t.812-.587l2.85 7.85zM12 11q-1.25 0-2.125-.875T9 8q0-.975.563-1.737T11 5.2V3h2v2.2q.875.3 1.438 1.063T15 8q0 1.25-.875 2.125T12 11m0-2q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9\"></path></svg>\r\n                                <span>Architectural review</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Next to support questions, we can also help you decide on the best architecture for your project, or give best practice guidelines for your team.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"M19 15v-3.062A3.938 3.938 0 0 0 15.063 8H8.936A3.938 3.938 0 0 0 5 11.938V15a7 7 0 1 0 14 0Z\"></path><path d=\"M16.5 8.5v-1a4.5 4.5 0 1 0-9 0v1\"></path><path stroke-linecap=\"round\" d=\"M19 14h3M5 14H2M14.5 3.5L17 2M9.5 3.5L7 2m13.5 18l-2-.8m2-11.2l-2 .8M3.5 20l2-.8M3.5 8l2 .8M12 21.5V15\"></path></g></svg>\r\n                                <span>Priority bugfixes</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Your support ticket jumps to the front of our priority queue and becomes the first to fix. Get the most timely help when you need it most.\r\n                            </p>\r\n                        </li>\r\n                    </ul>\r\n                </div>\r\n            </section>\r\n\r\n            <section class=\"scroll-my-16\">\r\n                <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <h2 class=\"text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white\">\r\n                        Choose your plan\r\n                    </h2>\r\n                    <p class=\"text-center mt-3 text-lg text-gray-700 dark:text-gray-300\">\r\n                        Monthly or yearly billing, per-seat for teams or a freelancer option.\r\n                    </p>\r\n\r\n                    <!-- Billing period toggle -->\r\n                    <div class=\"mx-auto mt-6 flex w-full max-w-xs items-center justify-center rounded-xl border border-gray-200 bg-white p-1\r\n                                dark:bg-gray-950 dark:border-gray-800\">\r\n                        <button ws-onclick=\"OnBillMonth\" ws-attr=\"BillMonthAttr\" type=\"button\" class=\"cursor-pointer dark:text-white text-gray-700 text flex-1 rounded-lg py-2 text-sm font-medium transition\r\n                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white\r\n                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900\" data-active=\"false\" aria-pressed=\"false\">\r\n                            Per month\r\n                        </button>\r\n                        <button ws-onclick=\"OnBillYear\" ws-attr=\"BillYearAttr\" type=\"button\" class=\"cursor-pointer dark:text-white text-gray-700 flex-1 rounded-lg py-2 text-sm font-medium transition\r\n                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white\r\n                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900\" data-active=\"true\" aria-pressed=\"true\">\r\n                            Per year\r\n                        </button>\r\n                    </div>\r\n\r\n                    <!-- Plans grid -->\r\n                    <div class=\"mx-auto mt-8 grid max-w-6xl gap-6 sm:grid-cols-2\">\r\n                        <!-- Professional (per seat) -->\r\n                        <div class=\"rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200\r\n                                    dark:bg-gray-950 dark:border-gray-800\" data-price-month=\"250\" data-price-year=\"2500\">\r\n                            <div class=\"flex items-start justify-between gap-4\">\r\n                                <div>\r\n                                    <div class=\"text-sm text-gray-600 dark:text-gray-400\">Plan</div>\r\n                                    <div ws-hole=\"ProName\" class=\"text-2xl font-bold text-gray-950 dark:text-white\">\r\n                                        Professional\r\n                                    </div>\r\n                                    <div class=\"mt-1 text-base text-gray-700 dark:text-gray-300\">\r\n                                        <span ws-hole=\"ProPriceAmount\">$2,500</span>\r\n                                        <span class=\"text-gray-600 dark:text-gray-400\" ws-hole=\"ProPriceLabel\">\r\n                                            / seat / year\r\n                                        </span>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                <!-- Seat selector -->\r\n                                <div class=\"flex items-center gap-2\">\r\n                                    <button ws-onclick=\"OnSeatMinus\" class=\"cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800\r\n                                                dark:border-white/20 dark:text-white\" aria-label=\"Decrease seats\" type=\"button\">\r\n                                        -\r\n                                    </button>\r\n                                    <input type=\"text\" ws-var=\"SeatCount\" inputmode=\"numeric\" pattern=\"[0-9]*\" min=\"1\" step=\"1\" value=\"1\" class=\"w-20 text-center rounded-xl border border-gray-300 bg-transparent dark:border-white/20 text-gray-900 dark:text-white h-10\" aria-label=\"Seat count\">\r\n                                    <button ws-onclick=\"OnSeatPlus\" class=\"cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800\r\n                                                dark:border-white/20 dark:text-white\" aria-label=\"Increase seats\" type=\"button\">\r\n                                        +\r\n                                    </button>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- Total -->\r\n                            <div class=\"mt-4 flex items-center justify-between\">\r\n                                <div class=\"text-sm text-gray-600 dark:text-gray-400\" ws-hole=\"ProTotalLabel\">\r\n                                    Total (yearly)\r\n                                </div>\r\n                                <div class=\"text-xl font-semibold text-gray-950 dark:text-white\" ws-hole=\"ProTotalAmount\">\r\n                                    $2,500\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- CTA -->\r\n                            <a ws-attr=\"ProCheckoutAttr\" class=\"w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800\r\n                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative\r\n                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500\r\n                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200\r\n                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4\">\r\n                                <span class=\"relative text-sm\">Continue to checkout</span>\r\n                            </a>\r\n\r\n                            <p class=\"mt-3 text-xs text-gray-600 dark:text-gray-400 text-center\" ws-hole=\"ProNote\">\r\n                                Assign GitHub usernames after purchase. Prices in USD.\r\n                            </p>\r\n                        </div>\r\n\r\n                        <!-- Freelancer (1 seat) -->\r\n                        <div class=\"rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200\r\n                                    dark:bg-gray-950 dark:border-gray-800\">\r\n                            <div class=\"flex items-start justify-between gap-4\">\r\n                                <div>\r\n                                    <div class=\"text-sm text-gray-600 dark:text-gray-400\">Plan</div>\r\n                                    <div ws-hole=\"FreeName\" class=\"text-2xl font-bold text-gray-950 dark:text-white\">\r\n                                        Freelancer\r\n                                    </div>\r\n                                    <div class=\"mt-1 text-base text-gray-700 dark:text-gray-300\">\r\n                                        <span ws-hole=\"FreePriceAmount\">$300</span>\r\n                                        <span class=\"text-gray-600 dark:text-gray-400\" ws-hole=\"FreePriceLabel\">\r\n                                            / year\r\n                                        </span>\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"rounded-xl border border-gray-300 px-3 h-10 flex items-center\r\n                                            text-gray-800 dark:border-white/20 dark:text-white\">\r\n                                    1 seat\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- Total -->\r\n                            <div class=\"mt-4 flex items-center justify-between\">\r\n                                <div class=\"text-sm text-gray-600 dark:text-gray-400\" ws-hole=\"FreeTotalLabel\">\r\n                                    Total (yearly)\r\n                                </div>\r\n                                <div class=\"text-xl font-semibold text-gray-950 dark:text-white\" ws-hole=\"FreeTotalAmount\">\r\n                                    $300\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- CTA -->\r\n                            <a ws-attr=\"FreeCheckoutAttr\" class=\"w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800\r\n                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative\r\n                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500\r\n                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200\r\n                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4\">\r\n                                <span class=\"relative text-sm\">Continue to checkout</span>\r\n                            </a>\r\n\r\n                            <p class=\"mt-3 text-xs text-gray-600 dark:text-gray-400 text-center\" ws-hole=\"FreeNote\">\r\n                                Ideal for solo developers. Prices in USD.\r\n                            </p>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <!-- contact us -->\r\n            <section class=\"scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none\">\r\n                <div class=\"mx-auto max-w-xl p-8 rounded content mb-10\">\r\n                    <h2 class=\"header text-center mb-8\">Contact us</h2>\r\n\r\n                    <form method=\"post\">\r\n\r\n                        <!-- Subject -->\r\n                        <div class=\"mb-6\">\r\n                            <label for=\"emailSubject\" class=\"block font-semibold mb-2\">Subject</label>\r\n                            <input type=\"text\" name=\"email-subject\" ws-var=\"ContactSubjectVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\" value=\"WebSharper support\">\r\n                        </div>\r\n\r\n                        <!-- Message -->\r\n                        <div class=\"mb-6\">\r\n                            <label for=\"emailMessage\" class=\"block font-semibold mb-2\">Message</label>\r\n                            <textarea name=\"email-message\" rows=\"5\" ws-var=\"ContactMessageVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\"></textarea>\r\n                        </div>\r\n\r\n                        <!-- Row with Email, Name, Country -->\r\n                        <div class=\"grid grid-cols-1 md:grid-cols-3 gap-4 mb-6\">\r\n                            <!-- Email -->\r\n                            <div>\r\n                                <label for=\"emailAddress\" class=\"block font-semibold mb-2\">Your email address</label>\r\n                                <input type=\"email\" name=\"email-address\" ws-var=\"ContactEmailVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                            </div>\r\n\r\n                            <!-- Name -->\r\n                            <div>\r\n                                <label for=\"emailName\" class=\"block font-semibold mb-2\">Your name</label>\r\n                                <input type=\"text\" ws-var=\"ContactNameVar\" name=\"name\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                            </div>\r\n\r\n                            <!-- Country -->\r\n                            <div>\r\n                                <label for=\"emailCountry\" class=\"block font-semibold mb-2\">Your country</label>\r\n                                <select name=\"email-country\" ws-var=\"ContactCountryVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                                    <option value=\"Afghanistan\">Afghanistan</option>\r\n                                    <option value=\"Albania\">Albania</option>\r\n                                    <option value=\"Algeria\">Algeria</option>\r\n                                    <option value=\"Andorra\">Andorra</option>\r\n                                    <option value=\"Angola\">Angola</option>\r\n                                    <option value=\"Antigua and Barbuda\">Antigua and Barbuda</option>\r\n                                    <option value=\"Argentina\">Argentina</option>\r\n                                    <option value=\"Armenia\">Armenia</option>\r\n                                    <option value=\"Australia\">Australia</option>\r\n                                    <option value=\"Austria\">Austria</option>\r\n                                    <option value=\"Azerbaijan\">Azerbaijan</option>\r\n                                    <option value=\"Bahamas\">Bahamas</option>\r\n                                    <option value=\"Bahrain\">Bahrain</option>\r\n                                    <option value=\"Bangladesh\">Bangladesh</option>\r\n                                    <option value=\"Barbados\">Barbados</option>\r\n                                    <option value=\"Belarus\">Belarus</option>\r\n                                    <option value=\"Belgium\">Belgium</option>\r\n                                    <option value=\"Belize\">Belize</option>\r\n                                    <option value=\"Benin\">Benin</option>\r\n                                    <option value=\"Bhutan\">Bhutan</option>\r\n                                    <option value=\"Bolivia\">Bolivia</option>\r\n                                    <option value=\"Bosnia and Herzegovina\">Bosnia and Herzegovina</option>\r\n                                    <option value=\"Botswana\">Botswana</option>\r\n                                    <option value=\"Brazil\">Brazil</option>\r\n                                    <option value=\"Brunei\">Brunei</option>\r\n                                    <option value=\"Bulgaria\">Bulgaria</option>\r\n                                    <option value=\"Burkina Faso\">Burkina Faso</option>\r\n                                    <option value=\"Burundi\">Burundi</option>\r\n                                    <option value=\"Cabo Verde\">Cabo Verde</option>\r\n                                    <option value=\"Cambodia\">Cambodia</option>\r\n                                    <option value=\"Cameroon\">Cameroon</option>\r\n                                    <option value=\"Canada\">Canada</option>\r\n                                    <option value=\"Central African Republic\">Central African Republic</option>\r\n                                    <option value=\"Chad\">Chad</option>\r\n                                    <option value=\"Chile\">Chile</option>\r\n                                    <option value=\"China\">China</option>\r\n                                    <option value=\"Colombia\">Colombia</option>\r\n                                    <option value=\"Comoros\">Comoros</option>\r\n                                    <option value=\"Congo (Congo-Brazzaville)\">Congo (Congo-Brazzaville)</option>\r\n                                    <option value=\"Costa Rica\">Costa Rica</option>\r\n                                    <option value=\"Croatia\">Croatia</option>\r\n                                    <option value=\"Cuba\">Cuba</option>\r\n                                    <option value=\"Cyprus\">Cyprus</option>\r\n                                    <option value=\"Czech Republic\">Czech Republic</option>\r\n                                    <option value=\"Democratic Republic of the Congo\">Democratic Republic of the Congo</option>\r\n                                    <option value=\"Denmark\">Denmark</option>\r\n                                    <option value=\"Djibouti\">Djibouti</option>\r\n                                    <option value=\"Dominica\">Dominica</option>\r\n                                    <option value=\"Dominican Republic\">Dominican Republic</option>\r\n                                    <option value=\"Ecuador\">Ecuador</option>\r\n                                    <option value=\"Egypt\">Egypt</option>\r\n                                    <option value=\"El Salvador\">El Salvador</option>\r\n                                    <option value=\"Equatorial Guinea\">Equatorial Guinea</option>\r\n                                    <option value=\"Eritrea\">Eritrea</option>\r\n                                    <option value=\"Estonia\">Estonia</option>\r\n                                    <option value=\"Eswatini\">Eswatini</option>\r\n                                    <option value=\"Ethiopia\">Ethiopia</option>\r\n                                    <option value=\"Fiji\">Fiji</option>\r\n                                    <option value=\"Finland\">Finland</option>\r\n                                    <option value=\"France\">France</option>\r\n                                    <option value=\"Gabon\">Gabon</option>\r\n                                    <option value=\"Gambia\">Gambia</option>\r\n                                    <option value=\"Georgia\">Georgia</option>\r\n                                    <option value=\"Germany\">Germany</option>\r\n                                    <option value=\"Ghana\">Ghana</option>\r\n                                    <option value=\"Greece\">Greece</option>\r\n                                    <option value=\"Grenada\">Grenada</option>\r\n                                    <option value=\"Guatemala\">Guatemala</option>\r\n                                    <option value=\"Guinea\">Guinea</option>\r\n                                    <option value=\"Guinea-Bissau\">Guinea-Bissau</option>\r\n                                    <option value=\"Guyana\">Guyana</option>\r\n                                    <option value=\"Haiti\">Haiti</option>\r\n                                    <option value=\"Honduras\">Honduras</option>\r\n                                    <option value=\"Hungary\">Hungary</option>\r\n                                    <option value=\"Iceland\">Iceland</option>\r\n                                    <option value=\"India\">India</option>\r\n                                    <option value=\"Indonesia\">Indonesia</option>\r\n                                    <option value=\"Iran\">Iran</option>\r\n                                    <option value=\"Iraq\">Iraq</option>\r\n                                    <option value=\"Ireland\">Ireland</option>\r\n                                    <option value=\"Israel\">Israel</option>\r\n                                    <option value=\"Italy\">Italy</option>\r\n                                    <option value=\"Jamaica\">Jamaica</option>\r\n                                    <option value=\"Japan\">Japan</option>\r\n                                    <option value=\"Jordan\">Jordan</option>\r\n                                    <option value=\"Kazakhstan\">Kazakhstan</option>\r\n                                    <option value=\"Kenya\">Kenya</option>\r\n                                    <option value=\"Kiribati\">Kiribati</option>\r\n                                    <option value=\"Kuwait\">Kuwait</option>\r\n                                    <option value=\"Kyrgyzstan\">Kyrgyzstan</option>\r\n                                    <option value=\"Laos\">Laos</option>\r\n                                    <option value=\"Latvia\">Latvia</option>\r\n                                    <option value=\"Lebanon\">Lebanon</option>\r\n                                    <option value=\"Lesotho\">Lesotho</option>\r\n                                    <option value=\"Liberia\">Liberia</option>\r\n                                    <option value=\"Libya\">Libya</option>\r\n                                    <option value=\"Liechtenstein\">Liechtenstein</option>\r\n                                    <option value=\"Lithuania\">Lithuania</option>\r\n                                    <option value=\"Luxembourg\">Luxembourg</option>\r\n                                    <option value=\"Madagascar\">Madagascar</option>\r\n                                    <option value=\"Malawi\">Malawi</option>\r\n                                    <option value=\"Malaysia\">Malaysia</option>\r\n                                    <option value=\"Maldives\">Maldives</option>\r\n                                    <option value=\"Mali\">Mali</option>\r\n                                    <option value=\"Malta\">Malta</option>\r\n                                    <option value=\"Marshall Islands\">Marshall Islands</option>\r\n                                    <option value=\"Mauritania\">Mauritania</option>\r\n                                    <option value=\"Mauritius\">Mauritius</option>\r\n                                    <option value=\"Mexico\">Mexico</option>\r\n                                    <option value=\"Micronesia\">Micronesia</option>\r\n                                    <option value=\"Moldova\">Moldova</option>\r\n                                    <option value=\"Monaco\">Monaco</option>\r\n                                    <option value=\"Mongolia\">Mongolia</option>\r\n                                    <option value=\"Montenegro\">Montenegro</option>\r\n                                    <option value=\"Morocco\">Morocco</option>\r\n                                    <option value=\"Mozambique\">Mozambique</option>\r\n                                    <option value=\"Myanmar (Burma)\">Myanmar (Burma)</option>\r\n                                    <option value=\"Namibia\">Namibia</option>\r\n                                    <option value=\"Nauru\">Nauru</option>\r\n                                    <option value=\"Nepal\">Nepal</option>\r\n                                    <option value=\"Netherlands\">Netherlands</option>\r\n                                    <option value=\"New Zealand\">New Zealand</option>\r\n                                    <option value=\"Nicaragua\">Nicaragua</option>\r\n                                    <option value=\"Niger\">Niger</option>\r\n                                    <option value=\"Nigeria\">Nigeria</option>\r\n                                    <option value=\"North Korea\">North Korea</option>\r\n                                    <option value=\"North Macedonia\">North Macedonia</option>\r\n                                    <option value=\"Norway\">Norway</option>\r\n                                    <option value=\"Oman\">Oman</option>\r\n                                    <option value=\"Pakistan\">Pakistan</option>\r\n                                    <option value=\"Palau\">Palau</option>\r\n                                    <option value=\"Palestine\">Palestine</option>\r\n                                    <option value=\"Panama\">Panama</option>\r\n                                    <option value=\"Papua New Guinea\">Papua New Guinea</option>\r\n                                    <option value=\"Paraguay\">Paraguay</option>\r\n                                    <option value=\"Peru\">Peru</option>\r\n                                    <option value=\"Philippines\">Philippines</option>\r\n                                    <option value=\"Poland\">Poland</option>\r\n                                    <option value=\"Portugal\">Portugal</option>\r\n                                    <option value=\"Qatar\">Qatar</option>\r\n                                    <option value=\"Romania\">Romania</option>\r\n                                    <option value=\"Russia\">Russia</option>\r\n                                    <option value=\"Rwanda\">Rwanda</option>\r\n                                    <option value=\"Saint Kitts and Nevis\">Saint Kitts and Nevis</option>\r\n                                    <option value=\"Saint Lucia\">Saint Lucia</option>\r\n                                    <option value=\"Saint Vincent and the Grenadines\">Saint Vincent and the Grenadines</option>\r\n                                    <option value=\"Samoa\">Samoa</option>\r\n                                    <option value=\"San Marino\">San Marino</option>\r\n                                    <option value=\"Sao Tome and Principe\">Sao Tome and Principe</option>\r\n                                    <option value=\"Saudi Arabia\">Saudi Arabia</option>\r\n                                    <option value=\"Senegal\">Senegal</option>\r\n                                    <option value=\"Serbia\">Serbia</option>\r\n                                    <option value=\"Seychelles\">Seychelles</option>\r\n                                    <option value=\"Sierra Leone\">Sierra Leone</option>\r\n                                    <option value=\"Singapore\">Singapore</option>\r\n                                    <option value=\"Slovakia\">Slovakia</option>\r\n                                    <option value=\"Slovenia\">Slovenia</option>\r\n                                    <option value=\"Solomon Islands\">Solomon Islands</option>\r\n                                    <option value=\"Somalia\">Somalia</option>\r\n                                    <option value=\"South Africa\">South Africa</option>\r\n                                    <option value=\"South Korea\">South Korea</option>\r\n                                    <option value=\"South Sudan\">South Sudan</option>\r\n                                    <option value=\"Spain\">Spain</option>\r\n                                    <option value=\"Sri Lanka\">Sri Lanka</option>\r\n                                    <option value=\"Sudan\">Sudan</option>\r\n                                    <option value=\"Suriname\">Suriname</option>\r\n                                    <option value=\"Sweden\">Sweden</option>\r\n                                    <option value=\"Switzerland\">Switzerland</option>\r\n                                    <option value=\"Syria\">Syria</option>\r\n                                    <option value=\"Taiwan\">Taiwan</option>\r\n                                    <option value=\"Tajikistan\">Tajikistan</option>\r\n                                    <option value=\"Tanzania\">Tanzania</option>\r\n                                    <option value=\"Thailand\">Thailand</option>\r\n                                    <option value=\"Timor-Leste\">Timor-Leste</option>\r\n                                    <option value=\"Togo\">Togo</option>\r\n                                    <option value=\"Tonga\">Tonga</option>\r\n                                    <option value=\"Trinidad and Tobago\">Trinidad and Tobago</option>\r\n                                    <option value=\"Tunisia\">Tunisia</option>\r\n                                    <option value=\"Turkey\">Turkey</option>\r\n                                    <option value=\"Turkmenistan\">Turkmenistan</option>\r\n                                    <option value=\"Tuvalu\">Tuvalu</option>\r\n                                    <option value=\"Uganda\">Uganda</option>\r\n                                    <option value=\"Ukraine\">Ukraine</option>\r\n                                    <option value=\"United Arab Emirates\">United Arab Emirates</option>\r\n                                    <option value=\"United Kingdom\">United Kingdom</option>\r\n                                    <option value=\"United States\" selected=\"\">United States</option>\r\n                                    <option value=\"Uruguay\">Uruguay</option>\r\n                                    <option value=\"Uzbekistan\">Uzbekistan</option>\r\n                                    <option value=\"Vanuatu\">Vanuatu</option>\r\n                                    <option value=\"Vatican City\">Vatican City</option>\r\n                                    <option value=\"Venezuela\">Venezuela</option>\r\n                                    <option value=\"Vietnam\">Vietnam</option>\r\n                                    <option value=\"Yemen\">Yemen</option>\r\n                                    <option value=\"Zambia\">Zambia</option>\r\n                                    <option value=\"Zimbabwe\">Zimbabwe</option>\r\n                                </select>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <!-- Send Button -->\r\n                        <div class=\"text-left\">\r\n                            <button ws-attr=\"ContactSendButtonAttr\" type=\"button\" ws-onclick=\"OnContactSendClick\" class=\"bg-blue-500 text-white font-semibold px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-blue-400\">\r\n                                ${ContactSendButtonText}\r\n                            </button>\r\n                        </div>\r\n\r\n                    </form>\r\n                </div>\r\n            </section>\r\n\r\n        </div>\r\n    "));
+  return h?GetOrLoadTemplate("support", Some("content"), () => ParseHTMLIntoFakeRoot("\r\n        <div class=\"space-y-20\" ws-onafterrender=\"OnAfterRender\">\r\n            <!-- Hero / Banner -->\r\n            <section class=\"pt-28 sm:pt-32\">\r\n                <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <div class=\"grid items-center gap-8 md:grid-cols-12\">\r\n                        <div class=\"md:col-span-7 text-center md:text-left\">\r\n                            <h1 class=\"font-bold tracking-tight text-gray-950 dark:text-white text-4xl sm:text-5xl\">\r\n                                WebSharper Expert Support\r\n                            </h1>\r\n                            <p class=\"mt-3 text-base sm:text-lg leading-7 sm:leading-8 text-gray-700 dark:text-gray-300 max-w-2xl md:mx-0 mx-auto\">\r\n                                Our experienced WebSharper support team is available to help you make the right decisions for your development project, and can save you hundreds of hours when important and difficult questions arise.\r\n                            </p>\r\n\r\n                            <!-- Chips -->\r\n                            <div class=\"mt-4 flex flex-wrap justify-center md:justify-start gap-2\">\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    Email & web support\r\n                                </span>\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    First response: 4h-2d\r\n                                </span>\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    Mentoring & training available\r\n                                </span>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <!-- Visual -->\r\n                        <div class=\"md:col-span-5\">\r\n                            <figure class=\"rounded-2xl overflow-hidden shadow-md bg-white dark:bg-gray-900\">\r\n                                <img src=\"./Assets/images/slay.png\" alt=\"WebSharper support: experts reviewing code and architecture\" class=\"w-full h-auto\">\r\n                            </figure>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <section class=\"scroll-my-16\">\r\n                <div class=\"mx-2 md:mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <div class=\"rounded-3xl overflow-hidden border dark:border-gray-800\">\r\n                        <div class=\"py-12 lg:py-16 lg:px-16 border-b dark:border-gray-800\">\r\n                            <h2 class=\"font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white\">\r\n                                Quick, practical help from the people who build WebSharper\r\n                            </h2>\r\n                            <p class=\"mt-3 text-lg text-gray-700 dark:text-gray-300\">\r\n                                Get senior guidance on architecture, performance, reactive UI, and integrations plus hands-on fixes when you need them.\r\n                            </p>\r\n                        </div>\r\n\r\n                        <div class=\"lg:px-16\">\r\n                            <!-- Visual / proof -->\r\n                            <div class=\"lg:col-span-5 lg:-mr-10 py-12 md:py-16\">\r\n                                <div class=\"relative\">\r\n                                    <div class=\"absolute translate-y-1/2 mx-auto blur-3xl inset-0 rounded-t-full bg-brand-primary/20 dark:bg-brand-primary/20\"></div>\r\n                                    <figure class=\"relative rounded-2xl overflow-hidden border bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 shadow-sm w-1/2 mx-auto\">\r\n\r\n                                        <img src=\"./Assets/images/slay.png\" alt=\"Support walkthrough: issue context, guidance, and fix\" class=\"w-full h-auto\">\r\n                                    </figure>\r\n                                    <!-- short 15\ufffd20s looped video instead of static image -->\r\n                                    <!--\r\n                                    <video class=\"relative mt-4 w-full rounded-2xl border border-gray-200 dark:border-gray-800\" autoplay muted loop playsinline poster=\"./Assets/images/support-video-poster.png\">\r\n                                        <source src=\"./videos/support-teaser.mp4\" type=\"video/mp4\">\r\n                                    </video>\r\n                                    -->\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <!-- Support value props -->\r\n            <section class=\"mt-12\">\r\n                <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <ul class=\"grid gap-4 md:grid-cols-3\">\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m7 9l5 3.5L17 9\"></path><path d=\"M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z\"></path></g></svg>\r\n                                <span>Email and web support</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Email us your support queries, architectural or best practice questions, or post them to our dedicated support site.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M8 9.5A1.25 1.25 0 1 0 8 12a1.25 1.25 0 0 0 0-2.5m4 0a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5m2.75 1.25a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0\"></path><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M16.1 4.593a50.577 50.577 0 0 0-8.098-.04l-.193.015A4.93 4.93 0 0 0 3.25 9.483V18a.75.75 0 0 0 1.105.66l3.91-2.101a1.25 1.25 0 0 1 .593-.149h8.976c1.132 0 2.102-.81 2.305-1.923c.412-2.257.444-4.567.096-6.835l-.102-.669a2.666 2.666 0 0 0-2.408-2.252zM8.116 6.049a49.078 49.078 0 0 1 7.858.038l1.624.139c.536.046.972.453 1.053.985l.103.668a19.165 19.165 0 0 1-.09 6.339a.843.843 0 0 1-.829.692H8.858a2.75 2.75 0 0 0-1.302.328L4.75 16.746V9.483a3.43 3.43 0 0 1 3.171-3.42z\" clip-rule=\"evenodd\"></path></svg>\r\n                                <span>Fast response time</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Receive the first response to your queries from within 4 hours up to 2 days, depending on your selected support plan..\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 512 512\"><path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"32\" d=\"M256 160c16-63.16 76.43-95.41 208-96a15.94 15.94 0 0 1 16 16v288a16 16 0 0 1-16 16c-128 0-177.45 25.81-208 64c-30.37-38-80-64-208-64c-9.88 0-16-8.05-16-17.93V80a15.94 15.94 0 0 1 16-16c131.57.59 192 32.84 208 96m0 0v288\"></path></svg>\r\n                                <span>Mentoring and training</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Pick a Start-up or Enterprise plan and jumpstart your team's productivity with our online WebSharper training and mentoring.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\"><path fill=\"currentColor\" d=\"M7 3a2 2 0 0 1 4 0h1.5A1.5 1.5 0 0 1 14 4.5V7h-1a1 1 0 0 0 0 2h1v2.5a1.5 1.5 0 0 1-1.5 1.5H11a2 2 0 0 1-4 0H5.5A1.5 1.5 0 0 1 4 11.5V10a2 2 0 0 1 0-4V4.5A1.5 1.5 0 0 1 5.5 3zm2-1a1 1 0 0 0-1 1v1H5.5a.5.5 0 0 0-.5.5V7H4a1 1 0 0 0 0 2h1v2.5a.5.5 0 0 0 .5.5H8v1a1 1 0 0 0 2 0v-1h2.5a.5.5 0 0 0 .5-.5V10a2 2 0 0 1 0-4V4.5a.5.5 0 0 0-.5-.5H10V3a1 1 0 0 0-1-1\"></path></svg>\r\n                                <span>Extensions support</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Working heavily with WebSharper extensions? Get the help you need with any issues you encounter in these extensions.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"m6.75 21l-.25-2.2l2.85-7.85q.375.35.813.588t.937.362l-2.75 7.55zm10.5 0l-1.6-1.55l-2.75-7.55q.5-.125.938-.363t.812-.587l2.85 7.85zM12 11q-1.25 0-2.125-.875T9 8q0-.975.563-1.737T11 5.2V3h2v2.2q.875.3 1.438 1.063T15 8q0 1.25-.875 2.125T12 11m0-2q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9\"></path></svg>\r\n                                <span>Architectural review</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Next to support questions, we can also help you decide on the best architecture for your project, or give best practice guidelines for your team.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"M19 15v-3.062A3.938 3.938 0 0 0 15.063 8H8.936A3.938 3.938 0 0 0 5 11.938V15a7 7 0 1 0 14 0Z\"></path><path d=\"M16.5 8.5v-1a4.5 4.5 0 1 0-9 0v1\"></path><path stroke-linecap=\"round\" d=\"M19 14h3M5 14H2M14.5 3.5L17 2M9.5 3.5L7 2m13.5 18l-2-.8m2-11.2l-2 .8M3.5 20l2-.8M3.5 8l2 .8M12 21.5V15\"></path></g></svg>\r\n                                <span>Priority bugfixes</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Your support ticket jumps to the front of our priority queue and becomes the first to fix. Get the most timely help when you need it most.\r\n                            </p>\r\n                        </li>\r\n                    </ul>\r\n                </div>\r\n            </section>\r\n\r\n        <section id=\"plans\" class=\"scroll-mt-20 scroll-smooth\">\r\n            <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                <h2 class=\"text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white\">\r\n                    Choose your plan\r\n                </h2>\r\n                <p class=\"text-center mt-3 text-lg text-gray-700 dark:text-gray-300\">\r\n                    Monthly or yearly billing, per-seat for teams or a freelancer option.\r\n                </p>\r\n\r\n                    <!-- Billing period toggle -->\r\n                    <div class=\"mx-auto mt-6 flex w-full max-w-xs items-center justify-center rounded-xl border border-gray-200 bg-white p-1\r\n                                dark:bg-gray-950 dark:border-gray-800\">\r\n                        <button ws-onclick=\"OnBillMonth\" ws-attr=\"BillMonthAttr\" type=\"button\" class=\"cursor-pointer dark:text-white text-gray-700 text flex-1 rounded-lg py-2 text-sm font-medium transition\r\n                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white\r\n                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900\" data-active=\"false\" aria-pressed=\"false\">\r\n                            Per month\r\n                        </button>\r\n                        <button ws-onclick=\"OnBillYear\" ws-attr=\"BillYearAttr\" type=\"button\" class=\"cursor-pointer dark:text-white text-gray-700 flex-1 rounded-lg py-2 text-sm font-medium transition\r\n                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white\r\n                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900\" data-active=\"true\" aria-pressed=\"true\">\r\n                            Per year\r\n                        </button>\r\n                    </div>\r\n\r\n                    <!-- Plans grid -->\r\n                    <div class=\"mx-auto mt-8 grid max-w-6xl gap-6 sm:grid-cols-2\">\r\n                        <!-- Professional (per seat) -->\r\n                        <div class=\"rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200\r\n                                    dark:bg-gray-950 dark:border-gray-800\" data-price-month=\"250\" data-price-year=\"2500\">\r\n                            <div class=\"flex items-start justify-between gap-4\">\r\n                                <div>\r\n                                    <div class=\"text-sm text-gray-600 dark:text-gray-400\">Plan</div>\r\n                                    <div ws-hole=\"ProName\" class=\"text-2xl font-bold text-gray-950 dark:text-white\">\r\n                                        Professional\r\n                                    </div>\r\n                                    <div class=\"mt-1 text-base text-gray-700 dark:text-gray-300\">\r\n                                        <span ws-hole=\"ProPriceAmount\">$2,500</span>\r\n                                        <span class=\"text-gray-600 dark:text-gray-400\" ws-hole=\"ProPriceLabel\">\r\n                                            / seat / year\r\n                                        </span>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                <!-- Seat selector -->\r\n                                <div class=\"flex items-center gap-2\">\r\n                                    <button ws-onclick=\"OnSeatMinus\" class=\"cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800\r\n                                                dark:border-white/20 dark:text-white\" aria-label=\"Decrease seats\" type=\"button\">\r\n                                        -\r\n                                    </button>\r\n                                    <input type=\"text\" ws-var=\"SeatCount\" inputmode=\"numeric\" pattern=\"[0-9]*\" min=\"1\" step=\"1\" value=\"1\" class=\"w-20 text-center rounded-xl border border-gray-300 bg-transparent dark:border-white/20 text-gray-900 dark:text-white h-10\" aria-label=\"Seat count\">\r\n                                    <button ws-onclick=\"OnSeatPlus\" class=\"cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800\r\n                                                dark:border-white/20 dark:text-white\" aria-label=\"Increase seats\" type=\"button\">\r\n                                        +\r\n                                    </button>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- Total -->\r\n                            <div class=\"mt-4 flex items-center justify-between\">\r\n                                <div class=\"text-sm text-gray-600 dark:text-gray-400\" ws-hole=\"ProTotalLabel\">\r\n                                    Total (yearly)\r\n                                </div>\r\n                                <div class=\"text-xl font-semibold text-gray-950 dark:text-white\" ws-hole=\"ProTotalAmount\">\r\n                                    $2,500\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- CTA -->\r\n                            <a ws-attr=\"ProCheckoutAttr\" class=\"w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800\r\n                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative\r\n                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500\r\n                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200\r\n                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4\">\r\n                                <span class=\"relative text-sm\">Continue to checkout</span>\r\n                            </a>\r\n\r\n                            <p class=\"mt-3 text-xs text-gray-600 dark:text-gray-400 text-center\" ws-hole=\"ProNote\">\r\n                                Assign GitHub usernames after purchase. Prices in USD.\r\n                            </p>\r\n                        </div>\r\n\r\n                        <!-- Freelancer (1 seat) -->\r\n                        <div class=\"rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200\r\n                                    dark:bg-gray-950 dark:border-gray-800\">\r\n                            <div class=\"flex items-start justify-between gap-4\">\r\n                                <div>\r\n                                    <div class=\"text-sm text-gray-600 dark:text-gray-400\">Plan</div>\r\n                                    <div ws-hole=\"FreeName\" class=\"text-2xl font-bold text-gray-950 dark:text-white\">\r\n                                        Freelancer\r\n                                    </div>\r\n                                    <div class=\"mt-1 text-base text-gray-700 dark:text-gray-300\">\r\n                                        <span ws-hole=\"FreePriceAmount\">$300</span>\r\n                                        <span class=\"text-gray-600 dark:text-gray-400\" ws-hole=\"FreePriceLabel\">\r\n                                            / year\r\n                                        </span>\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"rounded-xl border border-gray-300 px-3 h-10 flex items-center\r\n                                            text-gray-800 dark:border-white/20 dark:text-white\">\r\n                                    1 seat\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- Total -->\r\n                            <div class=\"mt-4 flex items-center justify-between\">\r\n                                <div class=\"text-sm text-gray-600 dark:text-gray-400\" ws-hole=\"FreeTotalLabel\">\r\n                                    Total (yearly)\r\n                                </div>\r\n                                <div class=\"text-xl font-semibold text-gray-950 dark:text-white\" ws-hole=\"FreeTotalAmount\">\r\n                                    $300\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- CTA -->\r\n                            <a ws-attr=\"FreeCheckoutAttr\" class=\"w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800\r\n                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative\r\n                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500\r\n                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200\r\n                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4\">\r\n                                <span class=\"relative text-sm\">Continue to checkout</span>\r\n                            </a>\r\n\r\n                            <p class=\"mt-3 text-xs text-gray-600 dark:text-gray-400 text-center\" ws-hole=\"FreeNote\">\r\n                                Ideal for solo developers. Prices in USD.\r\n                            </p>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <!-- contact us -->\r\n            <section class=\"scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none\">\r\n                <div class=\"mx-auto max-w-xl p-8 rounded content mb-10\">\r\n                    <h2 class=\"header text-center mb-8\">Contact us</h2>\r\n\r\n                    <form method=\"post\">\r\n\r\n                        <!-- Subject -->\r\n                        <div class=\"mb-6\">\r\n                            <label for=\"emailSubject\" class=\"block font-semibold mb-2\">Subject</label>\r\n                            <input type=\"text\" name=\"email-subject\" ws-var=\"ContactSubjectVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\" value=\"WebSharper support\">\r\n                        </div>\r\n\r\n                        <!-- Message -->\r\n                        <div class=\"mb-6\">\r\n                            <label for=\"emailMessage\" class=\"block font-semibold mb-2\">Message</label>\r\n                            <textarea name=\"email-message\" rows=\"5\" ws-var=\"ContactMessageVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\"></textarea>\r\n                        </div>\r\n\r\n                        <!-- Row with Email, Name, Country -->\r\n                        <div class=\"grid grid-cols-1 md:grid-cols-3 gap-4 mb-6\">\r\n                            <!-- Email -->\r\n                            <div>\r\n                                <label for=\"emailAddress\" class=\"block font-semibold mb-2\">Your email address</label>\r\n                                <input type=\"email\" name=\"email-address\" ws-var=\"ContactEmailVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                            </div>\r\n\r\n                            <!-- Name -->\r\n                            <div>\r\n                                <label for=\"emailName\" class=\"block font-semibold mb-2\">Your name</label>\r\n                                <input type=\"text\" ws-var=\"ContactNameVar\" name=\"name\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                            </div>\r\n\r\n                            <!-- Country -->\r\n                            <div>\r\n                                <label for=\"emailCountry\" class=\"block font-semibold mb-2\">Your country</label>\r\n                                <select name=\"email-country\" ws-var=\"ContactCountryVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                                    <option value=\"Afghanistan\">Afghanistan</option>\r\n                                    <option value=\"Albania\">Albania</option>\r\n                                    <option value=\"Algeria\">Algeria</option>\r\n                                    <option value=\"Andorra\">Andorra</option>\r\n                                    <option value=\"Angola\">Angola</option>\r\n                                    <option value=\"Antigua and Barbuda\">Antigua and Barbuda</option>\r\n                                    <option value=\"Argentina\">Argentina</option>\r\n                                    <option value=\"Armenia\">Armenia</option>\r\n                                    <option value=\"Australia\">Australia</option>\r\n                                    <option value=\"Austria\">Austria</option>\r\n                                    <option value=\"Azerbaijan\">Azerbaijan</option>\r\n                                    <option value=\"Bahamas\">Bahamas</option>\r\n                                    <option value=\"Bahrain\">Bahrain</option>\r\n                                    <option value=\"Bangladesh\">Bangladesh</option>\r\n                                    <option value=\"Barbados\">Barbados</option>\r\n                                    <option value=\"Belarus\">Belarus</option>\r\n                                    <option value=\"Belgium\">Belgium</option>\r\n                                    <option value=\"Belize\">Belize</option>\r\n                                    <option value=\"Benin\">Benin</option>\r\n                                    <option value=\"Bhutan\">Bhutan</option>\r\n                                    <option value=\"Bolivia\">Bolivia</option>\r\n                                    <option value=\"Bosnia and Herzegovina\">Bosnia and Herzegovina</option>\r\n                                    <option value=\"Botswana\">Botswana</option>\r\n                                    <option value=\"Brazil\">Brazil</option>\r\n                                    <option value=\"Brunei\">Brunei</option>\r\n                                    <option value=\"Bulgaria\">Bulgaria</option>\r\n                                    <option value=\"Burkina Faso\">Burkina Faso</option>\r\n                                    <option value=\"Burundi\">Burundi</option>\r\n                                    <option value=\"Cabo Verde\">Cabo Verde</option>\r\n                                    <option value=\"Cambodia\">Cambodia</option>\r\n                                    <option value=\"Cameroon\">Cameroon</option>\r\n                                    <option value=\"Canada\">Canada</option>\r\n                                    <option value=\"Central African Republic\">Central African Republic</option>\r\n                                    <option value=\"Chad\">Chad</option>\r\n                                    <option value=\"Chile\">Chile</option>\r\n                                    <option value=\"China\">China</option>\r\n                                    <option value=\"Colombia\">Colombia</option>\r\n                                    <option value=\"Comoros\">Comoros</option>\r\n                                    <option value=\"Congo (Congo-Brazzaville)\">Congo (Congo-Brazzaville)</option>\r\n                                    <option value=\"Costa Rica\">Costa Rica</option>\r\n                                    <option value=\"Croatia\">Croatia</option>\r\n                                    <option value=\"Cuba\">Cuba</option>\r\n                                    <option value=\"Cyprus\">Cyprus</option>\r\n                                    <option value=\"Czech Republic\">Czech Republic</option>\r\n                                    <option value=\"Democratic Republic of the Congo\">Democratic Republic of the Congo</option>\r\n                                    <option value=\"Denmark\">Denmark</option>\r\n                                    <option value=\"Djibouti\">Djibouti</option>\r\n                                    <option value=\"Dominica\">Dominica</option>\r\n                                    <option value=\"Dominican Republic\">Dominican Republic</option>\r\n                                    <option value=\"Ecuador\">Ecuador</option>\r\n                                    <option value=\"Egypt\">Egypt</option>\r\n                                    <option value=\"El Salvador\">El Salvador</option>\r\n                                    <option value=\"Equatorial Guinea\">Equatorial Guinea</option>\r\n                                    <option value=\"Eritrea\">Eritrea</option>\r\n                                    <option value=\"Estonia\">Estonia</option>\r\n                                    <option value=\"Eswatini\">Eswatini</option>\r\n                                    <option value=\"Ethiopia\">Ethiopia</option>\r\n                                    <option value=\"Fiji\">Fiji</option>\r\n                                    <option value=\"Finland\">Finland</option>\r\n                                    <option value=\"France\">France</option>\r\n                                    <option value=\"Gabon\">Gabon</option>\r\n                                    <option value=\"Gambia\">Gambia</option>\r\n                                    <option value=\"Georgia\">Georgia</option>\r\n                                    <option value=\"Germany\">Germany</option>\r\n                                    <option value=\"Ghana\">Ghana</option>\r\n                                    <option value=\"Greece\">Greece</option>\r\n                                    <option value=\"Grenada\">Grenada</option>\r\n                                    <option value=\"Guatemala\">Guatemala</option>\r\n                                    <option value=\"Guinea\">Guinea</option>\r\n                                    <option value=\"Guinea-Bissau\">Guinea-Bissau</option>\r\n                                    <option value=\"Guyana\">Guyana</option>\r\n                                    <option value=\"Haiti\">Haiti</option>\r\n                                    <option value=\"Honduras\">Honduras</option>\r\n                                    <option value=\"Hungary\">Hungary</option>\r\n                                    <option value=\"Iceland\">Iceland</option>\r\n                                    <option value=\"India\">India</option>\r\n                                    <option value=\"Indonesia\">Indonesia</option>\r\n                                    <option value=\"Iran\">Iran</option>\r\n                                    <option value=\"Iraq\">Iraq</option>\r\n                                    <option value=\"Ireland\">Ireland</option>\r\n                                    <option value=\"Israel\">Israel</option>\r\n                                    <option value=\"Italy\">Italy</option>\r\n                                    <option value=\"Jamaica\">Jamaica</option>\r\n                                    <option value=\"Japan\">Japan</option>\r\n                                    <option value=\"Jordan\">Jordan</option>\r\n                                    <option value=\"Kazakhstan\">Kazakhstan</option>\r\n                                    <option value=\"Kenya\">Kenya</option>\r\n                                    <option value=\"Kiribati\">Kiribati</option>\r\n                                    <option value=\"Kuwait\">Kuwait</option>\r\n                                    <option value=\"Kyrgyzstan\">Kyrgyzstan</option>\r\n                                    <option value=\"Laos\">Laos</option>\r\n                                    <option value=\"Latvia\">Latvia</option>\r\n                                    <option value=\"Lebanon\">Lebanon</option>\r\n                                    <option value=\"Lesotho\">Lesotho</option>\r\n                                    <option value=\"Liberia\">Liberia</option>\r\n                                    <option value=\"Libya\">Libya</option>\r\n                                    <option value=\"Liechtenstein\">Liechtenstein</option>\r\n                                    <option value=\"Lithuania\">Lithuania</option>\r\n                                    <option value=\"Luxembourg\">Luxembourg</option>\r\n                                    <option value=\"Madagascar\">Madagascar</option>\r\n                                    <option value=\"Malawi\">Malawi</option>\r\n                                    <option value=\"Malaysia\">Malaysia</option>\r\n                                    <option value=\"Maldives\">Maldives</option>\r\n                                    <option value=\"Mali\">Mali</option>\r\n                                    <option value=\"Malta\">Malta</option>\r\n                                    <option value=\"Marshall Islands\">Marshall Islands</option>\r\n                                    <option value=\"Mauritania\">Mauritania</option>\r\n                                    <option value=\"Mauritius\">Mauritius</option>\r\n                                    <option value=\"Mexico\">Mexico</option>\r\n                                    <option value=\"Micronesia\">Micronesia</option>\r\n                                    <option value=\"Moldova\">Moldova</option>\r\n                                    <option value=\"Monaco\">Monaco</option>\r\n                                    <option value=\"Mongolia\">Mongolia</option>\r\n                                    <option value=\"Montenegro\">Montenegro</option>\r\n                                    <option value=\"Morocco\">Morocco</option>\r\n                                    <option value=\"Mozambique\">Mozambique</option>\r\n                                    <option value=\"Myanmar (Burma)\">Myanmar (Burma)</option>\r\n                                    <option value=\"Namibia\">Namibia</option>\r\n                                    <option value=\"Nauru\">Nauru</option>\r\n                                    <option value=\"Nepal\">Nepal</option>\r\n                                    <option value=\"Netherlands\">Netherlands</option>\r\n                                    <option value=\"New Zealand\">New Zealand</option>\r\n                                    <option value=\"Nicaragua\">Nicaragua</option>\r\n                                    <option value=\"Niger\">Niger</option>\r\n                                    <option value=\"Nigeria\">Nigeria</option>\r\n                                    <option value=\"North Korea\">North Korea</option>\r\n                                    <option value=\"North Macedonia\">North Macedonia</option>\r\n                                    <option value=\"Norway\">Norway</option>\r\n                                    <option value=\"Oman\">Oman</option>\r\n                                    <option value=\"Pakistan\">Pakistan</option>\r\n                                    <option value=\"Palau\">Palau</option>\r\n                                    <option value=\"Palestine\">Palestine</option>\r\n                                    <option value=\"Panama\">Panama</option>\r\n                                    <option value=\"Papua New Guinea\">Papua New Guinea</option>\r\n                                    <option value=\"Paraguay\">Paraguay</option>\r\n                                    <option value=\"Peru\">Peru</option>\r\n                                    <option value=\"Philippines\">Philippines</option>\r\n                                    <option value=\"Poland\">Poland</option>\r\n                                    <option value=\"Portugal\">Portugal</option>\r\n                                    <option value=\"Qatar\">Qatar</option>\r\n                                    <option value=\"Romania\">Romania</option>\r\n                                    <option value=\"Russia\">Russia</option>\r\n                                    <option value=\"Rwanda\">Rwanda</option>\r\n                                    <option value=\"Saint Kitts and Nevis\">Saint Kitts and Nevis</option>\r\n                                    <option value=\"Saint Lucia\">Saint Lucia</option>\r\n                                    <option value=\"Saint Vincent and the Grenadines\">Saint Vincent and the Grenadines</option>\r\n                                    <option value=\"Samoa\">Samoa</option>\r\n                                    <option value=\"San Marino\">San Marino</option>\r\n                                    <option value=\"Sao Tome and Principe\">Sao Tome and Principe</option>\r\n                                    <option value=\"Saudi Arabia\">Saudi Arabia</option>\r\n                                    <option value=\"Senegal\">Senegal</option>\r\n                                    <option value=\"Serbia\">Serbia</option>\r\n                                    <option value=\"Seychelles\">Seychelles</option>\r\n                                    <option value=\"Sierra Leone\">Sierra Leone</option>\r\n                                    <option value=\"Singapore\">Singapore</option>\r\n                                    <option value=\"Slovakia\">Slovakia</option>\r\n                                    <option value=\"Slovenia\">Slovenia</option>\r\n                                    <option value=\"Solomon Islands\">Solomon Islands</option>\r\n                                    <option value=\"Somalia\">Somalia</option>\r\n                                    <option value=\"South Africa\">South Africa</option>\r\n                                    <option value=\"South Korea\">South Korea</option>\r\n                                    <option value=\"South Sudan\">South Sudan</option>\r\n                                    <option value=\"Spain\">Spain</option>\r\n                                    <option value=\"Sri Lanka\">Sri Lanka</option>\r\n                                    <option value=\"Sudan\">Sudan</option>\r\n                                    <option value=\"Suriname\">Suriname</option>\r\n                                    <option value=\"Sweden\">Sweden</option>\r\n                                    <option value=\"Switzerland\">Switzerland</option>\r\n                                    <option value=\"Syria\">Syria</option>\r\n                                    <option value=\"Taiwan\">Taiwan</option>\r\n                                    <option value=\"Tajikistan\">Tajikistan</option>\r\n                                    <option value=\"Tanzania\">Tanzania</option>\r\n                                    <option value=\"Thailand\">Thailand</option>\r\n                                    <option value=\"Timor-Leste\">Timor-Leste</option>\r\n                                    <option value=\"Togo\">Togo</option>\r\n                                    <option value=\"Tonga\">Tonga</option>\r\n                                    <option value=\"Trinidad and Tobago\">Trinidad and Tobago</option>\r\n                                    <option value=\"Tunisia\">Tunisia</option>\r\n                                    <option value=\"Turkey\">Turkey</option>\r\n                                    <option value=\"Turkmenistan\">Turkmenistan</option>\r\n                                    <option value=\"Tuvalu\">Tuvalu</option>\r\n                                    <option value=\"Uganda\">Uganda</option>\r\n                                    <option value=\"Ukraine\">Ukraine</option>\r\n                                    <option value=\"United Arab Emirates\">United Arab Emirates</option>\r\n                                    <option value=\"United Kingdom\">United Kingdom</option>\r\n                                    <option value=\"United States\" selected=\"\">United States</option>\r\n                                    <option value=\"Uruguay\">Uruguay</option>\r\n                                    <option value=\"Uzbekistan\">Uzbekistan</option>\r\n                                    <option value=\"Vanuatu\">Vanuatu</option>\r\n                                    <option value=\"Vatican City\">Vatican City</option>\r\n                                    <option value=\"Venezuela\">Venezuela</option>\r\n                                    <option value=\"Vietnam\">Vietnam</option>\r\n                                    <option value=\"Yemen\">Yemen</option>\r\n                                    <option value=\"Zambia\">Zambia</option>\r\n                                    <option value=\"Zimbabwe\">Zimbabwe</option>\r\n                                </select>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <!-- Send Button -->\r\n                        <div class=\"text-left\">\r\n                            <button ws-attr=\"ContactSendButtonAttr\" type=\"button\" ws-onclick=\"OnContactSendClick\" class=\"bg-blue-500 text-white font-semibold px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-blue-400\">\r\n                                ${ContactSendButtonText}\r\n                            </button>\r\n                        </div>\r\n\r\n                    </form>\r\n                </div>\r\n            </section>\r\n\r\n        </div>\r\n    "), h):PrepareTemplate("support", Some("content"), () => ParseHTMLIntoFakeRoot("\r\n        <div class=\"space-y-20\" ws-onafterrender=\"OnAfterRender\">\r\n            <!-- Hero / Banner -->\r\n            <section class=\"pt-28 sm:pt-32\">\r\n                <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <div class=\"grid items-center gap-8 md:grid-cols-12\">\r\n                        <div class=\"md:col-span-7 text-center md:text-left\">\r\n                            <h1 class=\"font-bold tracking-tight text-gray-950 dark:text-white text-4xl sm:text-5xl\">\r\n                                WebSharper Expert Support\r\n                            </h1>\r\n                            <p class=\"mt-3 text-base sm:text-lg leading-7 sm:leading-8 text-gray-700 dark:text-gray-300 max-w-2xl md:mx-0 mx-auto\">\r\n                                Our experienced WebSharper support team is available to help you make the right decisions for your development project, and can save you hundreds of hours when important and difficult questions arise.\r\n                            </p>\r\n\r\n                            <!-- Chips -->\r\n                            <div class=\"mt-4 flex flex-wrap justify-center md:justify-start gap-2\">\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    Email & web support\r\n                                </span>\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    First response: 4h-2d\r\n                                </span>\r\n                                <span class=\"rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200\">\r\n                                    Mentoring & training available\r\n                                </span>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <!-- Visual -->\r\n                        <div class=\"md:col-span-5\">\r\n                            <figure class=\"rounded-2xl overflow-hidden shadow-md bg-white dark:bg-gray-900\">\r\n                                <img src=\"./Assets/images/slay.png\" alt=\"WebSharper support: experts reviewing code and architecture\" class=\"w-full h-auto\">\r\n                            </figure>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <section class=\"scroll-my-16\">\r\n                <div class=\"mx-2 md:mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <div class=\"rounded-3xl overflow-hidden border dark:border-gray-800\">\r\n                        <div class=\"py-12 lg:py-16 lg:px-16 border-b dark:border-gray-800\">\r\n                            <h2 class=\"font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white\">\r\n                                Quick, practical help from the people who build WebSharper\r\n                            </h2>\r\n                            <p class=\"mt-3 text-lg text-gray-700 dark:text-gray-300\">\r\n                                Get senior guidance on architecture, performance, reactive UI, and integrations plus hands-on fixes when you need them.\r\n                            </p>\r\n                        </div>\r\n\r\n                        <div class=\"lg:px-16\">\r\n                            <!-- Visual / proof -->\r\n                            <div class=\"lg:col-span-5 lg:-mr-10 py-12 md:py-16\">\r\n                                <div class=\"relative\">\r\n                                    <div class=\"absolute translate-y-1/2 mx-auto blur-3xl inset-0 rounded-t-full bg-brand-primary/20 dark:bg-brand-primary/20\"></div>\r\n                                    <figure class=\"relative rounded-2xl overflow-hidden border bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 shadow-sm w-1/2 mx-auto\">\r\n\r\n                                        <img src=\"./Assets/images/slay.png\" alt=\"Support walkthrough: issue context, guidance, and fix\" class=\"w-full h-auto\">\r\n                                    </figure>\r\n                                    <!-- short 15\ufffd20s looped video instead of static image -->\r\n                                    <!--\r\n                                    <video class=\"relative mt-4 w-full rounded-2xl border border-gray-200 dark:border-gray-800\" autoplay muted loop playsinline poster=\"./Assets/images/support-video-poster.png\">\r\n                                        <source src=\"./videos/support-teaser.mp4\" type=\"video/mp4\">\r\n                                    </video>\r\n                                    -->\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <!-- Support value props -->\r\n            <section class=\"mt-12\">\r\n                <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                    <ul class=\"grid gap-4 md:grid-cols-3\">\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m7 9l5 3.5L17 9\"></path><path d=\"M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z\"></path></g></svg>\r\n                                <span>Email and web support</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Email us your support queries, architectural or best practice questions, or post them to our dedicated support site.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M8 9.5A1.25 1.25 0 1 0 8 12a1.25 1.25 0 0 0 0-2.5m4 0a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5m2.75 1.25a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0\"></path><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M16.1 4.593a50.577 50.577 0 0 0-8.098-.04l-.193.015A4.93 4.93 0 0 0 3.25 9.483V18a.75.75 0 0 0 1.105.66l3.91-2.101a1.25 1.25 0 0 1 .593-.149h8.976c1.132 0 2.102-.81 2.305-1.923c.412-2.257.444-4.567.096-6.835l-.102-.669a2.666 2.666 0 0 0-2.408-2.252zM8.116 6.049a49.078 49.078 0 0 1 7.858.038l1.624.139c.536.046.972.453 1.053.985l.103.668a19.165 19.165 0 0 1-.09 6.339a.843.843 0 0 1-.829.692H8.858a2.75 2.75 0 0 0-1.302.328L4.75 16.746V9.483a3.43 3.43 0 0 1 3.171-3.42z\" clip-rule=\"evenodd\"></path></svg>\r\n                                <span>Fast response time</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Receive the first response to your queries from within 4 hours up to 2 days, depending on your selected support plan..\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 512 512\"><path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"32\" d=\"M256 160c16-63.16 76.43-95.41 208-96a15.94 15.94 0 0 1 16 16v288a16 16 0 0 1-16 16c-128 0-177.45 25.81-208 64c-30.37-38-80-64-208-64c-9.88 0-16-8.05-16-17.93V80a15.94 15.94 0 0 1 16-16c131.57.59 192 32.84 208 96m0 0v288\"></path></svg>\r\n                                <span>Mentoring and training</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Pick a Start-up or Enterprise plan and jumpstart your team's productivity with our online WebSharper training and mentoring.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\"><path fill=\"currentColor\" d=\"M7 3a2 2 0 0 1 4 0h1.5A1.5 1.5 0 0 1 14 4.5V7h-1a1 1 0 0 0 0 2h1v2.5a1.5 1.5 0 0 1-1.5 1.5H11a2 2 0 0 1-4 0H5.5A1.5 1.5 0 0 1 4 11.5V10a2 2 0 0 1 0-4V4.5A1.5 1.5 0 0 1 5.5 3zm2-1a1 1 0 0 0-1 1v1H5.5a.5.5 0 0 0-.5.5V7H4a1 1 0 0 0 0 2h1v2.5a.5.5 0 0 0 .5.5H8v1a1 1 0 0 0 2 0v-1h2.5a.5.5 0 0 0 .5-.5V10a2 2 0 0 1 0-4V4.5a.5.5 0 0 0-.5-.5H10V3a1 1 0 0 0-1-1\"></path></svg>\r\n                                <span>Extensions support</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Working heavily with WebSharper extensions? Get the help you need with any issues you encounter in these extensions.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"m6.75 21l-.25-2.2l2.85-7.85q.375.35.813.588t.937.362l-2.75 7.55zm10.5 0l-1.6-1.55l-2.75-7.55q.5-.125.938-.363t.812-.587l2.85 7.85zM12 11q-1.25 0-2.125-.875T9 8q0-.975.563-1.737T11 5.2V3h2v2.2q.875.3 1.438 1.063T15 8q0 1.25-.875 2.125T12 11m0-2q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9\"></path></svg>\r\n                                <span>Architectural review</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Next to support questions, we can also help you decide on the best architecture for your project, or give best practice guidelines for your team.\r\n                            </p>\r\n                        </li>\r\n\r\n                        <li class=\"rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5\">\r\n                            <h3 class=\"font-semibold text-gray-900 dark:text-white flex items-center gap-2\">\r\n                                <svg class=\"size-5\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"M19 15v-3.062A3.938 3.938 0 0 0 15.063 8H8.936A3.938 3.938 0 0 0 5 11.938V15a7 7 0 1 0 14 0Z\"></path><path d=\"M16.5 8.5v-1a4.5 4.5 0 1 0-9 0v1\"></path><path stroke-linecap=\"round\" d=\"M19 14h3M5 14H2M14.5 3.5L17 2M9.5 3.5L7 2m13.5 18l-2-.8m2-11.2l-2 .8M3.5 20l2-.8M3.5 8l2 .8M12 21.5V15\"></path></g></svg>\r\n                                <span>Priority bugfixes</span>\r\n                            </h3>\r\n                            <p class=\"mt-2 text-sm text-gray-700 dark:text-gray-300\">\r\n                                Your support ticket jumps to the front of our priority queue and becomes the first to fix. Get the most timely help when you need it most.\r\n                            </p>\r\n                        </li>\r\n                    </ul>\r\n                </div>\r\n            </section>\r\n\r\n        <section id=\"plans\" class=\"scroll-mt-20 scroll-smooth\">\r\n            <div class=\"mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl\">\r\n                <h2 class=\"text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white\">\r\n                    Choose your plan\r\n                </h2>\r\n                <p class=\"text-center mt-3 text-lg text-gray-700 dark:text-gray-300\">\r\n                    Monthly or yearly billing, per-seat for teams or a freelancer option.\r\n                </p>\r\n\r\n                    <!-- Billing period toggle -->\r\n                    <div class=\"mx-auto mt-6 flex w-full max-w-xs items-center justify-center rounded-xl border border-gray-200 bg-white p-1\r\n                                dark:bg-gray-950 dark:border-gray-800\">\r\n                        <button ws-onclick=\"OnBillMonth\" ws-attr=\"BillMonthAttr\" type=\"button\" class=\"cursor-pointer dark:text-white text-gray-700 text flex-1 rounded-lg py-2 text-sm font-medium transition\r\n                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white\r\n                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900\" data-active=\"false\" aria-pressed=\"false\">\r\n                            Per month\r\n                        </button>\r\n                        <button ws-onclick=\"OnBillYear\" ws-attr=\"BillYearAttr\" type=\"button\" class=\"cursor-pointer dark:text-white text-gray-700 flex-1 rounded-lg py-2 text-sm font-medium transition\r\n                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white\r\n                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900\" data-active=\"true\" aria-pressed=\"true\">\r\n                            Per year\r\n                        </button>\r\n                    </div>\r\n\r\n                    <!-- Plans grid -->\r\n                    <div class=\"mx-auto mt-8 grid max-w-6xl gap-6 sm:grid-cols-2\">\r\n                        <!-- Professional (per seat) -->\r\n                        <div class=\"rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200\r\n                                    dark:bg-gray-950 dark:border-gray-800\" data-price-month=\"250\" data-price-year=\"2500\">\r\n                            <div class=\"flex items-start justify-between gap-4\">\r\n                                <div>\r\n                                    <div class=\"text-sm text-gray-600 dark:text-gray-400\">Plan</div>\r\n                                    <div ws-hole=\"ProName\" class=\"text-2xl font-bold text-gray-950 dark:text-white\">\r\n                                        Professional\r\n                                    </div>\r\n                                    <div class=\"mt-1 text-base text-gray-700 dark:text-gray-300\">\r\n                                        <span ws-hole=\"ProPriceAmount\">$2,500</span>\r\n                                        <span class=\"text-gray-600 dark:text-gray-400\" ws-hole=\"ProPriceLabel\">\r\n                                            / seat / year\r\n                                        </span>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                <!-- Seat selector -->\r\n                                <div class=\"flex items-center gap-2\">\r\n                                    <button ws-onclick=\"OnSeatMinus\" class=\"cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800\r\n                                                dark:border-white/20 dark:text-white\" aria-label=\"Decrease seats\" type=\"button\">\r\n                                        -\r\n                                    </button>\r\n                                    <input type=\"text\" ws-var=\"SeatCount\" inputmode=\"numeric\" pattern=\"[0-9]*\" min=\"1\" step=\"1\" value=\"1\" class=\"w-20 text-center rounded-xl border border-gray-300 bg-transparent dark:border-white/20 text-gray-900 dark:text-white h-10\" aria-label=\"Seat count\">\r\n                                    <button ws-onclick=\"OnSeatPlus\" class=\"cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800\r\n                                                dark:border-white/20 dark:text-white\" aria-label=\"Increase seats\" type=\"button\">\r\n                                        +\r\n                                    </button>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- Total -->\r\n                            <div class=\"mt-4 flex items-center justify-between\">\r\n                                <div class=\"text-sm text-gray-600 dark:text-gray-400\" ws-hole=\"ProTotalLabel\">\r\n                                    Total (yearly)\r\n                                </div>\r\n                                <div class=\"text-xl font-semibold text-gray-950 dark:text-white\" ws-hole=\"ProTotalAmount\">\r\n                                    $2,500\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- CTA -->\r\n                            <a ws-attr=\"ProCheckoutAttr\" class=\"w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800\r\n                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative\r\n                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500\r\n                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200\r\n                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4\">\r\n                                <span class=\"relative text-sm\">Continue to checkout</span>\r\n                            </a>\r\n\r\n                            <p class=\"mt-3 text-xs text-gray-600 dark:text-gray-400 text-center\" ws-hole=\"ProNote\">\r\n                                Assign GitHub usernames after purchase. Prices in USD.\r\n                            </p>\r\n                        </div>\r\n\r\n                        <!-- Freelancer (1 seat) -->\r\n                        <div class=\"rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200\r\n                                    dark:bg-gray-950 dark:border-gray-800\">\r\n                            <div class=\"flex items-start justify-between gap-4\">\r\n                                <div>\r\n                                    <div class=\"text-sm text-gray-600 dark:text-gray-400\">Plan</div>\r\n                                    <div ws-hole=\"FreeName\" class=\"text-2xl font-bold text-gray-950 dark:text-white\">\r\n                                        Freelancer\r\n                                    </div>\r\n                                    <div class=\"mt-1 text-base text-gray-700 dark:text-gray-300\">\r\n                                        <span ws-hole=\"FreePriceAmount\">$300</span>\r\n                                        <span class=\"text-gray-600 dark:text-gray-400\" ws-hole=\"FreePriceLabel\">\r\n                                            / year\r\n                                        </span>\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"rounded-xl border border-gray-300 px-3 h-10 flex items-center\r\n                                            text-gray-800 dark:border-white/20 dark:text-white\">\r\n                                    1 seat\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- Total -->\r\n                            <div class=\"mt-4 flex items-center justify-between\">\r\n                                <div class=\"text-sm text-gray-600 dark:text-gray-400\" ws-hole=\"FreeTotalLabel\">\r\n                                    Total (yearly)\r\n                                </div>\r\n                                <div class=\"text-xl font-semibold text-gray-950 dark:text-white\" ws-hole=\"FreeTotalAmount\">\r\n                                    $300\r\n                                </div>\r\n                            </div>\r\n\r\n                            <!-- CTA -->\r\n                            <a ws-attr=\"FreeCheckoutAttr\" class=\"w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800\r\n                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative\r\n                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500\r\n                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200\r\n                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4\">\r\n                                <span class=\"relative text-sm\">Continue to checkout</span>\r\n                            </a>\r\n\r\n                            <p class=\"mt-3 text-xs text-gray-600 dark:text-gray-400 text-center\" ws-hole=\"FreeNote\">\r\n                                Ideal for solo developers. Prices in USD.\r\n                            </p>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </section>\r\n\r\n            <!-- contact us -->\r\n            <section class=\"scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none\">\r\n                <div class=\"mx-auto max-w-xl p-8 rounded content mb-10\">\r\n                    <h2 class=\"header text-center mb-8\">Contact us</h2>\r\n\r\n                    <form method=\"post\">\r\n\r\n                        <!-- Subject -->\r\n                        <div class=\"mb-6\">\r\n                            <label for=\"emailSubject\" class=\"block font-semibold mb-2\">Subject</label>\r\n                            <input type=\"text\" name=\"email-subject\" ws-var=\"ContactSubjectVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\" value=\"WebSharper support\">\r\n                        </div>\r\n\r\n                        <!-- Message -->\r\n                        <div class=\"mb-6\">\r\n                            <label for=\"emailMessage\" class=\"block font-semibold mb-2\">Message</label>\r\n                            <textarea name=\"email-message\" rows=\"5\" ws-var=\"ContactMessageVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\"></textarea>\r\n                        </div>\r\n\r\n                        <!-- Row with Email, Name, Country -->\r\n                        <div class=\"grid grid-cols-1 md:grid-cols-3 gap-4 mb-6\">\r\n                            <!-- Email -->\r\n                            <div>\r\n                                <label for=\"emailAddress\" class=\"block font-semibold mb-2\">Your email address</label>\r\n                                <input type=\"email\" name=\"email-address\" ws-var=\"ContactEmailVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                            </div>\r\n\r\n                            <!-- Name -->\r\n                            <div>\r\n                                <label for=\"emailName\" class=\"block font-semibold mb-2\">Your name</label>\r\n                                <input type=\"text\" ws-var=\"ContactNameVar\" name=\"name\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                            </div>\r\n\r\n                            <!-- Country -->\r\n                            <div>\r\n                                <label for=\"emailCountry\" class=\"block font-semibold mb-2\">Your country</label>\r\n                                <select name=\"email-country\" ws-var=\"ContactCountryVar\" class=\"w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400\">\r\n                                    <option value=\"Afghanistan\">Afghanistan</option>\r\n                                    <option value=\"Albania\">Albania</option>\r\n                                    <option value=\"Algeria\">Algeria</option>\r\n                                    <option value=\"Andorra\">Andorra</option>\r\n                                    <option value=\"Angola\">Angola</option>\r\n                                    <option value=\"Antigua and Barbuda\">Antigua and Barbuda</option>\r\n                                    <option value=\"Argentina\">Argentina</option>\r\n                                    <option value=\"Armenia\">Armenia</option>\r\n                                    <option value=\"Australia\">Australia</option>\r\n                                    <option value=\"Austria\">Austria</option>\r\n                                    <option value=\"Azerbaijan\">Azerbaijan</option>\r\n                                    <option value=\"Bahamas\">Bahamas</option>\r\n                                    <option value=\"Bahrain\">Bahrain</option>\r\n                                    <option value=\"Bangladesh\">Bangladesh</option>\r\n                                    <option value=\"Barbados\">Barbados</option>\r\n                                    <option value=\"Belarus\">Belarus</option>\r\n                                    <option value=\"Belgium\">Belgium</option>\r\n                                    <option value=\"Belize\">Belize</option>\r\n                                    <option value=\"Benin\">Benin</option>\r\n                                    <option value=\"Bhutan\">Bhutan</option>\r\n                                    <option value=\"Bolivia\">Bolivia</option>\r\n                                    <option value=\"Bosnia and Herzegovina\">Bosnia and Herzegovina</option>\r\n                                    <option value=\"Botswana\">Botswana</option>\r\n                                    <option value=\"Brazil\">Brazil</option>\r\n                                    <option value=\"Brunei\">Brunei</option>\r\n                                    <option value=\"Bulgaria\">Bulgaria</option>\r\n                                    <option value=\"Burkina Faso\">Burkina Faso</option>\r\n                                    <option value=\"Burundi\">Burundi</option>\r\n                                    <option value=\"Cabo Verde\">Cabo Verde</option>\r\n                                    <option value=\"Cambodia\">Cambodia</option>\r\n                                    <option value=\"Cameroon\">Cameroon</option>\r\n                                    <option value=\"Canada\">Canada</option>\r\n                                    <option value=\"Central African Republic\">Central African Republic</option>\r\n                                    <option value=\"Chad\">Chad</option>\r\n                                    <option value=\"Chile\">Chile</option>\r\n                                    <option value=\"China\">China</option>\r\n                                    <option value=\"Colombia\">Colombia</option>\r\n                                    <option value=\"Comoros\">Comoros</option>\r\n                                    <option value=\"Congo (Congo-Brazzaville)\">Congo (Congo-Brazzaville)</option>\r\n                                    <option value=\"Costa Rica\">Costa Rica</option>\r\n                                    <option value=\"Croatia\">Croatia</option>\r\n                                    <option value=\"Cuba\">Cuba</option>\r\n                                    <option value=\"Cyprus\">Cyprus</option>\r\n                                    <option value=\"Czech Republic\">Czech Republic</option>\r\n                                    <option value=\"Democratic Republic of the Congo\">Democratic Republic of the Congo</option>\r\n                                    <option value=\"Denmark\">Denmark</option>\r\n                                    <option value=\"Djibouti\">Djibouti</option>\r\n                                    <option value=\"Dominica\">Dominica</option>\r\n                                    <option value=\"Dominican Republic\">Dominican Republic</option>\r\n                                    <option value=\"Ecuador\">Ecuador</option>\r\n                                    <option value=\"Egypt\">Egypt</option>\r\n                                    <option value=\"El Salvador\">El Salvador</option>\r\n                                    <option value=\"Equatorial Guinea\">Equatorial Guinea</option>\r\n                                    <option value=\"Eritrea\">Eritrea</option>\r\n                                    <option value=\"Estonia\">Estonia</option>\r\n                                    <option value=\"Eswatini\">Eswatini</option>\r\n                                    <option value=\"Ethiopia\">Ethiopia</option>\r\n                                    <option value=\"Fiji\">Fiji</option>\r\n                                    <option value=\"Finland\">Finland</option>\r\n                                    <option value=\"France\">France</option>\r\n                                    <option value=\"Gabon\">Gabon</option>\r\n                                    <option value=\"Gambia\">Gambia</option>\r\n                                    <option value=\"Georgia\">Georgia</option>\r\n                                    <option value=\"Germany\">Germany</option>\r\n                                    <option value=\"Ghana\">Ghana</option>\r\n                                    <option value=\"Greece\">Greece</option>\r\n                                    <option value=\"Grenada\">Grenada</option>\r\n                                    <option value=\"Guatemala\">Guatemala</option>\r\n                                    <option value=\"Guinea\">Guinea</option>\r\n                                    <option value=\"Guinea-Bissau\">Guinea-Bissau</option>\r\n                                    <option value=\"Guyana\">Guyana</option>\r\n                                    <option value=\"Haiti\">Haiti</option>\r\n                                    <option value=\"Honduras\">Honduras</option>\r\n                                    <option value=\"Hungary\">Hungary</option>\r\n                                    <option value=\"Iceland\">Iceland</option>\r\n                                    <option value=\"India\">India</option>\r\n                                    <option value=\"Indonesia\">Indonesia</option>\r\n                                    <option value=\"Iran\">Iran</option>\r\n                                    <option value=\"Iraq\">Iraq</option>\r\n                                    <option value=\"Ireland\">Ireland</option>\r\n                                    <option value=\"Israel\">Israel</option>\r\n                                    <option value=\"Italy\">Italy</option>\r\n                                    <option value=\"Jamaica\">Jamaica</option>\r\n                                    <option value=\"Japan\">Japan</option>\r\n                                    <option value=\"Jordan\">Jordan</option>\r\n                                    <option value=\"Kazakhstan\">Kazakhstan</option>\r\n                                    <option value=\"Kenya\">Kenya</option>\r\n                                    <option value=\"Kiribati\">Kiribati</option>\r\n                                    <option value=\"Kuwait\">Kuwait</option>\r\n                                    <option value=\"Kyrgyzstan\">Kyrgyzstan</option>\r\n                                    <option value=\"Laos\">Laos</option>\r\n                                    <option value=\"Latvia\">Latvia</option>\r\n                                    <option value=\"Lebanon\">Lebanon</option>\r\n                                    <option value=\"Lesotho\">Lesotho</option>\r\n                                    <option value=\"Liberia\">Liberia</option>\r\n                                    <option value=\"Libya\">Libya</option>\r\n                                    <option value=\"Liechtenstein\">Liechtenstein</option>\r\n                                    <option value=\"Lithuania\">Lithuania</option>\r\n                                    <option value=\"Luxembourg\">Luxembourg</option>\r\n                                    <option value=\"Madagascar\">Madagascar</option>\r\n                                    <option value=\"Malawi\">Malawi</option>\r\n                                    <option value=\"Malaysia\">Malaysia</option>\r\n                                    <option value=\"Maldives\">Maldives</option>\r\n                                    <option value=\"Mali\">Mali</option>\r\n                                    <option value=\"Malta\">Malta</option>\r\n                                    <option value=\"Marshall Islands\">Marshall Islands</option>\r\n                                    <option value=\"Mauritania\">Mauritania</option>\r\n                                    <option value=\"Mauritius\">Mauritius</option>\r\n                                    <option value=\"Mexico\">Mexico</option>\r\n                                    <option value=\"Micronesia\">Micronesia</option>\r\n                                    <option value=\"Moldova\">Moldova</option>\r\n                                    <option value=\"Monaco\">Monaco</option>\r\n                                    <option value=\"Mongolia\">Mongolia</option>\r\n                                    <option value=\"Montenegro\">Montenegro</option>\r\n                                    <option value=\"Morocco\">Morocco</option>\r\n                                    <option value=\"Mozambique\">Mozambique</option>\r\n                                    <option value=\"Myanmar (Burma)\">Myanmar (Burma)</option>\r\n                                    <option value=\"Namibia\">Namibia</option>\r\n                                    <option value=\"Nauru\">Nauru</option>\r\n                                    <option value=\"Nepal\">Nepal</option>\r\n                                    <option value=\"Netherlands\">Netherlands</option>\r\n                                    <option value=\"New Zealand\">New Zealand</option>\r\n                                    <option value=\"Nicaragua\">Nicaragua</option>\r\n                                    <option value=\"Niger\">Niger</option>\r\n                                    <option value=\"Nigeria\">Nigeria</option>\r\n                                    <option value=\"North Korea\">North Korea</option>\r\n                                    <option value=\"North Macedonia\">North Macedonia</option>\r\n                                    <option value=\"Norway\">Norway</option>\r\n                                    <option value=\"Oman\">Oman</option>\r\n                                    <option value=\"Pakistan\">Pakistan</option>\r\n                                    <option value=\"Palau\">Palau</option>\r\n                                    <option value=\"Palestine\">Palestine</option>\r\n                                    <option value=\"Panama\">Panama</option>\r\n                                    <option value=\"Papua New Guinea\">Papua New Guinea</option>\r\n                                    <option value=\"Paraguay\">Paraguay</option>\r\n                                    <option value=\"Peru\">Peru</option>\r\n                                    <option value=\"Philippines\">Philippines</option>\r\n                                    <option value=\"Poland\">Poland</option>\r\n                                    <option value=\"Portugal\">Portugal</option>\r\n                                    <option value=\"Qatar\">Qatar</option>\r\n                                    <option value=\"Romania\">Romania</option>\r\n                                    <option value=\"Russia\">Russia</option>\r\n                                    <option value=\"Rwanda\">Rwanda</option>\r\n                                    <option value=\"Saint Kitts and Nevis\">Saint Kitts and Nevis</option>\r\n                                    <option value=\"Saint Lucia\">Saint Lucia</option>\r\n                                    <option value=\"Saint Vincent and the Grenadines\">Saint Vincent and the Grenadines</option>\r\n                                    <option value=\"Samoa\">Samoa</option>\r\n                                    <option value=\"San Marino\">San Marino</option>\r\n                                    <option value=\"Sao Tome and Principe\">Sao Tome and Principe</option>\r\n                                    <option value=\"Saudi Arabia\">Saudi Arabia</option>\r\n                                    <option value=\"Senegal\">Senegal</option>\r\n                                    <option value=\"Serbia\">Serbia</option>\r\n                                    <option value=\"Seychelles\">Seychelles</option>\r\n                                    <option value=\"Sierra Leone\">Sierra Leone</option>\r\n                                    <option value=\"Singapore\">Singapore</option>\r\n                                    <option value=\"Slovakia\">Slovakia</option>\r\n                                    <option value=\"Slovenia\">Slovenia</option>\r\n                                    <option value=\"Solomon Islands\">Solomon Islands</option>\r\n                                    <option value=\"Somalia\">Somalia</option>\r\n                                    <option value=\"South Africa\">South Africa</option>\r\n                                    <option value=\"South Korea\">South Korea</option>\r\n                                    <option value=\"South Sudan\">South Sudan</option>\r\n                                    <option value=\"Spain\">Spain</option>\r\n                                    <option value=\"Sri Lanka\">Sri Lanka</option>\r\n                                    <option value=\"Sudan\">Sudan</option>\r\n                                    <option value=\"Suriname\">Suriname</option>\r\n                                    <option value=\"Sweden\">Sweden</option>\r\n                                    <option value=\"Switzerland\">Switzerland</option>\r\n                                    <option value=\"Syria\">Syria</option>\r\n                                    <option value=\"Taiwan\">Taiwan</option>\r\n                                    <option value=\"Tajikistan\">Tajikistan</option>\r\n                                    <option value=\"Tanzania\">Tanzania</option>\r\n                                    <option value=\"Thailand\">Thailand</option>\r\n                                    <option value=\"Timor-Leste\">Timor-Leste</option>\r\n                                    <option value=\"Togo\">Togo</option>\r\n                                    <option value=\"Tonga\">Tonga</option>\r\n                                    <option value=\"Trinidad and Tobago\">Trinidad and Tobago</option>\r\n                                    <option value=\"Tunisia\">Tunisia</option>\r\n                                    <option value=\"Turkey\">Turkey</option>\r\n                                    <option value=\"Turkmenistan\">Turkmenistan</option>\r\n                                    <option value=\"Tuvalu\">Tuvalu</option>\r\n                                    <option value=\"Uganda\">Uganda</option>\r\n                                    <option value=\"Ukraine\">Ukraine</option>\r\n                                    <option value=\"United Arab Emirates\">United Arab Emirates</option>\r\n                                    <option value=\"United Kingdom\">United Kingdom</option>\r\n                                    <option value=\"United States\" selected=\"\">United States</option>\r\n                                    <option value=\"Uruguay\">Uruguay</option>\r\n                                    <option value=\"Uzbekistan\">Uzbekistan</option>\r\n                                    <option value=\"Vanuatu\">Vanuatu</option>\r\n                                    <option value=\"Vatican City\">Vatican City</option>\r\n                                    <option value=\"Venezuela\">Venezuela</option>\r\n                                    <option value=\"Vietnam\">Vietnam</option>\r\n                                    <option value=\"Yemen\">Yemen</option>\r\n                                    <option value=\"Zambia\">Zambia</option>\r\n                                    <option value=\"Zimbabwe\">Zimbabwe</option>\r\n                                </select>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <!-- Send Button -->\r\n                        <div class=\"text-left\">\r\n                            <button ws-attr=\"ContactSendButtonAttr\" type=\"button\" ws-onclick=\"OnContactSendClick\" class=\"bg-blue-500 text-white font-semibold px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-blue-400\">\r\n                                ${ContactSendButtonText}\r\n                            </button>\r\n                        </div>\r\n\r\n                    </form>\r\n                </div>\r\n            </section>\r\n\r\n        </div>\r\n    "));
 }
 function rightskeleton(h){
   return h?GetOrLoadTemplate("checkout", Some("rightskeleton"), () => ParseHTMLIntoFakeRoot("<div class=\"mt-12 md:mt-2 transition-opacity duration-500 ease-out\">\r\n            <div class=\"h-7 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-12\"></div>\r\n            <div class=\"space-y-6\">\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-4 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                    <div class=\"grid grid-cols-3 gap-2\">\r\n                        <div class=\"col-span-2 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                        <div class=\"h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                    </div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"flex items-center gap-2\">\r\n                    <div class=\"size-5 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"mt-12 h-14 w-full bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse\"></div>\r\n            </div>\r\n        </div>"), h):PrepareTemplate("checkout", Some("rightskeleton"), () => ParseHTMLIntoFakeRoot("<div class=\"mt-12 md:mt-2 transition-opacity duration-500 ease-out\">\r\n            <div class=\"h-7 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-12\"></div>\r\n            <div class=\"space-y-6\">\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-4 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                    <div class=\"grid grid-cols-3 gap-2\">\r\n                        <div class=\"col-span-2 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                        <div class=\"h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                    </div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"flex items-center gap-2\">\r\n                    <div class=\"size-5 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"mt-12 h-14 w-full bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse\"></div>\r\n            </div>\r\n        </div>"));
@@ -944,40 +944,34 @@ function authform(h){
   return h?GetOrLoadTemplate("checkout", Some("authform"), () => ParseHTMLIntoFakeRoot("<section id=\"authSection\" class=\"mt-12 md:mt-2 animate-[fadeIn_0.5s_ease-out]\">\r\n            <h2 class=\"text-xl font-semibold text-gray-950 dark:text:white\">Login & Registration</h2>\r\n            <p class=\"mt-3 text-gray-600 dark:text-gray-400\">\r\n                Please sign in with GitHub to continue to checkout. If this is your first time, we will create your WebSharper account from your GitHub profile.\r\n            </p>\r\n\r\n            <button id=\"wsGithubLogin\" ws-onclick=\"OnGitHubLogin\" type=\"button\" class=\"cursor-pointer mt-6 w-full rounded-xl h-14 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                <span class=\"relative flex items-center gap-2 text-sm\">\r\n                    <svg aria-hidden=\"true\" viewbox=\"0 0 16 16\" class=\"w-4 h-4 fill-current\"><path d=\"M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.18.55-.39 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.2 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.9-3.64-3.95 0-.87.31-1.6.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.06-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.39A8 8 0 0016 8c0-4.42-3.58-8-8-8z\"></path></svg>\r\n                    Continue with GitHub\r\n                </span>\r\n            </button>\r\n\r\n            <p class=\"mt-3 text-xs text-gray-500 dark:text-gray-400\">\r\n                By continuing, you agree to the WebSharper <a href=\"#\" class=\"underline hover:no-underline\">Terms</a> and\r\n                <a href=\"#\" class=\"underline hover:no-underline\">Privacy Policy</a>.\r\n            </p>\r\n            <noscript>\r\n                <p class=\"mt-4 text-red-600 dark:text-red-400 text-sm\">\r\n                    JavaScript is required to sign in and complete checkout. Please enable JavaScript.\r\n                </p>\r\n            </noscript>\r\n        </section>"), h):PrepareTemplate("checkout", Some("authform"), () => ParseHTMLIntoFakeRoot("<section id=\"authSection\" class=\"mt-12 md:mt-2 animate-[fadeIn_0.5s_ease-out]\">\r\n            <h2 class=\"text-xl font-semibold text-gray-950 dark:text:white\">Login & Registration</h2>\r\n            <p class=\"mt-3 text-gray-600 dark:text-gray-400\">\r\n                Please sign in with GitHub to continue to checkout. If this is your first time, we will create your WebSharper account from your GitHub profile.\r\n            </p>\r\n\r\n            <button id=\"wsGithubLogin\" ws-onclick=\"OnGitHubLogin\" type=\"button\" class=\"cursor-pointer mt-6 w-full rounded-xl h-14 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                <span class=\"relative flex items-center gap-2 text-sm\">\r\n                    <svg aria-hidden=\"true\" viewbox=\"0 0 16 16\" class=\"w-4 h-4 fill-current\"><path d=\"M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.18.55-.39 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.2 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.9-3.64-3.95 0-.87.31-1.6.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.06-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.39A8 8 0 0016 8c0-4.42-3.58-8-8-8z\"></path></svg>\r\n                    Continue with GitHub\r\n                </span>\r\n            </button>\r\n\r\n            <p class=\"mt-3 text-xs text-gray-500 dark:text-gray-400\">\r\n                By continuing, you agree to the WebSharper <a href=\"#\" class=\"underline hover:no-underline\">Terms</a> and\r\n                <a href=\"#\" class=\"underline hover:no-underline\">Privacy Policy</a>.\r\n            </p>\r\n            <noscript>\r\n                <p class=\"mt-4 text-red-600 dark:text-red-400 text-sm\">\r\n                    JavaScript is required to sign in and complete checkout. Please enable JavaScript.\r\n                </p>\r\n            </noscript>\r\n        </section>"));
 }
 function paymentform(h){
-  return h?GetOrLoadTemplate("checkout", Some("paymentform"), () => ParseHTMLIntoFakeRoot("<form id=\"paymentSection\" action=\"\" class=\"mt-12 md:mt-2 animate-[fadeIn_0.5s_ease-out]\">\r\n            <h2 class=\"text-xl font-semibold text-gray-950 dark:text-white\">Payment details</h2>\r\n            <div class=\"mt-12 space-y-6\">\r\n                <div class=\"mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2\">\r\n                    <label class=\"block font-medium text-sm\" for=\"email\">Email</label>\r\n                    <input class=\"peer w-full focus:outline rounded-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" type=\"email\" required=\"\" id=\"email\" name=\"email\" ws-var=\"Email\">\r\n                    <span class=\"hidden peer-invalid:hidden peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-red-600 dark:text-red-400 text-sm\">Please enter your email</span>\r\n                </div>\r\n                <div class=\"mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2\">\r\n                    <label class=\"block font-medium text-sm\" for=\"country\">Billing address</label>\r\n\r\n                    <!-- Street -->\r\n                    <input id=\"street\" name=\"street\" placeholder=\"Street address\" required=\"\" ws-var=\"Street\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n\r\n                    <!-- City + Postal -->\r\n                    <div class=\"grid grid-cols-3 gap-2\">\r\n                        <input id=\"city\" name=\"city\" placeholder=\"City\" required=\"\" ws-var=\"City\" class=\"col-span-2 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                        <input id=\"postal\" name=\"postal\" placeholder=\"Postal Code\" required=\"\" ws-var=\"Postal\" class=\"col-span-1 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                    </div>\r\n\r\n                    <!-- Country -->\r\n                    <div class=\"relative\">\r\n                        <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"absolute pointer-events-none inset-y-0 my-auto right-3 size-4\">\r\n                            <path fill-rule=\"evenodd\" d=\"M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                        </svg>\r\n                        <select name=\"country\" id=\"country\" required=\"\" ws-var=\"Country\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            <div ws-replace=\"CountryOptions\"></div>\r\n                        </select>\r\n                    </div>\r\n                </div>\r\n\r\n\r\n                <div class=\"peer\">\r\n                    <label for=\"company\" class=\"flex items-center\">\r\n                        <input class=\"size-0 peer\" type=\"checkbox\" id=\"company\" name=\"company\" ws-var=\"IsCompany\">\r\n                        <div role=\"checkbox\" class=\"shadow shadow-gray-700/5 outline-2 outline-offset-1 outline-blue-600 dark:outline-blue-500 peer-focus:outline size-[1.125rem] group peer relative flex appearance-none items-center justify-center border transition *:-rotate-12 *:scale-50 *:opacity-0 peer-checked:*:-rotate-6 peer-checked:*:scale-100 peer-checked:*:opacity-100 duration-150 before:absolute before:m-auto before:shadow-inner peer-checked:before:border-t peer-checked:before:bg-blue-600 peer-disabled:before:hidden before:border-transparent before:bg-white active:ring-[3px] active:ring-blue-600/10 peer-checked:before:border-gray-800 dark:border-gray-800 dark:bg-transparent dark:before:border dark:peer-checked:before:border-transparent peer-checked:before:shadow-white/10 dark:peer-checked:before:shadow-white/20 dark:peer-checked:before:bg-blue-600 peer-checked:border-none before:border-none border-gray-300 hover:border-gray-400/75 dark:hover:border-gray-700 before:inset-0 p-0 before:shadow-gray-950/5 dark:before:shadow-white/5 dark:before:bg-transparent bg-transparent before:size-full rounded before:rounded-[3px] peer-checked:before:rounded\">\r\n                            <span class=\"transition-all duration-200 relative text-white peer-disabled:text-gray-300 dark:peer-disabled:text-gray-700 pointer-events-none\">\r\n                                <svg class=\"size-4\" viewbox=\"0 0 46 33\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                                    <path d=\"M6 15.91L10.4241 11.546L19.2713 20.273L34.7547 5L39.1788 9.364L19.2723 29L6 15.91Z\" fill=\"white\"></path>\r\n                                </svg>\r\n                            </span>\r\n                        </div>\r\n                        <span class=\"ml-2.5 leading-none text-gray-700 peer-peer-disabled:text-gray-300 dark:text-gray-300 dark:peer-peer-disabled:text-gray-700 select-none block font-medium text-sm\">I represent a company</span>\r\n                    </label>\r\n                </div>\r\n                <div id=\"companyBlock\" ws-attr=\"CompanyBlockAttr\" class=\"hidden peer-has-[:checked]:block mt-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2.5\">\r\n                    <label class=\"block font-medium text-sm\" for=\"company-name\">Company</label>\r\n                    <div class=\"-space-y-px\">\r\n                        <input placeholder=\"Name\" class=\"hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-t-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" required=\"\" id=\"company-name\" name=\"company-name\" ws-var=\"CompanyName\" ws-attr=\"CompanyNameAttr\">\r\n                        <input placeholder=\"VATIN\" class=\"hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-b-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" id=\"vatin\" name=\"vatin\" ws-var=\"Vatin\" ws-attr=\"VatinAttr\">\r\n                    </div>\r\n                    <span class=\"flex gap-2 leading-normal peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-gray-500 dark:text-gray-400 text-sm\">\r\n                        <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"w-4 h-4 mt-0.5\">\r\n                            <path fill-rule=\"evenodd\" d=\"M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM8 4a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z\" clip-rule=\"evenodd\"></path>\r\n                        </svg>\r\n                        <span class=\"block w-[calc(100%-1.25rem)]\">\r\n                            VAT Identification Number. As an EU company (outside Hungary), you can account for the VAT, and supplying us with your VATIN allows us not to charge you for VAT.\r\n                        </span>\r\n                    </span>\r\n                </div>\r\n            </div>\r\n            <div ws-replace=\"FormErrorDoc\"></div>\r\n            <button id=\"wsContinue\" type=\"button\" ws-onclick=\"OnContinueClick\" ws-attr=\"ContinueButtonAttr\" class=\"mt-12 w-full rounded-xl h-14 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                <span ws-hole=\"ContinueText\" class=\"relative text-sm\">Continue to payment</span>\r\n            </button>\r\n        </form>"), h):PrepareTemplate("checkout", Some("paymentform"), () => ParseHTMLIntoFakeRoot("<form id=\"paymentSection\" action=\"\" class=\"mt-12 md:mt-2 animate-[fadeIn_0.5s_ease-out]\">\r\n            <h2 class=\"text-xl font-semibold text-gray-950 dark:text-white\">Payment details</h2>\r\n            <div class=\"mt-12 space-y-6\">\r\n                <div class=\"mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2\">\r\n                    <label class=\"block font-medium text-sm\" for=\"email\">Email</label>\r\n                    <input class=\"peer w-full focus:outline rounded-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" type=\"email\" required=\"\" id=\"email\" name=\"email\" ws-var=\"Email\">\r\n                    <span class=\"hidden peer-invalid:hidden peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-red-600 dark:text-red-400 text-sm\">Please enter your email</span>\r\n                </div>\r\n                <div class=\"mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2\">\r\n                    <label class=\"block font-medium text-sm\" for=\"country\">Billing address</label>\r\n\r\n                    <!-- Street -->\r\n                    <input id=\"street\" name=\"street\" placeholder=\"Street address\" required=\"\" ws-var=\"Street\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n\r\n                    <!-- City + Postal -->\r\n                    <div class=\"grid grid-cols-3 gap-2\">\r\n                        <input id=\"city\" name=\"city\" placeholder=\"City\" required=\"\" ws-var=\"City\" class=\"col-span-2 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                        <input id=\"postal\" name=\"postal\" placeholder=\"Postal Code\" required=\"\" ws-var=\"Postal\" class=\"col-span-1 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                    </div>\r\n\r\n                    <!-- Country -->\r\n                    <div class=\"relative\">\r\n                        <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"absolute pointer-events-none inset-y-0 my-auto right-3 size-4\">\r\n                            <path fill-rule=\"evenodd\" d=\"M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                        </svg>\r\n                        <select name=\"country\" id=\"country\" required=\"\" ws-var=\"Country\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            <div ws-replace=\"CountryOptions\"></div>\r\n                        </select>\r\n                    </div>\r\n                </div>\r\n\r\n\r\n                <div class=\"peer\">\r\n                    <label for=\"company\" class=\"flex items-center\">\r\n                        <input class=\"size-0 peer\" type=\"checkbox\" id=\"company\" name=\"company\" ws-var=\"IsCompany\">\r\n                        <div role=\"checkbox\" class=\"shadow shadow-gray-700/5 outline-2 outline-offset-1 outline-blue-600 dark:outline-blue-500 peer-focus:outline size-[1.125rem] group peer relative flex appearance-none items-center justify-center border transition *:-rotate-12 *:scale-50 *:opacity-0 peer-checked:*:-rotate-6 peer-checked:*:scale-100 peer-checked:*:opacity-100 duration-150 before:absolute before:m-auto before:shadow-inner peer-checked:before:border-t peer-checked:before:bg-blue-600 peer-disabled:before:hidden before:border-transparent before:bg-white active:ring-[3px] active:ring-blue-600/10 peer-checked:before:border-gray-800 dark:border-gray-800 dark:bg-transparent dark:before:border dark:peer-checked:before:border-transparent peer-checked:before:shadow-white/10 dark:peer-checked:before:shadow-white/20 dark:peer-checked:before:bg-blue-600 peer-checked:border-none before:border-none border-gray-300 hover:border-gray-400/75 dark:hover:border-gray-700 before:inset-0 p-0 before:shadow-gray-950/5 dark:before:shadow-white/5 dark:before:bg-transparent bg-transparent before:size-full rounded before:rounded-[3px] peer-checked:before:rounded\">\r\n                            <span class=\"transition-all duration-200 relative text-white peer-disabled:text-gray-300 dark:peer-disabled:text-gray-700 pointer-events-none\">\r\n                                <svg class=\"size-4\" viewbox=\"0 0 46 33\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                                    <path d=\"M6 15.91L10.4241 11.546L19.2713 20.273L34.7547 5L39.1788 9.364L19.2723 29L6 15.91Z\" fill=\"white\"></path>\r\n                                </svg>\r\n                            </span>\r\n                        </div>\r\n                        <span class=\"ml-2.5 leading-none text-gray-700 peer-peer-disabled:text-gray-300 dark:text-gray-300 dark:peer-peer-disabled:text-gray-700 select-none block font-medium text-sm\">I represent a company</span>\r\n                    </label>\r\n                </div>\r\n                <div id=\"companyBlock\" ws-attr=\"CompanyBlockAttr\" class=\"hidden peer-has-[:checked]:block mt-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2.5\">\r\n                    <label class=\"block font-medium text-sm\" for=\"company-name\">Company</label>\r\n                    <div class=\"-space-y-px\">\r\n                        <input placeholder=\"Name\" class=\"hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-t-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" required=\"\" id=\"company-name\" name=\"company-name\" ws-var=\"CompanyName\" ws-attr=\"CompanyNameAttr\">\r\n                        <input placeholder=\"VATIN\" class=\"hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-b-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" id=\"vatin\" name=\"vatin\" ws-var=\"Vatin\" ws-attr=\"VatinAttr\">\r\n                    </div>\r\n                    <span class=\"flex gap-2 leading-normal peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-gray-500 dark:text-gray-400 text-sm\">\r\n                        <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"w-4 h-4 mt-0.5\">\r\n                            <path fill-rule=\"evenodd\" d=\"M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM8 4a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z\" clip-rule=\"evenodd\"></path>\r\n                        </svg>\r\n                        <span class=\"block w-[calc(100%-1.25rem)]\">\r\n                            VAT Identification Number. As an EU company (outside Hungary), you can account for the VAT, and supplying us with your VATIN allows us not to charge you for VAT.\r\n                        </span>\r\n                    </span>\r\n                </div>\r\n            </div>\r\n            <div ws-replace=\"FormErrorDoc\"></div>\r\n            <button id=\"wsContinue\" type=\"button\" ws-onclick=\"OnContinueClick\" ws-attr=\"ContinueButtonAttr\" class=\"mt-12 w-full rounded-xl h-14 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                <span ws-hole=\"ContinueText\" class=\"relative text-sm\">Continue to payment</span>\r\n            </button>\r\n        </form>"));
+  return h?GetOrLoadTemplate("checkout", Some("paymentform"), () => ParseHTMLIntoFakeRoot("<form id=\"paymentSection\" action=\"\" class=\"mt-12 md:mt-2 animate-[fadeIn_0.5s_ease-out]\">\r\n            <h2 class=\"text-xl font-semibold text-gray-950 dark:text-white\">Payment details</h2>\r\n            <div class=\"mt-12 space-y-6\">\r\n                <div class=\"mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2\">\r\n                    <label class=\"block font-medium text-sm\" for=\"email\">Email</label>\r\n                    <input class=\"peer w-full focus:outline rounded-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" type=\"email\" required=\"\" id=\"email\" name=\"email\" ws-var=\"Email\">\r\n                    <span class=\"hidden peer-invalid:hidden peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-red-600 dark:text-red-400 text-sm\">Please enter your email</span>\r\n                </div>\r\n                <div class=\"mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2\">\r\n                    <label class=\"block font-medium text-sm\" for=\"country\">Billing address</label>\r\n\r\n                    <!-- Street -->\r\n                    <input id=\"street\" name=\"street\" placeholder=\"Street address\" required=\"\" ws-var=\"Street\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n\r\n                    <!-- City + Postal -->\r\n                    <div class=\"grid grid-cols-3 gap-2\">\r\n                        <input id=\"city\" name=\"city\" placeholder=\"City\" required=\"\" ws-var=\"City\" class=\"col-span-2 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                        <input id=\"postal\" name=\"postal\" placeholder=\"Postal Code\" required=\"\" ws-var=\"Postal\" class=\"col-span-1 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                    </div>\r\n\r\n                <!-- Country -->\r\n                <div class=\"relative\">\r\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"absolute pointer-events-none inset-y-0 my-auto right-3 size-4\">\r\n                        <path fill-rule=\"evenodd\" d=\"M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                    </svg>\r\n                    <select name=\"country\" id=\"country\" required=\"\" ws-var=\"Country\" class=\"cursor-pointer w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                        <div ws-replace=\"CountryOptions\"></div>\r\n                    </select>\r\n                </div>\r\n            </div>\r\n\r\n\r\n                <div class=\"peer\">\r\n                    <label for=\"company\" class=\"flex items-center\">\r\n                        <input class=\"size-0 peer\" type=\"checkbox\" id=\"company\" name=\"company\" ws-var=\"IsCompany\">\r\n                        <div role=\"checkbox\" class=\"shadow shadow-gray-700/5 outline-2 outline-offset-1 outline-blue-600 dark:outline-blue-500 peer-focus:outline size-[1.125rem] group peer relative flex appearance-none items-center justify-center border transition *:-rotate-12 *:scale-50 *:opacity-0 peer-checked:*:-rotate-6 peer-checked:*:scale-100 peer-checked:*:opacity-100 duration-150 before:absolute before:m-auto before:shadow-inner peer-checked:before:border-t peer-checked:before:bg-blue-600 peer-disabled:before:hidden before:border-transparent before:bg-white active:ring-[3px] active:ring-blue-600/10 peer-checked:before:border-gray-800 dark:border-gray-800 dark:bg-transparent dark:before:border dark:peer-checked:before:border-transparent peer-checked:before:shadow-white/10 dark:peer-checked:before:shadow-white/20 dark:peer-checked:before:bg-blue-600 peer-checked:border-none before:border-none border-gray-300 hover:border-gray-400/75 dark:hover:border-gray-700 before:inset-0 p-0 before:shadow-gray-950/5 dark:before:shadow-white/5 dark:before:bg-transparent bg-transparent before:size-full rounded before:rounded-[3px] peer-checked:before:rounded\">\r\n                            <span class=\"transition-all duration-200 relative text-white peer-disabled:text-gray-300 dark:peer-disabled:text-gray-700 pointer-events-none\">\r\n                                <svg class=\"size-4\" viewbox=\"0 0 46 33\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                                    <path d=\"M6 15.91L10.4241 11.546L19.2713 20.273L34.7547 5L39.1788 9.364L19.2723 29L6 15.91Z\" fill=\"white\"></path>\r\n                                </svg>\r\n                            </span>\r\n                        </div>\r\n                        <span class=\"ml-2.5 leading-none text-gray-700 peer-peer-disabled:text-gray-300 dark:text-gray-300 dark:peer-peer-disabled:text-gray-700 select-none block font-medium text-sm\">I represent a company</span>\r\n                    </label>\r\n                </div>\r\n                <div id=\"companyBlock\" ws-attr=\"CompanyBlockAttr\" class=\"hidden peer-has-[:checked]:block mt-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2.5\">\r\n                    <label class=\"block font-medium text-sm\" for=\"company-name\">Company</label>\r\n                    <div class=\"-space-y-px\">\r\n                        <input placeholder=\"Name\" class=\"hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-t-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" required=\"\" id=\"company-name\" name=\"company-name\" ws-var=\"CompanyName\" ws-attr=\"CompanyNameAttr\">\r\n                        <input placeholder=\"VATIN\" class=\"hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-b-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" id=\"vatin\" name=\"vatin\" ws-var=\"Vatin\" ws-attr=\"VatinAttr\">\r\n                    </div>\r\n                    <span class=\"flex gap-2 leading-normal peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-gray-500 dark:text-gray-400 text-sm\">\r\n                        <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"w-4 h-4 mt-0.5\">\r\n                            <path fill-rule=\"evenodd\" d=\"M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM8 4a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z\" clip-rule=\"evenodd\"></path>\r\n                        </svg>\r\n                        <span class=\"block w-[calc(100%-1.25rem)]\">\r\n                            VAT Identification Number. As an EU company (outside Hungary), you can account for the VAT, and supplying us with your VATIN allows us not to charge you for VAT.\r\n                        </span>\r\n                    </span>\r\n                </div>\r\n            </div>\r\n            <div ws-replace=\"FormErrorDoc\"></div>\r\n            <button id=\"wsContinue\" type=\"button\" ws-onclick=\"OnContinueClick\" ws-attr=\"ContinueButtonAttr\" class=\"mt-12 w-full rounded-xl h-14 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                <span ws-hole=\"ContinueText\" class=\"relative text-sm\">Continue to payment</span>\r\n            </button>\r\n        </form>"), h):PrepareTemplate("checkout", Some("paymentform"), () => ParseHTMLIntoFakeRoot("<form id=\"paymentSection\" action=\"\" class=\"mt-12 md:mt-2 animate-[fadeIn_0.5s_ease-out]\">\r\n            <h2 class=\"text-xl font-semibold text-gray-950 dark:text-white\">Payment details</h2>\r\n            <div class=\"mt-12 space-y-6\">\r\n                <div class=\"mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2\">\r\n                    <label class=\"block font-medium text-sm\" for=\"email\">Email</label>\r\n                    <input class=\"peer w-full focus:outline rounded-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" type=\"email\" required=\"\" id=\"email\" name=\"email\" ws-var=\"Email\">\r\n                    <span class=\"hidden peer-invalid:hidden peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-red-600 dark:text-red-400 text-sm\">Please enter your email</span>\r\n                </div>\r\n                <div class=\"mb-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2\">\r\n                    <label class=\"block font-medium text-sm\" for=\"country\">Billing address</label>\r\n\r\n                    <!-- Street -->\r\n                    <input id=\"street\" name=\"street\" placeholder=\"Street address\" required=\"\" ws-var=\"Street\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n\r\n                    <!-- City + Postal -->\r\n                    <div class=\"grid grid-cols-3 gap-2\">\r\n                        <input id=\"city\" name=\"city\" placeholder=\"City\" required=\"\" ws-var=\"City\" class=\"col-span-2 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                        <input id=\"postal\" name=\"postal\" placeholder=\"Postal Code\" required=\"\" ws-var=\"Postal\" class=\"col-span-1 hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                    </div>\r\n\r\n                <!-- Country -->\r\n                <div class=\"relative\">\r\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"absolute pointer-events-none inset-y-0 my-auto right-3 size-4\">\r\n                        <path fill-rule=\"evenodd\" d=\"M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                    </svg>\r\n                    <select name=\"country\" id=\"country\" required=\"\" ws-var=\"Country\" class=\"cursor-pointer w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                        <div ws-replace=\"CountryOptions\"></div>\r\n                    </select>\r\n                </div>\r\n            </div>\r\n\r\n\r\n                <div class=\"peer\">\r\n                    <label for=\"company\" class=\"flex items-center\">\r\n                        <input class=\"size-0 peer\" type=\"checkbox\" id=\"company\" name=\"company\" ws-var=\"IsCompany\">\r\n                        <div role=\"checkbox\" class=\"shadow shadow-gray-700/5 outline-2 outline-offset-1 outline-blue-600 dark:outline-blue-500 peer-focus:outline size-[1.125rem] group peer relative flex appearance-none items-center justify-center border transition *:-rotate-12 *:scale-50 *:opacity-0 peer-checked:*:-rotate-6 peer-checked:*:scale-100 peer-checked:*:opacity-100 duration-150 before:absolute before:m-auto before:shadow-inner peer-checked:before:border-t peer-checked:before:bg-blue-600 peer-disabled:before:hidden before:border-transparent before:bg-white active:ring-[3px] active:ring-blue-600/10 peer-checked:before:border-gray-800 dark:border-gray-800 dark:bg-transparent dark:before:border dark:peer-checked:before:border-transparent peer-checked:before:shadow-white/10 dark:peer-checked:before:shadow-white/20 dark:peer-checked:before:bg-blue-600 peer-checked:border-none before:border-none border-gray-300 hover:border-gray-400/75 dark:hover:border-gray-700 before:inset-0 p-0 before:shadow-gray-950/5 dark:before:shadow-white/5 dark:before:bg-transparent bg-transparent before:size-full rounded before:rounded-[3px] peer-checked:before:rounded\">\r\n                            <span class=\"transition-all duration-200 relative text-white peer-disabled:text-gray-300 dark:peer-disabled:text-gray-700 pointer-events-none\">\r\n                                <svg class=\"size-4\" viewbox=\"0 0 46 33\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                                    <path d=\"M6 15.91L10.4241 11.546L19.2713 20.273L34.7547 5L39.1788 9.364L19.2723 29L6 15.91Z\" fill=\"white\"></path>\r\n                                </svg>\r\n                            </span>\r\n                        </div>\r\n                        <span class=\"ml-2.5 leading-none text-gray-700 peer-peer-disabled:text-gray-300 dark:text-gray-300 dark:peer-peer-disabled:text-gray-700 select-none block font-medium text-sm\">I represent a company</span>\r\n                    </label>\r\n                </div>\r\n                <div id=\"companyBlock\" ws-attr=\"CompanyBlockAttr\" class=\"hidden peer-has-[:checked]:block mt-2 has-[:disabled]:has-[:where(label,span)]:select-none has-[:disabled]:has-[:where(label,span)]:opacity-50 text-gray-950 dark:text-white has-[:disabled]:has-[:where(label,span)]:text-gray-600 dark:has-[:disabled]:has-[:where(label,span)]:text-gray-400 space-y-2.5\">\r\n                    <label class=\"block font-medium text-sm\" for=\"company-name\">Company</label>\r\n                    <div class=\"-space-y-px\">\r\n                        <input placeholder=\"Name\" class=\"hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-t-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" required=\"\" id=\"company-name\" name=\"company-name\" ws-var=\"CompanyName\" ws-attr=\"CompanyNameAttr\">\r\n                        <input placeholder=\"VATIN\" class=\"hover:z-[1] focus:z-[1] relative w-full focus:outline rounded-b-lg appearance-none transition duration-300 peer border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" id=\"vatin\" name=\"vatin\" ws-var=\"Vatin\" ws-attr=\"VatinAttr\">\r\n                    </div>\r\n                    <span class=\"flex gap-2 leading-normal peer-disabled:text-gray-600 dark:peer-disabled:text-gray-400 text-gray-500 dark:text-gray-400 text-sm\">\r\n                        <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"w-4 h-4 mt-0.5\">\r\n                            <path fill-rule=\"evenodd\" d=\"M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM8 4a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z\" clip-rule=\"evenodd\"></path>\r\n                        </svg>\r\n                        <span class=\"block w-[calc(100%-1.25rem)]\">\r\n                            VAT Identification Number. As an EU company (outside Hungary), you can account for the VAT, and supplying us with your VATIN allows us not to charge you for VAT.\r\n                        </span>\r\n                    </span>\r\n                </div>\r\n            </div>\r\n            <div ws-replace=\"FormErrorDoc\"></div>\r\n            <button id=\"wsContinue\" type=\"button\" ws-onclick=\"OnContinueClick\" ws-attr=\"ContinueButtonAttr\" class=\"mt-12 w-full rounded-xl h-14 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                <span ws-hole=\"ContinueText\" class=\"relative text-sm\">Continue to payment</span>\r\n            </button>\r\n        </form>"));
 }
 function content_1(h){
   return h?GetOrLoadTemplate("checkout", Some("content"), () => ParseHTMLIntoFakeRoot("\r\n        \r\n\r\n        \r\n\r\n        \r\n\r\n        \r\n\r\n        <!-- Main Container -->\r\n        <div ws-onafterrender=\"OnAfterRender\">\r\n            <div class=\"hidden md:block fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800\"></div>\r\n            <div class=\"max-w-6xl mx-auto px-12 gap-20 md:flex\">\r\n\r\n                <div class=\"md:w-1/2 md:pr-20 pt-16\">\r\n                    <a href=\"./\" class=\"rounded-full\">\r\n                        <span class=\"sr-only\">WebSharper logo</span>\r\n                        <img class=\"h-9 w-9 rounded-full bg-white dark:bg-transparent\" src=\"./Assets/favicon.png\" alt=\"websharper logo\" width=\"164\" height=\"164\">\r\n                    </a>\r\n\r\n                    <nav class=\"mt-8 flex gap-3 items-center\">\r\n                        <a id=\"backLink\" ws-attr=\"BackLinkAttr\" href=\"./support#plans\" ws-hole=\"BackLinkLabel\" class=\"text-gray-600 dark:text-gray-300 hover:underline hover:text-blue-600 dark:hover:text-blue-400\">\r\n                            Plans\r\n                        </a>\r\n                        <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"text-gray-400 dark:text-gray-600 size-4\">\r\n                            <path fill-rule=\"evenodd\" d=\"M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                        </svg>\r\n                        <span class=\"text-gray-950 dark:text-white font-medium\">Payment</span>\r\n                    </nav>\r\n\r\n                    <h1 class=\"mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3\">\r\n                        <span ws-hole=\"PlanName\"></span>\r\n                    </h1>\r\n\r\n                    <p class=\"text-3xl font-bold text-gray-950 dark:text-white flex items-baseline gap-1\">\r\n                        <span ws-hole=\"PlanPrice\"></span>\r\n                        <span class=\"text-base text-gray-600 dark:text-gray-400 font-normal\">/ <span ws-hole=\"PlanInterval\"></span></span>\r\n                    </p>\r\n\r\n                    <p class=\"mt-8 text-gray-600 dark:text-gray-400\">Our experienced WebSharper support team is available to help you make the right decisions.</p>\r\n\r\n                    <div id=\"wsSeatSelector\" ws-attr=\"SeatSelectorAttr\" class=\"mt-6\">\r\n                        <label for=\"wsSeats\" class=\"block text-sm font-medium text-gray-700 dark:text-gray-300\">Seats</label>\r\n                        <div class=\"mt-2 flex items-center gap-2\">\r\n                            <button type=\"button\" id=\"wsMinus\" ws-onclick=\"OnSeatMinus\" class=\"cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50\">\r\n                                -\r\n                            </button>\r\n                            <input id=\"wsSeats\" name=\"wsSeats\" ws-var=\"SeatsText\" inputmode=\"numeric\" pattern=\"[0-9]*\" value=\"1\" class=\"h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white\">\r\n                            <button type=\"button\" id=\"wsPlus\" ws-onclick=\"OnSeatPlus\" class=\"cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50\">\r\n                                +\r\n                            </button>\r\n                        </div>\r\n                        <p id=\"wsPriceHint\" class=\"mt-2 text-xs text-gray-500 dark:text-gray-400\">\r\n                            <span ws-hole=\"PriceHint\"></span>\r\n                        </p>\r\n                    </div>\r\n\r\n                    <div class=\"fixed bottom-0 z-10 inset-x-0 px-12 border-t dark:border-gray-800 shadow-lg md:z-0 md:border-none md:shadow-none md:px-0 bg-white dark:bg-gray-900 dark:md:bg-transparent md:bg-transparent md:static mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400\">\r\n                        <div class=\"py-3 flex justify-between\">\r\n                            <p>Subtotal</p>\r\n                            <p aria-live=\"polite\" class=\"font-medium text-gray-950 dark:text-white\">\r\n                                <span ws-hole=\"Subtotal\"></span>\r\n                            </p>\r\n                        </div>\r\n                        <div class=\"py-3 flex justify-between\">\r\n                            <p>Taxes</p>\r\n                            <p class=\"font-medium text-gray-950 dark:text-white\">\r\n                                <span ws-hole=\"Taxes\"></span>\r\n                            </p>\r\n                        </div>\r\n                        <div class=\"py-3 flex justify-between\">\r\n                            <p class=\"text-gray-950 dark:text-white font-medium\">Total</p>\r\n                            <p aria-live=\"polite\" class=\"font-medium text-gray-950 dark:text-white\">\r\n                                <span ws-hole=\"Total\"></span>\r\n                            </p>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"pb-56 md:max-w-md md:w-1/2 md:pt-16 md:pb-16\">\r\n                    <div ws-replace=\"RightSideContent\"></div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    "), h):PrepareTemplate("checkout", Some("content"), () => ParseHTMLIntoFakeRoot("\r\n        \r\n\r\n        \r\n\r\n        \r\n\r\n        \r\n\r\n        <!-- Main Container -->\r\n        <div ws-onafterrender=\"OnAfterRender\">\r\n            <div class=\"hidden md:block fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800\"></div>\r\n            <div class=\"max-w-6xl mx-auto px-12 gap-20 md:flex\">\r\n\r\n                <div class=\"md:w-1/2 md:pr-20 pt-16\">\r\n                    <a href=\"./\" class=\"rounded-full\">\r\n                        <span class=\"sr-only\">WebSharper logo</span>\r\n                        <img class=\"h-9 w-9 rounded-full bg-white dark:bg-transparent\" src=\"./Assets/favicon.png\" alt=\"websharper logo\" width=\"164\" height=\"164\">\r\n                    </a>\r\n\r\n                    <nav class=\"mt-8 flex gap-3 items-center\">\r\n                        <a id=\"backLink\" ws-attr=\"BackLinkAttr\" href=\"./support#plans\" ws-hole=\"BackLinkLabel\" class=\"text-gray-600 dark:text-gray-300 hover:underline hover:text-blue-600 dark:hover:text-blue-400\">\r\n                            Plans\r\n                        </a>\r\n                        <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"text-gray-400 dark:text-gray-600 size-4\">\r\n                            <path fill-rule=\"evenodd\" d=\"M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                        </svg>\r\n                        <span class=\"text-gray-950 dark:text-white font-medium\">Payment</span>\r\n                    </nav>\r\n\r\n                    <h1 class=\"mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3\">\r\n                        <span ws-hole=\"PlanName\"></span>\r\n                    </h1>\r\n\r\n                    <p class=\"text-3xl font-bold text-gray-950 dark:text-white flex items-baseline gap-1\">\r\n                        <span ws-hole=\"PlanPrice\"></span>\r\n                        <span class=\"text-base text-gray-600 dark:text-gray-400 font-normal\">/ <span ws-hole=\"PlanInterval\"></span></span>\r\n                    </p>\r\n\r\n                    <p class=\"mt-8 text-gray-600 dark:text-gray-400\">Our experienced WebSharper support team is available to help you make the right decisions.</p>\r\n\r\n                    <div id=\"wsSeatSelector\" ws-attr=\"SeatSelectorAttr\" class=\"mt-6\">\r\n                        <label for=\"wsSeats\" class=\"block text-sm font-medium text-gray-700 dark:text-gray-300\">Seats</label>\r\n                        <div class=\"mt-2 flex items-center gap-2\">\r\n                            <button type=\"button\" id=\"wsMinus\" ws-onclick=\"OnSeatMinus\" class=\"cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50\">\r\n                                -\r\n                            </button>\r\n                            <input id=\"wsSeats\" name=\"wsSeats\" ws-var=\"SeatsText\" inputmode=\"numeric\" pattern=\"[0-9]*\" value=\"1\" class=\"h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white\">\r\n                            <button type=\"button\" id=\"wsPlus\" ws-onclick=\"OnSeatPlus\" class=\"cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50\">\r\n                                +\r\n                            </button>\r\n                        </div>\r\n                        <p id=\"wsPriceHint\" class=\"mt-2 text-xs text-gray-500 dark:text-gray-400\">\r\n                            <span ws-hole=\"PriceHint\"></span>\r\n                        </p>\r\n                    </div>\r\n\r\n                    <div class=\"fixed bottom-0 z-10 inset-x-0 px-12 border-t dark:border-gray-800 shadow-lg md:z-0 md:border-none md:shadow-none md:px-0 bg-white dark:bg-gray-900 dark:md:bg-transparent md:bg-transparent md:static mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400\">\r\n                        <div class=\"py-3 flex justify-between\">\r\n                            <p>Subtotal</p>\r\n                            <p aria-live=\"polite\" class=\"font-medium text-gray-950 dark:text-white\">\r\n                                <span ws-hole=\"Subtotal\"></span>\r\n                            </p>\r\n                        </div>\r\n                        <div class=\"py-3 flex justify-between\">\r\n                            <p>Taxes</p>\r\n                            <p class=\"font-medium text-gray-950 dark:text-white\">\r\n                                <span ws-hole=\"Taxes\"></span>\r\n                            </p>\r\n                        </div>\r\n                        <div class=\"py-3 flex justify-between\">\r\n                            <p class=\"text-gray-950 dark:text-white font-medium\">Total</p>\r\n                            <p aria-live=\"polite\" class=\"font-medium text-gray-950 dark:text-white\">\r\n                                <span ws-hole=\"Total\"></span>\r\n                            </p>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"pb-56 md:max-w-md md:w-1/2 md:pt-16 md:pb-16\">\r\n                    <div ws-replace=\"RightSideContent\"></div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    "));
-}
-function skeleton(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("skeleton"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] transition-opacity duration-500 ease-out\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <div class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800 space-y-1\">\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n            </div>\r\n        </aside>\r\n\r\n        <div class=\"space-y-6\">\r\n\r\n            <div class=\"space-y-3\">\r\n                <div class=\"h-8 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                <div class=\"h-4 w-full max-w-lg bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n\r\n                <div class=\"flex items-center gap-2 mt-2\">\r\n                    <div class=\"h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-9 w-64 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mt-1\"></div>\r\n            </div>\r\n\r\n            <div class=\"flex flex-wrap items-center justify-between gap-3 pt-4\">\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-4 w-80 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"h-10 w-48 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden\">\r\n                <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                    <div class=\"space-y-2\">\r\n                        <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                        <div class=\"h-4 w-96 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    </div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"bg-gray-50 dark:bg-gray-900/50 h-10 w-full border-t border-b border-gray-200 dark:border-gray-800 animate-pulse\"></div>\r\n\r\n                <div class=\"divide-y divide-gray-200 dark:divide-gray-800\">\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 p-5\">\r\n                <div class=\"flex items-center justify-between mb-4\">\r\n                    <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-10 w-full bg-gray-5 dark:bg-gray-900/50 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-red-100 p-5 dark:border-red-900/30\">\r\n                <div class=\"h-6 w-32 bg-red-100 dark:bg-red-900/50 rounded animate-pulse mb-2\"></div>\r\n                <div class=\"h-4 w-96 bg-red-100 dark:bg-red-900/50 rounded animate-pulse\"></div>\r\n            </div>\r\n        </div>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("skeleton"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] transition-opacity duration-500 ease-out\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <div class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800 space-y-1\">\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n            </div>\r\n        </aside>\r\n\r\n        <div class=\"space-y-6\">\r\n\r\n            <div class=\"space-y-3\">\r\n                <div class=\"h-8 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                <div class=\"h-4 w-full max-w-lg bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n\r\n                <div class=\"flex items-center gap-2 mt-2\">\r\n                    <div class=\"h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-9 w-64 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mt-1\"></div>\r\n            </div>\r\n\r\n            <div class=\"flex flex-wrap items-center justify-between gap-3 pt-4\">\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-4 w-80 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"h-10 w-48 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden\">\r\n                <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                    <div class=\"space-y-2\">\r\n                        <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                        <div class=\"h-4 w-96 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    </div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"bg-gray-50 dark:bg-gray-900/50 h-10 w-full border-t border-b border-gray-200 dark:border-gray-800 animate-pulse\"></div>\r\n\r\n                <div class=\"divide-y divide-gray-200 dark:divide-gray-800\">\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 p-5\">\r\n                <div class=\"flex items-center justify-between mb-4\">\r\n                    <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-10 w-full bg-gray-5 dark:bg-gray-900/50 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-red-100 p-5 dark:border-red-900/30\">\r\n                <div class=\"h-6 w-32 bg-red-100 dark:bg-red-900/50 rounded animate-pulse mb-2\"></div>\r\n                <div class=\"h-4 w-96 bg-red-100 dark:bg-red-900/50 rounded animate-pulse\"></div>\r\n            </div>\r\n        </div>\r\n    </div>"));
-}
-function loginprompt(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("loginprompt"), () => ParseHTMLIntoFakeRoot("<div class=\"rounded-xl border p-6 dark:border-gray-800 dark:text-white text-gray-800 max-w-lg mx-auto mt-12 animate-[fadeIn_0.5s_ease-out]\">\r\n        <h3 class=\"text-lg font-semibold mb-2\">\r\n            Please log in\r\n        </h3>\r\n\r\n        <p class=\"text-sm text-gray-600 dark:text-gray-400 mb-4\">\r\n            You need to be signed in to manage your subscription.\r\n        </p>\r\n\r\n        <button ws-onclick=\"LoginClick\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n            <span class=\"relative text-sm\">\r\n                Log in with GitHub\r\n            </span>\r\n        </button>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("loginprompt"), () => ParseHTMLIntoFakeRoot("<div class=\"rounded-xl border p-6 dark:border-gray-800 dark:text-white text-gray-800 max-w-lg mx-auto mt-12 animate-[fadeIn_0.5s_ease-out]\">\r\n        <h3 class=\"text-lg font-semibold mb-2\">\r\n            Please log in\r\n        </h3>\r\n\r\n        <p class=\"text-sm text-gray-600 dark:text-gray-400 mb-4\">\r\n            You need to be signed in to manage your subscription.\r\n        </p>\r\n\r\n        <button ws-onclick=\"LoginClick\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n            <span class=\"relative text-sm\">\r\n                Log in with GitHub\r\n            </span>\r\n        </button>\r\n    </div>"));
-}
-function authenticatedcontent(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("authenticatedcontent"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] animate-[fadeIn_0.5s_ease-out]\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <nav aria-label=\"Settings\" class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800\">\r\n                <ul class=\"space-y-1 text-sm\">\r\n                    <li>\r\n                        <button data-nav=\"subs\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoSubs\" ws-attr=\"SubsTabAttr\">\r\n                            My subscriptions\r\n                        </button>\r\n                    </li>\r\n                    <li>\r\n                        <button data-nav=\"billing\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoBilling\" ws-attr=\"BillingTabAttr\">\r\n                            Billing information\r\n                        </button>\r\n                    </li>\r\n                </ul>\r\n            </nav>\r\n        </aside>\r\n\r\n        <section>\r\n            <div data-page=\"subs\" ws-attr=\"SubsPageAttr\" class=\"space-y-6 hidden\">\r\n\r\n                <div ws-replace=\"GitHubOrg\"></div>\r\n\r\n                \r\n\r\n                \r\n\r\n                \r\n\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Seats &amp; Access</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Manage GitHub access for your WebSharper subscription.</p>\r\n                    </div>\r\n                    <button ws-onclick=\"OpenCustomerPortal\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Manage billing in Stripe\r\n                    </button>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800\">\r\n                    <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                        <div>\r\n                            <h2 class=\"font-semibold text-gray-900 dark:text-white\">Add seats</h2>\r\n                            <p class=\"mt-1 text-sm text-gray-600 dark:text-gray-400\">You can add more Professional seats in this section. Each new seat is valid for one year.</p>\r\n                        </div>\r\n                        <div>\r\n                            <button ws-onclick=\"AddSeatsClick\" ws-attr=\"AddSeatsButtonAttr\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                                <span class=\"relative text-sm\">Add seats</span>\r\n                            </button>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Seat</th>\r\n                                    <th class=\"px-4 py-3 text-center\">GitHub username</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Expiry</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"SeatsBody\" class=\"divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n\r\n                                \r\n\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div class=\"flex items-center justify-between\">\r\n                        <h2 class=\"font-semibold text-gray-900 dark:text-white\">Invoices</h2>\r\n                        <button ws-onclick=\"RefreshClick\" class=\"rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white\">Refresh</button>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Invoice</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Date</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Amount</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"InvoiceBody\" class=\"divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-red-200 p-5 dark:border-red-900/60\">\r\n                    <h2 class=\"font-semibold text-red-700 dark:text-red-400\">Danger zone</h2>\r\n                    <p class=\"mt-1 text-sm text-red-600 dark:text-red-300\">Unassign removes GitHub access for that seat. You can reassign anytime.</p>\r\n                </section>\r\n            </div>\r\n\r\n            <div data-page=\"billing\" ws-attr=\"BillingPageAttr\" class=\"space-y-6 hidden\">\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Billing information</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Update invoice recipient details, VAT number, and address used for future invoices.</p>\r\n                    </div>\r\n                    <div class=\"flex gap-2\">\r\n                        <button ws-onclick=\"BillingEditClick\" ws-attr=\"BtnBillingEditAttr\" class=\"rounded-lg h-10 px-4 border border-gray-300 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">Edit</button>\r\n                        <button ws-onclick=\"BillingCancelClick\" ws-attr=\"BtnBillingCancelAttr\" class=\"hidden rounded-lg h-10 px-4 border border-gray-300 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">Cancel</button>\r\n                        <button ws-onclick=\"BillingSaveClick\" ws-attr=\"BtnBillingSaveAttr\" class=\"hidden rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                            <span class=\"relative text-sm\">Save</span>\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div ws-attr=\"BillingViewAttr\" class=\"grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm\">\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Company / Full name</div>\r\n                            <div ws-hole=\"BillingNameView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">VAT / Tax ID</div>\r\n                            <div ws-hole=\"BillingVatinView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div class=\"sm:col-span-2\">\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Address line 1</div>\r\n                            <div ws-hole=\"BillingLine1View\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">City</div>\r\n                            <div ws-hole=\"BillingCityView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Postal code</div>\r\n                            <div ws-hole=\"BillingPostalView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Country</div>\r\n                            <div ws-hole=\"BillingCountryView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div ws-attr=\"BillingEditAttr\" class=\"hidden mt-4\">\r\n                        <form class=\"grid grid-cols-1 sm:grid-cols-2 gap-4\">\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Company / Full name</label>\r\n                                <input ws-var=\"BillingNameVar\" name=\"name\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">VAT / Tax ID</label>\r\n                                <input ws-var=\"BillingVatinVar\" name=\"vatin\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div class=\"sm:col-span-2\">\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Address line 1</label>\r\n                                <input ws-var=\"BillingLine1Var\" name=\"line1\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">City</label>\r\n                                <input ws-var=\"BillingCityVar\" name=\"city\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Postal code</label>\r\n                                <input ws-var=\"BillingPostalVar\" name=\"postal_code\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Country</label>\r\n                                <div class=\"relative\">\r\n                                    <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"absolute pointer-events-none inset-y-0 my-auto right-3 size-4 text-gray-500 dark:text-gray-400\">\r\n                                        <path fill-rule=\"evenodd\" d=\"M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                                    </svg>\r\n                                    <select ws-var=\"BillingCountryVar\" name=\"country\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                                        <option value=\"\" disabled=\"\" selected=\"\">Select your country</option>\r\n                                        <div ws-replace=\"CountryOptions\"></div>\r\n                                    </select>\r\n                                </div>\r\n                            </div>\r\n                        </form>\r\n                    </div>\r\n                </section>\r\n            </div>\r\n        </section>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("authenticatedcontent"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] animate-[fadeIn_0.5s_ease-out]\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <nav aria-label=\"Settings\" class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800\">\r\n                <ul class=\"space-y-1 text-sm\">\r\n                    <li>\r\n                        <button data-nav=\"subs\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoSubs\" ws-attr=\"SubsTabAttr\">\r\n                            My subscriptions\r\n                        </button>\r\n                    </li>\r\n                    <li>\r\n                        <button data-nav=\"billing\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoBilling\" ws-attr=\"BillingTabAttr\">\r\n                            Billing information\r\n                        </button>\r\n                    </li>\r\n                </ul>\r\n            </nav>\r\n        </aside>\r\n\r\n        <section>\r\n            <div data-page=\"subs\" ws-attr=\"SubsPageAttr\" class=\"space-y-6 hidden\">\r\n\r\n                <div ws-replace=\"GitHubOrg\"></div>\r\n\r\n                \r\n\r\n                \r\n\r\n                \r\n\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Seats &amp; Access</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Manage GitHub access for your WebSharper subscription.</p>\r\n                    </div>\r\n                    <button ws-onclick=\"OpenCustomerPortal\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Manage billing in Stripe\r\n                    </button>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800\">\r\n                    <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                        <div>\r\n                            <h2 class=\"font-semibold text-gray-900 dark:text-white\">Add seats</h2>\r\n                            <p class=\"mt-1 text-sm text-gray-600 dark:text-gray-400\">You can add more Professional seats in this section. Each new seat is valid for one year.</p>\r\n                        </div>\r\n                        <div>\r\n                            <button ws-onclick=\"AddSeatsClick\" ws-attr=\"AddSeatsButtonAttr\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                                <span class=\"relative text-sm\">Add seats</span>\r\n                            </button>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Seat</th>\r\n                                    <th class=\"px-4 py-3 text-center\">GitHub username</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Expiry</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"SeatsBody\" class=\"divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n\r\n                                \r\n\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div class=\"flex items-center justify-between\">\r\n                        <h2 class=\"font-semibold text-gray-900 dark:text-white\">Invoices</h2>\r\n                        <button ws-onclick=\"RefreshClick\" class=\"rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white\">Refresh</button>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Invoice</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Date</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Amount</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"InvoiceBody\" class=\"divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-red-200 p-5 dark:border-red-900/60\">\r\n                    <h2 class=\"font-semibold text-red-700 dark:text-red-400\">Danger zone</h2>\r\n                    <p class=\"mt-1 text-sm text-red-600 dark:text-red-300\">Unassign removes GitHub access for that seat. You can reassign anytime.</p>\r\n                </section>\r\n            </div>\r\n\r\n            <div data-page=\"billing\" ws-attr=\"BillingPageAttr\" class=\"space-y-6 hidden\">\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Billing information</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Update invoice recipient details, VAT number, and address used for future invoices.</p>\r\n                    </div>\r\n                    <div class=\"flex gap-2\">\r\n                        <button ws-onclick=\"BillingEditClick\" ws-attr=\"BtnBillingEditAttr\" class=\"rounded-lg h-10 px-4 border border-gray-300 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">Edit</button>\r\n                        <button ws-onclick=\"BillingCancelClick\" ws-attr=\"BtnBillingCancelAttr\" class=\"hidden rounded-lg h-10 px-4 border border-gray-300 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">Cancel</button>\r\n                        <button ws-onclick=\"BillingSaveClick\" ws-attr=\"BtnBillingSaveAttr\" class=\"hidden rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                            <span class=\"relative text-sm\">Save</span>\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div ws-attr=\"BillingViewAttr\" class=\"grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm\">\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Company / Full name</div>\r\n                            <div ws-hole=\"BillingNameView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">VAT / Tax ID</div>\r\n                            <div ws-hole=\"BillingVatinView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div class=\"sm:col-span-2\">\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Address line 1</div>\r\n                            <div ws-hole=\"BillingLine1View\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">City</div>\r\n                            <div ws-hole=\"BillingCityView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Postal code</div>\r\n                            <div ws-hole=\"BillingPostalView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Country</div>\r\n                            <div ws-hole=\"BillingCountryView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div ws-attr=\"BillingEditAttr\" class=\"hidden mt-4\">\r\n                        <form class=\"grid grid-cols-1 sm:grid-cols-2 gap-4\">\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Company / Full name</label>\r\n                                <input ws-var=\"BillingNameVar\" name=\"name\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">VAT / Tax ID</label>\r\n                                <input ws-var=\"BillingVatinVar\" name=\"vatin\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div class=\"sm:col-span-2\">\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Address line 1</label>\r\n                                <input ws-var=\"BillingLine1Var\" name=\"line1\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">City</label>\r\n                                <input ws-var=\"BillingCityVar\" name=\"city\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Postal code</label>\r\n                                <input ws-var=\"BillingPostalVar\" name=\"postal_code\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Country</label>\r\n                                <div class=\"relative\">\r\n                                    <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"absolute pointer-events-none inset-y-0 my-auto right-3 size-4 text-gray-500 dark:text-gray-400\">\r\n                                        <path fill-rule=\"evenodd\" d=\"M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                                    </svg>\r\n                                    <select ws-var=\"BillingCountryVar\" name=\"country\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                                        <option value=\"\" disabled=\"\" selected=\"\">Select your country</option>\r\n                                        <div ws-replace=\"CountryOptions\"></div>\r\n                                    </select>\r\n                                </div>\r\n                            </div>\r\n                        </form>\r\n                    </div>\r\n                </section>\r\n            </div>\r\n        </section>\r\n    </div>"));
 }
 function contentwrapper(h){
   return h?GetOrLoadTemplate("managesubscription", Some("contentwrapper"), () => ParseHTMLIntoFakeRoot("<div>\r\n        <div ws-attr=\"SkeletonAttr\">\r\n            <div ws-replace=\"Skeleton\"></div>\r\n        </div>\r\n        <div ws-replace=\"Content\"></div>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("contentwrapper"), () => ParseHTMLIntoFakeRoot("<div>\r\n        <div ws-attr=\"SkeletonAttr\">\r\n            <div ws-replace=\"Skeleton\"></div>\r\n        </div>\r\n        <div ws-replace=\"Content\"></div>\r\n    </div>"));
 }
 function t(h){
-  return h?GetOrLoadTemplate("managesubscription", null, () => ParseHTMLIntoFakeRoot("<html lang=\"en\">\r\n<head>\r\n</head>\r\n<body>\r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    <div class=\"mx-auto max-w-6xl px-10 pt-28 pb-20\" ws-onafterrender=\"OnAfterRender\">\r\n        <div ws-replace=\"MainContent\"></div>\r\n    </div>\r\n\r\n    <div ws-attr=\"ToastAttr\" ws-hole=\"ToastText\" class=\"fixed bottom-4 right-4 hidden rounded-lg px-4 py-2 text-sm bg-gray-900 text-white shadow-lg\" aria-live=\"polite\" role=\"status\">Saved</div>\r\n\r\n    <div ws-attr=\"SpinnerAttr\" class=\"hidden fixed inset-0 z-50 bg-white/50 dark:bg-black/40 backdrop-blur-sm\">\r\n        <div class=\"absolute inset-0 m-auto h-12 w-12 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-white\"></div>\r\n    </div>\r\n</body>\r\n</html>"), h):PrepareTemplate("managesubscription", null, () => ParseHTMLIntoFakeRoot("<html lang=\"en\">\r\n<head>\r\n</head>\r\n<body>\r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    <div class=\"mx-auto max-w-6xl px-10 pt-28 pb-20\" ws-onafterrender=\"OnAfterRender\">\r\n        <div ws-replace=\"MainContent\"></div>\r\n    </div>\r\n\r\n    <div ws-attr=\"ToastAttr\" ws-hole=\"ToastText\" class=\"fixed bottom-4 right-4 hidden rounded-lg px-4 py-2 text-sm bg-gray-900 text-white shadow-lg\" aria-live=\"polite\" role=\"status\">Saved</div>\r\n\r\n    <div ws-attr=\"SpinnerAttr\" class=\"hidden fixed inset-0 z-50 bg-white/50 dark:bg-black/40 backdrop-blur-sm\">\r\n        <div class=\"absolute inset-0 m-auto h-12 w-12 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-white\"></div>\r\n    </div>\r\n</body>\r\n</html>"));
+  return h?GetOrLoadTemplate("managesubscription", null, () => ParseHTMLIntoFakeRoot("<html lang=\"en\">\r\n<head>\r\n</head>\r\n<body>\r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    <div class=\"mx-auto max-w-6xl px-10 pt-28 pb-20\" ws-onafterrender=\"OnAfterRender\">\r\n        <div ws-replace=\"MainContent\"></div>\r\n    </div>\r\n\r\n    <div ws-attr=\"ToastAttr\" ws-hole=\"ToastText\" class=\"fixed bottom-4 right-4 hidden rounded-lg px-4 py-2 text-sm bg-gray-900 text-white shadow-lg\" aria-live=\"polite\" role=\"status\">Saved</div>\r\n\r\n    <div ws-attr=\"SpinnerAttr\" class=\"hidden fixed inset-0 z-50 bg-white/50 dark:bg-black/40 backdrop-blur-sm\">\r\n        <div class=\"absolute inset-0 m-auto h-12 w-12 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-white\"></div>\r\n    </div>\r\n</body>\r\n</html>"), h):PrepareTemplate("managesubscription", null, () => ParseHTMLIntoFakeRoot("<html lang=\"en\">\r\n<head>\r\n</head>\r\n<body>\r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    \r\n\r\n    <div class=\"mx-auto max-w-6xl px-10 pt-28 pb-20\" ws-onafterrender=\"OnAfterRender\">\r\n        <div ws-replace=\"MainContent\"></div>\r\n    </div>\r\n\r\n    <div ws-attr=\"ToastAttr\" ws-hole=\"ToastText\" class=\"fixed bottom-4 right-4 hidden rounded-lg px-4 py-2 text-sm bg-gray-900 text-white shadow-lg\" aria-live=\"polite\" role=\"status\">Saved</div>\r\n\r\n    <div ws-attr=\"SpinnerAttr\" class=\"hidden fixed inset-0 z-50 bg-white/50 dark:bg-black/40 backdrop-blur-sm\">\r\n        <div class=\"absolute inset-0 m-auto h-12 w-12 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-white\"></div>\r\n    </div>\r\n</body>\r\n</html>"));
+}
+function skeleton(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("skeleton"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] transition-opacity duration-500 ease-out\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <div class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800 space-y-1\">\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n            </div>\r\n        </aside>\r\n\r\n        <div class=\"space-y-6\">\r\n\r\n            <div class=\"space-y-3\">\r\n                <div class=\"h-8 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                <div class=\"h-4 w-full max-w-lg bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n\r\n                <div class=\"flex items-center gap-2 mt-2\">\r\n                    <div class=\"h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-9 w-64 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mt-1\"></div>\r\n            </div>\r\n\r\n            <div class=\"flex flex-wrap items-center justify-between gap-3 pt-4\">\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-4 w-80 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"h-10 w-48 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden\">\r\n                <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                    <div class=\"space-y-2\">\r\n                        <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                        <div class=\"h-4 w-96 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    </div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"bg-gray-50 dark:bg-gray-900/50 h-10 w-full border-t border-b border-gray-200 dark:border-gray-800 animate-pulse\"></div>\r\n\r\n                <div class=\"divide-y divide-gray-200 dark:divide-gray-800\">\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 p-5\">\r\n                <div class=\"flex items-center justify-between mb-4\">\r\n                    <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-10 w-full bg-gray-5 dark:bg-gray-900/50 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-red-100 p-5 dark:border-red-900/30\">\r\n                <div class=\"h-6 w-32 bg-red-100 dark:bg-red-900/50 rounded animate-pulse mb-2\"></div>\r\n                <div class=\"h-4 w-96 bg-red-100 dark:bg-red-900/50 rounded animate-pulse\"></div>\r\n            </div>\r\n        </div>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("skeleton"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] transition-opacity duration-500 ease-out\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <div class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800 space-y-1\">\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                <div class=\"h-9 w-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n            </div>\r\n        </aside>\r\n\r\n        <div class=\"space-y-6\">\r\n\r\n            <div class=\"space-y-3\">\r\n                <div class=\"h-8 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                <div class=\"h-4 w-full max-w-lg bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n\r\n                <div class=\"flex items-center gap-2 mt-2\">\r\n                    <div class=\"h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-9 w-64 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mt-1\"></div>\r\n            </div>\r\n\r\n            <div class=\"flex flex-wrap items-center justify-between gap-3 pt-4\">\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-4 w-80 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n                <div class=\"h-10 w-48 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden\">\r\n                <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                    <div class=\"space-y-2\">\r\n                        <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                        <div class=\"h-4 w-96 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    </div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"bg-gray-50 dark:bg-gray-900/50 h-10 w-full border-t border-b border-gray-200 dark:border-gray-800 animate-pulse\"></div>\r\n\r\n                <div class=\"divide-y divide-gray-200 dark:divide-gray-800\">\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                    <div class=\"h-14 bg-white dark:bg-gray-950 w-full animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-gray-200 dark:border-gray-800 p-5\">\r\n                <div class=\"flex items-center justify-between mb-4\">\r\n                    <div class=\"h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse\"></div>\r\n                </div>\r\n\r\n                <div class=\"space-y-2\">\r\n                    <div class=\"h-10 w-full bg-gray-5 dark:bg-gray-900/50 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                    <div class=\"h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse\"></div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"rounded-xl border border-red-100 p-5 dark:border-red-900/30\">\r\n                <div class=\"h-6 w-32 bg-red-100 dark:bg-red-900/50 rounded animate-pulse mb-2\"></div>\r\n                <div class=\"h-4 w-96 bg-red-100 dark:bg-red-900/50 rounded animate-pulse\"></div>\r\n            </div>\r\n        </div>\r\n    </div>"));
 }
 function smoothtextloader(h){
   return h?GetOrLoadTemplate("checkout", Some("smoothtextloader"), () => ParseHTMLIntoFakeRoot("<span class=\"relative inline-block align-bottom ${WrapperClasses}\">\r\n            <span ws-attr=\"SkeletonAttr\" class=\"block w-full h-full transition-opacity duration-500 ease-out\">\r\n                <span class=\"block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full\"></span>\r\n            </span>\r\n            <span ws-attr=\"ContentAttr\" class=\"absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center\">\r\n                <span ws-replace=\"Content\" class=\"w-full\"></span>\r\n            </span>\r\n        </span>"), h):PrepareTemplate("checkout", Some("smoothtextloader"), () => ParseHTMLIntoFakeRoot("<span class=\"relative inline-block align-bottom ${WrapperClasses}\">\r\n            <span ws-attr=\"SkeletonAttr\" class=\"block w-full h-full transition-opacity duration-500 ease-out\">\r\n                <span class=\"block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full\"></span>\r\n            </span>\r\n            <span ws-attr=\"ContentAttr\" class=\"absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center\">\r\n                <span ws-replace=\"Content\" class=\"w-full\"></span>\r\n            </span>\r\n        </span>"));
 }
+function loginprompt(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("loginprompt"), () => ParseHTMLIntoFakeRoot("<div class=\"rounded-xl border p-6 dark:border-gray-800 dark:text-white text-gray-800 max-w-lg mx-auto mt-12 animate-[fadeIn_0.5s_ease-out]\">\r\n        <h3 class=\"text-lg font-semibold mb-2\">\r\n            Please log in\r\n        </h3>\r\n\r\n        <p class=\"text-sm text-gray-600 dark:text-gray-400 mb-4\">\r\n            You need to be signed in to manage your subscription.\r\n        </p>\r\n\r\n        <button ws-onclick=\"LoginClick\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n            <span class=\"relative text-sm\">\r\n                Log in with GitHub\r\n            </span>\r\n        </button>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("loginprompt"), () => ParseHTMLIntoFakeRoot("<div class=\"rounded-xl border p-6 dark:border-gray-800 dark:text-white text-gray-800 max-w-lg mx-auto mt-12 animate-[fadeIn_0.5s_ease-out]\">\r\n        <h3 class=\"text-lg font-semibold mb-2\">\r\n            Please log in\r\n        </h3>\r\n\r\n        <p class=\"text-sm text-gray-600 dark:text-gray-400 mb-4\">\r\n            You need to be signed in to manage your subscription.\r\n        </p>\r\n\r\n        <button ws-onclick=\"LoginClick\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n            <span class=\"relative text-sm\">\r\n                Log in with GitHub\r\n            </span>\r\n        </button>\r\n    </div>"));
+}
+function nosubscriptionwidget(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("nosubscriptionwidget"), () => ParseHTMLIntoFakeRoot("<div class=\"rounded-xl border p-10 dark:border-gray-800 dark:text-white text-gray-800 max-w-lg mx-auto mt-12 text-center animate-[fadeIn_0.5s_ease-out]\">\r\n        <div class=\"mb-4 flex justify-center text-gray-400 dark:text-gray-500\">\r\n            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewbox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-12\">\r\n                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z\"></path>\r\n            </svg>\r\n        </div>\r\n\r\n        <h2 class=\"text-2xl font-bold mb-3 text-gray-900 dark:text-white\">You have no active subscriptions</h2>\r\n\r\n        <p class=\"mb-8 text-gray-600 dark:text-gray-400 leading-relaxed\">\r\n            Start a subscription to unlock premium features, manage seats, and access your invoices directly from this dashboard.\r\n        </p>\r\n\r\n        <button ws-onclick=\"OnSubscribeClick\" class=\"mx-auto w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 transition-all\">\r\n            <span class=\"relative text-sm font-medium\">\r\n                View Plans & Subscribe\r\n            </span>\r\n        </button>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("nosubscriptionwidget"), () => ParseHTMLIntoFakeRoot("<div class=\"rounded-xl border p-10 dark:border-gray-800 dark:text-white text-gray-800 max-w-lg mx-auto mt-12 text-center animate-[fadeIn_0.5s_ease-out]\">\r\n        <div class=\"mb-4 flex justify-center text-gray-400 dark:text-gray-500\">\r\n            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewbox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-12\">\r\n                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z\"></path>\r\n            </svg>\r\n        </div>\r\n\r\n        <h2 class=\"text-2xl font-bold mb-3 text-gray-900 dark:text-white\">You have no active subscriptions</h2>\r\n\r\n        <p class=\"mb-8 text-gray-600 dark:text-gray-400 leading-relaxed\">\r\n            Start a subscription to unlock premium features, manage seats, and access your invoices directly from this dashboard.\r\n        </p>\r\n\r\n        <button ws-onclick=\"OnSubscribeClick\" class=\"mx-auto w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 transition-all\">\r\n            <span class=\"relative text-sm font-medium\">\r\n                View Plans & Subscribe\r\n            </span>\r\n        </button>\r\n    </div>"));
+}
+function authenticatedcontent(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("authenticatedcontent"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] animate-[fadeIn_0.5s_ease-out]\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <nav aria-label=\"Settings\" class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800\">\r\n                <ul class=\"space-y-1 text-sm\">\r\n                    <li>\r\n                        <button data-nav=\"subs\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoSubs\" ws-attr=\"SubsTabAttr\">\r\n                            My subscriptions\r\n                        </button>\r\n                    </li>\r\n                    <li>\r\n                        <button data-nav=\"billing\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoBilling\" ws-attr=\"BillingTabAttr\">\r\n                            Billing information\r\n                        </button>\r\n                    </li>\r\n                </ul>\r\n            </nav>\r\n        </aside>\r\n\r\n        <section>\r\n            <div data-page=\"subs\" ws-attr=\"SubsPageAttr\" class=\"space-y-6 hidden\">\r\n\r\n                <div ws-replace=\"GitHubOrg\"></div>\r\n\r\n                \r\n\r\n                \r\n\r\n                \r\n\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Seats &amp; Access</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Manage GitHub access for your WebSharper subscription.</p>\r\n                    </div>\r\n                    <button ws-onclick=\"OpenCustomerPortal\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Manage billing in Stripe\r\n                    </button>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800\">\r\n                    <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                        <div>\r\n                            <h2 class=\"font-semibold text-gray-900 dark:text-white\">Add seats</h2>\r\n                            <p class=\"mt-1 text-sm text-gray-600 dark:text-gray-400\">You can add more Professional seats in this section. Each new seat is valid for one year.</p>\r\n                        </div>\r\n                        <div>\r\n                            <button ws-onclick=\"AddSeatsClick\" ws-attr=\"AddSeatsButtonAttr\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                                <span class=\"relative text-sm\">Add seats</span>\r\n                            </button>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Seat</th>\r\n                                    <th class=\"px-4 py-3 text-center\">GitHub username</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Expiry</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"SeatsBody\" class=\"divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n\r\n                                \r\n\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div class=\"flex items-center justify-between\">\r\n                        <h2 class=\"font-semibold text-gray-900 dark:text-white\">Invoices</h2>\r\n                        <button ws-onclick=\"RefreshClick\" class=\"rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white\">Refresh</button>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Invoice</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Date</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Amount</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"InvoiceBody\" class=\"divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-red-200 p-5 dark:border-red-900/60\">\r\n                    <h2 class=\"font-semibold text-red-700 dark:text-red-400\">Danger zone</h2>\r\n                    <p class=\"mt-1 text-sm text-red-600 dark:text-red-300\">Unassign removes GitHub access for that seat. You can reassign anytime.</p>\r\n                </section>\r\n            </div>\r\n\r\n            <div data-page=\"billing\" ws-attr=\"BillingPageAttr\" class=\"space-y-6 hidden\">\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Billing information</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Update invoice recipient details, VAT number, and address used for future invoices.</p>\r\n                    </div>\r\n                    <div class=\"flex gap-2\">\r\n                        <button ws-onclick=\"BillingEditClick\" ws-attr=\"BtnBillingEditAttr\" class=\"rounded-lg h-10 px-4 border border-gray-300 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">Edit</button>\r\n                        <button ws-onclick=\"BillingCancelClick\" ws-attr=\"BtnBillingCancelAttr\" class=\"hidden rounded-lg h-10 px-4 border border-gray-300 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">Cancel</button>\r\n                        <button ws-onclick=\"BillingSaveClick\" ws-attr=\"BtnBillingSaveAttr\" class=\"hidden rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                            <span class=\"relative text-sm\">Save</span>\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div ws-attr=\"BillingViewAttr\" class=\"grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm\">\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Company / Full name</div>\r\n                            <div ws-hole=\"BillingNameView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">VAT / Tax ID</div>\r\n                            <div ws-hole=\"BillingVatinView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div class=\"sm:col-span-2\">\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Address line 1</div>\r\n                            <div ws-hole=\"BillingLine1View\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">City</div>\r\n                            <div ws-hole=\"BillingCityView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Postal code</div>\r\n                            <div ws-hole=\"BillingPostalView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Country</div>\r\n                            <div ws-hole=\"BillingCountryView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div ws-attr=\"BillingEditAttr\" class=\"hidden mt-4\">\r\n                        <form class=\"grid grid-cols-1 sm:grid-cols-2 gap-4\">\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Company / Full name</label>\r\n                                <input ws-var=\"BillingNameVar\" name=\"name\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">VAT / Tax ID</label>\r\n                                <input ws-var=\"BillingVatinVar\" name=\"vatin\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div class=\"sm:col-span-2\">\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Address line 1</label>\r\n                                <input ws-var=\"BillingLine1Var\" name=\"line1\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">City</label>\r\n                                <input ws-var=\"BillingCityVar\" name=\"city\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Postal code</label>\r\n                                <input ws-var=\"BillingPostalVar\" name=\"postal_code\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Country</label>\r\n                                <div class=\"relative\">\r\n                                    <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"absolute pointer-events-none inset-y-0 my-auto right-3 size-4 text-gray-500 dark:text-gray-400\">\r\n                                        <path fill-rule=\"evenodd\" d=\"M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                                    </svg>\r\n                                    <select ws-var=\"BillingCountryVar\" name=\"country\" class=\"cursor-pointer w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                                        <option value=\"\" disabled=\"\" selected=\"\">Select your country</option>\r\n                                        <div ws-replace=\"CountryOptions\"></div>\r\n                                    </select>\r\n                                </div>\r\n                            </div>\r\n                        </form>\r\n                    </div>\r\n                </section>\r\n            </div>\r\n        </section>\r\n    </div>"), h):PrepareTemplate("managesubscription", Some("authenticatedcontent"), () => ParseHTMLIntoFakeRoot("<div class=\"grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] animate-[fadeIn_0.5s_ease-out]\">\r\n        <aside class=\"lg:sticky lg:top-24 h-max\">\r\n            <nav aria-label=\"Settings\" class=\"rounded-xl border border-gray-200 p-3 dark:border-gray-800\">\r\n                <ul class=\"space-y-1 text-sm\">\r\n                    <li>\r\n                        <button data-nav=\"subs\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoSubs\" ws-attr=\"SubsTabAttr\">\r\n                            My subscriptions\r\n                        </button>\r\n                    </li>\r\n                    <li>\r\n                        <button data-nav=\"billing\" class=\"settings-tab w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5\" ws-onclick=\"GoBilling\" ws-attr=\"BillingTabAttr\">\r\n                            Billing information\r\n                        </button>\r\n                    </li>\r\n                </ul>\r\n            </nav>\r\n        </aside>\r\n\r\n        <section>\r\n            <div data-page=\"subs\" ws-attr=\"SubsPageAttr\" class=\"space-y-6 hidden\">\r\n\r\n                <div ws-replace=\"GitHubOrg\"></div>\r\n\r\n                \r\n\r\n                \r\n\r\n                \r\n\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Seats &amp; Access</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Manage GitHub access for your WebSharper subscription.</p>\r\n                    </div>\r\n                    <button ws-onclick=\"OpenCustomerPortal\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Manage billing in Stripe\r\n                    </button>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800\">\r\n                    <div class=\"flex flex-wrap items-start justify-between gap-4 px-4 py-4\">\r\n                        <div>\r\n                            <h2 class=\"font-semibold text-gray-900 dark:text-white\">Add seats</h2>\r\n                            <p class=\"mt-1 text-sm text-gray-600 dark:text-gray-400\">You can add more Professional seats in this section. Each new seat is valid for one year.</p>\r\n                        </div>\r\n                        <div>\r\n                            <button ws-onclick=\"AddSeatsClick\" ws-attr=\"AddSeatsButtonAttr\" class=\"w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                                <span class=\"relative text-sm\">Add seats</span>\r\n                            </button>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Seat</th>\r\n                                    <th class=\"px-4 py-3 text-center\">GitHub username</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-center\">Expiry</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"SeatsBody\" class=\"divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n\r\n                                \r\n\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div class=\"flex items-center justify-between\">\r\n                        <h2 class=\"font-semibold text-gray-900 dark:text-white\">Invoices</h2>\r\n                        <button ws-onclick=\"RefreshClick\" class=\"rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white\">Refresh</button>\r\n                    </div>\r\n                    <div class=\"mt-4 overflow-x-auto\">\r\n                        <table class=\"w-full text-sm\">\r\n                            <thead class=\"bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300\">\r\n                                <tr>\r\n                                    <th class=\"px-4 py-3 text-left\">Invoice</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Date</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Amount</th>\r\n                                    <th class=\"px-4 py-3 text-left\">Status</th>\r\n                                    <th class=\"px-4 py-3 text-right\">Actions</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody ws-hole=\"InvoiceBody\" class=\"divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                                \r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </section>\r\n\r\n                <section class=\"rounded-xl border border-red-200 p-5 dark:border-red-900/60\">\r\n                    <h2 class=\"font-semibold text-red-700 dark:text-red-400\">Danger zone</h2>\r\n                    <p class=\"mt-1 text-sm text-red-600 dark:text-red-300\">Unassign removes GitHub access for that seat. You can reassign anytime.</p>\r\n                </section>\r\n            </div>\r\n\r\n            <div data-page=\"billing\" ws-attr=\"BillingPageAttr\" class=\"space-y-6 hidden\">\r\n                <div class=\"flex flex-wrap items-center justify-between gap-3\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">Billing information</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">Update invoice recipient details, VAT number, and address used for future invoices.</p>\r\n                    </div>\r\n                    <div class=\"flex gap-2\">\r\n                        <button ws-onclick=\"BillingEditClick\" ws-attr=\"BtnBillingEditAttr\" class=\"rounded-lg h-10 px-4 border border-gray-300 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">Edit</button>\r\n                        <button ws-onclick=\"BillingCancelClick\" ws-attr=\"BtnBillingCancelAttr\" class=\"hidden rounded-lg h-10 px-4 border border-gray-300 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">Cancel</button>\r\n                        <button ws-onclick=\"BillingSaveClick\" ws-attr=\"BtnBillingSaveAttr\" class=\"hidden rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300\">\r\n                            <span class=\"relative text-sm\">Save</span>\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n\r\n                <section class=\"rounded-xl border border-gray-200 p-5 dark:border-gray-800\">\r\n                    <div ws-attr=\"BillingViewAttr\" class=\"grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm\">\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Company / Full name</div>\r\n                            <div ws-hole=\"BillingNameView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">VAT / Tax ID</div>\r\n                            <div ws-hole=\"BillingVatinView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div class=\"sm:col-span-2\">\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Address line 1</div>\r\n                            <div ws-hole=\"BillingLine1View\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">City</div>\r\n                            <div ws-hole=\"BillingCityView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Postal code</div>\r\n                            <div ws-hole=\"BillingPostalView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                        <div>\r\n                            <div class=\"text-gray-600 dark:text-gray-400\">Country</div>\r\n                            <div ws-hole=\"BillingCountryView\" class=\"font-medium text-gray-900 dark:text-white\">\ufffd</div>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div ws-attr=\"BillingEditAttr\" class=\"hidden mt-4\">\r\n                        <form class=\"grid grid-cols-1 sm:grid-cols-2 gap-4\">\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Company / Full name</label>\r\n                                <input ws-var=\"BillingNameVar\" name=\"name\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">VAT / Tax ID</label>\r\n                                <input ws-var=\"BillingVatinVar\" name=\"vatin\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div class=\"sm:col-span-2\">\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Address line 1</label>\r\n                                <input ws-var=\"BillingLine1Var\" name=\"line1\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">City</label>\r\n                                <input ws-var=\"BillingCityVar\" name=\"city\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Postal code</label>\r\n                                <input ws-var=\"BillingPostalVar\" name=\"postal_code\" class=\"w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                            </div>\r\n                            <div>\r\n                                <label class=\"block text-sm text-gray-600 dark:text-gray-300 mb-1\">Country</label>\r\n                                <div class=\"relative\">\r\n                                    <svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 16 16\" fill=\"currentColor\" class=\"absolute pointer-events-none inset-y-0 my-auto right-3 size-4 text-gray-500 dark:text-gray-400\">\r\n                                        <path fill-rule=\"evenodd\" d=\"M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path>\r\n                                    </svg>\r\n                                    <select ws-var=\"BillingCountryVar\" name=\"country\" class=\"cursor-pointer w-full hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\">\r\n                                        <option value=\"\" disabled=\"\" selected=\"\">Select your country</option>\r\n                                        <div ws-replace=\"CountryOptions\"></div>\r\n                                    </select>\r\n                                </div>\r\n                            </div>\r\n                        </form>\r\n                    </div>\r\n                </section>\r\n            </div>\r\n        </section>\r\n    </div>"));
+}
 function DecodeJson_FSharpOption_1(){
   return Decoder_FSharpOption_1?Decoder_FSharpOption_1:Decoder_FSharpOption_1=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", Id_1(), 0]]]]))();
-}
-function githubactive(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("githubactive"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <button ws-onclick=\"GoToGitHubOrg\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Go to GitHub organization\r\n                    </button>\r\n                </div>"), h):PrepareTemplate("managesubscription", Some("githubactive"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <button ws-onclick=\"GoToGitHubOrg\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Go to GitHub organization\r\n                    </button>\r\n                </div>"));
-}
-function githubpending(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("githubpending"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <div class=\"text-sm\">Pending: ${GitHubOrgName}</div>\r\n                </div>"), h):PrepareTemplate("managesubscription", Some("githubpending"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <div class=\"text-sm\">Pending: ${GitHubOrgName}</div>\r\n                </div>"));
-}
-function githubpendinginput(h){
-  return h?GetOrLoadTemplate("managesubscription", Some("githubpendinginput"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">No GitHub support organization is created for you yet. Please choose a name below.</p>\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"text-sm\">IntelliFactory-</span>\r\n                        <input ws-var=\"GitHubOrgName\" class=\"w-64 hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" placeholder=\"github-orgname-suffix\">\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"mt-1 text-sm text-red-600 dark:text-red-300 mr-2\">You can't change the name after you submit.</span>\r\n                        <button ws-onclick=\"SetGitHubOrgName\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                            Set GitHub organization name\r\n                        </button>\r\n                    </div>\r\n                </div>"), h):PrepareTemplate("managesubscription", Some("githubpendinginput"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">No GitHub support organization is created for you yet. Please choose a name below.</p>\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"text-sm\">IntelliFactory-</span>\r\n                        <input ws-var=\"GitHubOrgName\" class=\"w-64 hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" placeholder=\"github-orgname-suffix\">\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"mt-1 text-sm text-red-600 dark:text-red-300 mr-2\">You can't change the name after you submit.</span>\r\n                        <button ws-onclick=\"SetGitHubOrgName\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                            Set GitHub organization name\r\n                        </button>\r\n                    </div>\r\n                </div>"));
 }
 function DecodeJson_FSharpResult_4(){
   return Decoder_FSharpResult_4?Decoder_FSharpResult_4:Decoder_FSharpResult_4=(DecodeUnion(void 0, "$", [[0, [["$0", "ResultValue", Id_1(), 0]]], [1, [["$0", "ErrorValue", Id_1(), 0]]]]))();
@@ -994,6 +988,27 @@ function DecodeJson_FSharpResult_2(){
 function DecodeJson_Subscription(){
   return Decoder_Subscription?Decoder_Subscription:Decoder_Subscription=(DecodeRecord(void 0, [["subscriptionId", Id_1(), 0], ["planName", Id_1(), 0], ["currentPeriodEnd", Id_1(), 0], ["cancelAtPeriodEnd", Id_1(), 0], ["seats", Id_1(), 0], ["githubAssignedNames", DecodeArray(DecodeJson_FSharpOption_2), 0]]))();
 }
+function githubactive(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("githubactive"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <button ws-onclick=\"GoToGitHubOrg\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Go to GitHub organization\r\n                    </button>\r\n                </div>"), h):PrepareTemplate("managesubscription", Some("githubactive"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <button ws-onclick=\"GoToGitHubOrg\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                        Go to GitHub organization\r\n                    </button>\r\n                </div>"));
+}
+function githubpending(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("githubpending"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <div class=\"text-sm\">Pending: ${GitHubOrgName}</div>\r\n                </div>"), h):PrepareTemplate("managesubscription", Some("githubpending"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div><h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1></div>\r\n                    <div class=\"text-sm\">Pending: ${GitHubOrgName}</div>\r\n                </div>"));
+}
+function githubpendinginput(h){
+  return h?GetOrLoadTemplate("managesubscription", Some("githubpendinginput"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">No GitHub support organization is created for you yet. Please choose a name below.</p>\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"text-sm\">IntelliFactory-</span>\r\n                        <input ws-var=\"GitHubOrgName\" class=\"w-64 hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" placeholder=\"github-orgname-suffix\">\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"mt-1 text-sm text-red-600 dark:text-red-300 mr-2\">You can't change the name after you submit.</span>\r\n                        <button ws-onclick=\"SetGitHubOrgName\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                            Set GitHub organization name\r\n                        </button>\r\n                    </div>\r\n                </div>"), h):PrepareTemplate("managesubscription", Some("githubpendinginput"), () => ParseHTMLIntoFakeRoot("<div class=\"space-y-3 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100\">\r\n                    <div>\r\n                        <h1 class=\"text-2xl font-bold text-gray-900 dark:text-white\">GitHub organization</h1>\r\n                        <p class=\"text-sm text-gray-600 dark:text-gray-400\">No GitHub support organization is created for you yet. Please choose a name below.</p>\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"text-sm\">IntelliFactory-</span>\r\n                        <input ws-var=\"GitHubOrgName\" class=\"w-64 hover:z-[1] focus:z-[1] relative focus:outline rounded-lg appearance-none transition duration-300 border shadow focus:outline-2 focus:-outline-offset-1 focus:border-transparent disabled:shadow-none bg-transparent outline-blue-600 shadow-gray-700/5 border-gray-300 hover:border-gray-400/75 placeholder-gray-400 text-gray-700 dark:bg-transparent dark:focus:bg-gray-900/50 dark:outline-blue-500 dark:shadow-gray-950/40 dark:border-gray-800 dark:hover:border-gray-600 dark:placeholder-gray-600 dark:text-white disabled:bg-gray-100 disabled:border-gray-300 disabled:text-gray-400 disabled:placeholder-gray-300 dark:disabled:bg-gray-600/10 dark:disabled:border-gray-600/20 dark:disabled:text-gray-600 dark:disabled:placeholder-gray-700 text-sm h-10 px-3.5\" placeholder=\"github-orgname-suffix\">\r\n                    </div>\r\n                    <div>\r\n                        <span class=\"mt-1 text-sm text-red-600 dark:text-red-300 mr-2\">You can't change the name after you submit.</span>\r\n                        <button ws-onclick=\"SetGitHubOrgName\" class=\"rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800\">\r\n                            Set GitHub organization name\r\n                        </button>\r\n                    </div>\r\n                </div>"));
+}
+function DecodeJson_PlanPrice(){
+  return Decoder_PlanPrice?Decoder_PlanPrice:Decoder_PlanPrice=(DecodeRecord(void 0, [["code", Id_1(), 0], ["name", Id_1(), 0], ["description", Id_1(), 1], ["isPerSeat", Id_1(), 0], ["maxSeats", Id_1(), 1], ["interval", Id_1(), 0], ["currency", Id_1(), 0], ["unitAmountCents", Id_1(), 0]]))();
+}
+function DecodeJson_BillingData(){
+  return Decoder_BillingData?Decoder_BillingData:Decoder_BillingData=(DecodeRecord(void 0, [["email", Id_1(), 0], ["line1", Id_1(), 0], ["city", Id_1(), 0], ["postalCode", Id_1(), 0], ["country", Id_1(), 0], ["companyName", Id_1(), 1], ["taxId", Id_1(), 1]]))();
+}
+function EncodeJson_BillingData(){
+  return Encoder_BillingData?Encoder_BillingData:Encoder_BillingData=(EncodeRecord(void 0, [["email", Id_1(), 0], ["line1", Id_1(), 0], ["city", Id_1(), 0], ["postalCode", Id_1(), 0], ["country", Id_1(), 0], ["companyName", Id_1(), 1], ["taxId", Id_1(), 1]]))();
+}
+function DecodeJson_FSharpOption_2(){
+  return Decoder_FSharpOption_2?Decoder_FSharpOption_2:Decoder_FSharpOption_2=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", Id_1(), 0]]]]))();
+}
 function seatgrouprow(h){
   return h?GetOrLoadTemplate("managesubscription", Some("seatgrouprow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                    <td colspan=\"5\" class=\"px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-100\">\r\n                                        <div class=\"flex items-center justify-between gap-4\">\r\n                                            <div class=\"text-xs sm:text-sm\">Expires on <span ws-replace=\"Expiry\"></span></div>\r\n                                            <div class=\"flex items-center gap-2\">\r\n                                                <span class=\"text-xs text-gray-600 dark:text-gray-300\">Renew automatically</span>\r\n                                                <button ws-onclick=\"ToggleAutoRenew\" class=\"${ToggleClasses}\"><span class=\"${DotClasses}\"></span></button>\r\n                                            </div>\r\n                                        </div>\r\n                                    </td>\r\n                                </tr>"), h):PrepareTemplate("managesubscription", Some("seatgrouprow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                    <td colspan=\"5\" class=\"px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-100\">\r\n                                        <div class=\"flex items-center justify-between gap-4\">\r\n                                            <div class=\"text-xs sm:text-sm\">Expires on <span ws-replace=\"Expiry\"></span></div>\r\n                                            <div class=\"flex items-center gap-2\">\r\n                                                <span class=\"text-xs text-gray-600 dark:text-gray-300\">Renew automatically</span>\r\n                                                <button ws-onclick=\"ToggleAutoRenew\" class=\"${ToggleClasses}\"><span class=\"${DotClasses}\"></span></button>\r\n                                            </div>\r\n                                        </div>\r\n                                    </td>\r\n                                </tr>"));
 }
@@ -1003,26 +1018,14 @@ function seatrow(h){
 function invoicerow(h){
   return h?GetOrLoadTemplate("managesubscription", Some("invoicerow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                    <td class=\"px-4 py-3\">${InvoiceId}</td>\r\n                                    <td class=\"px-4 py-3\">${Date}</td>\r\n                                    <td class=\"px-4 py-3\">${Amount}</td>\r\n                                    <td class=\"px-4 py-3 capitalize\">${Status}</td>\r\n                                    <td class=\"px-4 py-3 text-right\">\r\n                                        <a class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20\" href=\"${Href}\" target=\"_blank\" rel=\"noopener\">View</a>\r\n                                    </td>\r\n                                </tr>"), h):PrepareTemplate("managesubscription", Some("invoicerow"), () => ParseHTMLIntoFakeRoot("<tr>\r\n                                    <td class=\"px-4 py-3\">${InvoiceId}</td>\r\n                                    <td class=\"px-4 py-3\">${Date}</td>\r\n                                    <td class=\"px-4 py-3\">${Amount}</td>\r\n                                    <td class=\"px-4 py-3 capitalize\">${Status}</td>\r\n                                    <td class=\"px-4 py-3 text-right\">\r\n                                        <a class=\"rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20\" href=\"${Href}\" target=\"_blank\" rel=\"noopener\">View</a>\r\n                                    </td>\r\n                                </tr>"));
 }
-function EncodeJson_BillingData(){
-  return Encoder_BillingData?Encoder_BillingData:Encoder_BillingData=(EncodeRecord(void 0, [["email", Id_1(), 0], ["line1", Id_1(), 0], ["city", Id_1(), 0], ["postalCode", Id_1(), 0], ["country", Id_1(), 0], ["companyName", Id_1(), 1], ["taxId", Id_1(), 1]]))();
-}
 function DecodeJson_FSharpResult_3(){
   return Decoder_FSharpResult_3?Decoder_FSharpResult_3:Decoder_FSharpResult_3=(DecodeUnion(void 0, "$", [[0, [["$0", "ResultValue", Id_1(), 0]]], [1, [["$0", "ErrorValue", Id_1(), 0]]]]))();
 }
-function DecodeJson_PlanPrice(){
-  return Decoder_PlanPrice?Decoder_PlanPrice:Decoder_PlanPrice=(DecodeRecord(void 0, [["code", Id_1(), 0], ["name", Id_1(), 0], ["description", Id_1(), 1], ["isPerSeat", Id_1(), 0], ["maxSeats", Id_1(), 1], ["interval", Id_1(), 0], ["currency", Id_1(), 0], ["unitAmountCents", Id_1(), 0]]))();
-}
-function DecodeJson_BillingData(){
-  return Decoder_BillingData?Decoder_BillingData:Decoder_BillingData=(DecodeRecord(void 0, [["email", Id_1(), 0], ["line1", Id_1(), 0], ["city", Id_1(), 0], ["postalCode", Id_1(), 0], ["country", Id_1(), 0], ["companyName", Id_1(), 1], ["taxId", Id_1(), 1]]))();
-}
-function DecodeJson_FSharpOption_2(){
-  return Decoder_FSharpOption_2?Decoder_FSharpOption_2:Decoder_FSharpOption_2=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", Id_1(), 0]]]]))();
+function DecodeJson_FSharpOption_3(){
+  return Decoder_FSharpOption_3?Decoder_FSharpOption_3:Decoder_FSharpOption_3=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", DecodeJson_GitHubOrg, 0]]]]))();
 }
 function smoothtextloader_1(h){
   return h?GetOrLoadTemplate("managesubscription", Some("smoothtextloader"), () => ParseHTMLIntoFakeRoot("<span class=\"relative inline-block align-bottom ${WrapperClasses}\">\r\n        <span ws-attr=\"SkeletonAttr\" class=\"block w-full h-full transition-opacity duration-500 ease-out\">\r\n            <span class=\"block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full\"></span>\r\n        </span>\r\n        <span ws-attr=\"ContentAttr\" class=\"absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center\">\r\n            <span ws-replace=\"Content\" class=\"w-full\"></span>\r\n        </span>\r\n    </span>"), h):PrepareTemplate("managesubscription", Some("smoothtextloader"), () => ParseHTMLIntoFakeRoot("<span class=\"relative inline-block align-bottom ${WrapperClasses}\">\r\n        <span ws-attr=\"SkeletonAttr\" class=\"block w-full h-full transition-opacity duration-500 ease-out\">\r\n            <span class=\"block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full\"></span>\r\n        </span>\r\n        <span ws-attr=\"ContentAttr\" class=\"absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center\">\r\n            <span ws-replace=\"Content\" class=\"w-full\"></span>\r\n        </span>\r\n    </span>"));
-}
-function DecodeJson_FSharpOption_3(){
-  return Decoder_FSharpOption_3?Decoder_FSharpOption_3:Decoder_FSharpOption_3=(DecodeUnion(void 0, "$", [null, [1, [["$0", "Value", DecodeJson_GitHubOrg, 0]]]]))();
 }
 function DecodeJson_GitHubOrg(){
   return Decoder_GitHubOrg?Decoder_GitHubOrg:Decoder_GitHubOrg=(DecodeRecord(void 0, [["name", Id_1(), 1], ["status", DecodeJson_GitHubOrgStatus, 0]]))();
@@ -1327,7 +1330,7 @@ function loadInvoiceFromApi(){
                 if(m_1==null)return loop(i+1);
                 else {
                   const inv=m_1.$0;
-                  return Return(Some(inv.subscription==null?New_3(inv.id, inv.date, inv.amount, inv.currency, inv.status, Some(subId), inv.billingAddress, inv.company):inv));
+                  return Return(Some(inv.subscription==null?New_1(inv.id, inv.date, inv.amount, inv.currency, inv.status, Some(subId), inv.billingAddress, inv.company):inv));
                 }
               });
             }
@@ -1355,83 +1358,7 @@ function ManageSubscriptionDoc(){
   const i=new TemplateInstance(p[1], skeleton(p[0]));
   let _2=(b.i=i,i);
   const skeletonDoc=_2.Doc;
-  const C=Doc.EmbedView(Map2((_5, _6) => {
-    if(_5){
-      const b_3=new ProviderBuilder("New_1");
-      const p_3=CompleteHoles(b_3.k, b_3.h, []);
-      const i_3=new TemplateInstance(p_3[1], skeleton(p_3[0]));
-      let _7=(b_3.i=i_3,i_3);
-      return _7.Doc;
-    }
-    else if(!_6){
-      const t_1=new ProviderBuilder("New_1");
-      const b_4=(t_1.h.push(EventQ2(t_1.k, "loginclick", () => t_1.i, () => {
-        LoginClick();
-      })),t_1);
-      const p_4=CompleteHoles(b_4.k, b_4.h, []);
-      const i_4=new TemplateInstance(p_4[1], loginprompt(p_4[0]));
-      let _8=(b_4.i=i_4,i_4);
-      return _8.Doc;
-    }
-    else {
-      const C_1=BillingCountryOptions();
-      const t_2=new ProviderBuilder("New_1");
-      const t_3=(t_2.h.push(EventQ2(t_2.k, "gosubs", () => t_2.i, () => {
-        ShowSubsPage();
-      })),t_2);
-      const this_8=(t_3.h.push(EventQ2(t_3.k, "gobilling", () => t_3.i, () => {
-        ShowBillingPage();
-      })),t_3);
-      const this_9=(this_8.h.push(new Attribute("substabattr", SubsTabAttr())),this_8);
-      const this_10=(this_9.h.push(new Attribute("billingtabattr", BillingTabAttr())),this_9);
-      const t_4=(this_10.h.push(new Elt("githuborg", GitHubBody())),this_10);
-      const this_11=(t_4.h.push(EventQ2(t_4.k, "opencustomerportal", () => t_4.i, () => {
-        OpenCustomerPortal();
-      })),t_4);
-      const this_12=(this_11.h.push(new Attribute("subspageattr", SubsPageAttr())),this_11);
-      const this_13=(this_12.h.push(new Attribute("billingpageattr", BillingPageAttr())),this_12);
-      const this_14=(this_13.h.push(new Elt("seatsbody", SeatsBody())),this_13);
-      const this_15=(this_14.h.push(new Elt("invoicebody", InvoicesBody())),this_14);
-      const this_16=(this_15.h.push(new Attribute("billingviewattr", BillingViewAttr())),this_15);
-      const this_17=(this_16.h.push(new Attribute("billingeditattr", BillingEditAttr())),this_16);
-      const this_18=(this_17.h.push(new Attribute("btnbillingeditattr", BtnBillingEditAttr())),this_17);
-      const this_19=(this_18.h.push(new Attribute("btnbillingsaveattr", BtnBillingSaveAttr())),this_18);
-      const this_20=(this_19.h.push(new Attribute("btnbillingcancelattr", BtnBillingCancelAttr())),this_19);
-      const this_21=(this_20.h.push(new Elt("billingnameview", BillingNameView())),this_20);
-      const this_22=(this_21.h.push(new Elt("billingvatinview", BillingVatinView())),this_21);
-      const this_23=(this_22.h.push(new Elt("billingline1view", BillingLine1View())),this_22);
-      const this_24=(this_23.h.push(new Elt("billingcityview", BillingCityView())),this_23);
-      const this_25=(this_24.h.push(new Elt("billingpostalview", BillingPostalView())),this_24);
-      const this_26=(this_25.h.push(new Elt("billingcountryview", BillingCountryView())),this_25);
-      const this_27=(this_26.h.push(new VarStr("billingnamevar", CompanyNameVar_1())),this_26);
-      const this_28=(this_27.h.push(new VarStr("billingvatinvar", CompanyVatinVar())),this_27);
-      const this_29=(this_28.h.push(new VarStr("billingline1var", _c_1.Lens(BillingRecordVar(), (_10) => _10.address.line1, (_10, _11) => New_2(_10.company, New_1(_11, _10.address.city, _10.address.postal_code, _10.address.country))))),this_28);
-      const this_30=(this_29.h.push(new VarStr("billingcityvar", _c_1.Lens(BillingRecordVar(), (_10) => _10.address.city, (_10, _11) => New_2(_10.company, New_1(_10.address.line1, _11, _10.address.postal_code, _10.address.country))))),this_29);
-      const this_31=(this_30.h.push(new VarStr("billingpostalvar", _c_1.Lens(BillingRecordVar(), (_10) => _10.address.postal_code, (_10, _11) => New_2(_10.company, New_1(_10.address.line1, _10.address.city, _11, _10.address.country))))),this_30);
-      const this_32=(this_31.h.push(new VarStr("billingcountryvar", _c_1.Lens(BillingRecordVar(), (_10) => _10.address.country, (_10, _11) => New_2(_10.company, New_1(_10.address.line1, _10.address.city, _10.address.postal_code, _11))))),this_31);
-      const this_33=(this_32.h.push(new Elt("countryoptions", Doc.Concat(C_1))),this_32);
-      const t_5=(this_33.h.push(new Attribute("addseatsbuttonattr", AddSeatsButtonAttr())),this_33);
-      const t_6=(t_5.h.push(EventQ2(t_5.k, "addseatsclick", () => t_5.i, () => {
-        globalThis.location.href="./checkout?plan=pro&interval=year&seats=1";
-      })),t_5);
-      const t_7=(t_6.h.push(EventQ2(t_6.k, "refreshclick", () => t_6.i, () => {
-        HandleRefresh();
-      })),t_6);
-      const t_8=(t_7.h.push(EventQ2(t_7.k, "billingeditclick", () => t_7.i, () => {
-        HandleBillingEdit();
-      })),t_7);
-      const t_9=(t_8.h.push(EventQ2(t_8.k, "billingsaveclick", () => t_8.i, () => {
-        HandleBillingSave();
-      })),t_8);
-      const b_5=(t_9.h.push(EventQ2(t_9.k, "billingcancelclick", () => t_9.i, () => {
-        HandleBillingCancel();
-      })),t_9);
-      const p_5=CompleteHoles(b_5.k, b_5.h, [["billingnamevar", 0, null], ["billingvatinvar", 0, null], ["billingline1var", 0, null], ["billingcityvar", 0, null], ["billingpostalvar", 0, null], ["billingcountryvar", 0, Some("")]]);
-      const i_5=new TemplateInstance(p_5[1], authenticatedcontent(p_5[0]));
-      let _9=(b_5.i=i_5,i_5);
-      return _9.Doc;
-    }
-  }, isLoading_1().View, IsAuthedView()));
+  const C=Doc.EmbedView(Map3(renderContent, isLoading_1().View, IsAuthedView(), SubsVar().View));
   const S=DynamicClassPred("hidden", Map((v) =>!v, isLoading_1().View));
   const this_1=new ProviderBuilder("New_1");
   const this_2=(this_1.h.push(new Elt("skeleton", skeletonDoc)),this_1);
@@ -1459,11 +1386,96 @@ function Init_4(){
 function isLoading_1(){
   return _c_17.isLoading;
 }
+function renderContent(loading, loggedIn, subs){
+  if(loading){
+    const b=new ProviderBuilder("New_1");
+    const p=CompleteHoles(b.k, b.h, []);
+    const i=new TemplateInstance(p[1], skeleton(p[0]));
+    let _2=(b.i=i,i);
+    return _2.Doc;
+  }
+  else if(!loggedIn){
+    const t_1=new ProviderBuilder("New_1");
+    const b_1=(t_1.h.push(EventQ2(t_1.k, "loginclick", () => t_1.i, () => {
+      LoginClick();
+    })),t_1);
+    const p_1=CompleteHoles(b_1.k, b_1.h, []);
+    const i_1=new TemplateInstance(p_1[1], loginprompt(p_1[0]));
+    let _3=(b_1.i=i_1,i_1);
+    return _3.Doc;
+  }
+  else if(length(subs)===0){
+    const t_2=new ProviderBuilder("New_1");
+    const b_2=(t_2.h.push(EventQ2(t_2.k, "onsubscribeclick", () => t_2.i, () => {
+      globalThis.location.href="/support#plans";
+    })),t_2);
+    const p_2=CompleteHoles(b_2.k, b_2.h, []);
+    const i_2=new TemplateInstance(p_2[1], nosubscriptionwidget(p_2[0]));
+    let _4=(b_2.i=i_2,i_2);
+    return _4.Doc;
+  }
+  else {
+    const t_3=new ProviderBuilder("New_1");
+    const t_4=(t_3.h.push(EventQ2(t_3.k, "gosubs", () => t_3.i, () => {
+      ShowSubsPage();
+    })),t_3);
+    const this_1=(t_4.h.push(EventQ2(t_4.k, "gobilling", () => t_4.i, () => {
+      ShowBillingPage();
+    })),t_4);
+    const this_2=(this_1.h.push(new Attribute("substabattr", SubsTabAttr())),this_1);
+    const this_3=(this_2.h.push(new Attribute("billingtabattr", BillingTabAttr())),this_2);
+    const this_4=(this_3.h.push(new Attribute("subspageattr", SubsPageAttr())),this_3);
+    const this_5=(this_4.h.push(new Attribute("billingpageattr", BillingPageAttr())),this_4);
+    const t_5=(this_5.h.push(new Elt("githuborg", GitHubBody())),this_5);
+    const this_6=(t_5.h.push(EventQ2(t_5.k, "opencustomerportal", () => t_5.i, () => {
+      OpenCustomerPortal();
+    })),t_5);
+    const this_7=(this_6.h.push(new Elt("seatsbody", SeatsBody())),this_6);
+    const this_8=(this_7.h.push(new Elt("invoicebody", InvoicesBody())),this_7);
+    const this_9=(this_8.h.push(new Attribute("billingviewattr", BillingViewAttr())),this_8);
+    const this_10=(this_9.h.push(new Attribute("billingeditattr", BillingEditAttr())),this_9);
+    const this_11=(this_10.h.push(new Attribute("btnbillingeditattr", BtnBillingEditAttr())),this_10);
+    const this_12=(this_11.h.push(new Attribute("btnbillingsaveattr", BtnBillingSaveAttr())),this_11);
+    const t_6=(this_12.h.push(new Attribute("btnbillingcancelattr", BtnBillingCancelAttr())),this_12);
+    const t_7=(t_6.h.push(EventQ2(t_6.k, "billingeditclick", () => t_6.i, () => {
+      HandleBillingEdit();
+    })),t_6);
+    const t_8=(t_7.h.push(EventQ2(t_7.k, "billingsaveclick", () => t_7.i, () => {
+      HandleBillingSave();
+    })),t_7);
+    const this_13=(t_8.h.push(EventQ2(t_8.k, "billingcancelclick", () => t_8.i, () => {
+      HandleBillingCancel();
+    })),t_8);
+    const this_14=(this_13.h.push(new Elt("billingnameview", BillingNameView())),this_13);
+    const this_15=(this_14.h.push(new Elt("billingvatinview", BillingVatinView())),this_14);
+    const this_16=(this_15.h.push(new Elt("billingline1view", BillingLine1View())),this_15);
+    const this_17=(this_16.h.push(new Elt("billingcityview", BillingCityView())),this_16);
+    const this_18=(this_17.h.push(new Elt("billingpostalview", BillingPostalView())),this_17);
+    const this_19=(this_18.h.push(new Elt("billingcountryview", BillingCountryView())),this_18);
+    const this_20=(this_19.h.push(new VarStr("billingnamevar", CompanyNameVar_1())),this_19);
+    const this_21=(this_20.h.push(new VarStr("billingvatinvar", CompanyVatinVar())),this_20);
+    const this_22=(this_21.h.push(new VarStr("billingline1var", _c_1.Lens(BillingRecordVar(), (_6) => _6.address.line1, (_6, _7) => New_5(_6.company, New_3(_7, _6.address.city, _6.address.postal_code, _6.address.country))))),this_21);
+    const this_23=(this_22.h.push(new VarStr("billingcityvar", _c_1.Lens(BillingRecordVar(), (_6) => _6.address.city, (_6, _7) => New_5(_6.company, New_3(_6.address.line1, _7, _6.address.postal_code, _6.address.country))))),this_22);
+    const this_24=(this_23.h.push(new VarStr("billingpostalvar", _c_1.Lens(BillingRecordVar(), (_6) => _6.address.postal_code, (_6, _7) => New_5(_6.company, New_3(_6.address.line1, _6.address.city, _7, _6.address.country))))),this_23);
+    const this_25=(this_24.h.push(new VarStr("billingcountryvar", _c_1.Lens(BillingRecordVar(), (_6) => _6.address.country, (_6, _7) => New_5(_6.company, New_3(_6.address.line1, _6.address.city, _6.address.postal_code, _7))))),this_24);
+    const t_9=(this_25.h.push(new Attribute("addseatsbuttonattr", AddSeatsButtonAttr())),this_25);
+    const t_10=(t_9.h.push(EventQ2(t_9.k, "addseatsclick", () => t_9.i, () => {
+      globalThis.location.href="./checkout?plan=pro&interval=year&seats=1";
+    })),t_9);
+    const b_3=(t_10.h.push(EventQ2(t_10.k, "refreshclick", () => t_10.i, () => {
+      HandleRefresh();
+    })),t_10);
+    const p_3=CompleteHoles(b_3.k, b_3.h, [["billingnamevar", 0, null], ["billingvatinvar", 0, null], ["billingline1var", 0, null], ["billingcityvar", 0, null], ["billingpostalvar", 0, null], ["billingcountryvar", 0, Some("")]]);
+    const i_3=new TemplateInstance(p_3[1], authenticatedcontent(p_3[0]));
+    let _5=(b_3.i=i_3,i_3);
+    return _5.Doc;
+  }
+}
 function loadAllAfterAuth(){
-  StartImmediate(Delay(() => TryFinally(Delay(() => Bind_1(Parallel([Delay(() => Bind_1(loadSubscriptionsAsync(), () => {
+  StartImmediate(Delay(() => TryFinally(Delay(() => Bind_1(loadSubscriptionsAsync(), () => {
     chooseCurrentSubscription();
-    return Zero();
-  })), loadSeatsAsync(), loadInvoicesAsync(), loadBillingAsync(), loadCustomerPortalAsync(), loadGitHubOrg()]), () => Return(null))), () => {
+    return length(SubsVar().Get())>0?Bind_1(Parallel([loadSeatsAsync(), loadInvoicesAsync(), loadBillingAsync(), loadCustomerPortalAsync(), loadGitHubOrg()]), () => Return(null)):Zero();
+  })), () => {
     isLoading_1().Set(false);
   })), null);
 }
@@ -1837,13 +1849,13 @@ function Handler(name, callback){
     el.addEventListener(name, (d) =>(callback(el))(d), false);
   });
 }
+function OnAfterRender_3(callback){
+  return Attr.A4(callback);
+}
 function DynamicProp(name, view){
   return Dynamic_1(view, (el) =>(v) => {
     el[name]=v;
   });
-}
-function OnAfterRender_3(callback){
-  return Attr.A4(callback);
 }
 function Value(var_1){
   return ValueWith(StringApply(), var_1);
@@ -1851,9 +1863,6 @@ function Value(var_1){
 function ValueWith(bind, var_1){
   const p=bind(var_1);
   return AppendTree(Attr.A3(p[0]), DynamicCustom(p[1], p[2]));
-}
-function DynamicCustom(set_1, view){
-  return Dynamic_1(view, set_1);
 }
 function FloatValueUnchecked(var_1){
   return ValueWith(FloatApplyUnchecked(), var_1);
@@ -1870,6 +1879,9 @@ function FileValue(var_1){
 function StringListValue(var_1){
   return ValueWith(StringListApply(), var_1);
 }
+function DynamicCustom(set_1, view){
+  return Dynamic_1(view, set_1);
+}
 function Map(fn, a){
   return CreateLazy(() => Map_1(fn, a()));
 }
@@ -1879,6 +1891,9 @@ function Const(x){
 }
 function Map2(fn, a, a_1){
   return CreateLazy(() => Map2_1(fn, a(), a_1()));
+}
+function Map3(fn, a, a_1, a_2){
+  return CreateLazy(() => Map3_1(fn, a(), a_1(), a_2()));
 }
 function CreateLazy(observe){
   const lv={c:null, o:observe};
@@ -1897,9 +1912,6 @@ function CreateLazy(observe){
     else return c;
   };
 }
-function Map3(fn, a, a_1, a_2){
-  return CreateLazy(() => Map3_1(fn, a(), a_1(), a_2()));
-}
 function Bind(fn, view){
   return Join(Map(fn, view));
 }
@@ -1916,6 +1928,9 @@ function Sink(act, a){
     });
   }
   scheduler().Fork(loop);
+}
+function Sequence(views){
+  return CreateLazy(() => Sequence_1(map((a) => a(), views)));
 }
 function MapSeqCachedViewBy(key, conv, view){
   const state=[new Dictionary("New_5")];
@@ -1936,9 +1951,6 @@ function MapSeqCachedViewBy(key, conv, view){
     state[0]=newState;
     return result;
   }, view);
-}
-function Sequence(views){
-  return CreateLazy(() => Sequence_1(map((a) => a(), views)));
 }
 function ConvertSeqNode(conv, value){
   const var_1=_c_1.Create_1(value);
@@ -2685,6 +2697,9 @@ function OpenCustomerPortal(){
 function ActivePage(){
   return _c_16.ActivePage;
 }
+function ToastMessage(){
+  return _c_16.ToastMessage;
+}
 function showToast(msg){
   const msg_1=IsNullOrWhiteSpace(msg)?"Saved":msg;
   ToastMessage().Set(Some(msg_1));
@@ -2695,301 +2710,40 @@ function showToast(msg){
 function setLoading(on){
   IsLoading_1().Set(on);
 }
-function ToastMessage(){
-  return _c_16.ToastMessage;
-}
 function IsLoading_1(){
   return _c_16.IsLoading;
 }
-function LoginClick(){
-  Login();
+function SubsVar(){
+  return _c_18.SubsVar;
 }
-function AddSeatsButtonAttr(){
-  return _c_18.AddSeatsButtonAttr;
+function UserVar(){
+  return _c_18.UserVar;
 }
-function SeatsBody(){
-  return _c_18.SeatsBody;
+function StateVar(){
+  return _c_18.StateVar;
 }
-function RefreshSeats(){
-  StartImmediate(refreshSeatsAsync(), null);
+function CustomerPortalLinkVar(){
+  return _c_18.CustomerPortalLinkVar;
 }
-function groupHeaderDoc(subId, expiry, autoRenew){
-  const isProcessing=_c_1.Create_1(false);
-  const baseBtn="relative inline-flex h-5 w-9 items-center rounded-full border text-xs transition-colors ";
-  const baseDot="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ";
-  const x=Doc.TextNode(expiry);
-  const E=BindSmoothLoader_1("w-24 h-5", isProcessing.View, x);
-  const this_1=new ProviderBuilder("New_1");
-  const this_2=(this_1.h.push(new Elt("expiry", E)),this_1);
-  const this_3=(this_2.h.push(new Text("toggleclasses", autoRenew?baseBtn+"bg-emerald-500 border-emerald-500":baseBtn+"bg-gray-300 border-gray-400 dark:bg-gray-700 dark:border-gray-600")),this_2);
-  const t_1=(this_3.h.push(new Text("dotclasses", autoRenew?baseDot+"translate-x-4":baseDot+"translate-x-0")),this_3);
-  const b=(t_1.h.push(EventQ2(t_1.k, "toggleautorenew", () => t_1.i, () => {
-    toggleAutoRenew(subId, expiry, autoRenew, isProcessing);
-  })),t_1);
-  const p=CompleteHoles(b.k, b.h, []);
-  const i=new TemplateInstance(p[1], seatgrouprow(p[0]));
-  let _2=(b.i=i,i);
-  return _2.Doc;
+function BillingVar(){
+  return _c_18.BillingVar;
 }
-function seatRowDoc(seat, isLocked){
-  const isProcessing=_c_1.Create_1(false);
-  const usernameVar=_c_1.Create_1(seat.username);
-  const U=unassignButtonAttr(seat, isLocked, isProcessing.View);
-  const A=assignButtonAttr(seat, isLocked, isProcessing.View);
-  const x=Doc.TextNode(seat.expiry);
-  const E=BindSmoothLoader_1("w-24 h-5", isProcessing.View, x);
-  const x_1=seatBadge(seat.status);
-  const S=BindSmoothLoader_1("w-16 h-6", isProcessing.View, x_1);
-  const x_2=Doc.Input([Attr.Create("class", "w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm"), Attr.Create("placeholder", "github-username"), usernameAttr(seat, isLocked)], usernameVar);
-  const U_1=BindSmoothLoader_1("w-full h-8", isProcessing.View, x_2);
-  const this_1=new ProviderBuilder("New_1");
-  const this_2=(this_1.h.push(new Text("seatlabel", "#"+String(seat.seatNo))),this_1);
-  const this_3=(this_2.h.push(new Elt("usernamewidget", U_1)),this_2);
-  const this_4=(this_3.h.push(new Elt("statusbadge", S)),this_3);
-  const this_5=(this_4.h.push(new Elt("expiry", E)),this_4);
-  const this_6=(this_5.h.push(new Attribute("assignbuttonattr", A)),this_5);
-  const t_1=(this_6.h.push(new Attribute("unassignbuttonattr", U)),this_6);
-  const t_2=(t_1.h.push(EventQ2(t_1.k, "assignseat", () => t_1.i, () => {
-    if(!isLocked)assignSeat(seat.subscriptionId, seat.seatNo, Trim(usernameVar.Get()).toLowerCase(), isProcessing);
-  })),t_1);
-  const b=(t_2.h.push(EventQ2(t_2.k, "unassignseat", () => t_2.i, () => {
-    unassignSeat(seat.subscriptionId, seat.seatNo, isProcessing);
-  })),t_2);
-  const p=CompleteHoles(b.k, b.h, []);
-  const i=new TemplateInstance(p[1], seatrow(p[0]));
-  let _2=(b.i=i,i);
-  return _2.Doc;
+function CurrentSubIdVar(){
+  return _c_18.CurrentSubIdVar;
 }
-function seatGroupsDoc(){
-  return _c_18.seatGroupsDoc;
+function InvoicesVar(){
+  return _c_18.InvoicesVar;
 }
-function refreshSeatsAsync(){
-  return Delay(() => Bind_1(GetAllSeats(), (a) => {
-    SeatsVar().Set(a);
-    return Zero();
-  }));
+function SeatsVar(){
+  return _c_18.SeatsVar;
 }
-function BindSmoothLoader_1(widthClass, isLoading_2, content_6){
-  const C=ofArray([DynamicClassPred("opacity-0", isLoading_2), DynamicClassPred("pointer-events-none", isLoading_2)]);
-  const S=ofArray([DynamicClassPred("opacity-0", Map((v) =>!v, isLoading_2)), Class("relative z-10 pointer-events-none")]);
-  const this_1=new ProviderBuilder("New_1");
-  const this_2=(this_1.h.push(new Text("wrapperclasses", widthClass)),this_1);
-  const this_3=(this_2.h.push(new Attribute("skeletonattr", Attr.Concat(S))),this_2);
-  const this_4=(this_3.h.push(new Attribute("contentattr", Attr.Concat(C))),this_3);
-  const b=(this_4.h.push(new Elt("content", content_6)),this_4);
-  const p=CompleteHoles(b.k, b.h, []);
-  const i=new TemplateInstance(p[1], smoothtextloader_1(p[0]));
-  let _2=(b.i=i,i);
-  return _2.Doc;
+function GitHubOrgVar(){
+  return _c_18.GitHubOrgVar;
 }
-function toggleAutoRenew(subId, expiry, currentAutoRenew, loading){
-  StartImmediate(Delay(() => {
-    loading.Set(true);
-    return TryFinally(Delay(() => {
-      const newAuto=!currentAutoRenew;
-      SeatsVar().Set(map_1((s) => s.subscriptionId==subId&&s.expiry==expiry?New_15(s.seatNo, s.username, s.status, s.expiry, newAuto, s.subscriptionId):s, SeatsVar().Get()));
-      return Bind_1(SetAutoRenew(subId, currentAutoRenew), (a) => a?(showToast("Updated"),Zero()):Zero());
-    }), () => {
-      loading.Set(false);
-    });
-  }), null);
-}
-function usernameAttr(seat, isLocked){
-  return isLocked||SeatStatus.FromString(seat.status).$===0?Attr.Create("readonly", ""):EmptyAttr();
-}
-function seatBadge(statusStr){
-  const baseClass="inline-flex items-center rounded-full border px-2 py-0.5 text-xs ";
-  const status=SeatStatus.FromString(statusStr);
-  return Doc.Element("span", [Attr.Create("class", status.$==1?baseClass+"border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300":baseClass+"border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300")], [Doc.TextNode(status.AsString)]);
-}
-function assignButtonAttr(seat, isLocked, loading){
-  return isLocked||SeatStatus.FromString(seat.status).$===0?Attr.Create("style", "display: none"):DynamicClassPred("disabled", loading);
-}
-function unassignButtonAttr(seat, isLocked, loading){
-  return SeatStatus.FromString(seat.status).$!==0||isLocked?Attr.Create("style", "display: none"):Attr.Concat([DynamicProp("disabled", loading), DynamicClassPred("opacity-50 cursor-not-allowed", loading)]);
-}
-function assignSeat(subId, seatNo, username, loading){
-  if(!IsNullOrWhiteSpace(username))StartImmediate(Delay(() => {
-    loading.Set(true);
-    return TryFinally(Delay(() => Bind_1(verifyGitHubUser(username), (a) => a?Bind_1(AssignSeat(subId, seatNo, username), (a_1) => a_1?Bind_1(refreshSeatsAsync(), () => {
-      showToast("Updated");
-      return Zero();
-    }):Zero()):(showToast("GitHub user '"+username+"' not found"),Zero()))), () => {
-      loading.Set(false);
-    });
-  }), null);
-}
-function unassignSeat(subId, seatNo, loading){
-  StartImmediate(Delay(() => {
-    loading.Set(true);
-    return TryFinally(Delay(() => Bind_1(UnassignSeat(subId, seatNo), (a) => a?Bind_1(refreshSeatsAsync(), () => {
-      showToast("Updated");
-      return Zero();
-    }):Zero())), () => {
-      loading.Set(false);
-    });
-  }), null);
-}
-function verifyGitHubUser(username){
-  return Delay(() => Bind_1(AsAsync(globalThis.fetch("https://api.github.com/users/"+username)), (a) => Return(a.ok)));
-}
-function BillingRecordVar(){
-  return _c_19.BillingRecordVar;
-}
-function CompanyVatinVar(){
-  return _c_19.CompanyVatinVar;
-}
-function CompanyNameVar_1(){
-  return _c_19.CompanyNameVar;
-}
-function BillingCountryView(){
-  return _c_19.BillingCountryView;
-}
-function BillingPostalView(){
-  return _c_19.BillingPostalView;
-}
-function BillingCityView(){
-  return _c_19.BillingCityView;
-}
-function BillingLine1View(){
-  return _c_19.BillingLine1View;
-}
-function BillingVatinView(){
-  return _c_19.BillingVatinView;
-}
-function BillingNameView(){
-  return _c_19.BillingNameView;
-}
-function BtnBillingCancelAttr(){
-  return _c_19.BtnBillingCancelAttr;
-}
-function BtnBillingSaveAttr(){
-  return _c_19.BtnBillingSaveAttr;
-}
-function BtnBillingEditAttr(){
-  return _c_19.BtnBillingEditAttr;
-}
-function BillingEditAttr(){
-  return _c_19.BillingEditAttr;
-}
-function BillingViewAttr(){
-  return _c_19.BillingViewAttr;
-}
-function BillingCountryOptions(){
-  return _c_19.BillingCountryOptions;
-}
-function SetBillingRecord(billingOpt){
-  const value=billingOpt==null?New_2(Some(New_4("", "")), New_1("", "", "", "")):billingOpt.$0;
-  BillingRecordVar().Set(value);
-}
-function SetBillingMode(mode){
-  BillingModeVar().Set(mode);
-}
-function CurrentBillingFromForm(){
-  return BillingRecordVar().Get();
-}
-function orDash(s){
-  return IsNullOrWhiteSpace(s)?"\u2014":s;
-}
-function CountriesList(){
-  return _c_19.CountriesList;
-}
-function BillingModeVar(){
-  return _c_19.BillingModeVar;
-}
-function New_1(line1, city, postal_code, country){
-  return{
-    line1:line1, 
-    city:city, 
-    postal_code:postal_code, 
-    country:country
-  };
-}
-function New_2(company, address){
-  return{company:company, address:address};
-}
-function InvoicesBody(){
-  return _c_20.InvoicesBody;
-}
-function RefreshInvoices(newInvoices){
-  invoicesModel().Set(newInvoices);
-}
-function invoicesModel(){
-  return _c_20.invoicesModel;
-}
-function invoiceRowV(_2, invoiceV){
-  const hrefV=Map((inv) =>"./invoice?id="+encodeURIComponent(inv.id)+"&sub="+encodeURIComponent(CurrentSubIdVar().Get()), invoiceV);
-  const S=Map((i_1) => i_1.status, invoiceV);
-  const A=Map((i_1) => formatMoney(i_1.amount, i_1.currency), invoiceV);
-  const D=Map((i_1) => i_1.date, invoiceV);
-  const I=Map((i_1) => i_1.id, invoiceV);
-  const this_1=new ProviderBuilder("New_1");
-  const this_2=(this_1.h.push(new TextView("invoiceid", I)),this_1);
-  const this_3=(this_2.h.push(new TextView("date", D)),this_2);
-  const this_4=(this_3.h.push(new TextView("amount", A)),this_3);
-  const this_5=(this_4.h.push(new TextView("status", S)),this_4);
-  const b=(this_5.h.push(new TextView("href", hrefV)),this_5);
-  const p=CompleteHoles(b.k, b.h, []);
-  const i=new TemplateInstance(p[1], invoicerow(p[0]));
-  let _3=(b.i=i,i);
-  return _3.Doc;
-}
-function invoicesDoc(){
-  return _c_20.invoicesDoc;
-}
-function GitHubBody(){
-  return _c_21.GitHubBody;
-}
-function GitHubOrgName(){
-  return _c_21.GitHubOrgName;
-}
-function OrgPrefix(){
-  return _c_21.OrgPrefix;
-}
-function HandleRefresh(){
-  StartImmediate(Delay(() => {
-    setLoading(true);
-    return TryFinally(Delay(() => {
-      const currentSubId=CurrentSubIdVar().Get();
-      return!IsNullOrEmpty(currentSubId)?(RefreshSeats(),Bind_1(GetInvoices_1(currentSubId), (a) => {
-        InvoicesVar().Set(a);
-        RefreshInvoices(a);
-        showToast("Refreshed");
-        return Zero();
-      })):Zero();
-    }), () => {
-      setLoading(false);
-    });
-  }), null);
-}
-function HandleBillingEdit(){
-  SetBillingRecord(BillingVar().Get());
-  SetBillingMode(Editing);
-}
-function HandleBillingSave(){
-  const data=CurrentBillingFromForm();
-  StartImmediate(Delay(() => {
-    setLoading(true);
-    return TryFinally(Delay(() => Bind_1(SaveBilling(data), (a) => a?(BillingVar().Set(Some(data)),SetBillingMode(Viewing),showToast("Billing saved"),Zero()):Zero())), () => {
-      setLoading(false);
-    });
-  }), null);
-}
-function HandleBillingCancel(){
-  SetBillingRecord(BillingVar().Get());
-  SetBillingMode(Viewing);
-}
-function requireAuth(){
-  return new Promise((_2) => {
-    _2(OfAsync(FetchMe()).then((d) => {
-      if(d!=null&&d.$==1){
-        const user=d.$0;
-        UserVar().Set(Some(user));
-        return Promise.resolve(user);
-      }
-      else throw new Error("unauthorized");
-    }));
-  });
+function formatMoney(amount, currency){
+  const amountF=amount/100;
+  const m=currency.toLowerCase();
+  return m=="usd"?(((_2) =>(_3) => _2("$"+_3.toFixed(2)))((x) => x))(amountF):m=="eur"?(((_2) =>(_3) => _2("\u20ac"+_3.toFixed(2)))((x) => x))(amountF):m=="gbp"?(((_2) =>(_3) => _2("£"+_3.toFixed(2)))((x) => x))(amountF):((((_2) =>(_3) =>(_4) => _2(_3.toFixed(2)+" "+toSafe(_4)))((x) => x))(amountF))(currency);
 }
 let _c_4=Lazy((_i) => class $StartupCode_Success {
   static {
@@ -3078,7 +2832,7 @@ function Sleep(ms){
   };
 }
 function Zero(){
-  return _c_22.Zero;
+  return _c_19.Zero;
 }
 function checkCancel(r){
   return(c) => {
@@ -3107,7 +2861,7 @@ function TryWith(r, f){
   };
 }
 function defCTS(){
-  return _c_22.defCTS;
+  return _c_19.defCTS;
 }
 function UncaughtAsyncError(e){
   console.log("WebSharper: Uncaught asynchronous exception", e);
@@ -3172,10 +2926,10 @@ function Parallel(cs){
   };
 }
 function scheduler(){
-  return _c_22.scheduler;
+  return _c_19.scheduler;
 }
 function noneCT(){
-  return _c_22.noneCT;
+  return _c_19.noneCT;
 }
 function FromContinuations(subscribe){
   return(c) => {
@@ -3221,7 +2975,7 @@ function Start(c, ctOpt){
   });
 }
 function GetCT(){
-  return _c_22.GetCT;
+  return _c_19.GetCT;
 }
 function Logout_2(){
   return(new AjaxRemotingProvider()).Async("IRemotingContract/Logout", []);
@@ -3244,20 +2998,20 @@ function GetSubscriptions(){
 function GetInvoices(){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetInvoices", []), (o) => Return(o));
 }
-function SetBillingData(_2){
-  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/SetBillingData", [(EncodeJson_BillingData())(_2)]), (o) => Return((DecodeJson_FSharpResult_3())(o)));
-}
 function GetPlanPrices(){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetPlanPrices", []), (o) => Return(((DecodeArray(DecodeJson_PlanPrice))())(o)));
 }
-function SetGitHubOrgName(_2){
-  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/SetGitHubOrgName", [_2]), (o) => Return((DecodeJson_FSharpResult_3())(o)));
+function SetBillingData(_2){
+  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/SetBillingData", [(EncodeJson_BillingData())(_2)]), (o) => Return((DecodeJson_FSharpResult_3())(o)));
 }
 function GetCustomerPortalLink(){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetCustomerPortalLink", []), (o) => Return((DecodeJson_FSharpOption_2())(o)));
 }
 function GetGitHubOrg(){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/GetGitHubOrg", []), (o) => Return((DecodeJson_FSharpOption_3())(o)));
+}
+function SetGitHubOrgName(_2){
+  return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/SetGitHubOrgName", [_2]), (o) => Return((DecodeJson_FSharpResult_3())(o)));
 }
 function SetCancellationStatus(_2){
   return Bind_1((new AjaxRemotingProvider()).Async("IRemotingContract/SetCancellationStatus", [_2]), (o) => Return((DecodeJson_FSharpResult_3())(o)));
@@ -3310,7 +3064,7 @@ function Insert(elem, tree){
   }
   loop(tree);
   const arr=nodes.slice(0);
-  let _2=New_17(elem, Flags(tree), arr, oar.length===0?null:Some((el) => {
+  let _2=New_18(elem, Flags(tree), arr, oar.length===0?null:Some((el) => {
     iter((f) => {
       f(el);
     }, oar);
@@ -3321,7 +3075,7 @@ function Updates(dyn){
   return MapTreeReduce((x) => x.NChanged, Const(), Map2Unit, dyn.DynNodes);
 }
 function Empty(e){
-  return New_17(e, 0, [], null);
+  return New_18(e, 0, [], null);
 }
 function HasExitAnim(attr_1){
   const flag=2;
@@ -3474,6 +3228,31 @@ function Map2_1(fn, sn1, sn2){
     return res;
   }
 }
+function Map3_1(fn, sn1, sn2, sn3){
+  const _2=sn1.s;
+  const _3=sn2.s;
+  const _4=sn3.s;
+  if(_2!=null&&_2.$==0)return _3!=null&&_3.$==0?_4!=null&&_4.$==0?{s:Forever(fn(_2.$0, _3.$0, _4.$0))}:Map3Opt1(fn, _2.$0, _3.$0, sn3):_4!=null&&_4.$==0?Map3Opt2(fn, _2.$0, _4.$0, sn2):Map3Opt3(fn, _2.$0, sn2, sn3);
+  else if(_3!=null&&_3.$==0)return _4!=null&&_4.$==0?Map3Opt4(fn, _3.$0, _4.$0, sn1):Map3Opt5(fn, _3.$0, sn1, sn3);
+  else if(_4!=null&&_4.$==0)return Map3Opt6(fn, _4.$0, sn1, sn2);
+  else {
+    const res={s:Waiting([], [])};
+    const cont=() => {
+      const m=res.s;
+      if(!(m!=null&&m.$==0||m!=null&&m.$==2)){
+        const _5=ValueAndForever(sn1);
+        const _6=ValueAndForever(sn2);
+        const _7=ValueAndForever(sn3);
+        if(_5!=null&&_5.$==1)if(_6!=null&&_6.$==1)if(_7!=null&&_7.$==1)if(_5.$0[1]&&_6.$0[1]&&_7.$0[1])MarkForever(res, fn(_5.$0[0], _6.$0[0], _7.$0[0]));
+        else MarkReady(res, fn(_5.$0[0], _6.$0[0], _7.$0[0]));
+      }
+    };
+    When(sn1, cont, res);
+    When(sn2, cont, res);
+    When(sn3, cont, res);
+    return res;
+  }
+}
 function WhenObsoleteRun(snap, obs){
   const m=snap.s;
   if(m==null)obs();
@@ -3528,48 +3307,6 @@ function MarkReady(sn, v){
   }
   else void 0;
 }
-function EnqueueSafe(q, x){
-  q.push(x);
-  if(q.length%20===0){
-    const qcopy=q.slice(0);
-    Clear(q);
-    for(let i=0, _2=length(qcopy)-1;i<=_2;i++){
-      const o=get(qcopy, i);
-      if(typeof o=="object")(((sn) => {
-        if(sn.s)q.push(sn);
-      })(o));
-      else(((f) => {
-        q.push(f);
-      })(o));
-    }
-  }
-  else void 0;
-}
-function Map3_1(fn, sn1, sn2, sn3){
-  const _2=sn1.s;
-  const _3=sn2.s;
-  const _4=sn3.s;
-  if(_2!=null&&_2.$==0)return _3!=null&&_3.$==0?_4!=null&&_4.$==0?{s:Forever(fn(_2.$0, _3.$0, _4.$0))}:Map3Opt1(fn, _2.$0, _3.$0, sn3):_4!=null&&_4.$==0?Map3Opt2(fn, _2.$0, _4.$0, sn2):Map3Opt3(fn, _2.$0, sn2, sn3);
-  else if(_3!=null&&_3.$==0)return _4!=null&&_4.$==0?Map3Opt4(fn, _3.$0, _4.$0, sn1):Map3Opt5(fn, _3.$0, sn1, sn3);
-  else if(_4!=null&&_4.$==0)return Map3Opt6(fn, _4.$0, sn1, sn2);
-  else {
-    const res={s:Waiting([], [])};
-    const cont=() => {
-      const m=res.s;
-      if(!(m!=null&&m.$==0||m!=null&&m.$==2)){
-        const _5=ValueAndForever(sn1);
-        const _6=ValueAndForever(sn2);
-        const _7=ValueAndForever(sn3);
-        if(_5!=null&&_5.$==1)if(_6!=null&&_6.$==1)if(_7!=null&&_7.$==1)if(_5.$0[1]&&_6.$0[1]&&_7.$0[1])MarkForever(res, fn(_5.$0[0], _6.$0[0], _7.$0[0]));
-        else MarkReady(res, fn(_5.$0[0], _6.$0[0], _7.$0[0]));
-      }
-    };
-    When(sn1, cont, res);
-    When(sn2, cont, res);
-    When(sn3, cont, res);
-    return res;
-  }
-}
 function Map3Opt1(fn, x, y, sn3){
   return Map_1((z) => fn(x, y, z), sn3);
 }
@@ -3587,6 +3324,23 @@ function Map3Opt5(fn, y, sn1, sn3){
 }
 function Map3Opt6(fn, z, sn1, sn2){
   return Map2_1((_2, _3) => fn(_2, _3, z), sn1, sn2);
+}
+function EnqueueSafe(q, x){
+  q.push(x);
+  if(q.length%20===0){
+    const qcopy=q.slice(0);
+    Clear(q);
+    for(let i=0, _2=length(qcopy)-1;i<=_2;i++){
+      const o=get(qcopy, i);
+      if(typeof o=="object")(((sn) => {
+        if(sn.s)q.push(sn);
+      })(o));
+      else(((f) => {
+        q.push(f);
+      })(o));
+    }
+  }
+  else void 0;
 }
 function Map2Unit_1(sn1, sn2){
   const _2=sn1.s;
@@ -3726,10 +3480,6 @@ function TreeReduce(defaultValue, reduction, array){
   }
   return(loop(0))(l);
 }
-function mapInPlace(f, arr){
-  for(let i=0, _2=arr.length-1;i<=_2;i++)arr[i]=f(arr[i]);
-  return arr;
-}
 function MapTreeReduce(mapping, defaultValue, reduction, array){
   const l=length(array);
   function loop(off){
@@ -3747,6 +3497,10 @@ function MapTreeReduce(mapping, defaultValue, reduction, array){
     };
   }
   return(loop(0))(l);
+}
+function mapInPlace(f, arr){
+  for(let i=0, _2=arr.length-1;i<=_2;i++)arr[i]=f(arr[i]);
+  return arr;
 }
 function TextDoc(Item){
   return{$:4, $0:Item};
@@ -3831,13 +3585,6 @@ class Dictionary extends Object_1 {
       return this.equals.apply(null, [a_1[0], k])?Some(a_1[1]):null;
     }, d);
   }
-  DAdd(k, v){
-    this.add(k, v);
-  }
-  Clear(){
-    this.data=[];
-    this.count=0;
-  }
   remove(k){
     const h=this.hash(k);
     const d=this.data[h];
@@ -3846,6 +3593,13 @@ class Dictionary extends Object_1 {
       const r=filter_1((a) =>!this.equals.apply(null, [(KeyValue(a))[0], k]), d);
       return length(r)<d.length&&(this.count=this.count-1,this.data[h]=r,true);
     }
+  }
+  DAdd(k, v){
+    this.add(k, v);
+  }
+  Clear(){
+    this.data=[];
+    this.count=0;
   }
   add(k, v){
     const h=this.hash(k);
@@ -3934,14 +3688,14 @@ function IsNullOrWhiteSpace(x){
 function concat(separator, strings){
   return ofSeq(strings).join(separator);
 }
-function IsNullOrEmpty(x){
-  return x==null||x=="";
-}
 function EndsWith(x, s){
   return x.substring(x.length-s.length)==s;
 }
 function StartsWith(t_1, s){
   return t_1.substring(0, s.length)==s;
+}
+function IsNullOrEmpty(x){
+  return x==null||x=="";
 }
 function SplitChars(s, sep, opts){
   return Split(s, new RegExp("["+RegexEscape(sep.join(""))+"]"), opts);
@@ -4103,6 +3857,17 @@ function iter(p, s){
     if(typeof _2=="object"&&isIDisposable(_2))e.Dispose();
   }
 }
+function delay(f){
+  return{GetEnumerator:() => Get(f())};
+}
+function map(f, s){
+  return{GetEnumerator:() => {
+    const en=Get(s);
+    return new T(null, null, (e) => en.MoveNext()&&(e.c=f(en.Current),true), () => {
+      en.Dispose();
+    });
+  }};
+}
 function sortBy(f, s){
   return delay(() => {
     const array=ofSeq(s);
@@ -4116,16 +3881,31 @@ function groupBy(f, s){
 function collect(f, s){
   return concat_1(map(f, s));
 }
-function delay(f){
-  return{GetEnumerator:() => Get(f())};
+function init(n, f){
+  return take(n, initInfinite(f));
 }
-function map(f, s){
-  return{GetEnumerator:() => {
-    const en=Get(s);
-    return new T(null, null, (e) => en.MoveNext()&&(e.c=f(en.Current),true), () => {
-      en.Dispose();
-    });
-  }};
+function head(s){
+  const e=Get(s);
+  try {
+    return e.MoveNext()?e.Current:insufficient();
+  }
+  finally {
+    const _2=e;
+    if(typeof _2=="object"&&isIDisposable(_2))e.Dispose();
+  }
+}
+function fold(f, x, s){
+  let r=x;
+  const e=Get(s);
+  try {
+    while(e.MoveNext())
+      r=f(r, e.Current);
+    return r;
+  }
+  finally {
+    const _2=e;
+    if(typeof _2=="object"&&isIDisposable(_2))e.Dispose();
+  }
 }
 function concat_1(ss){
   return{GetEnumerator:() => {
@@ -4176,32 +3956,6 @@ function tryPick(f, s){
     if(typeof _2=="object"&&isIDisposable(_2))e.Dispose();
   }
 }
-function init(n, f){
-  return take(n, initInfinite(f));
-}
-function head(s){
-  const e=Get(s);
-  try {
-    return e.MoveNext()?e.Current:insufficient();
-  }
-  finally {
-    const _2=e;
-    if(typeof _2=="object"&&isIDisposable(_2))e.Dispose();
-  }
-}
-function fold(f, x, s){
-  let r=x;
-  const e=Get(s);
-  try {
-    while(e.MoveNext())
-      r=f(r, e.Current);
-    return r;
-  }
-  finally {
-    const _2=e;
-    if(typeof _2=="object"&&isIDisposable(_2))e.Dispose();
-  }
-}
 function take(n, s){
   n<0?nonNegative():void 0;
   return{GetEnumerator:() => {
@@ -4226,6 +3980,9 @@ function initInfinite(f){
     return true;
   }, void 0)};
 }
+function forall_1(p, s){
+  return!exists((x) =>!p(x), s);
+}
 function distinctBy(f, s){
   return{GetEnumerator:() => {
     const o=Get(s);
@@ -4248,9 +4005,6 @@ function distinctBy(f, s){
       o.Dispose();
     });
   }};
-}
-function forall_1(p, s){
-  return!exists((x) =>!p(x), s);
 }
 function exists(p, s){
   const e=Get(s);
@@ -4324,15 +4078,6 @@ function map_1(f, arr){
   for(let i=0, _2=arr.length-1;i<=_2;i++)r[i]=f(arr[i]);
   return r;
 }
-function exists_1(f, x){
-  let e=false;
-  let i=0;
-  const l=length(x);
-  while(!e&&i<l)
-    if(f(x[i]))e=true;
-    else i=i+1;
-  return e;
-}
 function tryFindIndex(f, arr){
   let res=null;
   let i=0;
@@ -4354,6 +4099,15 @@ function tryPick_1(f, arr){
     }
   return res;
 }
+function exists_1(f, x){
+  let e=false;
+  let i=0;
+  const l=length(x);
+  while(!e&&i<l)
+    if(f(x[i]))e=true;
+    else i=i+1;
+  return e;
+}
 function ofSeq(xs){
   if(xs instanceof Array)return xs.slice();
   else if(xs instanceof FSharpList)return ofList(xs);
@@ -4371,9 +4125,6 @@ function ofSeq(xs){
     }
   }
 }
-function sortInPlaceBy(f, arr){
-  mapInPlace_1((t_1) => t_1[0], mapiInPlace((_2, _3) =>[_3, [f(_3), _2]], arr).sort((_2, _3) => Compare(_2[1], _3[1])));
-}
 function concat_2(xs){
   return Array.prototype.concat.apply([], ofSeq(xs));
 }
@@ -4389,8 +4140,8 @@ function filter_1(f, arr){
   for(let i=0, _2=arr.length-1;i<=_2;i++)if(f(arr[i]))r.push(arr[i]);
   return r;
 }
-function collect_1(f, x){
-  return Array.prototype.concat.apply([], map_1(f, x));
+function sortInPlaceBy(f, arr){
+  mapInPlace_1((t_1) => t_1[0], mapiInPlace((_2, _3) =>[_3, [f(_3), _2]], arr).sort((_2, _3) => Compare(_2[1], _3[1])));
 }
 function foldBack(f, arr, zero){
   let acc=zero;
@@ -4401,6 +4152,9 @@ function foldBack(f, arr, zero){
 function pick(f, arr){
   const m=tryPick_1(f, arr);
   return m==null?FailWith("KeyNotFoundException"):m.$0;
+}
+function collect_1(f, x){
+  return Array.prototype.concat.apply([], map_1(f, x));
 }
 function mapi(f, arr){
   const y=new Array(arr.length);
@@ -4956,7 +4710,7 @@ function PrepareTemplateStrict(baseName, name, fakeroot, prepareLocalTemplate){
   }
 }
 function RenderedFullDocTemplate(){
-  return _c_30.RenderedFullDocTemplate;
+  return _c_29.RenderedFullDocTemplate;
 }
 function ChildrenTemplate(el, fillWith){
   let _2;
@@ -4967,13 +4721,13 @@ function ChildrenTemplate(el, fillWith){
   return!Equals(m, null)&&m.length===1&&(get(m, 0)instanceof Node&&(Equals(get(m, 0).nodeType, Node.ELEMENT_NODE)&&(_2=get(m, 0),true)))?Elt_1.TreeNode(docTreeNode, updates):Doc.Mk(TreeDoc(docTreeNode), updates);
 }
 function set_RenderedFullDocTemplate(_2){
-  _c_30.RenderedFullDocTemplate=_2;
+  _c_29.RenderedFullDocTemplate=_2;
 }
 function LocalTemplatesLoaded(){
-  return _c_30.LocalTemplatesLoaded;
+  return _c_29.LocalTemplatesLoaded;
 }
 function set_LocalTemplatesLoaded(_2){
-  _c_30.LocalTemplatesLoaded=_2;
+  _c_29.LocalTemplatesLoaded=_2;
 }
 function LoadNestedTemplates(root, baseName){
   const loadedTpls=LoadedTemplateFile(baseName);
@@ -5021,7 +4775,7 @@ function LoadNestedTemplates(root, baseName){
     prepareTemplate(head(rawTpls.Keys));
 }
 function LoadedTemplates(){
-  return _c_30.LoadedTemplates;
+  return _c_29.LoadedTemplates;
 }
 function foreachNotPreserved(root, selector, f){
   IterSelector(root, selector, (p) => {
@@ -5309,7 +5063,7 @@ function InlineTemplate(el, fillWith){
   return[_8, TreeReduce(Const(), Map2Unit, updates)];
 }
 function GlobalHoles(){
-  return _c_30.GlobalHoles;
+  return _c_29.GlobalHoles;
 }
 function FakeRootSingle(el){
   el.removeAttribute("ws-template");
@@ -5342,7 +5096,7 @@ function FakeRootFromHTMLTemplate(parent){
   return fakeroot;
 }
 function TextHoleRE(){
-  return _c_30.TextHoleRE;
+  return _c_29.TextHoleRE;
 }
 function foreachNotPreservedwsDOM(selector, f){
   IterSelectorDoc(selector, (p) => {
@@ -5473,9 +5227,7 @@ let _c_10=Lazy((_i) => class $StartupCode_CheckoutState {
   static BackLinkLabel;
   static backLinkHref;
   static MyAccountUrl;
-  static SupportPlansUrl;
   static {
-    this.SupportPlansUrl="/support#plans";
     this.MyAccountUrl="/account";
     this.backLinkHref=_c_1.Create_1("/support#plans");
     this.BackLinkLabel=_c_1.Create_1("Plans");
@@ -5921,7 +5673,7 @@ function DoSyncElement(el){
   let _3=m!=null&&m.$==1?m.$0[1]:null;
   ins(_2, _3);
 }
-function New_3(id, date, amount, currency, status, subscription, billingAddress, company){
+function New_1(id, date, amount, currency, status, subscription, billingAddress, company){
   return{
     id:id, 
     date:date, 
@@ -5933,14 +5685,25 @@ function New_3(id, date, amount, currency, status, subscription, billingAddress,
     company:company
   };
 }
-function New_4(name, vatin){
+function New_2(name, vatin){
   return{name:name, vatin:vatin};
+}
+function New_3(line1, city, postal_code, country){
+  return{
+    line1:line1, 
+    city:city, 
+    postal_code:postal_code, 
+    country:country
+  };
 }
 function ListSubscriptions(){
   return Delay(() => Bind_1(GetSubscriptions(), (a) => Return(map_1(toSubRecord, a))));
 }
 function GetInvoices_1(){
-  return Delay(() => Bind_1(GetInvoices(), (a) => Return(map_1((i) => New_3(i.title, i.date, i.amount, i.currency, i.status, null, null, null), a))));
+  return Delay(() => Bind_1(GetInvoices(), (a) => Return(map_1((i) => New_1(i.title, i.date, i.amount, i.currency, i.status, null, null, null), a))));
+}
+function toSubRecord(subscription){
+  return New_4(String(subscription.subscriptionId), (((((_2) =>(_3) =>(_4) =>(_5) => _2(toSafe(_3)+" ("+String(_4)+" seats) - "+toSafe(_5)))((x) => x))(subscription.planName))(subscription.seats))(subscription.currentPeriodEnd), subscription.planName, subscription.seats, subscription.currentPeriodEnd, subscription.cancelAtPeriodEnd?"canceling":"active");
 }
 function SaveBilling(data){
   return Delay(() => {
@@ -5956,18 +5719,6 @@ function SaveBilling(data){
     });
   });
 }
-function toSubRecord(subscription){
-  return New_5(String(subscription.subscriptionId), (((((_2) =>(_3) =>(_4) =>(_5) => _2(toSafe(_3)+" ("+String(_4)+" seats) - "+toSafe(_5)))((x) => x))(subscription.planName))(subscription.seats))(subscription.currentPeriodEnd), subscription.planName, subscription.seats, subscription.currentPeriodEnd, subscription.cancelAtPeriodEnd?"canceling":"active");
-}
-function SetGitHubOrgName_1(name){
-  return Delay(() => Bind_1(SetGitHubOrgName(name), (a) => {
-    alertErrorFromResult(a);
-    return Return(a.$==0);
-  }));
-}
-function set_billingCache(_2){
-  _c_29.billingCache=_2;
-}
 function GetBilling(){
   return Delay(() => billingCache()==null?Bind_1(GetBillingData(), (a) => {
     let _2;
@@ -5980,12 +5731,12 @@ function GetBilling(){
         let _3=o.$0;
         const o_1=data.taxId;
         let _4=o_1==null?"":o_1.$0;
-        let _5=New_4(_3, _4);
+        let _5=New_2(_3, _4);
         _2=Some(_5);
       }
-      value=New_2(_2, New_1(data.line1, data.city, data.postalCode, data.country));
+      value=New_5(_2, New_3(data.line1, data.city, data.postalCode, data.country));
     }
-    else value=New_2(null, New_1("", "", "", ""));
+    else value=New_5(null, New_3("", "", "", ""));
     set_billingCache(Some(value));
     return Return(value);
   }):Return(billingCache().$0));
@@ -5996,11 +5747,20 @@ function GetCustomerPortalLink_1(){
 function GetGitHubOrganization(){
   return GetGitHubOrg();
 }
-function GetAllSeats(){
-  return Delay(() => Bind_1(GetSubscriptions(), (a) => Return(collect_1(seatsFromSubscription, a))));
+function SetGitHubOrgName_1(name){
+  return Delay(() => Bind_1(SetGitHubOrgName(name), (a) => {
+    alertErrorFromResult(a);
+    return Return(a.$==0);
+  }));
+}
+function set_billingCache(_2){
+  _c_31.billingCache=_2;
 }
 function billingCache(){
-  return _c_29.billingCache;
+  return _c_31.billingCache;
+}
+function GetAllSeats(){
+  return Delay(() => Bind_1(GetSubscriptions(), (a) => Return(collect_1(seatsFromSubscription, a))));
 }
 function SetAutoRenew(subId, cancelAtPeriodEnd){
   return Delay(() => Bind_1(SetCancellationStatus(New_21(Parse(subId), cancelAtPeriodEnd)), (a) => {
@@ -6040,9 +5800,9 @@ function UnassignSeat(subId, seatNo){
   }));
 }
 function seatsFromSubscription(subscription){
-  return mapi((_2, _3) => New_15(_2+1, _3==null?"":_3.$0, _3!=null?"assigned":"available", subscription.currentPeriodEnd, !subscription.cancelAtPeriodEnd, String(subscription.subscriptionId)), subscription.githubAssignedNames);
+  return mapi((_2, _3) => New_16(_2+1, _3==null?"":_3.$0, _3!=null?"assigned":"available", subscription.currentPeriodEnd, !subscription.cancelAtPeriodEnd, String(subscription.subscriptionId)), subscription.githubAssignedNames);
 }
-function New_5(id, label, plan, totalSeats, renewsAt, status){
+function New_4(id, label, plan, totalSeats, renewsAt, status){
   return{
     id:id, 
     label:label, 
@@ -6081,6 +5841,51 @@ let _c_16=Lazy((_i) => class $StartupCode_Views {
     this.ToastText=Doc.TextView(Map((a) => a!=null&&a.$==1?!IsNullOrWhiteSpace(a.$0)?a.$0:"Saved":"Saved", ToastMessage().View));
   }
 });
+function requireAuth(){
+  return new Promise((_2) => {
+    _2(OfAsync(FetchMe()).then((d) => {
+      if(d!=null&&d.$==1){
+        const user=d.$0;
+        UserVar().Set(Some(user));
+        return Promise.resolve(user);
+      }
+      else throw new Error("unauthorized");
+    }));
+  });
+}
+function HandleBillingEdit(){
+  SetBillingRecord(BillingVar().Get());
+  SetBillingMode(Editing);
+}
+function HandleBillingSave(){
+  const data=CurrentBillingFromForm();
+  StartImmediate(Delay(() => {
+    setLoading(true);
+    return TryFinally(Delay(() => Bind_1(SaveBilling(data), (a) => a?(BillingVar().Set(Some(data)),SetBillingMode(Viewing),showToast("Billing saved"),Zero()):Zero())), () => {
+      setLoading(false);
+    });
+  }), null);
+}
+function HandleBillingCancel(){
+  SetBillingRecord(BillingVar().Get());
+  SetBillingMode(Viewing);
+}
+function HandleRefresh(){
+  StartImmediate(Delay(() => {
+    setLoading(true);
+    return TryFinally(Delay(() => {
+      const currentSubId=CurrentSubIdVar().Get();
+      return!IsNullOrEmpty(currentSubId)?(RefreshSeats(),Bind_1(GetInvoices_1(currentSubId), (a) => {
+        InvoicesVar().Set(a);
+        RefreshInvoices(a);
+        showToast("Refreshed");
+        return Zero();
+      })):Zero();
+    }), () => {
+      setLoading(false);
+    });
+  }), null);
+}
 let _c_17=Lazy((_i) => class $StartupCode_ManageSubPage {
   static {
     _c_17=_i(this);
@@ -6090,208 +5895,265 @@ let _c_17=Lazy((_i) => class $StartupCode_ManageSubPage {
     this.isLoading=_c_1.Create_1(true);
   }
 });
-let _c_18=Lazy((_i) => class Seats_1 {
+let _c_18=Lazy((_i) => class $StartupCode_State {
   static {
     _c_18=_i(this);
   }
-  static SeatsBody;
-  static seatGroupsDoc;
-  static AddSeatsButtonAttr;
+  static GitHubOrgVar;
+  static CustomerPortalLinkVar;
+  static BillingVar;
+  static InvoicesVar;
+  static SeatsVar;
+  static CurrentSubIdVar;
+  static SubsVar;
+  static UserVar;
+  static StateVar;
   static {
-    this.AddSeatsButtonAttr=Dynamic("style", Map((subs) => exists_1((s) => s.plan.toLowerCase().indexOf("freelancer")!=-1, subs)?"display: none":"", SubsVar().View));
-    this.seatGroupsDoc=Doc.EmbedView(Map2((_2, _3) => Doc.Concat(collect((_4) => {
-      const subId=_4[0];
-      const groupSeats=ofSeq(_4[1]);
-      if(length(groupSeats)===0)return[];
-      else {
-        const subOption=tryFind((s) => s.id==subId.toLowerCase(), _3);
-        const isFreelancer=subOption==null?false:subOption.$0.plan.toLowerCase().indexOf("freelancer")!=-1;
-        const expiry=get(groupSeats, 0).expiry;
-        const autoRenew=get(groupSeats, 0).autoRenew;
-        return delay(() => append([groupHeaderDoc(subId, expiry, autoRenew)], delay(() => map((s) => seatRowDoc(s, isFreelancer), groupSeats))));
-      }
-    }, groupBy((s) => s.subscriptionId, sortBy((s) =>[s.expiry, s.subscriptionId, s.seatNo], _2)))), SeatsVar().View, SubsVar().View));
-    this.SeatsBody=seatGroupsDoc();
+    this.StateVar=_c_1.Create_1(New_15(null, [], "", [], [], null));
+    this.UserVar=_c_1.Lens(StateVar(), (s) => s.user, (_2, _3) => New_15(_3, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
+    this.SubsVar=_c_1.Lens(StateVar(), (s) => s.subs, (_2, _3) => New_15(_2.user, _3, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
+    this.CurrentSubIdVar=_c_1.Lens(StateVar(), (s) => s.currentSubId, (_2, _3) => New_15(_2.user, _2.subs, _3, _2.seats, _2.invoices, _2.billing));
+    this.SeatsVar=_c_1.Lens(StateVar(), (s) => s.seats, (_2, _3) => New_15(_2.user, _2.subs, _2.currentSubId, _3, _2.invoices, _2.billing));
+    this.InvoicesVar=_c_1.Lens(StateVar(), (s) => s.invoices, (_2, _3) => New_15(_2.user, _2.subs, _2.currentSubId, _2.seats, _3, _2.billing));
+    this.BillingVar=_c_1.Lens(StateVar(), (s) => s.billing, (_2, _3) => New_15(_2.user, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _3));
+    this.CustomerPortalLinkVar=_c_1.Create_1(null);
+    this.GitHubOrgVar=_c_1.Create_1(null);
   }
 });
-let _c_19=Lazy((_i) => class Billing_1 {
-  static {
-    _c_19=_i(this);
-  }
-  static BtnBillingCancelAttr;
-  static BtnBillingSaveAttr;
-  static BtnBillingEditAttr;
-  static BillingEditAttr;
-  static BillingViewAttr;
-  static BillingCountryOptions;
-  static BillingCountryView;
-  static CountriesList;
-  static BillingPostalView;
-  static BillingCityView;
-  static BillingLine1View;
-  static BillingVatinView;
-  static BillingNameView;
-  static CompanyVatinVar;
-  static CompanyNameVar;
-  static BillingModeVar;
-  static BillingRecordVar;
-  static {
-    this.BillingRecordVar=_c_1.Create_1(New_2(Some(New_4("", "")), New_1("", "", "", "")));
-    this.BillingModeVar=_c_1.Create_1(Viewing);
-    this.CompanyNameVar=_c_1.Lens(BillingRecordVar(), (billing) => {
-      const m=billing.company;
-      return m==null?"":m.$0.name;
-    }, (_2, _3) => {
-      const m=_2.company;
-      let _4=m==null?New_4(_3, ""):New_4(_3, m.$0.vatin);
-      let _5=Some(_4);
-      return New_2(_5, _2.address);
+function LoginClick(){
+  Login();
+}
+function AddSeatsButtonAttr(){
+  return _c_20.AddSeatsButtonAttr;
+}
+function SeatsBody(){
+  return _c_20.SeatsBody;
+}
+function RefreshSeats(){
+  StartImmediate(refreshSeatsAsync(), null);
+}
+function groupHeaderDoc(subId, expiry, autoRenew){
+  const isProcessing=_c_1.Create_1(false);
+  const baseBtn="relative inline-flex h-5 w-9 items-center rounded-full border text-xs transition-colors ";
+  const baseDot="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ";
+  const x=Doc.TextNode(expiry);
+  const E=BindSmoothLoader_1("w-24 h-5", isProcessing.View, x);
+  const this_1=new ProviderBuilder("New_1");
+  const this_2=(this_1.h.push(new Elt("expiry", E)),this_1);
+  const this_3=(this_2.h.push(new Text("toggleclasses", autoRenew?baseBtn+"bg-emerald-500 border-emerald-500":baseBtn+"bg-gray-300 border-gray-400 dark:bg-gray-700 dark:border-gray-600")),this_2);
+  const t_1=(this_3.h.push(new Text("dotclasses", autoRenew?baseDot+"translate-x-4":baseDot+"translate-x-0")),this_3);
+  const b=(t_1.h.push(EventQ2(t_1.k, "toggleautorenew", () => t_1.i, () => {
+    toggleAutoRenew(subId, expiry, autoRenew, isProcessing);
+  })),t_1);
+  const p=CompleteHoles(b.k, b.h, []);
+  const i=new TemplateInstance(p[1], seatgrouprow(p[0]));
+  let _2=(b.i=i,i);
+  return _2.Doc;
+}
+function seatRowDoc(seat, isLocked){
+  const isProcessing=_c_1.Create_1(false);
+  const usernameVar=_c_1.Create_1(seat.username);
+  const U=unassignButtonAttr(seat, isLocked, isProcessing.View);
+  const A=assignButtonAttr(seat, isLocked, isProcessing.View);
+  const x=Doc.TextNode(seat.expiry);
+  const E=BindSmoothLoader_1("w-24 h-5", isProcessing.View, x);
+  const x_1=seatBadge(seat.status);
+  const S=BindSmoothLoader_1("w-16 h-6", isProcessing.View, x_1);
+  const x_2=Doc.Input([Attr.Create("class", "w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm"), Attr.Create("placeholder", "github-username"), usernameAttr(seat, isLocked)], usernameVar);
+  const U_1=BindSmoothLoader_1("w-full h-8", isProcessing.View, x_2);
+  const this_1=new ProviderBuilder("New_1");
+  const this_2=(this_1.h.push(new Text("seatlabel", "#"+String(seat.seatNo))),this_1);
+  const this_3=(this_2.h.push(new Elt("usernamewidget", U_1)),this_2);
+  const this_4=(this_3.h.push(new Elt("statusbadge", S)),this_3);
+  const this_5=(this_4.h.push(new Elt("expiry", E)),this_4);
+  const this_6=(this_5.h.push(new Attribute("assignbuttonattr", A)),this_5);
+  const t_1=(this_6.h.push(new Attribute("unassignbuttonattr", U)),this_6);
+  const t_2=(t_1.h.push(EventQ2(t_1.k, "assignseat", () => t_1.i, () => {
+    if(!isLocked)assignSeat(seat.subscriptionId, seat.seatNo, Trim(usernameVar.Get()).toLowerCase(), isProcessing);
+  })),t_1);
+  const b=(t_2.h.push(EventQ2(t_2.k, "unassignseat", () => t_2.i, () => {
+    unassignSeat(seat.subscriptionId, seat.seatNo, isProcessing);
+  })),t_2);
+  const p=CompleteHoles(b.k, b.h, []);
+  const i=new TemplateInstance(p[1], seatrow(p[0]));
+  let _2=(b.i=i,i);
+  return _2.Doc;
+}
+function seatGroupsDoc(){
+  return _c_20.seatGroupsDoc;
+}
+function refreshSeatsAsync(){
+  return Delay(() => Bind_1(GetAllSeats(), (a) => {
+    SeatsVar().Set(a);
+    return Zero();
+  }));
+}
+function BindSmoothLoader_1(widthClass, isLoading_2, content_6){
+  const C=ofArray([DynamicClassPred("opacity-0", isLoading_2), DynamicClassPred("pointer-events-none", isLoading_2)]);
+  const S=ofArray([DynamicClassPred("opacity-0", Map((v) =>!v, isLoading_2)), Class("relative z-10 pointer-events-none")]);
+  const this_1=new ProviderBuilder("New_1");
+  const this_2=(this_1.h.push(new Text("wrapperclasses", widthClass)),this_1);
+  const this_3=(this_2.h.push(new Attribute("skeletonattr", Attr.Concat(S))),this_2);
+  const this_4=(this_3.h.push(new Attribute("contentattr", Attr.Concat(C))),this_3);
+  const b=(this_4.h.push(new Elt("content", content_6)),this_4);
+  const p=CompleteHoles(b.k, b.h, []);
+  const i=new TemplateInstance(p[1], smoothtextloader_1(p[0]));
+  let _2=(b.i=i,i);
+  return _2.Doc;
+}
+function toggleAutoRenew(subId, expiry, currentAutoRenew, loading){
+  StartImmediate(Delay(() => {
+    loading.Set(true);
+    return TryFinally(Delay(() => {
+      const newAuto=!currentAutoRenew;
+      SeatsVar().Set(map_1((s) => s.subscriptionId==subId&&s.expiry==expiry?New_16(s.seatNo, s.username, s.status, s.expiry, newAuto, s.subscriptionId):s, SeatsVar().Get()));
+      return Bind_1(SetAutoRenew(subId, currentAutoRenew), (a) => a?(showToast("Updated"),Zero()):Zero());
+    }), () => {
+      loading.Set(false);
     });
-    this.CompanyVatinVar=_c_1.Lens(BillingRecordVar(), (billing) => {
-      const m=billing.company;
-      return m==null?"":m.$0.vatin;
-    }, (_2, _3) => {
-      const m=_2.company;
-      let _4=m==null?New_4("", _3):New_4(m.$0.name, _3);
-      let _5=Some(_4);
-      return New_2(_5, _2.address);
+  }), null);
+}
+function usernameAttr(seat, isLocked){
+  return isLocked||SeatStatus.FromString(seat.status).$===0?Attr.Create("readonly", ""):EmptyAttr();
+}
+function seatBadge(statusStr){
+  const baseClass="inline-flex items-center rounded-full border px-2 py-0.5 text-xs ";
+  const status=SeatStatus.FromString(statusStr);
+  return Doc.Element("span", [Attr.Create("class", status.$==1?baseClass+"border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300":baseClass+"border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300")], [Doc.TextNode(status.AsString)]);
+}
+function assignButtonAttr(seat, isLocked, loading){
+  return isLocked||SeatStatus.FromString(seat.status).$===0?Attr.Create("style", "display: none"):DynamicClassPred("disabled", loading);
+}
+function unassignButtonAttr(seat, isLocked, loading){
+  return SeatStatus.FromString(seat.status).$!==0||isLocked?Attr.Create("style", "display: none"):Attr.Concat([DynamicProp("disabled", loading), DynamicClassPred("opacity-50 cursor-not-allowed", loading)]);
+}
+function assignSeat(subId, seatNo, username, loading){
+  if(!IsNullOrWhiteSpace(username))StartImmediate(Delay(() => {
+    loading.Set(true);
+    return TryFinally(Delay(() => Bind_1(verifyGitHubUser(username), (a) => a?Bind_1(AssignSeat(subId, seatNo, username), (a_1) => a_1?Bind_1(refreshSeatsAsync(), () => {
+      showToast("Updated");
+      return Zero();
+    }):Zero()):(showToast("GitHub user '"+username+"' not found"),Zero()))), () => {
+      loading.Set(false);
     });
-    this.BillingNameView=Doc.TextView(Map((billing) => {
-      const m=billing.company;
-      return m==null?"\u2014":orDash(m.$0.name);
-    }, BillingRecordVar().View));
-    this.BillingVatinView=Doc.TextView(Map((billing) => {
-      const m=billing.company;
-      return m==null?"\u2014":orDash(m.$0.vatin);
-    }, BillingRecordVar().View));
-    this.BillingLine1View=Doc.TextView(Map((billing) => orDash(billing.address.line1), BillingRecordVar().View));
-    this.BillingCityView=Doc.TextView(Map((billing) => orDash(billing.address.city), BillingRecordVar().View));
-    this.BillingPostalView=Doc.TextView(Map((billing) => orDash(billing.address.postal_code), BillingRecordVar().View));
-    this.CountriesList=List();
-    this.BillingCountryView=Doc.TextView(Map((billing) => {
-      const code=billing.address.country;
-      const nameOpt=tryPick((_2) => _2[0]==code?Some(_2[1]):null, CountriesList());
-      return nameOpt==null?orDash(code):nameOpt.$0;
-    }, BillingRecordVar().View));
-    this.BillingCountryOptions=map_2((_2) => Doc.Element("option", [Attr.Create("value", _2[0])], [Doc.TextNode(_2[1])]), CountriesList());
-    this.BillingViewAttr=DynamicClassPred("hidden", Map((a) => a.$==1, BillingModeVar().View));
-    this.BillingEditAttr=DynamicClassPred("hidden", Map((a) => a.$!=1, BillingModeVar().View));
-    this.BtnBillingEditAttr=DynamicClassPred("hidden", Map((mode) => mode.$!=0, BillingModeVar().View));
-    this.BtnBillingSaveAttr=DynamicClassPred("hidden", Map((a) => a.$!=1, BillingModeVar().View));
-    this.BtnBillingCancelAttr=DynamicClassPred("hidden", Map((a) => a.$!=1, BillingModeVar().View));
-  }
-});
-let _c_20=Lazy((_i) => class Invoices {
-  static {
-    _c_20=_i(this);
-  }
-  static InvoicesBody;
-  static invoicesDoc;
-  static invoicesModel;
-  static {
-    this.invoicesModel=Create((i) => i.id, InvoicesVar().Get());
-    this.invoicesDoc=Doc.ConvertSeqBy((i) => i.id, (k) =>(i) => invoiceRowV(k, i), invoicesModel().v);
-    this.InvoicesBody=invoicesDoc();
-  }
-});
-let _c_21=Lazy((_i) => class GitHub {
-  static {
-    _c_21=_i(this);
-  }
-  static GitHubBody;
-  static OrgPrefix;
-  static GitHubOrgName;
-  static {
-    this.GitHubOrgName=_c_1.Create_1("");
-    this.OrgPrefix="IntelliFactory-";
-    this.GitHubBody=Doc.EmbedView(Map2((_2, _3) => {
-      if(exists_1((s) => s.plan.toLowerCase().indexOf("freelancer")!=-1, _3))return Doc.Empty;
-      else if(_2!=null&&_2.$==1){
-        const org=_2.$0;
-        const _4=org.name;
-        if(org.status=="active"){
-          if(_4!=null&&_4.$==1){
-            const name=_4.$0;
-            const t_1=new ProviderBuilder("New_1");
-            const b=(t_1.h.push(EventQ2(t_1.k, "gotogithuborg", () => t_1.i, () => {
-              globalThis.open("https://github.com/"+name, "_blank");
-            })),t_1);
-            const p=CompleteHoles(b.k, b.h, []);
-            const i=new TemplateInstance(p[1], githubactive(p[0]));
-            let _5=(b.i=i,i);
-            return _5.Doc;
-          }
-          else return Doc.Empty;
-        }
-        else if(_4!=null&&_4.$==1){
-          const name_1=_4.$0;
-          const this_1=new ProviderBuilder("New_1");
-          const b_1=(this_1.h.push(new Text("githuborgname", name_1)),this_1);
-          const p_1=CompleteHoles(b_1.k, b_1.h, []);
-          const i_1=new TemplateInstance(p_1[1], githubpending(p_1[0]));
-          let _6=(b_1.i=i_1,i_1);
-          return _6.Doc;
-        }
-        else {
-          const this_2=new ProviderBuilder("New_1");
-          const t_2=(this_2.h.push(new VarStr("githuborgname", GitHubOrgName())),this_2);
-          const b_2=(t_2.h.push(EventQ2(t_2.k, "setgithuborgname", () => t_2.i, () => {
-            StartImmediate(Delay(() => {
-              setLoading(true);
-              return TryFinally(Delay(() => {
-                const fullOrgName=OrgPrefix()+GitHubOrgName().Get();
-                return Bind_1(SetGitHubOrgName_1(fullOrgName), (a) => a?(GitHubOrgVar().Set(Some(New_16(Some(fullOrgName), "pending"))),Zero()):Zero());
-              }), () => {
-                setLoading(false);
-              });
-            }), null);
-          })),t_2);
-          const p_2=CompleteHoles(b_2.k, b_2.h, [["githuborgname", 0, null]]);
-          const i_2=new TemplateInstance(p_2[1], githubpendinginput(p_2[0]));
-          let _7=(b_2.i=i_2,i_2);
-          return _7.Doc;
-        }
-      }
-      else return Doc.Empty;
-    }, GitHubOrgVar().View, SubsVar().View));
-  }
-});
-let Subs={$:0};
-let Billing={$:1};
-function CustomerPortalLinkVar(){
-  return _c_23.CustomerPortalLinkVar;
+  }), null);
 }
-function CurrentSubIdVar(){
-  return _c_23.CurrentSubIdVar;
+function unassignSeat(subId, seatNo, loading){
+  StartImmediate(Delay(() => {
+    loading.Set(true);
+    return TryFinally(Delay(() => Bind_1(UnassignSeat(subId, seatNo), (a) => a?Bind_1(refreshSeatsAsync(), () => {
+      showToast("Updated");
+      return Zero();
+    }):Zero())), () => {
+      loading.Set(false);
+    });
+  }), null);
 }
-function InvoicesVar(){
-  return _c_23.InvoicesVar;
+function verifyGitHubUser(username){
+  return Delay(() => Bind_1(AsAsync(globalThis.fetch("https://api.github.com/users/"+username)), (a) => Return(a.ok)));
 }
-function BillingVar(){
-  return _c_23.BillingVar;
+function BillingRecordVar(){
+  return _c_21.BillingRecordVar;
 }
-function UserVar(){
-  return _c_23.UserVar;
+function CompanyVatinVar(){
+  return _c_21.CompanyVatinVar;
 }
-function SubsVar(){
-  return _c_23.SubsVar;
+function CompanyNameVar_1(){
+  return _c_21.CompanyNameVar;
 }
-function SeatsVar(){
-  return _c_23.SeatsVar;
+function BillingCountryView(){
+  return _c_21.BillingCountryView;
 }
-function GitHubOrgVar(){
-  return _c_23.GitHubOrgVar;
+function BillingPostalView(){
+  return _c_21.BillingPostalView;
 }
-function formatMoney(amount, currency){
-  const amountF=amount/100;
-  const m=currency.toLowerCase();
-  return m=="usd"?(((_2) =>(_3) => _2("$"+_3.toFixed(2)))((x) => x))(amountF):m=="eur"?(((_2) =>(_3) => _2("\u20ac"+_3.toFixed(2)))((x) => x))(amountF):m=="gbp"?(((_2) =>(_3) => _2("£"+_3.toFixed(2)))((x) => x))(amountF):((((_2) =>(_3) =>(_4) => _2(_3.toFixed(2)+" "+toSafe(_4)))((x) => x))(amountF))(currency);
+function BillingCityView(){
+  return _c_21.BillingCityView;
 }
-function StateVar(){
-  return _c_23.StateVar;
+function BillingLine1View(){
+  return _c_21.BillingLine1View;
 }
-let Editing={$:1};
-let Viewing={$:0};
+function BillingVatinView(){
+  return _c_21.BillingVatinView;
+}
+function BillingNameView(){
+  return _c_21.BillingNameView;
+}
+function BtnBillingCancelAttr(){
+  return _c_21.BtnBillingCancelAttr;
+}
+function BtnBillingSaveAttr(){
+  return _c_21.BtnBillingSaveAttr;
+}
+function BtnBillingEditAttr(){
+  return _c_21.BtnBillingEditAttr;
+}
+function BillingEditAttr(){
+  return _c_21.BillingEditAttr;
+}
+function BillingViewAttr(){
+  return _c_21.BillingViewAttr;
+}
+function SetBillingRecord(billingOpt){
+  const value=billingOpt==null?New_5(Some(New_2("", "")), New_3("", "", "", "")):billingOpt.$0;
+  BillingRecordVar().Set(value);
+}
+function SetBillingMode(mode){
+  BillingModeVar().Set(mode);
+}
+function CurrentBillingFromForm(){
+  return BillingRecordVar().Get();
+}
+function orDash(s){
+  return IsNullOrWhiteSpace(s)?"\u2014":s;
+}
+function CountriesList(){
+  return _c_21.CountriesList;
+}
+function BillingModeVar(){
+  return _c_21.BillingModeVar;
+}
+function New_5(company, address){
+  return{company:company, address:address};
+}
+function InvoicesBody(){
+  return _c_22.InvoicesBody;
+}
+function RefreshInvoices(newInvoices){
+  invoicesModel().Set(newInvoices);
+}
+function invoicesModel(){
+  return _c_22.invoicesModel;
+}
+function invoiceRowV(_2, invoiceV){
+  const hrefV=Map((inv) =>"./invoice?id="+encodeURIComponent(inv.id)+"&sub="+encodeURIComponent(CurrentSubIdVar().Get()), invoiceV);
+  const S=Map((i_1) => i_1.status, invoiceV);
+  const A=Map((i_1) => formatMoney(i_1.amount, i_1.currency), invoiceV);
+  const D=Map((i_1) => i_1.date, invoiceV);
+  const I=Map((i_1) => i_1.id, invoiceV);
+  const this_1=new ProviderBuilder("New_1");
+  const this_2=(this_1.h.push(new TextView("invoiceid", I)),this_1);
+  const this_3=(this_2.h.push(new TextView("date", D)),this_2);
+  const this_4=(this_3.h.push(new TextView("amount", A)),this_3);
+  const this_5=(this_4.h.push(new TextView("status", S)),this_4);
+  const b=(this_5.h.push(new TextView("href", hrefV)),this_5);
+  const p=CompleteHoles(b.k, b.h, []);
+  const i=new TemplateInstance(p[1], invoicerow(p[0]));
+  let _3=(b.i=i,i);
+  return _3.Doc;
+}
+function invoicesDoc(){
+  return _c_22.invoicesDoc;
+}
+function GitHubBody(){
+  return _c_23.GitHubBody;
+}
+function GitHubOrgName(){
+  return _c_23.GitHubOrgName;
+}
+function OrgPrefix(){
+  return _c_23.OrgPrefix;
+}
 function TryParse(s, r){
   return TryParse_1(s, -2147483648, 2147483647, r);
 }
@@ -6472,9 +6334,9 @@ class FSharpList {
   $0;
   $1;
 }
-let _c_22=Lazy((_i) => class $StartupCode_Concurrency {
+let _c_19=Lazy((_i) => class $StartupCode_Concurrency {
   static {
-    _c_22=_i(this);
+    _c_19=_i(this);
   }
   static GetCT;
   static Zero;
@@ -6681,7 +6543,7 @@ function getCountryIso(country){
   return country==null?"":Trim(country).toUpperCase();
 }
 function euVat(){
-  return _c_31.euVat;
+  return _c_30.euVat;
 }
 function List(){
   return _c_28.List;
@@ -6694,7 +6556,19 @@ function New_14(planCode, interval, seats, billingData){
     billingData:billingData
   };
 }
-function New_15(seatNo, username, status, expiry, autoRenew, subscriptionId){
+let Subs={$:0};
+let Billing={$:1};
+function New_15(user, subs, currentSubId, seats, invoices, billing){
+  return{
+    user:user, 
+    subs:subs, 
+    currentSubId:currentSubId, 
+    seats:seats, 
+    invoices:invoices, 
+    billing:billing
+  };
+}
+function New_16(seatNo, username, status, expiry, autoRenew, subscriptionId){
   return{
     seatNo:seatNo, 
     username:username, 
@@ -6704,86 +6578,177 @@ function New_15(seatNo, username, status, expiry, autoRenew, subscriptionId){
     subscriptionId:subscriptionId
   };
 }
-class ListModel extends Object_1 {
-  key;
-  u0076ar;
-  storage;
-  v;
-  it;
-  Set(lst){
-    this.u0076ar.Set(this.storage.SSet(lst));
-    this.ObsoleteAll();
-  }
-  ObsoleteAll(){
-    iter((ksn) => {
-      Obsolete(ksn.V);
-    }, this.it);
-    this.it.Clear();
-  }
-  GetEnumerator(){
-    return Get(this.u0076ar.Get());
-  }
-  GetEnumerator0(){
-    return Get0(this.u0076ar.Get());
-  }
-  constructor(i, _2, _3, _4){
-    let key;
-    let storage;
-    if(i=="New"){
-      key=_2;
-      storage=_3;
-      i="New_3";
-      _2=key;
-      _3=_c_1.Create_1(ofSeq(distinctBy(key, storage.SInit())));
-      _4=storage;
-    }
-    if(i=="New_3"){
-      const key_1=_2;
-      const var_1=_3;
-      const storage_1=_4;
-      super();
-      this.key=key_1;
-      this.u0076ar=var_1;
-      this.storage=storage_1;
-      this.v=Map((x) => x.slice(), this.u0076ar.View);
-      this.it=new Dictionary("New_5");
-    }
-  }
-}
-function Create(key, init_2){
-  return CreateWithStorage(key, InMemory(ofSeq(init_2)));
-}
-function CreateWithStorage(key, storage){
-  return new ListModel("New", key, storage);
-}
-function New_16(name, status){
+function New_17(name, status){
   return{name:name, status:status};
 }
-let _c_23=Lazy((_i) => class $StartupCode_State {
+let _c_20=Lazy((_i) => class Seats_1 {
+  static {
+    _c_20=_i(this);
+  }
+  static SeatsBody;
+  static seatGroupsDoc;
+  static AddSeatsButtonAttr;
+  static {
+    this.AddSeatsButtonAttr=Dynamic("style", Map((subs) => exists_1((s) => s.plan.toLowerCase().indexOf("freelancer")!=-1, subs)?"display: none":"", SubsVar().View));
+    this.seatGroupsDoc=Doc.EmbedView(Map2((_2, _3) => Doc.Concat(collect((_4) => {
+      const subId=_4[0];
+      const groupSeats=ofSeq(_4[1]);
+      if(length(groupSeats)===0)return[];
+      else {
+        const subOption=tryFind((s) => s.id==subId.toLowerCase(), _3);
+        const isFreelancer=subOption==null?false:subOption.$0.plan.toLowerCase().indexOf("freelancer")!=-1;
+        const expiry=get(groupSeats, 0).expiry;
+        const autoRenew=get(groupSeats, 0).autoRenew;
+        return delay(() => append([groupHeaderDoc(subId, expiry, autoRenew)], delay(() => map((s) => seatRowDoc(s, isFreelancer), groupSeats))));
+      }
+    }, groupBy((s) => s.subscriptionId, sortBy((s) =>[s.expiry, s.subscriptionId, s.seatNo], _2)))), SeatsVar().View, SubsVar().View));
+    this.SeatsBody=seatGroupsDoc();
+  }
+});
+let _c_21=Lazy((_i) => class Billing_1 {
+  static {
+    _c_21=_i(this);
+  }
+  static BtnBillingCancelAttr;
+  static BtnBillingSaveAttr;
+  static BtnBillingEditAttr;
+  static BillingEditAttr;
+  static BillingViewAttr;
+  static BillingCountryOptions;
+  static BillingCountryView;
+  static CountriesList;
+  static BillingPostalView;
+  static BillingCityView;
+  static BillingLine1View;
+  static BillingVatinView;
+  static BillingNameView;
+  static CompanyVatinVar;
+  static CompanyNameVar;
+  static BillingModeVar;
+  static BillingRecordVar;
+  static {
+    this.BillingRecordVar=_c_1.Create_1(New_5(Some(New_2("", "")), New_3("", "", "", "")));
+    this.BillingModeVar=_c_1.Create_1(Viewing);
+    this.CompanyNameVar=_c_1.Lens(BillingRecordVar(), (billing) => {
+      const m=billing.company;
+      return m==null?"":m.$0.name;
+    }, (_2, _3) => {
+      const m=_2.company;
+      let _4=m==null?New_2(_3, ""):New_2(_3, m.$0.vatin);
+      let _5=Some(_4);
+      return New_5(_5, _2.address);
+    });
+    this.CompanyVatinVar=_c_1.Lens(BillingRecordVar(), (billing) => {
+      const m=billing.company;
+      return m==null?"":m.$0.vatin;
+    }, (_2, _3) => {
+      const m=_2.company;
+      let _4=m==null?New_2("", _3):New_2(m.$0.name, _3);
+      let _5=Some(_4);
+      return New_5(_5, _2.address);
+    });
+    this.BillingNameView=Doc.TextView(Map((billing) => {
+      const m=billing.company;
+      return m==null?"\u2014":orDash(m.$0.name);
+    }, BillingRecordVar().View));
+    this.BillingVatinView=Doc.TextView(Map((billing) => {
+      const m=billing.company;
+      return m==null?"\u2014":orDash(m.$0.vatin);
+    }, BillingRecordVar().View));
+    this.BillingLine1View=Doc.TextView(Map((billing) => orDash(billing.address.line1), BillingRecordVar().View));
+    this.BillingCityView=Doc.TextView(Map((billing) => orDash(billing.address.city), BillingRecordVar().View));
+    this.BillingPostalView=Doc.TextView(Map((billing) => orDash(billing.address.postal_code), BillingRecordVar().View));
+    this.CountriesList=List();
+    this.BillingCountryView=Doc.TextView(Map((billing) => {
+      const code=billing.address.country;
+      const nameOpt=tryPick((_2) => _2[0]==code?Some(_2[1]):null, CountriesList());
+      return nameOpt==null?orDash(code):nameOpt.$0;
+    }, BillingRecordVar().View));
+    this.BillingCountryOptions=map_2((_2) => Doc.Element("option", [Attr.Create("value", _2[0])], [Doc.TextNode(_2[1])]), CountriesList());
+    this.BillingViewAttr=DynamicClassPred("hidden", Map((a) => a.$==1, BillingModeVar().View));
+    this.BillingEditAttr=DynamicClassPred("hidden", Map((a) => a.$!=1, BillingModeVar().View));
+    this.BtnBillingEditAttr=DynamicClassPred("hidden", Map((mode) => mode.$!=0, BillingModeVar().View));
+    this.BtnBillingSaveAttr=DynamicClassPred("hidden", Map((a) => a.$!=1, BillingModeVar().View));
+    this.BtnBillingCancelAttr=DynamicClassPred("hidden", Map((a) => a.$!=1, BillingModeVar().View));
+  }
+});
+let _c_22=Lazy((_i) => class Invoices {
+  static {
+    _c_22=_i(this);
+  }
+  static InvoicesBody;
+  static invoicesDoc;
+  static invoicesModel;
+  static {
+    this.invoicesModel=Create((i) => i.id, InvoicesVar().Get());
+    this.invoicesDoc=Doc.ConvertSeqBy((i) => i.id, (k) =>(i) => invoiceRowV(k, i), invoicesModel().v);
+    this.InvoicesBody=invoicesDoc();
+  }
+});
+let _c_23=Lazy((_i) => class GitHub {
   static {
     _c_23=_i(this);
   }
-  static GitHubOrgVar;
-  static CustomerPortalLinkVar;
-  static BillingVar;
-  static InvoicesVar;
-  static SeatsVar;
-  static CurrentSubIdVar;
-  static SubsVar;
-  static UserVar;
-  static StateVar;
+  static GitHubBody;
+  static OrgPrefix;
+  static GitHubOrgName;
   static {
-    this.StateVar=_c_1.Create_1(New_19(null, [], "", [], [], null));
-    this.UserVar=_c_1.Lens(StateVar(), (s) => s.user, (_2, _3) => New_19(_3, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
-    this.SubsVar=_c_1.Lens(StateVar(), (s) => s.subs, (_2, _3) => New_19(_2.user, _3, _2.currentSubId, _2.seats, _2.invoices, _2.billing));
-    this.CurrentSubIdVar=_c_1.Lens(StateVar(), (s) => s.currentSubId, (_2, _3) => New_19(_2.user, _2.subs, _3, _2.seats, _2.invoices, _2.billing));
-    this.SeatsVar=_c_1.Lens(StateVar(), (s) => s.seats, (_2, _3) => New_19(_2.user, _2.subs, _2.currentSubId, _3, _2.invoices, _2.billing));
-    this.InvoicesVar=_c_1.Lens(StateVar(), (s) => s.invoices, (_2, _3) => New_19(_2.user, _2.subs, _2.currentSubId, _2.seats, _3, _2.billing));
-    this.BillingVar=_c_1.Lens(StateVar(), (s) => s.billing, (_2, _3) => New_19(_2.user, _2.subs, _2.currentSubId, _2.seats, _2.invoices, _3));
-    this.CustomerPortalLinkVar=_c_1.Create_1(null);
-    this.GitHubOrgVar=_c_1.Create_1(null);
+    this.GitHubOrgName=_c_1.Create_1("");
+    this.OrgPrefix="IntelliFactory-";
+    this.GitHubBody=Doc.EmbedView(Map2((_2, _3) => {
+      if(exists_1((s) => s.plan.toLowerCase().indexOf("freelancer")!=-1, _3))return Doc.Empty;
+      else if(_2!=null&&_2.$==1){
+        const org=_2.$0;
+        const _4=org.name;
+        if(org.status=="active"){
+          if(_4!=null&&_4.$==1){
+            const name=_4.$0;
+            const t_1=new ProviderBuilder("New_1");
+            const b=(t_1.h.push(EventQ2(t_1.k, "gotogithuborg", () => t_1.i, () => {
+              globalThis.open("https://github.com/"+name, "_blank");
+            })),t_1);
+            const p=CompleteHoles(b.k, b.h, []);
+            const i=new TemplateInstance(p[1], githubactive(p[0]));
+            let _5=(b.i=i,i);
+            return _5.Doc;
+          }
+          else return Doc.Empty;
+        }
+        else if(_4!=null&&_4.$==1){
+          const name_1=_4.$0;
+          const this_1=new ProviderBuilder("New_1");
+          const b_1=(this_1.h.push(new Text("githuborgname", name_1)),this_1);
+          const p_1=CompleteHoles(b_1.k, b_1.h, []);
+          const i_1=new TemplateInstance(p_1[1], githubpending(p_1[0]));
+          let _6=(b_1.i=i_1,i_1);
+          return _6.Doc;
+        }
+        else {
+          const this_2=new ProviderBuilder("New_1");
+          const t_2=(this_2.h.push(new VarStr("githuborgname", GitHubOrgName())),this_2);
+          const b_2=(t_2.h.push(EventQ2(t_2.k, "setgithuborgname", () => t_2.i, () => {
+            StartImmediate(Delay(() => {
+              setLoading(true);
+              return TryFinally(Delay(() => {
+                const fullOrgName=OrgPrefix()+GitHubOrgName().Get();
+                return Bind_1(SetGitHubOrgName_1(fullOrgName), (a) => a?(GitHubOrgVar().Set(Some(New_17(Some(fullOrgName), "pending"))),Zero()):Zero());
+              }), () => {
+                setLoading(false);
+              });
+            }), null);
+          })),t_2);
+          const p_2=CompleteHoles(b_2.k, b_2.h, [["githuborgname", 0, null]]);
+          const i_2=new TemplateInstance(p_2[1], githubpendinginput(p_2[0]));
+          let _7=(b_2.i=i_2,i_2);
+          return _7.Doc;
+        }
+      }
+      else return Doc.Empty;
+    }, GitHubOrgVar().View, SubsVar().View));
   }
 });
+let Editing={$:1};
+let Viewing={$:0};
 class Scheduler extends Object_1 {
   idle;
   robin;
@@ -7073,7 +7038,7 @@ class CancellationTokenSource extends Object_1 {
     this.init=1;
   }
 }
-function New_17(DynElem, DynFlags, DynNodes, OnAfterRender_4){
+function New_18(DynElem, DynFlags, DynNodes, OnAfterRender_4){
   const _2={
     DynElem:DynElem, 
     DynFlags:DynFlags, 
@@ -7082,7 +7047,7 @@ function New_17(DynElem, DynFlags, DynNodes, OnAfterRender_4){
   SetOptional(_2, "OnAfterRender", OnAfterRender_4);
   return _2;
 }
-function New_18(LeftPx, WidthPx){
+function New_19(LeftPx, WidthPx){
   return{LeftPx:LeftPx, WidthPx:WidthPx};
 }
 class NonStandardPromiseRejectionException extends Error {
@@ -7308,92 +7273,64 @@ let _c_28=Lazy((_i) => class $StartupCode_Countries {
     this.List=ofArray([["AF", "Afghanistan"], ["AL", "Albania"], ["DZ", "Algeria"], ["AD", "Andorra"], ["AO", "Angola"], ["AG", "Antigua and Barbuda"], ["AR", "Argentina"], ["AM", "Armenia"], ["AU", "Australia"], ["AT", "Austria"], ["AZ", "Azerbaijan"], ["BS", "Bahamas"], ["BH", "Bahrain"], ["BD", "Bangladesh"], ["BB", "Barbados"], ["BY", "Belarus"], ["BE", "Belgium"], ["BZ", "Belize"], ["BJ", "Benin"], ["BT", "Bhutan"], ["BO", "Bolivia"], ["BA", "Bosnia and Herzegovina"], ["BW", "Botswana"], ["BR", "Brazil"], ["BN", "Brunei"], ["BG", "Bulgaria"], ["BF", "Burkina Faso"], ["BI", "Burundi"], ["KH", "Cambodia"], ["CM", "Cameroon"], ["CA", "Canada"], ["CV", "Cape Verde"], ["CF", "Central African Republic"], ["TD", "Chad"], ["CL", "Chile"], ["CN", "China"], ["CO", "Colombia"], ["KM", "Comoros"], ["CG", "Congo"], ["CR", "Costa Rica"], ["HR", "Croatia"], ["CU", "Cuba"], ["CY", "Cyprus"], ["CZ", "Czech Republic"], ["DK", "Denmark"], ["DJ", "Djibouti"], ["DM", "Dominica"], ["DO", "Dominican Republic"], ["EC", "Ecuador"], ["EG", "Egypt"], ["SV", "El Salvador"], ["GQ", "Equatorial Guinea"], ["ER", "Eritrea"], ["EE", "Estonia"], ["SZ", "Eswatini"], ["ET", "Ethiopia"], ["FJ", "Fiji"], ["FI", "Finland"], ["FR", "France"], ["GA", "Gabon"], ["GM", "Gambia"], ["GE", "Georgia"], ["DE", "Germany"], ["GH", "Ghana"], ["GR", "Greece"], ["GD", "Grenada"], ["GT", "Guatemala"], ["GN", "Guinea"], ["GW", "Guinea-Bissau"], ["GY", "Guyana"], ["HT", "Haiti"], ["HN", "Honduras"], ["HU", "Hungary"], ["IS", "Iceland"], ["IN", "India"], ["ID", "Indonesia"], ["IR", "Iran"], ["IQ", "Iraq"], ["IE", "Ireland"], ["IL", "Israel"], ["IT", "Italy"], ["JM", "Jamaica"], ["JP", "Japan"], ["JO", "Jordan"], ["KZ", "Kazakhstan"], ["KE", "Kenya"], ["KI", "Kiribati"], ["KW", "Kuwait"], ["KG", "Kyrgyzstan"], ["LA", "Laos"], ["LV", "Latvia"], ["LB", "Lebanon"], ["LS", "Lesotho"], ["LR", "Liberia"], ["LY", "Libya"], ["LI", "Liechtenstein"], ["LT", "Lithuania"], ["LU", "Luxembourg"], ["MG", "Madagascar"], ["MW", "Malawi"], ["MY", "Malaysia"], ["MV", "Maldives"], ["ML", "Mali"], ["MT", "Malta"], ["MH", "Marshall Islands"], ["MR", "Mauritania"], ["MU", "Mauritius"], ["MX", "Mexico"], ["FM", "Micronesia"], ["MD", "Moldova"], ["MC", "Monaco"], ["MN", "Mongolia"], ["ME", "Montenegro"], ["MA", "Morocco"], ["MZ", "Mozambique"], ["MM", "Myanmar"], ["NA", "Namibia"], ["NR", "Nauru"], ["NP", "Nepal"], ["NL", "Netherlands"], ["NZ", "New Zealand"], ["NI", "Nicaragua"], ["NE", "Niger"], ["NG", "Nigeria"], ["KP", "North Korea"], ["MK", "North Macedonia"], ["NO", "Norway"], ["OM", "Oman"], ["PK", "Pakistan"], ["PW", "Palau"], ["PS", "Palestine"], ["PA", "Panama"], ["PG", "Papua New Guinea"], ["PY", "Paraguay"], ["PE", "Peru"], ["PH", "Philippines"], ["PL", "Poland"], ["PT", "Portugal"], ["QA", "Qatar"], ["RO", "Romania"], ["RU", "Russia"], ["RW", "Rwanda"], ["KN", "Saint Kitts and Nevis"], ["LC", "Saint Lucia"], ["VC", "Saint Vincent and the Grenadines"], ["WS", "Samoa"], ["SM", "San Marino"], ["ST", "Sao Tome and Principe"], ["SA", "Saudi Arabia"], ["SN", "Senegal"], ["RS", "Serbia"], ["SC", "Seychelles"], ["SL", "Sierra Leone"], ["SG", "Singapore"], ["SK", "Slovakia"], ["SI", "Slovenia"], ["SB", "Solomon Islands"], ["SO", "Somalia"], ["ZA", "South Africa"], ["KR", "South Korea"], ["SS", "South Sudan"], ["ES", "Spain"], ["LK", "Sri Lanka"], ["SD", "Sudan"], ["SR", "Suriname"], ["SE", "Sweden"], ["CH", "Switzerland"], ["SY", "Syria"], ["TW", "Taiwan"], ["TJ", "Tajikistan"], ["TZ", "Tanzania"], ["TH", "Thailand"], ["TL", "Timor-Leste"], ["TG", "Togo"], ["TO", "Tonga"], ["TT", "Trinidad and Tobago"], ["TN", "Tunisia"], ["TR", "Turkey"], ["TM", "Turkmenistan"], ["TV", "Tuvalu"], ["UG", "Uganda"], ["UA", "Ukraine"], ["AE", "United Arab Emirates"], ["GB", "United Kingdom"], ["US", "United States"], ["UY", "Uruguay"], ["UZ", "Uzbekistan"], ["VU", "Vanuatu"], ["VA", "Vatican City"], ["VE", "Venezuela"], ["VN", "Vietnam"], ["YE", "Yemen"], ["ZM", "Zambia"], ["ZW", "Zimbabwe"]]);
   }
 });
-function groupBy_1(f, a){
-  const d=new Dictionary("New_5");
-  const keys=[];
-  for(let i=0, _2=length(a)-1;i<=_2;i++){
-    const c=a[i];
-    const k=f(c);
-    if(d.ContainsKey(k))d.Item(k).push(c);
-    else {
-      keys.push(k);
-      d.DAdd(k, [c]);
-    }
-  }
-  mapInPlace_1((k_1) =>[k_1, d.Item(k_1)], keys);
-  return keys;
-}
-function mapiInPlace(f, arr){
-  for(let i=0, _2=arr.length-1;i<=_2;i++)arr[i]=f(i, arr[i]);
-  return arr;
-}
-function mapInPlace_1(f, arr){
-  for(let i=0, _2=arr.length-1;i<=_2;i++)arr[i]=f(arr[i]);
-}
-function arrContains(item, arr){
-  let c=true;
-  let i=0;
-  const l=length(arr);
-  while(c&&i<l)
-    if(Equals(arr[i], item))c=false;
-    else i=i+1;
-  return!c;
-}
-function insufficient(){
-  return FailWith("The input sequence has an insufficient number of elements.");
-}
-function nonNegative(){
-  return FailWith("The input must be non-negative.");
-}
-function InMemory(init_2){
-  return new ArrayStorage(init_2);
-}
 class GitHubOrgStatus {
   toString(){
     return this=="active"?"active":"pending";
   }
   $;
 }
-class Text extends TemplateHole {
-  name;
-  fillWith;
-  get Name(){
-    return this.name;
+class ListModel extends Object_1 {
+  key;
+  u0076ar;
+  storage;
+  v;
+  it;
+  Set(lst){
+    this.u0076ar.Set(this.storage.SSet(lst));
+    this.ObsoleteAll();
   }
-  WithName(n){
-    return new Text(n, this.fillWith);
+  ObsoleteAll(){
+    iter((ksn) => {
+      Obsolete(ksn.V);
+    }, this.it);
+    this.it.Clear();
   }
-  get Value(){
-    return this.fillWith;
+  GetEnumerator(){
+    return Get(this.u0076ar.Get());
   }
-  get AsChoiceView(){
-    return Choice1Of2(this.fillWith);
+  GetEnumerator0(){
+    return Get0(this.u0076ar.Get());
   }
-  constructor(name, fillWith){
-    super();
-    this.name=name;
-    this.fillWith=fillWith;
+  constructor(i, _2, _3, _4){
+    let key;
+    let storage;
+    if(i=="New"){
+      key=_2;
+      storage=_3;
+      i="New_3";
+      _2=key;
+      _3=_c_1.Create_1(ofSeq(distinctBy(key, storage.SInit())));
+      _4=storage;
+    }
+    if(i=="New_3"){
+      const key_1=_2;
+      const var_1=_3;
+      const storage_1=_4;
+      super();
+      this.key=key_1;
+      this.u0076ar=var_1;
+      this.storage=storage_1;
+      this.v=Map((x) => x.slice(), this.u0076ar.View);
+      this.it=new Dictionary("New_5");
+    }
   }
 }
-function New_19(user, subs, currentSubId, seats, invoices, billing){
-  return{
-    user:user, 
-    subs:subs, 
-    currentSubId:currentSubId, 
-    seats:seats, 
-    invoices:invoices, 
-    billing:billing
-  };
+function Create(key, init_2){
+  return CreateWithStorage(key, InMemory(ofSeq(init_2)));
 }
-let _c_29=Lazy((_i) => class $StartupCode_Api {
-  static {
-    _c_29=_i(this);
-  }
-  static billingCache;
-  static {
-    this.billingCache=null;
-  }
-});
+function CreateWithStorage(key, storage){
+  return new ListModel("New", key, storage);
+}
 function get_UseAnimations(){
   return UseAnimations();
 }
@@ -7457,9 +7394,9 @@ function StartProcessor(procAsync){
     else Equals(m, 1)?st[0]=2:void 0;
   };
 }
-let _c_30=Lazy((_i) => class $StartupCode_Templates {
+let _c_29=Lazy((_i) => class $StartupCode_Templates {
   static {
-    _c_30=_i(this);
+    _c_29=_i(this);
   }
   static RenderedFullDocTemplate;
   static TextHoleRE;
@@ -7638,39 +7575,85 @@ class XhrProvider extends Object_1 {
     });
   }
 }
-let _c_31=Lazy((_i) => class $StartupCode_RemotingContract {
+let _c_30=Lazy((_i) => class $StartupCode_RemotingContract {
   static {
-    _c_31=_i(this);
+    _c_30=_i(this);
   }
   static euVat;
   static {
     this.euVat=dict([["AT", 20], ["BE", 21], ["BG", 20], ["HR", 25], ["CY", 19], ["CZ", 21], ["DK", 25], ["EE", 22], ["FI", 24], ["FR", 20], ["DE", 19], ["GR", 24], ["HU", 27], ["IE", 23], ["IT", 22], ["LV", 21], ["LT", 21], ["LU", 17], ["MT", 18], ["NL", 21], ["PL", 23], ["PT", 23], ["RO", 19], ["SK", 20], ["SI", 22], ["ES", 21], ["SE", 25]]);
   }
 });
-class SeatStatus {
-  static FromString(s){
-    return s.toLowerCase()=="assigned"?SeatStatus.Assigned:SeatStatus.Unassigned;
+function groupBy_1(f, a){
+  const d=new Dictionary("New_5");
+  const keys=[];
+  for(let i=0, _2=length(a)-1;i<=_2;i++){
+    const c=a[i];
+    const k=f(c);
+    if(d.ContainsKey(k))d.Item(k).push(c);
+    else {
+      keys.push(k);
+      d.DAdd(k, [c]);
+    }
   }
-  get AsString(){
-    return this.$==1?"unassigned":"assigned";
-  }
-  static Assigned=Create_2(SeatStatus, {$:0});
-  static Unassigned=Create_2(SeatStatus, {$:1});
-  $;
+  mapInPlace_1((k_1) =>[k_1, d.Item(k_1)], keys);
+  return keys;
 }
-class ArrayStorage extends Object_1 {
-  init;
-  SSet(coll){
-    return ofSeq(coll);
+function arrContains(item, arr){
+  let c=true;
+  let i=0;
+  const l=length(arr);
+  while(c&&i<l)
+    if(Equals(arr[i], item))c=false;
+    else i=i+1;
+  return!c;
+}
+function insufficient(){
+  return FailWith("The input sequence has an insufficient number of elements.");
+}
+function mapiInPlace(f, arr){
+  for(let i=0, _2=arr.length-1;i<=_2;i++)arr[i]=f(i, arr[i]);
+  return arr;
+}
+function mapInPlace_1(f, arr){
+  for(let i=0, _2=arr.length-1;i<=_2;i++)arr[i]=f(arr[i]);
+}
+function nonNegative(){
+  return FailWith("The input must be non-negative.");
+}
+function InMemory(init_2){
+  return new ArrayStorage(init_2);
+}
+class Text extends TemplateHole {
+  name;
+  fillWith;
+  get Value(){
+    return this.fillWith;
   }
-  SInit(){
-    return this.init;
+  get Name(){
+    return this.name;
   }
-  constructor(init_2){
+  WithName(n){
+    return new Text(n, this.fillWith);
+  }
+  get AsChoiceView(){
+    return Choice1Of2(this.fillWith);
+  }
+  constructor(name, fillWith){
     super();
-    this.init=init_2;
+    this.name=name;
+    this.fillWith=fillWith;
   }
 }
+let _c_31=Lazy((_i) => class $StartupCode_Api {
+  static {
+    _c_31=_i(this);
+  }
+  static billingCache;
+  static {
+    this.billingCache=null;
+  }
+});
 function New_20(PreviousNodes, Top){
   return{PreviousNodes:PreviousNodes, Top:Top};
 }
@@ -7889,15 +7872,29 @@ class KeyCollection extends Object_1 {
     this.d=d;
   }
 }
-function New_21(subscriptionId, cancelAtPeriodEnd){
-  return{subscriptionId:subscriptionId, cancelAtPeriodEnd:cancelAtPeriodEnd};
+class SeatStatus {
+  static FromString(s){
+    return s.toLowerCase()=="assigned"?SeatStatus.Assigned:SeatStatus.Unassigned;
+  }
+  get AsString(){
+    return this.$==1?"unassigned":"assigned";
+  }
+  static Assigned=Create_2(SeatStatus, {$:0});
+  static Unassigned=Create_2(SeatStatus, {$:1});
+  $;
 }
-function New_22(subscriptionId, githubAssignedName, position){
-  return{
-    subscriptionId:subscriptionId, 
-    githubAssignedName:githubAssignedName, 
-    position:position
-  };
+class ArrayStorage extends Object_1 {
+  init;
+  SSet(coll){
+    return ofSeq(coll);
+  }
+  SInit(){
+    return this.init;
+  }
+  constructor(init_2){
+    super();
+    this.init=init_2;
+  }
 }
 let _c_33=Lazy((_i) => class $StartupCode_Animation {
   static {
@@ -7959,6 +7956,16 @@ class KeyNotFoundException extends Error {
     }
   }
 }
+function New_21(subscriptionId, cancelAtPeriodEnd){
+  return{subscriptionId:subscriptionId, cancelAtPeriodEnd:cancelAtPeriodEnd};
+}
+function New_22(subscriptionId, githubAssignedName, position){
+  return{
+    subscriptionId:subscriptionId, 
+    githubAssignedName:githubAssignedName, 
+    position:position
+  };
+}
 class Easing extends Object_1 {
   transformTime;
   static Custom(f){
@@ -7991,14 +7998,6 @@ function applyTypedVarHole(bind, v, el){
   const p=bind(v);
   p[0](el);
   Sink(p[1](el), p[2]);
-}
-class ArgumentException extends Error {
-  constructor(i, _2){
-    if(i=="New_2"){
-      const message=_2;
-      super(message);
-    }
-  }
 }
 function Children(elem, delims){
   let n;
@@ -8064,9 +8063,9 @@ function DocChildren(node){
 function DomNodes(Item){
   return{$:0, $0:Item};
 }
-class FormatException extends Error {
+class ArgumentException extends Error {
   constructor(i, _2){
-    if(i=="New_1"){
+    if(i=="New_2"){
       const message=_2;
       super(message);
     }
@@ -8094,6 +8093,14 @@ let _c_34=Lazy((_i) => class $StartupCode_AppendList {
     this.Empty={$:0};
   }
 });
+class FormatException extends Error {
+  constructor(i, _2){
+    if(i=="New_1"){
+      const message=_2;
+      super(message);
+    }
+  }
+}
 function New_23(created, evalOrVal, force){
   return{
     c:created, 
