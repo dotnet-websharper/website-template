@@ -6,7 +6,7 @@ open WebSharper.UI
 open WebSharper.UI.Client
 
 [<JavaScript>]
-module Client =
+module ClientPages =
     open Utils
 
     let ToggleMenu() =
@@ -55,52 +55,8 @@ module Client =
         AccountMenu.InitGlobal()
         Doc.Empty
 
-    let Home () =
-        Templates.HomeTemplate.Content()
-            .OnAfterRender(fun () ->
-                VideoPlayer.Init("ws-template")
-
-                Theme.Init()
-                SnippetCode.Init()
-
-                importDynamicIgnore "Js/line-numbers.js"
-                SnippetCode.InitTabs() 
-            )
-            .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
-            .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
-            .Doc()
-
-    let Features () =
-        Templates.FeaturesTemplate.Content()
-            .OnAfterRender(fun () ->
-                VideoPlayer.Init("ws-template")
-
-                Theme.Init()
-                SnippetCode.Init()
-
-                importDynamicIgnore "Js/line-numbers.js"
-                SnippetCode.InitTabs() 
-            )
-            .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
-            .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
-            .Doc()
-
-    let Download () =
-        Templates.DownloadTemplate.Content()
-            .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
-            .Doc()
-
     let Support () =    
         Support.Page.SupportDoc()
-
-    let Warp () =
-        Templates.DslAiTemplate.Content()
-            .OnAfterRender(fun () ->
-                SnippetCode.Init()
-                importDynamicIgnore "Js/line-numbers.js"
-                SnippetCode.InitTabs()       
-            )
-            .Doc()
 
     let Checkout () =
         Checkout.Page.CheckoutDoc()
@@ -154,3 +110,56 @@ module Client =
             Templates.SuccessTemplate.Content()
                 .MessageText(Html.text "Confirming your payment…")
                 .Doc()
+
+module ServerPages =
+
+    open WebSharper.Sitelets
+
+    let Home () =
+        Content.BundleScope "home" (
+            Templates.HomeTemplate.Content()
+                .OnAfterRender(fun () ->
+                    VideoPlayer.Init("ws-template")
+
+                    Theme.Init()
+                    SnippetCode.Init()
+
+                    SnippetCode.InitTabs() 
+                )
+                .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
+                .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
+                .Doc()
+        )
+
+    let Features () =
+        Content.BundleScope "features" (
+            Templates.FeaturesTemplate.Content()
+                .OnAfterRender(fun () ->
+                    VideoPlayer.Init("ws-template")
+
+                    Theme.Init()
+                    SnippetCode.Init()
+
+                    SnippetCode.InitTabs() 
+                )
+                .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
+                .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
+                .Doc()
+        )
+
+    let Download () =
+        Content.BundleScope "download" (
+            Templates.DownloadTemplate.Content()
+                .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
+                .Doc()
+        )
+
+    let Warp () =
+        Content.BundleScope "warp" (
+            Templates.DslAiTemplate.Content()
+                .OnAfterRender(fun () ->
+                    SnippetCode.Init()
+                    SnippetCode.InitTabs()       
+                )
+                .Doc()
+        )

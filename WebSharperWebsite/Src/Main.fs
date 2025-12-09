@@ -34,68 +34,90 @@ module Templating =
             Attr.Empty
 
     let Layout (endpoint: EndPoint) (body: Doc list) =
-        let bodyWithInit =
-            Doc.Concat [
-                client (Client.Layout())
-                Doc.Concat body
-            ]
-
-        Content.Page(
+        Content.BundleScopes [| "home"; "features"; "support"; "warp"; "checkout"; "error"; "invoice"; "account"; "success" |] (
             Templates.LayoutTemplate()
-                .Body(bodyWithInit)
+                .Body(
+                    client (ClientPages.Layout()) :: body
+                )
                 .HeaderVisibility(hideIf (noChrome endpoint))
                 .FooterVisibility(hideIf (noChrome endpoint))
                 .Doc(keepUnfilled = true)
         )
 
-
 module Site =
     open type WebSharper.UI.ClientServer
 
     let HomePage =
-        Templating.Layout EndPoint.Home [
-            hydrate (Client.Home())
-        ]
+        Content.Page(
+            Templating.Layout EndPoint.Home [
+                ServerPages.Home()
+            ],
+            Bundle = "home"
+        )
 
     let FeaturesPage =
-        Templating.Layout EndPoint.Features [
-            hydrate (Client.Features())
-        ]
+        Content.Page(
+            Templating.Layout EndPoint.Features [
+                ServerPages.Features()
+            ],
+            Bundle = "features"
+        )
 
     let SupportPage =
-        Templating.Layout EndPoint.Support [
-            hydrate (Client.Support())
-        ]
+        Content.Page(
+            Templating.Layout EndPoint.Support [
+                hydrate (ClientPages.Support())
+            ],
+            Bundle = "support"
+        )
 
     let WarpPage =
-        Templating.Layout EndPoint.Warp [
-            hydrate (Client.Warp())
-        ]
+        Content.Page(
+            Templating.Layout EndPoint.Warp [
+                ServerPages.Warp()
+            ],
+            Bundle = "warp"
+        )
 
     let CheckoutPage =
-        Templating.Layout EndPoint.Checkout [
-            hydrate (Client.Checkout())
-        ]
+        Content.Page(
+            Templating.Layout EndPoint.Checkout [
+                hydrate (ClientPages.Checkout())
+            ],
+            Bundle = "checkout"
+        )
 
     let ErrorPage =
-        Templating.Layout EndPoint.Error [
-            hydrate (Client.Error())
-        ]
+        Content.Page(
+            Templating.Layout EndPoint.Error [
+                hydrate (ClientPages.Error())
+            ],
+            Bundle = "error"
+        )
 
     let InvoicePage =
-        Templating.Layout EndPoint.Invoice [
-            hydrate (Client.Invoice())
-        ]
+        Content.Page(
+            Templating.Layout EndPoint.Invoice [
+                hydrate (ClientPages.Invoice())
+            ],
+            Bundle = "invoice"
+        )
 
     let MyAccountPage =
-        Templating.Layout EndPoint.MyAccount [
-            hydrate (Client.MyAccount())
-        ]
+        Content.Page(
+            Templating.Layout EndPoint.MyAccount [
+                hydrate (ClientPages.MyAccount())
+            ],
+            Bundle = "account"
+        )
 
     let SuccessPage =
-        Templating.Layout EndPoint.Success [
-            hydrate (Client.Success())
-        ]
+        Content.Page(
+            Templating.Layout EndPoint.Success [
+                hydrate (ClientPages.Success())
+            ],
+            Bundle = "success"
+        )
 
     [<Website>]
     let Main =
@@ -115,7 +137,11 @@ module Site =
 [<Sealed>]
 type Website() =
     interface IWebsite<EndPoint> with
-        member this.Sitelet = Site.Main
+        member this.Sitelet = 
+            Site.Main
+            |> Sitelet.WithSettings [
+                "LogBundleChoice", "true" 
+            ]
         member this.Actions = [
             Home; Features; Support; Warp;
             Checkout; Error; Invoice; MyAccount; Success

@@ -46,7 +46,7 @@
     <Compile Include="Src\VideoPlayer.fs" />
     <Compile Include="Src\Clipboard.fs" />
     <Compile Include="Src\Theme.fs" />    
-    <Compile Include="Src\Client.fs" />
+    <Compile Include="Src\Pages.fs" />
     <Compile Include="Src\Main.fs" />
     <Content Include="Styles\app.css" />
     <Content Include="Layout.html" />
@@ -66,10 +66,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebSharper" Version="10.0.0.634-beta1" />    
-    <PackageReference Include="WebSharper.FSharp" Version="10.0.0.634-beta1" />    
+    <PackageReference Include="WebSharper" Version="10.0.0.640-beta1" />    
+    <PackageReference Include="WebSharper.FSharp" Version="10.0.0.640-beta1" />    
     <PackageReference Include="WebSharper.SweetAlert" Version="10.0.0.604-beta1" />
-    <PackageReference Include="WebSharper.UI" Version="10.0.0.634-beta1" />
+    <PackageReference Include="WebSharper.UI" Version="10.0.0.640-beta1" />
   </ItemGroup>
 
   <ItemGroup>
