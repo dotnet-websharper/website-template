@@ -56,7 +56,22 @@ module Client =
         Doc.Empty
 
     let Home () =
-        Templates.HomeTemplate()
+        Templates.HomeTemplate.Content()
+            .OnAfterRender(fun () ->
+                VideoPlayer.Init("ws-template")
+
+                Theme.Init()
+                SnippetCode.Init()
+
+                importDynamicIgnore "Js/line-numbers.js"
+                SnippetCode.InitTabs() 
+            )
+            .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
+            .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
+            .Doc()
+
+    let Features () =
+        Templates.FeaturesTemplate.Content()
             .OnAfterRender(fun () ->
                 VideoPlayer.Init("ws-template")
 
@@ -71,15 +86,15 @@ module Client =
             .Doc()
 
     let Download () =
-        Templates.DownloadTemplate()
+        Templates.DownloadTemplate.Content()
             .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
             .Doc()
 
     let Support () =    
         Support.Page.SupportDoc()
 
-    let DslAi () =
-        Templates.DslAiTemplate()
+    let Warp () =
+        Templates.DslAiTemplate.Content()
             .OnAfterRender(fun () ->
                 SnippetCode.Init()
                 importDynamicIgnore "Js/line-numbers.js"
@@ -92,7 +107,7 @@ module Client =
 
     let Error () =
         if IsClient then 
-            Templates.ErrorTemplate()
+            Templates.ErrorTemplate.Content()
                 .OnAfterRender(Error.Init)
                 .ErrorTitle(Doc.TextView Error.Title)
                 .ErrorMessage(Doc.TextView Error.Message)
@@ -108,7 +123,7 @@ module Client =
 
     let Invoice () =
         if IsClient then
-            Templates.InvoiceTemplate()
+            Templates.InvoiceTemplate.Content()
                 .OnAfterRender(Invoice.OnAfterRender)
                 .InvId(InvId)
                 .InvDate(InvDate)
@@ -122,20 +137,20 @@ module Client =
         else 
             Templates.InvoiceTemplate().Doc()    
 
-    let ManageSubscription () =
+    let MyAccount () =
         Page.ManageSubscriptionDoc()
             
     open Checkout.Success
 
     let Success () =
         if IsClient then
-            Templates.SuccessTemplate()
+            Templates.SuccessTemplate.Content()
                 .OnAfterRender(OnAfterRender)
                 .MessageText(MessageText)
                 .DetailsAttr(DetailsAttr)
                 .DetailsDoc(DetailsDoc)
                 .Doc()
         else
-            Templates.SuccessTemplate()
+            Templates.SuccessTemplate.Content()
                 .MessageText(Html.text "Confirming your payment…")
                 .Doc()

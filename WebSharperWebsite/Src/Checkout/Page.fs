@@ -65,7 +65,7 @@ module Page =
 
     let CheckoutDoc () : Doc =
         if IsClient then
-            Templates.CheckoutTemplate()
+            Templates.CheckoutTemplate.Content()
                 .OnAfterRender(OnAfterRender)
 
                 .BackLinkAttr(BackLinkAttr)
@@ -147,7 +147,7 @@ module Page =
                 )
                 .Doc()
         else
-            Templates.CheckoutTemplate()
+            Templates.CheckoutTemplate.Content()
                 .RightSideContent(
                     Templates.CheckoutTemplate.RightSkeleton().Doc()
                 )

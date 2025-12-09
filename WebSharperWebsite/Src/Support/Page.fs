@@ -16,7 +16,7 @@ module Page =
 
     let SupportDoc (): Doc =    
         if IsClient then
-            Templates.SupportTemplate()
+            Templates.SupportTemplate.Content()
                 .OnAfterRender(fun () ->
                     HydrateCatalog() |> Async.StartImmediate
                 )
@@ -54,7 +54,7 @@ module Page =
                 .OnContactSendClick(OnContactSendClick)
                 .Doc()
         else
-            Templates.SupportTemplate()
+            Templates.SupportTemplate.Content()
                 .ContactSendButtonText("Send")
                 .ContactSendButtonAttr(Attr.Create "disabled" "")
                 .Doc()

@@ -9,6 +9,7 @@ open WebSharper.UI.Templating
 module Templates =    
     type LayoutTemplate = Template<"Layout.html", ClientLoad.FromDocument, ServerLoad.WhenChanged>
     type HomeTemplate = Template<"Home.html">
+    type FeaturesTemplate = Template<"Features.html">
     type DownloadTemplate = Template<"Download.html">
     type SupportTemplate = Template<"Support.html">
     type DslAiTemplate = Template<"DslAi.html">

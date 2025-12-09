@@ -1,570 +1,1051 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+    <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Open Graph Tags -->
+    <meta property="og:url" content="https://websharper.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WebSharper" />
+    <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta property="og:image" content="" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="websharper.com" />
+    <meta property="twitter:url" content="https://websharper.com/" />
+    <meta name="twitter:title" content="WebSharper" />
+    <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta name="twitter:image" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
+
+    <!--
+        Referencing the final JS/CSS bundle from after the build.
+        This means that you must build the project before this
+        template file renders correctly on its own.
+    -->
+    <link rel="stylesheet" href="bin/html/Scripts/WebSharper/all.css">
+    <script src="bin/html/Scripts/WebSharper/all.js"></script>
+    <!-- -->
+
+    <style>
+        .dark .swal2-popup {
+            background-color: #030712 !important;
+        }
+
+        .dark .swal2-title {
+            color: #ffffff !important;
+        }
+
+        .dark .swal2-html-container {
+            color: #9ca3af !important;
+        }
+    </style>
+    <script>
+        const DOC = document.documentElement;
+        const THEME_KEY = "color-theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", theme === "dark");
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || (saved === null && prefersDark())) return "dark";
+            return "light";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            localStorage.setItem(THEME_KEY, theme);
+            updateAllIframesTheme(theme);
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY && (e.newValue === "dark" || e.newValue === "light")) {
+                setThemeClass(e.newValue);
+                updateAllIframesTheme(e.newValue);
+            }
+        });
+
+    </script>
 </head>
-<body>
-    <div class="space-y-20" ws-onafterrender="OnAfterRender">
-        <!-- Hero / Banner -->
-        <section class="pt-28 sm:pt-32">
-            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                <div class="grid items-center gap-8 md:grid-cols-12">
-                    <div class="md:col-span-7 text-center md:text-left">
-                        <h1 class="font-bold tracking-tight text-gray-950 dark:text-white text-4xl sm:text-5xl">
-                            WebSharper Expert Support
-                        </h1>
-                        <p class="mt-3 text-base sm:text-lg leading-7 sm:leading-8 text-gray-700 dark:text-gray-300 max-w-2xl md:mx-0 mx-auto">
-                            Our experienced WebSharper support team is available to help you make the right decisions for your development project, and can save you hundreds of hours when important and difficult questions arise.
-                        </p>
-
-                        <!-- Chips -->
-                        <div class="mt-4 flex flex-wrap justify-center md:justify-start gap-2">
-                            <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
-                                Email & web support
-                            </span>
-                            <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
-                                First response: 4h-2d
-                            </span>
-                            <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
-                                Mentoring & training available
-                            </span>
+<body class="bg-white dark:bg-gray-950 overflow-x-hidden">
+    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur"
+            ws-attr="HeaderVisibility"
+            ws-onclick="CloseOnBackgroundClick"
+            ws-onkeydown="OnKeyDown">
+        <div class="px-6 py-4 lg:px-8">
+            <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                <div class="flex lg:flex-1">
+                    <a href="./" class="-m-1.5 p-1.5">
+                        <span class="sr-only">WebSharper logo</span>
+                        <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="./Assets/favicon.png" alt="websharper logo" width="164" height="164" />
+                    </a>
+                </div>
+                <div class="flex gap-4 lg:hidden">
+                    <button ws-onclick="ToggleTheme"
+                            aria-label="switch theme"
+                            class="cursor-pointer group h-10 w-10 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <button ws-onclick="ToggleMenu"
+                            id="openMenu"
+                            type="button"
+                            class="cursor-pointer text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                        <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                            <span class="sr-only">Open main menu</span>
+                            <!-- Heroicon name: outline/bars-3 -->
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
                         </div>
-                    </div>
+                        <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                            <span class="sr-only">Close menu</span>
+                            <!-- Heroicon name: outline/x-mark -->
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
+                    <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                    <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                </div>
+                <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                    <button ws-onclick="ToggleTheme"
+                            aria-label="switch theme"
+                            class="cursor-pointer group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-5 w-5 fill-gray-700 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <ul class="flex items-center gap-1">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                                </svg>
+                                <span class="sr-only">WebSharper GitHub organization</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                </svg>
+                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z" />
+                                </svg>
+                                <span class="sr-only">Join WebSharper community on Discord</span>
+                            </a>
+                        </li>
+                        <!-- Account -->
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
+                            <button id="accountBtn"
+                                    class="cursor-pointer group flex h-9 w-9 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    aria-haspopup="menu" aria-expanded="false" aria-label="Account"
+                                    ws-attr="AccountBtnAria"
+                                    ws-onclick="AccountBtnClick"
+                                    ws-onkeydown="AccountBtnKeyDown">
 
-                    <!-- Visual -->
-                    <div class="md:col-span-5">
-                        <figure class="rounded-2xl overflow-hidden shadow-md bg-white dark:bg-gray-900">
-                            <img src="./Assets/images/slay.png"
-                                 alt="WebSharper support: experts reviewing code and architecture"
-                                 class="w-full h-auto" />
-                        </figure>
+                                <div ws-attr="SkeletonAttr"
+                                     class="absolute inset-0 m-auto h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse transition-opacity duration-500 ease-out">
+                                </div>
+
+                                <img id="accountAvatar"
+                                     class="h-9 w-9 rounded-full ring-1 ring-black/5 dark:ring-white/10 transition-opacity duration-500 ease-out opacity-0"
+                                     ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
+
+                                <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                     class="m-auto h-4 w-4 text-gray-700 transition-all duration-300 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white ease-out opacity-0"
+                                     fill="currentColor" aria-hidden="true"
+                                     ws-attr="IconAttr">
+                                    <path fill-rule="evenodd"
+                                          d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z"
+                                          clip-rule="evenodd" />
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown -->
+                            <div id="accountDropdown"
+                                 class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10"
+                                 ws-attr="DropdownAttr">
+                                <div id="accountHeader"
+                                     class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300"
+                                     ws-attr="HeaderAttrD">${AccountHeaderText}</div>
+
+                                <!-- Authenticated items -->
+                                <a id="btnManage"
+                                   href="./account"
+                                   class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10"
+                                   ws-attr="BtnManageAttrD">
+                                    <!-- wrench icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z" /></svg>
+                                    My account
+                                </a>
+                                <button id="btnLogout"
+                                        class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10"
+                                        ws-attr="BtnLogoutAttrD"
+                                        ws-onclick="Logout">
+                                    <!-- logout icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z" /><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z" /></svg>
+                                    Log out
+                                </button>
+
+                                <!-- Unauthenticated items -->
+                                <button id="btnLogin"
+                                        class="cursor-pointer flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10"
+                                        ws-attr="BtnLoginAttrD"
+                                        ws-onclick="Login">
+                                    <!-- GitHub mark -->
+                                    <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4">
+                                        <path fill="currentColor"
+                                              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z" />
+                                    </svg>
+                                    Log in with GitHub
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- Mobile menu, show/hide based on menu open state. -->
+            <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900 dark:backdrop-blur-3xl">
+                    <div class="mt-24 flow-root">
+                        <div class="divide-y divide-gray-200 dark:divide-white">
+
+                            <div class="flex flex-col space-y-6 py-6">
+                                <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                                <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                            </div>
+
+                            <div class="py-6">
+                                <ul class="flex gap-x-4">
+                                    <li>
+                                        <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                                            </svg>
+                                            <span class="sr-only">WebSharper GitHub organization</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                            </svg>
+                                            <span class="sr-only">Follow WebSharper on Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewBox="0 0 16 16">
+                                                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z" />
+                                            </svg>
+                                            <span class="sr-only">Join WebSharper community on Discord</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="py-6">
+                                <div data-account-menu data-variant="mobile" class="flex flex-col gap-2">
+                                    <div data-el="header"
+                                         class="hidden flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-300"
+                                         ws-attr="HeaderAttr">
+
+                                        <img ws-attr="AvatarAttrHamburger"
+                                             src=""
+                                             alt="Profile"
+                                             class="h-9 w-9 rounded-full bg-gray-100 ring-1 ring-black/5 dark:bg-gray-800 dark:ring-white/10" />
+
+                                        <span class="font-medium">${AccountHeaderText}</span>
+                                    </div>
+
+                                    <a data-el="manage" href="./account"
+                                       class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
+                                       ws-attr="BtnManageAttr">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z" />
+                                        </svg>
+                                        My account
+                                    </a>
+
+                                    <button data-el="logout"
+                                            class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
+                                            ws-attr="BtnLogoutAttr"
+                                            ws-onclick="Logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z" />
+                                            <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z" />
+                                        </svg>
+                                        Log out
+                                    </button>
+
+                                    <button data-el="login"
+                                            class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
+                                            ws-attr="BtnLoginAttr"
+                                            ws-onclick="Login">
+                                        <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4">
+                                            <path fill="currentColor"
+                                                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z" />
+                                        </svg>
+                                        Log in with GitHub
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </header>
 
-        <section class="scroll-my-16">
-            <div class="mx-2 md:mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                <div class="rounded-3xl overflow-hidden border dark:border-gray-800">
-                    <div class="py-12 lg:py-16 lg:px-16 border-b dark:border-gray-800">
-                        <h2 class="font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
-                            Quick, practical help from the people who build WebSharper
-                        </h2>
-                        <p class="mt-3 text-lg text-gray-700 dark:text-gray-300">
-                            Get senior guidance on architecture, performance, reactive UI, and integrations plus hands-on fixes when you need them.
-                        </p>
+    <main ws-children-template="Content">
+        <div class="space-y-20" ws-onafterrender="OnAfterRender">
+            <!-- Hero / Banner -->
+            <section class="pt-28 sm:pt-32">
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="grid items-center gap-8 md:grid-cols-12">
+                        <div class="md:col-span-7 text-center md:text-left">
+                            <h1 class="font-bold tracking-tight text-gray-950 dark:text-white text-4xl sm:text-5xl">
+                                WebSharper Expert Support
+                            </h1>
+                            <p class="mt-3 text-base sm:text-lg leading-7 sm:leading-8 text-gray-700 dark:text-gray-300 max-w-2xl md:mx-0 mx-auto">
+                                Our experienced WebSharper support team is available to help you make the right decisions for your development project, and can save you hundreds of hours when important and difficult questions arise.
+                            </p>
+
+                            <!-- Chips -->
+                            <div class="mt-4 flex flex-wrap justify-center md:justify-start gap-2">
+                                <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
+                                    Email & web support
+                                </span>
+                                <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
+                                    First response: 4h-2d
+                                </span>
+                                <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs sm:text-sm text-gray-800 dark:bg-white/10 dark:text-gray-200">
+                                    Mentoring & training available
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Visual -->
+                        <div class="md:col-span-5">
+                            <figure class="rounded-2xl overflow-hidden shadow-md bg-white dark:bg-gray-900">
+                                <img src="./Assets/images/slay.png"
+                                     alt="WebSharper support: experts reviewing code and architecture"
+                                     class="w-full h-auto" />
+                            </figure>
+                        </div>
                     </div>
+                </div>
+            </section>
 
-                    <div class="lg:px-16">
-                        <!-- Visual / proof -->
-                        <div class="lg:col-span-5 lg:-mr-10 py-12 md:py-16">
-                            <div class="relative">
-                                <div class="absolute translate-y-1/2 mx-auto blur-3xl inset-0 rounded-t-full bg-brand-primary/20 dark:bg-brand-primary/20"></div>
-                                <figure class="relative rounded-2xl overflow-hidden border bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 shadow-sm w-1/2 mx-auto">
+            <section class="scroll-my-16">
+                <div class="mx-2 md:mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="rounded-3xl overflow-hidden border dark:border-gray-800">
+                        <div class="py-12 lg:py-16 lg:px-16 border-b dark:border-gray-800">
+                            <h2 class="font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
+                                Quick, practical help from the people who build WebSharper
+                            </h2>
+                            <p class="mt-3 text-lg text-gray-700 dark:text-gray-300">
+                                Get senior guidance on architecture, performance, reactive UI, and integrations plus hands-on fixes when you need them.
+                            </p>
+                        </div>
 
-                                    <img src="./Assets/images/slay.png" alt="Support walkthrough: issue context, guidance, and fix" class="w-full h-auto">
-                                </figure>
-                                <!-- short 15�20s looped video instead of static image -->
-                                <!--
-                                <video class="relative mt-4 w-full rounded-2xl border border-gray-200 dark:border-gray-800" autoplay muted loop playsinline poster="./Assets/images/support-video-poster.png">
-                                    <source src="./videos/support-teaser.mp4" type="video/mp4">
-                                </video>
-                                -->
+                        <div class="lg:px-16">
+                            <!-- Visual / proof -->
+                            <div class="lg:col-span-5 lg:-mr-10 py-12 md:py-16">
+                                <div class="relative">
+                                    <div class="absolute translate-y-1/2 mx-auto blur-3xl inset-0 rounded-t-full bg-brand-primary/20 dark:bg-brand-primary/20"></div>
+                                    <figure class="relative rounded-2xl overflow-hidden border bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 shadow-sm w-1/2 mx-auto">
+
+                                        <img src="./Assets/images/slay.png" alt="Support walkthrough: issue context, guidance, and fix" class="w-full h-auto">
+                                    </figure>
+                                    <!-- short 15�20s looped video instead of static image -->
+                                    <!--
+                                    <video class="relative mt-4 w-full rounded-2xl border border-gray-200 dark:border-gray-800" autoplay muted loop playsinline poster="./Assets/images/support-video-poster.png">
+                                        <source src="./videos/support-teaser.mp4" type="video/mp4">
+                                    </video>
+                                    -->
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Support value props -->
-        <section class="mt-12">
-            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                <ul class="grid gap-4 md:grid-cols-3">
-                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m7 9l5 3.5L17 9" /><path d="M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z" /></g></svg>
-                            <span>Email and web support</span>
-                        </h3>
-                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                            Email us your support queries, architectural or best practice questions, or post them to our dedicated support site.
-                        </p>
-                    </li>
+            <!-- Support value props -->
+            <section class="mt-12">
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <ul class="grid gap-4 md:grid-cols-3">
+                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m7 9l5 3.5L17 9" /><path d="M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z" /></g></svg>
+                                <span>Email and web support</span>
+                            </h3>
+                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                                Email us your support queries, architectural or best practice questions, or post them to our dedicated support site.
+                            </p>
+                        </li>
 
-                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M8 9.5A1.25 1.25 0 1 0 8 12a1.25 1.25 0 0 0 0-2.5m4 0a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5m2.75 1.25a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0" /><path fill="currentColor" fill-rule="evenodd" d="M16.1 4.593a50.577 50.577 0 0 0-8.098-.04l-.193.015A4.93 4.93 0 0 0 3.25 9.483V18a.75.75 0 0 0 1.105.66l3.91-2.101a1.25 1.25 0 0 1 .593-.149h8.976c1.132 0 2.102-.81 2.305-1.923c.412-2.257.444-4.567.096-6.835l-.102-.669a2.666 2.666 0 0 0-2.408-2.252zM8.116 6.049a49.078 49.078 0 0 1 7.858.038l1.624.139c.536.046.972.453 1.053.985l.103.668a19.165 19.165 0 0 1-.09 6.339a.843.843 0 0 1-.829.692H8.858a2.75 2.75 0 0 0-1.302.328L4.75 16.746V9.483a3.43 3.43 0 0 1 3.171-3.42z" clip-rule="evenodd" /></svg>
-                            <span>Fast response time</span>
-                        </h3>
-                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                            Receive the first response to your queries from within 4 hours up to 2 days, depending on your selected support plan..
-                        </p>
-                    </li>
+                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M8 9.5A1.25 1.25 0 1 0 8 12a1.25 1.25 0 0 0 0-2.5m4 0a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5m2.75 1.25a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0" /><path fill="currentColor" fill-rule="evenodd" d="M16.1 4.593a50.577 50.577 0 0 0-8.098-.04l-.193.015A4.93 4.93 0 0 0 3.25 9.483V18a.75.75 0 0 0 1.105.66l3.91-2.101a1.25 1.25 0 0 1 .593-.149h8.976c1.132 0 2.102-.81 2.305-1.923c.412-2.257.444-4.567.096-6.835l-.102-.669a2.666 2.666 0 0 0-2.408-2.252zM8.116 6.049a49.078 49.078 0 0 1 7.858.038l1.624.139c.536.046.972.453 1.053.985l.103.668a19.165 19.165 0 0 1-.09 6.339a.843.843 0 0 1-.829.692H8.858a2.75 2.75 0 0 0-1.302.328L4.75 16.746V9.483a3.43 3.43 0 0 1 3.171-3.42z" clip-rule="evenodd" /></svg>
+                                <span>Fast response time</span>
+                            </h3>
+                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                                Receive the first response to your queries from within 4 hours up to 2 days, depending on your selected support plan..
+                            </p>
+                        </li>
 
-                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 160c16-63.16 76.43-95.41 208-96a15.94 15.94 0 0 1 16 16v288a16 16 0 0 1-16 16c-128 0-177.45 25.81-208 64c-30.37-38-80-64-208-64c-9.88 0-16-8.05-16-17.93V80a15.94 15.94 0 0 1 16-16c131.57.59 192 32.84 208 96m0 0v288" /></svg>
-                            <span>Mentoring and training</span>
-                        </h3>
-                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                            Pick a Start-up or Enterprise plan and jumpstart your team's productivity with our online WebSharper training and mentoring.
-                        </p>
-                    </li>
+                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 160c16-63.16 76.43-95.41 208-96a15.94 15.94 0 0 1 16 16v288a16 16 0 0 1-16 16c-128 0-177.45 25.81-208 64c-30.37-38-80-64-208-64c-9.88 0-16-8.05-16-17.93V80a15.94 15.94 0 0 1 16-16c131.57.59 192 32.84 208 96m0 0v288" /></svg>
+                                <span>Mentoring and training</span>
+                            </h3>
+                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                                Pick a Start-up or Enterprise plan and jumpstart your team's productivity with our online WebSharper training and mentoring.
+                            </p>
+                        </li>
 
-                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="currentColor" d="M7 3a2 2 0 0 1 4 0h1.5A1.5 1.5 0 0 1 14 4.5V7h-1a1 1 0 0 0 0 2h1v2.5a1.5 1.5 0 0 1-1.5 1.5H11a2 2 0 0 1-4 0H5.5A1.5 1.5 0 0 1 4 11.5V10a2 2 0 0 1 0-4V4.5A1.5 1.5 0 0 1 5.5 3zm2-1a1 1 0 0 0-1 1v1H5.5a.5.5 0 0 0-.5.5V7H4a1 1 0 0 0 0 2h1v2.5a.5.5 0 0 0 .5.5H8v1a1 1 0 0 0 2 0v-1h2.5a.5.5 0 0 0 .5-.5V10a2 2 0 0 1 0-4V4.5a.5.5 0 0 0-.5-.5H10V3a1 1 0 0 0-1-1" /></svg>
-                            <span>Extensions support</span>
-                        </h3>
-                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                            Working heavily with WebSharper extensions? Get the help you need with any issues you encounter in these extensions.
-                        </p>
-                    </li>
+                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="currentColor" d="M7 3a2 2 0 0 1 4 0h1.5A1.5 1.5 0 0 1 14 4.5V7h-1a1 1 0 0 0 0 2h1v2.5a1.5 1.5 0 0 1-1.5 1.5H11a2 2 0 0 1-4 0H5.5A1.5 1.5 0 0 1 4 11.5V10a2 2 0 0 1 0-4V4.5A1.5 1.5 0 0 1 5.5 3zm2-1a1 1 0 0 0-1 1v1H5.5a.5.5 0 0 0-.5.5V7H4a1 1 0 0 0 0 2h1v2.5a.5.5 0 0 0 .5.5H8v1a1 1 0 0 0 2 0v-1h2.5a.5.5 0 0 0 .5-.5V10a2 2 0 0 1 0-4V4.5a.5.5 0 0 0-.5-.5H10V3a1 1 0 0 0-1-1" /></svg>
+                                <span>Extensions support</span>
+                            </h3>
+                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                                Working heavily with WebSharper extensions? Get the help you need with any issues you encounter in these extensions.
+                            </p>
+                        </li>
 
-                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m6.75 21l-.25-2.2l2.85-7.85q.375.35.813.588t.937.362l-2.75 7.55zm10.5 0l-1.6-1.55l-2.75-7.55q.5-.125.938-.363t.812-.587l2.85 7.85zM12 11q-1.25 0-2.125-.875T9 8q0-.975.563-1.737T11 5.2V3h2v2.2q.875.3 1.438 1.063T15 8q0 1.25-.875 2.125T12 11m0-2q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9" /></svg>
-                            <span>Architectural review</span>
-                        </h3>
-                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                            Next to support questions, we can also help you decide on the best architecture for your project, or give best practice guidelines for your team.
-                        </p>
-                    </li>
+                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m6.75 21l-.25-2.2l2.85-7.85q.375.35.813.588t.937.362l-2.75 7.55zm10.5 0l-1.6-1.55l-2.75-7.55q.5-.125.938-.363t.812-.587l2.85 7.85zM12 11q-1.25 0-2.125-.875T9 8q0-.975.563-1.737T11 5.2V3h2v2.2q.875.3 1.438 1.063T15 8q0 1.25-.875 2.125T12 11m0-2q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9" /></svg>
+                                <span>Architectural review</span>
+                            </h3>
+                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                                Next to support questions, we can also help you decide on the best architecture for your project, or give best practice guidelines for your team.
+                            </p>
+                        </li>
 
-                    <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
-                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 15v-3.062A3.938 3.938 0 0 0 15.063 8H8.936A3.938 3.938 0 0 0 5 11.938V15a7 7 0 1 0 14 0Z" /><path d="M16.5 8.5v-1a4.5 4.5 0 1 0-9 0v1" /><path stroke-linecap="round" d="M19 14h3M5 14H2M14.5 3.5L17 2M9.5 3.5L7 2m13.5 18l-2-.8m2-11.2l-2 .8M3.5 20l2-.8M3.5 8l2 .8M12 21.5V15" /></g></svg>
-                            <span>Priority bugfixes</span>
-                        </h3>
-                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                            Your support ticket jumps to the front of our priority queue and becomes the first to fix. Get the most timely help when you need it most.
-                        </p>
-                    </li>
-                </ul>
-            </div>
-        </section>
+                        <li class="rounded-xl p-5 bg-gray-50 shadow-sm dark:bg-white/5">
+                            <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 15v-3.062A3.938 3.938 0 0 0 15.063 8H8.936A3.938 3.938 0 0 0 5 11.938V15a7 7 0 1 0 14 0Z" /><path d="M16.5 8.5v-1a4.5 4.5 0 1 0-9 0v1" /><path stroke-linecap="round" d="M19 14h3M5 14H2M14.5 3.5L17 2M9.5 3.5L7 2m13.5 18l-2-.8m2-11.2l-2 .8M3.5 20l2-.8M3.5 8l2 .8M12 21.5V15" /></g></svg>
+                                <span>Priority bugfixes</span>
+                            </h3>
+                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                                Your support ticket jumps to the front of our priority queue and becomes the first to fix. Get the most timely help when you need it most.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </section>
 
-        <section class="scroll-my-16">
-            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                <h2 class="text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
-                    Choose your plan
-                </h2>
-                <p class="text-center mt-3 text-lg text-gray-700 dark:text-gray-300">
-                    Monthly or yearly billing, per-seat for teams or a freelancer option.
-                </p>
+            <section class="scroll-my-16">
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <h2 class="text-center font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
+                        Choose your plan
+                    </h2>
+                    <p class="text-center mt-3 text-lg text-gray-700 dark:text-gray-300">
+                        Monthly or yearly billing, per-seat for teams or a freelancer option.
+                    </p>
 
-                <!-- Billing period toggle -->
-                <div class="mx-auto mt-6 flex w-full max-w-xs items-center justify-center rounded-xl border border-gray-200 bg-white p-1
+                    <!-- Billing period toggle -->
+                    <div class="mx-auto mt-6 flex w-full max-w-xs items-center justify-center rounded-xl border border-gray-200 bg-white p-1
                                 dark:bg-gray-950 dark:border-gray-800">
-                    <button ws-onclick="OnBillMonth"
-                            ws-attr="BillMonthAttr"
-                            type="button"
-                            class="cursor-pointer dark:text-white text-gray-700 text flex-1 rounded-lg py-2 text-sm font-medium transition
-                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white
-                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900"
-                            data-active="false"
-                            aria-pressed="false">
-                        Per month
-                    </button>
-                    <button ws-onclick="OnBillYear"
-                            ws-attr="BillYearAttr"
-                            type="button"
-                            class="cursor-pointer dark:text-white text-gray-700 flex-1 rounded-lg py-2 text-sm font-medium transition
-                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white
-                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900"
-                            data-active="true"
-                            aria-pressed="true">
-                        Per year
-                    </button>
-                </div>
-
-                <!-- Plans grid -->
-                <div class="mx-auto mt-8 grid max-w-6xl gap-6 sm:grid-cols-2">
-                    <!-- Professional (per seat) -->
-                    <div class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200
-                                    dark:bg-gray-950 dark:border-gray-800"
-                         data-price-month="250"
-                         data-price-year="2500">
-                        <div class="flex items-start justify-between gap-4">
-                            <div>
-                                <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
-                                <div ws-hole="ProName" class="text-2xl font-bold text-gray-950 dark:text-white">
-                                    Professional
-                                </div>
-                                <div class="mt-1 text-base text-gray-700 dark:text-gray-300">
-                                    <span ws-hole="ProPriceAmount">$2,500</span>
-                                    <span class="text-gray-600 dark:text-gray-400" ws-hole="ProPriceLabel">
-                                        / seat / year
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Seat selector -->
-                            <div class="flex items-center gap-2">
-                                <button ws-onclick="OnSeatMinus"
-                                        class="cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800
-                                                dark:border-white/20 dark:text-white"
-                                        aria-label="Decrease seats"
-                                        type="button">
-                                    -
-                                </button>
-                                <input type="text"
-                                       ws-var="SeatCount"
-                                       inputmode="numeric"
-                                       pattern="[0-9]*"
-                                       min="1"
-                                       step="1"
-                                       value="1"
-                                       class="w-20 text-center rounded-xl border border-gray-300 bg-transparent dark:border-white/20 text-gray-900 dark:text-white h-10"
-                                       aria-label="Seat count">
-                                <button ws-onclick="OnSeatPlus"
-                                        class="cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800
-                                                dark:border-white/20 dark:text-white"
-                                        aria-label="Increase seats"
-                                        type="button">
-                                    +
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Total -->
-                        <div class="mt-4 flex items-center justify-between">
-                            <div class="text-sm text-gray-600 dark:text-gray-400" ws-hole="ProTotalLabel">
-                                Total (yearly)
-                            </div>
-                            <div class="text-xl font-semibold text-gray-950 dark:text-white" ws-hole="ProTotalAmount">
-                                $2,500
-                            </div>
-                        </div>
-
-                        <!-- CTA -->
-                        <a ws-attr="ProCheckoutAttr"
-                           class="w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
-                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative
-                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
-                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200
-                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4">
-                            <span class="relative text-sm">Continue to checkout</span>
-                        </a>
-
-                        <p class="mt-3 text-xs text-gray-600 dark:text-gray-400 text-center" ws-hole="ProNote">
-                            Assign GitHub usernames after purchase. Prices in USD.
-                        </p>
-                    </div>
-
-                    <!-- Freelancer (1 seat) -->
-                    <div class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200
-                                    dark:bg-gray-950 dark:border-gray-800">
-                        <div class="flex items-start justify-between gap-4">
-                            <div>
-                                <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
-                                <div ws-hole="FreeName" class="text-2xl font-bold text-gray-950 dark:text-white">
-                                    Freelancer
-                                </div>
-                                <div class="mt-1 text-base text-gray-700 dark:text-gray-300">
-                                    <span ws-hole="FreePriceAmount">$300</span>
-                                    <span class="text-gray-600 dark:text-gray-400" ws-hole="FreePriceLabel">
-                                        / year
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="rounded-xl border border-gray-300 px-3 h-10 flex items-center
-                                            text-gray-800 dark:border-white/20 dark:text-white">
-                                1 seat
-                            </div>
-                        </div>
-
-                        <!-- Total -->
-                        <div class="mt-4 flex items-center justify-between">
-                            <div class="text-sm text-gray-600 dark:text-gray-400" ws-hole="FreeTotalLabel">
-                                Total (yearly)
-                            </div>
-                            <div class="text-xl font-semibold text-gray-950 dark:text-white" ws-hole="FreeTotalAmount">
-                                $300
-                            </div>
-                        </div>
-
-                        <!-- CTA -->
-                        <a ws-attr="FreeCheckoutAttr"
-                           class="w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
-                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative
-                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
-                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200
-                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4">
-                            <span class="relative text-sm">Continue to checkout</span>
-                        </a>
-
-                        <p class="mt-3 text-xs text-gray-600 dark:text-gray-400 text-center" ws-hole="FreeNote">
-                            Ideal for solo developers. Prices in USD.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- contact us -->
-        <section class="scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none">
-            <div class="mx-auto max-w-xl p-8 rounded content mb-10">
-                <h2 class="header text-center mb-8">Contact us</h2>
-
-                <form method="post">
-
-                    <!-- Subject -->
-                    <div class="mb-6">
-                        <label for="emailSubject" class="block font-semibold mb-2">Subject</label>
-                        <input type="text" 
-                               name="email-subject"
-                               ws-var="ContactSubjectVar"
-                               class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
-                               value="WebSharper support">
-                    </div>
-
-                    <!-- Message -->
-                    <div class="mb-6">
-                        <label for="emailMessage" class="block font-semibold mb-2">Message</label>
-                        <textarea name="email-message" rows="5"
-                                  ws-var="ContactMessageVar"
-                                  class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"></textarea>
-                    </div>
-
-                    <!-- Row with Email, Name, Country -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <!-- Email -->
-                        <div>
-                            <label for="emailAddress" class="block font-semibold mb-2">Your email address</label>
-                            <input type="email"                                   
-                                   name="email-address"
-                                   ws-var="ContactEmailVar"
-                                   class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
-                        </div>
-
-                        <!-- Name -->
-                        <div>
-                            <label for="emailName" class="block font-semibold mb-2">Your name</label>
-                            <input type="text" 
-                                   ws-var="ContactNameVar"
-                                   name="name"
-                                   class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
-                        </div>
-
-                        <!-- Country -->
-                        <div>
-                            <label for="emailCountry" class="block font-semibold mb-2">Your country</label>
-                            <select name="email-country"
-                                    ws-var="ContactCountryVar"
-                                    class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
-                                <option value="Afghanistan">Afghanistan</option>
-                                <option value="Albania">Albania</option>
-                                <option value="Algeria">Algeria</option>
-                                <option value="Andorra">Andorra</option>
-                                <option value="Angola">Angola</option>
-                                <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-                                <option value="Argentina">Argentina</option>
-                                <option value="Armenia">Armenia</option>
-                                <option value="Australia">Australia</option>
-                                <option value="Austria">Austria</option>
-                                <option value="Azerbaijan">Azerbaijan</option>
-                                <option value="Bahamas">Bahamas</option>
-                                <option value="Bahrain">Bahrain</option>
-                                <option value="Bangladesh">Bangladesh</option>
-                                <option value="Barbados">Barbados</option>
-                                <option value="Belarus">Belarus</option>
-                                <option value="Belgium">Belgium</option>
-                                <option value="Belize">Belize</option>
-                                <option value="Benin">Benin</option>
-                                <option value="Bhutan">Bhutan</option>
-                                <option value="Bolivia">Bolivia</option>
-                                <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-                                <option value="Botswana">Botswana</option>
-                                <option value="Brazil">Brazil</option>
-                                <option value="Brunei">Brunei</option>
-                                <option value="Bulgaria">Bulgaria</option>
-                                <option value="Burkina Faso">Burkina Faso</option>
-                                <option value="Burundi">Burundi</option>
-                                <option value="Cabo Verde">Cabo Verde</option>
-                                <option value="Cambodia">Cambodia</option>
-                                <option value="Cameroon">Cameroon</option>
-                                <option value="Canada">Canada</option>
-                                <option value="Central African Republic">Central African Republic</option>
-                                <option value="Chad">Chad</option>
-                                <option value="Chile">Chile</option>
-                                <option value="China">China</option>
-                                <option value="Colombia">Colombia</option>
-                                <option value="Comoros">Comoros</option>
-                                <option value="Congo (Congo-Brazzaville)">Congo (Congo-Brazzaville)</option>
-                                <option value="Costa Rica">Costa Rica</option>
-                                <option value="Croatia">Croatia</option>
-                                <option value="Cuba">Cuba</option>
-                                <option value="Cyprus">Cyprus</option>
-                                <option value="Czech Republic">Czech Republic</option>
-                                <option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>
-                                <option value="Denmark">Denmark</option>
-                                <option value="Djibouti">Djibouti</option>
-                                <option value="Dominica">Dominica</option>
-                                <option value="Dominican Republic">Dominican Republic</option>
-                                <option value="Ecuador">Ecuador</option>
-                                <option value="Egypt">Egypt</option>
-                                <option value="El Salvador">El Salvador</option>
-                                <option value="Equatorial Guinea">Equatorial Guinea</option>
-                                <option value="Eritrea">Eritrea</option>
-                                <option value="Estonia">Estonia</option>
-                                <option value="Eswatini">Eswatini</option>
-                                <option value="Ethiopia">Ethiopia</option>
-                                <option value="Fiji">Fiji</option>
-                                <option value="Finland">Finland</option>
-                                <option value="France">France</option>
-                                <option value="Gabon">Gabon</option>
-                                <option value="Gambia">Gambia</option>
-                                <option value="Georgia">Georgia</option>
-                                <option value="Germany">Germany</option>
-                                <option value="Ghana">Ghana</option>
-                                <option value="Greece">Greece</option>
-                                <option value="Grenada">Grenada</option>
-                                <option value="Guatemala">Guatemala</option>
-                                <option value="Guinea">Guinea</option>
-                                <option value="Guinea-Bissau">Guinea-Bissau</option>
-                                <option value="Guyana">Guyana</option>
-                                <option value="Haiti">Haiti</option>
-                                <option value="Honduras">Honduras</option>
-                                <option value="Hungary">Hungary</option>
-                                <option value="Iceland">Iceland</option>
-                                <option value="India">India</option>
-                                <option value="Indonesia">Indonesia</option>
-                                <option value="Iran">Iran</option>
-                                <option value="Iraq">Iraq</option>
-                                <option value="Ireland">Ireland</option>
-                                <option value="Israel">Israel</option>
-                                <option value="Italy">Italy</option>
-                                <option value="Jamaica">Jamaica</option>
-                                <option value="Japan">Japan</option>
-                                <option value="Jordan">Jordan</option>
-                                <option value="Kazakhstan">Kazakhstan</option>
-                                <option value="Kenya">Kenya</option>
-                                <option value="Kiribati">Kiribati</option>
-                                <option value="Kuwait">Kuwait</option>
-                                <option value="Kyrgyzstan">Kyrgyzstan</option>
-                                <option value="Laos">Laos</option>
-                                <option value="Latvia">Latvia</option>
-                                <option value="Lebanon">Lebanon</option>
-                                <option value="Lesotho">Lesotho</option>
-                                <option value="Liberia">Liberia</option>
-                                <option value="Libya">Libya</option>
-                                <option value="Liechtenstein">Liechtenstein</option>
-                                <option value="Lithuania">Lithuania</option>
-                                <option value="Luxembourg">Luxembourg</option>
-                                <option value="Madagascar">Madagascar</option>
-                                <option value="Malawi">Malawi</option>
-                                <option value="Malaysia">Malaysia</option>
-                                <option value="Maldives">Maldives</option>
-                                <option value="Mali">Mali</option>
-                                <option value="Malta">Malta</option>
-                                <option value="Marshall Islands">Marshall Islands</option>
-                                <option value="Mauritania">Mauritania</option>
-                                <option value="Mauritius">Mauritius</option>
-                                <option value="Mexico">Mexico</option>
-                                <option value="Micronesia">Micronesia</option>
-                                <option value="Moldova">Moldova</option>
-                                <option value="Monaco">Monaco</option>
-                                <option value="Mongolia">Mongolia</option>
-                                <option value="Montenegro">Montenegro</option>
-                                <option value="Morocco">Morocco</option>
-                                <option value="Mozambique">Mozambique</option>
-                                <option value="Myanmar (Burma)">Myanmar (Burma)</option>
-                                <option value="Namibia">Namibia</option>
-                                <option value="Nauru">Nauru</option>
-                                <option value="Nepal">Nepal</option>
-                                <option value="Netherlands">Netherlands</option>
-                                <option value="New Zealand">New Zealand</option>
-                                <option value="Nicaragua">Nicaragua</option>
-                                <option value="Niger">Niger</option>
-                                <option value="Nigeria">Nigeria</option>
-                                <option value="North Korea">North Korea</option>
-                                <option value="North Macedonia">North Macedonia</option>
-                                <option value="Norway">Norway</option>
-                                <option value="Oman">Oman</option>
-                                <option value="Pakistan">Pakistan</option>
-                                <option value="Palau">Palau</option>
-                                <option value="Palestine">Palestine</option>
-                                <option value="Panama">Panama</option>
-                                <option value="Papua New Guinea">Papua New Guinea</option>
-                                <option value="Paraguay">Paraguay</option>
-                                <option value="Peru">Peru</option>
-                                <option value="Philippines">Philippines</option>
-                                <option value="Poland">Poland</option>
-                                <option value="Portugal">Portugal</option>
-                                <option value="Qatar">Qatar</option>
-                                <option value="Romania">Romania</option>
-                                <option value="Russia">Russia</option>
-                                <option value="Rwanda">Rwanda</option>
-                                <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
-                                <option value="Saint Lucia">Saint Lucia</option>
-                                <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
-                                <option value="Samoa">Samoa</option>
-                                <option value="San Marino">San Marino</option>
-                                <option value="Sao Tome and Principe">Sao Tome and Principe</option>
-                                <option value="Saudi Arabia">Saudi Arabia</option>
-                                <option value="Senegal">Senegal</option>
-                                <option value="Serbia">Serbia</option>
-                                <option value="Seychelles">Seychelles</option>
-                                <option value="Sierra Leone">Sierra Leone</option>
-                                <option value="Singapore">Singapore</option>
-                                <option value="Slovakia">Slovakia</option>
-                                <option value="Slovenia">Slovenia</option>
-                                <option value="Solomon Islands">Solomon Islands</option>
-                                <option value="Somalia">Somalia</option>
-                                <option value="South Africa">South Africa</option>
-                                <option value="South Korea">South Korea</option>
-                                <option value="South Sudan">South Sudan</option>
-                                <option value="Spain">Spain</option>
-                                <option value="Sri Lanka">Sri Lanka</option>
-                                <option value="Sudan">Sudan</option>
-                                <option value="Suriname">Suriname</option>
-                                <option value="Sweden">Sweden</option>
-                                <option value="Switzerland">Switzerland</option>
-                                <option value="Syria">Syria</option>
-                                <option value="Taiwan">Taiwan</option>
-                                <option value="Tajikistan">Tajikistan</option>
-                                <option value="Tanzania">Tanzania</option>
-                                <option value="Thailand">Thailand</option>
-                                <option value="Timor-Leste">Timor-Leste</option>
-                                <option value="Togo">Togo</option>
-                                <option value="Tonga">Tonga</option>
-                                <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-                                <option value="Tunisia">Tunisia</option>
-                                <option value="Turkey">Turkey</option>
-                                <option value="Turkmenistan">Turkmenistan</option>
-                                <option value="Tuvalu">Tuvalu</option>
-                                <option value="Uganda">Uganda</option>
-                                <option value="Ukraine">Ukraine</option>
-                                <option value="United Arab Emirates">United Arab Emirates</option>
-                                <option value="United Kingdom">United Kingdom</option>
-                                <option value="United States" selected>United States</option>
-                                <option value="Uruguay">Uruguay</option>
-                                <option value="Uzbekistan">Uzbekistan</option>
-                                <option value="Vanuatu">Vanuatu</option>
-                                <option value="Vatican City">Vatican City</option>
-                                <option value="Venezuela">Venezuela</option>
-                                <option value="Vietnam">Vietnam</option>
-                                <option value="Yemen">Yemen</option>
-                                <option value="Zambia">Zambia</option>
-                                <option value="Zimbabwe">Zimbabwe</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Send Button -->
-                    <div class="text-left">
-                        <button ws-attr="ContactSendButtonAttr"
+                        <button ws-onclick="OnBillMonth"
+                                ws-attr="BillMonthAttr"
                                 type="button"
-                                ws-onclick="OnContactSendClick"
-                                class="bg-blue-500 text-white font-semibold px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-blue-400">
-                            ${ContactSendButtonText}
+                                class="cursor-pointer dark:text-white text-gray-700 text flex-1 rounded-lg py-2 text-sm font-medium transition
+                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white
+                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900"
+                                data-active="false"
+                                aria-pressed="false">
+                            Per month
+                        </button>
+                        <button ws-onclick="OnBillYear"
+                                ws-attr="BillYearAttr"
+                                type="button"
+                                class="cursor-pointer dark:text-white text-gray-700 flex-1 rounded-lg py-2 text-sm font-medium transition
+                                    data-[active=true]:bg-gray-900 data-[active=true]:text-white
+                                    dark:data-[active=true]:bg-white dark:data-[active=true]:text-gray-900"
+                                data-active="true"
+                                aria-pressed="true">
+                            Per year
                         </button>
                     </div>
 
-                </form>
-            </div>
-        </section>
+                    <!-- Plans grid -->
+                    <div class="mx-auto mt-8 grid max-w-6xl gap-6 sm:grid-cols-2">
+                        <!-- Professional (per seat) -->
+                        <div class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200
+                                    dark:bg-gray-950 dark:border-gray-800"
+                             data-price-month="250"
+                             data-price-year="2500">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
+                                    <div ws-hole="ProName" class="text-2xl font-bold text-gray-950 dark:text-white">
+                                        Professional
+                                    </div>
+                                    <div class="mt-1 text-base text-gray-700 dark:text-gray-300">
+                                        <span ws-hole="ProPriceAmount">$2,500</span>
+                                        <span class="text-gray-600 dark:text-gray-400" ws-hole="ProPriceLabel">
+                                            / seat / year
+                                        </span>
+                                    </div>
+                                </div>
 
-    </div>
+                                <!-- Seat selector -->
+                                <div class="flex items-center gap-2">
+                                    <button ws-onclick="OnSeatMinus"
+                                            class="cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800
+                                                dark:border-white/20 dark:text-white"
+                                            aria-label="Decrease seats"
+                                            type="button">
+                                        -
+                                    </button>
+                                    <input type="text"
+                                           ws-var="SeatCount"
+                                           inputmode="numeric"
+                                           pattern="[0-9]*"
+                                           min="1"
+                                           step="1"
+                                           value="1"
+                                           class="w-20 text-center rounded-xl border border-gray-300 bg-transparent dark:border-white/20 text-gray-900 dark:text-white h-10"
+                                           aria-label="Seat count">
+                                    <button ws-onclick="OnSeatPlus"
+                                            class="cursor-pointer h-10 w-10 rounded-xl border border-gray-300 text-gray-800
+                                                dark:border-white/20 dark:text-white"
+                                            aria-label="Increase seats"
+                                            type="button">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Total -->
+                            <div class="mt-4 flex items-center justify-between">
+                                <div class="text-sm text-gray-600 dark:text-gray-400" ws-hole="ProTotalLabel">
+                                    Total (yearly)
+                                </div>
+                                <div class="text-xl font-semibold text-gray-950 dark:text-white" ws-hole="ProTotalAmount">
+                                    $2,500
+                                </div>
+                            </div>
+
+                            <!-- CTA -->
+                            <a ws-attr="ProCheckoutAttr"
+                               class="w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
+                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative
+                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
+                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200
+                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4">
+                                <span class="relative text-sm">Continue to checkout</span>
+                            </a>
+
+                            <p class="mt-3 text-xs text-gray-600 dark:text-gray-400 text-center" ws-hole="ProNote">
+                                Assign GitHub usernames after purchase. Prices in USD.
+                            </p>
+                        </div>
+
+                        <!-- Freelancer (1 seat) -->
+                        <div class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200
+                                    dark:bg-gray-950 dark:border-gray-800">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
+                                    <div ws-hole="FreeName" class="text-2xl font-bold text-gray-950 dark:text-white">
+                                        Freelancer
+                                    </div>
+                                    <div class="mt-1 text-base text-gray-700 dark:text-gray-300">
+                                        <span ws-hole="FreePriceAmount">$300</span>
+                                        <span class="text-gray-600 dark:text-gray-400" ws-hole="FreePriceLabel">
+                                            / year
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="rounded-xl border border-gray-300 px-3 h-10 flex items-center
+                                            text-gray-800 dark:border-white/20 dark:text-white">
+                                    1 seat
+                                </div>
+                            </div>
+
+                            <!-- Total -->
+                            <div class="mt-4 flex items-center justify-between">
+                                <div class="text-sm text-gray-600 dark:text-gray-400" ws-hole="FreeTotalLabel">
+                                    Total (yearly)
+                                </div>
+                                <div class="text-xl font-semibold text-gray-950 dark:text-white" ws-hole="FreeTotalAmount">
+                                    $300
+                                </div>
+                            </div>
+
+                            <!-- CTA -->
+                            <a ws-attr="FreeCheckoutAttr"
+                               class="w-full rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800
+                                    flex justify-center items-center px-6 text-white dark:text-gray-950 relative
+                                    before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500
+                                    before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200
+                                    dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 mt-4">
+                                <span class="relative text-sm">Continue to checkout</span>
+                            </a>
+
+                            <p class="mt-3 text-xs text-gray-600 dark:text-gray-400 text-center" ws-hole="FreeNote">
+                                Ideal for solo developers. Prices in USD.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- contact us -->
+            <section class="scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none">
+                <div class="mx-auto max-w-xl p-8 rounded content mb-10">
+                    <h2 class="header text-center mb-8">Contact us</h2>
+
+                    <form method="post">
+
+                        <!-- Subject -->
+                        <div class="mb-6">
+                            <label for="emailSubject" class="block font-semibold mb-2">Subject</label>
+                            <input type="text"
+                                   name="email-subject"
+                                   ws-var="ContactSubjectVar"
+                                   class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+                                   value="WebSharper support">
+                        </div>
+
+                        <!-- Message -->
+                        <div class="mb-6">
+                            <label for="emailMessage" class="block font-semibold mb-2">Message</label>
+                            <textarea name="email-message" rows="5"
+                                      ws-var="ContactMessageVar"
+                                      class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"></textarea>
+                        </div>
+
+                        <!-- Row with Email, Name, Country -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <!-- Email -->
+                            <div>
+                                <label for="emailAddress" class="block font-semibold mb-2">Your email address</label>
+                                <input type="email"
+                                       name="email-address"
+                                       ws-var="ContactEmailVar"
+                                       class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
+                            </div>
+
+                            <!-- Name -->
+                            <div>
+                                <label for="emailName" class="block font-semibold mb-2">Your name</label>
+                                <input type="text"
+                                       ws-var="ContactNameVar"
+                                       name="name"
+                                       class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
+                            </div>
+
+                            <!-- Country -->
+                            <div>
+                                <label for="emailCountry" class="block font-semibold mb-2">Your country</label>
+                                <select name="email-country"
+                                        ws-var="ContactCountryVar"
+                                        class="w-full border border-gray-800 dark:border-gray-200 bg-transparent rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
+                                    <option value="Afghanistan">Afghanistan</option>
+                                    <option value="Albania">Albania</option>
+                                    <option value="Algeria">Algeria</option>
+                                    <option value="Andorra">Andorra</option>
+                                    <option value="Angola">Angola</option>
+                                    <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                                    <option value="Argentina">Argentina</option>
+                                    <option value="Armenia">Armenia</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="Austria">Austria</option>
+                                    <option value="Azerbaijan">Azerbaijan</option>
+                                    <option value="Bahamas">Bahamas</option>
+                                    <option value="Bahrain">Bahrain</option>
+                                    <option value="Bangladesh">Bangladesh</option>
+                                    <option value="Barbados">Barbados</option>
+                                    <option value="Belarus">Belarus</option>
+                                    <option value="Belgium">Belgium</option>
+                                    <option value="Belize">Belize</option>
+                                    <option value="Benin">Benin</option>
+                                    <option value="Bhutan">Bhutan</option>
+                                    <option value="Bolivia">Bolivia</option>
+                                    <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                                    <option value="Botswana">Botswana</option>
+                                    <option value="Brazil">Brazil</option>
+                                    <option value="Brunei">Brunei</option>
+                                    <option value="Bulgaria">Bulgaria</option>
+                                    <option value="Burkina Faso">Burkina Faso</option>
+                                    <option value="Burundi">Burundi</option>
+                                    <option value="Cabo Verde">Cabo Verde</option>
+                                    <option value="Cambodia">Cambodia</option>
+                                    <option value="Cameroon">Cameroon</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Central African Republic">Central African Republic</option>
+                                    <option value="Chad">Chad</option>
+                                    <option value="Chile">Chile</option>
+                                    <option value="China">China</option>
+                                    <option value="Colombia">Colombia</option>
+                                    <option value="Comoros">Comoros</option>
+                                    <option value="Congo (Congo-Brazzaville)">Congo (Congo-Brazzaville)</option>
+                                    <option value="Costa Rica">Costa Rica</option>
+                                    <option value="Croatia">Croatia</option>
+                                    <option value="Cuba">Cuba</option>
+                                    <option value="Cyprus">Cyprus</option>
+                                    <option value="Czech Republic">Czech Republic</option>
+                                    <option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>
+                                    <option value="Denmark">Denmark</option>
+                                    <option value="Djibouti">Djibouti</option>
+                                    <option value="Dominica">Dominica</option>
+                                    <option value="Dominican Republic">Dominican Republic</option>
+                                    <option value="Ecuador">Ecuador</option>
+                                    <option value="Egypt">Egypt</option>
+                                    <option value="El Salvador">El Salvador</option>
+                                    <option value="Equatorial Guinea">Equatorial Guinea</option>
+                                    <option value="Eritrea">Eritrea</option>
+                                    <option value="Estonia">Estonia</option>
+                                    <option value="Eswatini">Eswatini</option>
+                                    <option value="Ethiopia">Ethiopia</option>
+                                    <option value="Fiji">Fiji</option>
+                                    <option value="Finland">Finland</option>
+                                    <option value="France">France</option>
+                                    <option value="Gabon">Gabon</option>
+                                    <option value="Gambia">Gambia</option>
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="Ghana">Ghana</option>
+                                    <option value="Greece">Greece</option>
+                                    <option value="Grenada">Grenada</option>
+                                    <option value="Guatemala">Guatemala</option>
+                                    <option value="Guinea">Guinea</option>
+                                    <option value="Guinea-Bissau">Guinea-Bissau</option>
+                                    <option value="Guyana">Guyana</option>
+                                    <option value="Haiti">Haiti</option>
+                                    <option value="Honduras">Honduras</option>
+                                    <option value="Hungary">Hungary</option>
+                                    <option value="Iceland">Iceland</option>
+                                    <option value="India">India</option>
+                                    <option value="Indonesia">Indonesia</option>
+                                    <option value="Iran">Iran</option>
+                                    <option value="Iraq">Iraq</option>
+                                    <option value="Ireland">Ireland</option>
+                                    <option value="Israel">Israel</option>
+                                    <option value="Italy">Italy</option>
+                                    <option value="Jamaica">Jamaica</option>
+                                    <option value="Japan">Japan</option>
+                                    <option value="Jordan">Jordan</option>
+                                    <option value="Kazakhstan">Kazakhstan</option>
+                                    <option value="Kenya">Kenya</option>
+                                    <option value="Kiribati">Kiribati</option>
+                                    <option value="Kuwait">Kuwait</option>
+                                    <option value="Kyrgyzstan">Kyrgyzstan</option>
+                                    <option value="Laos">Laos</option>
+                                    <option value="Latvia">Latvia</option>
+                                    <option value="Lebanon">Lebanon</option>
+                                    <option value="Lesotho">Lesotho</option>
+                                    <option value="Liberia">Liberia</option>
+                                    <option value="Libya">Libya</option>
+                                    <option value="Liechtenstein">Liechtenstein</option>
+                                    <option value="Lithuania">Lithuania</option>
+                                    <option value="Luxembourg">Luxembourg</option>
+                                    <option value="Madagascar">Madagascar</option>
+                                    <option value="Malawi">Malawi</option>
+                                    <option value="Malaysia">Malaysia</option>
+                                    <option value="Maldives">Maldives</option>
+                                    <option value="Mali">Mali</option>
+                                    <option value="Malta">Malta</option>
+                                    <option value="Marshall Islands">Marshall Islands</option>
+                                    <option value="Mauritania">Mauritania</option>
+                                    <option value="Mauritius">Mauritius</option>
+                                    <option value="Mexico">Mexico</option>
+                                    <option value="Micronesia">Micronesia</option>
+                                    <option value="Moldova">Moldova</option>
+                                    <option value="Monaco">Monaco</option>
+                                    <option value="Mongolia">Mongolia</option>
+                                    <option value="Montenegro">Montenegro</option>
+                                    <option value="Morocco">Morocco</option>
+                                    <option value="Mozambique">Mozambique</option>
+                                    <option value="Myanmar (Burma)">Myanmar (Burma)</option>
+                                    <option value="Namibia">Namibia</option>
+                                    <option value="Nauru">Nauru</option>
+                                    <option value="Nepal">Nepal</option>
+                                    <option value="Netherlands">Netherlands</option>
+                                    <option value="New Zealand">New Zealand</option>
+                                    <option value="Nicaragua">Nicaragua</option>
+                                    <option value="Niger">Niger</option>
+                                    <option value="Nigeria">Nigeria</option>
+                                    <option value="North Korea">North Korea</option>
+                                    <option value="North Macedonia">North Macedonia</option>
+                                    <option value="Norway">Norway</option>
+                                    <option value="Oman">Oman</option>
+                                    <option value="Pakistan">Pakistan</option>
+                                    <option value="Palau">Palau</option>
+                                    <option value="Palestine">Palestine</option>
+                                    <option value="Panama">Panama</option>
+                                    <option value="Papua New Guinea">Papua New Guinea</option>
+                                    <option value="Paraguay">Paraguay</option>
+                                    <option value="Peru">Peru</option>
+                                    <option value="Philippines">Philippines</option>
+                                    <option value="Poland">Poland</option>
+                                    <option value="Portugal">Portugal</option>
+                                    <option value="Qatar">Qatar</option>
+                                    <option value="Romania">Romania</option>
+                                    <option value="Russia">Russia</option>
+                                    <option value="Rwanda">Rwanda</option>
+                                    <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+                                    <option value="Saint Lucia">Saint Lucia</option>
+                                    <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                                    <option value="Samoa">Samoa</option>
+                                    <option value="San Marino">San Marino</option>
+                                    <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                                    <option value="Saudi Arabia">Saudi Arabia</option>
+                                    <option value="Senegal">Senegal</option>
+                                    <option value="Serbia">Serbia</option>
+                                    <option value="Seychelles">Seychelles</option>
+                                    <option value="Sierra Leone">Sierra Leone</option>
+                                    <option value="Singapore">Singapore</option>
+                                    <option value="Slovakia">Slovakia</option>
+                                    <option value="Slovenia">Slovenia</option>
+                                    <option value="Solomon Islands">Solomon Islands</option>
+                                    <option value="Somalia">Somalia</option>
+                                    <option value="South Africa">South Africa</option>
+                                    <option value="South Korea">South Korea</option>
+                                    <option value="South Sudan">South Sudan</option>
+                                    <option value="Spain">Spain</option>
+                                    <option value="Sri Lanka">Sri Lanka</option>
+                                    <option value="Sudan">Sudan</option>
+                                    <option value="Suriname">Suriname</option>
+                                    <option value="Sweden">Sweden</option>
+                                    <option value="Switzerland">Switzerland</option>
+                                    <option value="Syria">Syria</option>
+                                    <option value="Taiwan">Taiwan</option>
+                                    <option value="Tajikistan">Tajikistan</option>
+                                    <option value="Tanzania">Tanzania</option>
+                                    <option value="Thailand">Thailand</option>
+                                    <option value="Timor-Leste">Timor-Leste</option>
+                                    <option value="Togo">Togo</option>
+                                    <option value="Tonga">Tonga</option>
+                                    <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                                    <option value="Tunisia">Tunisia</option>
+                                    <option value="Turkey">Turkey</option>
+                                    <option value="Turkmenistan">Turkmenistan</option>
+                                    <option value="Tuvalu">Tuvalu</option>
+                                    <option value="Uganda">Uganda</option>
+                                    <option value="Ukraine">Ukraine</option>
+                                    <option value="United Arab Emirates">United Arab Emirates</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="United States" selected>United States</option>
+                                    <option value="Uruguay">Uruguay</option>
+                                    <option value="Uzbekistan">Uzbekistan</option>
+                                    <option value="Vanuatu">Vanuatu</option>
+                                    <option value="Vatican City">Vatican City</option>
+                                    <option value="Venezuela">Venezuela</option>
+                                    <option value="Vietnam">Vietnam</option>
+                                    <option value="Yemen">Yemen</option>
+                                    <option value="Zambia">Zambia</option>
+                                    <option value="Zimbabwe">Zimbabwe</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Send Button -->
+                        <div class="text-left">
+                            <button ws-attr="ContactSendButtonAttr"
+                                    type="button"
+                                    ws-onclick="OnContactSendClick"
+                                    class="bg-blue-500 text-white font-semibold px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-blue-400">
+                                ${ContactSendButtonText}
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-attr="FooterVisibility" ws-onclick="CloseOnBackgroundClick">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-2 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-3 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
+                        </li>
+                        <li>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
+                        </li>
+                        <li>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row-start-1 col-span-2 lg:row-start-auto">
+                    <form action="" meethod="post">
+                        <h2 class="font-semibold text-gray-800 dark:text-white">Subscribe now</h2>
+                        <p class="text-sm mt-2 text-gray-700 dark:text-gray-300">Stay updated on new releases and features, guides, and case studies.</p>
+
+                        <div class="mt-8 flex gap-2">
+                            <input placeholder="Email" class="w-full bg-white rounded-md shadow-sm shadow-gray-950/5 border border-gray-300 bg-transparent px-3.5 py-2 text-sm text-gray-500 placeholder-gray-500 invalid:border-red-500 dark:border-gray-700 dark:hover:border-gray-600 dark:text-white dark:placeholder-gray-200 dark:bg-gray-900" type="email" name="email" id="email" />
+                            <button type="submit" class="w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                                <span class="relative text-sm">Subscribe</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
+                <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                    <div class="flex gap-4 items-center">
+                        <a href="./">
+                            <img class="size-8" src="./Assets/favicon.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <span class="sr-only">WebSharper logo</span>
+                        </a>
+                        <span class="">WebSharper &copy; 2008-2025 IntelliFactory. All rights reserved.</span>
+                    </div>
+                    <span>Latest version is 10.x.x-beta1</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="./Js/main.js"></script>
 </body>
 </html>

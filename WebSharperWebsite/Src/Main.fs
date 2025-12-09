@@ -7,13 +7,13 @@ open WebSharper.UI.Server
 
 type EndPoint =
     | [<EndPoint "GET /">] Home
-    | [<EndPoint "GET /download">] Download
+    | [<EndPoint "GET /features">] Features
     | [<EndPoint "GET /support">] Support
-    | [<EndPoint "GET /dsl-ai">] DslAi
+    | [<EndPoint "GET /warp">] Warp
     | [<EndPoint "GET /checkout">] Checkout
     | [<EndPoint "GET /error">] Error
     | [<EndPoint "GET /invoice">] Invoice
-    | [<EndPoint "GET /manage">] ManageSubscription
+    | [<EndPoint "GET /account">] MyAccount
     | [<EndPoint "GET /success">] Success
 
 module Templating =
@@ -57,9 +57,9 @@ module Site =
             hydrate (Client.Home())
         ]
 
-    let DownloadPage =
-        Templating.Layout EndPoint.Download [
-            hydrate (Client.Download())
+    let FeaturesPage =
+        Templating.Layout EndPoint.Features [
+            hydrate (Client.Features())
         ]
 
     let SupportPage =
@@ -67,9 +67,9 @@ module Site =
             hydrate (Client.Support())
         ]
 
-    let DslAiPage =
-        Templating.Layout EndPoint.DslAi [
-            hydrate (Client.DslAi())
+    let WarpPage =
+        Templating.Layout EndPoint.Warp [
+            hydrate (Client.Warp())
         ]
 
     let CheckoutPage =
@@ -87,9 +87,9 @@ module Site =
             hydrate (Client.Invoice())
         ]
 
-    let ManageSubscriptionPage =
-        Templating.Layout EndPoint.ManageSubscription [
-            hydrate (Client.ManageSubscription())
+    let MyAccountPage =
+        Templating.Layout EndPoint.MyAccount [
+            hydrate (Client.MyAccount())
         ]
 
     let SuccessPage =
@@ -102,13 +102,13 @@ module Site =
         Application.MultiPage (fun ctx action ->
             match action with
             | Home -> HomePage
-            | Download -> DownloadPage
+            | Features -> FeaturesPage
             | Support -> SupportPage
-            | DslAi -> DslAiPage
+            | Warp -> WarpPage
             | Checkout -> CheckoutPage
             | Error -> ErrorPage
             | Invoice -> InvoicePage
-            | ManageSubscription -> ManageSubscriptionPage
+            | MyAccount -> MyAccountPage
             | Success -> SuccessPage
         )
 
@@ -117,8 +117,8 @@ type Website() =
     interface IWebsite<EndPoint> with
         member this.Sitelet = Site.Main
         member this.Actions = [
-            Home; Download; Support; DslAi;
-            Checkout; Error; Invoice; ManageSubscription; Success
+            Home; Features; Support; Warp;
+            Checkout; Error; Invoice; MyAccount; Success
         ]
 
 [<assembly: Website(typeof<Website>)>]

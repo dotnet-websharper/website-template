@@ -19,7 +19,7 @@ module State =
     let SupportPlansUrl = "/support#plans"
 
     [<Literal>]
-    let ManageSubscriptionUrl = "/manage"
+    let MyAccountUrl = "/account"
 
     // -----------------------------
     // Small helpers
@@ -229,9 +229,9 @@ module State =
         let mutable label = "Plans"
 
         if not (String.IsNullOrWhiteSpace referrer) then
-            if referrer.EndsWith("/manage") then
-                dest <- ManageSubscriptionUrl
-                label <- "Manage subscription"
+            if referrer.EndsWith("/account") then
+                dest <- MyAccountUrl
+                label <- "My account"
             elif referrer.EndsWith("/support") then
                 dest <- SupportPlansUrl
                 label <- "Plans"
