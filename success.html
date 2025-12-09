@@ -134,16 +134,9 @@
                 <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
                     <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
                     <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
-
-                    <a href="./download" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Downloads</a>
-
-                    <a href="https://intellifactory.com/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
-
+                    <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
                     <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
-
-                    <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
-
-                    <a href="./dsl-ai" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">DSL & AI</a>
                 </div>
                 <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
                     <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
@@ -198,11 +191,11 @@
                                 <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
 
                                 
-                                <a id="btnManage" href="./manage" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                <a id="btnManage" href="./account" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
                                             dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
                                     
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
-                                    Manage Subscription
+                                    My account
                                 </a>
                                 <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
                                             dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
@@ -241,11 +234,9 @@
                             <div class="flex flex-col space-y-6 py-6">
                                 <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
                                 <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
-                                <a href="./download" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Downloads</a>
-                                <a href="https://intellifactory.com/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                                <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
                                 <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
-                                <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
-                                <a href="./dsl-ai" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">DSL & AI</a>
                             </div>
 
                             <div class="py-6">
@@ -286,11 +277,11 @@
                                         <span class="font-medium">${AccountHeaderText}</span>
                                     </div>
 
-                                    <a data-el="manage" href="./manage" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
+                                    <a data-el="manage" href="./account" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
                                             <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
                                         </svg>
-                                        Manage Subscription
+                                        My account
                                     </a>
 
                                     <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
@@ -325,23 +316,19 @@
         </div>
     </header>
 
-    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div><div ws-2><html lang="en">
-<head>
-</head>
-<body>
-    <div class="max-w-xl mx-auto px-6 py-16 text-center">
-        <h1 class="text-3xl font-bold text-gray-950 dark:text-white">Thanks! 🎉</h1>
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div><div ws-2>
+        <div class="max-w-xl mx-auto px-6 py-16 text-center">
+            <h1 class="text-3xl font-bold text-gray-950 dark:text-white">Thanks! 🎉</h1>
 
-        <p id="wsMsg" class="mt-3 text-gray-600 dark:text-gray-400">Confirming your payment…</p>
+            <p id="wsMsg" class="mt-3 text-gray-600 dark:text-gray-400">Confirming your payment…</p>
 
-        <div id="wsDetails" class="mt-6 text-md text-gray-700 dark:text-gray-300 space-y-4"></div>
+            <div id="wsDetails" class="mt-6 text-md text-gray-700 dark:text-gray-300 space-y-4"></div>
 
-        <a href="./manage" class="mt-8 inline-flex items-center justify-center rounded-xl h-10 px-4 bg-gray-950 text-white dark:bg-white dark:text-gray-950">
-            Manage subscription
-        </a>
-    </div>
-</body>
-</html></div></main>
+            <a href="./account" class="mt-8 inline-flex items-center justify-center rounded-xl h-10 px-4 bg-gray-950 text-white dark:bg-white dark:text-gray-950">
+                My account
+            </a>
+        </div>
+    </div></main>
 
     <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" hidden="" ws-onclick="CloseOnBackgroundClick">
         <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
@@ -350,33 +337,30 @@
                     <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
                     <ul class="mt-6 space-y-2">
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
                         </li>
                     </ul>
                 </div>
                 <div>
-                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Channels</span>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
                     <ul class="mt-6 space-y-2">
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
-                        </li>
-                        <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Code of conduct</a>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
                         </li>
                         <li>
                             <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
@@ -407,13 +391,16 @@
                     <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
                     <ul class="mt-6 space-y-2">
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Tutorials</a>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
                         </li>
                         <li>
-                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blog</a>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
                         </li>
                     </ul>
                 </div>
@@ -439,9 +426,9 @@
                             <img class="size-8" src="./Assets/favicon.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
                             <span class="sr-only">WebSharper logo</span>
                         </a>
-                        <span class="">© WebSharper 2009 - Present</span>
+                        <span class="">WebSharper &copy; 2008-2025 IntelliFactory. All rights reserved.</span>
                     </div>
-                    <span>Latest version is 9.0.1</span>
+                    <span>Latest version is 10.x.x-beta1</span>
                 </div>
             </div>
         </div>

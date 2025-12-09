@@ -134,16 +134,9 @@
                 <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
                     <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
                     <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
-
-                    <a href="./download" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Downloads</a>
-
-                    <a href="https://intellifactory.com/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
-
+                    <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
                     <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
-
-                    <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
-
-                    <a href="./dsl-ai" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">DSL & AI</a>
                 </div>
                 <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
                     <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
@@ -198,11 +191,11 @@
                                 <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
 
                                 
-                                <a id="btnManage" href="./manage" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                <a id="btnManage" href="./account" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
                                             dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
                                     
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
-                                    Manage Subscription
+                                    My account
                                 </a>
                                 <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
                                             dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
@@ -241,11 +234,9 @@
                             <div class="flex flex-col space-y-6 py-6">
                                 <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
                                 <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
-                                <a href="./download" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Downloads</a>
-                                <a href="https://intellifactory.com/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                                <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
                                 <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
-                                <a href="https://forums.websharper.com/topics/all" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Forums</a>
-                                <a href="./dsl-ai" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">DSL & AI</a>
                             </div>
 
                             <div class="py-6">
@@ -286,11 +277,11 @@
                                         <span class="font-medium">${AccountHeaderText}</span>
                                     </div>
 
-                                    <a data-el="manage" href="./manage" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
+                                    <a data-el="manage" href="./account" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
                                             <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
                                         </svg>
-                                        Manage Subscription
+                                        My account
                                     </a>
 
                                     <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
@@ -325,171 +316,167 @@
         </div>
     </header>
 
-    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div><div ws-2><html lang="en">
-<head>
-</head>
-<body>
-    
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div><div ws-2>
+        
 
-    
+        
 
-    
+        
 
-    
+        
 
-    
-    <div>
-        <div class="hidden md:block fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800"></div>
-        <div class="max-w-6xl mx-auto px-12 gap-20 md:flex">
+        
+        <div>
+            <div class="hidden md:block fixed inset-0 w-1/2 -z-50 bg-gray-50 dark:bg-gray-900/50 border-r dark:border-gray-800"></div>
+            <div class="max-w-6xl mx-auto px-12 gap-20 md:flex">
 
-            <div class="md:w-1/2 md:pr-20 pt-16">
-                <a href="./" class="rounded-full">
-                    <span class="sr-only">WebSharper logo</span>
-                    <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="./Assets/favicon.png" alt="websharper logo" width="164" height="164" />
-                </a>
+                <div class="md:w-1/2 md:pr-20 pt-16">
+                    <a href="./" class="rounded-full">
+                        <span class="sr-only">WebSharper logo</span>
+                        <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="./Assets/favicon.png" alt="websharper logo" width="164" height="164" />
+                    </a>
 
-                <nav class="mt-8 flex gap-3 items-center">
-                    <a id="backLink" href="./support#plans" class="text-gray-600 dark:text-gray-300 hover:underline hover:text-blue-600 dark:hover:text-blue-400"><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-12 h-5 !align-middle">
-        <span class="block w-full h-full transition-opacity duration-500 ease-out">
-            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
-        </span>
-        <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
-            
-        </span>
-    </span></a>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" fill="currentColor" class="text-gray-400 dark:text-gray-600 size-4">
-                        <path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-gray-950 dark:text-white font-medium">Payment</span>
-                </nav>
+                    <nav class="mt-8 flex gap-3 items-center">
+                        <a id="backLink" href="./support#plans" class="text-gray-600 dark:text-gray-300 hover:underline hover:text-blue-600 dark:hover:text-blue-400"><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-12 h-5 !align-middle">
+            <span class="block w-full h-full transition-opacity duration-500 ease-out">
+                <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+            </span>
+            <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+                
+            </span>
+        </span></a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" fill="currentColor" class="text-gray-400 dark:text-gray-600 size-4">
+                            <path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-gray-950 dark:text-white font-medium">Payment</span>
+                    </nav>
 
-                <h1 class="mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3">
-                    <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-64 h-6">
-        <span class="block w-full h-full transition-opacity duration-500 ease-out">
-            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
-        </span>
-        <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
-            
-        </span>
-    </span></span>
-                </h1>
+                    <h1 class="mt-8 text-lg text-sky-600 dark:text-brand-primary mb-3">
+                        <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-64 h-6">
+            <span class="block w-full h-full transition-opacity duration-500 ease-out">
+                <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+            </span>
+            <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+                
+            </span>
+        </span></span>
+                    </h1>
 
-                <p class="text-3xl font-bold text-gray-950 dark:text-white flex items-baseline gap-1">
-                    <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-24 h-8">
-        <span class="block w-full h-full transition-opacity duration-500 ease-out">
-            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
-        </span>
-        <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
-            
-        </span>
-    </span></span>
-                    <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-12 h-5">
-        <span class="block w-full h-full transition-opacity duration-500 ease-out">
-            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
-        </span>
-        <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
-            
-        </span>
-    </span></span></span>
-                </p>
-
-                <p class="mt-8 text-gray-600 dark:text-gray-400">Our experienced WebSharper support team is available to help you make the right decisions.</p>
-
-                <div id="wsSeatSelector" class="mt-6">
-                    <label for="wsSeats" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Seats</label>
-                    <div class="mt-2 flex items-center gap-2">
-                        <button type="button" id="wsMinus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                            -
-                        </button>
-                        <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1" class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" ws-var="a965bc39-db90-4eae-924d-813e2448364f::seatstext" />
-                        <button type="button" id="wsPlus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                            +
-                        </button>
-                    </div>
-                    <p id="wsPriceHint" class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                        <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-64 h-4">
-        <span class="block w-full h-full transition-opacity duration-500 ease-out">
-            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
-        </span>
-        <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
-            
-        </span>
-    </span></span>
+                    <p class="text-3xl font-bold text-gray-950 dark:text-white flex items-baseline gap-1">
+                        <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-24 h-8">
+            <span class="block w-full h-full transition-opacity duration-500 ease-out">
+                <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+            </span>
+            <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+                
+            </span>
+        </span></span>
+                        <span class="text-base text-gray-600 dark:text-gray-400 font-normal">/ <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-12 h-5">
+            <span class="block w-full h-full transition-opacity duration-500 ease-out">
+                <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+            </span>
+            <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+                
+            </span>
+        </span></span></span>
                     </p>
+
+                    <p class="mt-8 text-gray-600 dark:text-gray-400">Our experienced WebSharper support team is available to help you make the right decisions.</p>
+
+                    <div id="wsSeatSelector" class="mt-6">
+                        <label for="wsSeats" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Seats</label>
+                        <div class="mt-2 flex items-center gap-2">
+                            <button type="button" id="wsMinus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                -
+                            </button>
+                            <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1" class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" ws-var="743eff92-4b26-4c49-bbe4-0f70cb232979::seatstext" />
+                            <button type="button" id="wsPlus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                +
+                            </button>
+                        </div>
+                        <p id="wsPriceHint" class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                            <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-64 h-4">
+            <span class="block w-full h-full transition-opacity duration-500 ease-out">
+                <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+            </span>
+            <span class="" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+                
+            </span>
+        </span></span>
+                        </p>
+                    </div>
+
+                    <div class="fixed bottom-0 z-10 inset-x-0 px-12 border-t dark:border-gray-800 shadow-lg md:z-0 md:border-none md:shadow-none md:px-0 bg-white dark:bg-gray-900 dark:md:bg-transparent md:bg-transparent md:static mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400">
+                        <div class="py-3 flex justify-between">
+                            <p>Subtotal</p>
+                            <p aria-live="polite" class="font-medium text-gray-950 dark:text-white">
+                                <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-14 h-6">
+            <span class="block w-full h-full transition-opacity duration-500 ease-out">
+                <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+            </span>
+            <span class="justify-end" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+                
+            </span>
+        </span></span>
+                            </p>
+                        </div>
+                        <div class="py-3 flex justify-between">
+                            <p>Taxes</p>
+                            <p class="font-medium text-gray-950 dark:text-white">
+                                <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-14 h-6">
+            <span class="block w-full h-full transition-opacity duration-500 ease-out">
+                <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+            </span>
+            <span class="justify-end" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+                
+            </span>
+        </span></span>
+                            </p>
+                        </div>
+                        <div class="py-3 flex justify-between">
+                            <p class="text-gray-950 dark:text-white font-medium">Total</p>
+                            <p aria-live="polite" class="font-medium text-gray-950 dark:text-white">
+                                <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-14 h-6">
+            <span class="block w-full h-full transition-opacity duration-500 ease-out">
+                <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
+            </span>
+            <span class="justify-end" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
+                
+            </span>
+        </span></span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="fixed bottom-0 z-10 inset-x-0 px-12 border-t dark:border-gray-800 shadow-lg md:z-0 md:border-none md:shadow-none md:px-0 bg-white dark:bg-gray-900 dark:md:bg-transparent md:bg-transparent md:static mt-12 divide-y dark:divide-gray-800 text-gray-600 dark:text-gray-400">
-                    <div class="py-3 flex justify-between">
-                        <p>Subtotal</p>
-                        <p aria-live="polite" class="font-medium text-gray-950 dark:text-white">
-                            <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-14 h-6">
-        <span class="block w-full h-full transition-opacity duration-500 ease-out">
-            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
-        </span>
-        <span class="justify-end" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
-            
-        </span>
-    </span></span>
-                        </p>
-                    </div>
-                    <div class="py-3 flex justify-between">
-                        <p>Taxes</p>
-                        <p class="font-medium text-gray-950 dark:text-white">
-                            <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-14 h-6">
-        <span class="block w-full h-full transition-opacity duration-500 ease-out">
-            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
-        </span>
-        <span class="justify-end" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
-            
-        </span>
-    </span></span>
-                        </p>
-                    </div>
-                    <div class="py-3 flex justify-between">
-                        <p class="text-gray-950 dark:text-white font-medium">Total</p>
-                        <p aria-live="polite" class="font-medium text-gray-950 dark:text-white">
-                            <span><span class="relative inline-block align-bottom transition-all duration-300 ease-in-out w-14 h-6">
-        <span class="block w-full h-full transition-opacity duration-500 ease-out">
-            <span class="block animate-pulse bg-gray-200 dark:bg-gray-700 rounded w-full h-full"></span>
-        </span>
-        <span class="justify-end" class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none flex items-center">
-            
-        </span>
-    </span></span>
-                        </p>
-                    </div>
+                <div class="pb-56 md:max-w-md md:w-1/2 md:pt-16 md:pb-16">
+                    <div class="mt-12 md:mt-2 transition-opacity duration-500 ease-out">
+            <div class="h-7 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-12"></div>
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <div class="h-4 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                    <div class="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
                 </div>
-            </div>
-
-            <div class="pb-56 md:max-w-md md:w-1/2 md:pt-16 md:pb-16">
-                <div class="mt-12 md:mt-2 transition-opacity duration-500 ease-out">
-        <div class="h-7 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-12"></div>
-        <div class="space-y-6">
-            <div class="space-y-2">
-                <div class="h-4 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-                <div class="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
-            </div>
-            <div class="space-y-2">
-                <div class="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-                <div class="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
-                <div class="grid grid-cols-3 gap-2">
-                    <div class="col-span-2 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
-                    <div class="h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
+                <div class="space-y-2">
+                    <div class="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                    <div class="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="col-span-2 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
+                        <div class="h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
+                    </div>
+                    <div class="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
                 </div>
-                <div class="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
-            </div>
-            <div class="flex items-center gap-2">
-                <div class="size-5 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-                <div class="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-            </div>
-            <div class="mt-12 h-14 w-full bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse"></div>
-        </div>
-    </div>
+                <div class="flex items-center gap-2">
+                    <div class="size-5 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                    <div class="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                </div>
+                <div class="mt-12 h-14 w-full bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse"></div>
             </div>
         </div>
-    </div>
-</body>
-</html></div></main>
+                </div>
+            </div>
+        </div>
+    </div></main>
 
     <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" hidden="" ws-onclick="CloseOnBackgroundClick">
         <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
@@ -498,33 +485,30 @@
                     <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
                     <ul class="mt-6 space-y-2">
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Install</a>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
                         </li>
                     </ul>
                 </div>
                 <div>
-                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Channels</span>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
                     <ul class="mt-6 space-y-2">
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
-                        </li>
-                        <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Code of conduct</a>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
                         </li>
                         <li>
                             <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
@@ -555,13 +539,16 @@
                     <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
                     <ul class="mt-6 space-y-2">
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Tutorials</a>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
                         </li>
                         <li>
-                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blog</a>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
                         </li>
                     </ul>
                 </div>
@@ -587,9 +574,9 @@
                             <img class="size-8" src="./Assets/favicon.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
                             <span class="sr-only">WebSharper logo</span>
                         </a>
-                        <span class="">© WebSharper 2009 - Present</span>
+                        <span class="">WebSharper &copy; 2008-2025 IntelliFactory. All rights reserved.</span>
                     </div>
-                    <span>Latest version is 9.0.1</span>
+                    <span>Latest version is 10.x.x-beta1</span>
                 </div>
             </div>
         </div>
