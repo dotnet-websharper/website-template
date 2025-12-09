@@ -1,19 +1,34 @@
-import { nth, tryFind, delay, append, iter, choose, isEmpty, sum, fold, collect, map, mapi, concat, init, min, max } from "./Microsoft.FSharp.Collections.SeqModule.js"
-import { Get } from "./WebSharper.Enumerator.js"
+import { map, nth, tryFind, delay, append, iter, choose, isEmpty, sum, fold, collect, mapi, concat, init, min, max } from "./Microsoft.FSharp.Collections.SeqModule.js"
+import { fold as fold_1, ofSeq, iteri } from "./Microsoft.FSharp.Collections.ArrayModule.js"
+import { length, set } from "./Microsoft.FSharp.Core.LanguagePrimitives.IntrinsicFunctions.js"
+import { Get, Count0, Count } from "./WebSharper.Enumerator.js"
 import { isIDisposable } from "./System.IDisposable.js"
 import { InvalidOp } from "./Microsoft.FSharp.Core.Operators.js"
 import { Some } from "./Microsoft.FSharp.Core.FSharpOption`1.js"
 import { enumUsing, enumWhile } from "./Microsoft.FSharp.Core.CompilerServices.RuntimeHelpers.js"
 import HashSet from "./System.Collections.Generic.HashSet`1.js"
+import { Equals } from "./Microsoft.FSharp.Core.Operators.Unchecked.js"
+import ArgumentNullException from "./System.ArgumentNullException.js"
+import { isICollection } from "./System.Collections.ICollection.js"
+import { isICollection as isICollection_1 } from "./System.Collections.Generic.ICollection`1.js"
 import Dictionary from "./System.Collections.Generic.Dictionary`2.js"
 import { get } from "./WebSharper.Nullable.js"
-import { ofSeq, iteri } from "./Microsoft.FSharp.Collections.ArrayModule.js"
 import OrderedEnumerable from "./WebSharper.OrderedEnumerable`1.js"
 import ReverseComparer from "./WebSharper.ReverseComparer`2.js"
 import ProjectionComparer from "./WebSharper.ProjectionComparer`2.js"
 import { MarkResizable } from "../WebSharper.Core.JavaScript/Runtime.js"
-import { set, length } from "./Microsoft.FSharp.Core.LanguagePrimitives.IntrinsicFunctions.js"
 import Grouping from "./WebSharper.Grouping`2.js"
+export function AggregateBy(source, keySelector, seedSelector, func, keyComparer){
+  return map((g) => {
+    let _1=g.System_Linq_IGrouping_2$Key;
+    const x=g.v;
+    let _2=fold_1(func, seedSelector(g.System_Linq_IGrouping_2$Key), x);
+    return{K:_1, V:_2};
+  }, GroupBy_1(source, keySelector, (x) => x, keyComparer));
+}
+export function CountBy(this_1, keySelector, keyComparer){
+  return map((g) =>({K:g.System_Linq_IGrouping_2$Key, V:length(g.v)}), GroupBy_1(this_1, keySelector, (x) => x, keyComparer));
+}
 export function ElementAtOrDefault(this_1, index, defaultValue){
   try {
     return nth(index, this_1);
@@ -39,6 +54,32 @@ export function FirstOrDefault$1(this_1, predicate, defaultValue){
 export function LastOrDefault(this_1, predicate, defaultValue){
   const m=LastPred(this_1, predicate);
   return m==null?defaultValue:m.$0;
+}
+export function SequenceEqual(this_1, _1, comparer){
+  const e1=Get(this_1);
+  try {
+    const e2=Get(this_1);
+    try {
+      function go(){
+        while(true)
+          {
+            if(e1.MoveNext()){
+              if(!(e2.MoveNext()&&comparer.CEquals(e1.Current, e2.Current)))return false;
+            }
+            else return!e2.MoveNext();
+          }
+      }
+      return go();
+    }
+    finally {
+      const _2=e2;
+      if(typeof _2=="object"&&isIDisposable(_2))e2.Dispose();
+    }
+  }
+  finally {
+    const _3=e1;
+    if(typeof _3=="object"&&isIDisposable(_3))e1.Dispose();
+  }
 }
 export function SingleOrDefault(this_1, predicate, defaultValue){
   const e=Get(this_1);
@@ -76,6 +117,10 @@ export function Union(this_1, second, comparer){
     if(typeof _1=="object"&&isIDisposable(_1))e.Dispose();
   }
   return tbl;
+}
+export function TryGetNonEnumeratedCount(this_1, count){
+  if(Equals(this_1, null))throw new ArgumentNullException("New_1", "this");
+  else return this_1 instanceof Array?(count.set(length(this_1)),true):typeof this_1=="string"?(count.set(this_1.length),true):typeof this_1=="object"&&isICollection(this_1)?(count.set(Count0(this_1)),true):typeof this_1=="object"&&isICollection_1(this_1)?(count.set(Count(this_1)),true):(count.set(0),false);
 }
 export function ToDictionary(this_1, keySelector, elementSelector, comparer){
   const d=new Dictionary("New_3", comparer);
@@ -147,32 +192,6 @@ export function Skip(this_1, count){
 export function Single(this_1, predicate){
   const x=fold((_1, _2) => predicate(_2)?_1!=null?InvalidOp("Sequence contains more than one matching element"):Some(_2):_1, null, this_1);
   return x!=null&&x.$==1?x.$0:InvalidOp("Sequence contains no elements");
-}
-export function SequenceEqual(this_1, _1, comparer){
-  const e1=Get(this_1);
-  try {
-    const e2=Get(this_1);
-    try {
-      function go(){
-        while(true)
-          {
-            if(e1.MoveNext()){
-              if(!(e2.MoveNext()&&comparer.CEquals(e1.Current, e2.Current)))return false;
-            }
-            else return!e2.MoveNext();
-          }
-      }
-      return go();
-    }
-    finally {
-      const _2=e2;
-      if(typeof _2=="object"&&isIDisposable(_2))e2.Dispose();
-    }
-  }
-  finally {
-    const _3=e1;
-    if(typeof _3=="object"&&isIDisposable(_3))e1.Dispose();
-  }
 }
 export function SelectMany(this_1, selector, collectionSelector){
   return collect((_1) => {

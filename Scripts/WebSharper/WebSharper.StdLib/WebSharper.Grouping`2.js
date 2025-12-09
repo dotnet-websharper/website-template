@@ -1,5 +1,5 @@
 import Object from "./System.Object.js"
-import { Get } from "./WebSharper.Enumerator.js"
+import Enumerator from "./System.Collections.Generic.List`1.Enumerator.js"
 export default class Grouping extends Object {
   k;
   v;
@@ -7,7 +7,7 @@ export default class Grouping extends Object {
     return this.k;
   }
   GetEnumerator(){
-    return Get(this.v);
+    return new Enumerator(this.v);
   }
   constructor(k, v){
     super();

@@ -119,7 +119,7 @@ let _c=Lazy((_i) => class TemplateInitializer extends Object {
           let _17=Var.Create_1(_16);
           _2=new VarStrList(n, _17);
         }
-        else _2=FailWith("Invalid value type");
+        else _2=FailWith("Invalid kind for template Var type: "+String(t));
         return d.set_Item(n, _2);
       }
       else return null;

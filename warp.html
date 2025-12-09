@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" ws-3="">
 <head>
     <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
     <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
@@ -316,8 +316,8 @@
         </div>
     </header>
 
-    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div><div ws-2>
-        <div class="mx-auto max-w-5xl px-4 pb-16 md:pb-20" ws-="">
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
+        <div class="mx-auto max-w-5xl px-4 pb-16 md:pb-20" ws-2="">
             
             <section>
                 <div class="mx-auto max-w-6xl px-6 pt-36 sm:pt-40 lg:px-8 lg:pb-12 lg:pt-48 xl:px-0 2xl:max-w-7xl">
@@ -630,7 +630,7 @@ type Address {
                 </a>
             </section>
         </div>
-    </div></main>
+    </main>
 
     <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
         <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
@@ -736,15 +736,19 @@ type Address {
         </div>
     </footer>
 
-    <script src="./Js/line-numbers.js" type="text/javascript" charset="UTF-8"></script><link type="text/css" rel="stylesheet" href="/Scripts/WebSharper/all.css"></link>
-<script src="./Scripts/WebSharper/all.js"></script>
+    <script src="./Js/line-numbers.js" type="text/javascript" charset="UTF-8"></script><link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/warp.css"></link>
+<script src="./Scripts/WebSharper/warp.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
+let o1 = wsbundle._c.Create([]);
+o1.$preinit("8e121bb5-3a64-4cb8-999a-1680344c458e");
 let e1 = document.querySelector("[ws-1]");
 wsbundle.Layout().ReplaceInDom(e1);
+o1.$init("8e121bb5-3a64-4cb8-999a-1680344c458e");
 let e2 = document.querySelector("[ws-2]");
-wsbundle.Warp().ReplaceInDom(e2);
+wsbundle.Warp$160$31()(e2);
+o1.$postinit("8e121bb5-3a64-4cb8-999a-1680344c458e");
 });
 </script>
 

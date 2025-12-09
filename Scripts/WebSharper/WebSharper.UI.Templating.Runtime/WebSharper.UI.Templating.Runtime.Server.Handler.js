@@ -65,7 +65,7 @@ export function CompleteHoles(key, filledHoles, vars){
         let _3=o==null?[]:o.$0;
         let _4=Var.Create_1(_3);
         return new VarStrList(name, _4);
-      }):FailWith("Invalid value type");
+      }):FailWith("Invalid kind for template Var type: "+String(ty));
       allVars.set_Item(name, r);
       return Some(r);
     }
