@@ -31,50 +31,6 @@ module Views =
 
     let ToastMessage : Var<string option> = Var.Create None
 
-    // -------------------------
-    // Navigation attributes
-    // -------------------------
-
-    let SubsPageAttr : Attr =
-        ActivePage.View
-        |> View.Map (fun page ->
-            if page = Page.Subs then 
-                "space-y-6"
-            else 
-                "space-y-6 hidden"
-        )
-        |> Attr.Dynamic "class"
-
-    let BillingPageAttr : Attr =
-        ActivePage.View
-        |> View.Map (fun page ->
-            if page = Page.Billing then 
-                "space-y-6" 
-            else 
-                "space-y-6 hidden"
-        )
-        |> Attr.Dynamic "class"
-
-    let SubsTabAttr : Attr =
-        let isActive =
-            ActivePage.View
-            |> View.Map (fun page -> page = Page.Subs)
-
-        Attr.Concat [
-            Attr.DynamicClassPred "bg-gray-100" isActive
-            Attr.DynamicClassPred "dark:bg-white/5" isActive
-        ]
-
-    let BillingTabAttr : Attr =
-        let isActive =
-            ActivePage.View
-            |> View.Map (fun page -> page = Page.Billing)
-
-        Attr.Concat [
-            Attr.DynamicClassPred "bg-gray-100" isActive
-            Attr.DynamicClassPred "dark:bg-white/5" isActive
-        ]
-
     let ShowSubsPage () =
         ActivePage.Value <- Page.Subs
 

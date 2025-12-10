@@ -96,7 +96,7 @@ module Page =
                 do! loadSubscriptionsAsync ()
                 chooseCurrentSubscription ()
 
-                routePage()
+                //routePage()
             
                 if SubsVar.Value.Length > 0 then
                     do! 
@@ -112,6 +112,34 @@ module Page =
                 isLoading.Value <- false
         }
         |> Async.StartImmediate
+
+    let private subsTabAttr() =
+        Views.ActivePage.View 
+        |> View.Map (fun p -> p = Views.Page.Subs)
+        |> fun isActive -> 
+            Attr.Concat [
+                Attr.DynamicClassPred "bg-gray-100" isActive
+                Attr.DynamicClassPred "dark:bg-white/5" isActive
+            ]
+
+    let private billingTabAttr() =
+        Views.ActivePage.View 
+        |> View.Map (fun p -> p = Views.Page.Billing)
+        |> fun isActive -> 
+            Attr.Concat [
+                Attr.DynamicClassPred "bg-gray-100" isActive
+                Attr.DynamicClassPred "dark:bg-white/5" isActive
+            ]
+
+    let private subsPageAttr() =
+        Views.ActivePage.View 
+        |> View.Map (fun p -> p <> Views.Page.Subs)
+        |> fun v -> Attr.DynamicClassPred "hidden" v
+
+    let private billingPageAttr() =
+        Views.ActivePage.View 
+        |> View.Map (fun p -> p <> Views.Page.Billing)
+        |> fun v -> Attr.DynamicClassPred "hidden" v
 
     let private renderContent loading loggedIn (subs: SubRecord array) = 
         
@@ -130,10 +158,10 @@ module Page =
                  // Navigation & Page Switching
                 .GoSubs(fun _ -> Views.ShowSubsPage())
                 .GoBilling(fun _ -> Views.ShowBillingPage())
-                .SubsTabAttr(Views.SubsTabAttr)
-                .BillingTabAttr(Views.BillingTabAttr)
-                .SubsPageAttr(Views.SubsPageAttr)
-                .BillingPageAttr(Views.BillingPageAttr)
+                .SubsTabAttr(subsTabAttr())
+                .BillingTabAttr(billingTabAttr())
+                .SubsPageAttr(subsPageAttr())
+                .BillingPageAttr(billingPageAttr())
 
                 .NoSubsWidget(
                     if not hasSubs then
@@ -156,6 +184,8 @@ module Page =
                 .OpenCustomerPortal(fun _ -> Views.OpenCustomerPortal())
                 .SeatsBody(ViewsSeats.SeatsBody)
                 .InvoiceBody(ViewsInvoices.InvoicesBody)
+
+                .CountryOptions(ViewsBilling.BillingCountryOptions)
 
                 // Billing Actions
                 .BillingViewAttr(ViewsBilling.BillingViewAttr)
