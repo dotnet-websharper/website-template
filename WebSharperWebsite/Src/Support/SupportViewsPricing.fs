@@ -7,88 +7,116 @@ open WebSharper.UI
 open WebSharper.UI.Html
 open WebSharper.UI.Client
 
-open WebSharperWebsite.Utils
+open WebSharperWebsite
+open Utils
 open Types
 open State
 
 [<JavaScript>]
 module ViewsPricing =
 
-    // Names
+    let RenderPlanWidget (plan: PlanViewModel) =
 
-    let ProName : View<string> =
-        catalogVar.View
-        |> View.Map (fun cat ->
-            effectiveName "Professional" cat.Pro
+        let seatCountVar = Var.Create 1
+
+        let effectivePrice =
+            intervalVar.View
+            |> View.Map (fun interval ->
+                match interval with 
+                | Year -> plan.YearPrice
+                | _ -> plan.MonthPrice
+            )
+        
+        let priceDisplay = 
+            effectivePrice
+            |> View.Map (fun priceOpt ->
+                match priceOpt with
+                | Some price -> usd price.Amount
+                | None -> "N/A"
+            )
+
+        let priceLabel = 
+            intervalVar.View
+            |> View.Map (fun interval ->
+                let seatLabel =
+                    if plan.IsPerSeat then
+                        " / seat"
+                    else
+                        ""
+
+                $"{seatLabel} / {intervalAsString interval}"
+            )
+
+        let totalAmountDisplay = 
+            View.Map3 (fun interval priceInfoOpt seats ->
+                match priceInfoOpt with
+                | Some priceInfo -> 
+                    let total = priceInfo.Amount * float seats
+                    usd total
+                | None -> "-"
+            ) intervalVar.View effectivePrice seatCountVar.View
+
+        let totalLabelDisplay =
+            intervalVar.View 
+            |> View.Map (fun interval -> $"Total ({intervalAsString interval}ly)")
+        
+        let seatSelectorDoc = 
+            if plan.IsPerSeat then
+
+                let seatCountUiVar = 
+                    seatCountVar.Lens 
+                        string 
+                        (fun currentInt newStr -> 
+                            match System.Int32.TryParse(newStr) with 
+                            | true, v -> v 
+                            | false, _ -> currentInt
+                        )
+
+                Templates.SupportTemplate.SeatWidget()
+                    .SeatCount(seatCountUiVar)
+                    .OnSeatMinus(fun _ -> 
+                        if seatCountVar.Value > 1 then seatCountVar.Value <- seatCountVar.Value - 1
+                    )
+                    .OnSeatPlus(fun _ -> 
+                        seatCountVar.Value <- seatCountVar.Value + 1
+                    )
+                    .Doc()
+            else
+                Templates.SupportTemplate.StaticSeatBadge().Doc()
+
+        let toCheckout =
+            Attr.Dynamic "href" (
+                View.Map2 (fun interval seats ->
+                    let seats = clampSeats seats
+                    let intervalStr = intervalAsString interval
+                    $"./checkout?plan={plan.Id}&interval={intervalStr}&seats={seats}"
+                ) intervalVar.View seatCountVar.View
+            )
+
+        Templates.SupportTemplate.PlanCard()
+            .Name(plan.Name)
+            .Description(plan.Description)
+            .PriceAmount(priceDisplay)
+            .PriceLabel(priceLabel)
+            .SeatSelector(seatSelectorDoc)
+            .TotalLabel(totalLabelDisplay)
+            .TotalAmount(totalAmountDisplay)
+            .CheckoutAttr(toCheckout)
+            .Doc()
+
+    let PlansGrid =
+        let skeletons = 
+            [1; 2]
+            |> List.map (fun _ -> Templates.SupportTemplate.SkeletonCard().Doc())
+            |> Doc.Concat
+
+        let realPlans =
+            catalogVar.View
+            |> View.Map (fun catalog -> catalog.Plans)
+            |> Doc.BindSeqCached RenderPlanWidget
+
+        IsLoadingVar.View
+        |> View.Map (fun isLoading ->
+            if isLoading then skeletons else realPlans
         )
-
-    let FreeName : View<string> =
-        catalogVar.View
-        |> View.Map (fun cat ->
-            effectiveName "Freelancer" cat.Freelancer
-        )
-
-    // Base price per seat / per plan
-
-    let ProPriceAmount : View<string> =
-        View.Map2 (fun cat interval ->
-            effectiveAmount fallbackPro cat.Pro interval
-            |> usd
-        ) catalogVar.View intervalVar.View
-
-    let FreePriceAmount : View<string> =
-        View.Map2 (fun cat interval ->
-            effectiveAmount fallbackFreelancer cat.Freelancer interval
-            |> usd
-        ) catalogVar.View intervalVar.View
-
-    // Labels
-
-    let ProPriceLabel : View<string> =
-        intervalVar.View
-        |> View.Map intervalProPriceLabel
-
-    let FreePriceLabel : View<string> =
-        intervalVar.View
-        |> View.Map intervalFreePriceLabel
-
-    let ProTotalLabel : View<string> =
-        intervalVar.View
-        |> View.Map intervalTotalLabel
-
-    let FreeTotalLabel : View<string> =
-        intervalVar.View
-        |> View.Map intervalTotalLabel
-
-    // Totals
-
-    let ProTotalAmount : View<string> =
-        View.Map3 (fun cat interval seats ->
-            let seats = clampSeats seats
-            let perSeat = effectiveAmount fallbackPro cat.Pro interval
-            usd (perSeat * float seats)
-        ) catalogVar.View intervalVar.View SeatCount
-
-    let FreeTotalAmount : View<string> =
-        View.Map2 (fun cat interval ->
-            effectiveAmount fallbackFreelancer cat.Freelancer interval
-            |> usd
-        ) catalogVar.View intervalVar.View
-
-    // Notes
-
-    let ProNote : View<string> =
-        View.Map2 (fun cat interval ->
-            let entry = cat.Pro
-            let cur = currencyFor "pro" cat interval
-            let desc = effectiveDescription "Assign GitHub usernames after purchase" entry
-            $"{desc}. Prices in {cur}."
-        ) catalogVar.View intervalVar.View
-
-    let FreeNote : View<string> =
-        View.Map2 (fun cat interval ->
-            let entry = cat.Freelancer
-            let cur = currencyFor "freelancer" cat interval
-            let desc = effectiveDescription "Ideal for solo developers" entry
-            $"{desc}. Prices in {cur}."
-        ) catalogVar.View intervalVar.View
+        |> Doc.EmbedView

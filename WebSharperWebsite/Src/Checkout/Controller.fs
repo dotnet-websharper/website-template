@@ -20,6 +20,18 @@ module Controller =
     // Seat adjustment
     // -----------------------------
 
+    let AdjustSeats (delta: int) (value: Var<string>) =
+        let current =
+            value.Value
+            |> fun s -> if isNull s then "" else s.Trim()
+            |> fun s ->
+                match Int32.TryParse s with
+                | true, n -> n
+                | _ -> 1
+
+        let next = current + delta |> clampSeats
+        value.Value <- string next
+
     let OnSeatMinus () =
         AdjustSeats -1 SeatsTextVar
 

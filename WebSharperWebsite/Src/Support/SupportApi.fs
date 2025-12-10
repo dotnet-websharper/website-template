@@ -32,52 +32,46 @@ module Api =
             JS.Window.SessionStorage.SetItem(CacheKey, json)
         with _ -> ()
 
-    let private updateEntryFromItem (entry: PlanEntry) (intervalStr: string) (pi: PriceInfo) (nameOpt: string option) (descOpt: string option) =
-        let entry =
-            {
-                entry with
-                    Name =
-                        match nameOpt, entry.Name with
-                        | Some n, _ -> Some n
-                        | None, e -> e
-                    Description =
-                        match descOpt, entry.Description with
-                        | Some d, _ -> Some d
-                        | None, e -> e
-            }
-        match intervalStr with
-        | "month" -> { entry with Month = Some pi }
-        | "year"  -> { entry with Year  = Some pi }
-        | _       -> entry
-
     let private buildCatalog (items: PlanPrice[]) =
-        let updateFromItem (catalog: Catalog) (item: PlanPrice) =
-            let code = (item.code |> string).ToLower()
-            let intervalStr = (item.interval |> string).ToLower()
+        
+        // Group by code (case-insensitive)
+        let grouped = 
+            items
+            |> Array.groupBy (fun item -> item.code.ToLower())
 
-            let amountCents = item.unitAmountCents
-            let currency = if System.String.IsNullOrWhiteSpace item.currency then "usd" else item.currency
+        // Map to PlanViewModel
+        let plans = 
+            grouped
+            |> Array.map (fun (code, rows) ->
+                let first = rows.[0]
 
-            let amount = float amountCents / 100.0
-            let pi = { Amount = amount; Currency = currency.ToUpper() }
+                let findPrice (interval: string) =
+                    rows
+                    |> Array.tryFind (fun planPrice -> planPrice.interval = interval)
+                    |> Option.map (fun planPrice -> 
+                        { 
+                            Amount = float planPrice.unitAmountCents / 100.0
+                            Currency = planPrice.currency.ToUpper() 
+                        }
+                    )
+                {
+                    Id = code
+                    Name = first.name
+                    Description = first.description |> Option.defaultValue ""
+                    IsPerSeat = first.isPerSeat
+                    MaxSeats = first.maxSeats
+                    MonthPrice = findPrice "month"
+                    YearPrice = findPrice "year"
+                }
+            )
+            |> Array.sortBy (fun planView -> 
+                 match planView.YearPrice with Some priceInfo -> priceInfo.Amount | _ -> 0.0
+            )
+            |> Array.toList
 
-            let nameOpt = item.name |> nonEmptyOpt
+        catalogVar.Value <- { Plans = plans }
 
-            let descOpt =
-                match item.description with
-                | Some d -> nonEmptyOpt d
-                | None   -> None
-
-            match code with
-            | "pro" ->
-                { catalog with Pro = updateEntryFromItem catalog.Pro intervalStr pi nameOpt descOpt }
-            | "freelancer" ->
-                { catalog with Freelancer = updateEntryFromItem catalog.Freelancer intervalStr pi nameOpt descOpt }
-            | _ -> catalog
-
-        catalogVar.Value <- Array.fold updateFromItem catalogVar.Value items
-
-    let fetchFromApi () : Async<PlanPrice[] option> =
+    let FetchFromApi () : Async<PlanPrice[] option> =
         async {
             try
                 let! resp =
@@ -94,7 +88,7 @@ module Api =
             | Some cached ->
                 return Some cached
             | None ->
-                let! respOpt = fetchFromApi ()
+                let! respOpt = FetchFromApi ()
                 match respOpt with
                 | Some resp when resp.Length > 0 ->
                     saveCache resp
@@ -105,10 +99,15 @@ module Api =
 
     let HydrateCatalog () : Async<unit> =
         async {
-            let! respOpt = LoadOrFetchPlans ()
-            match respOpt with
-            | Some resp -> buildCatalog resp
-            | None -> ()
+            IsLoadingVar.Value <- true
+            
+            try
+                let! respOpt = LoadOrFetchPlans ()
+                match respOpt with
+                | Some resp -> buildCatalog resp
+                | None -> ()
+            finally
+                IsLoadingVar.Value <- false
         }
 
     [<Literal>]

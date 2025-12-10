@@ -14,16 +14,18 @@ module Types =
         Currency: string
     }
 
-    type PlanEntry = {
-        Name: string option
-        Description: string option
-        Month: PriceInfo option
-        Year: PriceInfo option
+    type PlanViewModel = {
+        Id: string // e.g. "pro"
+        Name: string
+        Description: string
+        IsPerSeat: bool
+        MaxSeats: int option
+        MonthPrice: PriceInfo option
+        YearPrice: PriceInfo option
     }
 
     type Catalog = {
-        Pro: PlanEntry
-        Freelancer: PlanEntry
+        Plans: PlanViewModel list
     }
 
     type ContactForm = {

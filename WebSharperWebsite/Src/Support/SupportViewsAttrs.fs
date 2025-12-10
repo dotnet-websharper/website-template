@@ -38,26 +38,6 @@ module ViewsAttrs =
             Attr.Dynamic "aria-pressed" v
         ]
 
-    // Checkout links
-
-    let ProCheckoutAttr () : Attr =
-        Attr.Dynamic "href" (
-            View.Map2 (fun interval seats ->
-                let seats = clampSeats seats
-                let intervalStr = intervalAsString interval
-                $"./checkout?plan=pro&interval={intervalStr}&seats={seats}"
-            ) intervalVar.View SeatCount
-        )
-
-    let FreeCheckoutAttr () : Attr =
-        Attr.Dynamic "href" (
-            intervalVar.View
-            |> View.Map (fun interval ->
-                let intervalStr = intervalAsString interval
-                $"./checkout?plan=freelancer&interval={intervalStr}&seats=1"
-            )
-        )
-
     // Handlers
 
     let OnBillMonth (_: TemplateEvent<_,_,_>) =
@@ -65,12 +45,6 @@ module ViewsAttrs =
 
     let OnBillYear (_: TemplateEvent<_,_,_>) =
         intervalVar.Value <- Interval.Year
-
-    let OnSeatMinus (_e: TemplateEvent<_,_,_>) =
-        AdjustSeats -1 SeatCountText
-
-    let OnSeatPlus (_: TemplateEvent<_,_,_>) =
-        AdjustSeats 1 SeatCountText
 
     // -----------------------------
     // Contact form
