@@ -5,6 +5,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
 open WebSharper.UI.Client
+open WebSharper.Sitelets
 
 open State
 
@@ -16,10 +17,15 @@ module Views =
     // -------------------------
 
     type Page =
-        | Subs
-        | Billing
+        | [<EndPoint "subscriptions">] Subs
+        | [<EndPoint "billing">] Billing
 
-    let ActivePage : Var<Page> = Var.Create Page.Subs
+    let ActivePage : Var<Page> = 
+        if JS.Document.Location.Hash = "" then
+            JS.Document.Location.Hash <- "/subscriptions"
+
+        Router.Infer<Page>()
+        |> Router.InstallHash Page.Subs
 
     let IsLoading : Var<bool> = Var.Create false
 
