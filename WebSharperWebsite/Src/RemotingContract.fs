@@ -26,6 +26,7 @@ type BillingData =
 type Subscription =
     {
         subscriptionId : Guid
+        status : string // 'active', 'canceled', 'past_due', 'unpaid'
         planName : string
         currentPeriodEnd : string
         cancelAtPeriodEnd : bool
