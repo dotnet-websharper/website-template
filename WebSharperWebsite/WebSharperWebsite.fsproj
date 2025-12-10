@@ -9,27 +9,30 @@
   </PropertyGroup>
   
   <ItemGroup>
-	<Compile Include="Src\Utils.fs" />
-	<Compile Include="Src\Countries.fs" />
-	<Compile Include="Src\RemotingContract.fs" />
-	<Compile Include="Src\AuthClient.fs" />
-	<Compile Include="Src\Error.fs" />
-	<Compile Include="Src\Support\Types.fs" />
-	<Compile Include="Src\Support\SupportState.fs" />
-	<Compile Include="Src\Support\SupportViewsPricing.fs" />
-	<Compile Include="Src\Support\SupportApi.fs" />
-	<Compile Include="Src\Support\SupportViewsAttrs.fs" />
-	<Compile Include="Src\Support\Page.fs" />
-	<Compile Include="Src\Checkout\Types.fs" />
-	<Compile Include="Src\Checkout\CheckoutState.fs" />
-	<Compile Include="Src\Checkout\Views.Pricing.fs" />
-	<Compile Include="Src\Checkout\Views.Attrs.fs" />
-	<Compile Include="Src\Checkout\Api.fs" />
-	<Compile Include="Src\Checkout\Controller.fs" />
-	<Compile Include="Src\Checkout\Success.fs" />
-	<Compile Include="Src\Checkout\Page.fs" />
-	
-	<Compile Include="Src\ManageSubscription\Types.fs" />
+    <None Include="Assets\**\*.*" />
+    <None Include="Js\**\*.*" />
+    <None Include="Styles\**\*.*" />
+
+    <Compile Include="Src\Utils.fs" />
+	  <Compile Include="Src\Countries.fs" />
+	  <Compile Include="Src\RemotingContract.fs" />
+	  <Compile Include="Src\AuthClient.fs" />
+	  <Compile Include="Src\Error.fs" />
+	  <Compile Include="Src\Support\Types.fs" />
+	  <Compile Include="Src\Support\SupportState.fs" />
+	  <Compile Include="Src\Support\SupportViewsPricing.fs" />
+	  <Compile Include="Src\Support\SupportApi.fs" />
+	  <Compile Include="Src\Support\SupportViewsAttrs.fs" />
+	  <Compile Include="Src\Support\Page.fs" />
+	  <Compile Include="Src\Checkout\Types.fs" />
+	  <Compile Include="Src\Checkout\CheckoutState.fs" />
+	  <Compile Include="Src\Checkout\Views.Pricing.fs" />
+	  <Compile Include="Src\Checkout\Views.Attrs.fs" />
+	  <Compile Include="Src\Checkout\Api.fs" />
+	  <Compile Include="Src\Checkout\Controller.fs" />
+	  <Compile Include="Src\Checkout\Success.fs" />
+	  <Compile Include="Src\Checkout\Page.fs" />
+	  <Compile Include="Src\ManageSubscription\Types.fs" />
     <Compile Include="Src\ManageSubscription\State.fs" />
     <Compile Include="Src\ManageSubscription\Views.fs" />
     <Compile Include="Src\ManageSubscription\Api.fs" />
@@ -66,18 +69,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebSharper" Version="10.0.0.640-beta1" />    
-    <PackageReference Include="WebSharper.FSharp" Version="10.0.0.640-beta1" />    
+    <PackageReference Include="WebSharper" Version="10.0.0.644-beta1" />    
+    <PackageReference Include="WebSharper.FSharp" Version="10.0.0.644-beta1" />    
     <PackageReference Include="WebSharper.SweetAlert" Version="10.0.0.604-beta1" />
-    <PackageReference Include="WebSharper.UI" Version="10.0.0.640-beta1" />
+    <PackageReference Include="WebSharper.UI" Version="10.0.0.644-beta1" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="10.0.100" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\" />
   </ItemGroup>
 
   <Target Name="ESBuildBundle" AfterTargets="WebSharperCompile">

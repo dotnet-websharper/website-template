@@ -7,23 +7,17 @@ open WebSharper.JavaScript.Dom
 [<JavaScript>]
 module VideoPlayer =
 
-    [<Inline>]
-    let private AsciinemaPlayer(): obj = JS.ImportAll("asciinema-player")
-    [<Inline "$0.create($1, $2, $3)">]
-    let private AsciinemaPlayerCreate (parent: obj) (castUrl: string) (el: Element) (options: obj) = X<unit>
-    [<Inline>]
-    let private AsciinemaCss(): obj = JS.ImportDynamic("asciinema-player/dist/bundle/asciinema-player.css")
+    [<Import ("create", "asciinema-player"); Inline "$import($castUrl, $el, $options)">]
+    let private AsciinemaPlayerCreate (castUrl: string) (el: Element) (options: obj) = X<unit>
     
     let Init (containerId: string) =
-        do AsciinemaCss() |> ignore
-
-        let AsciinemaPlayer = AsciinemaPlayer()
+        JS.ImportFile "asciinema-player/dist/bundle/asciinema-player.css"
 
         let el = JS.Window.Document.GetElementById(containerId)
         if isNull el then
             Console.Log("Container not found:", containerId)
         else
-            AsciinemaPlayerCreate AsciinemaPlayer "Assets/ws-template.cast" el ({|
+            AsciinemaPlayerCreate "Assets/ws-template.cast" el ({|
                 cols = 100
                 rows = 20
                 theme = "dracula"

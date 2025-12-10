@@ -27,12 +27,6 @@ module Utils =
     [<Literal>]
     let SupportPlansUrl = "/support#plans"
 
-    [<Inline "new URL($path, document.baseURI).toString()">]
-    let toAbsoluteUrl (path: string) : string = X<string>
-
-    let importDynamicIgnore (path: string) =
-        JS.ImportDynamic (toAbsoluteUrl path) |> ignore
-
     let byId (id: string) = JS.Document.GetElementById id
 
     let queryAll (root: Element) (selector: string) : seq<HTMLElement> =

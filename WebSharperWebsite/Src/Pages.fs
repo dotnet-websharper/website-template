@@ -21,6 +21,8 @@ module ClientPages =
         bodyEl.ClassList.Toggle("overflow-hidden") |> ignore
 
     let Layout () =
+        JS.ImportFile "../../../tailwind.css"
+        JS.ImportFile "./Js/main.js"
         Theme.Init()
         Templates.LayoutTemplate()
             .ToggleMenu(fun _ -> ToggleMenu())

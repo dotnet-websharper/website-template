@@ -1,7 +1,9 @@
 ﻿import { cpSync, readdirSync, existsSync } from 'fs'
 import { build } from 'esbuild'
 
-cpSync('./build/', './bin/html/', { recursive: true });
+cpSync('./build/', './bin/html/', { recursive: true, filter: src => src == "./build/" || src.endsWith(".html") });
+cpSync('./build/Assets/', './bin/html/Assets/', { recursive: true });
+cpSync('./build/snippets/', './bin/html/snippets/', { recursive: true });
 
 const prebundles = readdirSync('./build/Scripts/WebSharper/WebSharperWebsite/');
 
