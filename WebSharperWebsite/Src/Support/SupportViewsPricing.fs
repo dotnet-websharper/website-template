@@ -61,7 +61,7 @@ module ViewsPricing =
             |> View.Map (fun interval -> $"Total ({intervalAsString interval}ly)")
         
         let seatSelectorDoc = 
-            if plan.IsPerSeat then
+            if plan.MaxSeats |> Option.forall (fun s -> s > 1) then
 
                 let seatCountUiVar = 
                     seatCountVar.Lens 
@@ -104,19 +104,16 @@ module ViewsPricing =
             .CheckoutAttr(toCheckout)
             .Doc()
 
-    let PlansGrid =
-        let skeletons = 
-            [1; 2]
-            |> List.map (fun _ -> Templates.SupportTemplate.SkeletonCard().Doc())
-            |> Doc.Concat
+    let PlanWidget (code: string) =
 
-        let realPlans =
-            catalogVar.View
-            |> View.Map (fun catalog -> catalog.Plans)
-            |> Doc.BindSeqCached RenderPlanWidget
-
-        IsLoadingVar.View
-        |> View.Map (fun isLoading ->
-            if isLoading then skeletons else realPlans
+        (IsLoadingVar.View, catalogVar.View)
+        ||> View.Map2 (fun isLoading catalog ->
+            if isLoading then 
+                Templates.SupportTemplate.SkeletonCard().Doc() 
+            else 
+                match catalog.Plans |> List.tryFind(fun p -> p.Id = code) with
+                | Some plan ->
+                    RenderPlanWidget plan
+                | None -> Doc.Empty
         )
         |> Doc.EmbedView

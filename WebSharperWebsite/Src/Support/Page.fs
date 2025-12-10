@@ -20,7 +20,9 @@ module Page =
                 .OnAfterRender(fun () ->
                     HydrateCatalog() |> Async.StartImmediate
                 )
-                .PlansGrid(ViewsPricing.PlansGrid)
+                .ProPlan(ViewsPricing.PlanWidget "pro")
+                .FreelancerPlan(ViewsPricing.PlanWidget "freelancer")
+                
                 .BillMonthAttr(BillMonthAttr())
                 .BillYearAttr(BillYearAttr())
                 .OnBillMonth(OnBillMonth)
@@ -38,13 +40,12 @@ module Page =
                 .OnContactSendClick(OnContactSendClick)
                 .Doc()
         else
-            let serverSkeletons = 
-                [1; 2]
-                |> List.map (fun _ -> Templates.SupportTemplate.SkeletonCard().Doc())
-                |> Doc.Concat
+            let serverSkeleton() = 
+                Templates.SupportTemplate.SkeletonCard().Doc()
 
             Templates.SupportTemplate.Content()
-                .PlansGrid(serverSkeletons)
+                .ProPlan(serverSkeleton())
+                .FreelancerPlan(serverSkeleton())
                 
                 .ContactSendButtonText("Send")
                 .ContactSendButtonAttr(Attr.Create "disabled" "")
