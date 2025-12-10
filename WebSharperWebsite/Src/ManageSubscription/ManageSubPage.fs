@@ -83,11 +83,20 @@ module Page =
             if System.String.IsNullOrEmpty current || not exists then
                 CurrentSubIdVar.Value <- subs.[0].id
 
+    let private routePage () =
+        let hash = JS.Window.Location.Hash
+        if hash.ToLower().Contains("billing") then 
+            Views.ShowBillingPage()
+        else 
+            Views.ShowSubsPage()
+
     let private loadAllAfterAuth () =
         async {
             try
                 do! loadSubscriptionsAsync ()
                 chooseCurrentSubscription ()
+
+                routePage()
             
                 if SubsVar.Value.Length > 0 then
                     do! 
@@ -106,26 +115,17 @@ module Page =
 
     let private renderContent loading loggedIn (subs: SubRecord array) = 
         
-        // Loading State
         if loading then 
             Templates.ManageSubscriptionTemplate.Skeleton().Doc()
         
-        // Not Logged In
         elif not loggedIn then
             Templates.ManageSubscriptionTemplate.LoginPrompt()
                 .LoginClick(fun _ -> ViewsAuth.LoginClick())
                 .Doc()
         
-        // Logged In, but NO Subscriptions
-        elif subs.Length = 0 then
-            Templates.ManageSubscriptionTemplate.NoSubscriptionWidget()
-                .OnSubscribeClick(fun _ -> 
-                    JS.Window.Location.Href <- Utils.SupportPlansUrl
-                )
-                .Doc()
-        
-        // Logged In AND Has Subscriptions
         else
+            let hasSubs = subs.Length > 0
+
             Templates.ManageSubscriptionTemplate.AuthenticatedContent()
                  // Navigation & Page Switching
                 .GoSubs(fun _ -> Views.ShowSubsPage())
@@ -135,7 +135,23 @@ module Page =
                 .SubsPageAttr(Views.SubsPageAttr)
                 .BillingPageAttr(Views.BillingPageAttr)
 
-                // Sub-Components
+                .NoSubsWidget(
+                    if not hasSubs then
+                        Templates.ManageSubscriptionTemplate.NoSubscriptionWidget()
+                            .OnSubscribeClick(fun _ -> 
+                                JS.Window.Location.Href <- Utils.SupportPlansUrl
+                            )
+                            .Doc()
+                    else 
+                        Doc.Empty
+                )
+                .OpenCustomerPortalAttr(
+                    if hasSubs then Attr.Empty else attr.``class`` "hidden"
+                )
+                .ActiveSubContentAttr(
+                    if hasSubs then Attr.Empty else attr.``class`` "hidden"
+                )
+
                 .GitHubOrg(ViewsGitHub.GitHubBody)
                 .OpenCustomerPortal(fun _ -> Views.OpenCustomerPortal())
                 .SeatsBody(ViewsSeats.SeatsBody)

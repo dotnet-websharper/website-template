@@ -4,27 +4,6 @@
 </head>
 <body>
 
-    <div ws-template="NoSubscriptionWidget" class="rounded-xl border p-10 dark:border-gray-800 dark:text-white text-gray-800 max-w-lg mx-auto mt-12 text-center animate-[fadeIn_0.5s_ease-out]">
-        <div class="mb-4 flex justify-center text-gray-400 dark:text-gray-500">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-            </svg>
-        </div>
-
-        <h2 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">You have no active subscriptions</h2>
-
-        <p class="mb-8 text-gray-600 dark:text-gray-400 leading-relaxed">
-            Start a subscription to unlock premium features, manage seats, and access your invoices directly from this dashboard.
-        </p>
-
-        <button ws-onclick="OnSubscribeClick"
-                class="mx-auto w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 transition-all">
-            <span class="relative text-sm font-medium">
-                View Plans & Subscribe
-            </span>
-        </button>
-    </div>
-
     <div ws-template="ContentWrapper">
         <div ws-attr="SkeletonAttr">
             <div ws-replace="Skeleton"></div>
@@ -126,6 +105,27 @@
         </button>
     </div>
 
+    <div ws-template="NoSubscriptionWidget" class="mt-6 rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 text-center py-12 w-full animate-[fadeIn_0.5s_ease-out]">
+        <div class="mb-4 flex justify-center text-gray-300 dark:text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-16">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+            </svg>
+        </div>
+
+        <h2 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">You have no active subscriptions</h2>
+
+        <p class="mb-8 text-gray-600 dark:text-gray-400 px-10">
+            Start a subscription to unlock premium features, manage seats, and access your invoices directly from this dashboard.
+        </p>
+
+        <button ws-onclick="OnSubscribeClick"
+                class="mx-auto w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300 transition-all">
+            <span class="relative text-sm font-medium">
+                View Plans & Subscribe
+            </span>
+        </button>
+    </div>
+
     <div ws-template="AuthenticatedContent" class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] animate-[fadeIn_0.5s_ease-out]">
         <aside class="lg:sticky lg:top-24 h-max">
             <nav aria-label="Settings" class="rounded-xl border border-gray-200 p-3 dark:border-gray-800">
@@ -191,104 +191,110 @@
                         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Seats &amp; Access</h1>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Manage GitHub access for your WebSharper subscription.</p>
                     </div>
-                    <button ws-onclick="OpenCustomerPortal" class="rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <button ws-onclick="OpenCustomerPortal" ws-attr="OpenCustomerPortalAttr" class="rounded-lg h-10 border border-gray-300 dark:border-gray-700 px-4 text-sm text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800">
                         Manage billing in Stripe
                     </button>
                 </div>
 
-                <section class="rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800">
-                    <div class="flex flex-wrap items-start justify-between gap-4 px-4 py-4">
-                        <div>
-                            <h2 class="font-semibold text-gray-900 dark:text-white">Add seats</h2>
-                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">You can add more Professional seats in this section. Each new seat is valid for one year.</p>
-                        </div>
-                        <div>
-                            <button ws-onclick="AddSeatsClick" ws-attr="AddSeatsButtonAttr" class="w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
-                                <span class="relative text-sm">Add seats</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="mt-4 overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300">
-                                <tr>
-                                    <th class="px-4 py-3 text-left">Seat</th>
-                                    <th class="px-4 py-3 text-center">GitHub username</th>
-                                    <th class="px-4 py-3 text-center">Status</th>
-                                    <th class="px-4 py-3 text-center">Expiry</th>
-                                    <th class="px-4 py-3 text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody ws-hole="SeatsBody" class="divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+                <div ws-replace="NoSubsWidget"></div>
 
-                                <tr ws-template="SeatGroupRow">
-                                    <td colspan="5" class="px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-100">
-                                        <div class="flex items-center justify-between gap-4">
-                                            <div class="text-xs sm:text-sm">Expires on <span ws-replace="Expiry"></span></div>
-                                            <div class="flex items-center gap-2">
-                                                <span class="text-xs text-gray-600 dark:text-gray-300">Renew automatically</span>
-                                                <button ws-onclick="ToggleAutoRenew" class="${ToggleClasses}"><span class="${DotClasses}"></span></button>
+                <div ws-attr="ActiveSubContentAttr" class="space-y-6">
+
+                    <section class="rounded-xl border border-gray-200 overflow-hidden dark:border-gray-800">
+                        <div class="flex flex-wrap items-start justify-between gap-4 px-4 py-4">
+                            <div>
+                                <h2 class="font-semibold text-gray-900 dark:text-white">Add seats</h2>
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">You can add more Professional seats in this section. Each new seat is valid for one year.</p>
+                            </div>
+                            <div>
+                                <button ws-onclick="AddSeatsClick" ws-attr="AddSeatsButtonAttr" class="w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                                    <span class="relative text-sm">Add seats</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-4 overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left">Seat</th>
+                                        <th class="px-4 py-3 text-center">GitHub username</th>
+                                        <th class="px-4 py-3 text-center">Status</th>
+                                        <th class="px-4 py-3 text-center">Expiry</th>
+                                        <th class="px-4 py-3 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody ws-hole="SeatsBody" class="divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+
+                                    <tr ws-template="SeatGroupRow">
+                                        <td colspan="5" class="px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-100">
+                                            <div class="flex items-center justify-between gap-4">
+                                                <div class="text-xs sm:text-sm">Expires on <span ws-replace="Expiry"></span></div>
+                                                <div class="flex items-center gap-2">
+                                                    <span class="text-xs text-gray-600 dark:text-gray-300">Renew automatically</span>
+                                                    <button ws-onclick="ToggleAutoRenew" class="${ToggleClasses}"><span class="${DotClasses}"></span></button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
 
-                                <tr ws-template="SeatRow">
-                                    <td class="px-4 py-3" ws-hole="SeatLabel"></td>
+                                    <tr ws-template="SeatRow">
+                                        <td class="px-4 py-3" ws-hole="SeatLabel"></td>
 
                                     <td class="px-4 py-3">
                                         <div ws-replace="UsernameWidget"></div>
                                     </td>
 
-                                    <td class="px-4 py-3 text-center"><span ws-hole="StatusBadge"></span></td>
+                                        <td class="px-4 py-3 text-center"><span ws-hole="StatusBadge"></span></td>
 
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 text-center" ws-hole="Expiry"></td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 text-center" ws-hole="Expiry"></td>
 
-                                    <td class="px-4 py-3 text-right whitespace-nowrap">
-                                        <button class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20 mr-2" ws-onclick="AssignSeat" ws-attr="AssignButtonAttr">Assign</button>
-                                        <button class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20" ws-onclick="UnassignSeat" ws-attr="UnassignButtonAttr">Unassign</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                                        <td class="px-4 py-3 text-right whitespace-nowrap">
+                                            <button class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20 mr-2" ws-onclick="AssignSeat" ws-attr="AssignButtonAttr">Assign</button>
+                                            <button class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20" ws-onclick="UnassignSeat" ws-attr="UnassignButtonAttr">Unassign</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
 
-                <section class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
-                    <div class="flex items-center justify-between">
-                        <h2 class="font-semibold text-gray-900 dark:text-white">Invoices</h2>
-                        <button ws-onclick="RefreshClick" class="rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white">Refresh</button>
-                    </div>
-                    <div class="mt-4 overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300">
-                                <tr>
-                                    <th class="px-4 py-3 text-left">Invoice</th>
-                                    <th class="px-4 py-3 text-left">Date</th>
-                                    <th class="px-4 py-3 text-left">Amount</th>
-                                    <th class="px-4 py-3 text-left">Status</th>
-                                    <th class="px-4 py-3 text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody ws-hole="InvoiceBody" class="divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
-                                <tr ws-template="InvoiceRow">
-                                    <td class="px-4 py-3">${InvoiceId}</td>
-                                    <td class="px-4 py-3">${Date}</td>
-                                    <td class="px-4 py-3">${Amount}</td>
-                                    <td class="px-4 py-3 capitalize">${Status}</td>
-                                    <td class="px-4 py-3 text-right">
-                                        <a class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20" href="${Href}" target="_blank" rel="noopener">View</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                    <section class="rounded-xl border border-gray-200 p-5 dark:border-gray-800">
+                        <div class="flex items-center justify-between">
+                            <h2 class="font-semibold text-gray-900 dark:text-white">Invoices</h2>
+                            <button ws-onclick="RefreshClick" class="rounded-xl h-10 px-4 border border-gray-300 text-gray-800 dark:border-white/20 dark:text-white">Refresh</button>
+                        </div>
+                        <div class="mt-4 overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left">Invoice</th>
+                                        <th class="px-4 py-3 text-left">Date</th>
+                                        <th class="px-4 py-3 text-left">Amount</th>
+                                        <th class="px-4 py-3 text-left">Status</th>
+                                        <th class="px-4 py-3 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody ws-hole="InvoiceBody" class="divide-y dark:divide-gray-800 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+                                    <tr ws-template="InvoiceRow">
+                                        <td class="px-4 py-3">${InvoiceId}</td>
+                                        <td class="px-4 py-3">${Date}</td>
+                                        <td class="px-4 py-3">${Amount}</td>
+                                        <td class="px-4 py-3 capitalize">${Status}</td>
+                                        <td class="px-4 py-3 text-right">
+                                            <a class="rounded-md border px-2 py-1 text-xs border-gray-300 dark:border-white/20" href="${Href}" target="_blank" rel="noopener">View</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
 
-                <section class="rounded-xl border border-red-200 p-5 dark:border-red-900/60">
-                    <h2 class="font-semibold text-red-700 dark:text-red-400">Danger zone</h2>
-                    <p class="mt-1 text-sm text-red-600 dark:text-red-300">Unassign removes GitHub access for that seat. You can reassign anytime.</p>
-                </section>
+                    <section class="rounded-xl border border-red-200 p-5 dark:border-red-900/60">
+                        <h2 class="font-semibold text-red-700 dark:text-red-400">Danger zone</h2>
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-300">Unassign removes GitHub access for that seat. You can reassign anytime.</p>
+                    </section>
+
+                </div>
             </div>
 
             <div data-page="billing" ws-attr="BillingPageAttr" class="space-y-6 hidden">
