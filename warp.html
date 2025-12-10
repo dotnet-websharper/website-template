@@ -26,6 +26,24 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
 
     <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
+
+    <link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/warp.css"></link>
+<script src="./Scripts/WebSharper/warp.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
+let o1 = wsbundle._c.Create([]);
+o1.$preinit("afe48ca9-f4ab-4df5-9b21-e40e78fb3e07");
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+o1.$init("afe48ca9-f4ab-4df5-9b21-e40e78fb3e07");
+let e2 = document.querySelector("[ws-2]");
+wsbundle.Warp$162$31()(e2);
+o1.$postinit("afe48ca9-f4ab-4df5-9b21-e40e78fb3e07");
+});
+</script>
+
+
     <style>
         .dark .swal2-popup {
             background-color: #030712 !important;
@@ -734,22 +752,5 @@ type Address {
             </div>
         </div>
     </footer>
-
-    <link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/warp.css"></link>
-<script src="./Scripts/WebSharper/warp.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
-let o1 = wsbundle._c.Create([]);
-o1.$preinit("4cdc779d-cd62-479e-b875-f5c64c1c9bea");
-let e1 = document.querySelector("[ws-1]");
-wsbundle.Layout().ReplaceInDom(e1);
-o1.$init("4cdc779d-cd62-479e-b875-f5c64c1c9bea");
-let e2 = document.querySelector("[ws-2]");
-wsbundle.Warp$162$31()(e2);
-o1.$postinit("4cdc779d-cd62-479e-b875-f5c64c1c9bea");
-});
-</script>
-
 </body>
 </html>

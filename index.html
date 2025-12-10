@@ -26,6 +26,28 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
 
     <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
+
+    <link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/home.css"></link>
+<script src="./Scripts/WebSharper/home.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
+let o1 = wsbundle._c.Create([]);
+o1.$preinit("c451e35b-9ac4-4b67-92f8-8289e41991ba");
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+o1.$init("c451e35b-9ac4-4b67-92f8-8289e41991ba");
+let e2 = document.querySelector("[ws-2]");
+wsbundle.Home$123$31()(e2);
+let e3 = document.querySelectorAll("[ws-3]");
+e3.forEach(e => e.addEventListener(e.getAttribute('ws-3'),wsbundle.EventQ2Client("c451e35b-9ac4-4b67-92f8-8289e41991ba",e3,wsbundle.Home$131$33())));
+let e4 = document.querySelectorAll("[ws-4]");
+e4.forEach(e => e.addEventListener(e.getAttribute('ws-4'),wsbundle.EventQ2Client("c451e35b-9ac4-4b67-92f8-8289e41991ba",e4,wsbundle.Home$132$28())));
+o1.$postinit("c451e35b-9ac4-4b67-92f8-8289e41991ba");
+});
+</script>
+
+
     <style>
         .dark .swal2-popup {
             background-color: #030712 !important;
@@ -1872,26 +1894,5 @@ worker.postMessage("Hello, worker!");
             </div>
         </div>
     </footer>
-
-    <link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/home.css"></link>
-<script src="./Scripts/WebSharper/home.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
-let o1 = wsbundle._c.Create([]);
-o1.$preinit("d838b02e-1cf1-4677-8c0a-0c328d765324");
-let e1 = document.querySelector("[ws-1]");
-wsbundle.Layout().ReplaceInDom(e1);
-o1.$init("d838b02e-1cf1-4677-8c0a-0c328d765324");
-let e2 = document.querySelector("[ws-2]");
-wsbundle.Home$123$31()(e2);
-let e3 = document.querySelectorAll("[ws-3]");
-e3.forEach(e => e.addEventListener(e.getAttribute('ws-3'),wsbundle.EventQ2Client("d838b02e-1cf1-4677-8c0a-0c328d765324",e3,wsbundle.Home$131$33())));
-let e4 = document.querySelectorAll("[ws-4]");
-e4.forEach(e => e.addEventListener(e.getAttribute('ws-4'),wsbundle.EventQ2Client("d838b02e-1cf1-4677-8c0a-0c328d765324",e4,wsbundle.Home$132$28())));
-o1.$postinit("d838b02e-1cf1-4677-8c0a-0c328d765324");
-});
-</script>
-
 </body>
 </html>

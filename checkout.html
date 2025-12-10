@@ -26,6 +26,20 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
 
     <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
+
+    <link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/checkout.css"></link>
+<script src="./Scripts/WebSharper/checkout.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+let e2 = document.querySelector("[ws-2]");
+wsbundle.Checkout().ReplaceInDom(e2);
+});
+</script>
+
+
     <style>
         .dark .swal2-popup {
             background-color: #030712 !important;
@@ -388,7 +402,7 @@
                             <button type="button" id="wsMinus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 -
                             </button>
-                            <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1" class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" ws-var="a474e6d4-a952-4f1c-9b20-34a327f44acc::seatstext" />
+                            <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1" class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" ws-var="35971018-1f7e-4db5-ace3-efb4fb43e1f3::seatstext" />
                             <button type="button" id="wsPlus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 +
                             </button>
@@ -580,18 +594,5 @@
             </div>
         </div>
     </footer>
-
-    <link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/checkout.css"></link>
-<script src="./Scripts/WebSharper/checkout.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
-let e1 = document.querySelector("[ws-1]");
-wsbundle.Layout().ReplaceInDom(e1);
-let e2 = document.querySelector("[ws-2]");
-wsbundle.Checkout().ReplaceInDom(e2);
-});
-</script>
-
 </body>
 </html>
