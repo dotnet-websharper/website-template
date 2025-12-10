@@ -83,27 +83,19 @@ module Page =
             if System.String.IsNullOrEmpty current || not exists then
                 CurrentSubIdVar.Value <- subs.[0].id
 
-    let private routePage () =
-        let hash = JS.Window.Location.Hash
-        if hash.ToLower().Contains("billing") then 
-            Views.ShowBillingPage()
-        else 
-            Views.ShowSubsPage()
-
     let private loadAllAfterAuth () =
         async {
             try
-                do! loadSubscriptionsAsync ()
-                chooseCurrentSubscription ()
+                do! loadBillingAsync ()
 
-                //routePage()
+                do! loadSubscriptionsAsync ()                
+                chooseCurrentSubscription ()
             
                 if SubsVar.Value.Length > 0 then
                     do! 
                     Async.Parallel [|
                         loadSeatsAsync ()
                         loadInvoicesAsync ()
-                        loadBillingAsync ()
                         loadCustomerPortalAsync ()
                         loadGitHubOrg ()
                     |] |> Async.Ignore
