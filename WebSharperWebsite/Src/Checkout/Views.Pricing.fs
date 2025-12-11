@@ -76,7 +76,7 @@ module ViewsPricing =
                 |> Option.map (fun p -> float p.unitAmountCents / 100.0)
                 |> Option.defaultValue defaultAmount
 
-            usd amount
+            eur amount
         )
 
     let PlanInterval: View<string> =
@@ -106,9 +106,9 @@ module ViewsPricing =
 
                 match opt with
                 | Some p when p.isPerSeat ->
-                    sprintf "Price is %s per seat per %s." (usd price) every
+                    sprintf "Price is %s per seat per %s." (eur price) every
                 | _ ->
-                    sprintf "Price is %s per %s." (usd price) every
+                    sprintf "Price is %s per %s." (eur price) every
             )
             CurrentPlan
             SelectedIntervalVar.View
@@ -140,7 +140,7 @@ module ViewsPricing =
 
     let Subtotal : View<string> =
         SubtotalRaw
-        |> View.Map usd
+        |> View.Map eur
 
     let TaxesRaw : View<float> =
         View.Map2
@@ -152,7 +152,7 @@ module ViewsPricing =
 
     let Taxes : View<string> =
         TaxesRaw
-        |> View.Map usd
+        |> View.Map eur
 
     let TotalRaw : View<float> =
         View.Map2
@@ -162,7 +162,7 @@ module ViewsPricing =
 
     let Total : View<string> =
         TotalRaw
-        |> View.Map usd
+        |> View.Map eur
 
     open WebSharper.UI.Html
 

@@ -36,8 +36,11 @@ module Utils =
                 yield nodes.Item i :?> HTMLElement
         }
 
-    let usd (n: float) : string =
+    let _usd (n: float) : string =
         "$" + n.ToString("N0", System.Globalization.CultureInfo("en-US"))
+
+    let eur (n: float) : string =
+        "€" + n.ToString("N0", System.Globalization.CultureInfo("en-US"))
 
     let private swalDefaults (title: string) (msg: string) (icon: SweetAlertIcon) =
         SweetAlertOptions(
