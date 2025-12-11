@@ -75,6 +75,15 @@ module Controller =
                 Doc.Empty
         )
 
+    let OnCancelClick () =
+        let referrer = JS.Document.Referrer
+        let currentHost = JS.Window.Location.Hostname
+
+        if not (String.IsNullOrWhiteSpace referrer) && referrer.Contains(currentHost) then
+            JS.Window.History.Back()
+        else
+            JS.Window.Location.Href <- "/support"
+
     let OnContinueClick () : unit =
         match validateForm () with
         | Some msg ->

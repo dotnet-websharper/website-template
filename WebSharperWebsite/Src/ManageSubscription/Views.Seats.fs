@@ -78,7 +78,7 @@ module ViewsSeats =
                             do! refreshSeatsAsync ()
                             showToast "Updated"
                     else
-                        showToast $"GitHub user '{username}' not found"
+                        Utils.alertError $"GitHub user '{username}' not found"
                 finally
                     loading.Value <- false
             }

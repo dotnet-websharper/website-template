@@ -40,22 +40,26 @@ module Utils =
         "$" + n.ToString("N0", System.Globalization.CultureInfo("en-US"))
 
     let private swalDefaults (title: string) (msg: string) (icon: SweetAlertIcon) =
+
         SweetAlertOptions(
             Title = title,
             Text = msg,
             Icon = icon,
+            ShowCloseButton = true,
             ButtonsStyling = false, 
             CustomClass = Union1Of2 (
                 New [
-                    "popup" => "rounded-xl shadow-2xl p-6"
+                    "popup" => "rounded-xl shadow-2xl"
                     
-                    "title" => "text-xl font-bold text-gray-900 dark:text-white mb-1"
+                    "title" => "text-gray-900 dark:text-white"
                     
-                    "htmlContainer" => "text-sm text-gray-600 dark:text-gray-400" 
+                    "htmlContainer" => "text-gray-600 dark:text-gray-400"
                     
-                    "confirmButton" => "inline-flex items-center justify-center rounded-lg h-10 px-4 text-sm font-medium text-white dark:text-gray-950 bg-gray-950 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors ml-2"
+                    "confirmButton" => "inline-flex items-center justify-center rounded-lg h-10 px-6 min-w-[6rem] text-sm font-semibold text-white dark:text-gray-950 bg-gray-950 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2transition-colors shadow-sm ml-2"
                     
-                    "icon" => "transform scale-75 mt-4" 
+                    "cancelButton" => "inline-flex items-center justify-center rounded-lg h-10 px-4 min-w-[5rem] text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-transparent border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-white/5 focus:outline-none transition-colors shadow-sm"
+                    
+                    "icon" => "scale-75" 
                 ] |> As<SweetAlertCustomClass>
             )
         )

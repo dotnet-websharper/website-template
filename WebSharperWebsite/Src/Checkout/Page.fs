@@ -95,6 +95,8 @@ module Page =
                                 .FormErrorDoc(FormErrorDoc)
                                 .ContinueButtonAttr(ContinueButtonAttr())
                                 .ContinueText(Doc.TextView ContinueText.View)
+
+                                .OnCancelClick(fun _ -> OnCancelClick())
                                 .OnContinueClick(fun _ -> OnContinueClick())
                                 .Doc()
                     ) IsLoading.View AuthClient.IsAuthedView
@@ -113,7 +115,7 @@ module Page =
                     |> BindSmoothLoader (
                         BackLinkLabel.View 
                         |> View.Map (fun s -> 
-                            if s.Contains "Manage" then "w-40 h-5 !align-middle" else "w-12 h-5 !align-middle"
+                            if s.ToLower().Contains "account" then "w-24 h-5 !align-middle" else "w-12 h-5 !align-middle"
                         )
                     ) ""
                 )
