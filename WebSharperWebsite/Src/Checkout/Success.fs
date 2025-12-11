@@ -29,7 +29,7 @@ module Success =
 
     let private formatAmount (cents: int) (currency: string) =
         let amount = float cents / 100.0
-        Utils.usd amount
+        Utils.eur amount
 
     let private row (label: string) (value: string) : Doc =
         let v =

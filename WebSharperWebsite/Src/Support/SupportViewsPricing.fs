@@ -31,7 +31,7 @@ module ViewsPricing =
             effectivePrice
             |> View.Map (fun priceOpt ->
                 match priceOpt with
-                | Some price -> usd price.Amount
+                | Some price -> eur price.Amount
                 | None -> "N/A"
             )
 
@@ -52,7 +52,7 @@ module ViewsPricing =
                 match priceInfoOpt with
                 | Some priceInfo -> 
                     let total = priceInfo.Amount * float seats
-                    usd total
+                    eur total
                 | None -> "-"
             ) intervalVar.View effectivePrice seatCountVar.View
 
