@@ -21,8 +21,6 @@
     --color-gray-950: var(--color-slate-950);
 }
 
-@import "./prism-override.css";
-
 :root {
     font-family: "DM Sans", sans-serif;
 }
