@@ -9,45 +9,24 @@ open WebSharper.Core.Resources
 module SnippetCode =
     open Utils
 
-    // CSS side-effect imports (theme + plugin + overrides)
-    do JS.ImportFile "prismjs/themes/prism-dark.css"
-    do JS.ImportFile "prismjs/plugins/line-numbers/prism-line-numbers.css"
-    do JS.ImportFile "./Styles/prism-override.css"
-
-    // JS: default Prism object + language components + plugin
-    let private prism : obj = JS.ImportDefault "prismjs"
-    do JS.ImportFile "prismjs/components/prism-clike.js"
-    do JS.ImportFile "prismjs/components/prism-javascript.js"
-    do JS.ImportFile "prismjs/components/prism-fsharp.js"
-    do JS.ImportFile "prismjs/components/prism-csharp.js"
-    do JS.ImportFile "prismjs/plugins/line-numbers/prism-line-numbers.js"
-
-    // Call Prism.highlightAll()
-    [<Inline "$0.highlightAll()">]
-    let private highlightAll (p: obj) = X<unit>
-
     let Init() = 
-        highlightAll prism
 
-    // Cleaner solution, but needs a WS fix
-    //let Init() = 
+        // CSS side-effect imports (theme + plugin + overrides)
+        JS.ImportFile "prismjs/themes/prism-dark.css"
+        JS.ImportFile "prismjs/plugins/line-numbers/prism-line-numbers.css"
+        JS.ImportFile "./Styles/prism-override.css"
 
-    //    // CSS side-effect imports (theme + plugin + overrides)
-    //    JS.ImportFile "prismjs/themes/prism-dark.css"
-    //    JS.ImportFile "prismjs/plugins/line-numbers/prism-line-numbers.css"
-    //    JS.ImportFile "./Styles/prism-override.css"
+        // JS: needs to be imported before components
+        JS.ImportFile "prismjs"
 
-    //    // JS: needs to be imported before components
-    //    let prism = JS.ImportDefault "prismjs"
+        // JS: default Prism language components + plugin
+        JS.ImportFile "prismjs/components/prism-clike.js"
+        JS.ImportFile "prismjs/components/prism-javascript.js"
+        JS.ImportFile "prismjs/components/prism-fsharp.js"
+        JS.ImportFile "prismjs/components/prism-csharp.js"
+        JS.ImportFile "prismjs/plugins/line-numbers/prism-line-numbers.js"
 
-    //    // JS: default Prism language components + plugin
-    //    JS.ImportFile "prismjs/components/prism-clike.js"
-    //    JS.ImportFile "prismjs/components/prism-javascript.js"
-    //    JS.ImportFile "prismjs/components/prism-fsharp.js"
-    //    JS.ImportFile "prismjs/components/prism-csharp.js"
-    //    JS.ImportFile "prismjs/plugins/line-numbers/prism-line-numbers.js"
-
-    //    prism?highlightAll()
+        (JS.ImportDefault "prismjs")?highlightAll()
 
     // Safe cast to option for nullable DOM values
     let private asOption<'T when 'T : null> (x: 'T) = 
