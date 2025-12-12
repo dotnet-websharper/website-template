@@ -17,7 +17,7 @@ module SnippetCode =
         JS.ImportFile "./Styles/prism-override.css"
 
         // JS: needs to be imported before components
-        JS.ImportFile "prismjs"
+        let prism = JS.ImportDefault "prismjs"
 
         // JS: default Prism language components + plugin
         JS.ImportFile "prismjs/components/prism-clike.js"
@@ -26,7 +26,7 @@ module SnippetCode =
         JS.ImportFile "prismjs/components/prism-csharp.js"
         JS.ImportFile "prismjs/plugins/line-numbers/prism-line-numbers.js"
 
-        (JS.ImportDefault "prismjs")?highlightAll()
+        prism?highlightAll()
 
     // Safe cast to option for nullable DOM values
     let private asOption<'T when 'T : null> (x: 'T) = 
