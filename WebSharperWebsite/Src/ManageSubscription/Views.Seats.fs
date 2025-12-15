@@ -261,7 +261,7 @@ module ViewsSeats =
             )
             .Doc()
 
-    let private groupHeaderDoc (subId: string) (expiry: string) (autoRenew: bool) (status: string) : Doc =
+    let private groupHeaderDoc (subId: string) (expiry: string) (autoRenew: bool) (status: string) (seatCount: int) : Doc =
         let isProcessing = Var.Create false
 
         let baseBtn = "relative inline-flex h-5 w-9 items-center rounded-full border text-xs transition-colors "
@@ -303,11 +303,13 @@ module ViewsSeats =
                     baseDot + "translate-x-0"
             )
 
+        let expiryAndSeats = $"{expiry} ({seatCount} seats)"
+
         Templates.ManageSubscriptionTemplate.SeatGroupRow()
             .ExpiryText(displayText)
-            .Expiry(
-                text expiry 
-                |> BindSmoothLoader "w-24 h-5" isProcessing.View
+            .ExpiryAndSeatCount(
+                text expiryAndSeats
+                |> BindSmoothLoader "w-38 h-5" isProcessing.View
             )
             .GroupStatusBadge(
                 renderGroupStatusBadge status
@@ -370,7 +372,7 @@ module ViewsSeats =
 
                 Doc.Concat [
                     // Always show Header
-                    groupHeaderDoc sub.id expiry autoRenew sub.status
+                    groupHeaderDoc sub.id expiry autoRenew sub.status sub.totalSeats
                     
                     // Conditionally show Rows
                     if not isAccessRevoked then
