@@ -325,13 +325,9 @@ module ViewsSeats =
             .Doc()
 
     let private seatGroupsDoc : Doc =
-        View.Map2 (fun seats (subs: SubRecord array) ->
-            let seatsMap = 
-                seats 
-                |> Array.groupBy (fun s -> s.subscriptionId)
-                |> dict
-
-            let sortedSubs = 
+        let sortedSubIdsView =
+            SubsVar.View
+            |> View.Map (fun subs ->
                 subs
                 |> Array.sortWith (fun a b ->
                     // Score: 0 = Top (Active), 1 = Bottom (Canceled/Unpaid)
@@ -346,44 +342,57 @@ module ViewsSeats =
                     if scoreA <> scoreB then 
                         scoreA.CompareTo(scoreB) // Active first
                     else
-                        // closely expiring active subs are top
                         a.renewsAt.CompareTo(b.renewsAt)
                 )
+                |> Array.map (fun s -> s.id) // Extract ID
+                |> Array.toSeq
+            )
 
-            sortedSubs
-            |> Seq.map (fun sub ->
-                // Get the seats for this subscription (or empty array if none)
-                let groupSeats = 
-                    match seatsMap.TryGetValue(sub.id) with
-                    | true, s -> s |> Array.sortBy (fun x -> x.seatNo)
-                    | false, _ -> [||]
+        Doc.BindSeqCachedBy (fun id -> id) (fun subId ->
+            let mySubView = 
+                SubsVar.View
+                |> View.Map (fun subs -> 
+                    subs 
+                    |> Array.tryFind (fun s -> s.id = subId)
+                    |> Option.defaultValue { 
+                        id = subId; label = ""; plan = ""; totalSeats = 0; 
+                        renewsAt = ""; status = "active" 
+                    }
+                )
 
-                // Determine flags
+            let mySeatsView =
+                SeatsVar.View
+                |> View.Map (fun allSeats ->
+                    allSeats
+                    |> Array.filter (fun s -> s.subscriptionId = subId)
+                    |> Array.sortBy (fun s -> s.seatNo)
+                )
+
+            View.Map2 (fun (sub: SubRecord) (seats: SeatRecord array) ->
+                
                 let isFreelancer = sub.plan.ToLower().Contains("freelancer")
                 let isAccessRevoked = sub.status = "canceled" || sub.status = "unpaid"
-                
+
                 let expiry = 
-                    if groupSeats.Length > 0 then groupSeats.[0].expiry 
+                    if seats.Length > 0 then seats.[0].expiry 
                     else sub.renewsAt
                 
                 let autoRenew = 
-                    if groupSeats.Length > 0 then groupSeats.[0].autoRenew 
+                    if seats.Length > 0 then seats.[0].autoRenew 
                     else false
 
                 Doc.Concat [
-                    // Always show Header
                     groupHeaderDoc sub.id expiry autoRenew sub.status sub.totalSeats
                     
-                    // Conditionally show Rows
                     if not isAccessRevoked then
-                        groupSeats 
-                        |> Array.map (fun s -> seatRowDoc s isFreelancer) 
+                        seats
+                        |> Array.map (fun s -> seatRowDoc s isFreelancer)
                         |> Doc.Concat
                 ]
-            )
-            |> Doc.Concat
-        ) SeatsVar.View SubsVar.View
-        |> Doc.EmbedView
+            ) mySubView mySeatsView
+            |> Doc.EmbedView
+
+        ) sortedSubIdsView
 
     let SeatsBody : Doc =
         seatGroupsDoc
