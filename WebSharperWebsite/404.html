@@ -88,11 +88,11 @@
                 @keyframes swing {
                     0% {
                         transform: rotate(0deg);
-                }
+                    }
 
                     50% {
-                        transform: rotate(10deg);
-                }
+                        transform: rotate(15deg);
+                    }
 
                     100% {
                         transform: rotate(0deg);
@@ -102,19 +102,19 @@
                 .leg-animation {
                     transform-box: fill-box;
                     transform-origin: top left;
-                    animation: swing 0.8s ease-in-out infinite;
+                    animation: swing 0.15s ease-in-out infinite;
                 }
 
                 .leg-animation-delay {
-                    animation-delay: 0.4s;
+                    animation-delay: 0.07s;
                 }
             </style>
 
-            <div class="flex-grow flex flex-col items-center justify-center p-4 relative z-10 text-center mt-16 sm:mt-24">
+            <div class="flex-grow flex flex-col items-center justify-center p-6 relative z-10 text-center mt-16 sm:mt-24">
 
                 <div class="relative w-full max-w-2xl mx-auto mb-8">
-                    
-                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[80%] text-[35vw] sm:text-[26rem] font-bold text-gray-200 dark:text-gray-800 opacity-60 leading-none select-none pointer-events-none z-0">
+
+                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[80%] text-[35vw] sm:text-[26rem] font-bold text-gray-300 dark:text-gray-800 opacity-60 leading-none select-none pointer-events-none z-0">
                         error
                     </span>
 
@@ -207,7 +207,7 @@
                 </div>
             </div>
 
-            <div class="w-full py-4 text-center text-sm text-gray-400 dark:text-gray-500 z-10">
+            <div class="w-full py-6 text-center text-sm text-gray-400 dark:text-gray-500 z-10">
                 WebSharper &copy; 2008-2025 IntelliFactory. All rights reserved.
             </div>
 
