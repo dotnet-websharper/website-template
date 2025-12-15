@@ -97,22 +97,44 @@ module ViewsSeats =
         }
         |> Async.StartImmediate
 
+    let private updateSeatsState (subId: string) (expiry: string) (newAutoRenew: bool) =
+        let updatedSeats =
+            SeatsVar.Value
+            |> Array.map (fun s ->
+                if s.subscriptionId = subId && s.expiry = expiry then
+                    { s with autoRenew = newAutoRenew }
+                else
+                    s
+            )
+        SeatsVar.Value <- updatedSeats
+
+    let private updateSubsState (subId: string) (newCancelAtPeriodEnd: bool) =
+        let updatedSubs =
+            SubsVar.Value
+            |> Array.map (fun s ->
+                if s.id = subId then
+                    let newStatus = Utils.calculateNewStatus s.status newCancelAtPeriodEnd
+                    { s with status = newStatus }
+                else
+                    s
+            )
+        SubsVar.Value <- updatedSubs
+
     let private toggleAutoRenew (subId: string) (expiry: string) (currentAutoRenew: bool) (loading: Var<bool>) =
         async {
             loading.Value <- true
             try
-                let newAuto = not currentAutoRenew
-                let updatedSeats =
-                    SeatsVar.Value
-                    |> Array.map (fun s ->
-                        if s.subscriptionId = subId && s.expiry = expiry then
-                            { s with autoRenew = newAuto }
-                        else
-                            s
-                    )
-                SeatsVar.Value <- updatedSeats
-                let! ok = Api.SetAutoRenew subId currentAutoRenew
-                if ok then showToast "Updated"
+                let setCancelAtPeriodEnd = currentAutoRenew 
+                let! ok = Api.SetAutoRenew subId setCancelAtPeriodEnd
+            
+                if ok then
+                    let newAutoRenew = not currentAutoRenew
+                    let newCancelAtPeriodEnd = not newAutoRenew
+
+                    updateSeatsState subId expiry newAutoRenew
+                    updateSubsState subId newCancelAtPeriodEnd
+
+                    showToast "Updated"
             finally
                 loading.Value <- false
         }
@@ -177,6 +199,27 @@ module ViewsSeats =
     // Template docs
     // -----------------------------
 
+    let private renderGroupStatusBadge (status: string) : Doc =
+        let statusLower = status.ToLower()
+        let baseStyle = "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border"
+
+        let colorStyle =
+            match statusLower with
+            | "active" -> 
+                "bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-900/50"
+            | "past_due" -> 
+                "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-900/50"
+            | "unpaid" -> 
+                "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-900/50"
+            | "canceled" -> 
+                "bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
+            | _ -> 
+                "bg-blue-50 text-blue-600 border-blue-100"
+
+        span [ attr.``class`` (baseStyle + " " + colorStyle) ] [
+            text (status.Replace("_", " "))
+        ]
+
     let private seatRowDoc (seat: SeatRecord) (isLocked: bool) : Doc =
         let isProcessing = Var.Create false
                 
@@ -217,26 +260,44 @@ module ViewsSeats =
             )
             .Doc()
 
-    let private groupHeaderDoc (subId: string) (expiry: string) (autoRenew: bool) : Doc =
+    let private groupHeaderDoc (subId: string) (expiry: string) (autoRenew: bool) (status: string) : Doc =
         let isProcessing = Var.Create false
 
         let baseBtn = "relative inline-flex h-5 w-9 items-center rounded-full border text-xs transition-colors "
-        let btnClasses =
-            if autoRenew then baseBtn + "bg-emerald-500 border-emerald-500"
-            else baseBtn + "bg-gray-300 border-gray-400 dark:bg-gray-700 dark:border-gray-600"
-
         let baseDot = "inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform "
-        let dotClasses =
-            if autoRenew then baseDot + "translate-x-4"
-            else baseDot + "translate-x-0"
+
+        let toggleClassesView = 
+            isProcessing.View
+            |> View.Map (fun loading ->
+                if loading then
+                    baseBtn + "bg-gray-200 border-gray-200 dark:bg-gray-700 dark:border-gray-700 animate-pulse pointer-events-none cursor-wait"
+                else
+                    if autoRenew then baseBtn + "bg-emerald-500 border-emerald-500"
+                    else baseBtn + "bg-gray-300 border-gray-400 dark:bg-gray-700 dark:border-gray-600"
+            )
+
+        let dotClassesView = 
+            isProcessing.View
+            |> View.Map (fun loading ->
+                if loading then
+                    baseDot + "translate-x-0 opacity-50"
+                elif autoRenew then 
+                    baseDot + "translate-x-4"
+                else 
+                    baseDot + "translate-x-0"
+            )
 
         Templates.ManageSubscriptionTemplate.SeatGroupRow()
             .Expiry(
                 text expiry 
                 |> BindSmoothLoader "w-24 h-5" isProcessing.View
             )
-            .ToggleClasses(btnClasses)
-            .DotClasses(dotClasses)
+            .GroupStatusBadge(
+                renderGroupStatusBadge status
+                |> BindSmoothLoader "w-20 h-5" isProcessing.View
+            )
+            .ToggleClasses(toggleClassesView)
+            .DotClasses(dotClassesView)
             .ToggleAutoRenew(fun _ -> 
                 toggleAutoRenew subId expiry autoRenew isProcessing
             )
@@ -257,13 +318,18 @@ module ViewsSeats =
                     let isFreelancer = 
                         match subOption with
                         | Some s -> s.plan.ToLower().Contains("freelancer")
-                        | None -> false
+                        | None -> false 
+
+                    let subStatus = 
+                        match subOption with
+                        | Some s -> s.status
+                        | None -> "active"
 
                     let expiry = groupSeats.[0].expiry
-                    let autoRenew = groupSeats.[0].autoRenew
+                    let autoRenew = groupSeats.[0].autoRenew 
                     
                     seq {
-                        yield groupHeaderDoc subId expiry autoRenew
+                        yield groupHeaderDoc subId expiry autoRenew subStatus
                         yield! groupSeats |> Seq.map (fun s -> seatRowDoc s isFreelancer)
                     })
             |> Doc.Concat)

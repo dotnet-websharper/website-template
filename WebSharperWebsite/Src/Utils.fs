@@ -28,6 +28,14 @@ module Utils =
     [<Literal>]
     let SupportPlansUrl = "/support#plans"
 
+    let calculateNewStatus (currentStatus: string) (willCancelAtPeriodEnd: bool) =
+        if currentStatus = "past_due" || currentStatus = "unpaid" then 
+            currentStatus
+        elif willCancelAtPeriodEnd then 
+            "canceling"
+        else 
+            "active"
+
     let byId (id: string) = JS.Document.GetElementById id
 
     let queryAll (root: Element) (selector: string) : seq<HTMLElement> =

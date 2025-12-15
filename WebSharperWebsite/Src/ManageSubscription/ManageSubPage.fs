@@ -133,7 +133,26 @@ module Page =
         |> View.Map (fun p -> p <> Views.Page.Billing)
         |> fun v -> Attr.DynamicClassPred "hidden" v
 
-    let private renderContent loading loggedIn (subs: SubRecord array) = 
+    let private renderPastDueWidget (subs: SubRecord array) =
+        let isPastDue = subs |> Array.exists (fun s -> s.status = "past_due")
+        if isPastDue then
+            Templates.ManageSubscriptionTemplate.PastDueAlert()
+                .UpdatePaymentClick(fun _ -> Views.OpenCustomerPortal())
+                .Doc()
+        else
+            Doc.Empty
+
+    let private renderNoSubsWidget (hasSubs: bool) =
+        if not hasSubs then
+            Templates.ManageSubscriptionTemplate.NoSubscriptionWidget()
+                .OnSubscribeClick(fun _ -> 
+                    JS.Window.Location.Href <- Utils.SupportPlansUrl
+                )
+                .Doc()
+        else 
+            Doc.Empty
+
+    let private renderContent (loading: bool) (loggedIn: bool) (subs: SubRecord array) = 
         
         if loading then 
             Templates.ManageSubscriptionTemplate.Skeleton().Doc()
@@ -145,6 +164,8 @@ module Page =
         
         else
             let hasSubs = subs.Length > 0
+            
+            let showIfSubs = if hasSubs then Attr.Empty else attr.``class`` "hidden"
 
             Templates.ManageSubscriptionTemplate.AuthenticatedContent()
                  // Navigation & Page Switching
@@ -155,22 +176,12 @@ module Page =
                 .SubsPageAttr(subsPageAttr())
                 .BillingPageAttr(billingPageAttr())
 
-                .NoSubsWidget(
-                    if not hasSubs then
-                        Templates.ManageSubscriptionTemplate.NoSubscriptionWidget()
-                            .OnSubscribeClick(fun _ -> 
-                                JS.Window.Location.Href <- Utils.SupportPlansUrl
-                            )
-                            .Doc()
-                    else 
-                        Doc.Empty
-                )
-                .OpenCustomerPortalAttr(
-                    if hasSubs then Attr.Empty else attr.``class`` "hidden"
-                )
-                .ActiveSubContentAttr(
-                    if hasSubs then Attr.Empty else attr.``class`` "hidden"
-                )
+                // Dynamic Widgets
+                .PastDueWidget(renderPastDueWidget subs)
+                .NoSubsWidget(renderNoSubsWidget hasSubs)
+
+                .OpenCustomerPortalAttr(showIfSubs)
+                .ActiveSubContentAttr(showIfSubs)
 
                 .GitHubOrg(ViewsGitHub.GitHubBody)
                 .OpenCustomerPortal(fun _ -> Views.OpenCustomerPortal())
