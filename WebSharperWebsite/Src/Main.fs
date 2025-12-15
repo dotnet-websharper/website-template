@@ -15,6 +15,7 @@ type EndPoint =
     | [<EndPoint "GET /invoice">] Invoice
     | [<EndPoint "GET /account">] MyAccount
     | [<EndPoint "GET /success">] Success
+    | [<EndPoint "GET /404">] NotFound
 
 module Templating =
     open WebSharper.UI.Html
@@ -24,7 +25,8 @@ module Templating =
         | EndPoint.Checkout
         | EndPoint.Error
         | EndPoint.Success
-        | EndPoint.Invoice -> true
+        | EndPoint.Invoice
+        | EndPoint.NotFound -> true
         | _ -> false
 
     let private hideIf condition =
@@ -34,7 +36,7 @@ module Templating =
             Attr.Empty
 
     let Layout (endpoint: EndPoint) (body: Doc list) =
-        Content.BundleScopes [| "home"; "features"; "support"; "warp"; "checkout"; "error"; "invoice"; "account"; "success" |] (
+        Content.BundleScopes [| "home"; "features"; "support"; "warp"; "checkout"; "error"; "invoice"; "account"; "success"; "404" |] (
             Templates.LayoutTemplate()
                 .Body(
                     client (ClientPages.Layout()) :: body
@@ -119,6 +121,14 @@ module Site =
             Bundle = "success"
         )
 
+    let NotFoundPage =
+        Content.Page(
+            Templating.Layout EndPoint.NotFound [
+                ServerPages.NotFound()
+            ],
+            Bundle = "404"
+        )
+
     [<Website>]
     let Main =
         Application.MultiPage (fun ctx action ->
@@ -132,6 +142,7 @@ module Site =
             | Invoice -> InvoicePage
             | MyAccount -> MyAccountPage
             | Success -> SuccessPage
+            | NotFound -> NotFoundPage
         )
 
 [<Sealed>]
@@ -143,8 +154,8 @@ type Website() =
                 "LogBundleChoice", "true" 
             ]
         member this.Actions = [
-            Home; Features; Support; Warp;
-            Checkout; Error; Invoice; MyAccount; Success
+            Home; Features; Support; Warp; Checkout 
+            Error; Invoice; MyAccount; Success; NotFound
         ]
 
 [<assembly: Website(typeof<Website>)>]

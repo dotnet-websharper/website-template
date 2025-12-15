@@ -165,3 +165,9 @@ module ServerPages =
                 )
                 .Doc()
         )
+
+    let NotFound () =
+        Content.BundleScope "404" (
+            Templates.NotFoundTemplate.Content()
+                .Doc()
+        )

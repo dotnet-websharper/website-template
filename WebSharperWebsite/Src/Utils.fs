@@ -18,6 +18,7 @@ module Templates =
     type InvoiceTemplate = Template<"Invoice.html">
     type ManageSubscriptionTemplate = Template<"ManageSubscription.html">
     type SuccessTemplate = Template<"Success.html">
+    type NotFoundTemplate = Template<"404.html">
 
 [<JavaScript>]
 module Utils = 
