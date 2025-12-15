@@ -28,13 +28,20 @@ module Utils =
     [<Literal>]
     let SupportPlansUrl = "/support#plans"
 
-    let calculateNewStatus (currentStatus: string) (willCancelAtPeriodEnd: bool) =
-        if currentStatus = "past_due" || currentStatus = "unpaid" then 
+    let calculateNewStatus (currentStatus: string) (isCanceling: bool) =
+        match currentStatus with
+        | "past_due" | "unpaid" -> 
             currentStatus
-        elif willCancelAtPeriodEnd then 
+    
+        | _ when isCanceling -> 
             "canceling"
-        else 
+
+        // If not canceling, and not past_due or unpaid, then active - for toggle renew
+        | "canceling" -> 
             "active"
+        
+        | _ -> 
+            currentStatus
 
     let byId (id: string) = JS.Document.GetElementById id
 

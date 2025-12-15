@@ -114,6 +114,7 @@ module ViewsSeats =
             |> Array.map (fun s ->
                 if s.id = subId then
                     let newStatus = Utils.calculateNewStatus s.status newCancelAtPeriodEnd
+
                     { s with status = newStatus }
                 else
                     s
@@ -266,6 +267,21 @@ module ViewsSeats =
         let baseBtn = "relative inline-flex h-5 w-9 items-center rounded-full border text-xs transition-colors "
         let baseDot = "inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform "
 
+        let isHidden = 
+            status = "canceled" || status = "unpaid"
+
+        let displayText = 
+            if isHidden then 
+                "Expired"
+            else 
+                "Expires"
+
+        let wrapperAttr = 
+            if isHidden then 
+                attr.``class`` "hidden"
+            else 
+                Attr.Empty
+
         let toggleClassesView = 
             isProcessing.View
             |> View.Map (fun loading ->
@@ -288,6 +304,7 @@ module ViewsSeats =
             )
 
         Templates.ManageSubscriptionTemplate.SeatGroupRow()
+            .ExpiryText(displayText)
             .Expiry(
                 text expiry 
                 |> BindSmoothLoader "w-24 h-5" isProcessing.View
@@ -296,44 +313,74 @@ module ViewsSeats =
                 renderGroupStatusBadge status
                 |> BindSmoothLoader "w-20 h-5" isProcessing.View
             )
+            .AutoRenewWrapper(wrapperAttr)
             .ToggleClasses(toggleClassesView)
             .DotClasses(dotClassesView)
             .ToggleAutoRenew(fun _ -> 
-                toggleAutoRenew subId expiry autoRenew isProcessing
+                if not isHidden then
+                    toggleAutoRenew subId expiry autoRenew isProcessing
             )
             .Doc()
 
     let private seatGroupsDoc : Doc =
         View.Map2 (fun seats (subs: SubRecord array) ->
-            seats
-            |> Seq.sortBy (fun s -> s.expiry, s.subscriptionId, s.seatNo)
-            |> Seq.groupBy (fun s -> s.subscriptionId)
-            |> Seq.collect (fun (subId, groupSeatsSeq) ->
-                let groupSeats = groupSeatsSeq |> Seq.toArray
-                if groupSeats.Length = 0 then
-                    Seq.empty
-                else
-                    let subOption = subs |> Array.tryFind (fun s -> s.id = subId.ToLower())
-                    
-                    let isFreelancer = 
-                        match subOption with
-                        | Some s -> s.plan.ToLower().Contains("freelancer")
-                        | None -> false 
+            let seatsMap = 
+                seats 
+                |> Array.groupBy (fun s -> s.subscriptionId)
+                |> dict
 
-                    let subStatus = 
-                        match subOption with
-                        | Some s -> s.status
-                        | None -> "active"
-
-                    let expiry = groupSeats.[0].expiry
-                    let autoRenew = groupSeats.[0].autoRenew 
+            let sortedSubs = 
+                subs
+                |> Array.sortWith (fun a b ->
+                    // Score: 0 = Top (Active), 1 = Bottom (Canceled/Unpaid)
+                    let getScore status = 
+                        match status with
+                        | "canceled" | "unpaid" -> 1 
+                        | _ -> 0 
                     
-                    seq {
-                        yield groupHeaderDoc subId expiry autoRenew subStatus
-                        yield! groupSeats |> Seq.map (fun s -> seatRowDoc s isFreelancer)
-                    })
-            |> Doc.Concat)
-            SeatsVar.View SubsVar.View
+                    let scoreA = getScore a.status
+                    let scoreB = getScore b.status
+                    
+                    if scoreA <> scoreB then 
+                        scoreA.CompareTo(scoreB) // Active first
+                    else
+                        // closely expiring active subs are top
+                        a.renewsAt.CompareTo(b.renewsAt)
+                )
+
+            sortedSubs
+            |> Seq.map (fun sub ->
+                // Get the seats for this subscription (or empty array if none)
+                let groupSeats = 
+                    match seatsMap.TryGetValue(sub.id) with
+                    | true, s -> s |> Array.sortBy (fun x -> x.seatNo)
+                    | false, _ -> [||]
+
+                // Determine flags
+                let isFreelancer = sub.plan.ToLower().Contains("freelancer")
+                let isAccessRevoked = sub.status = "canceled" || sub.status = "unpaid"
+                
+                let expiry = 
+                    if groupSeats.Length > 0 then groupSeats.[0].expiry 
+                    else sub.renewsAt
+                
+                let autoRenew = 
+                    if groupSeats.Length > 0 then groupSeats.[0].autoRenew 
+                    else false
+
+                Doc.Concat [
+                    // Always show Header
+                    groupHeaderDoc sub.id expiry autoRenew sub.status
+                    
+                    // Conditionally show Rows
+                    if not isAccessRevoked then
+                        groupSeats 
+                        |> Array.map (fun s -> seatRowDoc s isFreelancer) 
+                        |> Doc.Concat
+                ]
+            )
+            |> Doc.Concat
+        ) SeatsVar.View SubsVar.View
         |> Doc.EmbedView
 
     let SeatsBody : Doc =
