@@ -42,6 +42,10 @@ module ViewsInvoices =
 
     let private invoicesDoc : Doc =
         invoicesModel.View
+        |> View.Map (fun invoices ->
+            invoices
+            |> Seq.sortWith (fun a b -> b.date.CompareTo(a.date))
+        )
         |> Doc.BindSeqCachedViewBy (fun i -> i.id) invoiceRowV
 
     let InvoicesBody : Doc =

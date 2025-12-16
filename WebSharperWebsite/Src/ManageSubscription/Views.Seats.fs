@@ -341,7 +341,7 @@ module ViewsSeats =
                     if scoreA <> scoreB then 
                         scoreA.CompareTo(scoreB) // Active first
                     else
-                        a.renewsAt.CompareTo(b.renewsAt)
+                        b.renewsAt.CompareTo(a.renewsAt)
                 )
                 |> Array.map (fun s -> s.id) // Extract ID
                 |> Array.toSeq
