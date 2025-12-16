@@ -2,5 +2,5 @@
   "$schema": "https://websharper.com/wsconfig.schema.json",
   "project": "html",
   "outputDir": "build",
-  "standalone": true
+  "standalone": false
 }

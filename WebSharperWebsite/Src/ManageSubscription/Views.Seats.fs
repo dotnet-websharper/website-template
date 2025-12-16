@@ -113,9 +113,7 @@ module ViewsSeats =
             SubsVar.Value
             |> Array.map (fun s ->
                 if s.id = subId then
-                    let newStatus = Utils.calculateNewStatus s.status newCancelAtPeriodEnd
-
-                    { s with status = newStatus }
+                    { s with status = s.status }
                 else
                     s
             )
@@ -273,8 +271,12 @@ module ViewsSeats =
         let displayText = 
             if isHidden then 
                 "Expired"
+            elif not autoRenew then
+                "Expires" 
             else 
-                "Expires"
+                "Renews"
+
+        let expiryAndSeats = $"{displayText} on {expiry} ({seatCount} seats)"
 
         let wrapperAttr = 
             if isHidden then 
@@ -303,13 +305,10 @@ module ViewsSeats =
                     baseDot + "translate-x-0"
             )
 
-        let expiryAndSeats = $"{expiry} ({seatCount} seats)"
-
         Templates.ManageSubscriptionTemplate.SeatGroupRow()
-            .ExpiryText(displayText)
             .ExpiryAndSeatCount(
                 text expiryAndSeats
-                |> BindSmoothLoader "w-38 h-5" isProcessing.View
+                |> BindSmoothLoader "w-58 h-5" isProcessing.View
             )
             .GroupStatusBadge(
                 renderGroupStatusBadge status

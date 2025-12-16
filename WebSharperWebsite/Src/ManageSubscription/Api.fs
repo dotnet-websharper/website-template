@@ -21,7 +21,7 @@ module Api =
             plan = subscription.planName
             totalSeats = subscription.seats
             renewsAt = subscription.currentPeriodEnd
-            status = Utils.calculateNewStatus subscription.status subscription.cancelAtPeriodEnd
+            status = subscription.status
         }
 
     let private seatsFromSubscription (subscription: Subscription) : SeatRecord array =
