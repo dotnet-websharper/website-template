@@ -4,6 +4,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
 open WebSharper.UI.Client
+open WebSharper.Sitelets
 
 [<JavaScript>]
 module ClientPages =
@@ -113,29 +114,14 @@ module ClientPages =
                 .MessageText(Html.text "Confirming your payment…")
                 .Doc()
 
-module ServerPages =
+    let Features () =
+        Features.FeaturesDoc()
 
-    open WebSharper.Sitelets
+module ServerPages =
 
     let Home () =
         Content.BundleScope "home" (
             Templates.HomeTemplate.Content()
-                .OnAfterRender(fun () ->
-                    VideoPlayer.Init("ws-template")
-
-                    Theme.Init()
-                    SnippetCode.Init()
-
-                    SnippetCode.InitTabs() 
-                )
-                .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
-                .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
-                .Doc()
-        )
-
-    let Features () =
-        Content.BundleScope "features" (
-            Templates.FeaturesTemplate.Content()
                 .OnAfterRender(fun () ->
                     VideoPlayer.Init("ws-template")
 

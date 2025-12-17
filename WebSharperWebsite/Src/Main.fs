@@ -60,7 +60,7 @@ module Site =
     let FeaturesPage =
         Content.Page(
             Templating.Layout EndPoint.Features [
-                ServerPages.Features()
+                hydrate (ClientPages.Features())
             ],
             Bundle = "features"
         )

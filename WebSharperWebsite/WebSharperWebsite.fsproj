@@ -48,7 +48,8 @@
     <Compile Include="Src\AccountMenu.fs" />
     <Compile Include="Src\VideoPlayer.fs" />
     <Compile Include="Src\Clipboard.fs" />
-    <Compile Include="Src\Theme.fs" />    
+    <Compile Include="Src\Theme.fs" />
+    <Compile Include="Src\Features.fs" />    
     <Compile Include="Src\Pages.fs" />
     <Compile Include="Src\Main.fs" />
     <Content Include="Styles\app.css" />
@@ -61,6 +62,7 @@
     <Content Include="Checkout.html" />
     <Content Include="Error.html" />
     <Content Include="Invoice.html" />
+	<Content Include="Features.html" />
     <Content Include="ManageSubscription.html" />
     <Content Include="Success.html" />
     <None Include="extra.files" />
