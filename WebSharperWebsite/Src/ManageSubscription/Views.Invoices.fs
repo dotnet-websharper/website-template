@@ -32,8 +32,6 @@ module ViewsInvoices =
                 + JS.EncodeURIComponent inv.id
             )
 
-        Console.Log("Rendering invoice row for invoice id: ", key)
-
         Templates.ManageSubscriptionTemplate.InvoiceRow()
             .InvoiceId(invoiceV |> View.Map (fun i -> i.id))
             .Date(invoiceV |> View.Map (fun i -> i.date))

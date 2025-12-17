@@ -342,8 +342,6 @@ module ViewsSeats =
             let isFreelancer = subData.planName.ToLower().Contains("freelancer")
             let isAccessRevoked = subData.status = "canceled" || subData.status = "unpaid"
 
-            Console.Log("Rendering seats for subscription", sub)
-
             Doc.Concat [
                 groupHeaderDoc sub
 
