@@ -2,29 +2,27 @@
 
 open WebSharper
 open WebSharperWebsite.Checkout
+open WebSharper.UI
 
 [<JavaScript>]
 module Types =
 
     module CT = WebSharperWebsite.Checkout.Types
     type User = WebSharperWebApi.User
-
-    type SubRecord = {
-        id: string
-        label: string
-        plan: string
-        totalSeats: int
-        renewsAt: string
-        status: string
-    }
-
+    type Subscription = WebSharperWebApi.Subscription
+    
     type SeatRecord = {
         seatNo: int
-        username: string
-        mutable status: string
-        expiry: string
-        autoRenew: bool
-        subscriptionId: string
+        username: Var<string>
+        isAssigned: Var<bool>
+        isProcessing: Var<bool>
+    }
+
+    type SubRecord = {
+        data: Subscription
+        autoRenew: Var<bool>
+        isProcessing: Var<bool>
+        seats: SeatRecord[]
     }
 
     type InvoiceRecord = {
@@ -41,13 +39,4 @@ module Types =
     type BillingRecord = {
         company: CT.CompanyInfo option
         address: CT.BillingAddress
-    }
-
-    type State = {
-        user: User option
-        subs: SubRecord array
-        currentSubId: string
-        seats: SeatRecord array
-        invoices: InvoiceRecord array
-        billing: BillingRecord option
     }

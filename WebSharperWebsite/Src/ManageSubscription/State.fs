@@ -1,5 +1,6 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
+open System
 open WebSharper
 open WebSharper.UI
 open Types
@@ -7,41 +8,17 @@ open Types
 [<JavaScript>]
 module State =
 
-    type Model = Types.State
-
-    let StateVar : Var<Model> =
-        Var.Create {
-            user = None
-            subs = [||]
-            currentSubId = ""
-            seats = [||]
-            invoices = [||]
-            billing = None
-        }
-
-
     let UserVar : Var<User option> =
-        StateVar.LensAuto (fun s -> s.user)
+        Var.Create None
         
-
-    let SubsVar : Var<SubRecord array> =
-        StateVar.LensAuto (fun s -> s.subs)
+    let SubsVar : Var<SubRecord[]> =
+        Var.Create [||]
         
-
-    let CurrentSubIdVar : Var<string> =
-        StateVar.LensAuto (fun s -> s.currentSubId)
-        
-
-    let SeatsVar : Var<SeatRecord array> =
-        StateVar.LensAuto (fun s -> s.seats)
-        
-
     let InvoicesVar : Var<InvoiceRecord array> =
-        StateVar.LensAuto (fun s -> s.invoices)
-        
+        Var.Create [||]
 
     let BillingVar : Var<BillingRecord option> =
-        StateVar.LensAuto (fun s -> s.billing)
+        Var.Create None
 
     let CustomerPortalLinkVar : Var<option<string>> = Var.Create None        
 

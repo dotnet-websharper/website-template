@@ -1,5 +1,6 @@
 ﻿namespace WebSharperWebsite.ManageSubscription
 
+open System
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
@@ -14,20 +15,6 @@ open WebSharperWebsite
 
 [<JavaScript>]
 module ViewsSeats =
-
-    type SeatStatus =
-        | Assigned
-        | Unassigned
-
-        member this.AsString =
-            match this with
-            | Assigned -> "assigned"
-            | Unassigned -> "unassigned"
-
-        static member FromString (s: string) =
-            match s.ToLower() with
-            | "assigned" -> Assigned
-            | _ -> Unassigned
 
     let BindSmoothLoader (widthClass: string) (isLoading: View<bool>) (content: Doc) =
         Templates.ManageSubscriptionTemplate.SmoothTextLoader()
@@ -47,14 +34,58 @@ module ViewsSeats =
             .Content(content)
             .Doc()
 
-    let private refreshSeatsAsync () =
+    let RefreshSubsAndSeats () =
         async {
-            let! newSeats = Api.GetAllSeats ()
-            SeatsVar.Value <- newSeats
-        }
+            let! subs = Api.GetSubscriptions()
 
-    let RefreshSeats () =
-        refreshSeatsAsync () |> Async.StartImmediate
+            let sortedSubs =
+                subs
+                |> Array.sortBy (fun sub ->
+                    // Score: 0 = Top (Active), 1 = Bottom (Canceled/Unpaid)                    
+                    let score =
+                        match sub.status with
+                        | "canceled" | "unpaid" -> 1 
+                        | _ -> 0 
+                  
+                    score, sub.currentPeriodEnd
+                )
+
+            let subsWithSeats =
+                sortedSubs
+                |> Array.map (fun sub ->
+                    // if existing subscription, try to reuse existing seat records to preserve UI state
+                    match SubsVar.Value |> Array.tryFind (fun s -> s.data.subscriptionId = sub.subscriptionId) with 
+                    | Some existingSub when sub.githubAssignedNames.Length = existingSub.seats.Length  ->
+                        { existingSub with
+                            data = sub
+                            seats = 
+                                (sub.githubAssignedNames, existingSub.seats) 
+                                ||> Array.iter2 (fun a seat ->
+                                    seat.username.Value <- a |> Option.defaultValue ""
+                                    seat.isAssigned.Value <- Option.isSome a
+                                )
+                                existingSub.seats
+                        }
+                    | _ ->
+                        {
+                            data = sub
+                            autoRenew = Var.Create (not sub.cancelAtPeriodEnd)
+                            isProcessing = Var.Create false
+                            seats = 
+                                sub.githubAssignedNames
+                                |> Array.mapi (fun i a ->
+                                    {
+                                        seatNo = i + 1
+                                        username = Var.Create (a |> Option.defaultValue "")
+                                        isAssigned = Var.Create (Option.isSome a)
+                                        isProcessing = Var.Create false
+                                    }
+                                )
+                        }
+                )
+
+            SubsVar.Value <- subsWithSeats
+        }
 
     // -----------------------------
     // Actions
@@ -66,76 +97,50 @@ module ViewsSeats =
             return response.Ok
         }
 
-    let private assignSeat (subId: string) (seatNo: int) (username: string) (loading: Var<bool>) =
+    let private assignSeat (subId: Guid) (seat: SeatRecord) (username: string) =
         if not (System.String.IsNullOrWhiteSpace username) then
             async {
-                loading.Value <- true
+                seat.isProcessing.Value <- true
                 try
                     let! exists = verifyGitHubUser username
                     if exists then
-                        let! ok = Api.AssignSeat subId seatNo username
+                        let! ok = Api.AssignSeat subId seat.seatNo username
                         if ok then
-                            do! refreshSeatsAsync ()
+                            seat.isAssigned.Value <- true
                             showToast "Updated"
                     else
                         Utils.alertError $"GitHub user '{username}' not found"
                 finally
-                    loading.Value <- false
+                    seat.isProcessing.Value <- false
             }
             |> Async.StartImmediate
 
-    let private unassignSeat (subId: string) (seatNo: int) (loading: Var<bool>) =
+    let private unassignSeat (subId: Guid) (seat: SeatRecord) (username: string) =
         async {
-            loading.Value <- true
+            seat.isProcessing.Value <- true
             try
-                let! ok = Api.UnassignSeat subId seatNo
+                let! ok = Api.UnassignSeat subId seat.seatNo username
                 if ok then
-                    do! refreshSeatsAsync ()
+                    seat.username.Value <- ""
+                    seat.isAssigned.Value <- false
                     showToast "Updated"
             finally
-                loading.Value <- false
+                seat.isProcessing.Value <- false
         }
         |> Async.StartImmediate
 
-    let private updateSeatsState (subId: string) (expiry: string) (newAutoRenew: bool) =
-        let updatedSeats =
-            SeatsVar.Value
-            |> Array.map (fun s ->
-                if s.subscriptionId = subId && s.expiry = expiry then
-                    { s with autoRenew = newAutoRenew }
-                else
-                    s
-            )
-        SeatsVar.Value <- updatedSeats
-
-    let private updateSubsState (subId: string) (newCancelAtPeriodEnd: bool) =
-        let updatedSubs =
-            SubsVar.Value
-            |> Array.map (fun s ->
-                if s.id = subId then
-                    { s with status = s.status }
-                else
-                    s
-            )
-        SubsVar.Value <- updatedSubs
-
-    let private toggleAutoRenew (subId: string) (expiry: string) (currentAutoRenew: bool) (loading: Var<bool>) =
+    let private toggleAutoRenew (sub: SubRecord) =
         async {
-            loading.Value <- true
+            sub.isProcessing.Value <- true
             try
-                let setCancelAtPeriodEnd = currentAutoRenew 
-                let! ok = Api.SetAutoRenew subId setCancelAtPeriodEnd
+                let setCancelAtPeriodEnd = sub.autoRenew.Value
+                let! ok = Api.SetAutoRenew sub.data.subscriptionId setCancelAtPeriodEnd
             
                 if ok then
-                    let newAutoRenew = not currentAutoRenew
-                    let newCancelAtPeriodEnd = not newAutoRenew
-
-                    updateSeatsState subId expiry newAutoRenew
-                    updateSubsState subId newCancelAtPeriodEnd
-
+                    sub.autoRenew.Value <- not setCancelAtPeriodEnd
                     showToast "Updated"
             finally
-                loading.Value <- false
+                sub.isProcessing.Value <- false
         }
         |> Async.StartImmediate
 
@@ -143,41 +148,39 @@ module ViewsSeats =
     // Small helpers
     // -----------------------------
 
-    let private seatBadge (statusStr: string) : Doc =
+    let private seatBadge (isAssigned: bool) : Doc =
         let baseClass =
             "inline-flex items-center rounded-full border px-2 py-0.5 text-xs "
-
-        let status = SeatStatus.FromString statusStr
         
         let cls =
-            match status with
-            | Assigned -> 
+            if isAssigned then
                 baseClass + "border-emerald-300 text-emerald-700 dark:border-emerald-700/40 dark:text-emerald-300"
-            | Unassigned -> 
+            else
                 baseClass + "border-gray-300 text-gray-600 dark:border-white/10 dark:text-gray-300"
 
-        span [ attr.``class`` cls ] [ text status.AsString ]
+        span [ attr.``class`` cls ] [ text (if isAssigned then "assigned" else "unassigned") ]
 
     let private usernameAttr (seat: SeatRecord) (isLocked: bool) : Attr =
-        let status = SeatStatus.FromString seat.status
-        if isLocked || status = Assigned then 
+        if isLocked then
             Attr.Create "readonly" "" 
-        else 
-            Attr.Empty
+        else
+            Attr.DynamicPred "readonly" seat.isAssigned.View (View.Const "") 
 
     let private assignButtonAttr (seat: SeatRecord) (isLocked: bool) (loading: View<bool>) : Attr =
-        let status = SeatStatus.FromString seat.status
-        if isLocked || status = Assigned then
-            attr.style "display: none"
-        else
-            Attr.DynamicClassPred "disabled" loading
-
-    let private unassignButtonAttr (seat: SeatRecord) (isLocked: bool) (loading: View<bool>) : Attr =
-        let status = SeatStatus.FromString seat.status
-        if status <> Assigned || isLocked then
+        if isLocked then
             attr.style "display: none"
         else
             Attr.Concat [
+                Attr.DynamicClassPred "hidden" seat.isAssigned.View
+                Attr.DynamicClassPred "disabled" loading    
+            ]
+
+    let private unassignButtonAttr (seat: SeatRecord) (isLocked: bool) (loading: View<bool>) : Attr =
+        if isLocked then
+            attr.style "display: none"
+        else
+            Attr.Concat [
+                Attr.DynamicClassPred "hidden" (seat.isAssigned.View.Map(not))
                 Attr.DynamicProp "disabled" loading
                 Attr.DynamicClassPred "opacity-50 cursor-not-allowed" loading
             ]
@@ -186,7 +189,7 @@ module ViewsSeats =
         SubsVar.View
         |> View.Map (fun subs ->
             let isFreelancer = 
-                subs |> Array.exists (fun s -> s.plan.ToLower().Contains("freelancer"))
+                subs |> Array.exists (fun s -> s.data.planName.ToLower().Contains("freelancer"))
             if isFreelancer then 
                 "display: none" 
             else 
@@ -219,10 +222,9 @@ module ViewsSeats =
             text (status.Replace("_", " "))
         ]
 
-    let private seatRowDoc (seat: SeatRecord) (isLocked: bool) : Doc =
-        let isProcessing = Var.Create false
-                
-        let usernameVar = Var.Create seat.username
+    let private seatRowDoc (seat: SeatRecord) (subData: Subscription) (isLocked: bool) : Doc =
+
+        let isProcessingView = seat.isProcessing.View
 
         Templates.ManageSubscriptionTemplate.SeatRow()
             .SeatLabel($"#{seat.seatNo}")
@@ -232,51 +234,53 @@ module ViewsSeats =
                     attr.``class`` "w-full rounded-md border border-gray-300 dark:border-gray-800 bg-transparent px-2 py-1 text-sm"
                     attr.placeholder "github-username"
                     usernameAttr seat isLocked
-                ] usernameVar
-                |> BindSmoothLoader "w-full h-8" isProcessing.View
+                ] seat.username
+                |> BindSmoothLoader "w-full h-8" isProcessingView
             )
             
             .StatusBadge(
-                seatBadge seat.status
-                |> BindSmoothLoader "w-16 h-6" isProcessing.View
+                seat.isAssigned.View.Doc(seatBadge)
+                |> BindSmoothLoader "w-16 h-6" isProcessingView
             )
             
             .Expiry(
-                text seat.expiry
-                |> BindSmoothLoader "w-24 h-5" isProcessing.View
+                text subData.currentPeriodEnd
+                |> BindSmoothLoader "w-24 h-5" isProcessingView
             )
 
-            .AssignButtonAttr(assignButtonAttr seat isLocked isProcessing.View)
-            .UnassignButtonAttr(unassignButtonAttr seat isLocked isProcessing.View)
+            .AssignButtonAttr(assignButtonAttr seat isLocked isProcessingView)
+            .UnassignButtonAttr(unassignButtonAttr seat isLocked isProcessingView)
             
             .AssignSeat(fun _ ->
-                if not isLocked then
-                    let username = usernameVar.Value.Trim()
-                    assignSeat seat.subscriptionId seat.seatNo (username.ToLower()) isProcessing
+                let username = seat.username.Value.Trim()
+                assignSeat subData.subscriptionId seat username
             )
             .UnassignSeat(fun _ ->
-                unassignSeat seat.subscriptionId seat.seatNo isProcessing
+                if not isLocked then
+                    let username = seat.username.Value.Trim()
+                    unassignSeat subData.subscriptionId seat username
             )
             .Doc()
 
-    let private groupHeaderDoc (subId: string) (expiry: string) (autoRenew: bool) (status: string) (seatCount: int) : Doc =
-        let isProcessing = Var.Create false
+    let private groupHeaderDoc (sub: SubRecord) : Doc =
+
+        let subData = sub.data
 
         let baseBtn = "relative inline-flex h-5 w-9 items-center rounded-full border text-xs transition-colors "
         let baseDot = "inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform "
 
         let isHidden = 
-            status = "canceled" || status = "unpaid"
+            subData.status = "canceled" || subData.status = "unpaid"
 
         let displayText = 
-            if isHidden then 
-                "Expired"
-            elif not autoRenew then
-                "Expires" 
-            else 
-                "Renews"
-
-        let expiryAndSeats = $"{displayText} on {expiry} ({seatCount} seats)"
+            V (
+                if isHidden then 
+                    "Expired"
+                elif not sub.autoRenew.V then
+                    "Expires" 
+                else 
+                    "Renews"
+            )
 
         let wrapperAttr = 
             if isHidden then 
@@ -285,113 +289,71 @@ module ViewsSeats =
                 Attr.Empty
 
         let toggleClassesView = 
-            isProcessing.View
-            |> View.Map (fun loading ->
-                if loading then
+            V (
+                if sub.isProcessing.V then
                     baseBtn + "bg-gray-200 border-gray-200 dark:bg-gray-700 dark:border-gray-700 animate-pulse pointer-events-none cursor-wait"
                 else
-                    if autoRenew then baseBtn + "bg-emerald-500 border-emerald-500"
+                    if sub.autoRenew.V then baseBtn + "bg-emerald-500 border-emerald-500"
                     else baseBtn + "bg-gray-300 border-gray-400 dark:bg-gray-700 dark:border-gray-600"
             )
 
         let dotClassesView = 
-            isProcessing.View
-            |> View.Map (fun loading ->
-                if loading then
+            V (
+                if sub.isProcessing.V then
                     baseDot + "translate-x-0 opacity-50"
-                elif autoRenew then 
+                elif sub.autoRenew.V then 
                     baseDot + "translate-x-4"
                 else 
                     baseDot + "translate-x-0"
             )
 
+
         Templates.ManageSubscriptionTemplate.SeatGroupRow()
             .ExpiryAndSeatCount(
-                text expiryAndSeats
-                |> BindSmoothLoader "w-58 h-5" isProcessing.View
+                text $"{displayText.V} on {subData.currentPeriodEnd} ({subData.seats} seats)"
+                |> BindSmoothLoader "w-58 h-5" sub.isProcessing.View
             )
             .GroupStatusBadge(
-                renderGroupStatusBadge status
-                |> BindSmoothLoader "w-20 h-5" isProcessing.View
+                renderGroupStatusBadge subData.status
+                |> BindSmoothLoader "w-20 h-5" sub.isProcessing.View
             )
             .AutoRenewWrapper(wrapperAttr)
             .ToggleClasses(toggleClassesView)
             .DotClasses(dotClassesView)
             .ToggleAutoRenew(fun _ -> 
                 if not isHidden then
-                    toggleAutoRenew subId expiry autoRenew isProcessing
+                    toggleAutoRenew sub
             )
             .Doc()
 
     let private seatGroupsDoc : Doc =
-        let sortedSubIdsView =
-            SubsVar.View
-            |> View.Map (fun subs ->
-                subs
-                |> Array.sortWith (fun a b ->
-                    // Score: 0 = Top (Active), 1 = Bottom (Canceled/Unpaid)
-                    let getScore status = 
-                        match status with
-                        | "canceled" | "unpaid" -> 1 
-                        | _ -> 0 
-                    
-                    let scoreA = getScore a.status
-                    let scoreB = getScore b.status
-                    
-                    if scoreA <> scoreB then 
-                        scoreA.CompareTo(scoreB) // Active first
-                    else
-                        b.renewsAt.CompareTo(a.renewsAt)
-                )
-                |> Array.map (fun s -> s.id) // Extract ID
-                |> Array.toSeq
-            )
 
-        Doc.BindSeqCachedBy (fun id -> id) (fun subId ->
-            let mySubView = 
-                SubsVar.View
-                |> View.Map (fun subs -> 
-                    subs 
-                    |> Array.tryFind (fun s -> s.id = subId)
-                    |> Option.defaultValue { 
-                        id = subId; label = ""; plan = ""; totalSeats = 0; 
-                        renewsAt = ""; status = "active" 
-                    }
-                )
+        let getSubKey (sub: SubRecord) = 
+            // seats and cancel status we handle separately, we set them to constants so we don't re-render if everything else stays the same
+            { sub.data with 
+                githubAssignedNames = [||] 
+                cancelAtPeriodEnd = false
+            }
 
-            let mySeatsView =
-                SeatsVar.View
-                |> View.Map (fun allSeats ->
-                    allSeats
-                    |> Array.filter (fun s -> s.subscriptionId = subId)
-                    |> Array.sortBy (fun s -> s.seatNo)
-                )
+        SubsVar.View.DocSeqCached(getSubKey, fun (sub: SubRecord) ->
 
-            View.Map2 (fun (sub: SubRecord) (seats: SeatRecord array) ->
-                
-                let isFreelancer = sub.plan.ToLower().Contains("freelancer")
-                let isAccessRevoked = sub.status = "canceled" || sub.status = "unpaid"
+            let subData = sub.data
 
-                let expiry = 
-                    if seats.Length > 0 then seats.[0].expiry 
-                    else sub.renewsAt
-                
-                let autoRenew = 
-                    if seats.Length > 0 then seats.[0].autoRenew 
-                    else false
+            let isFreelancer = subData.planName.ToLower().Contains("freelancer")
+            let isAccessRevoked = subData.status = "canceled" || subData.status = "unpaid"
 
-                Doc.Concat [
-                    groupHeaderDoc sub.id expiry autoRenew sub.status sub.totalSeats
-                    
-                    if not isAccessRevoked then
-                        seats
-                        |> Array.map (fun s -> seatRowDoc s isFreelancer)
-                        |> Doc.Concat
-                ]
-            ) mySubView mySeatsView
-            |> Doc.EmbedView
+            Console.Log("Rendering seats for subscription", sub)
 
-        ) sortedSubIdsView
+            Doc.Concat [
+                groupHeaderDoc sub
+
+                if not isAccessRevoked then
+                    sub.seats
+                    |> Array.map (fun s -> seatRowDoc s subData isFreelancer)
+                    |> Doc.Concat
+            ] 
+
+        )
 
     let SeatsBody : Doc =
         seatGroupsDoc

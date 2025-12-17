@@ -13,11 +13,16 @@ open WebSharperWebsite
 [<JavaScript>]
 module ViewsInvoices =
 
-    let private invoicesModel =
-        ListModel.Create (fun (i: InvoiceRecord) -> i.id) InvoicesVar.Value
+    let Refresh() =
+        async {
+            let! invoices = Api.GetInvoices()
 
-    let RefreshInvoices (newInvoices: InvoiceRecord[]) =
-        invoicesModel.Set newInvoices
+            let sortedInvoices =
+                invoices
+                |> Array.sortBy (fun i -> i.date)
+
+            InvoicesVar.Value <- sortedInvoices
+        }
 
     let private invoiceRowV (key: string) (invoiceV: View<InvoiceRecord>) : Doc =
         let hrefV =
@@ -25,9 +30,9 @@ module ViewsInvoices =
             |> View.Map (fun inv ->
                 "./invoice?id="
                 + JS.EncodeURIComponent inv.id
-                + "&sub="
-                + JS.EncodeURIComponent CurrentSubIdVar.Value
             )
+
+        Console.Log("Rendering invoice row for invoice id: ", key)
 
         Templates.ManageSubscriptionTemplate.InvoiceRow()
             .InvoiceId(invoiceV |> View.Map (fun i -> i.id))
@@ -41,12 +46,9 @@ module ViewsInvoices =
             .Doc()
 
     let private invoicesDoc : Doc =
-        invoicesModel.View
-        |> View.Map (fun invoices ->
-            invoices
-            |> Seq.sortWith (fun a b -> b.date.CompareTo(a.date))
-        )
-        |> Doc.BindSeqCachedViewBy (fun i -> i.id) invoiceRowV
+        let getInvoiceKey (i: InvoiceRecord) = i.id
+
+        InvoicesVar.View.DocSeqCached(getInvoiceKey, invoiceRowV) 
 
     let InvoicesBody : Doc =
         invoicesDoc

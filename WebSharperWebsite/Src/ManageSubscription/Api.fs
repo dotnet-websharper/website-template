@@ -11,65 +11,13 @@ open Types
 module Api =
 
     // ----------------------
-    // Helpers
-    // ----------------------
-
-    let private toSubRecord (subscription: Subscription) : SubRecord =
-        {
-            id = string subscription.subscriptionId
-            label = sprintf "%s (%d seats) - %s" subscription.planName subscription.seats subscription.currentPeriodEnd
-            plan = subscription.planName
-            totalSeats = subscription.seats
-            renewsAt = subscription.currentPeriodEnd
-            status = subscription.status
-        }
-
-    let private seatsFromSubscription (subscription: Subscription) : SeatRecord array =
-        subscription.githubAssignedNames
-        |> Array.mapi (fun i a ->
-            {
-                seatNo = i + 1
-                username = a |> Option.defaultValue ""
-                status = if Option.isSome a then "assigned" else "available"
-                expiry = subscription.currentPeriodEnd
-                autoRenew = not subscription.cancelAtPeriodEnd
-                subscriptionId = string subscription.subscriptionId
-            }
-        )
-
-    // ----------------------
     // Public API (Async)
     // ----------------------
 
-    let ListSubscriptions () : Async<SubRecord array> =
-        async {
-            let! subs = Remote<IRemotingContract>.GetSubscriptions()
-            return subs |> Array.map toSubRecord
-        }
+    let GetSubscriptions() : Async<Subscription array> =
+        Remote<IRemotingContract>.GetSubscriptions()
 
-    let GetAllSeats () : Async<SeatRecord array> =
-        async {
-            let! subs = Remote<IRemotingContract>.GetSubscriptions()
-            return
-                subs
-                |> Array.collect seatsFromSubscription
-        }
-
-    let GetSeats (subId: string) : Async<SeatRecord array> =
-        async {
-            let! subs = Remote<IRemotingContract>.GetSubscriptions()
-            let maybeSub =
-                subs
-                |> Array.tryFind (fun s -> string s.subscriptionId = subId)
-
-            match maybeSub with
-            | None ->
-                return [||]
-            | Some sub ->
-                return seatsFromSubscription sub
-        }
-
-    let GetInvoices (_subId: string) : Async<InvoiceRecord array> =
+    let GetInvoices () : Async<InvoiceRecord array> =
         async {
             let! invs = Remote<IRemotingContract>.GetInvoices()
 
@@ -89,14 +37,14 @@ module Api =
                 )
         }
 
-    let AssignSeat (subId: string) (seatNo: int) (username: string) : Async<bool> =
+    let AssignSeat (subId: Guid) (seatNo: int) (username: string) : Async<bool> =
         async {
             if String.IsNullOrWhiteSpace username then
                 return false
             else
                 let! res = 
                     Remote<IRemotingContract>.AddAssignment {
-                        subscriptionId = Guid.Parse subId
+                        subscriptionId = subId
                         githubAssignedName = username
                         position = seatNo
                     }
@@ -106,40 +54,25 @@ module Api =
                 return res.IsOk
         }
 
-    let UnassignSeat (subId: string) (seatNo: int) : Async<bool> =
+    let UnassignSeat (subId: Guid) (seatNo: int) (username: string) : Async<bool> =
         async {
-            let! subs = Remote<IRemotingContract>.GetSubscriptions()
-            let maybeSub =
-                subs
-                |> Array.tryFind (fun s -> string s.subscriptionId = subId)
-
-            match maybeSub with
-            | None ->
-                return false
-            | Some sub ->
-                let idx = seatNo - 1
-                if idx >= 0 && idx < sub.githubAssignedNames.Length then
-                    let username = sub.githubAssignedNames.[idx]
-
-                    let! res = 
-                        Remote<IRemotingContract>.RevokeAssignment {
-                            subscriptionId = sub.subscriptionId
-                            githubAssignedName = username |> Option.defaultValue ""
-                            position = seatNo
-                        }
+            let! res = 
+                Remote<IRemotingContract>.RevokeAssignment {
+                    subscriptionId = subId
+                    githubAssignedName = username
+                    position = seatNo
+                }
                     
-                    Utils.handleErrorFromResult res Views.showToast
+            Utils.handleErrorFromResult res Views.showToast
 
-                    return res.IsOk
-                else
-                    return false
+            return res.IsOk
         }
 
-    let SetAutoRenew (subId: string) (cancelAtPeriodEnd: bool) : Async<bool> =
+    let SetAutoRenew (subId: Guid) (cancelAtPeriodEnd: bool) : Async<bool> =
         async {
             let! res =
                 Remote<IRemotingContract>.SetCancellationStatus {
-                    subscriptionId = Guid.Parse subId
+                    subscriptionId = subId
                     cancelAtPeriodEnd = cancelAtPeriodEnd
                 }
             Utils.alertErrorFromResult res

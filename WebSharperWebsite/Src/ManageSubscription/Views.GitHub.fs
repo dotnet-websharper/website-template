@@ -22,7 +22,7 @@ module ViewsGitHub =
             
             let isFreelancer = 
                 subs |> Array.exists (fun s -> 
-                    s.plan.ToLower().Contains("freelancer")
+                    s.data.planName.ToLower().Contains("freelancer")
                 )
 
             if isFreelancer then

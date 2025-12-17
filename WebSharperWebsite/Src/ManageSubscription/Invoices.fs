@@ -38,31 +38,9 @@ module Invoice =
             | None ->
                 return None
             | Some id ->
-                // load subs first
-                let! subs = ListSubscriptions()
+                let! invoices = GetInvoices()
 
-                // recursively walk subs, calling GetInvoices async
-                let rec loop i =
-                    async {
-                        if i >= subs.Length then
-                            return None
-                        else
-                            let subId = subs.[i].id
-                            let! invoices = GetInvoices subId
-
-                            match invoices |> Array.tryFind (fun inv -> inv.id = id) with
-                            | Some inv ->
-                                // enrich with subscription id if missing
-                                let inv' =
-                                    match inv.subscription with
-                                    | Some _ -> inv
-                                    | None   -> { inv with subscription = Some subId }
-                                return Some inv'
-                            | None ->
-                                return! loop (i + 1)
-                    }
-
-                return! loop 0
+                return invoices |> Array.tryFind (fun inv -> inv.id = id)
         }
 
     let InvId : Doc =

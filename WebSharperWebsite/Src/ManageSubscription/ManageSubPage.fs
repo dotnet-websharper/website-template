@@ -32,35 +32,6 @@ module Page =
             CustomerPortalLinkVar.Value <- linkOpt
         }
 
-    let private loadSubscriptionsAsync () =
-        async {
-            let! subs = Api.ListSubscriptions ()
-            SubsVar.Value <- subs
-            ViewsSeats.RefreshSeats ()
-        }
-
-    let private loadSeatsAsync () =
-        async {
-            let current = CurrentSubIdVar.Value
-            if System.String.IsNullOrEmpty current then
-                SeatsVar.Value <- [||]
-                return ()
-            else
-                ViewsSeats.RefreshSeats ()
-        }
-
-    let private loadInvoicesAsync () =
-        async {
-            let current = CurrentSubIdVar.Value
-            if System.String.IsNullOrEmpty current then
-                InvoicesVar.Value <- [||]
-                ViewsInvoices.RefreshInvoices [||]
-            else
-                let! invoices = Api.GetInvoices current
-                InvoicesVar.Value <- invoices
-                ViewsInvoices.RefreshInvoices invoices
-        }
-
     let private loadBillingAsync () =
         async {
             let! data = Api.GetBilling ()
@@ -70,36 +41,18 @@ module Page =
             ViewsBilling.SetBillingMode ViewsBilling.BillingMode.Viewing
         }
 
-    let private chooseCurrentSubscription () =
-        let subs = SubsVar.Value
-        if subs.Length = 0 then
-            CurrentSubIdVar.Value <- ""
-        else
-            let current = CurrentSubIdVar.Value
-            let exists =
-                subs
-                |> Array.exists (fun s -> s.id = current)
-
-            if System.String.IsNullOrEmpty current || not exists then
-                CurrentSubIdVar.Value <- subs.[0].id
-
     let private loadAllAfterAuth () =
         async {
             try
-                do! loadBillingAsync ()
-
-                do! loadSubscriptionsAsync ()                
-                chooseCurrentSubscription ()
-            
-                if SubsVar.Value.Length > 0 then
-                    do! 
+                do! 
                     Async.Parallel [|
-                        loadSeatsAsync ()
-                        loadInvoicesAsync ()
+                        ViewsSeats.RefreshSubsAndSeats ()
+                        ViewsInvoices.Refresh ()
+                        loadBillingAsync ()
                         loadCustomerPortalAsync ()
                         loadGitHubOrg ()
-                    |] |> Async.Ignore
-
+                    |]
+                    |> Async.Ignore
             finally
                 isLoading.Value <- false
         }
@@ -133,26 +86,30 @@ module Page =
         |> View.Map (fun p -> p <> Views.Page.Billing)
         |> fun v -> Attr.DynamicClassPred "hidden" v
 
-    let private renderPastDueWidget (subs: SubRecord array) =
-        let isPastDue = subs |> Array.exists (fun s -> s.status = "past_due")
-        if isPastDue then
-            Templates.ManageSubscriptionTemplate.PastDueAlert()
-                .UpdatePaymentClick(fun _ -> Views.OpenCustomerPortal())
-                .Doc()
-        else
-            Doc.Empty
+    let private renderPastDueWidget () =
+        SubsVar.View.Doc(fun subs -> 
+            let isPastDue = subs |> Array.exists (fun s -> s.data.status = "past_due")
+            if isPastDue then
+                Templates.ManageSubscriptionTemplate.PastDueAlert()
+                    .UpdatePaymentClick(fun _ -> Views.OpenCustomerPortal())
+                    .Doc()
+            else
+                Doc.Empty
+        )
 
-    let private renderNoSubsWidget (hasSubs: bool) =
-        if not hasSubs then
-            Templates.ManageSubscriptionTemplate.NoSubscriptionWidget()
-                .OnSubscribeClick(fun _ -> 
-                    JS.Window.Location.Href <- Utils.SupportPlansUrl
-                )
-                .Doc()
-        else 
-            Doc.Empty
+    let private renderNoSubsWidget () =
+        SubsVar.View.Doc(fun subs -> 
+            if subs.Length = 0 then
+                Templates.ManageSubscriptionTemplate.NoSubscriptionWidget()
+                    .OnSubscribeClick(fun _ -> 
+                        JS.Window.Location.Href <- Utils.SupportPlansUrl
+                    )
+                    .Doc()
+            else 
+                Doc.Empty
+        )
 
-    let private renderContent (loading: bool) (loggedIn: bool) (subs: SubRecord array) = 
+    let private renderContent (loading: bool) (loggedIn: bool) = 
         
         if loading then 
             Templates.ManageSubscriptionTemplate.Skeleton().Doc()
@@ -163,9 +120,8 @@ module Page =
                 .Doc()
         
         else
-            let hasSubs = subs.Length > 0
-            
-            let showIfSubs = if hasSubs then Attr.Empty else attr.``class`` "hidden"
+            let showIfSubs = 
+                Attr.DynamicClassPred "hidden" (SubsVar.View.Map(Array.isEmpty))
 
             Templates.ManageSubscriptionTemplate.AuthenticatedContent()
                  // Navigation & Page Switching
@@ -177,8 +133,8 @@ module Page =
                 .BillingPageAttr(billingPageAttr())
 
                 // Dynamic Widgets
-                .PastDueWidget(renderPastDueWidget subs)
-                .NoSubsWidget(renderNoSubsWidget hasSubs)
+                .PastDueWidget(renderPastDueWidget())
+                .NoSubsWidget(renderNoSubsWidget())
 
                 .OpenCustomerPortalAttr(showIfSubs)
                 .ActiveSubContentAttr(showIfSubs)
@@ -254,10 +210,9 @@ module Page =
                             Attr.DynamicClassPred "hidden" (isLoading.View |> View.Map not)
                         )
                         .Content(
-                            View.Map3 renderContent 
+                            View.Map2 renderContent 
                                 isLoading.View 
                                 AuthClient.IsAuthedView 
-                                State.SubsVar.View 
                             |> Doc.EmbedView
                         )
                         .Doc()

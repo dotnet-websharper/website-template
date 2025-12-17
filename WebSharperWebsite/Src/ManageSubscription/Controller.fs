@@ -18,15 +18,14 @@ module Controller =
         async {
             Views.setLoading true
             try
-                let currentSubId = CurrentSubIdVar.Value
-                if not (System.String.IsNullOrEmpty currentSubId) then
-                    ViewsSeats.RefreshSeats()
+                do! 
+                    Async.Parallel [|
+                        ViewsSeats.RefreshSubsAndSeats()
+                        ViewsInvoices.Refresh()
+                    |]
+                    |> Async.Ignore
 
-                    let! invoices = Api.GetInvoices currentSubId
-                    InvoicesVar.Value <- invoices
-                    ViewsInvoices.RefreshInvoices invoices
-
-                    Views.showToast "Refreshed"
+                Views.showToast "Refreshed"
             finally
                 Views.setLoading false
         }
