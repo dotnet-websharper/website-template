@@ -38,28 +38,70 @@ module Features =
 
     // Tab Content Generators
 
-    let renderBindings () =
-        let name = Var.Create "World"
-        Templates.FeaturesTemplate.BindingsExample()
-            .Name(name)
-            .Doc()
-
+    let renderBindings () = Templates.FeaturesTemplate.BindingsExample().Doc()
     let renderMaps () = Templates.FeaturesTemplate.MapsExample().Doc()
-    let renderCharts () = Templates.FeaturesTemplate.ChartsExample().Doc()
+    let renderChart () = Templates.FeaturesTemplate.ChartExample().Doc()
     let renderRTC () = Templates.FeaturesTemplate.RTCExample().Doc()
     let renderForms () = Templates.FeaturesTemplate.FormsExample().Doc()
 
     let getCodeSnippet = function
-        | Bindings -> "let name = Var.Create \"World\"\nTemplates.FeaturesTemplate.BindingsExample()\n  .Name(name)\n  .Doc()"
-        | Maps -> "open WebSharper.Leaflet\n\nlet Map () =\n  Leaflet.Map.Create(\"map\", 51.5, -0.09)\n  |> Leaflet.Map.SetZoom 13"
-        | Charts -> "open WebSharper.Charting\n\nChart.Bar [ (\"A\", 10); (\"B\", 20) ]\n|> Chart.WithTitle \"Sales\"\n|> Renderers.ChartJs.Render"
-        | RTC -> "type Msg = { User: string; Text: string }\n\nlet Chat = \n  let socket = WebSocket.Client \"/chat\"\n  socket.Post { User = \"Me\"; Text = \"Hi\" }"
-        | Forms -> "Form.Return (fun u p -> {User=u; Pass=p})\n<*> (Form.Yield \"\" |> Validation.IsNotEmpty \"User\")\n<*> (Form.Yield \"\" |> Validation.IsNotEmpty \"Pass\")\n|> Form.Render"
+        | Bindings -> """let name = Var.Create "World"
+Templates.FeaturesTemplate.BindingsExample()
+    .Name(name)  
+    .Doc()
+"""
+        | Maps -> """open WebSharper.Leaflet
+        
+let Map () =
+    Leaflet.Map.Create("map", 51.5, -0.09)
+    |> Leaflet.Map.SetZoom 13
+"""
+        | Charts -> """open WebSharper.UI.Html
+open WebSharper.Plotly
+
+let RenderChart id =
+    let barTrace = BarOptions()
+    barTrace.X <- [| "Q1"; "Q2"; "Q3"; "Q4" |]
+    barTrace.Y <- [| 45000; 52000; 28000; 64000 |]
+    barTrace.Name <- "Revenue"
+    barTrace.Marker <- BarMarker(
+        Color = "rgba(79, 70, 229, 1)" 
+    )
+
+    let layout = Layout()
+    layout.Title <- LayoutTitle(Text = "Annual Revenue", Font = Font(Size = 24, Family = "Segoe UI, sans-serif"))
+    layout.Showlegend <- false
+    layout.Autosize <- true
+    layout.Margin <- LayoutMargin(L = 50, R = 50, B = 50, T = 80)
+    layout.Paper_bgcolor <- "rgba(0,0,0,0)" 
+    layout.Plot_bgcolor <- "rgba(0,0,0,0)"
+    layout.Yaxis <- LayoutYAxis(Gridcolor = "#e2e8f0", Zeroline = false)
+    layout.Xaxis <- LayoutXAxis(Gridcolor = "rgba(0,0,0,0)")
+
+    div [
+        attr.id id
+        attr.style "height: 500px; width: 100%;" 
+        on.afterRender (fun _ -> 
+            Plotly.NewPlot(id, [| barTrace :> Trace |], layout) |> ignore
+        )
+    ] []
+"""
+        | RTC -> """type Msg = { User: string; Text: string }
+
+let Chat = 
+    let socket = WebSocket.Client "/chat"
+    socket.Post { User = "Me"; Text = "Hi" }
+"""
+        | Forms -> """Form.Return (fun u p -> {User=u; Pass=p})
+<*> (Form.Yield "" |> Validation.IsNotEmpty "User")
+<*> (Form.Yield "" |> Validation.IsNotEmpty "Pass")
+|> Form.Render
+"""
 
     let getResultDoc = function
         | Bindings -> renderBindings()
         | Maps -> renderMaps()
-        | Charts -> renderCharts()
+        | Charts -> renderChart()
         | RTC -> renderRTC()
         | Forms -> renderForms()
 
@@ -106,7 +148,7 @@ module UI =
 """
 
     let renderStaticCode language src =
-        pre [attr.``class`` "line-numbers w-full rounded-xl !overflow-auto custom-scrollbar max-h-100 text-xs m-0"] [
+        pre [attr.``class`` "line-numbers w-full rounded-xl !overflow-auto custom-scrollbar max-h-96 text-xs m-0"] [
             code [
                 attr.``class`` ("language-" + language + " !text-xs")
                 on.afterRender (fun _ -> highlight())
@@ -137,12 +179,7 @@ module UI =
                     ActiveTab.View 
                     |> View.Map (fun t -> 
                         let src = getCodeSnippet t
-                        pre [attr.``class``"line-numbers language-fsharp w-full rounded-xl overflow-auto custom-scrollbar max-h-96 text-xs"] [
-                            code [
-                                attr.``class`` "language-fsharp !text-xs"
-                                on.afterRender (fun _ -> highlight())
-                            ] [text src]
-                        ]
+                        renderStaticCode "fsharp" src
                     )
                     |> Doc.EmbedView
                 )

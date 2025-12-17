@@ -33,6 +33,14 @@ jobs:
             --password ${{ secrets.PAT_PACKAGE }} 
             --store-password-in-clear-text
 
+      - name: Build snippets
+        shell: bash
+        run: |
+          for proj in WebSharperWebsite/snippets/*/*.fsproj; do
+            echo "Building $proj"
+            dotnet build "$proj" -c Release
+          done
+
       - name: Build project
         run: dotnet build -c Release
 

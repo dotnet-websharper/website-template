@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="add_two_numbers/add_two_numbers.fsproj" Id="a6122bd2-97e5-4881-9c98-9e9b8175d4e4" />
+  <Project Path="chart/chart.fsproj" Id="83140ce9-733c-412e-9891-e2611740df4c" />
+  <Project Path="forms/forms.fsproj" Id="0181c561-457b-4b48-a7ba-cf4440128471" />
+  <Project Path="maps/maps.fsproj" Id="8f710a7b-d5b0-4e3b-896c-1328b1f166a8" />
+  <Project Path="spa/spa.fsproj" Id="f0d9e1d6-ace3-4904-9293-972146227813" />
+</Solution>
