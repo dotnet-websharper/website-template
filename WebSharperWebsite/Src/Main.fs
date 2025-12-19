@@ -36,15 +36,13 @@ module Templating =
             Attr.Empty
 
     let Layout (endpoint: EndPoint) (body: Doc list) =
-        Content.BundleScopes [| "home"; "features"; "support"; "warp"; "checkout"; "error"; "invoice"; "account"; "success"; "404" |] (
-            Templates.LayoutTemplate()
-                .Body(
-                    client (ClientPages.Layout()) :: body
-                )
-                .HeaderVisibility(hideIf (noChrome endpoint))
-                .FooterVisibility(hideIf (noChrome endpoint))
-                .Doc(keepUnfilled = true)
-        )
+        Templates.LayoutTemplate()
+            .Body(
+                client (ClientPages.Layout()) :: body
+            )
+            .HeaderVisibility(hideIf (noChrome endpoint))
+            .FooterVisibility(hideIf (noChrome endpoint))
+            .Doc(keepUnfilled = true)
 
 module Site =
     open type WebSharper.UI.ClientServer
