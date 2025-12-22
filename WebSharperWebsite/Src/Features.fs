@@ -53,31 +53,32 @@ Templates.FeaturesTemplate.BindingsExample()
         | Maps -> """open WebSharper.UI.Html
 open WebSharper.Leaflet
         
-let coordinates = div [] [] :?> Elt
-div [] [
-    div [
-        attr.style "height: 600px;"
-        on.afterRender (fun div ->
-            let map = Leaflet.L.Map(div)
-            map.SetView((47.49883, 19.0582), 14)
-            map.AddLayer(
-                Leaflet.TileLayer(
-                    Leaflet.TileLayer.OpenStreetMap.UrlTemplate,
-                    Leaflet.TileLayer.Options(
-                        Attribution = Leaflet.TileLayer.OpenStreetMap.Attribution)))
-            map.AddLayer(
-                let m = Leaflet.Marker((47.4952, 19.07114))
-                m.BindPopup("IntelliFactory")
-                m)
-            map.On_mousemove(fun map ev ->
-                coordinates.Text <- "Position: " + ev.Latlng.ToString())
-            map.On_mouseout(fun map ev ->
-                coordinates.Text <- "")
-        )
-    ] []
-    coordinates
-]
-|> Doc.RunById "main"
+let Main () =
+    let coordinates = div [] [] :?> Elt
+    div [] [
+        div [
+            attr.style "height: 600px;"
+            on.afterRender (fun div ->
+                let map = Leaflet.L.Map(div)
+                map.SetView((47.49883, 19.0582), 14)
+                map.AddLayer(
+                    Leaflet.TileLayer(
+                        Leaflet.TileLayer.OpenStreetMap.UrlTemplate,
+                        Leaflet.TileLayer.Options(
+                            Attribution = Leaflet.TileLayer.OpenStreetMap.Attribution)))
+                map.AddLayer(
+                    let m = Leaflet.Marker((47.4952, 19.07114))
+                    m.BindPopup("IntelliFactory")
+                    m)
+                map.On_mousemove(fun map ev ->
+                    coordinates.Text <- "Position: " + ev.Latlng.ToString())
+                map.On_mouseout(fun map ev ->
+                    coordinates.Text <- "")
+            )
+        ] []
+        coordinates
+    ]
+    |> Doc.RunById "main"
 """
         | Charts -> """open WebSharper.UI.Html
 open WebSharper.Plotly
@@ -159,8 +160,8 @@ module UI =
     let renderFSharpCode src =
         pre [attr.``class`` "line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-96 text-xs m-0"] [
             code [
-                attr.``class`` ("language-fsharp !text-xs")
-                on.afterRender (fun _ -> highlight())
+                attr.``class`` ("language-fsharp pt-[1px]")
+                on.afterRender (fun _ -> SnippetCode.Init())
             ] [text src]
         ]
 
@@ -168,9 +169,7 @@ module UI =
     
     let FeaturesDoc(): Doc = 
         if IsClient then
-            Templates.FeaturesTemplate.Content()
-                .Init(fun () -> SnippetCode.Init())
-                
+            Templates.FeaturesTemplate.Content()                
                 // Tabs
                 .SelectBindings(fun _ -> ActiveTab.Value <- Bindings)
                 .SelectMaps(fun _ -> ActiveTab.Value <- Maps)

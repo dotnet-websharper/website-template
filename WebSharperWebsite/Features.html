@@ -378,19 +378,19 @@
                     <nav aria-label="Features" class="rounded-xl border border-gray-200 p-3 dark:border-gray-800">
                         <ul class="space-y-1 text-sm">
                             <li>
-                                <button ws-onclick="SelectBindings" ws-attr="BindingsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5 transition-colors">Bindings</button>
+                                <button ws-onclick="SelectBindings" ws-attr="BindingsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Bindings</button>
                             </li>
                             <li>
-                                <button ws-onclick="SelectMaps" ws-attr="MapsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5 transition-colors">Maps</button>
+                                <button ws-onclick="SelectMaps" ws-attr="MapsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Maps</button>
                             </li>
                             <li>
-                                <button ws-onclick="SelectCharts" ws-attr="ChartsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5 transition-colors">Charts</button>
+                                <button ws-onclick="SelectCharts" ws-attr="ChartsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Charts</button>
                             </li>
                             <li>
-                                <button ws-onclick="SelectRTC" ws-attr="RTCTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5 transition-colors">Real-time Chat</button>
+                                <button ws-onclick="SelectRTC" ws-attr="RTCTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Real-time Chat</button>
                             </li>
                             <li>
-                                <button ws-onclick="SelectForms" ws-attr="FormsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5 transition-colors">Forms</button>
+                                <button ws-onclick="SelectForms" ws-attr="FormsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Forms</button>
                             </li>
                         </ul>
                     </nav>
@@ -398,14 +398,14 @@
 
                 <section class="animate-[fadeIn_0.5s_ease-out]">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 h-[42rem]">
-                        <div class="rounded-xl bg-gray-900 p-4 overflow-hidden shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
-                            <div class="flex items-center justify-between mb-2 pb-2 border-b border-gray-700">
+                        <div class="rounded-xl bg-white dark:bg-gray-900 p-4 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
+                            <div class="flex items-center justify-between mb-2 pb-2 border-b border-gray-300 dark:border-gray-700">
                                 <span class="text-xs font-mono text-gray-400">F# / Source</span>
                             </div>
-                            <div ws-replace="CodeContent"></div>
+                            <div class="snippet-code" ws-hole="CodeContent"></div>
                         </div>
 
-                        <div class="h-full rounded-xl bg-white dark:bg-gray-800 p-6 shadow-sm ring-1 ring-gray-200 dark:ring-white/10 overflow-auto flex flex-col relative border border-gray-200 dark:border-transparent">
+                        <div class="h-full rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-200 dark:ring-white/10 overflow-auto flex flex-col relative border border-gray-200 dark:border-transparent">
                             <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-100 dark:border-gray-700">
                                 <span class="text-xs font-mono text-gray-500 dark:text-gray-400">Live Result</span>
                             </div>
@@ -426,22 +426,22 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
 
-                    <div class="rounded-xl bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
-                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-700">
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
+                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
                             <span class="text-xs font-mono text-yellow-400">MyApp.warp</span>
                         </div>
                         <div class="snippet-code" ws-hole="WarpFile"></div>
                     </div>
 
-                    <div class="rounded-xl bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
-                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-700">
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
+                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
                             <span class="text-xs font-mono text-blue-400">MyApp.warp_EndPoint.fs</span>
                         </div>
                         <div class="snippet-code" ws-hole="EndPointFile"></div>
                     </div>
 
-                    <div class="rounded-xl bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
-                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-700">
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
+                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
                             <span class="text-xs font-mono text-blue-400">MyApp.warp_UI.fs</span>
                         </div>
                         <div class="snippet-code" ws-hole="UiFile"></div>

@@ -5,6 +5,21 @@ pre[class*="language-"] {
     @apply !text-gray-600 dark:!text-white;
     background: none !important;
     text-shadow: none !important;
+    font-size: 0.75rem !important;
+    line-height: 1.21rem !important;
+}
+
+.line-numbers .line-numbers-rows {
+    font-size: 0.75rem !important;
+    line-height: 1.208rem !important;
+    width: 3em !important;
+    border-right: 1px solid #334155;
+}
+
+pre[class*="language-"].line-numbers {
+    padding-left: 3.5em !important;
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
 }
 
 /* Code blocks */
