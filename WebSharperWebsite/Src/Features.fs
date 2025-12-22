@@ -50,33 +50,42 @@ Templates.FeaturesTemplate.BindingsExample()
     .Name(name)  
     .Doc()
 """
-        | Maps -> """open WebSharper.Leaflet
+        | Maps -> """open WebSharper.UI.Html
+open WebSharper.Leaflet
         
-let Map () =
-    Leaflet.Map.Create("map", 51.5, -0.09)
-    |> Leaflet.Map.SetZoom 13
+let coordinates = div [] [] :?> Elt
+div [] [
+    div [
+        attr.style "height: 600px;"
+        on.afterRender (fun div ->
+            let map = Leaflet.L.Map(div)
+            map.SetView((47.49883, 19.0582), 14)
+            map.AddLayer(
+                Leaflet.TileLayer(
+                    Leaflet.TileLayer.OpenStreetMap.UrlTemplate,
+                    Leaflet.TileLayer.Options(
+                        Attribution = Leaflet.TileLayer.OpenStreetMap.Attribution)))
+            map.AddLayer(
+                let m = Leaflet.Marker((47.4952, 19.07114))
+                m.BindPopup("IntelliFactory")
+                m)
+            map.On_mousemove(fun map ev ->
+                coordinates.Text <- "Position: " + ev.Latlng.ToString())
+            map.On_mouseout(fun map ev ->
+                coordinates.Text <- "")
+        )
+    ] []
+    coordinates
+]
+|> Doc.RunById "main"
 """
         | Charts -> """open WebSharper.UI.Html
 open WebSharper.Plotly
 
 let RenderChart id =
-    let barTrace = BarOptions()
-    barTrace.X <- [| "Q1"; "Q2"; "Q3"; "Q4" |]
-    barTrace.Y <- [| 45000; 52000; 28000; 64000 |]
-    barTrace.Name <- "Revenue"
-    barTrace.Marker <- BarMarker(
-        Color = "rgba(79, 70, 229, 1)" 
-    )
-
+    // ... Chart Configuration ...
     let layout = Layout()
-    layout.Title <- LayoutTitle(Text = "Annual Revenue", Font = Font(Size = 24, Family = "Segoe UI, sans-serif"))
-    layout.Showlegend <- false
-    layout.Autosize <- true
-    layout.Margin <- LayoutMargin(L = 50, R = 50, B = 50, T = 80)
-    layout.Paper_bgcolor <- "rgba(0,0,0,0)" 
-    layout.Plot_bgcolor <- "rgba(0,0,0,0)"
-    layout.Yaxis <- LayoutYAxis(Gridcolor = "#e2e8f0", Zeroline = false)
-    layout.Xaxis <- LayoutXAxis(Gridcolor = "rgba(0,0,0,0)")
+    layout.Title <- LayoutTitle(Text = "Annual Revenue")
 
     div [
         attr.id id
@@ -147,10 +156,10 @@ module UI =
         console.log("Generated")
 """
 
-    let renderStaticCode language src =
-        pre [attr.``class`` "line-numbers w-full rounded-xl !overflow-auto custom-scrollbar max-h-96 text-xs m-0"] [
+    let renderFSharpCode src =
+        pre [attr.``class`` "line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-96 text-xs m-0"] [
             code [
-                attr.``class`` ("language-" + language + " !text-xs")
+                attr.``class`` ("language-fsharp !text-xs")
                 on.afterRender (fun _ -> highlight())
             ] [text src]
         ]
@@ -176,27 +185,26 @@ module UI =
                 .FormsTabAttr(tabAttr Forms)
 
                 .CodeContent(
-                    ActiveTab.View 
-                    |> View.Map (fun t -> 
-                        let src = getCodeSnippet t
-                        renderStaticCode "fsharp" src
+                    ActiveTab.View.Doc(fun activeTab ->
+                        let src = getCodeSnippet activeTab
+                        renderFSharpCode src
                     )
-                    |> Doc.EmbedView
                 )
                 .ResultContent(
-                    ActiveTab.View 
-                    |> View.Map getResultDoc 
-                    |> Doc.EmbedView
+                    ActiveTab.View.Doc(fun activeTab ->
+                        activeTab 
+                        |> getResultDoc
+                    )
                 )
                 
-                .WarpFile(renderStaticCode "fsharp" warpSrc)
-                .EndPointFile(renderStaticCode "fsharp" endPointSrc)
-                .UiFile(renderStaticCode "fsharp" uiSrc)
+                .WarpFile(renderFSharpCode warpSrc)
+                .EndPointFile(renderFSharpCode endPointSrc)
+                .UiFile(renderFSharpCode uiSrc)
                 
                 .Doc()
         else
             Templates.FeaturesTemplate.Content()
-                .WarpFile(renderStaticCode "fsharp" warpSrc)
-                .EndPointFile(renderStaticCode "fsharp" endPointSrc)
-                .UiFile(renderStaticCode "fsharp" uiSrc)
+                .WarpFile(renderFSharpCode warpSrc)
+                .EndPointFile(renderFSharpCode endPointSrc)
+                .UiFile(renderFSharpCode uiSrc)
                 .Doc()
