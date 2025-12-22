@@ -44,10 +44,10 @@ pre[class*="language-"] {
 .token.char,
 .token.builtin,
 .token.inserted {
-    @apply text-[#865cbd] dark:text-[#cc96ff];
+    @apply !text-[#865cbd] dark:!text-[#cc96ff];
 }
 
 .token.class-name,
 .token.function {
-    @apply text-[#229389] dark:text-[#57c3ad];
+    @apply !text-[#229389] dark:!text-[#57c3ad];
 }
