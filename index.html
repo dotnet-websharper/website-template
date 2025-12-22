@@ -33,17 +33,17 @@
 document.addEventListener("DOMContentLoaded", () => {
 wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
 let o1 = wsbundle._c.Create([]);
-o1.$preinit("b039003b-dec2-40ea-814a-64250e2210db");
+o1.$preinit("7ca3d73f-4224-4c9b-8ee9-737e6038a867");
 let e1 = document.querySelector("[ws-1]");
 wsbundle.Layout().ReplaceInDom(e1);
-o1.$init("b039003b-dec2-40ea-814a-64250e2210db");
+o1.$init("7ca3d73f-4224-4c9b-8ee9-737e6038a867");
 let e2 = document.querySelector("[ws-2]");
 wsbundle.Home$125$31()(e2);
 let e3 = document.querySelectorAll("[ws-3]");
-e3.forEach(e => e.addEventListener(e.getAttribute('ws-3'),wsbundle.EventQ2Client("b039003b-dec2-40ea-814a-64250e2210db",e3,wsbundle.Home$133$33())));
+e3.forEach(e => e.addEventListener(e.getAttribute('ws-3'),wsbundle.EventQ2Client("7ca3d73f-4224-4c9b-8ee9-737e6038a867",e3,wsbundle.Home$133$33())));
 let e4 = document.querySelectorAll("[ws-4]");
-e4.forEach(e => e.addEventListener(e.getAttribute('ws-4'),wsbundle.EventQ2Client("b039003b-dec2-40ea-814a-64250e2210db",e4,wsbundle.Home$134$28())));
-o1.$postinit("b039003b-dec2-40ea-814a-64250e2210db");
+e4.forEach(e => e.addEventListener(e.getAttribute('ws-4'),wsbundle.EventQ2Client("7ca3d73f-4224-4c9b-8ee9-737e6038a867",e4,wsbundle.Home$134$28())));
+o1.$postinit("7ca3d73f-4224-4c9b-8ee9-737e6038a867");
 });
 </script>
 
@@ -467,7 +467,7 @@ o1.$postinit("b039003b-dec2-40ea-814a-64250e2210db");
                                             <div class="relative w-full snippet-code">
                                                 <div class="absolute inset-0 overflow-auto custom-scrollbar" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
                                                     
-                                                    <pre class="line-numbers language-fsharp custom-scrollbar !overflow-auto"><code class="mt-[-17px] text-sm block leading-[1.13rem] language-fsharp text-white">[&lt;JavaScript&gt;]
+                                                    <pre class="line-numbers language-fsharp custom-scrollbar !overflow-auto"><code class="mt-[-16px] text-sm block leading-[1.13rem] language-fsharp text-white">[&lt;JavaScript&gt;]
 module Client =
     type IndexTemplate = Template&lt;"wwwroot/index", ClientLoad.FromDocument&gt;
 
@@ -495,14 +495,14 @@ module Client =
         |> Doc.RunById "main"</code></pre>
                                                 </div>
                                                 <div class="absolute inset-0 hidden overflow-hidden custom-scrollbar" role="tabpanel" aria-labelledby="tab-2" data-lang="html">
-                                                    <pre class="line-numbers -mb-20 !overflow-auto language-html custom-scrollbar"><code class="mt-[-17px] text-sm block leading-[1.13rem] language-html text-white">&lt;!DOCTYPE html&gt;
+                                                    <pre class="line-numbers -mb-20 !overflow-auto language-html custom-scrollbar"><code class="mt-[-16px] text-sm block leading-[1.1rem] language-html text-white">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
     &lt;title&gt;spa_websharper&lt;/title&gt;
     &lt;meta charset="utf-8" /&gt;
     &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
     &lt;link rel="stylesheet" type="text/css" href="Scripts/spa-websharper.css" /&gt;
-    &lt;style&gt;
+    &lt;style&gt;   
         /* Don't show the not-yet-loaded templates */
         [ws-template], [ws-children-template] { display: none; }
     &lt;/style&gt;
@@ -640,7 +640,7 @@ module Client =
                                         </div>
                                         <div class="relative w-full snippet-code">
                                             <div class="relative transition-all duration-1000 custom-scrollbar max-w-full overflow-y-hidden pr-0 sm:pr-[52%] lg:pr-[46.8%]" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                <pre class="line-numbers language-fsharp inline-block min-w-max"><code class="mt-[-17px] block md:leading-[1.13rem] language-fsharp text-white">let x = Var.Create 1
+                                                <pre class="line-numbers language-fsharp inline-block min-w-max"><code class="mt-[-16px] block md:leading-[1.13rem] language-fsharp text-white">let x = Var.Create 1
 let y = Var.Create 1
 
 let addNumbers =
@@ -655,7 +655,7 @@ let addNumbers =
 addNumbers |> Doc.RunById "main"</code></pre>
                                             </div>
                                             <div class="absolute inset-0 hidden transition-all duration-1000 custom-scrollbar" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                <pre class="-mb-20 line-numbers language-js"><code class="block mt-[-17px] leading-[1.13rem] language-js text-white">let x = 1;
+                                                <pre class="-mb-20 line-numbers language-js"><code class="block mt-[-16px] leading-[1.13rem] language-js text-white">let x = 1;
 let y = 1;
 
 const inputX = document.createElement("input");
