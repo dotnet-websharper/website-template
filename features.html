@@ -369,70 +369,9 @@ wsbundle.Features().ReplaceInDom(e2);
                 </section>
             </div>
 
-            <div class="border-t border-gray-200 dark:border-gray-800 pt-16">
-                <div class="mx-auto max-w-2xl lg:text-center mb-12">
-                    <h2 class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Metaprogramming</h2>
-                    <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Source Code Generators</p>
-                    <p class="mt-4 text-gray-600 dark:text-gray-300">
-                        Write high-level specifications in F# (Warp) and let WebSharper generate the optimized boilerplate for you.
-                    </p>
-                </div>
+            
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
-
-                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
-                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
-                            <span class="text-xs font-mono text-yellow-400">MyApp.warp</span>
-                        </div>
-                        <div class="snippet-code"><pre class="line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-96 text-xs m-0"><code class="language-fsharp pt-[1px]">template Main &quot;index.html&quot;
-
-endpoint Home &quot;/&quot; return Main
-</code></pre></div>
-                    </div>
-
-                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
-                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
-                            <span class="text-xs font-mono text-blue-400">MyApp.warp_EndPoint.fs</span>
-                        </div>
-                        <div class="snippet-code"><pre class="line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-96 text-xs m-0"><code class="language-fsharp pt-[1px]">namespace MyApplication
-
-open WebSharper
-open WebSharper.Sitelets
-
-type EndPoint =
-    | [&lt;EndPoint &quot;/&quot;&gt;] Home
-</code></pre></div>
-                    </div>
-
-                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
-                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
-                            <span class="text-xs font-mono text-blue-400">MyApp.warp_UI.fs</span>
-                        </div>
-                        <div class="snippet-code"><pre class="line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-96 text-xs m-0"><code class="language-fsharp pt-[1px]">namespace MyApplication
-
-open WebSharper
-open WebSharper.UI.Templating
-
-[&lt;JavaScript&gt;]
-module UI =
-    // Type provider generates this from index.html
-    type MyTemplate = 
-        Template&lt;&quot;index.html&quot;, clientLoad=ClientLoad.Inline&gt;
-
-    let Main =
-        MyTemplate()
-            .Title(&quot;Welcome&quot;)
-            .Body(&quot;Hello World&quot;)
-            .Doc()
-
-    // Additional boiler-plate
-    let ExtraHelper () = 
-        console.log(&quot;Generated&quot;)
-</code></pre></div>
-                    </div>
-
-                </div>
-            </div>
+            
 
         </div>
 
