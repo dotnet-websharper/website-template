@@ -24,9 +24,18 @@ module Templates =
 module Utils = 
 
     open WebSharper.SweetAlert
+    open WebSharper.UI.Html
 
     [<Literal>]
     let SupportPlansUrl = "/support#plans"
+
+    let renderCode src func = 
+        pre [attr.``class`` "line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar h-full text-xs m-0 !bg-transparent"] [
+            code [
+                attr.``class`` ("language-fsharp pt-[1px]")
+                on.afterRender func
+            ] [text src]
+        ]
 
     let calculateNewStatus (currentStatus: string) (isCanceling: bool) =
         match currentStatus with

@@ -211,53 +211,41 @@ module UI =
         console.log("Generated")
 """
 
-    let renderFSharpCode src =
-        pre [attr.``class`` "line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-96 text-xs m-0"] [
-            code [
-                attr.``class`` ("language-fsharp pt-[1px]")
-                on.afterRender (fun _ -> SnippetCode.Init())
-            ] [text src]
-        ]
-
     // Main Entry Point
     
     let FeaturesDoc(): Doc = 
+        let template = Templates.FeaturesTemplate.Content()
+
+        let renderCode src =
+            Utils.renderCode src (fun _ -> SnippetCode.Init())
+
         if IsClient then
-            Templates.FeaturesTemplate.Content()                
-                // Tabs
+            template
                 .SelectSpreadsheet(fun _ -> ActiveTab.Value <- Spreadsheet)
                 .SelectMaps(fun _ -> ActiveTab.Value <- Maps)
                 .SelectCharts(fun _ -> ActiveTab.Value <- Charts)
                 .SelectRTC(fun _ -> ActiveTab.Value <- RTC)
                 .SelectForms(fun _ -> ActiveTab.Value <- Forms)
-
                 .SpreadsheetTabAttr(tabAttr Spreadsheet)
                 .MapsTabAttr(tabAttr Maps)
                 .ChartsTabAttr(tabAttr Charts)
                 .RTCTabAttr(tabAttr RTC)
                 .FormsTabAttr(tabAttr Forms)
-
                 .CodeContent(
                     ActiveTab.View.Doc(fun activeTab ->
-                        let src = getCodeSnippet activeTab
-                        renderFSharpCode src
+                        getCodeSnippet activeTab |> renderCode
                     )
                 )
                 .ResultContent(
                     ActiveTab.View.Doc(fun activeTab ->
-                        activeTab 
-                        |> getResultDoc
+                        activeTab |> getResultDoc
                     )
                 )
-                
-                .WarpFile(renderFSharpCode warpSrc)
-                .EndPointFile(renderFSharpCode endPointSrc)
-                .UiFile(renderFSharpCode uiSrc)
-                
+                .SCGContent(
+                    FeaturesSCG.HydrateSCG ()
+                    |> fun t -> t.Doc()
+                )
                 .Doc()
         else
-            Templates.FeaturesTemplate.Content()
-                .WarpFile(renderFSharpCode warpSrc)
-                .EndPointFile(renderFSharpCode endPointSrc)
-                .UiFile(renderFSharpCode uiSrc)
-                .Doc()
+            template.Doc()
+        

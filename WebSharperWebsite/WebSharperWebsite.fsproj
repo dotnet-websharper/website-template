@@ -49,6 +49,7 @@
     <Compile Include="Src\VideoPlayer.fs" />
     <Compile Include="Src\Clipboard.fs" />
     <Compile Include="Src\Theme.fs" />
+    <Compile Include="Src\FeaturesSCG.fs" />
     <Compile Include="Src\Features.fs" />    
     <Compile Include="Src\Pages.fs" />
     <Compile Include="Src\Main.fs" />

@@ -415,7 +415,9 @@
                 </section>
             </div>
 
-            <div class="border-t border-gray-200 dark:border-gray-800 pt-16">
+            <div ws-replace="SCGContent"></div>
+
+            <div ws-template="SCGTemplate" class="border-t border-gray-200 dark:border-gray-800 pt-16">
                 <div class="mx-auto max-w-2xl lg:text-center mb-12">
                     <h2 class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Metaprogramming</h2>
                     <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Source Code Generators</p>
@@ -424,30 +426,59 @@
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
-
-                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 mb-16">
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-96 flex flex-col">
                         <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
                             <span class="text-xs font-mono text-yellow-400">MyApp.warp</span>
                         </div>
-                        <div class="snippet-code" ws-hole="WarpFile"></div>
+                        <div class="snippet-code flex-1 overflow-hidden" ws-hole="WarpFile"></div>
                     </div>
 
-                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-96 flex flex-col">
                         <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
                             <span class="text-xs font-mono text-blue-400">MyApp.warp_EndPoint.fs</span>
                         </div>
-                        <div class="snippet-code" ws-hole="EndPointFile"></div>
+                        <div class="snippet-code flex-1 overflow-hidden" ws-hole="EndPointFile"></div>
                     </div>
 
-                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-96 flex flex-col">
                         <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
                             <span class="text-xs font-mono text-blue-400">MyApp.warp_UI.fs</span>
                         </div>
-                        <div class="snippet-code" ws-hole="UiFile"></div>
+                        <div class="snippet-code flex-1 overflow-hidden" ws-hole="UiFile"></div>
+                    </div>
+                </div>
+
+                <div class="mx-auto max-w-2xl lg:text-center mb-8">
+                    <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Interactive Explorer</h3>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 items-start h-[32rem]">
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-1 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-full flex flex-col">
+                        <div class="flex items-center justify-between px-4 h-14 border-b border-gray-100 dark:border-gray-800">
+                            <span class="text-xs font-mono text-yellow-500 font-semibold">MyApp.warp</span>
+                        </div>
+                        <div class="flex-1 overflow-hidden relative">
+                            <div class="snippet-code h-full w-full" ws-hole="WarpFileTabbed"></div>
+                        </div>
                     </div>
 
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-1 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-full flex flex-col">
+                        <div class="flex items-center gap-4 px-2 h-14 border-b border-gray-100 dark:border-gray-800">
+                            <div class="flex p-1 bg-gray-100/50 dark:bg-gray-800/50 rounded-lg w-full overflow-x-auto no-scrollbar">
+                                <button ws-onclick="SelectGenEndPoint" ws-attr="GenEndPointAttr" class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">EndPoint.fs</button>
+                                <button ws-onclick="SelectGenUI" ws-attr="GenUIAttr" class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">UI.fs</button>
+                                <button ws-onclick="SelectGenClient" ws-attr="GenClientAttr" class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">Client.fs</button>
+                                <button ws-onclick="SelectGenShared" ws-attr="GenSharedAttr" class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">Shared.fs</button>
+                                <button ws-onclick="SelectGenServer" ws-attr="GenServerAttr" class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">Server.fs</button>
+                            </div>
+                        </div>
+                        <div class="flex-1 overflow-hidden relative group">
+                            <div class="absolute inset-0 snippet-code" ws-hole="GeneratedContent"></div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
         </div>
