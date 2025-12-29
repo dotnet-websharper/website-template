@@ -59,13 +59,11 @@
     <script type="text/javascript" src="Scripts/maps.head.js"></script>
 </head>
 <body>
-    <div id="main">
-        <div ws-template="Main">
-            <div class="app-container">
-                <div class="map-card">
-                    <div class="map-target" ws-hole="Map"></div>
-                    <div class="overlay" ws-hole="Coordinates">Hover over map...</div>
-                </div>
+    <div id="main" ws-children-template="Main">
+        <div class="app-container">
+            <div class="map-card">
+                <div class="map-target" ws-hole="Map"></div>
+                <div class="overlay" ws-hole="Coordinates">Hover over map...</div>
             </div>
         </div>
     </div>
