@@ -147,10 +147,19 @@ let Chat =
     let socket = WebSocket.Client "/chat"
     socket.Post { User = "Me"; Text = "Hi" }
 """
-        | Forms -> """Form.Return (fun u p -> {User=u; Pass=p})
-<*> (Form.Yield "" |> Validation.IsNotEmpty "User")
-<*> (Form.Yield "" |> Validation.IsNotEmpty "Pass")
-|> Form.Render
+        | Forms -> """let Render id = 
+    let username = Var.Create ""
+    let password = Var.Create ""
+
+    IndexTemplate.LoginForm()
+        .Username(username)
+        .Password(password)
+        .Login(fun e ->
+            e.Event.PreventDefault()
+            JS.Alert("Welcome, " + username.Value + "!")                
+        )
+        .Doc()
+        |> Doc.RunById id
 """
 
     let getResultDoc = function
