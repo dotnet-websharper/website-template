@@ -11,7 +11,7 @@ open WebSharper.Sitelets
 module Features =
         
     type Tab = 
-        | [<EndPoint "bindings">] Bindings 
+        | [<EndPoint "spreadsheet">] Spreadsheet 
         | [<EndPoint "maps">] Maps 
         | [<EndPoint "charts">] Charts 
         | [<EndPoint "rtc">] RTC 
@@ -20,12 +20,12 @@ module Features =
     let ActiveTab : Var<Tab> = 
         if IsClient then
             if JS.Document.Location.Hash = "" then
-                JS.Document.Location.Hash <- "/bindings"
+                JS.Document.Location.Hash <- "/spreadsheet"
 
             Router.Infer<Tab>()
-            |> Router.InstallHash Tab.Bindings
+            |> Router.InstallHash Tab.Spreadsheet
         else
-            Var.Create Tab.Bindings
+            Var.Create Tab.Spreadsheet
 
     let private tabAttr targetTab =
         ActiveTab.View 
@@ -38,17 +38,41 @@ module Features =
 
     // Tab Content Generators
 
-    let renderBindings () = Templates.FeaturesTemplate.BindingsExample().Doc()
+    let renderSpreadsheet () = Templates.FeaturesTemplate.SpreadsheetExample().Doc()
     let renderMaps () = Templates.FeaturesTemplate.MapsExample().Doc()
     let renderChart () = Templates.FeaturesTemplate.ChartExample().Doc()
     let renderRTC () = Templates.FeaturesTemplate.RTCExample().Doc()
     let renderForms () = Templates.FeaturesTemplate.FormsExample().Doc()
 
     let getCodeSnippet = function
-        | Bindings -> """let name = Var.Create "World"
-Templates.FeaturesTemplate.BindingsExample()
-    .Name(name)  
-    .Doc()
+        | Spreadsheet -> """open WebSharper.SlickGrid
+
+let SetupGrid () =
+    let columns = [|
+        Column(id = "title", field = "title", Name = "Title", Sortable = true, Width = 100)
+        Column(id = "percentComplete", field = "percentComplete", Name = "% Complete", Formatter = Formatters.PercentCompleteBar, Width = 120)
+    |]
+
+    let options = GridOption(
+        EnableCellNavigation = true,
+        EnableColumnReorder = false,
+        RowHeight = 35,
+        ForceFitColumns = true
+    )
+
+    let data = 
+        [| for i in 0 .. 100 do
+            yield New [
+                "id" => i
+                "title" => "Task " + string i
+                "percentComplete" => Math.Round(Math.Random() * 100.0)
+            ]
+        |]
+
+    Styles.Grid()
+    Styles.AlpineTheme()
+
+    SlickGrid("#myGrid", data, columns, options)
 """
         | Maps -> """open WebSharper.UI.Html
 open WebSharper.Leaflet
@@ -109,7 +133,7 @@ let Chat =
 """
 
     let getResultDoc = function
-        | Bindings -> renderBindings()
+        | Spreadsheet -> renderSpreadsheet()
         | Maps -> renderMaps()
         | Charts -> renderChart()
         | RTC -> renderRTC()
@@ -171,13 +195,13 @@ module UI =
         if IsClient then
             Templates.FeaturesTemplate.Content()                
                 // Tabs
-                .SelectBindings(fun _ -> ActiveTab.Value <- Bindings)
+                .SelectSpreadsheet(fun _ -> ActiveTab.Value <- Spreadsheet)
                 .SelectMaps(fun _ -> ActiveTab.Value <- Maps)
                 .SelectCharts(fun _ -> ActiveTab.Value <- Charts)
                 .SelectRTC(fun _ -> ActiveTab.Value <- RTC)
                 .SelectForms(fun _ -> ActiveTab.Value <- Forms)
 
-                .BindingsTabAttr(tabAttr Bindings)
+                .SpreadsheetTabAttr(tabAttr Spreadsheet)
                 .MapsTabAttr(tabAttr Maps)
                 .ChartsTabAttr(tabAttr Charts)
                 .RTCTabAttr(tabAttr RTC)
