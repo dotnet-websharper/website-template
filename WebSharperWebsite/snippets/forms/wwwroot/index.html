@@ -13,10 +13,10 @@
         :root {
             font-family: sans-serif;
             --text-color: #e2e8f0;
-            --bg-color: #0f172a; 
+            --bg-color: #0f172a;
             --input-bg: #1e293b;
-            --border-color: #334155; 
-            --accent-color: #3b82f6; 
+            --border-color: #334155;
+            --accent-color: #3b82f6;
         }
 
         body {
@@ -31,14 +31,16 @@
         #main {
             display: flex !important;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            padding-top: 10vh;
             width: 100%;
             height: 100%;
+            box-sizing: border-box;
         }
 
         form {
             width: 100%;
-            max-width: 350px; 
+            max-width: 350px;
             padding: 2rem;
             border: 1px solid var(--border-color);
             border-radius: 0.5rem;
