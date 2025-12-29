@@ -14,7 +14,7 @@ module Features =
         | [<EndPoint "spreadsheet">] Spreadsheet 
         | [<EndPoint "maps">] Maps 
         | [<EndPoint "charts">] Charts 
-        | [<EndPoint "rtc">] RTC 
+        | [<EndPoint "visual">] Visual 
         | [<EndPoint "forms">] Forms
 
     let ActiveTab : Var<Tab> = 
@@ -41,7 +41,7 @@ module Features =
     let renderSpreadsheet () = Templates.FeaturesTemplate.SpreadsheetExample().Doc()
     let renderMaps () = Templates.FeaturesTemplate.MapsExample().Doc()
     let renderChart () = Templates.FeaturesTemplate.ChartExample().Doc()
-    let renderRTC () = Templates.FeaturesTemplate.RTCExample().Doc()
+    let renderVisual () = Templates.FeaturesTemplate.VisualExample().Doc()
     let renderForms () = Templates.FeaturesTemplate.FormsExample().Doc()
 
     let getCodeSnippet = function
@@ -141,7 +141,7 @@ let RenderChart id =
         )
     ] []
 """
-        | RTC -> """type Msg = { User: string; Text: string }
+        | Visual -> """type Msg = { User: string; Text: string }
 
 let Chat = 
     let socket = WebSocket.Client "/chat"
@@ -166,7 +166,7 @@ let Chat =
         | Charts -> renderChart()
         | Maps -> renderMaps()
         | Forms -> renderForms()
-        | RTC -> renderRTC()
+        | Visual -> renderVisual()
         | Spreadsheet -> renderSpreadsheet()        
 
     let highlight () =
@@ -224,12 +224,12 @@ module UI =
                 .SelectSpreadsheet(fun _ -> ActiveTab.Value <- Spreadsheet)
                 .SelectMaps(fun _ -> ActiveTab.Value <- Maps)
                 .SelectCharts(fun _ -> ActiveTab.Value <- Charts)
-                .SelectRTC(fun _ -> ActiveTab.Value <- RTC)
+                .SelectVisual(fun _ -> ActiveTab.Value <- Visual)
                 .SelectForms(fun _ -> ActiveTab.Value <- Forms)
                 .SpreadsheetTabAttr(tabAttr Spreadsheet)
                 .MapsTabAttr(tabAttr Maps)
                 .ChartsTabAttr(tabAttr Charts)
-                .RTCTabAttr(tabAttr RTC)
+                .VisualTabAttr(tabAttr Visual)
                 .FormsTabAttr(tabAttr Forms)
                 .CodeContent(
                     ActiveTab.View.Doc(fun activeTab ->

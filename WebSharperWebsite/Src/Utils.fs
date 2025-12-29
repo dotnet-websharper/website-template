@@ -30,7 +30,7 @@ module Utils =
     let SupportPlansUrl = "/support#plans"
 
     let renderCode src func = 
-        pre [attr.``class`` "line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-[34rem] text-xs m-0 !bg-transparent"] [
+        pre [attr.``class`` "line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-[38rem] text-xs m-0 !bg-transparent"] [
             code [
                 attr.``class`` ("language-fsharp pt-[1px]")
                 on.afterRender func
