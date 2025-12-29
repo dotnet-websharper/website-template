@@ -402,7 +402,8 @@ let SetupGrid () =\r
                     <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Interactive Explorer</h3>\r
                 </div>\r
 \r
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 items-start h-[32rem]">\r
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 items-start h-[32rem]">\r
+\r
                     <div class="rounded-xl bg-white dark:bg-gray-900 p-1 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-full flex flex-col">\r
                         <div class="flex items-center justify-between px-4 h-14 border-b border-gray-100 dark:border-gray-800">\r
                             <span class="text-xs font-mono text-yellow-500 font-semibold">MyApp.warp</span>\r
@@ -412,7 +413,7 @@ let SetupGrid () =\r
                         </div>\r
                     </div>\r
 \r
-                    <div class="rounded-xl bg-white dark:bg-gray-900 p-1 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-full flex flex-col">\r
+                    <div class="lg:col-span-2 rounded-xl bg-white dark:bg-gray-900 p-1 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-full flex flex-col">\r
                         <div class="flex items-center gap-4 px-2 h-14 border-b border-gray-100 dark:border-gray-800">\r
                             <div class="flex p-1 bg-gray-100/50 dark:bg-gray-800/50 rounded-lg w-full overflow-x-auto no-scrollbar">\r
                                 <button ws-onclick="SelectGenEndPoint" ws-attr="GenEndPointAttr" class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">EndPoint.fs</button>\r
@@ -464,7 +465,8 @@ let SetupGrid () =\r
                     <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Interactive Explorer</h3>\r
                 </div>\r
 \r
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 items-start h-[32rem]">\r
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 items-start h-[32rem]">\r
+\r
                     <div class="rounded-xl bg-white dark:bg-gray-900 p-1 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-full flex flex-col">\r
                         <div class="flex items-center justify-between px-4 h-14 border-b border-gray-100 dark:border-gray-800">\r
                             <span class="text-xs font-mono text-yellow-500 font-semibold">MyApp.warp</span>\r
@@ -474,7 +476,7 @@ let SetupGrid () =\r
                         </div>\r
                     </div>\r
 \r
-                    <div class="rounded-xl bg-white dark:bg-gray-900 p-1 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-full flex flex-col">\r
+                    <div class="lg:col-span-2 rounded-xl bg-white dark:bg-gray-900 p-1 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-full flex flex-col">\r
                         <div class="flex items-center gap-4 px-2 h-14 border-b border-gray-100 dark:border-gray-800">\r
                             <div class="flex p-1 bg-gray-100/50 dark:bg-gray-800/50 rounded-lg w-full overflow-x-auto no-scrollbar">\r
                                 <button ws-onclick="SelectGenEndPoint" ws-attr="GenEndPointAttr" class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">EndPoint.fs</button>\r
