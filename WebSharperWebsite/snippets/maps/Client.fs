@@ -17,13 +17,12 @@ module Client =
         let coordinatesText = Var.Create "Hover over map..."
 
         IndexTemplate.Main()
-            // .Map expects a Doc, so we create a div with an afterRender hook
             .Map(
                 div [
                     attr.style "width: 100%; height: 100%;"
                     on.afterRender (fun el ->
                         let map = Leaflet.L.Map(el)
-                        map.SetView((47.49883, 19.0582), 14)
+                        map.SetView((47.5000, 19.0500), 14)
 
                         map.AddLayer(
                             Leaflet.TileLayer(
@@ -32,8 +31,9 @@ module Client =
                             )
                         ) |> ignore
 
-                        let m = Leaflet.Marker((47.4952, 19.07114))
-                        m.BindPopup("IntelliFactory") |> ignore
+                        let m = Leaflet.Marker((47.50712, 19.04567)) 
+                        
+                        m.BindPopup("Hungarian Parliament") |> ignore 
                         map.AddLayer(m) |> ignore
 
                         map.On_mousemove(fun map ev ->
