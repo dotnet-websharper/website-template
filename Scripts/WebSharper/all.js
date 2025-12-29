@@ -102,9 +102,23 @@ let Main () =\r
 open WebSharper.Plotly\r
 \r
 let RenderChart id =\r
-    // ... Chart Configuration ...\r
+    let barTrace = BarOptions()\r
+    barTrace.X <- [| "Q1"; "Q2"; "Q3"; "Q4" |]\r
+    barTrace.Y <- [| 45000; 52000; 28000; 64000 |]\r
+    barTrace.Name <- "Revenue"\r
+    barTrace.Marker <- BarMarker(\r
+        Color = "rgba(79, 70, 229, 1)" \r
+    )\r
+\r
     let layout = Layout()\r
-    layout.Title <- LayoutTitle(Text = "Annual Revenue")\r
+    layout.Title <- LayoutTitle(Text = "Annual Revenue", Font = Font(Size = 24, Family = "Segoe UI, sans-serif"))\r
+    layout.Showlegend <- false\r
+    layout.Autosize <- true\r
+    layout.Margin <- LayoutMargin(L = 50, R = 50, B = 50, T = 80)\r
+    layout.Paper_bgcolor <- "rgba(0,0,0,0)" \r
+    layout.Plot_bgcolor <- "rgba(0,0,0,0)"\r
+    layout.Yaxis <- LayoutYAxis(Gridcolor = "#e2e8f0", Zeroline = false)\r
+    layout.Xaxis <- LayoutXAxis(Gridcolor = "rgba(0,0,0,0)")\r
 \r
     div [\r
         attr.id id\r
