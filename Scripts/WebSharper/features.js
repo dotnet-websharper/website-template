@@ -117,19 +117,19 @@ let SetupGrid () =\r
                     <nav aria-label="Features" class="rounded-xl border border-gray-200 p-3 dark:border-gray-800">\r
                         <ul class="space-y-1 text-sm">\r
                             <li>\r
-                                <button ws-onclick="SelectCharts" ws-attr="ChartsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Charts</button>\r
+                                <button ws-onclick="SelectCharts" ws-attr="ChartsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Charts</button>\r
                             </li>\r
                             <li>\r
-                                <button ws-onclick="SelectMaps" ws-attr="MapsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Maps</button>\r
+                                <button ws-onclick="SelectMaps" ws-attr="MapsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Maps</button>\r
                             </li>\r
                             <li>\r
-                                <button ws-onclick="SelectForms" ws-attr="FormsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Forms</button>\r
+                                <button ws-onclick="SelectForms" ws-attr="FormsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Forms</button>\r
                             </li>\r
                             <li>\r
-                                <button ws-onclick="SelectRTC" ws-attr="RTCTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Real-time Chat</button>\r
+                                <button ws-onclick="SelectRTC" ws-attr="RTCTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Real-time Chat</button>\r
                             </li>\r
                             <li>\r
-                                <button ws-onclick="SelectSpreadsheet" ws-attr="SpreadsheetTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Spreadsheet</button>\r
+                                <button ws-onclick="SelectSpreadsheet" ws-attr="SpreadsheetTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Spreadsheet</button>\r
                             </li>\r
                         </ul>\r
                     </nav>\r
@@ -216,19 +216,19 @@ let SetupGrid () =\r
                     <nav aria-label="Features" class="rounded-xl border border-gray-200 p-3 dark:border-gray-800">\r
                         <ul class="space-y-1 text-sm">\r
                             <li>\r
-                                <button ws-onclick="SelectCharts" ws-attr="ChartsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Charts</button>\r
+                                <button ws-onclick="SelectCharts" ws-attr="ChartsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Charts</button>\r
                             </li>\r
                             <li>\r
-                                <button ws-onclick="SelectMaps" ws-attr="MapsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Maps</button>\r
+                                <button ws-onclick="SelectMaps" ws-attr="MapsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Maps</button>\r
                             </li>\r
                             <li>\r
-                                <button ws-onclick="SelectForms" ws-attr="FormsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Forms</button>\r
+                                <button ws-onclick="SelectForms" ws-attr="FormsTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Forms</button>\r
                             </li>\r
                             <li>\r
-                                <button ws-onclick="SelectRTC" ws-attr="RTCTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Real-time Chat</button>\r
+                                <button ws-onclick="SelectRTC" ws-attr="RTCTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Real-time Chat</button>\r
                             </li>\r
                             <li>\r
-                                <button ws-onclick="SelectSpreadsheet" ws-attr="SpreadsheetTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-white/5">Spreadsheet</button>\r
+                                <button ws-onclick="SelectSpreadsheet" ws-attr="SpreadsheetTabAttr" class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Spreadsheet</button>\r
                             </li>\r
                         </ul>\r
                     </nav>\r
