@@ -20,12 +20,12 @@ module Features =
     let ActiveTab : Var<Tab> = 
         if IsClient then
             if JS.Document.Location.Hash = "" then
-                JS.Document.Location.Hash <- "/spreadsheet"
+                JS.Document.Location.Hash <- "/charts"
 
             Router.Infer<Tab>()
-            |> Router.InstallHash Tab.Spreadsheet
+            |> Router.InstallHash Tab.Charts
         else
-            Var.Create Tab.Spreadsheet
+            Var.Create Tab.Charts
 
     let private tabAttr targetTab =
         ActiveTab.View 
@@ -83,21 +83,28 @@ let Main () =
         div [
             attr.style "height: 600px;"
             on.afterRender (fun div ->
-                let map = Leaflet.L.Map(div)
-                map.SetView((47.49883, 19.0582), 14)
+                let map = Leaflet.L.Map(el)
+                map.SetView((47.5000, 19.0500), 14)
+
                 map.AddLayer(
                     Leaflet.TileLayer(
                         Leaflet.TileLayer.OpenStreetMap.UrlTemplate,
-                        Leaflet.TileLayer.Options(
-                            Attribution = Leaflet.TileLayer.OpenStreetMap.Attribution)))
-                map.AddLayer(
-                    let m = Leaflet.Marker((47.4952, 19.07114))
-                    m.BindPopup("IntelliFactory")
-                    m)
+                        Leaflet.TileLayer.Options(Attribution = Leaflet.TileLayer.OpenStreetMap.Attribution)
+                    )
+                ) |> ignore
+
+                let m = Leaflet.Marker((47.50712, 19.04567)) 
+                        
+                m.BindPopup("Hungarian Parliament") |> ignore 
+                map.AddLayer(m) |> ignore
+
                 map.On_mousemove(fun map ev ->
-                    coordinates.Text <- "Position: " + ev.Latlng.ToString())
+                    coordinatesText.Value <- "Position: " + ev.Latlng.ToString()
+                ) |> ignore
+
                 map.On_mouseout(fun map ev ->
-                    coordinates.Text <- "")
+                    coordinatesText.Value <- "Hover over map..."
+                ) |> ignore
             )
         ] []
         coordinates
@@ -147,11 +154,11 @@ let Chat =
 """
 
     let getResultDoc = function
-        | Spreadsheet -> renderSpreadsheet()
-        | Maps -> renderMaps()
         | Charts -> renderChart()
-        | RTC -> renderRTC()
+        | Maps -> renderMaps()
         | Forms -> renderForms()
+        | RTC -> renderRTC()
+        | Spreadsheet -> renderSpreadsheet()        
 
     let highlight () =
         let prism = JS.ImportDefault "prismjs"
