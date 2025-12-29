@@ -139,10 +139,19 @@ let RenderChart id =\r
 let Chat = \r
     let socket = WebSocket.Client "/chat"\r
     socket.Post { User = "Me"; Text = "Hi" }\r
-`:e.$==4?`Form.Return (fun u p -> {User=u; Pass=p})\r
-<*> (Form.Yield "" |> Validation.IsNotEmpty "User")\r
-<*> (Form.Yield "" |> Validation.IsNotEmpty "Pass")\r
-|> Form.Render\r
+`:e.$==4?`let Render id = \r
+    let username = Var.Create ""\r
+    let password = Var.Create ""\r
+\r
+    IndexTemplate.LoginForm()\r
+        .Username(username)\r
+        .Password(password)\r
+        .Login(fun e ->\r
+            e.Event.PreventDefault()\r
+            JS.Alert("Welcome, " + username.Value + "!")                \r
+        )\r
+        .Doc()\r
+        |> Doc.RunById id\r
 `:`open WebSharper.SlickGrid\r
 \r
 let SetupGrid () =\r
