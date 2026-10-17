@@ -1,0 +1,5 @@
+<!-- /articles endpoint -->
+<div>
+  <h1>Welcome!</h1>
+  <a href="/article/42">Go to article 42</a>
+</div>

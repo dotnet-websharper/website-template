@@ -1,0 +1,6 @@
+<h1>My list of unique people</h1>
+<div ws-children-template="Main">
+    <input ws-var="Name" />
+    <button ws-onclick="Add">Add</button>
+    <button ws-onclick="Remove">Remove</button>
+</div>

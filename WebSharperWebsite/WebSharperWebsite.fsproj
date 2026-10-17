@@ -1,59 +1,60 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <StartAction>Program</StartAction>
     <StartProgram>dotnet</StartProgram>
     <StartArguments>serve --tls --port 5173 --default-extensions:.html,.htm</StartArguments>
-    <StartWorkingDirectory>$(MSBuildThisFileDirectory)bin\html</StartWorkingDirectory>
+    <StartWorkingDirectory>$(MSBuildThisFileDirectory)bin/html</StartWorkingDirectory>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <None Include="Assets\**\*.*" />
-    <None Include="Js\**\*.*" />
-    <None Include="Styles\**\*.*" />
 
-    <Compile Include="Src\Utils.fs" />
-	  <Compile Include="Src\Countries.fs" />
-	  <Compile Include="Src\RemotingContract.fs" />
-	  <Compile Include="Src\AuthClient.fs" />
-	  <Compile Include="Src\Error.fs" />
-	  <Compile Include="Src\Support\Types.fs" />
-	  <Compile Include="Src\Support\SupportState.fs" />
-	  <Compile Include="Src\Support\SupportViewsPricing.fs" />
-	  <Compile Include="Src\Support\SupportApi.fs" />
-	  <Compile Include="Src\Support\SupportViewsAttrs.fs" />
-	  <Compile Include="Src\Support\Page.fs" />
-	  <Compile Include="Src\Checkout\Types.fs" />
-	  <Compile Include="Src\Checkout\CheckoutState.fs" />
-	  <Compile Include="Src\Checkout\Views.Pricing.fs" />
-	  <Compile Include="Src\Checkout\Views.Attrs.fs" />
-	  <Compile Include="Src\Checkout\Api.fs" />
-	  <Compile Include="Src\Checkout\Controller.fs" />
-	  <Compile Include="Src\Checkout\Success.fs" />
-	  <Compile Include="Src\Checkout\Page.fs" />
-	  <Compile Include="Src\ManageSubscription\Types.fs" />
-    <Compile Include="Src\ManageSubscription\State.fs" />
-    <Compile Include="Src\ManageSubscription\Views.fs" />
-    <Compile Include="Src\ManageSubscription\Api.fs" />
-    <Compile Include="Src\ManageSubscription\Views.Billing.fs" />
-    <Compile Include="Src\ManageSubscription\Views.Seats.fs" />
-    <Compile Include="Src\ManageSubscription\Views.Invoices.fs" />
-    <Compile Include="src\managesubscription\Views.GitHub.fs" />
-    <Compile Include="Src\ManageSubscription\Controller.fs" />
-    <Compile Include="Src\ManageSubscription\ViewsAuth.fs" />
-    <Compile Include="Src\ManageSubscription\Invoices.fs" />
-    <Compile Include="Src\ManageSubscription\ManageSubPage.fs" /> 
-    <Compile Include="Src\SnippetCode.fs" />
-    <Compile Include="Src\AccountMenu.fs" />
-    <Compile Include="Src\VideoPlayer.fs" />
-    <Compile Include="Src\Clipboard.fs" />
-    <Compile Include="Src\Theme.fs" />
-    <Compile Include="Src\FeaturesSCG.fs" />
-    <Compile Include="Src\Features.fs" />    
-    <Compile Include="Src\Pages.fs" />
-    <Compile Include="Src\Main.fs" />
-    <Content Include="Styles\app.css" />
+  <ItemGroup>
+    <None Include="Assets/**/*.*" />
+    <None Include="Js/**/*.*" />
+    <None Include="Styles/**/*.*" />
+
+    <Compile Include="Src/Utils.fs" />
+    <Compile Include="Src/Snippets.fs" />
+    <Compile Include="Src/Countries.fs" />
+    <Compile Include="Src/RemotingContract.fs" />
+    <Compile Include="Src/AuthClient.fs" />
+    <Compile Include="Src/Error.fs" />
+    <Compile Include="Src/Support/Types.fs" />
+    <Compile Include="Src/Support/SupportState.fs" />
+    <Compile Include="Src/Support/SupportViewsPricing.fs" />
+    <Compile Include="Src/Support/SupportApi.fs" />
+    <Compile Include="Src/Support/SupportViewsAttrs.fs" />
+    <Compile Include="Src/Support/Page.fs" />
+    <Compile Include="Src/Checkout/Types.fs" />
+    <Compile Include="Src/Checkout/CheckoutState.fs" />
+    <Compile Include="Src/Checkout/Views.Pricing.fs" />
+    <Compile Include="Src/Checkout/Views.Attrs.fs" />
+    <Compile Include="Src/Checkout/Api.fs" />
+    <Compile Include="Src/Checkout/Controller.fs" />
+    <Compile Include="Src/Checkout/Success.fs" />
+    <Compile Include="Src/Checkout/Page.fs" />
+    <Compile Include="Src/ManageSubscription/Types.fs" />
+    <Compile Include="Src/ManageSubscription/State.fs" />
+    <Compile Include="Src/ManageSubscription/Views.fs" />
+    <Compile Include="Src/ManageSubscription/Api.fs" />
+    <Compile Include="Src/ManageSubscription/Views.Billing.fs" />
+    <Compile Include="Src/ManageSubscription/Views.Seats.fs" />
+    <Compile Include="Src/ManageSubscription/Views.Invoices.fs" />
+    <Compile Include="Src/managesubscription/Views.GitHub.fs" />
+    <Compile Include="Src/ManageSubscription/Controller.fs" />
+    <Compile Include="Src/ManageSubscription/ViewsAuth.fs" />
+    <Compile Include="Src/ManageSubscription/Invoices.fs" />
+    <Compile Include="Src/ManageSubscription/ManageSubPage.fs" />
+    <Compile Include="Src/SnippetCode.fs" />
+    <Compile Include="Src/AccountMenu.fs" />
+    <Compile Include="Src/VideoPlayer.fs" />
+    <Compile Include="Src/Clipboard.fs" />
+    <Compile Include="Src/Theme.fs" />
+    <Compile Include="Src/FeaturesSCG.fs" />
+    <Compile Include="Src/Features.fs" />
+    <Compile Include="Src/Pages.fs" />
+    <Compile Include="Src/Main.fs" />
+    <Content Include="Styles/app.css" />
     <Content Include="Layout.html" />
     <Content Include="Home.html" />
     <Content Include="404.html" />
@@ -63,7 +64,7 @@
     <Content Include="Checkout.html" />
     <Content Include="Error.html" />
     <Content Include="Invoice.html" />
-	<Content Include="Features.html" />
+    <Content Include="Features.html" />
     <Content Include="ManageSubscription.html" />
     <Content Include="Success.html" />
     <None Include="extra.files" />
@@ -72,9 +73,16 @@
     <None Include="wsconfig.json" />
   </ItemGroup>
 
+  <!-- Code fragments shown by the code-window widget. Embedded verbatim (never
+       parsed as HTML), so they need no escaping; excluded from compilation. -->
   <ItemGroup>
-    <PackageReference Include="WebSharper" Version="10.0.0.652" />    
-    <PackageReference Include="WebSharper.FSharp" Version="10.0.0.652" />    
+    <Compile Remove="CodeFragments/**/*.fs" />
+    <EmbeddedResource Include="CodeFragments/**/*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WebSharper" Version="10.0.0.652" />
+    <PackageReference Include="WebSharper.FSharp" Version="10.0.0.652" />
     <PackageReference Include="WebSharper.SweetAlert" Version="10.0.0.651" />
     <PackageReference Include="WebSharper.UI" Version="10.0.0.652" />
   </ItemGroup>
@@ -85,7 +93,7 @@
 
   <Target Name="ESBuildBundle" AfterTargets="WebSharperCompile">
     <Exec Command="npm install" />
-	  <Exec Command="npm run css:build" />
+    <Exec Command="npm run css:build" />
     <Exec Command="node ./esbuild.config.mjs" />
   </Target>
 

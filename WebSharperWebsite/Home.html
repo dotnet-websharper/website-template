@@ -454,9 +454,9 @@
                             <div data-name="snippet" class="rounded-[23px] border border-gray-200/10 bg-white shadow-xl shadow-gray-950/5 pb-3 pr-3 text-sm backdrop-blur-3xl dark:border-transparent dark:bg-gray-950 md:ml-0">
                                 <div class="flex items-center gap-4 px-6 pt-2 pb-1">
                                     <div class="flex space-x-1.5">
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+                                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
+                                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
+                                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
                                     </div>
 
                                     <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
@@ -639,6 +639,49 @@ module Client =
 
             <section>
                 <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="mx-auto max-w-3xl text-center">
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">How it works</h2>
+                        <p class="mt-6 text-gray-500 dark:text-gray-200">
+                            Write your app once in C# or F#. The compiler walks your assemblies and emits a native .NET server and a JavaScript client that share both their data types and the metadata that connects them.
+                        </p>
+                    </div>
+                    <div class="relative mt-14 overflow-x-auto">
+                        <svg viewBox="0 0 900 300" role="img" aria-label="C# and F# source is compiled by WebSharper to a native .NET server and a JavaScript client that share types and typed remoting" class="mx-auto h-auto w-full min-w-[640px] max-w-4xl text-gray-900 dark:text-white">
+                            <defs>
+                                <marker id="ws-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M0 0L10 5L0 10z" fill="currentColor" opacity="0.55" />
+                                </marker>
+                            </defs>
+                            <g fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.5">
+                                <rect x="20" y="110" width="200" height="80" rx="12" />
+                                <rect x="330" y="110" width="200" height="80" rx="12" />
+                                <rect x="640" y="40" width="240" height="80" rx="12" />
+                                <rect x="640" y="180" width="240" height="80" rx="12" />
+                                <path d="M220 150 H330" marker-end="url(#ws-arrow)" />
+                                <path d="M530 138 C 590 120, 590 90, 640 80" marker-end="url(#ws-arrow)" />
+                                <path d="M530 162 C 590 180, 590 210, 640 220" marker-end="url(#ws-arrow)" />
+                                <path d="M760 120 V180" stroke-dasharray="5 5" marker-end="url(#ws-arrow)" marker-start="url(#ws-arrow)" />
+                            </g>
+                            <g fill="currentColor" text-anchor="middle" font-size="15">
+                                <text x="120" y="145">C# / F# source</text>
+                                <text x="120" y="167" opacity="0.6" font-size="12">one codebase</text>
+                                <text x="430" y="145">WebSharper</text>
+                                <text x="430" y="167" opacity="0.6" font-size="12">compiler + metadata</text>
+                                <text x="760" y="75">Native .NET server</text>
+                                <text x="760" y="97" opacity="0.6" font-size="12">sitelets · remoting · JSON</text>
+                                <text x="760" y="215">JavaScript client</text>
+                                <text x="760" y="237" opacity="0.6" font-size="12">DOM · reactive UI · WebSockets</text>
+                            </g>
+                        </svg>
+                    </div>
+                    <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-300">
+                        Shared types and typed calls across the boundary — no hand-written serialization or fetch glue.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
                     <div class="mx-auto text-center sm:w-2/3 lg:w-1/2">
                         <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Functional, reactive applications with WebSharper.UI</h2>
                         <p class="mt-6 text-gray-500 dark:text-gray-200">Bind composite data models to your reactive user interfaces. The flow of reactive values through the code yet concise, readability.</p>
@@ -648,125 +691,7 @@ module Client =
                             </a>
                         </div>
                     </div>
-                    <div class="relative mt-16">
-                        <div class="relative z-10 border dark:border-gray-800 rounded-xl dark:bg-transparent dark:p-px">
-                            <div data-name="snippet" class="rounded-[23px] text-sm backdrop-blur-3xl">
-                                <div class="flex items-center gap-4 rounded-t-xl px-4 py-2 dark:bg-gray-950">
-                                    <div class="flex space-x-1.5">
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                    </div>
-
-                                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                        <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                        <button ws-onclick="OnTabClick"
-                                                role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                            <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                                <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                                <defs id="defs2" />
-                                                <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                    <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                    <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                    <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                                </g>
-                                            </svg>
-                                            <span class="text-xs">AddTwoNumbers.fs</span>
-                                        </button>
-                                        <button ws-onclick="OnTabClick"
-                                                role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                            <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
-                                                <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
-                                                      fill="black" />
-                                            </svg>
-                                            <span class="text-xs">addTwoNumbers.js</span>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="relative rounded-b-xl bg-gray-200/10 text-xs dark:mt-px dark:bg-gray-950">
-                                    <div class="flex p-4 pl-2 overflow-hidden">
-                                        <div class="sm:pr-4">
-                                            <pre aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></pre>
-                                        </div>
-                                        <div class="relative w-full snippet-code">
-                                            <div class="relative transition-all duration-1000 custom-scrollbar max-w-full overflow-y-hidden pr-0 sm:pr-[52%] lg:pr-[46.8%]" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                <pre class="line-numbers language-fsharp inline-block min-w-max"><code class="mt-[-16px] block md:leading-[1.13rem] language-fsharp text-white">let x = Var.Create 1
-let y = Var.Create 1
-
-let addNumbers =
-    div [] [
-        p [] [text "x "; Doc.InputType.IntUnchecked [] x]
-        p [] [text "y "; Doc.InputType.IntUnchecked [] y]
-        p [] [
-            textView (View.Map2 (fun x y -> $"x + y = {x + y}") x.View y.View)
-        ]
-    ]
-
-addNumbers |> Doc.RunById "main"</code></pre>
-                                            </div>
-                                            <div class="absolute inset-0 hidden transition-all duration-1000 custom-scrollbar" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                <pre class="-mb-20 line-numbers language-js"><code class="block mt-[-16px] leading-[1.13rem] language-js text-white">let x = 1;
-let y = 1;
-
-const inputX = document.createElement("input");
-inputX.type = "number";
-inputX.value = x;
-
-const inputY = document.createElement("input");
-inputY.type = "number";
-inputY.value = y;
-
-const pX = document.createElement("p");
-pX.textContent = "x: ";
-pX.appendChild(inputX);
-
-const pY = document.createElement("p");
-pY.textContent = "y: ";
-pY.appendChild(inputY);
-
-const result = document.createElement("p");
-function updateSum() {
-    const xVal = parseFloat(inputX.value) || 0;
-    const yVal = parseFloat(inputY.value) || 0;
-    result.textContent = "x + y = " + (xVal + yVal);
-}
-updateSum();
-
-inputX.addEventListener("input", updateSum);
-inputY.addEventListener("input", updateSum);
-
-const main = document.getElementById("main");
-main.appendChild(pX);
-main.appendChild(pY);
-main.appendChild(result);</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="relative z-10 -mt-12 scale-105 rounded-xl border border-gray-200 bg-white shadow-2xl shadow-gray-200/30 dark:border-white/5 dark:bg-gray-900 dark:shadow-black/40 sm:absolute sm:-inset-y-9 sm:-right-0 sm:mt-0 sm:w-1/2 sm:scale-100 lg:w-[46.8%]">
-                            <div class="h-full w-full rounded-xl">
-                                <div class="relative flex items-center gap-4 rounded-t-xl bg-white py-1 pl-4 pr-1 dark:bg-gray-900/20">
-                                    <div class="absolute inset-y-0 my-auto flex h-max space-x-1.5">
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                    </div>
-
-                                    <div class="mx-auto flex w-2/3 cursor-text items-center gap-1.5 rounded-lg bg-gray-100 p-1.5 px-2 dark:bg-black/30">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 text-gray-300 dark:text-gray-300/40">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                                        </svg>
-
-                                        <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>
-                                    </div>
-                                </div>
-                                <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="./snippets/add_two_numbers/index" src="./snippets/add_two_numbers/index"></iframe>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="relative mt-16" ws-hole="ReactiveCode"></div>
                 </div>
             </section>
 
@@ -803,10 +728,6 @@ main.appendChild(result);</code></pre>
                                     <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Remoting with ease</span>
                                     <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
                                 </a>
-                                <!-- <a href="#puia" data-step="puia" class="section-link group flex w-max items-center justify-end gap-3">
-                                    <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Powerful UI abstractions</span>
-                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
-                                </a> -->
                             </div>
                         </div>
                         <div class="lg:w-[calc(100%-6rem)] ml-auto">
@@ -818,98 +739,7 @@ main.appendChild(result);</code></pre>
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
-                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                    <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
-                                        <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
-                                            <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
-                                                <div class="flex space-x-1.5">
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                </div>
-
-                                                <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                                    <button role="tab" aria-selected="true" data-target="fsharp"
-                                                            ws-onclick="OnTabClick"
-                                                            class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                                            <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                                            <defs id="defs2" />
-                                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                                <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                                            </g>
-                                                        </svg>
-                                                        <span class="text-xs">NameInput.fs</span>
-                                                    </button>
-                                                    <button role="tab" aria-selected="false" data-target="js"
-                                                            ws-onclick="OnTabClick"
-                                                            class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
-                                                            <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
-                                                                  fill="black" />
-                                                        </svg>
-                                                        <span class="text-xs">nameInput.js</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
-                                                <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="p-4 pt-0"><code class="w-max language-fsharp">type Model = { name: string }
-let InitModel = { name = "" }
-
-type Message =
-    | SetName of string
-
-let Update message model =
-    match message with
-    | SetName n -> { model with name = n }
-
-let View dispatch (view: View<Model>) =
-    div [] [
-        input [
-            attr.value view.V.name
-            on.change (fun el _ ->
-                dispatch (SetName el?value))
-        ] []
-    ]
-
-let Main = App.CreateSimple InitModel Update View |> App.Run</code></pre>
-                                                    </div>
-                                                    <div class="absolute inset-0 hidden w-max h-max" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-js">let model = { name: "" };
-
-function update(message) {
-    if (message.type === "SetName") {
-    model.name = message.value;
-    render(); 
-    }
-}
-
-function render() {
-    const main = document.getElementById("main");
-    main.innerHTML = ""; 
-
-    const input = document.createElement("input");
-    input.value = model.name;
-    input.addEventListener("input", (e) => {
-    update({ type: "SetName", value: e.target.value });
-    });
-
-    main.appendChild(input);
-}
-
-render();</code></pre>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_mvu"></div>
                             </div>
                             <div id="react" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
@@ -919,78 +749,7 @@ render();</code></pre>
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
-                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                    <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
-                                        <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
-                                            <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
-                                                <div class="flex space-x-1.5">
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                </div>
-
-                                                <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                                            <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                                            <defs id="defs2" />
-                                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                                <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                                            </g>
-                                                        </svg>
-                                                        <span class="text-xs">Person.fs</span>
-                                                    </button>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
-                                                            <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
-                                                                  fill="black" />
-                                                        </svg>
-                                                        <span class="text-xs">Person.js</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
-                                                <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="p-4 pt-0"><code class="w-max language-fsharp">type Person = { name: string; age: int }
-
-type ShowPerson(props) =
-    inherit React.Component<Person, unit>(props)
-
-    override this.Render() =
-        ul [attr.className "person"] [
-            li [] [text ("Name: " + this.Props.name)]
-            li [] [text ("Age: " + string this.Props.age)]
-        ]                                                                
-                                                            </code>
-                                                        </pre>
-                                                    </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-js">import React from "react";
-
-function ShowPerson(props) {
-    return (
-        Name: {props.name}
-        Age: {props.age}
-    );
-}
-
-// Example usage:
-// &lt;ShowPerson name="Alice" age={30} /&gt;
-                                                            </code>
-                                                        </pre>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_react"></div>
                             </div>
                             <div id="webapi" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
@@ -1006,98 +765,7 @@ function ShowPerson(props) {
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
-                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                    <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
-                                        <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
-                                            <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
-                                                <div class="flex space-x-1.5">
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                </div>
-
-                                                <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                                            <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                                            <defs id="defs2" />
-                                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                                <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                                            </g>
-                                                        </svg>
-                                                        <span class="text-xs">ArticleSite.fs</span>
-                                                    </button>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="false" data-target="html" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                                                            <path fill="#E65100" d="M41,5H7l3,34l14,4l14-4L41,5L41,5z"></path>
-                                                            <path fill="#FF6D00" d="M24 8L24 39.9 35.2 36.7 37.7 8z"></path>
-                                                            <path fill="#FFF" d="M24,25v-4h8.6l-0.7,11.5L24,35.1v-4.2l4.1-1.4l0.3-4.5H24z M32.9,17l0.3-4H24v4H32.9z"></path>
-                                                            <path fill="#EEE" d="M24,30.9v4.2l-7.9-2.6L15.7,27h4l0.2,2.5L24,30.9z M19.1,17H24v-4h-9.1l0.7,12H24v-4h-4.6L19.1,17z"></path>
-                                                        </svg>
-                                                        <span class="text-xs">articles</span>
-                                                    </button>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="false" data-target="json" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M4.014,14.976a2.51,2.51,0,0,0,1.567-.518A2.377,2.377,0,0,0,6.386,13.1,15.261,15.261,0,0,0,6.6,10.156q.012-2.085.075-2.747a5.236,5.236,0,0,1,.418-1.686,3.025,3.025,0,0,1,.755-1.018A3.046,3.046,0,0,1,9,4.125,6.762,6.762,0,0,1,10.544,4h.7V5.96h-.387a2.338,2.338,0,0,0-1.723.468A3.4,3.4,0,0,0,8.709,8.52a36.054,36.054,0,0,1-.137,4.133,4.734,4.734,0,0,1-.768,2.06A4.567,4.567,0,0,1,6.1,16a3.809,3.809,0,0,1,1.992,1.754,8.861,8.861,0,0,1,.618,3.865q0,2.435.05,2.9A1.755,1.755,0,0,0,9.264,25.7a2.639,2.639,0,0,0,1.592.337h.387V28h-.7a5.655,5.655,0,0,1-1.773-.2,2.97,2.97,0,0,1-1.324-.93,3.353,3.353,0,0,1-.681-1.63A24.175,24.175,0,0,1,6.6,22.006,16.469,16.469,0,0,0,6.386,18.9a2.408,2.408,0,0,0-.805-1.361,2.489,2.489,0,0,0-1.567-.524Z" style="fill:#f5de19" /><path d="M27.986,17.011a2.489,2.489,0,0,0-1.567.524,2.408,2.408,0,0,0-.805,1.361,16.469,16.469,0,0,0-.212,3.109,24.175,24.175,0,0,1-.169,3.234,3.353,3.353,0,0,1-.681,1.63,2.97,2.97,0,0,1-1.324.93,5.655,5.655,0,0,1-1.773.2h-.7V26.04h.387a2.639,2.639,0,0,0,1.592-.337,1.755,1.755,0,0,0,.506-1.186q.05-.462.05-2.9a8.861,8.861,0,0,1,.618-3.865A3.809,3.809,0,0,1,25.9,16a4.567,4.567,0,0,1-1.7-1.286,4.734,4.734,0,0,1-.768-2.06,36.054,36.054,0,0,1-.137-4.133,3.4,3.4,0,0,0-.425-2.092,2.338,2.338,0,0,0-1.723-.468h-.387V4h.7A6.762,6.762,0,0,1,23,4.125a3.046,3.046,0,0,1,1.149.581,3.025,3.025,0,0,1,.755,1.018,5.236,5.236,0,0,1,.418,1.686q.062.662.075,2.747a15.261,15.261,0,0,0,.212,2.947,2.377,2.377,0,0,0,.805,1.355,2.51,2.51,0,0,0,1.567.518Z" style="fill:#f5de19" /></svg>
-                                                        <span class="text-xs">articleWithId.json</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
-                                                <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="p-4 pt-0"><code class="w-max language-fsharp">// Define the application's endpoints
-type EndPoint =
-    | [&lt;EndPoint "GET /articles"&gt;]
-        ArticleList
-    | [&lt;EndPoint "GET /article"&gt;]
-        Article of id: int
-
-// Define the content served by these endpoints
-let Website =
-    Application.MultiPage (fun (ctx: Context&lt;_&gt;) endpoint -&gt;
-        match endpoint with
-        | ArticleList -&gt;
-            Content.Page(
-                div [] [
-                    h1 [] [text "Welcome!"]
-                    a [attr.href (ctx.Link (Article 42))] [
-                        text "Go to article 42"
-                    ]
-                ]
-            )
-        | Article id -&gt;
-            Content.Json { id = id
-                            title = "Hello!"
-                            date = System.DateTime.Now }
-    )</code></pre>
-                                                    </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="html">
-                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-html">&lt;!-- /articles endpoint --&gt;
-&lt;div&gt;
-  &lt;h1&gt;Welcome!&lt;/h1&gt;
-  &lt;a href=&quot;/article/42&quot;&gt;Go to article 42&lt;/a&gt;
-&lt;/div&gt;
-</code></pre>
-                                                    </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-3" data-lang="json">
-                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-html">{
-  "date": "2025-10-01T13:50:44.3596542+02:00",
-  "id": 42,
-  "title": "Hello!"
-}
-</code></pre>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_webapi"></div>
                             </div>
                             <div id="csr" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
@@ -1107,105 +775,7 @@ let Website =
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
-                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                    <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
-                                        <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
-                                            <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
-                                                <div class="flex space-x-1.5">
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                </div>
-
-                                                <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                                            <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                                            <defs id="defs2" />
-                                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                                <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                                            </g>
-                                                        </svg>
-                                                        <span class="text-xs">ArticleRouter.fs</span>
-                                                    </button>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
-                                                            <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
-                                                                  fill="black" />
-                                                        </svg>
-                                                        <span class="text-xs">articleRouter.js</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
-                                                <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="p-4 pt-0"><code class="w-max language-fsharp">let router = Router.Infer&lt;EndPoint&gt;()
-let route = router.Install(Article 1)
-
-let view =
-    route.View.Map (function
-        | Article id -&gt;
-            div [] [
-                h1 [] [text $"This is article {id}"]
-                a [attr.href (router.Link Articles)] [text "Go back to the list of articles"]
-            ]
-        | Articles -&gt;
-            h1 [] [text "List of articles"]
-    )
-
-let doc = Doc.BindView id view
-Doc.RunById "main" doc</code></pre>
-                                                    </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-js">// Simulated router and state
-const router = {
-    currentRoute: { type: "Articles" },
-    link: (route) => {
-    if (route.type === "Articles") return "/articles";
-    if (route.type === "Article") return `/article/${route.id}`;
-    }
-};
-
-// Render function
-function render(route) {
-    const main = document.getElementById("main");
-    main.innerHTML = ""; 
-
-    if (route.type === "Article") {
-    const divEl = document.createElement("div");
-
-    const h1El = document.createElement("h1");
-    h1El.textContent = `This is article ${route.id}`;
-
-    const link = document.createElement("a");
-    link.href = router.link({ type: "Articles" });
-    link.textContent = "Go back to the list of articles";
-
-    divEl.appendChild(h1El);
-    divEl.appendChild(link);
-    main.appendChild(divEl);
-    } else {
-    const h1El = document.createElement("h1");
-    h1El.textContent = "List of articles";
-    main.appendChild(h1El);
-    }
-}
-
-// Initial render
-render(router.currentRoute);</code></pre>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_csr"></div>
                             </div>
                             <div id="lc" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
@@ -1220,120 +790,7 @@ render(router.currentRoute);</code></pre>
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
-                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                    <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
-                                        <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
-                                            <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
-                                                <div class="flex space-x-1.5">
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                </div>
-
-                                                <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                                            <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                                            <defs id="defs2" />
-                                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                                <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                                            </g>
-                                                        </svg>
-                                                        <span class="text-xs">query.fs</span>
-                                                    </button>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="false" data-target="csharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z" /><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z" /><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z" /></svg>
-                                                        <span class="text-xs">query.cs</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
-                                                <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="overflow-hidden p-4 pt-0"><code class="w-max overflow-hidden language-fsharp">type Article = { id: int; title: string; date: DateTime }
-
-let start = DateTime(2025, 9, 1)
-
-let articles : Article list = [
-    { id = 1; title = "Welcome to WebSharper"; date = DateTime(2025, 9, 20) }
-    { id = 2; title = "Async workflows 101"; date = DateTime(2025, 8, 15) }
-    { id = 3; title = "Query expressions on client"; date = DateTime(2025, 9, 28) }
-    { id = 4; title = "Remoting tips"; date = DateTime(2025, 7, 5)  }
-]
-// Query expressions (LINQ for F#)
-let recentIds =
-    query {
-        for article in articles do
-        where (article.date > start)
-        sortByDescending article.date
-        select article.id
-    }
-// Async workflows (run non-blocking work on the client)
-let loadAndShow =
-    async {
-        do! Async.Sleep 10
-        Console.Log(sprintf "Recent IDs: %A" (recentIds |> Seq.toList))
-    }    
-
-Async.Start loadAndShow
-
-// Sequence expressions (lazy generators)
-let squares =
-    seq {
-        for i in 1 .. 5 do
-            yield i * i
-    }   
-    
-Console.Log(String.concat ", " (squares |> Seq.map string))</code></pre>
-                                                    </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="csharp">
-                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-csharp">public record Article(int Id, string Title, DateTime Date);
-// Async/await with Task (supported on client)
-public static async Task LoadAndShowAsync(IEnumerable&lt;int&gt; recentIds)
-{
-    await Task.Delay(10);
-    JS.Console.Log($&quot;Recent IDs: {string.Join(&quot;, &quot;, recentIds.Select(i =&gt; i.ToString()))}&quot;);
-}
-// Iterator (yield)
-public static IEnumerable&lt;int&gt; Squares()
-{
-    for (var i = 1; i &lt;= 5; i++)
-        yield return i * i;
-}
-public static void Main()
-{
-    var start = new DateTime(2025, 9, 1);
-
-    var articles = new List&lt;Article&gt;
-        {
-            new(1, &quot;Welcome to WebSharper&quot;, new DateTime(2025, 9, 20)),
-            new(2, &quot;Async workflows 101&quot;, new DateTime(2025, 8, 15)),
-            new(3, &quot;Query expressions on client&quot;, new DateTime(2025, 9, 28)),
-            new(4, &quot;Remoting tips&quot;, new DateTime(2025, 7, 5)),
-        };
-
-    // LINQ query
-    var recentIds =
-        from article in articles
-        where article.Date &gt; start
-        orderby article.Date descending
-        select article.Id;
-
-    LoadAndShowAsync(recentIds);
-
-    JS.Console.Log(string.Join(&quot;, &quot;, Squares().Select(i =&gt; i.ToString())));
-}</code></pre>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_lc"></div>
                             </div>
                             <div id="tsh" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
@@ -1345,71 +802,7 @@ public static void Main()
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
-                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                    <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
-                                        <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
-                                            <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
-                                                <div class="flex space-x-1.5">
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                </div>
-
-                                                <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                                            <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                                            <defs id="defs2" />
-                                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                                <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                                            </g>
-                                                        </svg>
-                                                        <span class="text-xs">Client.fs</span>
-                                                    </button>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="false" data-target="html" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 8-4 4 4 4m8 0 4-4-4-4m-2-3-4 14" />
-                                                        </svg>
-                                                        <span class="text-xs">index</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
-                                                <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="p-4 pt-0"><code class="w-max language-fsharp">IndexTemplate.Main()
-    .Name(newName)
-    .Add(fun _ -&gt;
-        People.Add(newName.Value)
-        newName.Value &lt;- ""
-    )
-    .Remove(fun _ -&gt; 
-        People.Remove newName.Value                                                            
-    ) 
-    .Doc()
-                                                            </code>
-                                                        </pre>
-                                                    </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="html">
-                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-html">&lt;h1&gt;My list of unique people&lt;/h1&gt;
-&lt;div ws-children-template="Main"&gt;
-    &lt;input ws-var="Name" /&gt;
-    &lt;button ws-onclick="Add"&gt;Add&lt;/button&gt;
-    &lt;button ws-onclick="Remove"&gt;Remove&lt;/button&gt;
-&lt;/div&gt;
-                                                            </code>
-                                                        </pre>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_tsh"></div>
                             </div>
                             <div id="rwe" class="section py-16 md:flex">
                                 <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
@@ -1423,85 +816,7 @@ public static void Main()
                                         <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                                     </a>
                                 </div>
-                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
-                                    <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
-                                        <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
-                                            <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
-                                                <div class="flex space-x-1.5">
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                                </div>
-
-                                                <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                                            <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                                            <defs id="defs2" />
-                                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                                <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                                            </g>
-                                                        </svg>
-                                                        <span class="text-xs">RemoteCall.fs</span>
-                                                    </button>
-                                                    <button ws-onclick="OnTabClick"
-                                                            role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                                        <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
-                                                            <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
-                                                                  fill="black" />
-                                                        </svg>
-                                                        <span class="text-xs">remoteCall.js</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
-                                                <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                        <pre class="p-4 pt-0"><code class="w-max language-fsharp">// Server-side, remote-callable function
-[&lt;Remote&gt;]
-let ServerFn () : Async&lt;string&gt; =
-    async { return "Hello, world!" }
-
-// Client-side function
-[&lt;JavaScript&gt;]
-let CallServer () : unit =
-    async {
-        let! result = ServerFn()
-        Console.Log(result)
-    }
-    |> Async.Start
-                                                            </code>
-                                                        </pre>
-                                                    </div>
-                                                    <div class="absolute inset-0 hidden w-max " role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                        <pre class="w-max p-4 pt-0"><code class="w-max language-js">// Server-side
-export function ServerFn(){
-  return Bind((new AjaxRemotingProvider()).Async("Server/ServerFn", []), (o) => Return(o));
-}
-
-// Client-side
-async function CallServer() {
-  const r = await fetch("/Server/ServerFn", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" }
-  });
-  const result = await r.json();   // -> "Hello, world!"
-  console.log(result);
-}
-CallServer();
-                                                            </code>
-                                                        </pre>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_rwe"></div>
                             </div>
                         </div>
                     </div>
@@ -1519,171 +834,7 @@ CallServer();
                             </a>
                         </div>
                     </div>
-                    <div class="relative mt-16">
-                        <div class="relative z-10 border dark:border-gray-800 rounded-xl dark:bg-transparent dark:p-px">
-                            <div data-name="snippet" class="rounded-[23px] text-sm backdrop-blur-3xl">
-                                <div class="flex items-center gap-4 rounded-t-xl px-4 py-2 dark:bg-gray-950">
-                                    <div class="flex space-x-1.5">
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                    </div>
-
-                                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                        <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                        <button ws-onclick="OnTabClick"
-                                                role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                            <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                                <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                                <defs id="defs2" />
-                                                <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                    <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                    <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                    <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                                </g>
-                                            </svg>
-                                            <span class="text-xs">Forms.fs</span>
-                                        </button>
-                                        <button ws-onclick="OnTabClick"
-                                                role="tab" aria-selected="false" data-target="js" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                            <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
-                                                <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z"
-                                                      fill="black" />
-                                            </svg>
-                                            <span class="text-xs">forms.js</span>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="relative rounded-b-xl bg-gray-200/10 text-xs dark:mt-px dark:bg-gray-950">
-                                    <div class="flex p-4 pl-2">
-                                        <div class="sm:pr-4">
-                                            <div aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></div>
-                                        </div>
-                                        <div class="relative w-full snippet-code">
-                                            <div class="relative transition-all duration-1000 custom-scrollbar max-w-full overflow-y-hidden pr-0 sm:pr-[52%] lg:pr-[46.8%]" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                                <pre class="-mb-20 !overflow-auto line-numbers language-fsharp inline-block min-w-max"><code class="mt-[-14px] block md:leading-[1.13rem] language-fsharp text-white">let LoginForm () =
-    Form.Return (fun user pass -> user, pass)
-    &lt;*&gt; (Form.Yield ""
-        |&gt; Validation.IsNotEmpty "Must enter a username")
-    &lt;*&gt; (Form.Yield ""
-        |&gt; Validation.IsNotEmpty "Must enter a password")
-    |&gt; Form.WithSubmit
-    |&gt; Form.Run (fun (u, p) -&gt;
-        JS.Alert("Welcome, " + u + "!")
-    )
-    |&gt; Form.Render (fun user pass submit -&gt;
-        form [] [
-            div [] [label [] [text "Username: "]; Doc.InputType.Text [] user]
-            div [] [label [] [text "Password: "]; Doc.InputType.Password [] pass]
-            Doc.Button "Log in" [] submit.Trigger
-            div [] [
-                Doc.ShowErrors submit.View (fun errors -&gt;
-                    errors
-                    |&gt; Seq.map (fun m -&gt; p [] [text m.Text])
-                    |&gt; Doc.Concat)
-            ]
-        ]
-    )
-    
-LoginForm() |&gt; Doc.RunById "main"</code></pre>
-                                            </div>
-                                            <div class="absolute inset-0 hidden transition-all duration-1000 custom-scrollbar" role="tabpanel" aria-labelledby="tab-2" data-lang="js">
-                                                <pre class="-mb-20 !overflow-auto line-numbers language-js"><code class="block leading-[1.13rem] mt-[-14px] language-js text-white">function createLoginForm() {
-    const main = document.getElementById("main");
-
-    const form = document.createElement("form");
-
-    // Username field
-    const usernameDiv = document.createElement("div");
-    const usernameLabel = document.createElement("label");
-    usernameLabel.textContent = "Username: ";
-    const usernameInput = document.createElement("input");
-    usernameInput.type = "text";
-    usernameInput.required = true;
-    usernameDiv.appendChild(usernameLabel);
-    usernameDiv.appendChild(usernameInput);
-
-    // Password field
-    const passwordDiv = document.createElement("div");
-    const passwordLabel = document.createElement("label");
-    passwordLabel.textContent = "Password: ";
-    const passwordInput = document.createElement("input");
-    passwordInput.type = "password";
-    passwordInput.required = true;
-    passwordDiv.appendChild(passwordLabel);
-    passwordDiv.appendChild(passwordInput);
-
-    // Submit button
-    const button = document.createElement("button");
-    button.type = "submit";
-    button.textContent = "Log in";
-
-    // Error messages
-    const errorDiv = document.createElement("div");
-
-    // Form submit handler
-    form.addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent actual submission
-        errorDiv.innerHTML = ""; // Clear errors
-
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value.trim();
-
-        const errors = [];
-
-        if (!username) errors.push("Must enter a username");
-        if (!password) errors.push("Must enter a password");
-
-        if (errors.length > 0) {
-            errors.forEach(msg => {
-                const p = document.createElement("p");
-                p.className = "error";
-                p.textContent = msg;
-                errorDiv.appendChild(p);
-            });
-        } else {
-            alert("Welcome, " + username + "!");
-        }
-    });
-
-    // Assemble form
-    form.appendChild(usernameDiv);
-    form.appendChild(passwordDiv);
-    form.appendChild(button);
-    form.appendChild(errorDiv);
-
-    main.appendChild(form);
-}
-
-createLoginForm();</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="relative z-10 -mt-12 scale-105 rounded-xl border border-gray-200 bg-white shadow-lg shadow-gray-200/30 dark:border-white/5 dark:bg-gray-900 dark:shadow-black/40 sm:absolute sm:-inset-y-9 sm:-right-0 sm:mt-0 sm:w-1/2 sm:scale-100 lg:w-[46.8%]">
-                            <div class="h-full w-full rounded-xl">
-                                <div class="relative flex items-center gap-4 rounded-t-xl bg-white py-1 pl-4 pr-1 dark:bg-gray-900/20">
-                                    <div class="absolute inset-y-0 my-auto flex h-max space-x-1.5">
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                    </div>
-
-                                    <div class="mx-auto flex w-2/3 cursor-text items-center gap-1.5 rounded-lg bg-gray-100 p-1.5 px-2 dark:bg-black/30">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 text-gray-300 dark:text-gray-300/40">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                                        </svg>
-
-                                        <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>
-                                    </div>
-                                </div>
-                                <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" data-src="./snippets/forms/index" src="./snippets/forms/index"></iframe>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="relative mt-16" ws-hole="FormsCode"></div>
                 </div>
             </section>
 
@@ -1706,9 +857,9 @@ createLoginForm();</code></pre>
                         <div class="rounded-3xl bg-white shadow-xl pr-3 pb-2 text-sm backdrop-blur-3xl dark:bg-gray-950 md:ml-0 md:pr-0">
                             <div class="flex items-center gap-4 px-6 py-2">
                                 <div class="flex space-x-1.5">
-                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
                                 </div>
 
                                 <div class="flex cursor-pointer items-center gap-1.5 rounded-md p-1 px-1.5 duration-300 hover:text-gray-600 dark:hover:text-white">
@@ -1829,6 +980,59 @@ worker.postMessage("Hello, worker!");
                 </div>
             </section>
 
+            <section>
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="mx-auto max-w-2xl text-center">
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">More in the box</h2>
+                        <p class="mt-6 text-gray-500 dark:text-gray-200">A single toolset spanning the server, the client, and the boundary between them.</p>
+                    </div>
+                    <div class="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        <a href="https://docs.websharper.com/core/sitelets" class="group rounded-2xl border border-gray-300/50 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-brand-primary/50 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/25">
+                            <div class="flex size-10 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-white">Sitelets</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Strongly-typed routing and content. Endpoints are values, and links are generated and checked by the compiler.</p>
+                        </a>
+                        <a href="https://docs.websharper.com/forms" class="group rounded-2xl border border-gray-300/50 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-brand-primary/50 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/25">
+                            <div class="flex size-10 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-white">Forms</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Declarative, composable web forms with retargetable rendering and validation.</p>
+                        </a>
+                        <a href="https://docs.websharper.com/core/websockets" class="group rounded-2xl border border-gray-300/50 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-brand-primary/50 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/25">
+                            <div class="flex size-10 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-white">Typed WebSockets</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Bidirectional messaging between server and client with automatically serialized messages.</p>
+                        </a>
+                        <a href="https://docs.websharper.com/metaprogramming/macros-and-generators" class="group rounded-2xl border border-gray-300/50 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-brand-primary/50 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/25">
+                            <div class="flex size-10 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-white">Metaprogramming</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Translate calls to specific methods with custom logic, or emit JavaScript generated at compile time.</p>
+                        </a>
+                        <a href="https://docs.websharper.com/core/testing" class="group rounded-2xl border border-gray-300/50 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-brand-primary/50 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/25">
+                            <div class="flex size-10 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-white">Client-side testing</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">A unit-testing framework that is easy to use from .NET and compiles to QUnit tests.</p>
+                        </a>
+                        <a href="https://docs.websharper.com/core/interface-generator" class="group rounded-2xl border border-gray-300/50 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-brand-primary/50 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/25">
+                            <div class="flex size-10 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-white">Bindings &amp; npm</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Generate typed bindings for JavaScript libraries, or package your .NET code as an npm module with .d.ts files.</p>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
             <section class="bg-gray-200/5 py-20 dark:bg-gray-900/25">
                 <div>
                     <h2 class="text-center text-3xl font-bold tracking-tight text-gray-800 dark:text-white sm:text-4xl lg:text-5xl">Get Started</h2>
@@ -1859,6 +1063,141 @@ worker.postMessage("Hello, worker!");
             </section>
         </div>
     </main>
+
+    <!--
+        Inner templates for this page. The design lives here as plain HTML;
+        ServerPages.Home() only supplies data (labels, languages, code, the
+        preview URL). WebSharper creates one instance per tab/link/panel.
+        (These definitions are omitted from the rendered output.)
+    -->
+
+    <!-- A single tab button. -->
+    <button ws-template="CodeTab"
+            ws-onclick="TabClick"
+            role="tab" aria-selected="false" data-target="${Lang}"
+            class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
+        <span ws-hole="Icon"></span>
+        <span class="text-xs">${Label}</span>
+    </button>
+
+    <!-- Code panels: the first is the in-flow scrollable one, the rest overlay. -->
+    <div ws-template="CodePanelFirst"
+         role="tabpanel" data-lang="${Lang}"
+         class="relative h-full custom-scrollbar max-w-full overflow-y-auto pr-0 sm:pr-[52%] lg:pr-[46.8%]">
+        <pre class="line-numbers language-${Lang} inline-block min-w-max"><code class="mt-[-16px] block leading-[1.13rem] language-${Lang} text-white">${Code}</code></pre>
+    </div>
+    <div ws-template="CodePanel"
+         role="tabpanel" data-lang="${Lang}"
+         class="absolute inset-0 hidden custom-scrollbar overflow-auto">
+        <pre class="-mb-20 line-numbers language-${Lang}"><code class="mt-[-16px] block leading-[1.13rem] language-${Lang} text-white">${Code}</code></pre>
+    </div>
+
+    <!-- The animated tab indicator. -->
+    <div ws-template="TabIndicator" aria-hidden="true"
+         class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
+
+    <!-- Per-language tab icons. -->
+    <span ws-template="IconFSharp">
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1">
+            <path style="fill: #378bba" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" />
+            <path style="fill: #378bba" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" />
+            <path style="fill: #30b9db" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" />
+        </svg>
+    </span>
+    <span ws-template="IconJavaScript">
+        <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
+            <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z" fill="black" />
+        </svg>
+    </span>
+    <span ws-template="IconHtml">
+        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 8-4 4 4 4m8 0 4-4-4-4m-2-3-4 14" />
+        </svg>
+    </span>
+    <span ws-template="IconJson">
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M4.014,14.976a2.51,2.51,0,0,0,1.567-.518A2.377,2.377,0,0,0,6.386,13.1,15.261,15.261,0,0,0,6.6,10.156q.012-2.085.075-2.747a5.236,5.236,0,0,1,.418-1.686,3.025,3.025,0,0,1,.755-1.018A3.046,3.046,0,0,1,9,4.125,6.762,6.762,0,0,1,10.544,4h.7V5.96h-.387a2.338,2.338,0,0,0-1.723.468A3.4,3.4,0,0,0,8.709,8.52a36.054,36.054,0,0,1-.137,4.133,4.734,4.734,0,0,1-.768,2.06A4.567,4.567,0,0,1,6.1,16a3.809,3.809,0,0,1,1.992,1.754,8.861,8.861,0,0,1,.618,3.865q0,2.435.05,2.9A1.755,1.755,0,0,0,9.264,25.7a2.639,2.639,0,0,0,1.592.337h.387V28h-.7a5.655,5.655,0,0,1-1.773-.2,2.97,2.97,0,0,1-1.324-.93,3.353,3.353,0,0,1-.681-1.63A24.175,24.175,0,0,1,6.6,22.006,16.469,16.469,0,0,0,6.386,18.9a2.408,2.408,0,0,0-.805-1.361,2.489,2.489,0,0,0-1.567-.524Z" style="fill:#f5de19" /><path d="M27.986,17.011a2.489,2.489,0,0,0-1.567.524,2.408,2.408,0,0,0-.805,1.361,16.469,16.469,0,0,0-.212,3.109,24.175,24.175,0,0,1-.169,3.234,3.353,3.353,0,0,1-.681,1.63,2.97,2.97,0,0,1-1.324.93,5.655,5.655,0,0,1-1.773.2h-.7V26.04h.387a2.639,2.639,0,0,0,1.592-.337,1.755,1.755,0,0,0,.506-1.186q.05-.462.05-2.9a8.861,8.861,0,0,1,.618-3.865A3.809,3.809,0,0,1,25.9,16a4.567,4.567,0,0,1-1.7-1.286,4.734,4.734,0,0,1-.768-2.06,36.054,36.054,0,0,1-.137-4.133,3.4,3.4,0,0,0-.425-2.092,2.338,2.338,0,0,0-1.723-.468h-.387V4h.7A6.762,6.762,0,0,1,23,4.125a3.046,3.046,0,0,1,1.149.581,3.025,3.025,0,0,1,.755,1.018,5.236,5.236,0,0,1,.418,1.686q.062.662.075,2.747a15.261,15.261,0,0,0,.212,2.947,2.377,2.377,0,0,0,.805,1.355,2.51,2.51,0,0,0,1.567.518Z" style="fill:#f5de19" /></svg>
+    </span>
+    <span ws-template="IconCSharp">
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z" /><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z" /><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z" /></svg>
+    </span>
+
+    <!-- A single section-nav link. -->
+
+    <!-- The whole code-window + live-preview widget (used twice). -->
+    <!-- A tabbed code editor (no preview); one or more files per instance. -->
+    <div ws-children-template="CodeFiles">
+        <div data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
+                    <div class="flex space-x-1.5">
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70" ws-hole="Tabs"></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs" ws-hole="Panels"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ws-template="CodeFilePanelFirst" role="tabpanel" data-lang="${Lang}" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-${Lang}">${Code}</code></pre>
+    </div>
+    <div ws-template="CodeFilePanel" role="tabpanel" data-lang="${Lang}" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-${Lang}">${Code}</code></pre>
+    </div>
+
+    <div ws-children-template="CodeFilesWithPreviewPanel">
+        <div class="relative z-10 border dark:border-gray-800 rounded-xl dark:bg-transparent dark:p-px">
+            <div data-name="snippet"
+                 ws-onclick="OnTabClick"
+                 ws-onafterrender="Init"
+                 class="rounded-[23px] text-sm backdrop-blur-3xl dark:bg-gray-950">
+                <div class="flex items-center gap-4 rounded-t-xl px-4 py-2 dark:bg-gray-950">
+                    <div class="flex space-x-1.5">
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs"
+                         class="relative flex text-gray-500 dark:text-white/70"
+                         ws-hole="Tabs"></div>
+                </div>
+                <div class="relative rounded-b-xl bg-gray-200/10 text-xs dark:mt-px dark:bg-gray-950">
+                    <div class="flex p-4 pl-2 overflow-hidden">
+                        <div class="h-full sm:pr-4">
+                            <pre aria-hidden="true" class="line-numbers h-full w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></pre>
+                        </div>
+                        <div class="relative h-[22rem] w-full snippet-code" ws-hole="Panels"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative z-10 -mt-12 scale-105 rounded-xl border border-gray-200 bg-white shadow-2xl shadow-gray-200/30 dark:border-white/5 dark:bg-gray-900 dark:shadow-black/40 sm:absolute sm:-inset-y-9 sm:-right-0 sm:mt-0 sm:w-1/2 sm:scale-100 lg:w-[46.8%]">
+            <div class="h-full w-full rounded-xl">
+                <div class="relative flex items-center gap-4 rounded-t-xl bg-white py-1 pl-4 pr-1 dark:bg-gray-900/20">
+                    <div class="absolute inset-y-0 my-auto flex h-max space-x-1.5">
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div class="mx-auto flex w-2/3 cursor-text items-center gap-1.5 rounded-lg bg-gray-100 p-1.5 px-2 dark:bg-black/30">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 text-gray-300 dark:text-gray-300/40">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                        <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>
+                    </div>
+                </div>
+                <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" src="${Preview}" data-src="${Preview}"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- The sticky vertical section nav (used once). -->
 
     <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-attr="FooterVisibility" ws-onclick="CloseOnBackgroundClick">
         <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
