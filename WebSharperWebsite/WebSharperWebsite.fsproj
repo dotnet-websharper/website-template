@@ -47,14 +47,16 @@
     <Compile Include="Src/ManageSubscription/ManageSubPage.fs" />
     <Compile Include="Src/SnippetCode.fs" />
     <Compile Include="Src/AccountMenu.fs" />
-    <Compile Include="Src/VideoPlayer.fs" />
     <Compile Include="Src/Clipboard.fs" />
     <Compile Include="Src/Theme.fs" />
     <Compile Include="Src/FeaturesSCG.fs" />
-    <Compile Include="Src/Features.fs" />
+    <Compile Include="Src/Examples.fs" />
+    <Compile Include="Src/Components.fs" />
     <Compile Include="Src/Pages.fs" />
     <Compile Include="Src/Main.fs" />
     <Content Include="Styles/app.css" />
+    <Content Include="Components.html" />
+    <Content Include="Ocaml.html" />
     <Content Include="Layout.html" />
     <Content Include="Home.html" />
     <Content Include="404.html" />
@@ -65,6 +67,7 @@
     <Content Include="Error.html" />
     <Content Include="Invoice.html" />
     <Content Include="Features.html" />
+    <Content Include="Examples.html" />
     <Content Include="ManageSubscription.html" />
     <Content Include="Success.html" />
     <None Include="extra.files" />

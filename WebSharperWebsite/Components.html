@@ -1,0 +1,311 @@
+<div>
+    <!--
+        Reusable components. The design lives here; F# only supplies data.
+        (WebSharper omits these definitions from the rendered output.)
+    -->
+
+    <div ws-children-template="CodeFiles">
+        <div data-name="snippet" class="relative z-10 border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-1.5">
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70" ws-hole="Tabs"></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs" ws-hole="Panels"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button ws-template="CodeTab"
+            ws-onclick="TabClick"
+            role="tab" aria-selected="false" data-target="${Label}"
+            class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
+        <span ws-hole="Icon"></span>
+        <span class="text-xs">${Label}</span>
+    </button>
+
+    <div ws-template="CodeFilePanelFirst" role="tabpanel" data-lang="${Label}" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-${Lang}">${Code}</code></pre>
+    </div>
+
+    <div ws-template="CodeFilePanel" role="tabpanel" data-lang="${Label}" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-${Lang}">${Code}</code></pre>
+    </div>
+
+    <div ws-template="TabIndicator" aria-hidden="true"
+         class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
+
+    <span ws-template="IconFSharp">
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1">
+            <path style="fill: #378bba" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" />
+            <path style="fill: #378bba" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" />
+            <path style="fill: #30b9db" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" />
+        </svg>
+    </span>
+
+    <span ws-template="IconJavaScript">
+        <svg class="h-3 w-3" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0H28V28H0V0Z" fill="#F5DE19" />
+            <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z" fill="black" />
+        </svg>
+    </span>
+
+    <span ws-template="IconHtml">
+        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 8-4 4 4 4m8 0 4-4-4-4m-2-3-4 14" />
+        </svg>
+    </span>
+    <span ws-template="IconOcaml">
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#EC6813" /><path d="M6 16.5l3-9 3 5.5 3-5.5 3 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </span>
+
+    <span ws-template="IconJson">
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M4.014,14.976a2.51,2.51,0,0,0,1.567-.518A2.377,2.377,0,0,0,6.386,13.1,15.261,15.261,0,0,0,6.6,10.156q.012-2.085.075-2.747a5.236,5.236,0,0,1,.418-1.686,3.025,3.025,0,0,1,.755-1.018A3.046,3.046,0,0,1,9,4.125,6.762,6.762,0,0,1,10.544,4h.7V5.96h-.387a2.338,2.338,0,0,0-1.723.468A3.4,3.4,0,0,0,8.709,8.52a36.054,36.054,0,0,1-.137,4.133,4.734,4.734,0,0,1-.768,2.06A4.567,4.567,0,0,1,6.1,16a3.809,3.809,0,0,1,1.992,1.754,8.861,8.861,0,0,1,.618,3.865q0,2.435.05,2.9A1.755,1.755,0,0,0,9.264,25.7a2.639,2.639,0,0,0,1.592.337h.387V28h-.7a5.655,5.655,0,0,1-1.773-.2,2.97,2.97,0,0,1-1.324-.93,3.353,3.353,0,0,1-.681-1.63A24.175,24.175,0,0,1,6.6,22.006,16.469,16.469,0,0,0,6.386,18.9a2.408,2.408,0,0,0-.805-1.361,2.489,2.489,0,0,0-1.567-.524Z" style="fill:#f5de19" /><path d="M27.986,17.011a2.489,2.489,0,0,0-1.567.524,2.408,2.408,0,0,0-.805,1.361,16.469,16.469,0,0,0-.212,3.109,24.175,24.175,0,0,1-.169,3.234,3.353,3.353,0,0,1-.681,1.63,2.97,2.97,0,0,1-1.324.93,5.655,5.655,0,0,1-1.773.2h-.7V26.04h.387a2.639,2.639,0,0,0,1.592-.337,1.755,1.755,0,0,0,.506-1.186q.05-.462.05-2.9a8.861,8.861,0,0,1,.618-3.865A3.809,3.809,0,0,1,25.9,16a4.567,4.567,0,0,1-1.7-1.286,4.734,4.734,0,0,1-.768-2.06,36.054,36.054,0,0,1-.137-4.133,3.4,3.4,0,0,0-.425-2.092,2.338,2.338,0,0,0-1.723-.468h-.387V4h.7A6.762,6.762,0,0,1,23,4.125a3.046,3.046,0,0,1,1.149.581,3.025,3.025,0,0,1,.755,1.018,5.236,5.236,0,0,1,.418,1.686q.062.662.075,2.747a15.261,15.261,0,0,0,.212,2.947,2.377,2.377,0,0,0,.805,1.355,2.51,2.51,0,0,0,1.567.518Z" style="fill:#f5de19" /></svg>
+    </span>
+
+    <span ws-template="IconCSharp">
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z" /><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z" /><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z" /></svg>
+    </span>
+
+
+    <!-- VsCode: a VS Code-looking editor with a Terminal panel. -->
+    <div ws-children-template="VsCode">
+                        <div class="rounded-3xl p-px from-gray-200 to-gray-950/5 bg-gradient-to-b dark:from-gray-800 dark:to-gray-900">
+                            <div data-name="snippet" class="rounded-[23px] border border-gray-200 bg-white/90 shadow-xl shadow-gray-950/5 pb-3 pr-3 text-sm backdrop-blur-3xl dark:border-transparent dark:bg-gray-900 md:ml-0">
+                                <div class="flex items-center gap-4 px-6 py-1 border-b border-gray-200 dark:border-gray-800">
+                                    <div class="flex space-x-1.5">
+                                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
+                                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
+                                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                                    </div>
+
+                                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70" ws-hole="Tabs"></div>
+                                </div>
+                                <div class="relative flex">
+                                    <div class="absolute ml-1 flex h-full w-14 flex-none flex-col items-center justify-between py-3 text-gray-500 dark:text-white/60">
+                                        <svg width="24" height="216" fill="none">
+                                            <path d="M3 69l6-6m-2-5a7 7 0 1014 0 7 7 0 00-14 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M8 7H5a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1v-3m3.707-10.293l-3.414-3.414A1 1 0 0015.586 3H9a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V7.414a1 1 0 00-.293-.707zM7 103a2 2 0 100-4 2 2 0 000 4zm0 0v10m10-6a2 2 0 100-4 2 2 0 000 4zm0 0a3 3 0 01-3 3h-4a3 3 0 00-3 3m0 0a2 2 0 100 4 2 2 0 000-4z" stroke="currentColor" stroke-width="1.5"></path>
+                                            <path d="M11.5 160.031a.75.75 0 00-1-1.118l1 1.118zm-8-1.118a.75.75 0 00-1 1.118l1-1.118zm6.972 6.149a.75.75 0 10.993-1.124l-.993 1.124zm-7.937-1.124a.75.75 0 10.993 1.124l-.993-1.124zm7.022-.368l-.64-.393.64.393zm-5.114 0l.64-.393-.64.393zM3 161.25a.75.75 0 000 1.5v-1.5zm8 1.5a.75.75 0 000-1.5v1.5zM8 147l.372-.651A.75.75 0 007.25 147H8zm14 8l.372.651a.75.75 0 000-1.302L22 155zm-14.75 0a.75.75 0 001.5 0h-1.5zm5.378 4.492a.75.75 0 10.744 1.302l-.744-1.302zM7 157.75A2.25 2.25 0 019.25 160h1.5A3.75 3.75 0 007 156.25v1.5zm0-1.5A3.75 3.75 0 003.25 160h1.5A2.25 2.25 0 017 157.75v-1.5zm2.624 3.298A5.225 5.225 0 017 160.25v1.5a6.73 6.73 0 003.376-.903l-.752-1.299zM9.25 160v.197h1.5V160h-1.5zm0 .197V162h1.5v-1.803h-1.5zM7 160.25a5.225 5.225 0 01-2.624-.702l-.752 1.299A6.73 6.73 0 007 161.75v-1.5zM4.75 162v-1.803h-1.5V162h1.5zm0-1.803V160h-1.5v.197h1.5zm5.75-1.284a5.209 5.209 0 01-.876.635l.752 1.299c.403-.234.78-.507 1.124-.816l-1-1.118zm-6.124.635a5.21 5.21 0 01-.876-.635l-1 1.118c.344.309.721.582 1.124.816l.752-1.299zm4.86 4.701c.451.212.867.487 1.236.813l.993-1.124a6.77 6.77 0 00-1.588-1.046l-.64 1.357zM9.25 162c0 .433-.122.835-.332 1.177l1.277.787A3.737 3.737 0 0010.75 162h-1.5zm-.332 1.177A2.247 2.247 0 017 164.25v1.5a3.748 3.748 0 003.195-1.786l-1.277-.787zm-5.39 1.885a5.25 5.25 0 011.235-.813l-.64-1.357a6.77 6.77 0 00-1.588 1.046l.993 1.124zM7 164.25c-.81 0-1.52-.427-1.918-1.073l-1.277.787A3.748 3.748 0 007 165.75v-1.5zm-1.918-1.073A2.235 2.235 0 014.75 162h-1.5c0 .719.203 1.392.555 1.964l1.277-.787zM4 161.25H3v1.5h1v-1.5zm7 0h-1v1.5h1v-1.5zm-3.372-13.599l14 8 .744-1.302-14-8-.744 1.302zM8.75 155v-8h-1.5v8h1.5zm12.878-.651l-9 5.143.744 1.302 9-5.143-.744-1.302z"
+                                                  fill="currentColor"></path>
+                                            <path d="M3 205h8m-8 0v7a1 1 0 001 1h7m-8-8v-7a1 1 0 011-1h6a1 1 0 011 1v7m0 0v8m0-8h7a1 1 0 011 1v6a1 1 0 01-1 1h-7m4-11h6a1 1 0 001-1v-6a1 1 0 00-1-1h-6a1 1 0 00-1 1v6a1 1 0 001 1z" stroke="currentColor" stroke-width="1.5"></path>
+                                        </svg>
+                                        <svg width="24" height="72" fill="none">
+                                            <path d="M10.325 52.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M15 60a3 3 0 11-6 0 3 3 0 016 0zM5.121 17.804A13.936 13.936 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-auto w-[calc(100%-4rem)] mt-1">
+                                        <div class="h-[26rem] shrink-0 flex overflow-hidden py-3 pl-3 font-mono text-xs dark:shadow-2xl shadow-gray-950/5 border rounded-tr-2xl border-gray-300/50 dark:border-gray-800 border-b-0">
+                                            <!-- My custom line numbers -->
+                                            <div>
+                                                <pre aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></pre>
+                                            </div>
+                                            <div class="relative w-full snippet-code" ws-hole="Panels"></div>
+                                        </div>
+                                        <div class="lg:col-span-3 bg-white dark:bg-gray-950 shadow-2xl shadow-gray-950/5 dark:shadow-gray-950/15 border border-gray-300/50 dark:border-gray-800 p-3 lg:rounded-br-3xl">
+                                            <div class="flex items-center border-b border-gray-200 dark:border-gray-800"><div class="inline-flex -mb-px items-center gap-2 rounded-t-md border border-b-transparent border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>Terminal</div></div>
+                                            <div class="mt-3 w-max font-mono text-xs text-gray-400 dark:text-white/60">
+                                                <div class="text-green-500 font-bold">
+                                                    VITE <span class="text-green-500 font-normal">v6.3.5</span>
+                                                    <span class="text-gray-400 font-normal"> ready in </span>
+                                                    <span class="dark:text-white text-gray-300">663</span>
+                                                    <span class="text-gray-300"> ms</span>
+                                                </div>
+                                                <div class="text-green-500 mt-2">
+                                                    ➜ <span class="dark:text-white text-gray-300">Local:</span>
+                                                    <a href="#code-snippet" class="text-sky-400 underline ml-2">http://localhost:24347/</a>
+                                                </div>
+                                                <div class="text-green-400 mt-1">
+                                                    ➜ <span class="text-gray-400">Network:</span>
+                                                    <span class="text-gray-400"> use </span><span class="dark:text-white text-gray-300 font-bold">--host</span>
+                                                    <span class="text-gray-400"> to expose</span>
+                                                </div>
+                                                <div class="text-green-400 mt-1">
+                                                    ➜ <span class="text-gray-400">press </span><span class="dark:text-white text-gray-300 font-bold">h</span>
+                                                    <span class="text-gray-400"> + </span><span class="dark:text-white text-gray-300 font-bold">enter</span>
+                                                    <span class="text-gray-400"> to show help</span>
+                                                </div>
+                                                <span class="dark:text-white text-gray-300">█</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    </div>
+
+
+    <!-- VsCode panels / result tab (used by Components.vsCode). -->
+    <div ws-template="VsCodePanelFirst" role="tabpanel" data-lang="${Label}" class="absolute inset-0 overflow-auto custom-scrollbar">
+        <pre class="line-numbers language-${Lang} custom-scrollbar !overflow-auto"><code class="mt-[-16px] text-sm block leading-[1rem] language-${Lang} text-white">${Code}</code></pre>
+    </div>
+    <div ws-template="VsCodePanel" role="tabpanel" data-lang="${Label}" class="absolute inset-0 hidden overflow-hidden custom-scrollbar">
+        <pre class="line-numbers -mb-20 !overflow-auto language-${Lang} custom-scrollbar"><code class="mt-[-16px] text-sm block leading-[1.1rem] language-${Lang} text-white">${Code}</code></pre>
+    </div>
+    <div ws-template="VsCodePanelResult" role="tabpanel" data-lang="code-result" class="absolute inset-0 hidden overflow-hidden">
+        <iframe src="${Url}" class="w-full h-full pr-2 mr-4 rounded-md bg-white" frameborder="0"></iframe>
+    </div>
+    <button ws-template="VsCodeResultTab" ws-onclick="TabClick" role="tab" aria-selected="false" data-target="code-result" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
+        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+            <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+        </svg>
+        <span class="text-xs">Result</span>
+    </button>
+
+
+
+    <!-- code-window + live-preview widget -->
+    <div ws-template="CodePanelFirst"
+         role="tabpanel" data-lang="${Label}"
+         class="relative h-full custom-scrollbar max-w-full overflow-y-auto pr-0 sm:pr-[52%] lg:pr-[46.8%]">
+        <pre class="line-numbers language-${Lang} inline-block min-w-max"><code class="mt-[-16px] block leading-[1.13rem] language-${Lang} text-white">${Code}</code></pre>
+    </div>
+
+    <div ws-template="CodePanel"
+         role="tabpanel" data-lang="${Label}"
+         class="absolute inset-0 hidden custom-scrollbar overflow-auto">
+        <pre class="-mb-20 line-numbers language-${Lang}"><code class="mt-[-16px] block leading-[1.13rem] language-${Lang} text-white">${Code}</code></pre>
+    </div>
+
+    <div ws-children-template="CodeFilesWithPreviewPanel">
+        <div class="relative z-10 border border-gray-200 dark:border-gray-800 rounded-xl dark:bg-transparent dark:p-px">
+            <div data-name="snippet"
+                 ws-onclick="OnTabClick"
+                 ws-onafterrender="Init"
+                 class="rounded-[23px] text-sm backdrop-blur-3xl bg-white dark:bg-gray-900">
+                <div class="flex items-center gap-4 rounded-t-xl px-4 py-1 border-b border-gray-200 dark:border-gray-800 dark:bg-gray-900">
+                    <div class="flex space-x-1.5">
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs"
+                         class="relative flex text-gray-500 dark:text-white/70"
+                         ws-hole="Tabs"></div>
+                </div>
+                <div class="relative rounded-b-xl bg-gray-200/10 text-xs dark:mt-px dark:bg-gray-900">
+                    <div class="flex p-4 pl-2 overflow-hidden">
+                        <div class="h-full sm:pr-4">
+                            <pre aria-hidden="true" class="line-numbers h-full w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></pre>
+                        </div>
+                        <div class="relative h-[22rem] w-full snippet-code" ws-hole="Panels"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative z-10 -mt-12 scale-105 rounded-xl border border-gray-200 bg-white shadow-2xl shadow-gray-200/30 dark:border-white/5 dark:bg-gray-950 dark:shadow-black/40 sm:absolute sm:-inset-y-9 sm:-right-0 sm:mt-0 sm:w-1/2 sm:scale-100 lg:w-[46.8%]">
+            <div class="h-full w-full rounded-xl">
+                <div class="relative flex items-center gap-4 rounded-t-xl bg-white py-1 pl-4 pr-1 dark:bg-gray-900">
+                    <div class="absolute inset-y-0 my-auto flex h-max space-x-1.5">
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div class="mx-auto flex w-2/3 cursor-text items-center gap-1.5 rounded-lg bg-gray-100 p-1.5 px-2 dark:bg-black/30">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 text-gray-300 dark:text-gray-300/40">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                        <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>
+                    </div>
+                </div>
+                <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" src="${Preview}" data-src="${Preview}"></iframe>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- VsCode3: a three-pane code window with a Terminal. -->
+    <div ws-children-template="VsCode3">
+                        <div class="rounded-3xl bg-white/90 shadow-xl pr-3 pb-2 text-sm backdrop-blur-3xl dark:bg-gray-900 md:ml-0 md:pr-0">
+                            <div class="flex items-center gap-4 px-6 py-1 border-b border-gray-200 dark:border-gray-800">
+                                <div class="flex space-x-1.5">
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
+                                    <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                                </div>
+
+                                <div class="flex cursor-pointer items-center gap-1.5 rounded-md p-1 px-1.5 duration-300 hover:text-gray-600 dark:hover:text-white">
+                                    <span ws-hole="Tab1Icon"></span>
+                                    <span class="text-xs text-gray-500 dark:text-white/70">${Tab1Label}</span>
+                                </div>
+                            </div>
+
+                            <div class="relative sm:flex">
+                                <div class="absolute ml-1 flex h-full w-14 flex-none flex-col items-center justify-between py-3 text-gray-500 dark:text-white/60">
+                                    <svg width="24" height="216" fill="none">
+                                        <path d="M3 69l6-6m-2-5a7 7 0 1014 0 7 7 0 00-14 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M8 7H5a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1v-3m3.707-10.293l-3.414-3.414A1 1 0 0015.586 3H9a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V7.414a1 1 0 00-.293-.707zM7 103a2 2 0 100-4 2 2 0 000 4zm0 0v10m10-6a2 2 0 100-4 2 2 0 000 4zm0 0a3 3 0 01-3 3h-4a3 3 0 00-3 3m0 0a2 2 0 100 4 2 2 0 000-4z" stroke="currentColor" stroke-width="1.5"></path>
+                                        <path d="M11.5 160.031a.75.75 0 00-1-1.118l1 1.118zm-8-1.118a.75.75 0 00-1 1.118l1-1.118zm6.972 6.149a.75.75 0 10.993-1.124l-.993 1.124zm-7.937-1.124a.75.75 0 10.993 1.124l-.993-1.124zm7.022-.368l-.64-.393.64.393zm-5.114 0l.64-.393-.64.393zM3 161.25a.75.75 0 000 1.5v-1.5zm8 1.5a.75.75 0 000-1.5v1.5zM8 147l.372-.651A.75.75 0 007.25 147H8zm14 8l.372.651a.75.75 0 000-1.302L22 155zm-14.75 0a.75.75 0 001.5 0h-1.5zm5.378 4.492a.75.75 0 10.744 1.302l-.744-1.302zM7 157.75A2.25 2.25 0 019.25 160h1.5A3.75 3.75 0 007 156.25v1.5zm0-1.5A3.75 3.75 0 003.25 160h1.5A2.25 2.25 0 017 157.75v-1.5zm2.624 3.298A5.225 5.225 0 017 160.25v1.5a6.73 6.73 0 003.376-.903l-.752-1.299zM9.25 160v.197h1.5V160h-1.5zm0 .197V162h1.5v-1.803h-1.5zM7 160.25a5.225 5.225 0 01-2.624-.702l-.752 1.299A6.73 6.73 0 007 161.75v-1.5zM4.75 162v-1.803h-1.5V162h1.5zm0-1.803V160h-1.5v.197h1.5zm5.75-1.284a5.209 5.209 0 01-.876.635l.752 1.299c.403-.234.78-.507 1.124-.816l-1-1.118zm-6.124.635a5.21 5.21 0 01-.876-.635l-1 1.118c.344.309.721.582 1.124.816l.752-1.299zm4.86 4.701c.451.212.867.487 1.236.813l.993-1.124a6.77 6.77 0 00-1.588-1.046l-.64 1.357zM9.25 162c0 .433-.122.835-.332 1.177l1.277.787A3.737 3.737 0 0010.75 162h-1.5zm-.332 1.177A2.247 2.247 0 017 164.25v1.5a3.748 3.748 0 003.195-1.786l-1.277-.787zm-5.39 1.885a5.25 5.25 0 011.235-.813l-.64-1.357a6.77 6.77 0 00-1.588 1.046l.993 1.124zM7 164.25c-.81 0-1.52-.427-1.918-1.073l-1.277.787A3.748 3.748 0 007 165.75v-1.5zm-1.918-1.073A2.235 2.235 0 014.75 162h-1.5c0 .719.203 1.392.555 1.964l1.277-.787zM4 161.25H3v1.5h1v-1.5zm7 0h-1v1.5h1v-1.5zm-3.372-13.599l14 8 .744-1.302-14-8-.744 1.302zM8.75 155v-8h-1.5v8h1.5zm12.878-.651l-9 5.143.744 1.302 9-5.143-.744-1.302z"
+                                              fill="currentColor"></path>
+                                        <path d="M3 205h8m-8 0v7a1 1 0 001 1h7m-8-8v-7a1 1 0 011-1h6a1 1 0 011 1v7m0 0v8m0-8h7a1 1 0 011 1v6a1 1 0 01-1 1h-7m4-11h6a1 1 0 001-1v-6a1 1 0 00-1-1h-6a1 1 0 00-1 1v6a1 1 0 001 1z" stroke="currentColor" stroke-width="1.5"></path>
+                                    </svg>
+                                    <svg width="24" height="72" fill="none">
+                                        <path d="M10.325 52.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M15 60a3 3 0 11-6 0 3 3 0 016 0zM5.121 17.804A13.936 13.936 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-auto w-[calc(100%-4rem)] md:grid md:grid-cols-2 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 lg:divide-x lg:divide-gray-300/50 dark:lg:divide-white/10">
+
+                                    <!-- Worker.fs snippet -->
+                                    <div class=" w-auto md:row-span-2 border md:border-r-0 md:border-b-0 border-gray-300/50 dark:border-white/10 dark:border-r-0">
+                                        <div class="flex w-full overflow-auto py-3 pl-3 font-mono text-xs snippet-code">
+                                            <div>
+                                                <div aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40"></div>
+                                            </div>
+                                            <pre class="code-block w-full -mb-16 text-wrap whitespace-pre-wrap break-words line-numbers language-fsharp !overflow-x-auto custom-scrollbar"><code class="mt-[-14px] block language-fsharp text-wrap text-white whitespace-pre-wrap break-words">${Tab1Code}</code></pre>
+                                        </div>
+                                    </div>
+
+                                    <!-- index.js snippet -->
+                                    <div class="mb-1 overflow-hidden border-gray-300/50 dark:border-white/10 md:row-span-1 md:-mb-1 md:-mt-8 md:border-l">
+                                        <div class="flex items-center gap-2 border-gray-300/50 p-1 px-2 dark:border-white/10 md:border-b">
+                                            <div class="flex cursor-pointer items-center gap-1.5 rounded-md p-1 px-1.5 text-gray-500 duration-300 hover:text-gray-600 dark:text-white/70 dark:hover:text-white">
+                                                <span ws-hole="Tab2Icon"></span>
+                                                <span class="text-xs">${Tab2Label}</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code">
+                                            <div>
+                                                <div aria-hidden="true" class="line-numbers hidden w-2 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40 sm:block"></div>
+                                            </div>
+                                            <pre class="code-block -mb-9 !overflow-x-auto language-js line-numbers custom-scrollbar"><code class="mt-[-16px] block language-js text-white">${Tab2Code}</code>
+                                        </pre>
+                                        </div>
+                                    </div>
+
+                                    <!-- worker.js snippet -->
+                                    <div class="mt-4 mb-1 overflow-hidden border-gray-300/50 dark:border-white/10 md:row-span-1 md:-mb-1 md:-mt-8 md:border-t md:border-l lg:border-t-0">
+                                        <div class="flex items-center gap-2 p-1 px-2 md:border-b md:border-gray-300/50 md:bg-white/5 dark:md:border-white/10 lg:bg-transparent">
+                                            <div class="flex cursor-pointer items-center gap-1.5 rounded-md p-1 px-1.5 text-gray-500 duration-300 hover:text-gray-600 dark:text-white/70 dark:hover:text-white">
+                                                <span ws-hole="Tab3Icon"></span>
+                                                <span class="text-xs">${Tab3Label}</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code">
+                                            <div>
+                                                <div aria-hidden="true" class="line-numbers hidden w-2 flex-none select-none text-right leading-[1.13rem] text-gray-300 dark:text-white/40 sm:block"></div>
+                                            </div>
+                                            <pre class="code-block -mb-8 !overflow-x-auto md:-mb-16 language-js line-numbers custom-scrollbar"><code class="mt-[-14px] block language-js text-white">${Tab3Code}</code>
+                                        </pre>
+                                        </div>
+                                    </div>
+
+                                    <!-- Terminal -->
+                                    <div class="lg:col-span-3 bg-white dark:bg-gray-950 shadow-2xl shadow-gray-950/5 dark:shadow-gray-950/15 border border-gray-300/50 dark:border-gray-800 p-3 lg:rounded-br-3xl">
+                                        <div class="flex items-center border-b border-gray-200 dark:border-gray-800"><div class="inline-flex -mb-px items-center gap-2 rounded-t-md border border-b-transparent border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>Terminal</div></div>
+                                        <div class="mt-3 hidden w-max font-mono text-xs text-gray-400 dark:text-white/60 md:block">${TerminalContent}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    </div>
+
+</div>

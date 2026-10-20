@@ -8,8 +8,10 @@ open WebSharper.UI.Server
 type EndPoint =
     | [<EndPoint "GET /">] Home
     | [<EndPoint "GET /features">] Features
+    | [<EndPoint "GET /examples">] Examples
     | [<EndPoint "GET /support">] Support
     | [<EndPoint "GET /warp">] Warp
+    | [<EndPoint "GET /ocaml">] Ocaml
     | [<EndPoint "GET /checkout">] Checkout
     | [<EndPoint "GET /error">] Error
     | [<EndPoint "GET /invoice">] Invoice
@@ -58,9 +60,17 @@ module Site =
     let FeaturesPage =
         Content.Page(
             Templating.Layout EndPoint.Features [
-                hydrate (ClientPages.Features())
+                ServerPages.Features()
             ],
             Bundle = "features"
+        )
+
+    let ExamplesPage =
+        Content.Page(
+            Templating.Layout EndPoint.Examples [
+                hydrate (ClientPages.Examples())
+            ],
+            Bundle = "examples"
         )
 
     let SupportPage =
@@ -77,6 +87,14 @@ module Site =
                 ServerPages.Warp()
             ],
             Bundle = "warp"
+        )
+
+    let OcamlPage =
+        Content.Page(
+            Templating.Layout EndPoint.Ocaml [
+                ServerPages.Ocaml()
+            ],
+            Bundle = "ocaml"
         )
 
     let CheckoutPage =
@@ -133,8 +151,10 @@ module Site =
             match action with
             | Home -> HomePage
             | Features -> FeaturesPage
+            | Examples -> ExamplesPage
             | Support -> SupportPage
             | Warp -> WarpPage
+            | Ocaml -> OcamlPage
             | Checkout -> CheckoutPage
             | Error -> ErrorPage
             | Invoice -> InvoicePage
@@ -152,7 +172,7 @@ type Website() =
                 "LogBundleChoice", "true" 
             ]
         member this.Actions = [
-            Home; Features; Support; Warp; Checkout 
+            Home; Features; Examples; Support; Warp; Ocaml; Checkout 
             Error; Invoice; MyAccount; Success; NotFound
         ]
 

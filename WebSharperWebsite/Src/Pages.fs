@@ -114,125 +114,78 @@ module ClientPages =
                 .MessageText(Html.text "Confirming your payment…")
                 .Doc()
 
-    let Features () =
-        Features.FeaturesDoc()
+    let Examples () =
+        Examples.ExamplesDoc()
 
 module ServerPages =
+    open type WebSharper.UI.ClientServer
 
-    type CodeTab =
-        { Label: string
-          Lang: string
-          Code: string }
-
-    let private tabIcon (lang: string) : Doc =
-        match lang.ToLowerInvariant() with
-        | "fsharp" -> Templates.HomeTemplate.IconFSharp().Doc()
-        | "javascript" | "js" -> Templates.HomeTemplate.IconJavaScript().Doc()
-        | "html" -> Templates.HomeTemplate.IconHtml().Doc()
-        | "json" -> Templates.HomeTemplate.IconJson().Doc()
-        | "csharp" -> Templates.HomeTemplate.IconCSharp().Doc()
-        | _ -> Doc.Empty
-
-    // The tab/panel instances are created from the inner templates in
-    // Home.html; nothing here builds DOM - only data is supplied.
-
-    let private codeTab (t: CodeTab) : Doc =
-        Templates.HomeTemplate.CodeTab()
-            .Label(t.Label)
-            .Lang(t.Lang)
-            .Icon(tabIcon t.Lang)
-            .TabClick(fun e -> SnippetCode.OnTabClick e.Event)
-            .Doc()
-
-    // Panels for the code-window + live-preview widget (Prism line numbers).
-    let private codePanel (i: int) (t: CodeTab) : Doc =
-        if i = 0 then
-            Templates.HomeTemplate.CodePanelFirst().Lang(t.Lang).Code(t.Code).Doc()
-        else
-            Templates.HomeTemplate.CodePanel().Lang(t.Lang).Code(t.Code).Doc()
-
-    /// The code-window + live-preview widget: `tabs` supply label/language/raw
-    /// code, `previewPath` is the URL loaded into the preview iframe.
-    let private codeFilesWithPreviewPanel (previewPath: string) (tabs: CodeTab list) : Doc =
-        let indicator = Templates.HomeTemplate.TabIndicator().Doc()
-        Templates.HomeTemplate.CodeFilesWithPreviewPanel()
-            .Tabs(Doc.Concat (indicator :: List.map codeTab tabs))
-            .Panels(Doc.Concat (tabs |> List.mapi codePanel))
-            .Preview(previewPath)
-            .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
-            .Init(fun () ->
-                SnippetCode.Init()
-                SnippetCode.InitTabs())
-            .Doc()
-
-    // Panels for the plain tabbed editor.
-    let private codeFilePanel (i: int) (t: CodeTab) : Doc =
-        if i = 0 then
-            Templates.HomeTemplate.CodeFilePanelFirst().Lang(t.Lang).Code(t.Code).Doc()
-        else
-            Templates.HomeTemplate.CodeFilePanel().Lang(t.Lang).Code(t.Code).Doc()
-
-    /// A tabbed code editor (one or more files): each tab is one entry in
-    /// `tabs`. Behavior comes from the page-level SnippetCode initializers.
-    let private codeFiles (tabs: CodeTab list) : Doc =
-        let indicator = Templates.HomeTemplate.TabIndicator().Doc()
-        Templates.HomeTemplate.CodeFiles()
-            .Tabs(Doc.Concat (indicator :: List.map codeTab tabs))
-            .Panels(Doc.Concat (tabs |> List.mapi codeFilePanel))
-            .Doc()
+    // The tab/panel instances come from the inner templates in Components.html;
+    // nothing here builds DOM - only data is supplied.
 
     let Home () =
         Content.BundleScope "home" (
             Templates.HomeTemplate.Content()
                 .OnAfterRender(fun () ->
-                    VideoPlayer.Init("ws-template")
-
                     Theme.Init()
                     SnippetCode.Init()
 
                     SnippetCode.InitTabs() 
                 )
                 .CopyFromClosest(fun e -> Clipboard.CopyFromClosest e)
-                .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
-                .ReactiveCode(
-                    codeFilesWithPreviewPanel "./snippets/add_two_numbers/index" [
-                        { Label = "AddTwoNumbers.fs"; Lang = Snippets.lang "add_two_numbers/AddTwoNumbers.fs"; Code = Snippets.text "add_two_numbers/AddTwoNumbers.fs" }
-                        { Label = "addTwoNumbers.js"; Lang = Snippets.lang "add_two_numbers/addTwoNumbers.mjs"; Code = Snippets.text "add_two_numbers/addTwoNumbers.mjs" }
-                    ])
-                .FormsCode(
-                    codeFilesWithPreviewPanel "./snippets/forms/index" [
-                        { Label = "Forms.fs"; Lang = Snippets.lang "powerful_ui/Forms.fs"; Code = Snippets.text "powerful_ui/Forms.fs" }
-                        { Label = "forms.js"; Lang = Snippets.lang "powerful_ui/forms.mjs"; Code = Snippets.text "powerful_ui/forms.mjs" }
-                    ])
-                .Feature_mvu(codeFiles [
+                .VsCodeDemo(Component.VsCode("./snippets/spa/index", [
+                    { Label = "Client.fs"; Lang = "fsharp"; Code = Snippets.text "spa/Client.fs" }
+                    { Label = "index"; Lang = "html"; Code = Snippets.text "spa/index" }
+                ]))
+                .WorkersDemo(Component.VsCode3(
+                    { Label = "Worker.fs"; Lang = "fsharp"; Code = Snippets.text "workers/Worker.fs" },
+                    { Label = "index.js"; Lang = "js"; Code = Snippets.text "workers/index.mjs" },
+                    { Label = "worker.js"; Lang = "js"; Code = Snippets.text "workers/worker.mjs" },
+                    "> Received message from main thread: Hello, worker!\n█"))
+                .ReactiveCode(Component.CodeFilesWithPreviewPanel("./snippets/add_two_numbers/index", [
+                    { Label = "AddTwoNumbers.fs"; Lang = Snippets.lang "add_two_numbers/AddTwoNumbers.fs"; Code = Snippets.text "add_two_numbers/AddTwoNumbers.fs" }
+                    { Label = "addTwoNumbers.js"; Lang = Snippets.lang "add_two_numbers/addTwoNumbers.mjs"; Code = Snippets.text "add_two_numbers/addTwoNumbers.mjs" }
+                ]))
+                .FormsCode(Component.CodeFilesWithPreviewPanel("./snippets/forms/index", [
+                    { Label = "Forms.fs"; Lang = Snippets.lang "powerful_ui/Forms.fs"; Code = Snippets.text "powerful_ui/Forms.fs" }
+                    { Label = "forms.js"; Lang = Snippets.lang "powerful_ui/forms.mjs"; Code = Snippets.text "powerful_ui/forms.mjs" }
+                ]))
+                .Doc()
+        )
+
+    let Features () =
+        Content.BundleScope "features" (
+            Templates.FeaturesTemplate.Content()
+                .Feature_mvu(Component.CodeFiles([
                     { Label = "NameInput.fs"; Lang = "fsharp"; Code = Snippets.text "mvu/NameInput.fs" }
                     { Label = "nameInput.js"; Lang = "js"; Code = Snippets.text "mvu/nameInput.mjs" }
-                ])
-                .Feature_react(codeFiles [
+                ]))
+                .Feature_react(Component.CodeFiles([
                     { Label = "Person.fs"; Lang = "fsharp"; Code = Snippets.text "react/Person.fs" }
                     { Label = "Person.js"; Lang = "js"; Code = Snippets.text "react/Person.mjs" }
-                ])
-                .Feature_webapi(codeFiles [
+                ]))
+                .Feature_webapi(Component.CodeFiles([
                     { Label = "ArticleSite.fs"; Lang = "fsharp"; Code = Snippets.text "webapi/ArticleSite.fs" }
                     { Label = "articles"; Lang = "html"; Code = Snippets.text "webapi/articles" }
                     { Label = "articleWithId.json"; Lang = "json"; Code = Snippets.text "webapi/articleWithId.json" }
-                ])
-                .Feature_csr(codeFiles [
+                ]))
+                .Feature_csr(Component.CodeFiles([
                     { Label = "ArticleRouter.fs"; Lang = "fsharp"; Code = Snippets.text "csr/ArticleRouter.fs" }
                     { Label = "articleRouter.js"; Lang = "js"; Code = Snippets.text "csr/articleRouter.mjs" }
-                ])
-                .Feature_lc(codeFiles [
+                ]))
+                .Feature_lc(Component.CodeFiles([
                     { Label = "query.fs"; Lang = "fsharp"; Code = Snippets.text "lc/query.fs" }
                     { Label = "query.cs"; Lang = "csharp"; Code = Snippets.text "lc/query.cs" }
-                ])
-                .Feature_tsh(codeFiles [
+                ]))
+                .Feature_tsh(Component.CodeFiles([
                     { Label = "Client.fs"; Lang = "fsharp"; Code = Snippets.text "tsh/Client.fs" }
                     { Label = "index"; Lang = "html"; Code = Snippets.text "tsh/index" }
-                ])
-                .Feature_rwe(codeFiles [
+                ]))
+                .Feature_rwe(Component.CodeFiles([
                     { Label = "RemoteCall.fs"; Lang = "fsharp"; Code = Snippets.text "rwe/RemoteCall.fs" }
                     { Label = "remoteCall.js"; Lang = "js"; Code = Snippets.text "rwe/remoteCall.mjs" }
-                ])
+                ]))
+                .SCGContent(hydrate (FeaturesSCG.HydrateSCGDoc ()))
                 .Doc()
         )
     let Download () =
@@ -249,6 +202,35 @@ module ServerPages =
                     SnippetCode.Init()
                     SnippetCode.InitTabs()       
                 )
+                .WarpExample(Component.CodeFiles([
+                    { Label = "DSL.warp"; Lang = "fsharp"; Code = Snippets.text "dsl/DSL.warp" }
+                ]))
+                .Doc()
+        )
+
+    let Ocaml () =
+        Content.BundleScope "ocaml" (
+            Templates.OcamlTemplate.Content()
+                .OnAfterRender(fun () ->
+                    SnippetCode.Init()
+                    SnippetCode.InitTabs()
+                )
+                .OcamlHero(Component.VsCode("./snippets/spa/index", [
+                    { Label = "design.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/design.ml" }
+                    { Label = "greeting.html"; Lang = "html"; Code = Snippets.text "ocaml/greeting" }
+                ]))
+                .OcamlRemoting(Component.CodeFiles([
+                    { Label = "remoting.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/remoting.ml" }
+                ]))
+                .OcamlTiers(Component.VsCode3(
+                    { Label = "shared.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/shared.ml" },
+                    { Label = "server.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/server.ml" },
+                    { Label = "client.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/client.ml" },
+                    "> dotnet build -c Release\nCompiling shared.ml\nCompiling server.ml\nCompiling client.ml\nBuild succeeded. 0 Warning(s), 0 Error(s)"))
+                .OcamlReactive(Component.CodeFilesWithPreviewPanel("./snippets/forms/index", [
+                    { Label = "reactive.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/reactive.ml" }
+                    { Label = "counter.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/counter.ml" }
+                ]))
                 .Doc()
         )
 

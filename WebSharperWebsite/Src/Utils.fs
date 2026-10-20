@@ -10,6 +10,7 @@ module Templates =
     type LayoutTemplate = Template<"Layout.html", ClientLoad.FromDocument, ServerLoad.WhenChanged>
     type HomeTemplate = Template<"Home.html">
     type FeaturesTemplate = Template<"Features.html">
+    type ExamplesTemplate = Template<"Examples.html">
     type DownloadTemplate = Template<"Download.html">
     type SupportTemplate = Template<"Support.html">
     type DslAiTemplate = Template<"DslAi.html">
@@ -19,6 +20,8 @@ module Templates =
     type ManageSubscriptionTemplate = Template<"ManageSubscription.html">
     type SuccessTemplate = Template<"Success.html">
     type NotFoundTemplate = Template<"404.html">
+    type ComponentsTemplate = Template<"Components.html">
+    type OcamlTemplate = Template<"Ocaml.html">
 
 [<JavaScript>]
 module Utils = 

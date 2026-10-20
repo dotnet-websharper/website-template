@@ -1,0 +1,13 @@
+type Item {
+    text ItemNumber;
+    text Name;
+    number Quantity format "[0-9]+" with "Must specify a number"
+};
+
+type Address {
+    text Street1;
+    text Street2 optional;
+    text City;
+    text State = "CA";
+    text Zip
+};

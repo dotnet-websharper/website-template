@@ -23,6 +23,7 @@ module SnippetCode =
         JS.ImportFile "prismjs/components/prism-clike.js"
         JS.ImportFile "prismjs/components/prism-javascript.js"
         JS.ImportFile "prismjs/components/prism-fsharp.js"
+        JS.ImportFile "prismjs/components/prism-ocaml.js"
         JS.ImportFile "prismjs/components/prism-csharp.js"
         JS.ImportFile "prismjs/plugins/line-numbers/prism-line-numbers.js"
 

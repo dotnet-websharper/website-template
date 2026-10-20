@@ -8,7 +8,7 @@ open WebSharper.UI.Html
 open WebSharper.Sitelets
 
 [<JavaScript>]
-module Features =
+module Examples =
         
     type Tab = 
         | [<EndPoint "spreadsheet">] Spreadsheet 
@@ -38,11 +38,11 @@ module Features =
 
     // Tab Content Generators
 
-    let renderSpreadsheet () = Templates.FeaturesTemplate.SpreadsheetExample().Doc()
-    let renderMaps () = Templates.FeaturesTemplate.MapsExample().Doc()
-    let renderChart () = Templates.FeaturesTemplate.ChartExample().Doc()
-    let renderVisual () = Templates.FeaturesTemplate.VisualExample().Doc()
-    let renderForms () = Templates.FeaturesTemplate.FormsExample().Doc()
+    let renderSpreadsheet () = Templates.ExamplesTemplate.SpreadsheetExample().Doc()
+    let renderMaps () = Templates.ExamplesTemplate.MapsExample().Doc()
+    let renderChart () = Templates.ExamplesTemplate.ChartExample().Doc()
+    let renderVisual () = Templates.ExamplesTemplate.VisualExample().Doc()
+    let renderForms () = Templates.ExamplesTemplate.FormsExample().Doc()
 
     let getCodeSnippet = function
         | Spreadsheet -> """open WebSharper.SlickGrid
@@ -169,52 +169,10 @@ let Chat =
         | Visual -> renderVisual()
         | Spreadsheet -> renderSpreadsheet()        
 
-    let highlight () =
-        let prism = JS.ImportDefault "prismjs"
-        prism?highlightAll()
-
-    // SCG Data
-
-    let warpSrc = """template Main "index.html"
-
-endpoint Home "/" return Main
-"""
-
-    let endPointSrc = """namespace MyApplication
-
-open WebSharper
-open WebSharper.Sitelets
-
-type EndPoint =
-    | [<EndPoint "/">] Home
-"""
-
-    let uiSrc = """namespace MyApplication
-
-open WebSharper
-open WebSharper.UI.Templating
-
-[<JavaScript>]
-module UI =
-    // Type provider generates this from index.html
-    type MyTemplate = 
-        Template<"index.html", clientLoad=ClientLoad.Inline>
-
-    let Main =
-        MyTemplate()
-            .Title("Welcome")
-            .Body("Hello World")
-            .Doc()
-
-    // Additional boiler-plate
-    let ExtraHelper () = 
-        console.log("Generated")
-"""
-
     // Main Entry Point
-    
-    let FeaturesDoc(): Doc = 
-        let template = Templates.FeaturesTemplate.Content()
+
+    let ExamplesDoc(): Doc =
+        let template = Templates.ExamplesTemplate.Content()
 
         let renderCode src =
             Utils.renderCode src (fun _ -> SnippetCode.Init())
@@ -240,10 +198,6 @@ module UI =
                     ActiveTab.View.Doc(fun activeTab ->
                         activeTab |> getResultDoc
                     )
-                )
-                .SCGContent(
-                    FeaturesSCG.HydrateSCG ()
-                    |> fun t -> t.Doc()
                 )
                 .Doc()
         else

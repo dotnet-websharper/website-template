@@ -108,3 +108,6 @@ module UI =
                 .UiFile(renderCode uiSrc)
                 .WarpFileTabbed(renderCode warpSrc)
                 .GeneratedContent(renderCode endPointSrc)
+
+    let HydrateSCGDoc () =
+        (HydrateSCG ()).Doc()

@@ -384,55 +384,7 @@
                     Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.
                 </p>
 
-                <div class="mt-8 mx-auto w-full md:mt-0 md:w-1/2">
-                    <div ws-onafterrender="InitTabs"
-                         data-name="snippet" class="relative z-10 border border-gray-200/75 bg-white dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
-                        <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
-                            <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b dark:border-gray-800">
-                                <div class="flex space-x-1.5">
-                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                    <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-                                </div>
-
-                                <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70">
-                                    <div aria-hidden="true" class="tab-indicator absolute inset-0 w-0 rounded-md transition-[width,left] duration-500 border bg-gray-100 dark:bg-gray-800 dark:border-gray-700/50"></div>
-                                    <button role="tab" aria-selected="true" data-target="fsharp" class="relative flex cursor-pointer items-center gap-1.5 px-1.5 py-1 duration-300 hover:text-gray-600 dark:hover:text-white">
-                                        <svg class="h-3.5 w-3.5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="236" height="224" viewBox="0 0 62.441665 59.266668" version="1.1" id="svg5" inkscape:version="1.1 (c68e22c387, 2021-05-23)" sodipodi:docname="F Sharp logo.svg">
-                                            <sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="px" showgrid="false" units="px" width="236px" inkscape:zoom="2" inkscape:cx="142.75" inkscape:cy="75.75" inkscape:window-width="1920" inkscape:window-height="1057" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" />
-                                            <defs id="defs2" />
-                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
-                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z" id="path4912" sodipodi:nodetypes="ccccccc" />
-                                                <path style="fill: #378bba; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z" id="path9393" sodipodi:nodetypes="cccc" />
-                                                <path style="fill: #30b9db; fill-opacity: 1; stroke: none; stroke-width: 0.264583px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z" id="path13640" sodipodi:nodetypes="ccccccc" />
-                                            </g>
-                                        </svg>
-                                        <span class="text-xs">DSL.warp</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="snippet-code relative rounded-b-2xl dark:mt-px  md:rounded-b-xl">
-                                <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs">
-                                    <div class="absolute inset-0 h-max w-max" role="tabpanel" aria-labelledby="tab-1" data-lang="fsharp">
-                                        <pre class="p-4 pt-0"><code class="w-max language-fsharp">type Item {
-    text ItemNumber;
-    text Name;
-    number Quantity format "[0-9]+" with "Must specify a number"
-};
-
-type Address {
-    text Street1;
-    text Street2 optional;
-    text City;
-    text State = "CA";
-    text Zip
-};</code></pre>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="mt-8 mx-auto w-full md:mt-0 md:w-1/2" ws-hole="WarpExample"></div>
             </section>
 
             <!-- Section: Warp Plugin (spec-first) -->

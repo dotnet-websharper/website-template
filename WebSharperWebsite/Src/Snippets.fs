@@ -3,7 +3,7 @@ namespace WebSharperWebsite
 open System.IO
 open System.Reflection
 
-/// Loads the code fragments shown in <c>Components.CodeWindow</c> from files
+/// Loads the code fragments shown in the code editors (see <c>Component</c>) from files
 /// embedded as resources (see the <c>CodeFragments/</c> folder). The content is
 /// raw - it is never parsed as HTML - so it needs no escaping; the code window
 /// renders it through <c>Html.text</c>, which escapes at output time and lets
