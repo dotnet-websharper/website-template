@@ -56,6 +56,9 @@ type Component private () =
         Templates.ComponentsTemplate.CodeFiles()
             .Tabs(Doc.Concat (Component.TabIndicator () :: List.map Component.Tab tabs))
             .Panels(Doc.Concat (tabs |> List.mapi (fun i t -> Component.EditorPanel(i, t))))
+            .Init(fun () ->
+                SnippetCode.Init()
+                SnippetCode.InitTabs())
             .Doc()
 
     /// A three-pane code window (worker + two JS files) with a Terminal.

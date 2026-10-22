@@ -61,7 +61,7 @@ module SnippetCode =
         | Some tablist ->
             queryAll (tablist) "[role='tab']"
             |> Seq.iter (fun tab ->
-                let isActive = (tab :> Element) = clicked
+                let isActive = (tab :> Node).IsSameNode(clicked)
                 tab.SetAttribute("aria-selected", if isActive then "true" else "false")
             )
 
