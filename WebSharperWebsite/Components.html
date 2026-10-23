@@ -8,10 +8,10 @@
         <div data-name="snippet" ws-onafterrender="Init" class="relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
             <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
                 <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
-                    <div class="flex space-x-1.5">
-                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
-                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
-                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
                     </div>
                     <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70" ws-hole="Tabs"></div>
                 </div>
@@ -27,7 +27,7 @@
             role="tab" aria-selected="false" data-target="${Label}"
             class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
         <span ws-hole="Icon"></span>
-        <span class="text-xs">${Label}</span>
+        <span class="text-sm">${Label}</span>
     </button>
 
     <div ws-template="CodeFilePanelFirst" role="tabpanel" data-lang="${Label}" class="absolute inset-0 h-max w-max">
@@ -79,10 +79,10 @@
                         <div class="rounded-3xl p-px from-gray-200 to-gray-950/5 bg-gradient-to-b dark:from-gray-800 dark:to-gray-900">
                             <div data-name="snippet" class="rounded-[23px] border border-gray-200 bg-gray-200/90 shadow-xl shadow-gray-950/5 pb-3 pr-3 text-sm backdrop-blur-3xl dark:border-transparent dark:bg-gray-900 md:ml-0">
                                 <div class="flex items-center gap-4 px-6 py-1 border-b border-gray-200 dark:border-gray-800">
-                                    <div class="flex space-x-1.5">
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
-                                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                                    <div class="flex space-x-2">
+                                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
                                     </div>
 
                                     <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70" ws-hole="Tabs"></div>
@@ -110,7 +110,7 @@
                                             <div class="relative w-full snippet-code" ws-hole="Panels"></div>
                                         </div>
                                         <div class="lg:col-span-3 bg-gray-100 dark:bg-gray-950 shadow-2xl shadow-gray-950/5 dark:shadow-gray-950/15 border border-gray-300/50 dark:border-gray-800 lg:rounded-br-3xl">
-                                            <div class="flex items-center border-b border-gray-200 dark:border-gray-800"><div class="inline-flex -mb-px items-center gap-2 rounded-t-md border border-b-transparent border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>Terminal</div></div>
+                                            <div class="flex items-center border-b border-gray-200 dark:border-gray-800"><div class="inline-flex -mb-px items-center gap-2 rounded-t-md border border-b-transparent border-gray-200 bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>Terminal</div></div>
                                             <div class="mt-1 ml-1 w-max font-mono text-xs text-gray-400 dark:text-white/60">
                                                 <div class="text-green-500 font-bold">
                                                     VITE <span class="text-green-500 font-normal">v6.3.5</span>
@@ -157,7 +157,7 @@
             <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
             <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
         </svg>
-        <span class="text-xs">Result</span>
+        <span class="text-sm">Result</span>
     </button>
 
 
@@ -182,10 +182,10 @@
                  ws-onafterrender="Init"
                  class="rounded-[23px] text-sm backdrop-blur-3xl bg-gray-100 dark:bg-gray-900">
                 <div class="flex items-center gap-4 rounded-t-xl px-4 py-1 border-b border-gray-200 dark:border-gray-800 dark:bg-gray-900">
-                    <div class="flex space-x-1.5">
-                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
-                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
-                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
                     </div>
                     <div role="tablist" aria-label="tabs"
                          class="relative flex text-gray-500 dark:text-white/70"
@@ -204,10 +204,10 @@
         <div class="relative z-10 -mt-12 scale-105 rounded-xl border border-gray-200 bg-white shadow-2xl shadow-gray-200/30 dark:border-white/5 dark:bg-gray-950 dark:shadow-black/40 sm:absolute sm:-inset-y-9 sm:-right-0 sm:mt-0 sm:w-1/2 sm:scale-100 lg:w-[46.8%]">
             <div class="h-full w-full rounded-xl">
                 <div class="relative flex items-center gap-4 rounded-t-xl bg-white py-1 pl-4 pr-1 dark:bg-gray-900">
-                    <div class="absolute inset-y-0 my-auto flex h-max space-x-1.5">
-                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
-                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
-                        <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                    <div class="absolute inset-y-0 my-auto flex h-max space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
                     </div>
                     <div class="mx-auto flex w-2/3 cursor-text items-center gap-1.5 rounded-lg bg-gray-100 p-1.5 px-2 dark:bg-black/30">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 text-gray-300 dark:text-gray-300/40">
@@ -226,15 +226,15 @@
     <div ws-children-template="VsCode3">
                         <div class="rounded-3xl bg-gray-200/90 shadow-xl pr-3 pb-2 text-sm backdrop-blur-3xl dark:bg-gray-900 md:ml-0 md:pr-0">
                             <div class="flex items-center gap-4 px-6 py-1 border-b border-gray-200 dark:border-gray-800">
-                                <div class="flex space-x-1.5">
-                                    <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#ff5f57"></div>
-                                    <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#febc2e"></div>
-                                    <div aria-hidden="true" class="h-2 w-2 rounded-full" style="background-color:#28c840"></div>
+                                <div class="flex space-x-2">
+                                    <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                                    <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                                    <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
                                 </div>
 
                                 <div class="relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 px-2.5 py-1.5 text-xs text-gray-900 before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-brand-primary dark:border-gray-700/60 dark:text-white">
                                     <span ws-hole="Tab1Icon"></span>
-                                    <span class="text-xs">${Tab1Label}</span>
+                                    <span class="text-sm">${Tab1Label}</span>
                                 </div>
                             </div>
 
@@ -269,7 +269,7 @@
                                         <div class="flex items-center gap-2 border-gray-300/50 p-1 px-2 dark:border-white/10 md:border-b">
                                             <div class="flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80">
                                                 <span ws-hole="Tab2Icon"></span>
-                                                <span class="text-xs">${Tab2Label}</span>
+                                                <span class="text-sm">${Tab2Label}</span>
                                             </div>
                                         </div>
                                         <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code">
@@ -286,7 +286,7 @@
                                         <div class="flex items-center gap-2 p-1 px-2 md:border-b md:border-gray-300/50 md:bg-white/5 dark:md:border-white/10 lg:bg-transparent">
                                             <div class="flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80">
                                                 <span ws-hole="Tab3Icon"></span>
-                                                <span class="text-xs">${Tab3Label}</span>
+                                                <span class="text-sm">${Tab3Label}</span>
                                             </div>
                                         </div>
                                         <div class="flex overflow-hidden rounded-2xl bg-white py-3 pl-3 font-mono text-xs dark:bg-black/40 md:rounded-none md:border-none md:bg-transparent dark:md:bg-transparent snippet-code">
@@ -300,7 +300,7 @@
 
                                     <!-- Terminal -->
                                     <div class="lg:col-span-3 bg-gray-100 dark:bg-gray-950 shadow-2xl shadow-gray-950/5 dark:shadow-gray-950/15 border border-gray-300/50 dark:border-gray-800 p-3 lg:rounded-br-3xl">
-                                        <div class="flex items-center border-b border-gray-200 dark:border-gray-800"><div class="inline-flex -mb-px items-center gap-2 rounded-t-md border border-b-transparent border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>Terminal</div></div>
+                                        <div class="flex items-center border-b border-gray-200 dark:border-gray-800"><div class="inline-flex -mb-px items-center gap-2 rounded-t-md border border-b-transparent border-gray-200 bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>Terminal</div></div>
                                         <div class="mt-3 hidden w-max font-mono text-xs text-gray-400 dark:text-white/60 md:block">${TerminalContent}</div>
                                     </div>
                                 </div>
