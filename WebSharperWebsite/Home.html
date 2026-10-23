@@ -435,35 +435,44 @@
                     <div class="mx-auto max-w-3xl text-center">
                         <h2 class="text-3xl font-bold text-gray-800 dark:text-white">How it works</h2>
                         <p class="mt-6 text-gray-500 dark:text-gray-200">
-                            Write your app once in C# or F#. The compiler walks your assemblies and emits a native .NET server and a JavaScript client that share both their data types and the metadata that connects them.
+                            Write your app once in C# or F#, or in OCaml. The compiler emits a native .NET or OCaml server and a JavaScript client that share both their data types and the metadata that connects them.
                         </p>
                     </div>
                     <div class="relative mt-14 overflow-x-auto">
-                        <svg viewBox="0 0 900 300" role="img" aria-label="C# and F# source is compiled by WebSharper to a native .NET server and a JavaScript client that share types and typed remoting" class="mx-auto h-auto w-full min-w-[640px] max-w-4xl text-gray-900 dark:text-white">
+                        <svg viewBox="0 0 900 340" role="img" aria-label="C# and F# source, or OCaml source, is compiled by WebSharper to a native .NET or OCaml server and a JavaScript application that share types and typed remoting" class="mx-auto h-auto w-full min-w-[640px] max-w-4xl text-gray-900 dark:text-white">
                             <defs>
                                 <marker id="ws-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                                     <path d="M0 0L10 5L0 10z" fill="currentColor" opacity="0.55" />
                                 </marker>
                             </defs>
                             <g fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.5">
-                                <rect x="20" y="110" width="200" height="80" rx="12" />
-                                <rect x="330" y="110" width="200" height="80" rx="12" />
-                                <rect x="640" y="40" width="240" height="80" rx="12" />
-                                <rect x="640" y="180" width="240" height="80" rx="12" />
-                                <path d="M220 150 H330" marker-end="url(#ws-arrow)" />
-                                <path d="M530 138 C 590 120, 590 90, 640 80" marker-end="url(#ws-arrow)" />
-                                <path d="M530 162 C 590 180, 590 210, 640 220" marker-end="url(#ws-arrow)" />
-                                <path d="M760 120 V180" stroke-dasharray="5 5" marker-end="url(#ws-arrow)" marker-start="url(#ws-arrow)" />
+                                <rect x="20" y="30" width="200" height="80" rx="12" />
+                                <rect x="20" y="230" width="200" height="80" rx="12" />
+                                <rect x="330" y="30" width="200" height="280" rx="12" />
+                                <rect x="640" y="30" width="240" height="80" rx="12" />
+                                <rect x="640" y="130" width="240" height="80" rx="12" class="fill-brand-primary/15 stroke-brand-primary/45 dark:fill-brand-primary/20 dark:stroke-brand-primary/55" stroke-opacity="1" />
+                                <rect x="640" y="230" width="240" height="80" rx="12" />
+                                <path d="M220 70 H330" marker-end="url(#ws-arrow)" />
+                                <path d="M220 270 H330" marker-end="url(#ws-arrow)" />
+                                <path d="M530 70 H640" marker-end="url(#ws-arrow)" />
+                                <path d="M530 170 H640" marker-end="url(#ws-arrow)" />
+                                <path d="M530 270 H640" marker-end="url(#ws-arrow)" />
+                                <path d="M760 110 V130" stroke-dasharray="5 5" marker-end="url(#ws-arrow)" marker-start="url(#ws-arrow)" />
+                                <path d="M760 210 V230" stroke-dasharray="5 5" marker-end="url(#ws-arrow)" marker-start="url(#ws-arrow)" />
                             </g>
                             <g fill="currentColor" text-anchor="middle" font-size="15">
-                                <text x="120" y="145">C# / F# source</text>
-                                <text x="120" y="167" opacity="0.6" font-size="12">one codebase</text>
-                                <text x="430" y="145">WebSharper</text>
-                                <text x="430" y="167" opacity="0.6" font-size="12">compiler + metadata</text>
-                                <text x="760" y="75">Native .NET server</text>
-                                <text x="760" y="97" opacity="0.6" font-size="12">sitelets · remoting · JSON</text>
-                                <text x="760" y="215">JavaScript client</text>
-                                <text x="760" y="237" opacity="0.6" font-size="12">DOM · reactive UI · WebSockets</text>
+                                <text x="120" y="65">C# / F# source</text>
+                                <text x="120" y="87" opacity="0.6" font-size="12">one codebase</text>
+                                <text x="120" y="265">OCaml source</text>
+                                <text x="120" y="287" opacity="0.6" font-size="12">WebSharper.OCaml toolchain</text>
+                                <text x="430" y="165">WebSharper</text>
+                                <text x="430" y="187" opacity="0.6" font-size="12">compiler + metadata</text>
+                                <text x="760" y="65">Native .NET server</text>
+                                <text x="760" y="87" opacity="0.6" font-size="12">sitelets · remoting · JSON</text>
+                                <text x="760" y="165">Your application</text>
+                                <text x="760" y="187" opacity="0.6" font-size="12">DOM · reactive UI · WebSockets</text>
+                                <text x="760" y="265">Native OCaml server</text>
+                                <text x="760" y="287" opacity="0.6" font-size="12">sitelets · remoting · JSON</text>
                             </g>
                         </svg>
                     </div>
