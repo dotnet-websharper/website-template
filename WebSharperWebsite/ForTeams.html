@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>WebSharper - For Teams</title>
+    <meta name="description" content="WebSharper for Teams — AI developer tools, governance and enterprise assurance. Coming soon." />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
+</head>
+<body>
+    <main ws-children-template="Content">
+        <div class="relative isolate overflow-hidden" ws-onafterrender="OnAfterRender">
+            <!-- Decorative background: aurora orbs + grid -->
+            <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+                <div class="absolute -top-48 left-1/2 h-[42rem] w-[42rem] -translate-x-1/2 rounded-full bg-brand-primary/25 blur-3xl dark:bg-brand-primary/10"></div>
+                <div class="absolute -left-32 top-1/3 h-96 w-96 animate-pulse rounded-full bg-sky-400/25 blur-3xl dark:bg-sky-500/10"></div>
+                <div class="absolute -right-32 bottom-0 h-96 w-96 animate-pulse rounded-full bg-indigo-400/25 blur-3xl dark:bg-indigo-500/10"></div>
+                <div class="absolute inset-0 opacity-[0.28] dark:hidden"
+                     style="background-image:linear-gradient(to right, rgba(100,116,139,0.35) 1px, transparent 1px),linear-gradient(to bottom, rgba(100,116,139,0.35) 1px, transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%);-webkit-mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%)"></div>
+                <div class="absolute inset-0 hidden opacity-25 dark:block"
+                     style="background-image:linear-gradient(to right, rgba(148,163,184,0.4) 1px, transparent 1px),linear-gradient(to bottom, rgba(148,163,184,0.4) 1px, transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%);-webkit-mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%)"></div>
+            </div>
+
+            <!-- Hero -->
+            <section class="relative mx-auto max-w-4xl px-6 pt-32 pb-14 text-center sm:pt-40 lg:px-8">
+                <span class="inline-flex items-center gap-2 rounded-full border border-brand-primary/40 bg-brand-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-gray-800 dark:border-brand-primary/25 dark:bg-brand-primary/10 dark:text-gray-200">
+                    <span class="relative flex size-2">
+                        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-primary opacity-75"></span>
+                        <span class="relative inline-flex size-2 rounded-full bg-brand-primary"></span>
+                    </span>
+                    For Teams — coming soon
+                </span>
+
+                <h1 class="mx-auto mt-8 max-w-3xl text-4xl font-bold tracking-tight text-gray-950 sm:text-6xl dark:text-white">
+                    WebSharper for Teams
+                </h1>
+
+                <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-700 dark:text-gray-300">
+                    AI developer tools and governance for your whole team — with enterprise assurance as a second line of defence. We are putting the finishing touches on this page. Tell us what you need and we will be in touch.
+                </p>
+
+                <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+                    <a href="#contact" class="group inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-gray-950 bg-gray-950 px-6 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 dark:border-gray-800 dark:bg-white dark:text-gray-950">
+                        Contact us
+                        <svg class="size-4 transition-transform duration-300 group-hover:translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0 6 6m-6-6 6-6" transform="rotate(-90 12 12)" /></svg>
+                    </a>
+                    <a href="https://docs.websharper.com/" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-gray-300 px-6 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                        Read the docs
+                    </a>
+                </div>
+            </section>
+
+            <!-- Graphic: orbit + preview window -->
+            <section class="relative mx-auto max-w-6xl px-6 pb-24 lg:px-8">
+                <div class="grid items-center gap-12 lg:grid-cols-2">
+
+                    <!-- Orbit illustration -->
+                    <div class="relative mx-auto aspect-square w-full max-w-md">
+                        <svg viewBox="0 0 400 400" class="h-full w-full" role="img" aria-label="An orbiting WebSharper logo illustration">
+                            <defs>
+                                <linearGradient id="ft-ring" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#36b9ff" stop-opacity="0.85" />
+                                    <stop offset="100%" stop-color="#6366f1" stop-opacity="0.15" />
+                                </linearGradient>
+                            </defs>
+
+                            <circle cx="200" cy="200" r="168" fill="none" stroke="url(#ft-ring)" stroke-width="1.5" stroke-dasharray="4 8" class="opacity-70" />
+                            <circle cx="200" cy="200" r="118" fill="none" stroke="url(#ft-ring)" stroke-width="1.5" stroke-dasharray="4 8" class="opacity-50" />
+
+                            <g class="animate-spin [transform-box:fill-box] origin-center [animation-duration:26s]">
+                                <circle cx="200" cy="32" r="9" class="fill-brand-primary" />
+                                <circle cx="368" cy="200" r="6" class="fill-sky-400" />
+                            </g>
+                            <g class="animate-spin [transform-box:fill-box] origin-center [animation-duration:18s] [animation-direction:reverse]">
+                                <circle cx="200" cy="82" r="7" class="fill-indigo-400" />
+                                <circle cx="318" cy="200" r="5" class="fill-brand-primary/70" />
+                            </g>
+                        </svg>
+
+                        <div class="absolute left-1/2 top-1/2 flex size-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-3xl border border-gray-200 bg-white/80 shadow-lg shadow-brand-primary/10 backdrop-blur dark:border-gray-800 dark:bg-gray-900/80">
+                            <img src="./Assets/favicon.png" alt="WebSharper" class="size-12" />
+                        </div>
+                    </div>
+
+                    <!-- Preview window (mock editor) -->
+                    <div class="relative">
+                        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl shadow-gray-950/5 dark:border-gray-800 dark:bg-gray-900">
+                            <div class="flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-gray-950/60">
+                                <span class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></span>
+                                <span class="h-3 w-3 rounded-full" style="background-color:#febc2e"></span>
+                                <span class="h-3 w-3 rounded-full" style="background-color:#28c840"></span>
+                                <span class="ml-3 text-xs font-medium text-gray-500 dark:text-gray-400">team.policy.fs</span>
+                                <span class="ml-auto inline-flex items-center gap-1.5 rounded-full bg-brand-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-200">
+                                    <span class="size-1.5 animate-pulse rounded-full bg-brand-primary"></span>
+                                    Reviewing…
+                                </span>
+                            </div>
+                            <div class="space-y-3 p-6">
+                                <div class="flex items-center gap-2">
+                                    <span class="h-3 w-3 rounded-full bg-brand-primary/70"></span>
+                                    <span class="h-2.5 w-24 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="h-2.5 w-40 animate-pulse rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                </div>
+                                <div class="space-y-2.5 pl-5">
+                                    <span class="block h-2.5 w-3/4 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-1/2 animate-pulse rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-2/3 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-5/12 animate-pulse rounded-full bg-brand-primary/30"></span>
+                                    <span class="block h-2.5 w-3/5 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                </div>
+                                <div class="flex items-center gap-2 pt-2">
+                                    <span class="h-3 w-3 rounded-full bg-emerald-400/80"></span>
+                                    <span class="h-2.5 w-32 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                </div>
+                                <div class="space-y-2.5 pl-5">
+                                    <span class="block h-2.5 w-2/3 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-4/12 animate-pulse rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="absolute -right-3 -top-3 rotate-6 rounded-xl border border-brand-primary/30 bg-white px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-gray-800 shadow-lg dark:border-brand-primary/25 dark:bg-gray-900 dark:text-gray-100">
+                            Coming soon
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- What For Teams will bring -->
+        <section class="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
+            <div class="mx-auto max-w-2xl text-center">
+                <h2 class="text-2xl font-semibold text-gray-900 sm:text-3xl dark:text-white">What For Teams will bring</h2>
+                <p class="mt-3 text-gray-700 dark:text-gray-300">AI developer tooling and governance first, with enterprise assurance as an added layer for teams that need it.</p>
+            </div>
+
+            <div class="mt-12 grid gap-6 md:grid-cols-3">
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                    <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.091 3.091ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" /></svg>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-gray-900 dark:text-white">AI developer tools</h3>
+                    <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">AI-assisted generation, review and refactoring that understands your WebSharper codebase and stays on your conventions.</p>
+                </div>
+
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                    <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" /></svg>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-gray-900 dark:text-white">Governance</h3>
+                    <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">Policy, review and audit guardrails so AI-assisted changes stay safe, traceable and aligned across every team.</p>
+                </div>
+
+                <div class="relative rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                    <span class="absolute right-4 top-4 inline-flex items-center rounded-full border border-gray-300 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gray-500 dark:border-white/20 dark:text-gray-400">Add-on</span>
+                    <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-gray-900 dark:text-white">Enterprise assurance</h3>
+                    <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">A second line of defence for regulated and high-stakes work: oversight, provenance and escalation to the team that builds WebSharper.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact us -->
+        <section id="contact" class="mx-auto max-w-3xl scroll-mt-24 px-6 pb-28 lg:px-8">
+            <div class="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm shadow-gray-950/5 sm:p-10 dark:border-gray-800 dark:bg-gray-950">
+                <div class="text-center">
+                    <h2 class="text-2xl font-semibold text-gray-900 sm:text-3xl dark:text-white">Contact us</h2>
+                    <p class="mx-auto mt-3 max-w-xl text-gray-700 dark:text-gray-300">Tell us about your team and what you need. We will get back to you.</p>
+                </div>
+
+                <form method="post" class="mt-8 space-y-6">
+                    <!-- Subject -->
+                    <div>
+                        <label for="emailSubject" class="mb-2 block text-sm font-semibold text-gray-900 dark:text-gray-200">Subject</label>
+                        <input type="text"
+                               name="email-subject"
+                               ws-var="ContactSubjectVar"
+                               class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                               value="WebSharper for Teams">
+                    </div>
+
+                    <!-- Message -->
+                    <div>
+                        <label for="emailMessage" class="mb-2 block text-sm font-semibold text-gray-900 dark:text-gray-200">Message</label>
+                        <textarea name="email-message" rows="5"
+                                  ws-var="ContactMessageVar"
+                                  class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary dark:border-gray-700 dark:bg-gray-900 dark:text-white"></textarea>
+                    </div>
+
+                    <!-- Email, Name, Country -->
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                        <div>
+                            <label for="emailAddress" class="mb-2 block text-sm font-semibold text-gray-900 dark:text-gray-200">Your email address</label>
+                            <input type="email"
+                                   name="email-address"
+                                   ws-var="ContactEmailVar"
+                                   class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                        </div>
+
+                        <div>
+                            <label for="emailName" class="mb-2 block text-sm font-semibold text-gray-900 dark:text-gray-200">Your name</label>
+                            <input type="text"
+                                   name="name"
+                                   ws-var="ContactNameVar"
+                                   class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                        </div>
+
+                        <div>
+                            <label for="emailCountry" class="mb-2 block text-sm font-semibold text-gray-900 dark:text-gray-200">Your country</label>
+                            <select name="email-country"
+                                    ws-var="ContactCountryVar"
+                                    class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                                                                <option value="Afghanistan">Afghanistan</option>
+                                <option value="Albania">Albania</option>
+                                <option value="Algeria">Algeria</option>
+                                <option value="Andorra">Andorra</option>
+                                <option value="Angola">Angola</option>
+                                <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                                <option value="Argentina">Argentina</option>
+                                <option value="Armenia">Armenia</option>
+                                <option value="Australia">Australia</option>
+                                <option value="Austria">Austria</option>
+                                <option value="Azerbaijan">Azerbaijan</option>
+                                <option value="Bahamas">Bahamas</option>
+                                <option value="Bahrain">Bahrain</option>
+                                <option value="Bangladesh">Bangladesh</option>
+                                <option value="Barbados">Barbados</option>
+                                <option value="Belarus">Belarus</option>
+                                <option value="Belgium">Belgium</option>
+                                <option value="Belize">Belize</option>
+                                <option value="Benin">Benin</option>
+                                <option value="Bhutan">Bhutan</option>
+                                <option value="Bolivia">Bolivia</option>
+                                <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                                <option value="Botswana">Botswana</option>
+                                <option value="Brazil">Brazil</option>
+                                <option value="Brunei">Brunei</option>
+                                <option value="Bulgaria">Bulgaria</option>
+                                <option value="Burkina Faso">Burkina Faso</option>
+                                <option value="Burundi">Burundi</option>
+                                <option value="Cabo Verde">Cabo Verde</option>
+                                <option value="Cambodia">Cambodia</option>
+                                <option value="Cameroon">Cameroon</option>
+                                <option value="Canada">Canada</option>
+                                <option value="Central African Republic">Central African Republic</option>
+                                <option value="Chad">Chad</option>
+                                <option value="Chile">Chile</option>
+                                <option value="China">China</option>
+                                <option value="Colombia">Colombia</option>
+                                <option value="Comoros">Comoros</option>
+                                <option value="Congo (Congo-Brazzaville)">Congo (Congo-Brazzaville)</option>
+                                <option value="Costa Rica">Costa Rica</option>
+                                <option value="Croatia">Croatia</option>
+                                <option value="Cuba">Cuba</option>
+                                <option value="Cyprus">Cyprus</option>
+                                <option value="Czech Republic">Czech Republic</option>
+                                <option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>
+                                <option value="Denmark">Denmark</option>
+                                <option value="Djibouti">Djibouti</option>
+                                <option value="Dominica">Dominica</option>
+                                <option value="Dominican Republic">Dominican Republic</option>
+                                <option value="Ecuador">Ecuador</option>
+                                <option value="Egypt">Egypt</option>
+                                <option value="El Salvador">El Salvador</option>
+                                <option value="Equatorial Guinea">Equatorial Guinea</option>
+                                <option value="Eritrea">Eritrea</option>
+                                <option value="Estonia">Estonia</option>
+                                <option value="Eswatini">Eswatini</option>
+                                <option value="Ethiopia">Ethiopia</option>
+                                <option value="Fiji">Fiji</option>
+                                <option value="Finland">Finland</option>
+                                <option value="France">France</option>
+                                <option value="Gabon">Gabon</option>
+                                <option value="Gambia">Gambia</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Germany">Germany</option>
+                                <option value="Ghana">Ghana</option>
+                                <option value="Greece">Greece</option>
+                                <option value="Grenada">Grenada</option>
+                                <option value="Guatemala">Guatemala</option>
+                                <option value="Guinea">Guinea</option>
+                                <option value="Guinea-Bissau">Guinea-Bissau</option>
+                                <option value="Guyana">Guyana</option>
+                                <option value="Haiti">Haiti</option>
+                                <option value="Honduras">Honduras</option>
+                                <option value="Hungary">Hungary</option>
+                                <option value="Iceland">Iceland</option>
+                                <option value="India">India</option>
+                                <option value="Indonesia">Indonesia</option>
+                                <option value="Iran">Iran</option>
+                                <option value="Iraq">Iraq</option>
+                                <option value="Ireland">Ireland</option>
+                                <option value="Israel">Israel</option>
+                                <option value="Italy">Italy</option>
+                                <option value="Jamaica">Jamaica</option>
+                                <option value="Japan">Japan</option>
+                                <option value="Jordan">Jordan</option>
+                                <option value="Kazakhstan">Kazakhstan</option>
+                                <option value="Kenya">Kenya</option>
+                                <option value="Kiribati">Kiribati</option>
+                                <option value="Kuwait">Kuwait</option>
+                                <option value="Kyrgyzstan">Kyrgyzstan</option>
+                                <option value="Laos">Laos</option>
+                                <option value="Latvia">Latvia</option>
+                                <option value="Lebanon">Lebanon</option>
+                                <option value="Lesotho">Lesotho</option>
+                                <option value="Liberia">Liberia</option>
+                                <option value="Libya">Libya</option>
+                                <option value="Liechtenstein">Liechtenstein</option>
+                                <option value="Lithuania">Lithuania</option>
+                                <option value="Luxembourg">Luxembourg</option>
+                                <option value="Madagascar">Madagascar</option>
+                                <option value="Malawi">Malawi</option>
+                                <option value="Malaysia">Malaysia</option>
+                                <option value="Maldives">Maldives</option>
+                                <option value="Mali">Mali</option>
+                                <option value="Malta">Malta</option>
+                                <option value="Marshall Islands">Marshall Islands</option>
+                                <option value="Mauritania">Mauritania</option>
+                                <option value="Mauritius">Mauritius</option>
+                                <option value="Mexico">Mexico</option>
+                                <option value="Micronesia">Micronesia</option>
+                                <option value="Moldova">Moldova</option>
+                                <option value="Monaco">Monaco</option>
+                                <option value="Mongolia">Mongolia</option>
+                                <option value="Montenegro">Montenegro</option>
+                                <option value="Morocco">Morocco</option>
+                                <option value="Mozambique">Mozambique</option>
+                                <option value="Myanmar (Burma)">Myanmar (Burma)</option>
+                                <option value="Namibia">Namibia</option>
+                                <option value="Nauru">Nauru</option>
+                                <option value="Nepal">Nepal</option>
+                                <option value="Netherlands">Netherlands</option>
+                                <option value="New Zealand">New Zealand</option>
+                                <option value="Nicaragua">Nicaragua</option>
+                                <option value="Niger">Niger</option>
+                                <option value="Nigeria">Nigeria</option>
+                                <option value="North Korea">North Korea</option>
+                                <option value="North Macedonia">North Macedonia</option>
+                                <option value="Norway">Norway</option>
+                                <option value="Oman">Oman</option>
+                                <option value="Pakistan">Pakistan</option>
+                                <option value="Palau">Palau</option>
+                                <option value="Palestine">Palestine</option>
+                                <option value="Panama">Panama</option>
+                                <option value="Papua New Guinea">Papua New Guinea</option>
+                                <option value="Paraguay">Paraguay</option>
+                                <option value="Peru">Peru</option>
+                                <option value="Philippines">Philippines</option>
+                                <option value="Poland">Poland</option>
+                                <option value="Portugal">Portugal</option>
+                                <option value="Qatar">Qatar</option>
+                                <option value="Romania">Romania</option>
+                                <option value="Russia">Russia</option>
+                                <option value="Rwanda">Rwanda</option>
+                                <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+                                <option value="Saint Lucia">Saint Lucia</option>
+                                <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                                <option value="Samoa">Samoa</option>
+                                <option value="San Marino">San Marino</option>
+                                <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                                <option value="Saudi Arabia">Saudi Arabia</option>
+                                <option value="Senegal">Senegal</option>
+                                <option value="Serbia">Serbia</option>
+                                <option value="Seychelles">Seychelles</option>
+                                <option value="Sierra Leone">Sierra Leone</option>
+                                <option value="Singapore">Singapore</option>
+                                <option value="Slovakia">Slovakia</option>
+                                <option value="Slovenia">Slovenia</option>
+                                <option value="Solomon Islands">Solomon Islands</option>
+                                <option value="Somalia">Somalia</option>
+                                <option value="South Africa">South Africa</option>
+                                <option value="South Korea">South Korea</option>
+                                <option value="South Sudan">South Sudan</option>
+                                <option value="Spain">Spain</option>
+                                <option value="Sri Lanka">Sri Lanka</option>
+                                <option value="Sudan">Sudan</option>
+                                <option value="Suriname">Suriname</option>
+                                <option value="Sweden">Sweden</option>
+                                <option value="Switzerland">Switzerland</option>
+                                <option value="Syria">Syria</option>
+                                <option value="Taiwan">Taiwan</option>
+                                <option value="Tajikistan">Tajikistan</option>
+                                <option value="Tanzania">Tanzania</option>
+                                <option value="Thailand">Thailand</option>
+                                <option value="Timor-Leste">Timor-Leste</option>
+                                <option value="Togo">Togo</option>
+                                <option value="Tonga">Tonga</option>
+                                <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                                <option value="Tunisia">Tunisia</option>
+                                <option value="Turkey">Turkey</option>
+                                <option value="Turkmenistan">Turkmenistan</option>
+                                <option value="Tuvalu">Tuvalu</option>
+                                <option value="Uganda">Uganda</option>
+                                <option value="Ukraine">Ukraine</option>
+                                <option value="United Arab Emirates">United Arab Emirates</option>
+                                <option value="United Kingdom">United Kingdom</option>
+                                <option value="United States" selected>United States</option>
+                                <option value="Uruguay">Uruguay</option>
+                                <option value="Uzbekistan">Uzbekistan</option>
+                                <option value="Vanuatu">Vanuatu</option>
+                                <option value="Vatican City">Vatican City</option>
+                                <option value="Venezuela">Venezuela</option>
+                                <option value="Vietnam">Vietnam</option>
+                                <option value="Yemen">Yemen</option>
+                                <option value="Zambia">Zambia</option>
+                                <option value="Zimbabwe">Zimbabwe</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Send Button -->
+                    <div class="text-left">
+                        <button ws-attr="ContactSendButtonAttr"
+                                type="button"
+                                ws-onclick="OnContactSendClick"
+                                class="inline-flex h-11 items-center justify-center rounded-xl border border-gray-950 bg-gray-950 px-6 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-800 dark:bg-white dark:text-gray-950">
+                            ${ContactSendButtonText}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

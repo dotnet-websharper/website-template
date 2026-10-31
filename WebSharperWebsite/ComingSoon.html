@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>WebSharper - Coming soon</title>
+    <meta name="description" content="This page is coming soon on websharper.com." />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
+</head>
+<body>
+    <main ws-children-template="Content">
+        <div class="relative isolate overflow-hidden">
+            <!-- Decorative background: aurora orbs + grid -->
+            <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+                <div class="absolute -top-48 left-1/2 h-[42rem] w-[42rem] -translate-x-1/2 rounded-full bg-brand-primary/25 blur-3xl dark:bg-brand-primary/10"></div>
+                <div class="absolute -left-32 top-1/3 h-96 w-96 animate-pulse rounded-full bg-violet-400/25 blur-3xl dark:bg-violet-500/10"></div>
+                <div class="absolute -right-32 bottom-0 h-96 w-96 animate-pulse rounded-full bg-sky-400/25 blur-3xl dark:bg-sky-500/10"></div>
+                <div class="absolute inset-0 opacity-[0.28] dark:hidden"
+                     style="background-image:linear-gradient(to right, rgba(100,116,139,0.35) 1px, transparent 1px),linear-gradient(to bottom, rgba(100,116,139,0.35) 1px, transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%);-webkit-mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%)"></div>
+                <div class="absolute inset-0 hidden opacity-25 dark:block"
+                     style="background-image:linear-gradient(to right, rgba(148,163,184,0.4) 1px, transparent 1px),linear-gradient(to bottom, rgba(148,163,184,0.4) 1px, transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%);-webkit-mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%)"></div>
+            </div>
+
+            <!-- Hero -->
+            <section class="relative mx-auto max-w-4xl px-6 pt-32 pb-14 text-center sm:pt-40 lg:px-8">
+                <span class="inline-flex items-center gap-2 rounded-full border border-brand-primary/40 bg-brand-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-gray-800 dark:border-brand-primary/25 dark:bg-brand-primary/10 dark:text-gray-200">
+                    <span class="relative flex size-2">
+                        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-primary opacity-75"></span>
+                        <span class="relative inline-flex size-2 rounded-full bg-brand-primary"></span>
+                    </span>
+                    <span ws-hole="Eyebrow">Coming soon</span>
+                </span>
+
+                <h1 class="mx-auto mt-8 max-w-3xl text-4xl font-bold tracking-tight text-gray-950 sm:text-6xl dark:text-white">
+                    <span ws-hole="Title">Something new is on the way</span>
+                </h1>
+
+                <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-700 dark:text-gray-300">
+                    <span ws-hole="Description">We are putting the finishing touches on this page. It will be worth the wait.</span>
+                </p>
+
+                <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+                    <a href="./" class="group inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-gray-950 bg-gray-950 px-6 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 dark:border-gray-800 dark:bg-white dark:text-gray-950">
+                        <svg class="size-4 transition-transform duration-300 group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0 6 6m-6-6 6-6" /></svg>
+                        Back to home
+                    </a>
+                    <a href="https://docs.websharper.com/" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-gray-300 px-6 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                        Read the docs
+                        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Graphic: one spec -> many generated files (Warp) -->
+            <section class="relative px-6 pb-24 lg:px-8">
+                <div class="relative">
+                    <div class="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl shadow-gray-950/5 dark:border-gray-800 dark:bg-gray-900">
+                        <div class="flex flex-wrap items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-gray-950/60">
+                            <span class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></span>
+                            <span class="h-3 w-3 rounded-full" style="background-color:#febc2e"></span>
+                            <span class="h-3 w-3 rounded-full" style="background-color:#28c840"></span>
+                            <span class="ml-3 text-xs font-medium text-gray-500 dark:text-gray-400">Warp &middot; one spec &rarr; many files</span>
+                            <span class="ml-auto inline-flex items-center gap-1.5 rounded-full bg-brand-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-200">
+                                <span class="size-1.5 animate-pulse rounded-full bg-brand-primary"></span>
+                                5 files generated
+                            </span>
+                        </div>
+                        <div class="grid gap-px bg-gray-200 dark:bg-gray-800 lg:grid-cols-2">
+                            <!-- the spec (source of everything) -->
+                            <div class="bg-white p-6 dark:bg-gray-900">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-300">
+                                        <svg class="size-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+                                        spec.warp
+                                    </div>
+                                    <span class="inline-flex items-center rounded-full border border-brand-primary/30 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-brand-primary">source</span>
+                                </div>
+                                <div class="mt-4 space-y-3">
+                                    <span class="block h-2.5 w-2/3 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-5/6 rounded-full animate-pulse bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-1/2 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-3/4 rounded-full animate-pulse bg-brand-primary/30"></span>
+                                    <span class="block h-2.5 w-2/5 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-3/5 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-1/2 rounded-full animate-pulse bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-4/5 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-2/3 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    <span class="block h-2.5 w-3/5 rounded-full animate-pulse bg-gray-200 dark:bg-gray-800"></span>
+                                </div>
+                            </div>
+
+                            <!-- generated files (stacked) -->
+                            <div class="divide-y divide-gray-200 bg-white dark:divide-gray-800 dark:bg-gray-900">
+                                <div class="flex items-center gap-4 p-4">
+                                    <div class="flex w-28 flex-none items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-300">
+                                        <svg class="size-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" /></svg>
+                                        Client.fs
+                                    </div>
+                                    <div class="flex-1 space-y-2">
+                                        <span class="block h-2 w-3/4 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                        <span class="block h-2 w-1/2 rounded-full bg-brand-primary/20"></span>
+                                    </div>
+                                    <span class="inline-flex flex-none items-center rounded-full bg-brand-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-brand-primary">generated</span>
+                                </div>
+                                <div class="flex items-center gap-4 p-4">
+                                    <div class="flex w-28 flex-none items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-300">
+                                        <svg class="size-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" /></svg>
+                                        Forms.fs
+                                    </div>
+                                    <div class="flex-1 space-y-2">
+                                        <span class="block h-2 w-2/3 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                        <span class="block h-2 w-4/5 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    </div>
+                                    <span class="inline-flex flex-none items-center rounded-full bg-brand-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-brand-primary">generated</span>
+                                </div>
+                                <div class="flex items-center gap-4 p-4">
+                                    <div class="flex w-28 flex-none items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-300">
+                                        <svg class="size-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" /></svg>
+                                        Endpoints.fs
+                                    </div>
+                                    <div class="flex-1 space-y-2">
+                                        <span class="block h-2 w-1/2 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                        <span class="block h-2 w-2/3 rounded-full bg-brand-primary/20"></span>
+                                    </div>
+                                    <span class="inline-flex flex-none items-center rounded-full bg-brand-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-brand-primary">generated</span>
+                                </div>
+                                <div class="flex items-center gap-4 p-4">
+                                    <div class="flex w-28 flex-none items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-300">
+                                        <svg class="size-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" /></svg>
+                                        Handlers.fs
+                                    </div>
+                                    <div class="flex-1 space-y-2">
+                                        <span class="block h-2 w-3/5 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                        <span class="block h-2 w-2/5 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                    </div>
+                                    <span class="inline-flex flex-none items-center rounded-full bg-brand-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-brand-primary">generated</span>
+                                </div>
+                                <div class="flex items-center gap-4 p-4">
+                                    <div class="flex w-28 flex-none items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-300">
+                                        <svg class="size-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" /></svg>
+                                        Routing.fs
+                                    </div>
+                                    <div class="flex-1 space-y-2">
+                                        <span class="block h-2 w-2/3 rounded-full bg-gray-200 dark:bg-gray-800"></span>
+                                        <span class="block h-2 w-1/2 rounded-full bg-brand-primary/20"></span>
+                                    </div>
+                                    <span class="inline-flex flex-none items-center rounded-full bg-brand-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-brand-primary">generated</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- spec -> files arrow -->
+                    <div class="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center lg:flex">
+                        <span class="flex size-10 items-center justify-center rounded-full border border-brand-primary/40 bg-white text-brand-primary shadow-lg dark:border-brand-primary/25 dark:bg-gray-900">
+                            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 12h16m0 0-6-6m6 6-6 6" /></svg>
+                        </span>
+                    </div>
+
+                    <!-- floating "coming soon" ribbon -->
+                    <div class="absolute -right-3 -top-3 rotate-6 rounded-xl border border-brand-primary/30 bg-white px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-gray-800 shadow-lg dark:border-brand-primary/25 dark:bg-gray-900 dark:text-gray-100">
+                        Coming soon
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- What to expect -->
+        <section class="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
+            <div class="mx-auto max-w-2xl text-center">
+                <h2 class="text-2xl font-semibold text-gray-900 sm:text-3xl dark:text-white">What we are working on</h2>
+                <p class="mt-3 text-gray-700 dark:text-gray-300">A glimpse of what this page will bring when it launches.</p>
+            </div>
+
+            <div class="mt-12 grid gap-6 md:grid-cols-3">
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                    <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" /></svg>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-gray-900 dark:text-white">Hands-on demos</h3>
+                    <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">Live, runnable examples straight from the WebSharper toolchain.</p>
+                </div>
+
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                    <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5 14.25 2.25 12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-gray-900 dark:text-white">Polished walkthroughs</h3>
+                    <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">Clear, guided tours that get you from idea to running app quickly.</p>
+                </div>
+
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                    <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33" /></svg>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-gray-900 dark:text-white">Clear pricing</h3>
+                    <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">Transparent plans and terms, with no surprises along the way.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- In the meantime -->
+        <section class="mx-auto max-w-5xl px-6 pb-28 lg:px-8">
+            <div class="rounded-3xl border border-gray-200 bg-white p-8 text-center shadow-sm shadow-gray-950/5 sm:p-12 dark:border-gray-800 dark:bg-gray-950">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">In the meantime</h2>
+                <p class="mx-auto mt-3 max-w-xl text-gray-700 dark:text-gray-300">Explore the docs, browse the source, or drop by the community to follow along.</p>
+                <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+                    <a href="https://docs.websharper.com/" class="inline-flex h-10 items-center justify-center rounded-xl border border-gray-950 bg-gray-950 px-5 text-sm font-semibold text-white transition-opacity hover:opacity-90 dark:border-gray-800 dark:bg-white dark:text-gray-950">
+                        Documentation
+                    </a>
+                    <a href="https://github.com/dotnet-websharper" target="_blank" rel="noopener" class="inline-flex h-10 items-center justify-center rounded-xl border border-gray-300 px-5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                        GitHub
+                    </a>
+                    <a href="https://discord.gg/cwwq3sGUrC" target="_blank" rel="noopener" class="inline-flex h-10 items-center justify-center rounded-xl border border-gray-300 px-5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                        Discord
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

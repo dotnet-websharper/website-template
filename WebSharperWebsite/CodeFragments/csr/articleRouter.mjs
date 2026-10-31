@@ -1,34 +1,34 @@
-// Simulated router and state
+// The router installed with the initial route `Article 1`
 const router = {
-    currentRoute: { type: "Articles" },
+    currentRoute: { type: "Article", id: 1 },
     link: (route) => {
-    if (route.type === "Articles") return "/articles";
-    if (route.type === "Article") return `/article/${route.id}`;
+        if (route.type === "Articles") return "/articles";
+        if (route.type === "Article") return `/article/${route.id}`;
     }
 };
 
 // Render function
 function render(route) {
     const main = document.getElementById("main");
-    main.innerHTML = ""; 
+    main.innerHTML = "";
 
     if (route.type === "Article") {
-    const divEl = document.createElement("div");
+        const divEl = document.createElement("div");
 
-    const h1El = document.createElement("h1");
-    h1El.textContent = `This is article ${route.id}`;
+        const h1El = document.createElement("h1");
+        h1El.textContent = `This is article ${route.id}`;
 
-    const link = document.createElement("a");
-    link.href = router.link({ type: "Articles" });
-    link.textContent = "Go back to the list of articles";
+        const link = document.createElement("a");
+        link.href = router.link({ type: "Articles" });
+        link.textContent = "Go back to the list of articles";
 
-    divEl.appendChild(h1El);
-    divEl.appendChild(link);
-    main.appendChild(divEl);
+        divEl.appendChild(h1El);
+        divEl.appendChild(link);
+        main.appendChild(divEl);
     } else {
-    const h1El = document.createElement("h1");
-    h1El.textContent = "List of articles";
-    main.appendChild(h1El);
+        const h1El = document.createElement("h1");
+        h1El.textContent = "List of articles";
+        main.appendChild(h1El);
     }
 }
 

@@ -7,12 +7,17 @@ open WebSharper.JavaScript.Dom
 [<JavaScript>]
 module Theme = 
     
+    // Shared with docs.websharper.com (fumadocs / next-themes): the same storage
+    // key and the same values ("light" | "dark" | "system").
     [<Literal>] 
-    let ThemeKey = "color-theme"
+    let ThemeKey = "theme"
 
     let private prefersDark () : bool = JS.Window.MatchMedia("(prefers-color-scheme: dark)").Matches
 
     let private rootEl () = JS.Document.DocumentElement
+
+    let private resolve (theme: string) =
+        if theme = "system" then (if prefersDark () then "dark" else "light") else theme
 
     let private setDark (on: bool) =
         let root = rootEl()
@@ -20,6 +25,12 @@ module Theme =
             root.ClassList.Add("dark") 
         else 
             root.ClassList.Remove("dark")
+
+    let private apply (theme: string) =
+        let resolved = resolve theme
+        setDark (resolved = "dark")
+        let root = As<HTMLElement> (rootEl())
+        root.Style.SetProperty("color-scheme", resolved)
 
     let private currentTheme () =
         if rootEl().ClassList.Contains("dark") then 
@@ -40,7 +51,7 @@ module Theme =
                 el.SetAttribute("src", url.ToString())
 
     let private applyTheme (theme: string) =
-        setDark (theme = "dark")
+        apply theme
         JS.Window.LocalStorage.SetItem(ThemeKey, theme)
         updateAllIframesTheme ()
 
@@ -48,10 +59,10 @@ module Theme =
         updateAllIframesTheme ()
 
         let saved = JS.Window.LocalStorage.GetItem(ThemeKey)
-        if saved = "dark" || (isNull saved && prefersDark()) then 
-            setDark true 
-        else 
-            setDark false        
+        let theme =
+            if saved = "dark" || saved = "light" || saved = "system" then saved
+            else "dark"
+        apply theme
 
     let Toggle () : unit =
         let next = 

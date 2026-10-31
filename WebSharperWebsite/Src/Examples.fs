@@ -14,7 +14,6 @@ module Examples =
         | [<EndPoint "spreadsheet">] Spreadsheet 
         | [<EndPoint "maps">] Maps 
         | [<EndPoint "charts">] Charts 
-        | [<EndPoint "visual">] Visual 
         | [<EndPoint "forms">] Forms
 
     let ActiveTab : Var<Tab> = 
@@ -41,7 +40,6 @@ module Examples =
     let renderSpreadsheet () = Templates.ExamplesTemplate.SpreadsheetExample().Doc()
     let renderMaps () = Templates.ExamplesTemplate.MapsExample().Doc()
     let renderChart () = Templates.ExamplesTemplate.ChartExample().Doc()
-    let renderVisual () = Templates.ExamplesTemplate.VisualExample().Doc()
     let renderForms () = Templates.ExamplesTemplate.FormsExample().Doc()
 
     let getCodeSnippet = function
@@ -141,12 +139,6 @@ let RenderChart id =
         )
     ] []
 """
-        | Visual -> """type Msg = { User: string; Text: string }
-
-let Chat = 
-    let socket = WebSocket.Client "/chat"
-    socket.Post { User = "Me"; Text = "Hi" }
-"""
         | Forms -> """let Render id = 
     let username = Var.Create ""
     let password = Var.Create ""
@@ -166,7 +158,6 @@ let Chat =
         | Charts -> renderChart()
         | Maps -> renderMaps()
         | Forms -> renderForms()
-        | Visual -> renderVisual()
         | Spreadsheet -> renderSpreadsheet()        
 
     // Main Entry Point
@@ -182,12 +173,10 @@ let Chat =
                 .SelectSpreadsheet(fun _ -> ActiveTab.Value <- Spreadsheet)
                 .SelectMaps(fun _ -> ActiveTab.Value <- Maps)
                 .SelectCharts(fun _ -> ActiveTab.Value <- Charts)
-                .SelectVisual(fun _ -> ActiveTab.Value <- Visual)
                 .SelectForms(fun _ -> ActiveTab.Value <- Forms)
                 .SpreadsheetTabAttr(tabAttr Spreadsheet)
                 .MapsTabAttr(tabAttr Maps)
                 .ChartsTabAttr(tabAttr Charts)
-                .VisualTabAttr(tabAttr Visual)
                 .FormsTabAttr(tabAttr Forms)
                 .CodeContent(
                     ActiveTab.View.Doc(fun activeTab ->

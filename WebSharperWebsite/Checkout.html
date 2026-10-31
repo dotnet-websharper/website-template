@@ -38,17 +38,24 @@
 
     <script>
        const DOC = document.documentElement;
-       const THEME_KEY = "color-theme";
+       // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+       // the same storage key and the same values ("light" | "dark" | "system").
+       const THEME_KEY = "theme";
        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+       function resolveTheme(theme) {
+           return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+       }
+
        function setThemeClass(theme) {
-           DOC.classList.toggle("dark", theme === "dark");
+           DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+           DOC.style.colorScheme = resolveTheme(theme);
        }
 
        function getInitialTheme() {
            const saved = localStorage.getItem(THEME_KEY);
-           if (saved === "dark" || (saved === null && prefersDark())) return "dark";
-           return "light";
+           if (saved === "dark" || saved === "light" || saved === "system") return saved;
+           return "system";
        }
 
        function currentTheme() {
@@ -57,8 +64,8 @@
 
        function applyTheme(theme) {
            setThemeClass(theme);
-           localStorage.setItem(THEME_KEY, theme);
-           updateAllIframesTheme(theme);
+           try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+           updateAllIframesTheme(resolveTheme(theme));
        }
 
        function toggleTheme() {
@@ -83,10 +90,42 @@
        });
 
        window.addEventListener("storage", (e) => {
-           if (e.key === THEME_KEY && (e.newValue === "dark" || e.newValue === "light")) {
-               setThemeClass(e.newValue);
-               updateAllIframesTheme(e.newValue);
+           if (e.key === THEME_KEY) {
+               const theme = e.newValue || "dark";
+               setThemeClass(theme);
+               updateAllIframesTheme(resolveTheme(theme));
            }
+       });
+
+       // Underline the current page in the menu bar.
+       function markActiveNav() {
+           const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+           document.querySelectorAll('nav a[href]').forEach((a) => {
+               const href = a.getAttribute("href");
+               if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+               const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+               if (target === path) a.classList.add("nav-active");
+           });
+       }
+
+       // Latest WebSharper version from NuGet (shown in the footer).
+       function loadLatestVersion() {
+           const el = document.getElementById("ws-latest-version");
+           if (!el) return;
+           fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+               .then((r) => r.json())
+               .then((d) => {
+                   const versions = d.versions || [];
+                   const stable = versions.filter((v) => v.indexOf("-") === -1);
+                   const latest = (stable.length ? stable : versions).slice(-1)[0];
+                   if (latest) el.textContent = latest;
+               })
+               .catch(() => {});
+       }
+
+       document.addEventListener("DOMContentLoaded", () => {
+           markActiveNav();
+           loadLatestVersion();
        });
 
     </script>

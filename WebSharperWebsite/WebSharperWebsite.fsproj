@@ -57,6 +57,9 @@
     <Content Include="Styles/app.css" />
     <Content Include="Components.html" />
     <Content Include="Ocaml.html" />
+    <Content Include="ComingSoon.html" />
+    <Content Include="ForTeams.html" />
+    <Content Include="Legal.html" />
     <Content Include="Layout.html" />
     <Content Include="Home.html" />
     <Content Include="404.html" />

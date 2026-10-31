@@ -15,9 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
             if (codeBlock && lineNumberEl && wrapper) {
                 const lineCount = codeBlock.textContent.split('\n').length;
 
-                const maxLines = 20;
                 const lineHeight = parseFloat(getComputedStyle(lineNumberEl).lineHeight);
-                const maxHeight = maxLines * lineHeight;
+
+                // Fill the height available in the editor (so the code reaches
+                // the bottom of the pane, right up to the Terminal / preview)
+                // rather than stopping at a fixed number of lines and leaving
+                // a gap above the Terminal panel.
+                const container = wrapper.parentElement;
+                const available = container ? container.clientHeight : 0;
+                const maxHeight = available > 0 ? available : 20 * lineHeight;
+                const maxLines = Math.max(1, Math.round(maxHeight / lineHeight));
 
                 wrapper.style.maxHeight = `${maxHeight}px`;
                 wrapper.style.overflowY = lineCount > maxLines ? 'auto' : 'hidden';
@@ -48,6 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     updateVisibleLineNumbers();
+
+    // The available height depends on the layout; recompute on resize.
+    window.addEventListener('resize', updateVisibleLineNumbers);
 
     document.querySelectorAll('[role="tab"]').forEach(tab => {
         tab.addEventListener('click', () => {

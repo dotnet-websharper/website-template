@@ -2,8 +2,10 @@ import React from "react";
 
 function ShowPerson(props) {
     return (
-        Name: {props.name}
-        Age: {props.age}
+        <ul className="person">
+            <li>Name: {props.name}</li>
+            <li>Age: {props.age}</li>
+        </ul>
     );
 }
 

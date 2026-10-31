@@ -2,10 +2,18 @@ open WebSharper_UI
 open WebSharper_UI.Html
 open WebSharper_UI.Notation
 
-(* The same value, read and written with ordinary syntax. *)
-let counter () =
-  let clicks = Var.create 0 in
-  div [] [
-    button [on.click (fun _ _ -> clicks := !clicks + 1)] [text "Click me"];
-    p [] [text "Clicked "; textView (View.map string clicks.view); text " times"]
-  ]
+(* A `Var` holds a value you can change. A `View` reads it reactively: the
+   document updates whenever the underlying value changes. *)
+let () =
+  let clicks : int Var.t = Var.create 0 in
+  let view =
+    div []
+      [ button [ On.click (fun _ _ -> clicks := !clicks + 1) ]
+          [ Doc.text "Click me" ];
+        p [] [
+          Doc.text "Clicked ";
+          Doc.textView (View.map (fun n -> Printf.sprintf "%d" n) (Var.view clicks));
+          Doc.text " times"
+        ] ]
+  in
+  Doc.runById "root" view

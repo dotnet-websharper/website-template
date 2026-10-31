@@ -31,17 +31,24 @@
 
     <script>
         const DOC = document.documentElement;
-        const THEME_KEY = "color-theme";
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
         const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
         function setThemeClass(theme) {
-            DOC.classList.toggle("dark", theme === "dark");
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
         }
 
         function getInitialTheme() {
             const saved = localStorage.getItem(THEME_KEY);
-            if (saved === "dark" || (saved === null && prefersDark())) return "dark";
-            return "light";
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
         }
 
         function currentTheme() {
@@ -50,8 +57,8 @@
 
         function applyTheme(theme) {
             setThemeClass(theme);
-            localStorage.setItem(THEME_KEY, theme);
-            updateAllIframesTheme(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
         }
 
         function toggleTheme() {
@@ -76,10 +83,44 @@
         });
 
         window.addEventListener("storage", (e) => {
-            if (e.key === THEME_KEY && (e.newValue === "dark" || e.newValue === "light")) {
-                setThemeClass(e.newValue);
-                updateAllIframesTheme(e.newValue);
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
             }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
         });
 
     </script>
@@ -93,7 +134,7 @@
             <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
                 <div class="flex lg:flex-1">
                     <a href="./" class="-m-1.5 flex items-center gap-2.5 p-1.5">
-                        <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="./Assets/favicon.png" alt="" width="164" height="164" />
+                        <img class="h-9 w-9" src="./Assets/logo.png" alt="" width="164" height="164" />
                         <span class="text-lg font-bold tracking-tight text-gray-950 dark:text-white">WebSharper</span>
                     </a>
                 </div>
@@ -135,7 +176,7 @@
                     <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
                     <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
                     <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
-                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
                 </div>
                 <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
                     <button ws-onclick="ToggleTheme"
@@ -229,10 +270,10 @@
                                 </button>
 
                                 <!-- Unauthenticated items -->
-                                <button id="btnLogin"
-                                        class="cursor-pointer flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10"
-                                        ws-attr="BtnLoginAttrD"
-                                        ws-onclick="Login">
+                                <div id="btnLogin"
+                                     class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500"
+                                     ws-attr="BtnLoginAttrD"
+                                     aria-disabled="true">
                                     <!-- GitHub mark -->
                                     <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4">
                                         <path fill="currentColor"
@@ -246,8 +287,8 @@
                                             0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
                                             c0-4.42-3.58-8-8-8z" />
                                     </svg>
-                                    Log in with GitHub
-                                </button>
+                                    Coming soon...
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -266,7 +307,7 @@
                                 <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
                                 <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
                                 <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
-                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
                             </div>
 
                             <div class="py-6">
@@ -332,10 +373,10 @@
                                         Log out
                                     </button>
 
-                                    <button data-el="login"
-                                            class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
-                                            ws-attr="BtnLoginAttr"
-                                            ws-onclick="Login">
+                                    <div data-el="login"
+                                         class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500"
+                                         ws-attr="BtnLoginAttr"
+                                         aria-disabled="true">
                                         <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4">
                                                     <path fill="currentColor"
                                                           d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
@@ -348,8 +389,8 @@
                                             0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
                                             c0-4.42-3.58-8-8-8z" />
                                         </svg>
-                                        Log in with GitHub
-                                    </button>
+                                        Coming soon...
+                                    </div>
                                 </div>
                             </div>
 
@@ -396,13 +437,13 @@
                             <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                            <a href="./privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                            <a href="./terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                            <a href="./cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
                         </li>
                     </ul>
                 </div>
@@ -456,12 +497,12 @@
                 <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
                     <div class="flex gap-4 items-center">
                         <a href="./">
-                            <img class="size-8" src="./Assets/favicon.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <img class="size-8" src="./Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
                             <span class="sr-only">WebSharper logo</span>
                         </a>
-                        <span class="">WebSharper &copy; 2008-2025 IntelliFactory. All rights reserved.</span>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
                     </div>
-                    <span>Latest version is 10.x.x-beta1</span>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
                 </div>
             </div>
         </div>

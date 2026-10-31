@@ -35,7 +35,6 @@ module ClientPages =
 
             .AccountBtnClick(AccountMenu.AccountBtnClick)
             .AccountBtnKeyDown(fun e -> ())
-            .Login(fun _ -> AuthClient.Login())
             .Logout(AccountMenu.Logout)
             .DropdownAttr(AccountMenu.DropdownAttr())
             .AccountBtnAria(AccountMenu.AccountBtnAria())
@@ -60,6 +59,9 @@ module ClientPages =
 
     let Support () =    
         Support.Page.SupportDoc()
+
+    let ForTeams () =
+        WebSharperWebsite.Support.Page.ForTeamsDoc()
 
     let Checkout () =
         Checkout.Page.CheckoutDoc()
@@ -136,7 +138,7 @@ module ServerPages =
                 .VsCodeDemo(Component.VsCode("./snippets/spa/index", [
                     { Label = "Client.fs"; Lang = "fsharp"; Code = Snippets.text "spa/Client.fs" }
                     { Label = "index"; Lang = "html"; Code = Snippets.text "spa/index" }
-                ]))
+                ], Component.ViteTerminal()))
                 .WorkersDemo(Component.VsCode3(
                     { Label = "Worker.fs"; Lang = "fsharp"; Code = Snippets.text "workers/Worker.fs" },
                     { Label = "index.js"; Lang = "js"; Code = Snippets.text "workers/index.mjs" },
@@ -215,10 +217,10 @@ module ServerPages =
                     SnippetCode.Init()
                     SnippetCode.InitTabs()
                 )
-                .OcamlHero(Component.VsCode("./snippets/spa/index", [
-                    { Label = "design.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/design.ml" }
-                    { Label = "greeting.html"; Lang = "html"; Code = Snippets.text "ocaml/greeting" }
-                ]))
+                .OcamlHero(Component.VsCode("./snippets/todomvc-lm/index.html", [
+                    { Label = "todomvc.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/todomvc.ml" }
+                    { Label = "todomvc.html"; Lang = "html"; Code = Snippets.text "ocaml/todomvc.html" }
+                ], Component.WsocamlTerminal()))
                 .OcamlRemoting(Component.CodeFiles([
                     { Label = "remoting.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/remoting.ml" }
                 ]))
@@ -227,8 +229,7 @@ module ServerPages =
                     { Label = "server.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/server.ml" },
                     { Label = "client.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/client.ml" },
                     "> dotnet build -c Release\nCompiling shared.ml\nCompiling server.ml\nCompiling client.ml\nBuild succeeded. 0 Warning(s), 0 Error(s)"))
-                .OcamlReactive(Component.CodeFilesWithPreviewPanel("./snippets/forms/index", [
-                    { Label = "reactive.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/reactive.ml" }
+                .OcamlReactive(Component.CodeFilesWithPreviewPanel("./snippets/ocaml-counter/index.html", [
                     { Label = "counter.ml"; Lang = "ocaml"; Code = Snippets.text "ocaml/counter.ml" }
                 ]))
                 .Doc()
@@ -237,5 +238,28 @@ module ServerPages =
     let NotFound () =
         Content.BundleScope "404" (
             Templates.NotFoundTemplate.Content()
+                .Doc()
+        )
+
+    // Placeholder shown in place of a not-yet-released page. The original
+    // Warp and Support content is kept in the source tree and can be wired
+    // back by pointing `ServerPages.Warp`/`Support.Page.SupportDoc` at the
+    // routes again.
+    let ComingSoon (eyebrow: string) (title: string) (description: string) =
+        Content.BundleScope "coming-soon" (
+            Templates.ComingSoonTemplate.Content()
+                .Eyebrow(eyebrow)
+                .Title(title)
+                .Description(description)
+                .Doc()
+        )
+
+    // Static legal pages (Privacy Policy, Terms of Use, Cookie Policy). The body
+    // is raw HTML stored as an embedded fragment under CodeFragments/legal/.
+    let Legal (title: string) (bodyKey: string) =
+        Content.BundleScope "legal" (
+            Templates.LegalTemplate.Content()
+                .Title(title)
+                .Body(Doc.Verbatim (Snippets.text bodyKey))
                 .Doc()
         )

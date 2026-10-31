@@ -38,17 +38,24 @@
 
     <script>
         const DOC = document.documentElement;
-        const THEME_KEY = "color-theme";
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
         const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
         function setThemeClass(theme) {
-            DOC.classList.toggle("dark", theme === "dark");
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
         }
 
         function getInitialTheme() {
             const saved = localStorage.getItem(THEME_KEY);
-            if (saved === "dark" || (saved === null && prefersDark())) return "dark";
-            return "light";
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
         }
 
         function currentTheme() {
@@ -57,8 +64,8 @@
 
         function applyTheme(theme) {
             setThemeClass(theme);
-            localStorage.setItem(THEME_KEY, theme);
-            updateAllIframesTheme(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
         }
 
         function toggleTheme() {
@@ -83,10 +90,42 @@
         });
 
         window.addEventListener("storage", (e) => {
-            if (e.key === THEME_KEY && (e.newValue === "dark" || e.newValue === "light")) {
-                setThemeClass(e.newValue);
-                updateAllIframesTheme(e.newValue);
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
             }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            loadLatestVersion();
         });
 
     </script>
@@ -403,33 +442,92 @@
                 </div>
             </section>
 
+            <!-- Why our support: copy + a support thread -->
             <section class="scroll-my-16">
                 <div class="mx-2 md:mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
-                    <div class="rounded-3xl overflow-hidden border dark:border-gray-800">
-                        <div class="py-12 lg:py-16 lg:px-16 border-b dark:border-gray-800">
-                            <h2 class="font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
+                    <div class="grid items-center gap-10 rounded-3xl border border-gray-200 bg-white p-8 shadow-sm shadow-gray-950/5 dark:border-gray-800 dark:bg-gray-950 lg:grid-cols-12 lg:gap-14 lg:p-12">
+
+                        <!-- copy -->
+                        <div class="lg:col-span-5">
+                            <span class="inline-flex items-center gap-2 rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:bg-brand-primary/15 dark:text-gray-200">
+                                <span aria-hidden="true" class="size-1.5 rounded-full bg-brand-primary"></span>
+                                Direct line
+                            </span>
+                            <h2 class="mt-4 font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
                                 Quick, practical help from the people who build WebSharper
                             </h2>
-                            <p class="mt-3 text-lg text-gray-700 dark:text-gray-300">
-                                Get senior guidance on architecture, performance, reactive UI, and integrations plus hands-on fixes when you need them.
+                            <p class="mt-4 text-lg text-gray-700 dark:text-gray-300">
+                                Senior guidance on architecture, performance, reactive UI and integrations &mdash; plus hands-on fixes when you need them.
                             </p>
+                            <ul class="mt-6 space-y-3 text-sm text-gray-700 dark:text-gray-300">
+                                <li class="flex items-start gap-3">
+                                    <svg class="mt-0.5 size-5 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span><span class="font-medium text-gray-900 dark:text-white">A private channel.</span> Email, the web portal or a private thread &mdash; not a public issue tracker.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <svg class="mt-0.5 size-5 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span><span class="font-medium text-gray-900 dark:text-white">Written by the team that builds it.</span> The compiler, WebSharper.UI and the bindings are ours, so the answer is first-hand.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <svg class="mt-0.5 size-5 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span><span class="font-medium text-gray-900 dark:text-white">Fixes, not just advice.</span> When the right answer is a patch, an extension or a compiler fix, we can ship it.</span>
+                                </li>
+                            </ul>
+                            <div class="mt-8 flex flex-wrap gap-3">
+                                <a href="#plans" class="inline-flex h-10 items-center justify-center rounded-xl border border-gray-950 bg-gray-950 px-5 text-white transition-opacity hover:opacity-90 dark:border-gray-800 dark:bg-white dark:text-gray-950">
+                                    <span class="relative text-sm">See plans</span>
+                                </a>
+                                <a href="#contact" class="inline-flex h-10 items-center justify-center rounded-xl border border-gray-300 px-5 text-gray-900 transition-colors hover:bg-gray-50 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                                    <span class="relative text-sm">Ask us anything</span>
+                                </a>
+                            </div>
                         </div>
 
-                        <div class="lg:px-16">
-                            <!-- Visual / proof -->
-                            <div class="lg:col-span-5 lg:-mr-10 py-12 md:py-16">
-                                <div class="relative">
-                                    <div class="absolute translate-y-1/2 mx-auto blur-3xl inset-0 rounded-t-full bg-brand-primary/20 dark:bg-brand-primary/20"></div>
-                                    <figure class="relative rounded-2xl overflow-hidden border bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 shadow-sm w-1/2 mx-auto">
+                        <!-- support thread (illustrative, decorative) -->
+                        <div class="lg:col-span-7" aria-hidden="true">
+                            <div class="relative">
+                                <div class="absolute inset-x-6 top-8 h-40 rounded-full bg-brand-primary/20 blur-3xl dark:bg-brand-primary/15"></div>
+                                <div class="relative rounded-2xl border border-gray-200 bg-white shadow-sm shadow-gray-950/5 dark:border-gray-800 dark:bg-gray-900">
 
-                                        <img src="./Assets/images/slay.png" alt="Support walkthrough: issue context, guidance, and fix" class="w-full h-auto">
-                                    </figure>
-                                    <!-- short 15�20s looped video instead of static image -->
-                                    <!--
-                                    <video class="relative mt-4 w-full rounded-2xl border border-gray-200 dark:border-gray-800" autoplay muted loop playsinline poster="./Assets/images/support-video-poster.png">
-                                        <source src="./videos/support-teaser.mp4" type="video/mp4">
-                                    </video>
-                                    -->
+                                    <div class="flex items-center gap-3 border-b border-gray-200 px-4 py-3 dark:border-gray-800">
+                                        <div class="flex space-x-2">
+                                            <div class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                                            <div class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                                            <div class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                                        </div>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">support &middot; private thread</span>
+                                        <span class="ml-auto rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-white/10 dark:text-gray-300">P1</span>
+                                    </div>
+
+                                    <div class="space-y-5 p-5">
+                                        <div class="flex gap-3">
+                                            <div class="flex size-8 flex-none items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-600 dark:bg-white/10 dark:text-gray-300">AM</div>
+                                            <div class="rounded-2xl rounded-tl-sm bg-gray-100 px-4 py-3 text-sm text-gray-800 dark:bg-white/10 dark:text-gray-100">
+                                                <p>Our SPA hydrates slowly on mobile since the last upgrade &mdash; first paint is fine, then it stalls for about a second.</p>
+                                                <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Monday, 09:12</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex flex-row-reverse gap-3">
+                                            <div class="flex size-8 flex-none items-center justify-center rounded-full bg-brand-primary/15 text-xs font-semibold text-gray-800 dark:bg-brand-primary/20 dark:text-white">WS</div>
+                                            <div class="rounded-2xl rounded-tr-sm border border-brand-primary/30 bg-brand-primary/10 px-4 py-3 text-sm text-gray-800 dark:border-brand-primary/25 dark:bg-brand-primary/15 dark:text-gray-100">
+                                                <p>The client bundle grew by ~240 kB on that page: three bindings the new chart pulls in. Trimmed through your build config &mdash; patch attached.</p>
+                                                <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
+                                                    <span class="rounded-md bg-white/70 px-2 py-0.5 dark:bg-gray-950/40">bundle-trim.diff</span>
+                                                    <span>Answered in 1h 36m</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center gap-2 pl-11 text-xs text-gray-500 dark:text-gray-400">
+                                            <span class="flex items-center gap-1">
+                                                <span class="size-1.5 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                                                <span class="size-1.5 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                                                <span class="size-1.5 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                                            </span>
+                                            <span>Regression test added in 10.1.x</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -576,6 +674,60 @@
 
                 </div>
 
+                <!-- Enterprise: contact sales (quoted, no checkout) -->
+                <div class="mx-auto mt-6 max-w-6xl rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 dark:border-gray-800 dark:bg-gray-950 md:p-8">
+                    <div class="grid gap-6 md:grid-cols-2 md:items-center">
+                        <div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Plan</div>
+                            <h3 class="mt-1 text-2xl font-bold text-gray-950 dark:text-white">Enterprise</h3>
+                            <p class="mt-2 text-base text-gray-700 dark:text-gray-300">
+                                For teams that need a named engineer, guaranteed response times and architecture input across the year.
+                            </p>
+                            <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Scoped and quoted for your team.</p>
+                        </div>
+                        <div>
+                            <ul class="grid gap-2 text-sm text-gray-700 dark:text-gray-300 sm:grid-cols-2">
+                                <li class="flex items-start gap-2">
+                                    <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span>Named engineer, plus backup</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span>Critical issues acknowledged within an hour</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span>Included support hours every month</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span>Architecture review days with your team</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span>Roadmap and release briefings</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span>Security and breaking-change notices</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span>Private support channel</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                    <span>NDA and procurement friendly</span>
+                                </li>
+                            </ul>
+                            <a href="./support?quote=enterprise#contact"
+                               class="mt-5 inline-flex h-10 w-full items-center justify-center rounded-xl border border-gray-950 bg-gray-950 px-6 text-white transition-opacity hover:opacity-90 dark:border-gray-800 dark:bg-white dark:text-gray-950 sm:w-auto">
+                                <span class="relative text-sm">Contact sales</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <div ws-template="SkeletonCard">
                     <div class="rounded-2xl bg-white p-6 shadow-sm shadow-gray-950/5 border border-gray-200 dark:bg-gray-950 dark:border-gray-800 h-full animate-pulse">
                         <div class="flex items-start justify-between gap-4">
@@ -653,8 +805,197 @@
             </div>
         </section>
 
+        <!-- professional services -->
+        <section id="services" class="scroll-mt-20 scroll-smooth">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="mx-auto max-w-3xl text-center">
+                    <h2 class="font-semibold text-3xl md:text-4xl text-gray-950 dark:text-white">
+                        Professional services
+                    </h2>
+                    <p class="mt-3 text-lg text-gray-700 dark:text-gray-300">
+                        Hands-on help beyond support &mdash; reviews, audits, migrations and custom tooling, delivered by the team that builds WebSharper. Every engagement is scoped and quoted up front.
+                    </p>
+                </div>
+
+                <!-- how an engagement works -->
+                <ol class="mx-auto mt-8 flex max-w-4xl flex-col items-center justify-center gap-2 text-sm text-gray-700 dark:text-gray-300 sm:flex-row sm:gap-3">
+                    <li class="flex items-center gap-2">
+                        <span class="flex size-6 flex-none items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-700 dark:bg-white/10 dark:text-gray-200">1</span>
+                        <span>Describe your project</span>
+                    </li>
+                    <li aria-hidden="true" class="hidden text-gray-300 dark:text-gray-600 sm:block">&rarr;</li>
+                    <li class="flex items-center gap-2">
+                        <span class="flex size-6 flex-none items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-700 dark:bg-white/10 dark:text-gray-200">2</span>
+                        <span>Scoping call</span>
+                    </li>
+                    <li aria-hidden="true" class="hidden text-gray-300 dark:text-gray-600 sm:block">&rarr;</li>
+                    <li class="flex items-center gap-2">
+                        <span class="flex size-6 flex-none items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-700 dark:bg-white/10 dark:text-gray-200">3</span>
+                        <span>Fixed written quote</span>
+                    </li>
+                    <li aria-hidden="true" class="hidden text-gray-300 dark:text-gray-600 sm:block">&rarr;</li>
+                    <li class="flex items-center gap-2">
+                        <span class="flex size-6 flex-none items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-700 dark:bg-white/10 dark:text-gray-200">4</span>
+                        <span>Delivery: report and/or code you keep</span>
+                    </li>
+                </ol>
+
+                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <!-- Architecture & design review -->
+                    <div class="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 dark:border-gray-800 dark:bg-gray-950">
+                        <h3 class="font-semibold text-lg text-gray-950 dark:text-white">Architecture &amp; design review</h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">A senior review of how your app is put together, with concrete recommendations.</p>
+                        <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">You get</p>
+                        <ul class="mt-2 space-y-1.5 text-sm text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>A workshop with your team</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>A written report on SPA vs. server-rendered pages, remoting and RPC boundaries, state and reactivity, project layout, build and deployment</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>A follow-up Q&amp;A once you have read it</span>
+                            </li>
+                        </ul>
+                        <p class="mt-4 text-sm text-gray-600 dark:text-gray-400"><span class="font-medium text-gray-800 dark:text-gray-200">Good fit when</span> you are starting a project, scaling a team, or the remoting and UI layers are getting hard to evolve.</p>
+                        <div class="mt-auto pt-5">
+                            <a href="./support?quote=architecture#contact" class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-gray-300 px-5 text-gray-900 transition-colors hover:bg-gray-50 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                                <span class="relative text-sm">Request a quote</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Code, performance & bundle audit -->
+                    <div class="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 dark:border-gray-800 dark:bg-gray-950">
+                        <h3 class="font-semibold text-lg text-gray-950 dark:text-white">Code, performance &amp; bundle audit</h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Find out what is slow, heavy or fragile &mdash; with fixes, not just findings.</p>
+                        <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">You get</p>
+                        <ul class="mt-2 space-y-1.5 text-sm text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>Bundle size, trimming and what ships to the browser</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>First-load, server rendering and hydration cost</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>DOM churn and memory in reactive views, plus remoting round-trips</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>A prioritized issue list, with the fixes optionally implemented</span>
+                            </li>
+                        </ul>
+                        <p class="mt-4 text-sm text-gray-600 dark:text-gray-400"><span class="font-medium text-gray-800 dark:text-gray-200">Good fit when</span> you have a slow first load, large bundles, a sluggish UI, or a launch coming up.</p>
+                        <div class="mt-auto pt-5">
+                            <a href="./support?quote=performance#contact" class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-gray-300 px-5 text-gray-900 transition-colors hover:bg-gray-50 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                                <span class="relative text-sm">Request a quote</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Upgrade & migration -->
+                    <div class="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 dark:border-gray-800 dark:bg-gray-950">
+                        <h3 class="font-semibold text-lg text-gray-950 dark:text-white">Upgrade &amp; migration</h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Move to the current WebSharper with confidence.</p>
+                        <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">You get</p>
+                        <ul class="mt-2 space-y-1.5 text-sm text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>A migration plan for your codebase and build</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>Old markup helpers to WebSharper.UI and sitelets, WebSharper 4/5 to 10.x, .NET Framework to .NET 8/10, paket/NuGet and bundling</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>The mechanical upgrades done for you, and a runbook for your team</span>
+                            </li>
+                        </ul>
+                        <p class="mt-4 text-sm text-gray-600 dark:text-gray-400"><span class="font-medium text-gray-800 dark:text-gray-200">Good fit when</span> you are stuck on an old version, or moving to modern .NET.</p>
+                        <div class="mt-auto pt-5">
+                            <a href="./support?quote=migration#contact" class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-gray-300 px-5 text-gray-900 transition-colors hover:bg-gray-50 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                                <span class="relative text-sm">Request a quote</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Custom bindings & extensions -->
+                    <div class="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 dark:border-gray-800 dark:bg-gray-950">
+                        <h3 class="font-semibold text-lg text-gray-950 dark:text-white">Custom bindings &amp; extensions</h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Use any JavaScript or TypeScript library from F#, C# or OCaml.</p>
+                        <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">You get</p>
+                        <ul class="mt-2 space-y-1.5 text-sm text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>A typed binding for the library you depend on</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>Wrappers, resource wiring, tests and a NuGet package</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>Fixes and extensions to an existing binding that misbehaves</span>
+                            </li>
+                        </ul>
+                        <p class="mt-4 text-sm text-gray-600 dark:text-gray-400"><span class="font-medium text-gray-800 dark:text-gray-200">Good fit when</span> the library you need is not bound yet, or a binding is getting in your way.</p>
+                        <div class="mt-auto pt-5">
+                            <a href="./support?quote=bindings#contact" class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-gray-300 px-5 text-gray-900 transition-colors hover:bg-gray-50 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                                <span class="relative text-sm">Request a quote</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Custom generators & Warp/DSL work -->
+                    <div class="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 dark:border-gray-800 dark:bg-gray-950">
+                        <h3 class="font-semibold text-lg text-gray-950 dark:text-white">Custom generators &amp; Warp/DSL work</h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Turn high-level specifications into optimized code.</p>
+                        <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">You get</p>
+                        <ul class="mt-2 space-y-1.5 text-sm text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>A DSL and source generator for your domain</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>Templates, macros and code generation in your build</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 size-4 flex-none text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                                <span>Samples, documentation and handover, kept working across WebSharper versions</span>
+                            </li>
+                        </ul>
+                        <p class="mt-4 text-sm text-gray-600 dark:text-gray-400"><span class="font-medium text-gray-800 dark:text-gray-200">Good fit when</span> you repeat a lot of boilerplate, or you want domain experts writing specifications instead of code.</p>
+                        <div class="mt-auto pt-5">
+                            <a href="./support?quote=generators#contact" class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-gray-300 px-5 text-gray-900 transition-colors hover:bg-gray-50 dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                                <span class="relative text-sm">Request a quote</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CTA tile (closes the 2x3 grid) -->
+                    <div class="flex h-full flex-col justify-center rounded-2xl border border-brand-primary/30 bg-brand-primary/10 p-6 dark:border-brand-primary/25 dark:bg-brand-primary/15">
+                        <h3 class="font-semibold text-lg text-gray-950 dark:text-white">Not sure which fits?</h3>
+                        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Tell us about your project and we will suggest the smallest engagement that solves it &mdash; or simply answer the question.</p>
+                        <div class="mt-5">
+                            <a href="./support?quote=consult#contact" class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-gray-950 bg-gray-950 px-5 text-white transition-opacity hover:opacity-90 dark:border-gray-800 dark:bg-white dark:text-gray-950">
+                                <span class="relative text-sm">Describe your project</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- contact us -->
-        <section class="scroll-my-0 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none">
+        <section id="contact" class="scroll-my-0 scroll-mt-24 py-7 dark:bg-gray-900 border-t-2 border-b-2 dark:border-none">
             <div class="mx-auto max-w-xl p-8 rounded content mb-10">
                 <h2 class="header text-center mb-8">Contact us</h2>
 

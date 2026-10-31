@@ -89,9 +89,17 @@ type Component private () =
         else
             Templates.ComponentsTemplate.VsCodePanel().Label(t.Label).Lang(t.Lang).Code(t.Code).Doc()
 
-    /// A VS Code-looking editor: the code `tabs`, a "Result" tab that shows
-    /// `resultUrl` in an iframe, and a Terminal panel below.
-    static member VsCode(resultUrl: string, tabs: CodeTab list) : Doc =
+    /// Terminal output shown below a code window.
+    static member ViteTerminal() : Doc =
+        Templates.ComponentsTemplate.ViteTerminal().Doc()
+
+    /// Terminal output of the native wsocaml server (the OCaml code window).
+    static member WsocamlTerminal() : Doc =
+        Templates.ComponentsTemplate.WsocamlTerminal().Doc()
+
+    /// A VS Code-looking editor: the code `tabs`, a "Preview" tab that shows
+    /// `resultUrl` in an iframe, and a Terminal panel below showing `terminal`.
+    static member VsCode(resultUrl: string, tabs: CodeTab list, terminal: Doc) : Doc =
         let tabsDoc =
             Doc.Concat (
                 (Component.TabIndicator () :: List.map Component.Tab tabs)
@@ -105,4 +113,5 @@ type Component private () =
         Templates.ComponentsTemplate.VsCode()
             .Tabs(tabsDoc)
             .Panels(panelsDoc)
+            .TerminalContent(terminal)
             .Doc()

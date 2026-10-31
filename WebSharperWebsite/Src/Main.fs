@@ -18,6 +18,9 @@ type EndPoint =
     | [<EndPoint "GET /account">] MyAccount
     | [<EndPoint "GET /success">] Success
     | [<EndPoint "GET /404">] NotFound
+    | [<EndPoint "GET /privacy-policy">] PrivacyPolicy
+    | [<EndPoint "GET /terms-of-use">] TermsOfUse
+    | [<EndPoint "GET /cookie-policy">] CookiePolicy
 
 module Templating =
     open WebSharper.UI.Html
@@ -76,17 +79,20 @@ module Site =
     let SupportPage =
         Content.Page(
             Templating.Layout EndPoint.Support [
-                hydrate (ClientPages.Support())
+                hydrate (ClientPages.ForTeams())
             ],
-            Bundle = "support"
+            Bundle = "for-teams"
         )
 
     let WarpPage =
         Content.Page(
             Templating.Layout EndPoint.Warp [
-                ServerPages.Warp()
+                ServerPages.ComingSoon
+                    "Warp"
+                    "Warp is coming soon"
+                    "Spec-first DSLs and AI-assisted code generation for WebSharper. We are putting the finishing touches on this page."
             ],
-            Bundle = "warp"
+            Bundle = "coming-soon"
         )
 
     let OcamlPage =
@@ -145,6 +151,30 @@ module Site =
             Bundle = "404"
         )
 
+    let PrivacyPolicyPage =
+        Content.Page(
+            Templating.Layout EndPoint.PrivacyPolicy [
+                ServerPages.Legal "Privacy Policy" "legal/privacy.html"
+            ],
+            Bundle = "legal"
+        )
+
+    let TermsOfUsePage =
+        Content.Page(
+            Templating.Layout EndPoint.TermsOfUse [
+                ServerPages.Legal "Terms of Use" "legal/terms.html"
+            ],
+            Bundle = "legal"
+        )
+
+    let CookiePolicyPage =
+        Content.Page(
+            Templating.Layout EndPoint.CookiePolicy [
+                ServerPages.Legal "Cookie Policy" "legal/cookie.html"
+            ],
+            Bundle = "legal"
+        )
+
     [<Website>]
     let Main =
         Application.MultiPage (fun ctx action ->
@@ -161,6 +191,9 @@ module Site =
             | MyAccount -> MyAccountPage
             | Success -> SuccessPage
             | NotFound -> NotFoundPage
+            | PrivacyPolicy -> PrivacyPolicyPage
+            | TermsOfUse -> TermsOfUsePage
+            | CookiePolicy -> CookiePolicyPage
         )
 
 [<Sealed>]
@@ -174,6 +207,7 @@ type Website() =
         member this.Actions = [
             Home; Features; Examples; Support; Warp; Ocaml; Checkout 
             Error; Invoice; MyAccount; Success; NotFound
+            PrivacyPolicy; TermsOfUse; CookiePolicy
         ]
 
 [<assembly: Website(typeof<Website>)>]

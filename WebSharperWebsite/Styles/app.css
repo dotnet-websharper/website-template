@@ -54,6 +54,42 @@ button {
     @apply bg-lime-600 dark:!bg-lime-400;
 }
 
+/* The current page, underlined in the menu bar (see markActiveNav in Layout.html). */
+.nav-active {
+    @apply text-gray-950 dark:text-white underline decoration-2 underline-offset-8;
+    text-decoration-color: var(--color-brand-primary);
+}
+
+/* Legal pages (Privacy Policy, Terms of Use, Cookie Policy). The body is raw
+   HTML injected with Doc.Verbatim, so it is styled through the wrapper. */
+.legal-content {
+    @apply text-[15px] leading-7 text-gray-700 dark:text-gray-300;
+}
+.legal-content h2 {
+    @apply mt-10 text-xl font-semibold text-gray-950 dark:text-white;
+}
+.legal-content h3 {
+    @apply mt-6 text-base font-semibold text-gray-900 dark:text-white;
+}
+.legal-content h4 {
+    @apply mt-5 font-semibold text-gray-900 dark:text-white;
+}
+.legal-content p {
+    @apply mt-3;
+}
+.legal-content ul {
+    @apply mt-3 list-disc space-y-1 pl-5;
+}
+.legal-content a {
+    @apply text-brand-primary underline underline-offset-2 hover:opacity-80;
+}
+.legal-content strong {
+    @apply font-semibold text-gray-900 dark:text-white;
+}
+.legal-content .legal-meta {
+    @apply mt-0 text-sm text-gray-500 dark:text-gray-400;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
     @apply h-1.5 w-1.5;
 }
