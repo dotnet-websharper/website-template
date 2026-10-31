@@ -1,0 +1,581 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" ws-2="">
+<head>
+    <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+    <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta property="og:url" content="https://websharper.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WebSharper" />
+    <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta property="og:image" content="" />
+
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="websharper.com" />
+    <meta property="twitter:url" content="https://websharper.com/" />
+    <meta name="twitter:title" content="WebSharper" />
+    <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta name="twitter:image" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
+
+    <link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/all.css"></link>
+<script src="./Scripts/WebSharper/all.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+});
+</script>
+
+
+    <script>
+        const DOC = document.documentElement;
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
+            }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
+        });
+
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-950 overflow-x-hidden">
+    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
+        <div class="px-6 py-4 lg:px-8">
+            <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                <div class="flex lg:flex-1">
+                    <a href="./" class="-m-1.5 flex items-center gap-2.5 p-1.5">
+                        <img class="h-9 w-9" src="./Assets/logo.png" alt="" width="164" height="164" />
+                        <span class="text-lg font-bold tracking-tight text-gray-950 dark:text-white">WebSharper</span>
+                    </a>
+                </div>
+                <div class="flex gap-4 lg:hidden">
+                    <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-10 w-10 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <button ws-onclick="ToggleMenu" id="openMenu" type="button" class="cursor-pointer text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                        <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                            <span class="sr-only">Open main menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                        </div>
+                        <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                            <span class="sr-only">Close menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
+                    <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="./examples" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                    <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                    <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                </div>
+                <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                    <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition relative m-auto h-5 w-5 fill-gray-700 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <ul class="flex items-center gap-1">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                </svg>
+                                <span class="sr-only">WebSharper GitHub organization</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                </svg>
+                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                </svg>
+                                <span class="sr-only">Join WebSharper community on Discord</span>
+                            </a>
+                        </li>
+                        
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
+                            <button id="accountBtn" class="cursor-pointer group flex h-9 w-9 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-haspopup="menu" aria-expanded="false" aria-label="Account" ws-attr="AccountBtnAria" ws-onclick="AccountBtnClick" ws-onkeydown="AccountBtnKeyDown">
+
+                                <div ws-attr="SkeletonAttr" class="absolute inset-0 m-auto h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse transition-opacity duration-500 ease-out">
+                                </div>
+
+                                <img id="accountAvatar" class="h-9 w-9 rounded-full ring-1 ring-black/5 dark:ring-white/10 transition-opacity duration-500 ease-out opacity-0" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
+
+                                <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" class="m-auto h-4 w-4 text-gray-700 transition-all duration-300 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white ease-out opacity-0" fill="currentColor" aria-hidden="true" ws-attr="IconAttr">
+                                    <path fill-rule="evenodd" d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+
+                            
+                            <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10" ws-attr="DropdownAttr">
+                                <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
+
+                                
+                                <a id="btnManage" href="./account" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
+                                    My account
+                                </a>
+                                <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path></svg>
+                                    Log out
+                                </button>
+
+                                
+                                <div id="btnLogin" class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttrD" aria-disabled="true">
+                                    
+                                    <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                    </svg>
+                                    Coming soon...
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900 dark:backdrop-blur-3xl">
+                    <div class="mt-24 flow-root">
+                        <div class="divide-y divide-gray-200 dark:divide-white">
+
+                            <div class="flex flex-col space-y-6 py-6">
+                                <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="./examples" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                                <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                                <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                                <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                            </div>
+
+                            <div class="py-6">
+                                <ul class="flex gap-x-4">
+                                    <li>
+                                        <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                            </svg>
+                                            <span class="sr-only">WebSharper GitHub organization</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                            </svg>
+                                            <span class="sr-only">Follow WebSharper on Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                            </svg>
+                                            <span class="sr-only">Join WebSharper community on Discord</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="py-6">
+                                <div data-account-menu="" data-variant="mobile" class="flex flex-col gap-2">
+                                    <div data-el="header" class="hidden flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttr">
+
+                                        <img ws-attr="AvatarAttrHamburger" src="" alt="Profile" class="h-9 w-9 rounded-full bg-gray-100 ring-1 ring-black/5 dark:bg-gray-800 dark:ring-white/10" />
+
+                                        <span class="font-medium">${AccountHeaderText}</span>
+                                    </div>
+
+                                    <a data-el="manage" href="./account" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
+                                        </svg>
+                                        My account
+                                    </a>
+
+                                    <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path>
+                                            <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path>
+                                        </svg>
+                                        Log out
+                                    </button>
+
+                                    <div data-el="login" class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttr" aria-disabled="true">
+                                        <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                        </svg>
+                                        Coming soon...
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
+        <div class="mx-auto max-w-3xl px-6 pt-32 pb-24 lg:px-8">
+            <h1 class="text-3xl font-bold tracking-tight text-gray-950 sm:text-4xl dark:text-white">Terms of Use</h1>
+            <div class="legal-content mt-8"><p class="legal-meta">Effective Date: 2018-05-25</p>
+
+<p>Welcome to IntelliFactory's Terms of Use agreement. For purposes of this agreement, <strong>"the Network"</strong> refers to the WebSharper website, which can be accessed at <a href="https://websharper.com">https://websharper.com</a> and all of its subsites, including any other media form, media channel, newsletter, mobile website, or mobile application related or connected thereto. <strong>"Service"</strong> refers to IntelliFactory's services provided via the Network, in which users can create content, write and run web applications, purchase support and obtain software. We include <strong>"Software"</strong> as part of Services, including any applications, scripts, instruction sets, and any related documentation.</p>
+<p>The terms "we," "us," "our" refer to IntelliFactory. "You" refers to you, as a user of our Network or our Service.</p>
+<p>The following Terms of Use apply when you view or use the Service via our website located at <a href="https://websharper.com">https://websharper.com</a>.</p>
+<p>Please review the following terms carefully. By accessing or using the Service, you signify your agreement to these Terms of Use. <strong>If you do not agree to be bound by these Terms of Use in their entirety, you may not access or use the Network</strong>.</p>
+
+<h2>About the Agreement</h2>
+<h3>Privacy</h3>
+<p>IntelliFactory respects the privacy of its Service users. Please refer to IntelliFactory's <a href="./privacy-policy">Privacy Policy</a> which explains how we collect, use, and disclose information that pertains to your privacy. When you access or use the Service, you signify your agreement to the Privacy Policy, as well as these Terms of Use.</p>
+<h3>Eligibility</h3>
+<p>You need to be at least 13 years of age to register for and use the Service.</p>
+<h3>Modification</h3>
+<p>We may modify, update, or discontinue the Services, Software (including any of their portions or features) at any time without liability to you or anyone else. However, we will make reasonable effort to notify you before we make the change. We will also allow you a reasonable time to download your content. If we discontinue a Service in its entirety, then we will provide you with a pro rata refund for any unused fees for that Service that you may have prepaid.</p>
+<h3>Links to and from Third-Party Websites</h3>
+<p>As part of the Service, we may provide you with convenient links to third-party website(s) ("Third-Party Sites") as well as content or items belonging to or originating from third parties (the "Third-Party Applications, Software or Content"). These links are provided as a courtesy to Service subscribers. We have no control over Third-Party Sites or Third-Party Applications, Software or Content or the promotions, materials, information, goods or services available on these Third-Party Sites or Third-Party Applications, Software or Content. Such Third-Party Sites and Third-Party Applications, Software or Content are not investigated, monitored or checked for accuracy, appropriateness, or completeness, and we are not responsible for any Third-Party Sites accessed through the Network or any Third-Party Applications, Software or Content posted on, available through or installed from the Network, including the content, accuracy, offensiveness, opinions, reliability, privacy practices or other policies of or contained in the Third-Party Sites or the Third-Party Applications, Software or Content. Inclusion of, linking to or permitting the use or installation of any Third-Party Site or any Third-Party Applications, Software or Content does not imply our approval or endorsement. If you decide to leave the Network and access the Third-Party Sites or to use or install any Third-Party Applications, Software or Content, you do so at your own risk and you should be aware that our terms and policies, including these Terms of Use, no longer govern. You should review the applicable terms and policies, including privacy and data gathering practices, of any Third-Party Site to which you navigate from the Network or relating to any applications you use or install from the Third-Party Site.</p>
+
+<h2>Use of Service and User Conduct</h2>
+<h3>License</h3>
+<p>Subject to your compliance with these terms and the law, you may access and use the Services.</p>
+<h3>Your Account</h3>
+<p>If you are a user who signs up for the Service, you will create a personalized account which includes a unique username and a password to access the Service. You agree to notify us immediately of any unauthorized use of your password and/or account. IntelliFactory will not be responsible for any liabilities, losses, or damages arising out of the unauthorized use of your member name, password and/or account.</p>
+<h3>Use Restrictions</h3>
+<p>Your permission to use the Network is conditioned upon the following use, posting and conduct restrictions.</p>
+<h4>Responsible Use</h4>
+<p>We and our community expect a certain degree of courtesy and professionalism. You must use the Services responsibly.</p>
+<h4>Misuse</h4>
+<p>You must not misuse the Services, or content that we provide to you as part of the Services. For example, you must not under any circumstances:</p>
+<ul>
+<li>collect or harvest any personal data of any user of the Network or the Service;</li>
+<li>distribute any part or parts of the Network or the Service without our explicit written permission (we grant the operators of public search engines permission to use spiders to copy materials from the site for the sole purpose of creating publicly-available searchable indices but retain the right to revoke this permission at any time on a general or specific basis);</li>
+<li>use the Service for any unlawful purpose or for the promotion of illegal activities;</li>
+<li>attempt to, or harass, abuse or harm another person or group;</li>
+<li>use another user's account without permission;</li>
+<li>enable or allow others to use the Service, or content using your account information;</li>
+<li>provide false or inaccurate information when registering an account;</li>
+<li>interfere or attempt to interfere with the proper functioning of the Service;</li>
+<li>make any automated use of the Network, the Service or the related systems, or take any action that we deem to impose or to potentially impose an unreasonable or disproportionately large load on our servers or network infrastructure;</li>
+<li>bypass any robot exclusion headers or other measures we take to restrict access to the Service, or use any software, technology, or device to scrape, spider, or crawl the Service or harvest or manipulate data;</li>
+<li>circumvent, disable or otherwise interfere with any security-related features of the Service or features that prevent or restrict use or copying of content, or enforce limitations on use of the Service or the content accessible via the Service;</li>
+<li>publish or link to malicious content of any sort, including intending to damage or disrupt another user's browser or computer; or</li>
+<li>violate applicable law.</li>
+</ul>
+
+<h2>User Content</h2>
+<p>You are solely responsible for the content that you post, upload, link to or otherwise make available via the Service (collectively <strong>"User Content"</strong>).</p>
+<h3>Ownership</h3>
+<p>You retain all rights and ownership of your content. We do not claim any ownership rights to your content.</p>
+<h3>Conditions of Use</h3>
+<p>We grant you permission to use and access the Service, subject to the following express conditions surrounding user content. You agree that failure to adhere to any of these conditions constitutes a material breach of these Terms.</p>
+<p>By transmitting and submitting any User Content while using the Service, you agree as follows:</p>
+<ul>
+<li>you are solely responsible for your account and the activity that occurs while signed in to or while using your account;</li>
+<li>you will not post information that is malicious, libelous, false or inaccurate;</li>
+<li>you will not post any information that is abusive, threatening, obscene, defamatory, libelous, or racially, sexually, religiously, or otherwise objectionable and offensive;</li>
+<li>you will not submit content that is copyrighted or subject to third-party proprietary rights, including privacy, publicity, trade secret, or others, unless you are the owner of such rights or have the appropriate permission from their rightful owner to specifically submit such content; and</li>
+<li>you hereby agree that we have the right to determine whether your User Content submissions are appropriate and comply with these Terms of Service, remove any and/or all of your submissions, and terminate your account with or without prior notice.</li>
+</ul>
+<p>You understand and agree that any liability, loss or damage that occurs as a result of the use of content that you make available or access through your use of the Service is solely your responsibility. The Network is not responsible for any public display or misuse of your content.</p>
+<p>The Network does not, and cannot, pre-screen or monitor all user content. However, at our discretion, we, or technology we employ, may monitor and/or record your interactions with the Service or with other Users. The Service allows you to post and/or comment on content. Posts and comments are not anonymous, and may be viewed by other users.</p>
+<h3>Feedback</h3>
+<p>You have no obligation to provide us with ideas, suggestions, or proposals (<strong>"Feedback"</strong>). However, if you submit Feedback to us, then you grant us a non-exclusive, worldwide, royalty-free license that is sub-licensable and transferrable, to make, use, sell, have made, offer to sell, import, reproduce, publicly display, distribute, modify, and publicly perform the Feedback.</p>
+<h3>Online Content Disclaimer</h3>
+<p>Opinions, advice, statements, offers, or other information or content made available through the Service, but not directly by the Network, are those of their respective authors, and should not necessarily be relied upon. Such authors are solely responsible for such content.</p>
+<p>We do not guarantee the accuracy, completeness, or usefulness of any information on the Network or the Service nor do we adopt nor endorse, nor are we responsible for the accuracy or reliability of any opinion, advice, or statement made by other parties. We take no responsibility and assume no liability for any User Content that you or any other user or third party posts or sends via the Service. Under no circumstances will we be responsible for any loss or damage resulting from anyone's reliance on information or other content posted on the Service, or transmitted to users.</p>
+<p>Though we strive to enforce these Terms of Use, you may be exposed to User Content that is inaccurate or objectionable when you use or access the Network or the Service. We reserve the right, but have no obligation, to monitor the materials posted in the public areas of the Network or the Service or to limit or deny a user's access to the Service or take other appropriate action if a user violates these Terms of Use or engages in any activity that violates the rights of any person or entity or which we deem unlawful, offensive, abusive, harmful or malicious. IntelliFactory shall have the right to remove any material that in its sole opinion violates, or is alleged to violate, the law or this agreement or which might be offensive, or that might violate the rights, harm, or threaten the safety of users or others. Unauthorized use may result in criminal and/or civil prosecution under Hungarian law. If you become aware of a misuse of our Service or violation of these Terms of Use, please contact us at <a href="mailto:privacy@intellifactory.com">privacy@intellifactory.com</a>.</p>
+
+<h2>Payment Terms</h2>
+<h3>Taxes and Third-Party Fees</h3>
+<p>You must pay any applicable taxes, and any applicable third-party fees (including, for example data plan charges, credit card fees, foreign exchange fees, foreign transaction fees). We are not responsible for these fees. Contact your financial institution with questions about fees. We may take steps to collect the fees you owe us. You are responsible for all related collection costs and expenses. If you are located in a different country from the applicable entity that you are transacting with, your payments will be made to a foreign entity.</p>
+<h3>Credit Card Information</h3>
+<p>If you do not notify us of updates to your payment method, to avoid interruption of your service, we may participate in programs supported by your card provider to try to update your payment information, and you authorize us to continue billing your account with the updated information that we obtain.</p>
+
+<h2>Copyright Complaints</h2>
+<p>All Hungarian legislation for the protection of intellectual property is in accordance with the European Community Directives.</p>
+<h3>Termination of Repeat Infringer Accounts</h3>
+<p>We respect the intellectual property rights of others and require that our Users do the same. Pursuant to the Hungarian Copyright Act (LXXVI of 1999 on Copyright) we have adopted and implemented a policy that provides for the termination in appropriate circumstances of users of the Service who are repeat infringers. We may terminate access for participants or users who are found repeatedly to provide or post protected third-party content without necessary rights and permissions.</p>
+
+<h2>License Grant</h2>
+<p>By posting any User Content via the Service, you expressly grant, and you represent and warrant that you have a right to grant, to IntelliFactory a royalty-free, sublicensable, transferable, perpetual, irrevocable, non-exclusive, worldwide license to use, reproduce, modify, publish, list information regarding, edit, translate, distribute, publicly perform, publicly display, and make derivative works of all such User Content, if applicable, in whole or in part, and in any form, media or technology, whether now known or hereafter developed, for use in connection with the Service.</p>
+
+<h2>Intellectual Property</h2>
+<p>You acknowledge and agree that we and our licensors retain ownership of all intellectual property rights of any kind related to the Service, including applicable copyrights, trademarks and other proprietary rights. Other product and company names that are mentioned on the Service may be trademarks of their respective owners. We reserve all rights that are not expressly granted to you under these Terms of Use.</p>
+
+<h2>Email may not be used to Provide Notice</h2>
+<p>Communications made through the Service's email and messaging system will not constitute legal notice to the Network, the Service, or any of its employees or representatives in any situation where legal notice is required by contract or any law or regulation.</p>
+
+<h2>User Consent to Receive Communications in Electronic Form</h2>
+<p>For contractual purposes, you: (a) consent to receive communications from us in an electronic form via the email address you have submitted; and (b) agree that all Terms of Use, agreements, notices, disclosures, and other communications that we provide to you electronically satisfy any legal requirement that such communications would satisfy as if it were in writing. The foregoing does not affect your non-waivable rights.</p>
+<p>We may also use your email address to send you other messages, including information about the Network or the Service and special offers. You may opt out of such emails by changing your account settings, using the "Unsubscribe" link in the message, or by sending an email to <a href="mailto:privacy@intellifactory.com">privacy@intellifactory.com</a>. Opting out may prevent you from receiving messages regarding the Network, the Service or special offers.</p>
+<p>Please refer to IntelliFactory's <a href="./privacy-policy">Privacy Policy</a> which explains how we collect, use, and disclose information that pertains to your privacy.</p>
+
+<h2>Warranty Disclaimer</h2>
+<p>THE SERVICE, IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND. WITHOUT LIMITING THE FOREGOING, WE EXPRESSLY DISCLAIM ALL WARRANTIES, WHETHER EXPRESS, IMPLIED OR STATUTORY, REGARDING THE SERVICE INCLUDING WITHOUT LIMITATION ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, SECURITY, ACCURACY AND NON-INFRINGEMENT. WITHOUT LIMITING THE FOREGOING, WE MAKE NO WARRANTY OR REPRESENTATION THAT ACCESS TO OR OPERATION OF THE SERVICE WILL BE UNINTERRUPTED OR ERROR FREE. YOU ASSUME FULL RESPONSIBILITY AND RISK OF LOSS RESULTING FROM YOUR DOWNLOADING AND/OR USE OF FILES, INFORMATION, CONTENT OR OTHER MATERIAL OBTAINED FROM THE SERVICE. SOME JURISDICTIONS LIMIT OR DO NOT PERMIT DISCLAIMERS OF WARRANTY, SO THIS PROVISION MAY NOT APPLY TO YOU.</p>
+
+<h2>Limitation of Damages</h2>
+<p>RELEASE TO THE EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE NETWORK, THE SERVICE, ITS AFFILIATES, DIRECTORS, OR EMPLOYEES, OR ITS LICENSORS OR PARTNERS, BE LIABLE TO YOU FOR ANY LOSS OF PROFITS, USE, OR DATA, OR FOR ANY INCIDENTAL, INDIRECT, SPECIAL, CONSEQUENTIAL OR EXEMPLARY DAMAGES, HOWEVER ARISING, THAT RESULT FROM: (A) THE USE, DISCLOSURE, OR DISPLAY OF YOUR USER CONTENT; (B) YOUR USE OR INABILITY TO USE THE SERVICE; (C) THE SERVICE GENERALLY OR THE SOFTWARE OR SYSTEMS THAT MAKE THE SERVICE AVAILABLE; OR (D) ANY OTHER INTERACTIONS WITH USE OR WITH ANY OTHER USER OF THE SERVICE, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE) OR ANY OTHER LEGAL THEORY, AND WHETHER OR NOT WE HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGE, AND EVEN IF A REMEDY SET FORTH HEREIN IS FOUND TO HAVE FAILED OF ITS ESSENTIAL PURPOSE. SOME JURISDICTIONS LIMIT OR DO NOT PERMIT DISCLAIMERS OF LIABILITY, SO THIS PROVISION MAY NOT APPLY TO YOU.</p>
+<p>If you have a dispute with one or more users or service that you review using the Service, you release us (and our directors, subsidiaries, joint ventures and employees) from claims, demands and damages (actual and consequential) of every kind and nature, known and unknown, arising out of or in any way connected with such disputes.</p>
+
+<h2>Modification of Term of Use</h2>
+<p>We can amend these Terms of Use at any time and will update these Terms of Use in the event of any such amendments. It is your sole responsibility to check the Network from time to time to view any such changes in this agreement. Your continued use of the Network or the Service signifies your agreement to our revisions to these Terms of Use. We will endeavor to notify you of material changes to the Terms by posting a notice on our homepage and/or sending an email to the email address you provided to us upon registration. For this additional reason, you should keep your contact and profile information current. Any changes to these Terms (other than as set forth in this paragraph) or waiver of our rights hereunder shall not be valid or effective except in a written agreement bearing the physical signature of one of our officers. No purported waiver or modification of this agreement on our part via telephonic or email communications shall be valid.</p>
+
+<h2>General Terms</h2>
+<p>If any part of this Terms of Use agreement is held or found to be invalid or unenforceable, that portion of the agreement will be construed as to be consistent with applicable law while the remaining portions of the agreement will remain in full force and effect. Any failure on our part to enforce any provision of this agreement will not be considered a waiver of our right to enforce such provision. Our rights under this agreement survive any transfer or termination of this agreement.</p>
+<p>You agree that any cause of action related to or arising out of your relationship with IntelliFactory must commence within one year after the cause of action accrues. Otherwise, such cause of action is permanently barred.</p>
+<p>These Terms of Use and your use of the Site are governed by the effective Hungarian laws, without regard to conflict of law provisions.</p>
+<p>We may assign or delegate these Terms of Use and/or our Privacy Policy, in whole or in part, to any person or entity at any time with or without your consent. You may not assign or delegate any rights or obligations under the Terms of Use or Privacy Policy without our prior written consent, and any unauthorized assignment or delegation by you is void.</p>
+<p>YOU ACKNOWLEDGE THAT YOU HAVE READ THESE TERMS OF USE, UNDERSTAND THE TERMS OF USE, AND WILL BE BOUND BY THESE TERMS AND CONDITIONS. YOU FURTHER ACKNOWLEDGE THAT THESE TERMS OF USE TOGETHER WITH THE PRIVACY POLICY AT <a href="./privacy-policy">https://WEBSHARPER.COM/PRIVACY-POLICY</a> REPRESENT THE COMPLETE AND EXCLUSIVE STATEMENT OF THE AGREEMENT BETWEEN US AND THAT IT SUPERSEDES ANY PROPOSAL OR PRIOR AGREEMENT ORAL OR WRITTEN, AND ANY OTHER COMMUNICATIONS BETWEEN US RELATING TO THE SUBJECT MATTER OF THIS AGREEMENT.</p>
+</div>
+        </div>
+    </main>
+
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                        </li>
+                        <li>
+                            <a href="./privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="./terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                        </li>
+                        <li>
+                            <a href="./cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-2 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-3 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
+                        </li>
+                        <li>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
+                        </li>
+                        <li>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row-start-1 col-span-2 lg:row-start-auto">
+                    <form action="" meethod="post">
+                        <h2 class="font-semibold text-gray-800 dark:text-white">Subscribe now</h2>
+                        <p class="text-sm mt-2 text-gray-700 dark:text-gray-300">Stay updated on new releases and features, guides, and case studies.</p>
+
+                        <div class="mt-8 flex gap-2">
+                            <input placeholder="Email" class="w-full bg-white rounded-md shadow-sm shadow-gray-950/5 border border-gray-300 bg-transparent px-3.5 py-2 text-sm text-gray-500 placeholder-gray-500 invalid:border-red-500 dark:border-gray-700 dark:hover:border-gray-600 dark:text-white dark:placeholder-gray-200 dark:bg-gray-900" type="email" name="email" id="email" />
+                            <button type="submit" class="w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                                <span class="relative text-sm">Subscribe</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
+                <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                    <div class="flex gap-4 items-center">
+                        <a href="./">
+                            <img class="size-8" src="./Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <span class="sr-only">WebSharper logo</span>
+                        </a>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
+                    </div>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

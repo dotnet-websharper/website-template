@@ -42,17 +42,24 @@ wsbundle.Checkout().ReplaceInDom(e2);
 
     <script>
         const DOC = document.documentElement;
-        const THEME_KEY = "color-theme";
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
         const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
         function setThemeClass(theme) {
-            DOC.classList.toggle("dark", theme === "dark");
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
         }
 
         function getInitialTheme() {
             const saved = localStorage.getItem(THEME_KEY);
-            if (saved === "dark" || (saved === null && prefersDark())) return "dark";
-            return "light";
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
         }
 
         function currentTheme() {
@@ -61,8 +68,8 @@ wsbundle.Checkout().ReplaceInDom(e2);
 
         function applyTheme(theme) {
             setThemeClass(theme);
-            localStorage.setItem(THEME_KEY, theme);
-            updateAllIframesTheme(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
         }
 
         function toggleTheme() {
@@ -87,10 +94,44 @@ wsbundle.Checkout().ReplaceInDom(e2);
         });
 
         window.addEventListener("storage", (e) => {
-            if (e.key === THEME_KEY && (e.newValue === "dark" || e.newValue === "light")) {
-                setThemeClass(e.newValue);
-                updateAllIframesTheme(e.newValue);
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
             }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
         });
 
     </script>
@@ -100,17 +141,17 @@ wsbundle.Checkout().ReplaceInDom(e2);
         <div class="px-6 py-4 lg:px-8">
             <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
                 <div class="flex lg:flex-1">
-                    <a href="./" class="-m-1.5 p-1.5">
-                        <span class="sr-only">WebSharper logo</span>
-                        <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="./Assets/favicon.png" alt="websharper logo" width="164" height="164" />
+                    <a href="./" class="-m-1.5 flex items-center gap-2.5 p-1.5">
+                        <img class="h-9 w-9" src="./Assets/logo.png" alt="" width="164" height="164" />
+                        <span class="text-lg font-bold tracking-tight text-gray-950 dark:text-white">WebSharper</span>
                     </a>
                 </div>
                 <div class="flex gap-4 lg:hidden">
                     <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-10 w-10 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
                         </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
                             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                         </svg>
                     </button>
@@ -133,24 +174,26 @@ wsbundle.Checkout().ReplaceInDom(e2);
                 </div>
                 <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
                     <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="./examples" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
                     <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
                     <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
                     <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
-                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
                 </div>
                 <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
                     <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
                         </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-5 w-5 fill-gray-700 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition relative m-auto h-5 w-5 fill-gray-700 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
                             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                         </svg>
                     </button>
                     <ul class="flex items-center gap-1">
                         <li>
                             <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                     <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
                                 </svg>
                                 <span class="sr-only">WebSharper GitHub organization</span>
@@ -158,7 +201,7 @@ wsbundle.Checkout().ReplaceInDom(e2);
                         </li>
                         <li>
                             <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                     <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
                                 </svg>
                                 <span class="sr-only">Follow WebSharper on Twitter</span>
@@ -166,7 +209,7 @@ wsbundle.Checkout().ReplaceInDom(e2);
                         </li>
                         <li>
                             <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                     <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
                                 </svg>
                                 <span class="sr-only">Join WebSharper community on Discord</span>
@@ -205,7 +248,7 @@ wsbundle.Checkout().ReplaceInDom(e2);
                                 </button>
 
                                 
-                                <button id="btnLogin" class="cursor-pointer flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLoginAttrD" ws-onclick="Login">
+                                <div id="btnLogin" class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttrD" aria-disabled="true">
                                     
                                     <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
                                         <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
@@ -218,8 +261,8 @@ wsbundle.Checkout().ReplaceInDom(e2);
                                             0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
                                             c0-4.42-3.58-8-8-8z"></path>
                                     </svg>
-                                    Log in with GitHub
-                                </button>
+                                    Coming soon...
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -233,17 +276,19 @@ wsbundle.Checkout().ReplaceInDom(e2);
 
                             <div class="flex flex-col space-y-6 py-6">
                                 <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="./examples" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
                                 <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
                                 <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
                                 <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
-                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
                             </div>
 
                             <div class="py-6">
                                 <ul class="flex gap-x-4">
                                     <li>
                                         <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                                 <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
                                             </svg>
                                             <span class="sr-only">WebSharper GitHub organization</span>
@@ -251,7 +296,7 @@ wsbundle.Checkout().ReplaceInDom(e2);
                                     </li>
                                     <li>
                                         <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                                 <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
                                             </svg>
                                             <span class="sr-only">Follow WebSharper on Twitter</span>
@@ -259,7 +304,7 @@ wsbundle.Checkout().ReplaceInDom(e2);
                                     </li>
                                     <li>
                                         <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                                 <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
                                             </svg>
                                             <span class="sr-only">Join WebSharper community on Discord</span>
@@ -292,7 +337,7 @@ wsbundle.Checkout().ReplaceInDom(e2);
                                         Log out
                                     </button>
 
-                                    <button data-el="login" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLoginAttr" ws-onclick="Login">
+                                    <div data-el="login" class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttr" aria-disabled="true">
                                         <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
                                                     <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
                                             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
@@ -304,8 +349,8 @@ wsbundle.Checkout().ReplaceInDom(e2);
                                             0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
                                             c0-4.42-3.58-8-8-8z"></path>
                                         </svg>
-                                        Log in with GitHub
-                                    </button>
+                                        Coming soon...
+                                    </div>
                                 </div>
                             </div>
 
@@ -389,7 +434,7 @@ wsbundle.Checkout().ReplaceInDom(e2);
                             <button type="button" id="wsMinus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 -
                             </button>
-                            <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1" class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" ws-var="5587530d-95ea-4d30-899a-edf4dd9051aa::seatstext" />
+                            <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1" class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" ws-var="9f78774f-22ab-4d32-a332-e51da227be88::seatstext" />
                             <button type="button" id="wsPlus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 +
                             </button>
@@ -511,13 +556,13 @@ wsbundle.Checkout().ReplaceInDom(e2);
                             <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                            <a href="./privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                            <a href="./terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                            <a href="./cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
                         </li>
                     </ul>
                 </div>
@@ -571,12 +616,12 @@ wsbundle.Checkout().ReplaceInDom(e2);
                 <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
                     <div class="flex gap-4 items-center">
                         <a href="./">
-                            <img class="size-8" src="./Assets/favicon.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <img class="size-8" src="./Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
                             <span class="sr-only">WebSharper logo</span>
                         </a>
-                        <span class="">WebSharper &copy; 2008-2025 IntelliFactory. All rights reserved.</span>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
                     </div>
-                    <span>Latest version is 10.x.x-beta1</span>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
                 </div>
             </div>
         </div>

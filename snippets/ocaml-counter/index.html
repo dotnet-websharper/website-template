@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Counter — wsocaml</title>
+    <style>
+        :root { color-scheme: light; --fg: #0f172a; --bg: #ffffff; --btn-bg: #0f172a; --btn-fg: #ffffff; --btn-border: #cbd5e1; }
+        :root.dark { color-scheme: dark; --fg: #e2e8f0; --bg: #020617; --btn-bg: #ffffff; --btn-fg: #020617; --btn-border: #334155; }
+        html, body { background: var(--bg); color: var(--fg); }
+        body { font-family: system-ui, sans-serif; margin: 0; padding: 1.5rem; }
+        button { font: inherit; padding: .4rem .9rem; border-radius: .5rem; border: 1px solid var(--btn-border); background: var(--btn-bg); color: var(--btn-fg); cursor: pointer; }
+        p { margin: .75rem 0 0; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        (function () {
+            var t = new URLSearchParams(location.search).get("theme");
+            var dark = t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+            document.documentElement.classList.toggle("dark", dark);
+        })();
+    </script>
+    <script src="./app.js"></script>
+</body>
+</html>

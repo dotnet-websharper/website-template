@@ -1,0 +1,1291 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" ws-11="">
+<head>
+    <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+    <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta property="og:url" content="https://websharper.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WebSharper" />
+    <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta property="og:image" content="" />
+
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="websharper.com" />
+    <meta property="twitter:url" content="https://websharper.com/" />
+    <meta name="twitter:title" content="WebSharper" />
+    <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta name="twitter:image" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
+
+    <!--
+failed to use bundle ocaml, missing import(s):
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+bundle contents:
+WebSharperWebsite/WebSharperWebsite.ServerPages::Ocaml$216$31
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharperWebsite/WebSharperWebsite.Component::Tab$39$22
+WebSharperWebsite/WebSharperWebsite.Component::CodeFiles$59$18
+WebSharperWebsite/WebSharperWebsite.Component::CodeFilesWithPreviewPanel$80$24
+WebSharperWebsite/WebSharperWebsite.Component::CodeFilesWithPreviewPanel$81$18
+WebSharperWebsite/WebSharperWebsite.Component::VsCode$107$34
+WebSharperWebsite/WebSharperWebsite.ClientPages::Layout
+-->
+<link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/all.css"></link>
+<script src="./Scripts/WebSharper/all.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
+let o1 = wsbundle._c.Create([]);
+o1.$preinit("8816eb4b-1ff8-4007-8931-accbd017b0f1");
+let o3 = wsbundle._c.Create([]);
+o3.$preinit("f41da721-002b-49dd-89c0-629a3072574e");
+let o5 = wsbundle._c.Create([]);
+o5.$preinit("a67d273b-9f22-4933-8ef0-6becc05a6680");
+let o7 = wsbundle._c.Create([]);
+o7.$preinit("83ab038b-1691-44c3-af6d-3b8d9f261fd0");
+let o9 = wsbundle._c.Create([]);
+o9.$preinit("3b89ae80-dcc0-4877-9cac-730d1d10f1f0");
+let o10 = wsbundle._c.Create([]);
+o10.$preinit("a7914ea4-e138-4b2d-a32a-8bcf014b3a3f");
+let o13 = wsbundle._c.Create([]);
+o13.$preinit("4b1b1146-e567-4017-bdb8-40cd75ed771b");
+let o14 = wsbundle._c.Create([]);
+o14.$preinit("2c5e5a25-6818-4a9c-aba3-9cd983a4a232");
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+o1.$init("8816eb4b-1ff8-4007-8931-accbd017b0f1");
+let e2 = document.querySelector("[ws-2]");
+wsbundle.Ocaml$216$31()(e2);
+o3.$init("f41da721-002b-49dd-89c0-629a3072574e");
+let e3 = document.querySelectorAll("[ws-3]");
+e3.forEach(e => e.addEventListener(e.getAttribute('ws-3'),wsbundle.EventQ2Client("f41da721-002b-49dd-89c0-629a3072574e",e3,wsbundle.Tab$39$22())));
+o5.$init("a67d273b-9f22-4933-8ef0-6becc05a6680");
+let e4 = document.querySelectorAll("[ws-4]");
+e4.forEach(e => e.addEventListener(e.getAttribute('ws-4'),wsbundle.EventQ2Client("a67d273b-9f22-4933-8ef0-6becc05a6680",e4,wsbundle.Tab$39$22())));
+o7.$init("83ab038b-1691-44c3-af6d-3b8d9f261fd0");
+let e5 = document.querySelectorAll("[ws-5]");
+e5.forEach(e => e.addEventListener(e.getAttribute('ws-5'),wsbundle.EventQ2Client("83ab038b-1691-44c3-af6d-3b8d9f261fd0",e5,wsbundle.VsCode$107$34())));
+o9.$init("3b89ae80-dcc0-4877-9cac-730d1d10f1f0");
+o10.$init("a7914ea4-e138-4b2d-a32a-8bcf014b3a3f");
+let e6 = document.querySelectorAll("[ws-6]");
+e6.forEach(e => e.addEventListener(e.getAttribute('ws-6'),wsbundle.EventQ2Client("a7914ea4-e138-4b2d-a32a-8bcf014b3a3f",e6,wsbundle.Tab$39$22())));
+let e7 = document.querySelector("[ws-7]");
+wsbundle.CodeFiles$59$18()(e7);
+o13.$init("4b1b1146-e567-4017-bdb8-40cd75ed771b");
+o14.$init("2c5e5a25-6818-4a9c-aba3-9cd983a4a232");
+let e8 = document.querySelectorAll("[ws-8]");
+e8.forEach(e => e.addEventListener(e.getAttribute('ws-8'),wsbundle.EventQ2Client("2c5e5a25-6818-4a9c-aba3-9cd983a4a232",e8,wsbundle.Tab$39$22())));
+let e9 = document.querySelectorAll("[ws-9]");
+e9.forEach(e => e.addEventListener(e.getAttribute('ws-9'),wsbundle.EventQ2Client("4b1b1146-e567-4017-bdb8-40cd75ed771b",e9,wsbundle.CodeFilesWithPreviewPanel$80$24())));
+let e10 = document.querySelector("[ws-10]");
+wsbundle.CodeFilesWithPreviewPanel$81$18()(e10);
+o1.$postinit("8816eb4b-1ff8-4007-8931-accbd017b0f1");
+o3.$postinit("f41da721-002b-49dd-89c0-629a3072574e");
+o5.$postinit("a67d273b-9f22-4933-8ef0-6becc05a6680");
+o7.$postinit("83ab038b-1691-44c3-af6d-3b8d9f261fd0");
+o9.$postinit("3b89ae80-dcc0-4877-9cac-730d1d10f1f0");
+o10.$postinit("a7914ea4-e138-4b2d-a32a-8bcf014b3a3f");
+o13.$postinit("4b1b1146-e567-4017-bdb8-40cd75ed771b");
+o14.$postinit("2c5e5a25-6818-4a9c-aba3-9cd983a4a232");
+});
+</script>
+
+
+    <script>
+        const DOC = document.documentElement;
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
+            }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
+        });
+
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-950 overflow-x-hidden">
+    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
+        <div class="px-6 py-4 lg:px-8">
+            <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                <div class="flex lg:flex-1">
+                    <a href="./" class="-m-1.5 flex items-center gap-2.5 p-1.5">
+                        <img class="h-9 w-9" src="./Assets/logo.png" alt="" width="164" height="164" />
+                        <span class="text-lg font-bold tracking-tight text-gray-950 dark:text-white">WebSharper</span>
+                    </a>
+                </div>
+                <div class="flex gap-4 lg:hidden">
+                    <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-10 w-10 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <button ws-onclick="ToggleMenu" id="openMenu" type="button" class="cursor-pointer text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                        <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                            <span class="sr-only">Open main menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                        </div>
+                        <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                            <span class="sr-only">Close menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
+                    <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="./examples" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                    <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                    <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                </div>
+                <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                    <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition relative m-auto h-5 w-5 fill-gray-700 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <ul class="flex items-center gap-1">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                </svg>
+                                <span class="sr-only">WebSharper GitHub organization</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                </svg>
+                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                </svg>
+                                <span class="sr-only">Join WebSharper community on Discord</span>
+                            </a>
+                        </li>
+                        
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
+                            <button id="accountBtn" class="cursor-pointer group flex h-9 w-9 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-haspopup="menu" aria-expanded="false" aria-label="Account" ws-attr="AccountBtnAria" ws-onclick="AccountBtnClick" ws-onkeydown="AccountBtnKeyDown">
+
+                                <div ws-attr="SkeletonAttr" class="absolute inset-0 m-auto h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse transition-opacity duration-500 ease-out">
+                                </div>
+
+                                <img id="accountAvatar" class="h-9 w-9 rounded-full ring-1 ring-black/5 dark:ring-white/10 transition-opacity duration-500 ease-out opacity-0" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
+
+                                <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" class="m-auto h-4 w-4 text-gray-700 transition-all duration-300 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white ease-out opacity-0" fill="currentColor" aria-hidden="true" ws-attr="IconAttr">
+                                    <path fill-rule="evenodd" d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+
+                            
+                            <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10" ws-attr="DropdownAttr">
+                                <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
+
+                                
+                                <a id="btnManage" href="./account" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
+                                    My account
+                                </a>
+                                <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path></svg>
+                                    Log out
+                                </button>
+
+                                
+                                <div id="btnLogin" class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttrD" aria-disabled="true">
+                                    
+                                    <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                    </svg>
+                                    Coming soon...
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900 dark:backdrop-blur-3xl">
+                    <div class="mt-24 flow-root">
+                        <div class="divide-y divide-gray-200 dark:divide-white">
+
+                            <div class="flex flex-col space-y-6 py-6">
+                                <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="./examples" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                                <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                                <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                                <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                            </div>
+
+                            <div class="py-6">
+                                <ul class="flex gap-x-4">
+                                    <li>
+                                        <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                            </svg>
+                                            <span class="sr-only">WebSharper GitHub organization</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                            </svg>
+                                            <span class="sr-only">Follow WebSharper on Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                            </svg>
+                                            <span class="sr-only">Join WebSharper community on Discord</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="py-6">
+                                <div data-account-menu="" data-variant="mobile" class="flex flex-col gap-2">
+                                    <div data-el="header" class="hidden flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttr">
+
+                                        <img ws-attr="AvatarAttrHamburger" src="" alt="Profile" class="h-9 w-9 rounded-full bg-gray-100 ring-1 ring-black/5 dark:bg-gray-800 dark:ring-white/10" />
+
+                                        <span class="font-medium">${AccountHeaderText}</span>
+                                    </div>
+
+                                    <a data-el="manage" href="./account" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
+                                        </svg>
+                                        My account
+                                    </a>
+
+                                    <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path>
+                                            <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path>
+                                        </svg>
+                                        Log out
+                                    </button>
+
+                                    <div data-el="login" class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttr" aria-disabled="true">
+                                        <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                        </svg>
+                                        Coming soon...
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
+        <div class="pb-16 md:pb-20" ws-2="">
+            
+            <section class="relative isolate overflow-hidden">
+                
+                <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+                    <div class="absolute -top-40 left-1/2 h-[38rem] w-[38rem] -translate-x-1/2 rounded-full bg-[#EC6813]/20 blur-3xl dark:bg-[#EC6813]/10"></div>
+                    <div class="absolute -left-24 top-1/4 h-80 w-80 animate-pulse rounded-full bg-amber-400/20 blur-3xl dark:bg-amber-500/10"></div>
+                    <div class="absolute -right-24 bottom-0 h-80 w-80 animate-pulse rounded-full bg-brand-primary/20 blur-3xl dark:bg-brand-primary/10"></div>
+                    <div class="absolute inset-0 opacity-[0.22] dark:hidden" style="background-image:linear-gradient(to right, rgba(100,116,139,0.4) 1px, transparent 1px),linear-gradient(to bottom, rgba(100,116,139,0.4) 1px, transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center, black 20%, transparent 72%);-webkit-mask-image:radial-gradient(ellipse at center, black 20%, transparent 72%)"></div>
+                    <div class="absolute inset-0 hidden opacity-20 dark:block" style="background-image:linear-gradient(to right, rgba(148,163,184,0.45) 1px, transparent 1px),linear-gradient(to bottom, rgba(148,163,184,0.45) 1px, transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center, black 20%, transparent 72%);-webkit-mask-image:radial-gradient(ellipse at center, black 20%, transparent 72%)"></div>
+                    <svg class="absolute left-1/2 top-20 h-[24rem] w-[24rem] -translate-x-1/2 opacity-[0.08] dark:opacity-[0.14]" viewbox="0 0 200 200" fill="none" aria-hidden="true">
+                        <path d="M100 6 194 100 100 194 6 100Z" stroke="#EC6813" stroke-width="2"></path>
+                        <path d="M100 44 156 100 100 156 44 100Z" stroke="#EC6813" stroke-width="1.5"></path>
+                        <path d="M100 6v188M6 100h188" stroke="#EC6813" stroke-width="0.75" stroke-dasharray="4 6"></path>
+                    </svg>
+                </div>
+                <div class="relative mx-auto max-w-4xl px-6 pt-32 pb-14 text-center sm:pt-40 lg:px-8">
+                    <div class="relative z-10 text-center w-full">
+                        <div class="flex flex-wrap items-center justify-center gap-2">
+                            <span class="inline-flex items-center gap-2 rounded-full border border-amber-400/50 bg-amber-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-amber-700 dark:border-amber-300/30 dark:bg-amber-400/10 dark:text-amber-200">
+                                <svg class="size-3.5" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"></path></svg>
+                                Experimental
+                            </span>
+                            <span class="inline-flex items-center gap-2 rounded-full border border-brand-primary/40 bg-brand-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-gray-800 dark:border-brand-primary/25 dark:bg-brand-primary/10 dark:text-gray-200">
+                                <span class="relative flex size-2">
+                                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-primary opacity-75"></span>
+                                    <span class="relative inline-flex size-2 rounded-full bg-brand-primary"></span>
+                                </span>
+                                Coming soon
+                            </span>
+                            <span class="inline-flex items-center gap-2 rounded-full border border-gray-300/60 bg-white px-4 py-1.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                                <span class="size-1.5 rounded-full bg-[#EC6813]"></span>
+                                OCaml &middot; sitelets &middot; reactive UI &middot; remoting
+                            </span>
+                        </div>
+                        <h1 class="mx-auto mt-8 max-w-3xl text-4xl font-bold tracking-tight text-gray-950 sm:text-6xl dark:text-white">
+                            The web, end to end, in <span class="text-[#EC6813]">OCaml</span>
+                        </h1>
+                        <p class="mt-6 max-w-2xl mx-auto text-lg leading-8 text-gray-700 dark:text-gray-300">
+                            WebSharper turns one language into a whole application &mdash; server and browser,
+                            routing and serialization, data and UI, all sharing the same types.
+                            That language is now OCaml. Write it once; let the compiler keep the two tiers honest.
+                        </p>
+                        <p class="mt-3 text-sm font-medium text-[#EC6813]">Coming soon &mdash; this page previews what is on the way.</p>
+                        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+                            <a href="https://github.com/dotnet-websharper/ocaml" target="_blank" rel="noopener" class="w-fit rounded-xl h-10 border border-gray-300 dark:border-gray-800 flex justify-center items-center gap-2 px-5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5">
+                                <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+                                GitHub
+                            </a>
+                            <a href="https://discord.gg/cwwq3sGUrC" target="_blank" rel="noopener" class="w-fit rounded-xl h-10 border border-gray-300 dark:border-gray-800 flex justify-center items-center gap-2 px-5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5">
+                                <svg aria-hidden="true" viewbox="0 0 24 24" class="h-4 w-4" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.864-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.036A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028ZM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.333-.955 2.418-2.157 2.418Zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z"></path></svg>
+                                Discord
+                            </a>
+                        </div>
+                        <div class="mx-auto mt-8 flex max-w-2xl items-start gap-3 rounded-xl border border-amber-300/60 bg-amber-50 px-4 py-3 text-left text-sm text-amber-800 dark:border-amber-300/20 dark:bg-amber-400/10 dark:text-amber-200">
+                            <svg class="mt-0.5 size-5 flex-none" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"></path></svg>
+                            <span><span class="font-semibold">Experimental.</span> OCaml support is under active development &mdash; APIs, tooling and this page can change without notice.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section class="mt-24">
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-white">One language, both tiers</h2>
+                    <p class="mt-6 mx-auto max-w-2xl text-gray-500 dark:text-gray-200">
+                        Define an endpoint type, return typed content, drop in reactive client-side pieces.
+                        The same source becomes a native server <em>and</em> a JavaScript client &mdash;
+                        with no serialization glue and no hand-written fetch calls.
+                    </p>
+                </div>
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="relative mt-16">
+                        <div class="rounded-3xl p-px from-gray-200 to-gray-950/5 bg-gradient-to-b dark:from-gray-800 dark:to-gray-900">
+                            <div data-name="snippet" class="rounded-[23px] border border-gray-200 bg-gray-200/90 shadow-xl shadow-gray-950/5 pb-3 pr-3 text-sm backdrop-blur-3xl dark:border-transparent dark:bg-gray-900 md:ml-0">
+                                <div class="flex items-center gap-4 px-6 py-1 border-b border-gray-200 dark:border-gray-800">
+                                    <div class="flex space-x-2">
+                                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                                    </div>
+
+                                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-3="click" role="tab" aria-selected="false" data-target="todomvc.ml" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#EC6813"></rect><path d="M6 16.5l3-9 3 5.5 3-5.5 3 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </span></span>
+        <span class="text-sm">todomvc.ml</span>
+    </button><button ws-4="click" role="tab" aria-selected="false" data-target="todomvc.html" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewbox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 8-4 4 4 4m8 0 4-4-4-4m-2-3-4 14"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">todomvc.html</span>
+    </button><button ws-5="click" role="tab" aria-selected="false" data-target="code-result" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewbox="0 0 24 24">
+            <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"></path>
+            <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+        </svg>
+        <span class="text-sm">Preview</span>
+    </button></div>
+                                </div>
+                                <div class="relative flex">
+                                    <div class="absolute ml-1 flex h-full w-14 flex-none flex-col items-center justify-between py-3 text-gray-500 dark:text-white/60">
+                                        <svg width="24" height="216" fill="none">
+                                            <path d="M3 69l6-6m-2-5a7 7 0 1014 0 7 7 0 00-14 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M8 7H5a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1v-3m3.707-10.293l-3.414-3.414A1 1 0 0015.586 3H9a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V7.414a1 1 0 00-.293-.707zM7 103a2 2 0 100-4 2 2 0 000 4zm0 0v10m10-6a2 2 0 100-4 2 2 0 000 4zm0 0a3 3 0 01-3 3h-4a3 3 0 00-3 3m0 0a2 2 0 100 4 2 2 0 000-4z" stroke="currentColor" stroke-width="1.5"></path>
+                                            <path d="M11.5 160.031a.75.75 0 00-1-1.118l1 1.118zm-8-1.118a.75.75 0 00-1 1.118l1-1.118zm6.972 6.149a.75.75 0 10.993-1.124l-.993 1.124zm-7.937-1.124a.75.75 0 10.993 1.124l-.993-1.124zm7.022-.368l-.64-.393.64.393zm-5.114 0l.64-.393-.64.393zM3 161.25a.75.75 0 000 1.5v-1.5zm8 1.5a.75.75 0 000-1.5v1.5zM8 147l.372-.651A.75.75 0 007.25 147H8zm14 8l.372.651a.75.75 0 000-1.302L22 155zm-14.75 0a.75.75 0 001.5 0h-1.5zm5.378 4.492a.75.75 0 10.744 1.302l-.744-1.302zM7 157.75A2.25 2.25 0 019.25 160h1.5A3.75 3.75 0 007 156.25v1.5zm0-1.5A3.75 3.75 0 003.25 160h1.5A2.25 2.25 0 017 157.75v-1.5zm2.624 3.298A5.225 5.225 0 017 160.25v1.5a6.73 6.73 0 003.376-.903l-.752-1.299zM9.25 160v.197h1.5V160h-1.5zm0 .197V162h1.5v-1.803h-1.5zM7 160.25a5.225 5.225 0 01-2.624-.702l-.752 1.299A6.73 6.73 0 007 161.75v-1.5zM4.75 162v-1.803h-1.5V162h1.5zm0-1.803V160h-1.5v.197h1.5zm5.75-1.284a5.209 5.209 0 01-.876.635l.752 1.299c.403-.234.78-.507 1.124-.816l-1-1.118zm-6.124.635a5.21 5.21 0 01-.876-.635l-1 1.118c.344.309.721.582 1.124.816l.752-1.299zm4.86 4.701c.451.212.867.487 1.236.813l.993-1.124a6.77 6.77 0 00-1.588-1.046l-.64 1.357zM9.25 162c0 .433-.122.835-.332 1.177l1.277.787A3.737 3.737 0 0010.75 162h-1.5zm-.332 1.177A2.247 2.247 0 017 164.25v1.5a3.748 3.748 0 003.195-1.786l-1.277-.787zm-5.39 1.885a5.25 5.25 0 011.235-.813l-.64-1.357a6.77 6.77 0 00-1.588 1.046l.993 1.124zM7 164.25c-.81 0-1.52-.427-1.918-1.073l-1.277.787A3.748 3.748 0 007 165.75v-1.5zm-1.918-1.073A2.235 2.235 0 014.75 162h-1.5c0 .719.203 1.392.555 1.964l1.277-.787zM4 161.25H3v1.5h1v-1.5zm7 0h-1v1.5h1v-1.5zm-3.372-13.599l14 8 .744-1.302-14-8-.744 1.302zM8.75 155v-8h-1.5v8h1.5zm12.878-.651l-9 5.143.744 1.302 9-5.143-.744-1.302z" fill="currentColor"></path>
+                                            <path d="M3 205h8m-8 0v7a1 1 0 001 1h7m-8-8v-7a1 1 0 011-1h6a1 1 0 011 1v7m0 0v8m0-8h7a1 1 0 011 1v6a1 1 0 01-1 1h-7m4-11h6a1 1 0 001-1v-6a1 1 0 00-1-1h-6a1 1 0 00-1 1v6a1 1 0 001 1z" stroke="currentColor" stroke-width="1.5"></path>
+                                        </svg>
+                                        <svg width="24" height="72" fill="none">
+                                            <path d="M10.325 52.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M15 60a3 3 0 11-6 0 3 3 0 016 0zM5.121 17.804A13.936 13.936 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-auto w-[calc(100%-4rem)]">
+                                        <div class="h-[26rem] shrink-0 flex overflow-hidden font-mono text-xs dark:shadow-2xl shadow-gray-950/5 border rounded-tr-2xl border-gray-300/50 dark:border-gray-800 border-b-0">
+                                            
+                                            <div>
+                                                <pre aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.21rem] text-gray-300 dark:text-white/40"></pre>
+                                            </div>
+                                            <div class="relative w-full snippet-code"><div role="tabpanel" data-lang="todomvc.ml" class="absolute inset-0 overflow-auto custom-scrollbar">
+        <pre class="line-numbers language-ocaml custom-scrollbar !overflow-auto"><code class="mt-[-18px] text-sm block leading-[1.21rem] language-ocaml text-white">open WebSharper_JavaScript
+open WebSharper_Json
+open WebSharper_UI
+open WebSharper_UI.Html
+open WebSharper_Server
+
+(* `open WebSharper_JavaScript` shadows OCaml&#39;s `String`, so bring it back. *)
+module String = Stdlib.String
+module JsStorage = WebSharper_JavaScript.Storage
+
+(* `ListModel` works with *F#* options, a different type from OCaml&#39;s;
+   build them with `FSharpOption.some`. *)
+module FOpt = WebSharper_StdLib.FSharpOption
+
+(* The TodoMVC HTML template, with `ws-*` holes added for the dynamic parts.
+   The server renders it with `keepUnfilled` (leaving the holes as markers)
+   and the client binds it to the reactive state. *)
+module TodoPage = [%template &quot;views/todomvc.html&quot;]
+
+(* --- model ---------------------------------------------------------------- *)
+
+type todo = { id : int; title : string; completed : bool }
+type filter = All | Active | Completed
+
+(* The rows live in a `ListModel`: a reactive, *keyed* collection. The key is
+   the `id`, so an update or removal touches only that row. *)
+type todo_model = (int, todo) ListModel.t
+
+(* The data the template holes are filled from: the rows, the row being
+   edited, and the current filter. *)
+type model = { todos : todo list; editing : int option; filter : filter }
+
+(* --- server: server-render the template skeleton; the client binds it ------ *)
+
+type endpoint = Home [@endpoint &quot;GET /&quot;]
+
+let[@website] main =
+  Sitelet.infer (fun (_ : endpoint context) _ -&gt;
+    Content.page ~title:&quot;TodoMVC &#183; wsocaml&quot;
+      ~head:&quot;&lt;link rel=\&quot;stylesheet\&quot; href=\&quot;/css/app.css\&quot;&gt;&quot;
+      [ TodoPage.doc ~keepUnfilled:true (TodoPage.create ()) ])
+
+(* Everything below runs only in the client bundle, not on the server. *)
+let () =
+  let key = &quot;todos-ocaml&quot; in
+  let storage () = Window.localStorage (Window.self ()) in
+
+  (* --- persistence: save the rows as JSON in localStorage --- *)
+  let load () =
+    (* A missing or malformed entry starts from an empty list. *)
+    try (decode (JsStorage.getItem (storage ()) key) : todo list)
+    with _ -&gt; []
+  in
+  let save (ts : todo list) =
+    JsStorage.setItem (storage ()) key (encode ts)
+  in
+
+  (* --- state: the rows, the row being edited, the filter --- *)
+
+  let todos : todo_model = ListModel.create (fun (t : todo) -&gt; t.id) (load ()) in
+  let editing : int option Var.t = Var.create None in
+
+  (* A plain list snapshot of the rows, for saving and for the next id. *)
+  let rows () : todo list =
+    let acc = ref [] in
+    ListModel.iter todos (fun t -&gt; acc := t :: !acc);
+    List.rev !acc
+  in
+  let persist () = save (rows ()) in
+
+  (* A reactive view of the rows, for the template holes to bind. *)
+  let rows_v : todo list View.t =
+    View.map (fun (a : todo array) -&gt; Stdlib.Array.to_list a) (Var.view (ListModel.var todos))
+  in
+
+  (* --- routing: `#/`, `#/active`, `#/completed` --------------------------- *)
+
+  (* A hash router; `installHash` follows the URL and returns a reactive filter. *)
+  let filter_router : filter WebSharper_Sitelets.Router.t =
+    WebSharper_Sitelets.RouterModule.table
+      [ (All, &quot;&quot;); (Active, &quot;active&quot;); (Completed, &quot;completed&quot;) ]
+  in
+  let filter_var : filter Var.t = Router.installHash All filter_router in
+
+  let view : model View.t =
+    View.map3
+      (fun ts ed f -&gt; { todos = ts; editing = ed; filter = f })
+      rows_v (Var.view editing) (Var.view filter_var)
+  in
+
+  (* --- helpers ------------------------------------------------------------ *)
+
+  let is_enter (ev : KeyboardEvent.t) =
+    KeyboardEvent.key ev = &quot;Enter&quot; || KeyboardEvent.keyCode ev = 13 || KeyboardEvent.which ev = 13
+  in
+  let is_escape (ev : KeyboardEvent.t) =
+    KeyboardEvent.key ev = &quot;Escape&quot; || KeyboardEvent.key ev = &quot;Esc&quot;
+    || KeyboardEvent.keyCode ev = 27 || KeyboardEvent.which ev = 27
+  in
+  let focus (el : Element.t) =
+    let el : HTMLElement.t = Js.to_js (Js.of_js el) in
+    HTMLElement.focus el
+  in
+
+  (* --- mutations: each one goes through the `ListModel`, then re-persists --- *)
+
+  let add (v : string Var.t) =
+    let title = String.trim (Var.get v) in
+    if title &lt;&gt; &quot;&quot; then begin
+      let next_id = List.fold_left (fun m t -&gt; max m t.id) 0 (rows ()) + 1 in
+      Var.set v &quot;&quot;;
+      ListModel.append todos { id = next_id; title; completed = false };
+      persist ()
+    end
+  in
+  let toggle id =
+    ListModel.updateBy todos (fun t -&gt; FOpt.some { t with completed = not t.completed }) id;
+    persist ()
+  in
+  let destroy id =
+    ListModel.removeByKey todos id;
+    persist ()
+  in
+  let clear_completed () =
+    ListModel.removeBy todos (fun t -&gt; t.completed);
+    persist ()
+  in
+  let toggle_all () =
+    let ts = rows () in
+    let all_done = ts &lt;&gt; [] &amp;&amp; List.for_all (fun t -&gt; t.completed) ts in
+    let target = not all_done in
+    ListModel.updateAll todos (fun t -&gt; FOpt.some { t with completed = target });
+    persist ()
+  in
+  let start_edit id = Var.set editing (Some id) in
+  let stop_edit () = Var.set editing None in
+  let commit_edit id (v : string Var.t) =
+    match Var.get editing with
+    | Some eid when eid = id -&gt;
+        let title = String.trim (Var.get v) in
+        (* An empty title destroys the row (a keyed removal, not a list filter). *)
+        if title = &quot;&quot; then ListModel.removeByKey todos id
+        else ListModel.updateBy todos (fun t -&gt; FOpt.some { t with title }) id;
+        persist ();
+        Var.set editing None
+    | _ -&gt; ()
+  in
+
+  (* --- view (the template&#39;s holes) ---------------------------------------- *)
+
+  let render_item (editing : int option) (t : todo) =
+    let being_edited = editing = Some t.id in
+    let inst = TodoPage.TodoItem.create () in
+    Var.set inst.vars.editText t.title;
+    inst
+    |&gt; TodoPage.TodoItem.itemClass
+        ((if t.completed then &quot;completed &quot; else &quot;&quot;) ^ (if being_edited then &quot;editing&quot; else &quot;&quot;))
+    |&gt; TodoPage.TodoItem.title t.title
+    |&gt; TodoPage.TodoItem.toggleAttr
+        (if t.completed then Attr.create &quot;checked&quot; &quot;checked&quot; else Attr.empty ())
+    |&gt; TodoPage.TodoItem.toggle (fun _ _ -&gt; toggle t.id)
+    |&gt; TodoPage.TodoItem.editStart (fun _ _ -&gt; start_edit t.id)
+    |&gt; TodoPage.TodoItem.destroy (fun _ _ -&gt; destroy t.id)
+    |&gt; TodoPage.TodoItem.editCommit_withModel (fun e -&gt; commit_edit t.id e.vars.editText)
+    |&gt; TodoPage.TodoItem.editKey_withModel (fun e -&gt;
+        if is_enter e.event then commit_edit t.id e.vars.editText
+        else if is_escape e.event then stop_edit ())
+    |&gt; TodoPage.TodoItem.doc
+  in
+
+  (* `mapSeqCachedBy` renders one row `Doc` per key, so only rows whose key
+     changed are rebuilt. The row being edited is rendered separately below. *)
+  let row_docs : (todo * Doc.t) Seq.t View.t =
+    View.mapSeqCachedBy
+      (fun (t : todo) -&gt; t.id, t.title, t.completed)
+      (fun t -&gt; (t, render_item None t))
+      (ListModel.view todos)
+  in
+
+  (* Each mutation re-renders only the parts that depend on it. *)
+  let page : (model * (todo * Doc.t) Seq.t) View.t =
+    View.map2 (fun m rows -&gt; (m, rows)) view row_docs
+  in
+  let visible (m : model) t =
+    match m.filter with All -&gt; true | Active -&gt; not t.completed | Completed -&gt; t.completed
+  in
+  let remaining (m : model) = List.length (List.filter (fun t -&gt; not t.completed) m.todos) in
+  let selected f (m : model) = if f = m.filter then &quot;selected&quot; else &quot;&quot; in
+  let hidden_if b = if b then &quot;hidden&quot; else &quot;&quot; in
+  let cls f = View.map f view in
+  let initial = { todos = rows (); editing = Var.get editing; filter = Var.get filter_var } in
+
+  let inst =
+    TodoPage.create ()
+    |&gt; TodoPage.newTodoKey_withModel (fun e -&gt;
+           if is_enter e.event then begin
+             add e.vars.newTodo;
+             Var.set e.vars.newTodo &quot;&quot;
+           end)
+    |&gt; TodoPage.newTodoFocus focus
+    |&gt; TodoPage.mainClass_view (cls (fun m -&gt; hidden_if (m.todos = [])))
+    |&gt; TodoPage.footerClass_view (cls (fun m -&gt; hidden_if (m.todos = [])))
+    |&gt; TodoPage.toggleAttr
+         (if initial.todos &lt;&gt; [] &amp;&amp; remaining initial = 0 then Attr.create &quot;checked&quot; &quot;checked&quot;
+          else Attr.empty ())
+    |&gt; TodoPage.toggleAll (fun _ _ -&gt; toggle_all ())
+    |&gt; TodoPage.todos
+         (Doc.bindView
+            (fun (m, rows) -&gt;
+              Doc.concat
+                (List.filter_map
+                   (fun (t, d) -&gt;
+                     if not (visible m t) then None
+                     else if m.editing = Some t.id then Some (render_item m.editing t)
+                     else Some d)
+                   (List.of_seq rows)))
+            page)
+    |&gt; TodoPage.count
+         (Doc.bindView
+            (fun m -&gt;
+              let n = remaining m in
+              Doc.concat
+                [ strong [] [ Doc.text (string_of_int n) ];
+                  Doc.text (&quot; &quot; ^ (if n = 1 then &quot;item&quot; else &quot;items&quot;) ^ &quot; left&quot;) ])
+            view)
+    |&gt; TodoPage.allClass_view (cls (selected All))
+    |&gt; TodoPage.activeClass_view (cls (selected Active))
+    |&gt; TodoPage.completedClass_view (cls (selected Completed))
+    |&gt; TodoPage.clearClass_view
+         (cls (fun m -&gt; hidden_if (List.length m.todos = remaining m)))
+    |&gt; TodoPage.clearCompleted (fun _ _ -&gt; clear_completed ())
+  in
+
+  (* --- start -------------------------------------------------------------- *)
+
+  (* Bind the server-rendered page to the reactive instance. *)
+  TodoPage.bind inst
+</code></pre>
+    </div><div role="tabpanel" data-lang="todomvc.html" class="absolute inset-0 hidden overflow-hidden custom-scrollbar">
+        <pre class="line-numbers -mb-20 !overflow-auto language-html custom-scrollbar"><code class="mt-[-18px] text-sm block leading-[1.21rem] language-html text-white">&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+	&lt;head&gt;
+		&lt;meta charset=&quot;utf-8&quot;&gt;
+		&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+		&lt;title&gt;Template • TodoMVC&lt;/title&gt;
+		&lt;link rel=&quot;stylesheet&quot; href=&quot;node_modules/todomvc-common/base.css&quot;&gt;
+		&lt;link rel=&quot;stylesheet&quot; href=&quot;node_modules/todomvc-app-css/index.css&quot;&gt;
+		&lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;section class=&quot;todoapp&quot;&gt;
+			&lt;header class=&quot;header&quot;&gt;
+				&lt;h1&gt;todos&lt;/h1&gt;
+				&lt;input class=&quot;new-todo&quot; placeholder=&quot;What needs to be done?&quot; autofocus
+				       ws-var=&quot;newTodo&quot; ws-onkeyup=&quot;newTodoKey&quot; ws-onafterrender=&quot;newTodoFocus&quot;&gt;
+			&lt;/header&gt;
+			&lt;section class=&quot;main ${mainClass}&quot; id=&quot;main&quot;&gt;
+				&lt;input id=&quot;toggle-all&quot; class=&quot;toggle-all&quot; type=&quot;checkbox&quot; ws-attr=&quot;toggleAttr&quot; ws-onclick=&quot;toggleAll&quot;&gt;
+				&lt;label for=&quot;toggle-all&quot;&gt;Mark all as complete&lt;/label&gt;
+				&lt;ul class=&quot;todo-list&quot; ws-hole=&quot;todos&quot;&gt;
+					&lt;template name=&quot;todoItem&quot;&gt;
+						&lt;li class=&quot;${itemClass}&quot;&gt;
+							&lt;div class=&quot;view&quot;&gt;
+								&lt;input class=&quot;toggle&quot; type=&quot;checkbox&quot; ws-attr=&quot;toggleAttr&quot; ws-onclick=&quot;toggle&quot;&gt;
+								&lt;label ws-ondblclick=&quot;editStart&quot;&gt;${title}&lt;/label&gt;
+								&lt;button class=&quot;destroy&quot; ws-onclick=&quot;destroy&quot;&gt;&lt;/button&gt;
+							&lt;/div&gt;
+							&lt;input class=&quot;edit&quot; ws-var=&quot;editText&quot; ws-onblur=&quot;editCommit&quot; ws-onkeydown=&quot;editKey&quot; ws-onafterrender=&quot;editFocus&quot;&gt;
+						&lt;/li&gt;
+					&lt;/template&gt;
+				&lt;/ul&gt;
+			&lt;/section&gt;
+			&lt;footer class=&quot;footer ${footerClass}&quot; id=&quot;footer&quot;&gt;
+				&lt;span class=&quot;todo-count&quot; ws-hole=&quot;count&quot;&gt;&lt;/span&gt;
+				&lt;ul class=&quot;filters&quot;&gt;
+					&lt;li&gt;&lt;a class=&quot;${allClass}&quot; href=&quot;#/&quot; ws-onclick=&quot;filterAll&quot;&gt;All&lt;/a&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;a class=&quot;${activeClass}&quot; href=&quot;#/active&quot; ws-onclick=&quot;filterActive&quot;&gt;Active&lt;/a&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;a class=&quot;${completedClass}&quot; href=&quot;#/completed&quot; ws-onclick=&quot;filterCompleted&quot;&gt;Completed&lt;/a&gt;&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;button class=&quot;clear-completed ${clearClass}&quot; ws-onclick=&quot;clearCompleted&quot;&gt;Clear completed&lt;/button&gt;
+			&lt;/footer&gt;
+		&lt;/section&gt;
+		&lt;footer class=&quot;info&quot;&gt;
+			&lt;p&gt;Double-click to edit a todo&lt;/p&gt;
+			&lt;p&gt;Written in OCaml with WebSharper.UI&lt;/p&gt;
+			&lt;p&gt;Part of &lt;a href=&quot;http://todomvc.com&quot;&gt;TodoMVC&lt;/a&gt;&lt;/p&gt;
+		&lt;/footer&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    </div><div role="tabpanel" data-lang="code-result" class="absolute inset-0 hidden overflow-hidden">
+        <iframe src="./snippets/todomvc-lm/index.html" class="w-full h-full pr-2 mr-4 rounded-md bg-white" frameborder="0"></iframe>
+    </div></div>
+                                        </div>
+                                        <div class="lg:col-span-3 bg-gray-100 dark:bg-gray-950 shadow-2xl shadow-gray-950/5 dark:shadow-gray-950/15 border border-gray-300/50 dark:border-gray-800 lg:rounded-br-3xl">
+                                            <div class="flex items-center border-b border-gray-200 dark:border-gray-800"><div class="inline-flex -mb-px items-center gap-2 rounded-t-md border border-b-transparent border-gray-200 bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"></path></svg>Terminal</div></div>
+                                            <div class="mt-1 ml-1 w-max font-mono text-xs text-gray-400 dark:text-white/60">
+        <div class="text-gray-500">&gt; <span class="dark:text-white text-gray-300">bash run.sh</span></div>
+        <div class="mt-1">built <span class="text-sky-400">out/server</span></div>
+        <div class="mt-1">serving on <span class="text-sky-400">http://127.0.0.1:8123/</span> <span class="text-gray-500">(Ctrl-C to stop)</span></div>
+        <div class="mt-1">wsocaml <span class="dark:text-white text-gray-300">server on</span> <span class="text-sky-400">http://127.0.0.1:8123/</span></div>
+        <span class="dark:text-white text-gray-300">█</span>
+    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    </div>
+                </div>
+            </section>
+
+            
+            <section class="mt-24">
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Call the server as if it were local</h2>
+                </div>
+                <div class="mx-auto mt-10 max-w-6xl px-6 md:flex lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="w-full md:w-1/2 md:pr-6 lg:pr-12">
+                        <p class="text-gray-500 dark:text-gray-200">
+                            Tag a function with <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-800">[@rpc]</code> and the
+                            compiler writes the client proxy for you. One typed call, and the arguments and results
+                            cross the wire by themselves &mdash; no routes to invent, no JSON to hand-roll, no drift between tiers.
+                        </p>
+                    </div>
+                    <div class="mt-8 w-full md:mt-0 md:w-1/2">
+        <div data-name="snippet" ws-7="" class="relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-6="click" role="tab" aria-selected="false" data-target="remoting.ml" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#EC6813"></rect><path d="M6 16.5l3-9 3 5.5 3-5.5 3 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </span></span>
+        <span class="text-sm">remoting.ml</span>
+    </button></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs"><div role="tabpanel" data-lang="remoting.ml" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-ocaml">open WebSharper_Server
+
+(* Tag a server-side function with [@rpc] ... *)
+let[@rpc] search (query : string) : string list =
+  Db.search query
+
+(* ... and call it from the browser as if it were local. Arguments and
+   results are serialized for you - no fetch, no routes, no JSON glue. *)
+let results (query : string) =
+  View.fromAsync (search query)
+</code></pre>
+    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+                </div>
+            </section>
+
+            
+            <section class="mt-24">
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Server, shared, browser</h2>
+                    <p class="mt-6 mx-auto max-w-2xl text-gray-500 dark:text-gray-200">
+                        Three files, one codebase. A shared module both tiers open, a sitelet that
+                        server-renders the page, and a reactive view that the browser
+                        <strong class="font-semibold text-gray-700 dark:text-gray-100">hydrates</strong>
+                        onto those server-rendered nodes. Compile once; both tiers stay in lockstep.
+                    </p>
+                </div>
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="relative z-10 mt-16 rounded-3xl border border-gray-200 bg-gray-200/10 dark:border-0 dark:bg-white/10 dark:p-px">
+                        <div class="rounded-3xl bg-gray-200/90 shadow-xl pr-3 pb-2 text-sm backdrop-blur-3xl dark:bg-gray-900 md:ml-0 md:pr-0">
+                            <div class="flex items-center gap-4 px-6 py-1 border-b border-gray-200 dark:border-gray-800">
+                                <div class="flex space-x-2">
+                                    <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                                    <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                                    <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                                </div>
+                            </div>
+
+                            <div class="relative sm:flex">
+                                <div class="absolute ml-1 flex h-full w-14 flex-none flex-col items-center justify-between py-3 text-gray-500 dark:text-white/60">
+                                    <svg width="24" height="216" fill="none">
+                                        <path d="M3 69l6-6m-2-5a7 7 0 1014 0 7 7 0 00-14 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M8 7H5a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1v-3m3.707-10.293l-3.414-3.414A1 1 0 0015.586 3H9a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V7.414a1 1 0 00-.293-.707zM7 103a2 2 0 100-4 2 2 0 000 4zm0 0v10m10-6a2 2 0 100-4 2 2 0 000 4zm0 0a3 3 0 01-3 3h-4a3 3 0 00-3 3m0 0a2 2 0 100 4 2 2 0 000-4z" stroke="currentColor" stroke-width="1.5"></path>
+                                        <path d="M11.5 160.031a.75.75 0 00-1-1.118l1 1.118zm-8-1.118a.75.75 0 00-1 1.118l1-1.118zm6.972 6.149a.75.75 0 10.993-1.124l-.993 1.124zm-7.937-1.124a.75.75 0 10.993 1.124l-.993-1.124zm7.022-.368l-.64-.393.64.393zm-5.114 0l.64-.393-.64.393zM3 161.25a.75.75 0 000 1.5v-1.5zm8 1.5a.75.75 0 000-1.5v1.5zM8 147l.372-.651A.75.75 0 007.25 147H8zm14 8l.372.651a.75.75 0 000-1.302L22 155zm-14.75 0a.75.75 0 001.5 0h-1.5zm5.378 4.492a.75.75 0 10.744 1.302l-.744-1.302zM7 157.75A2.25 2.25 0 019.25 160h1.5A3.75 3.75 0 007 156.25v1.5zm0-1.5A3.75 3.75 0 003.25 160h1.5A2.25 2.25 0 017 157.75v-1.5zm2.624 3.298A5.225 5.225 0 017 160.25v1.5a6.73 6.73 0 003.376-.903l-.752-1.299zM9.25 160v.197h1.5V160h-1.5zm0 .197V162h1.5v-1.803h-1.5zM7 160.25a5.225 5.225 0 01-2.624-.702l-.752 1.299A6.73 6.73 0 007 161.75v-1.5zM4.75 162v-1.803h-1.5V162h1.5zm0-1.803V160h-1.5v.197h1.5zm5.75-1.284a5.209 5.209 0 01-.876.635l.752 1.299c.403-.234.78-.507 1.124-.816l-1-1.118zm-6.124.635a5.21 5.21 0 01-.876-.635l-1 1.118c.344.309.721.582 1.124.816l.752-1.299zm4.86 4.701c.451.212.867.487 1.236.813l.993-1.124a6.77 6.77 0 00-1.588-1.046l-.64 1.357zM9.25 162c0 .433-.122.835-.332 1.177l1.277.787A3.737 3.737 0 0010.75 162h-1.5zm-.332 1.177A2.247 2.247 0 017 164.25v1.5a3.748 3.748 0 003.195-1.786l-1.277-.787zm-5.39 1.885a5.25 5.25 0 011.235-.813l-.64-1.357a6.77 6.77 0 00-1.588 1.046l.993 1.124zM7 164.25c-.81 0-1.52-.427-1.918-1.073l-1.277.787A3.748 3.748 0 007 165.75v-1.5zm-1.918-1.073A2.235 2.235 0 014.75 162h-1.5c0 .719.203 1.392.555 1.964l1.277-.787zM4 161.25H3v1.5h1v-1.5zm7 0h-1v1.5h1v-1.5zm-3.372-13.599l14 8 .744-1.302-14-8-.744 1.302zM8.75 155v-8h-1.5v8h1.5zm12.878-.651l-9 5.143.744 1.302 9-5.143-.744-1.302z" fill="currentColor"></path>
+                                        <path d="M3 205h8m-8 0v7a1 1 0 001 1h7m-8-8v-7a1 1 0 011-1h6a1 1 0 011 1v7m0 0v8m0-8h7a1 1 0 011 1v6a1 1 0 01-1 1h-7m4-11h6a1 1 0 001-1v-6a1 1 0 00-1-1h-6a1 1 0 00-1 1v6a1 1 0 001 1z" stroke="currentColor" stroke-width="1.5"></path>
+                                    </svg>
+                                    <svg width="24" height="72" fill="none">
+                                        <path d="M10.325 52.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M15 60a3 3 0 11-6 0 3 3 0 016 0zM5.121 17.804A13.936 13.936 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-auto w-[calc(100%-4rem)] md:grid md:grid-cols-3 md:divide-x md:divide-gray-300/50 dark:md:divide-white/10">
+
+                                    
+                                    <div class="border-gray-300/50 dark:border-white/10">
+                                        <div class="flex items-center gap-2 border-b border-gray-200 px-3 py-1.5 text-xs dark:border-gray-800">
+                                            <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#EC6813"></rect><path d="M6 16.5l3-9 3 5.5 3-5.5 3 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </span></span>
+                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-200">shared.ml</span>
+                                        </div>
+                                        <div class="flex w-full overflow-auto py-3 pl-3 font-mono text-xs snippet-code">
+                                            <div>
+                                                <div aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.21rem] text-gray-300 dark:text-white/40"></div>
+                                            </div>
+                                            <pre class="code-block w-full -mb-16 text-wrap whitespace-pre-wrap break-words line-numbers language-fsharp !overflow-x-auto custom-scrollbar"><code class="mt-[-14px] block language-fsharp text-wrap text-white whitespace-pre-wrap break-words">(* Shared by both tiers: one type, one function, server and browser. *)
+type todo = { id : int; title : string; done_ : bool }
+
+(* Mark it [@rpc] and the compiler writes the client proxy for you. *)
+let[@rpc] addTodo (title : string) : todo =
+  let id = Id.next () in
+  Db.save { id; title; done_ = false };
+  { id; title; done_ = false }
+</code></pre>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="overflow-hidden border-gray-300/50 dark:border-white/10">
+                                        <div class="flex items-center gap-2 border-b border-gray-200 px-3 py-1.5 text-xs dark:border-gray-800">
+                                            <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#EC6813"></rect><path d="M6 16.5l3-9 3 5.5 3-5.5 3 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </span></span>
+                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-200">server.ml</span>
+                                        </div>
+                                        <div class="flex w-full overflow-auto py-3 pl-3 font-mono text-xs snippet-code">
+                                            <div>
+                                                <div aria-hidden="true" class="line-numbers hidden w-2 flex-none select-none text-right leading-[1.21rem] text-gray-300 dark:text-white/40 sm:block"></div>
+                                            </div>
+                                            <pre class="code-block -mb-9 !overflow-x-auto language-js line-numbers custom-scrollbar"><code class="mt-[-18px] block language-js text-white">open WebSharper_Server
+open WebSharper_ClientServer
+
+let[@website] main =
+  Sitelet.infer (fun (_ : endpoint context) ep -&gt;
+    match ep with
+    | Home -&gt;
+        Content.page
+          ~title:&quot;Todos&quot;
+          [ hydrate (fun () -&gt; Client.view ()) ]
+    | _ -&gt;
+        Content.page
+          ~title:&quot;Not found&quot;
+          [ h1 [] [ text &quot;404&quot; ] ])
+</code></pre>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="overflow-hidden border-gray-300/50 dark:border-white/10">
+                                        <div class="flex items-center gap-2 border-b border-gray-200 px-3 py-1.5 text-xs dark:border-gray-800">
+                                            <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#EC6813"></rect><path d="M6 16.5l3-9 3 5.5 3-5.5 3 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </span></span>
+                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-200">client.ml</span>
+                                        </div>
+                                        <div class="flex w-full overflow-auto py-3 pl-3 font-mono text-xs snippet-code">
+                                            <div>
+                                                <div aria-hidden="true" class="line-numbers hidden w-2 flex-none select-none text-right leading-[1.21rem] text-gray-300 dark:text-white/40 sm:block"></div>
+                                            </div>
+                                            <pre class="code-block -mb-8 !overflow-x-auto md:-mb-16 language-js line-numbers custom-scrollbar"><code class="mt-[-14px] block language-js text-white">open WebSharper_UI
+open WebSharper_UI.Html
+open WebSharper_UI.Notation
+
+(* `addTodo` runs on the server, but here it is just a typed call. *)
+let renderList (ts : todo list) =
+  String.concat &quot;, &quot; (List.map (fun t -&gt; t.title) ts)
+
+let view () =
+  let todos : todo list Var.t = Var.create [] in
+  div []
+    [ button
+        [ on.click (fun _ _ -&gt; todos := addTodo &quot;Buy milk&quot; :: !todos) ]
+        [ text &quot;Add a todo&quot; ];
+      ul []
+        [ textView (View.map renderList (Var.view todos)) ] ]
+</code></pre>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="md:col-span-3 bg-gray-100 dark:bg-gray-950 shadow-2xl shadow-gray-950/5 dark:shadow-gray-950/15 border border-gray-300/50 dark:border-gray-800 p-3 md:rounded-br-3xl">
+                                        <div class="flex items-center border-b border-gray-200 dark:border-gray-800"><div class="inline-flex -mb-px items-center gap-2 rounded-t-md border border-b-transparent border-gray-200 bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"></path></svg>Terminal</div></div>
+                                        <div class="mt-3 hidden w-max font-mono text-xs text-gray-400 dark:text-white/60 md:block">&gt; dotnet build -c Release
+Compiling shared.ml
+Compiling server.ml
+Compiling client.ml
+Build succeeded. 0 Warning(s), 0 Error(s)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    </div>
+                </div>
+            </section>
+
+            
+            <section class="mt-24">
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Reactive by default</h2>
+                    <p class="mt-6 mx-auto max-w-2xl text-gray-500 dark:text-gray-200">
+                        On the client, every value can be a <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-800">Var</code>,
+                        every expression a <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-800">View</code>
+                        &mdash; this is the browser-side reactive model (server-rendered pages return plain HTML).
+                        Your document updates itself as the data flows &mdash; no virtual DOM, no re-render, just values.
+                    </p>
+                </div>
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="relative mt-16">
+        <div class="relative z-10 border border-gray-200 dark:border-gray-800 rounded-xl dark:bg-transparent dark:p-px">
+            <div data-name="snippet" ws-9="click" ws-10="" class="rounded-[23px] text-sm backdrop-blur-3xl bg-gray-100 dark:bg-gray-900">
+                <div class="flex items-center gap-4 rounded-t-xl px-4 py-1 border-b border-gray-200 dark:border-gray-800 dark:bg-gray-900">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-8="click" role="tab" aria-selected="false" data-target="counter.ml" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#EC6813"></rect><path d="M6 16.5l3-9 3 5.5 3-5.5 3 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </span></span>
+        <span class="text-sm">counter.ml</span>
+    </button></div>
+                </div>
+                <div class="relative rounded-b-xl bg-gray-200/10 text-xs dark:mt-px dark:bg-gray-900">
+                    <div class="flex p-4 pl-2 overflow-hidden">
+                        <div class="h-full sm:pr-4">
+                            <pre aria-hidden="true" class="line-numbers h-full w-0 flex-none select-none text-right leading-[1.21rem] text-gray-300 dark:text-white/40"></pre>
+                        </div>
+                        <div class="relative h-[22rem] w-full snippet-code"><div role="tabpanel" data-lang="counter.ml" class="relative h-full custom-scrollbar max-w-full overflow-y-auto pr-0 sm:pr-[52%] lg:pr-[46.8%]">
+        <pre class="line-numbers language-ocaml inline-block min-w-max"><code class="mt-[-18px] block leading-[1.21rem] language-ocaml text-white">open WebSharper_UI
+open WebSharper_UI.Html
+open WebSharper_UI.Notation
+
+(* A `Var` holds a value you can change. A `View` reads it reactively: the
+   document updates whenever the underlying value changes. *)
+let () =
+  let clicks : int Var.t = Var.create 0 in
+  let view =
+    div []
+      [ button [ On.click (fun _ _ -&gt; clicks := !clicks + 1) ]
+          [ Doc.text &quot;Click me&quot; ];
+        p [] [
+          Doc.text &quot;Clicked &quot;;
+          Doc.textView (View.map (fun n -&gt; Printf.sprintf &quot;%d&quot; n) (Var.view clicks));
+          Doc.text &quot; times&quot;
+        ] ]
+  in
+  Doc.runById &quot;root&quot; view
+</code></pre>
+    </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative z-10 -mt-12 scale-105 rounded-xl border border-gray-200 bg-white shadow-2xl shadow-gray-200/30 dark:border-white/5 dark:bg-gray-950 dark:shadow-black/40 sm:absolute sm:-inset-y-9 sm:-right-0 sm:mt-0 sm:w-1/2 sm:scale-100 lg:w-[46.8%]">
+            <div class="h-full w-full rounded-xl">
+                <div class="relative flex items-center gap-4 rounded-t-xl bg-white py-1 pl-4 pr-1 dark:bg-gray-900">
+                    <div class="absolute inset-y-0 my-auto flex h-max space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div class="mx-auto flex w-2/3 cursor-text items-center gap-1.5 rounded-lg bg-gray-100 p-1.5 px-2 dark:bg-black/30">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 text-gray-300 dark:text-gray-300/40">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                        </svg>
+                        <span class="text-xs text-gray-500 dark:text-gray-200">Search </span>
+                    </div>
+                </div>
+                <iframe class="themed-iframe w-full h-full bg-transparent" frameborder="0" src="./snippets/ocaml-counter/index.html" data-src="./snippets/ocaml-counter/index.html"></iframe>
+            </div>
+        </div>
+    </div>
+                </div>
+            </section>
+
+            
+            <section class="mt-24">
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="mx-auto max-w-2xl text-center">
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Everything WebSharper gives you</h2>
+                        <p class="mt-6 text-gray-500 dark:text-gray-200">The whole toolset, now from OCaml.</p>
+                    </div>
+                    <div class="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        <div class="rounded-2xl border border-gray-300/50 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/25">
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Typed routing</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Sitelets turn endpoints into values; links are generated and checked by the compiler.</p>
+                        </div>
+                        <div class="rounded-2xl border border-gray-300/50 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/25">
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Reactive UI</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">WebSharper.UI's HTML combinators and templates, on both tiers, in OCaml.</p>
+                        </div>
+                        <div class="rounded-2xl border border-gray-300/50 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/25">
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Remoting &amp; WebSockets</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Call server functions, and exchange typed messages, without any plumbing.</p>
+                        </div>
+                        <div class="rounded-2xl border border-gray-300/50 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/25">
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Serialization</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Your OCaml types become JSON automatically &mdash; the same shape on the server and the client.</p>
+                        </div>
+                        <div class="rounded-2xl border border-gray-300/50 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/25">
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Client-side testing</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Test your browser code in your editor, and run the same suite in QUnit.</p>
+                        </div>
+                        <div class="rounded-2xl border border-gray-300/50 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/25">
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Native OCaml server</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Your server is a real OCaml web server (websharper-server); only the client is compiled to JavaScript.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section class="mt-24 mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="rounded-3xl border border-gray-200 bg-gray-200/5 px-6 py-16 text-center dark:border-gray-800 dark:bg-gray-900/25">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Fall in love with full-stack functional programming</h2>
+                <p class="mt-4 text-lg text-gray-700 dark:text-gray-300">One language. Two tiers. Zero glue.</p>
+                <div class="mt-8 flex flex-wrap items-center justify-center gap-6">
+                    <a href="https://docs.websharper.com/" class="w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                        <span class="relative text-sm">Read the docs</span>
+                    </a>
+                </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                        </li>
+                        <li>
+                            <a href="./privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="./terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                        </li>
+                        <li>
+                            <a href="./cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-2 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-3 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
+                        </li>
+                        <li>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
+                        </li>
+                        <li>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row-start-1 col-span-2 lg:row-start-auto">
+                    <form action="" meethod="post">
+                        <h2 class="font-semibold text-gray-800 dark:text-white">Subscribe now</h2>
+                        <p class="text-sm mt-2 text-gray-700 dark:text-gray-300">Stay updated on new releases and features, guides, and case studies.</p>
+
+                        <div class="mt-8 flex gap-2">
+                            <input placeholder="Email" class="w-full bg-white rounded-md shadow-sm shadow-gray-950/5 border border-gray-300 bg-transparent px-3.5 py-2 text-sm text-gray-500 placeholder-gray-500 invalid:border-red-500 dark:border-gray-700 dark:hover:border-gray-600 dark:text-white dark:placeholder-gray-200 dark:bg-gray-900" type="email" name="email" id="email" />
+                            <button type="submit" class="w-fit rounded-lg h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-4 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[7px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                                <span class="relative text-sm">Subscribe</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
+                <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                    <div class="flex gap-4 items-center">
+                        <a href="./">
+                            <img class="size-8" src="./Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <span class="sr-only">WebSharper logo</span>
+                        </a>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
+                    </div>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

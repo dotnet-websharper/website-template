@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" class="scroll-smooth" ws-3="">
+<html lang="en" class="scroll-smooth" ws-25="">
 <head>
     <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
     <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
@@ -27,32 +27,219 @@
 
     <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/features.css"></link>
-<script src="./Scripts/WebSharper/features.js"></script>
+    <!--
+failed to use bundle features, missing import(s):
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+bundle contents:
+WebSharperWebsite/WebSharperWebsite.FeaturesSCG::HydrateSCGDoc
+WebSharperWebsite/WebSharperWebsite.Component::Tab$39$22
+WebSharperWebsite/WebSharperWebsite.Component::CodeFiles$59$18
+WebSharperWebsite/WebSharperWebsite.Component::CodeFilesWithPreviewPanel$80$24
+WebSharperWebsite/WebSharperWebsite.Component::CodeFilesWithPreviewPanel$81$18
+WebSharperWebsite/WebSharperWebsite.Component::VsCode$107$34
+WebSharperWebsite/WebSharperWebsite.ClientPages::Layout
+-->
+<link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/all.css"></link>
+<script src="./Scripts/WebSharper/all.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
+let o1 = wsbundle._c.Create([]);
+o1.$preinit("40dd16a1-94b5-4213-8840-2e8f7847f191");
+let o2 = wsbundle._c.Create([]);
+o2.$preinit("e8c0f958-e63b-4f8e-9a46-8e050679ab09");
+let o4 = wsbundle._c.Create([]);
+o4.$preinit("fad6b266-1a4f-4a77-b56c-8f3db210c094");
+let o7 = wsbundle._c.Create([]);
+o7.$preinit("b8df6e57-f42f-496a-9c7a-b5798f341038");
+let o8 = wsbundle._c.Create([]);
+o8.$preinit("ba96c451-4fe1-473a-a33b-c300e4b43a8b");
+let o10 = wsbundle._c.Create([]);
+o10.$preinit("d6a39b75-7075-452a-bdac-1d1ce3829cf8");
+let o13 = wsbundle._c.Create([]);
+o13.$preinit("c9a3954c-9ece-489d-a17f-c33768545c3e");
+let o14 = wsbundle._c.Create([]);
+o14.$preinit("8fad84f0-34a0-45ee-8379-d1358acddd0c");
+let o16 = wsbundle._c.Create([]);
+o16.$preinit("5029214e-e0e4-429d-bcf2-8c240ed3881e");
+let o18 = wsbundle._c.Create([]);
+o18.$preinit("0d4e0872-dae6-43b3-a0ae-6920dbb26d41");
+let o21 = wsbundle._c.Create([]);
+o21.$preinit("c3dd4dd2-12d7-4b9d-94d5-0c04f1543998");
+let o22 = wsbundle._c.Create([]);
+o22.$preinit("87d0326e-8ffd-47cc-89e6-090328e039c7");
+let o24 = wsbundle._c.Create([]);
+o24.$preinit("2ec296fc-d775-4e79-ac93-25ea46ecc9df");
+let o27 = wsbundle._c.Create([]);
+o27.$preinit("32a14944-44f7-4254-8577-c62e402fafd4");
+let o28 = wsbundle._c.Create([]);
+o28.$preinit("6fe2ef14-29f3-4bba-82e6-687e574d1e7a");
+let o30 = wsbundle._c.Create([]);
+o30.$preinit("50878360-f85b-445f-b42e-e4f483b3442b");
+let o33 = wsbundle._c.Create([]);
+o33.$preinit("339358ef-255a-42ed-89ea-a307506d1706");
+let o34 = wsbundle._c.Create([]);
+o34.$preinit("c602a6c8-0b11-4227-b7ee-41c2d6a221c1");
+let o36 = wsbundle._c.Create([]);
+o36.$preinit("cde20835-b0c2-4c02-8357-24711bef81fc");
+let o39 = wsbundle._c.Create([]);
+o39.$preinit("8b9037e6-43a7-41f0-9d4b-5a21df014bca");
+let o40 = wsbundle._c.Create([]);
+o40.$preinit("d6f2ef1e-8728-446b-85e8-65061481bce0");
+let o42 = wsbundle._c.Create([]);
+o42.$preinit("10c46e7b-d583-4971-b375-90dda1609103");
 let e1 = document.querySelector("[ws-1]");
 wsbundle.Layout().ReplaceInDom(e1);
-let e2 = document.querySelector("[ws-2]");
-wsbundle.Features().ReplaceInDom(e2);
+o1.$init("40dd16a1-94b5-4213-8840-2e8f7847f191");
+o2.$init("e8c0f958-e63b-4f8e-9a46-8e050679ab09");
+let e2 = document.querySelectorAll("[ws-2]");
+e2.forEach(e => e.addEventListener(e.getAttribute('ws-2'),wsbundle.EventQ2Client("e8c0f958-e63b-4f8e-9a46-8e050679ab09",e2,wsbundle.Tab$39$22())));
+o4.$init("fad6b266-1a4f-4a77-b56c-8f3db210c094");
+let e3 = document.querySelectorAll("[ws-3]");
+e3.forEach(e => e.addEventListener(e.getAttribute('ws-3'),wsbundle.EventQ2Client("fad6b266-1a4f-4a77-b56c-8f3db210c094",e3,wsbundle.Tab$39$22())));
+let e4 = document.querySelector("[ws-4]");
+wsbundle.CodeFiles$59$18()(e4);
+o7.$init("b8df6e57-f42f-496a-9c7a-b5798f341038");
+o8.$init("ba96c451-4fe1-473a-a33b-c300e4b43a8b");
+let e5 = document.querySelectorAll("[ws-5]");
+e5.forEach(e => e.addEventListener(e.getAttribute('ws-5'),wsbundle.EventQ2Client("ba96c451-4fe1-473a-a33b-c300e4b43a8b",e5,wsbundle.Tab$39$22())));
+o10.$init("d6a39b75-7075-452a-bdac-1d1ce3829cf8");
+let e6 = document.querySelectorAll("[ws-6]");
+e6.forEach(e => e.addEventListener(e.getAttribute('ws-6'),wsbundle.EventQ2Client("d6a39b75-7075-452a-bdac-1d1ce3829cf8",e6,wsbundle.Tab$39$22())));
+let e7 = document.querySelector("[ws-7]");
+wsbundle.CodeFiles$59$18()(e7);
+o13.$init("c9a3954c-9ece-489d-a17f-c33768545c3e");
+o14.$init("8fad84f0-34a0-45ee-8379-d1358acddd0c");
+let e8 = document.querySelectorAll("[ws-8]");
+e8.forEach(e => e.addEventListener(e.getAttribute('ws-8'),wsbundle.EventQ2Client("8fad84f0-34a0-45ee-8379-d1358acddd0c",e8,wsbundle.Tab$39$22())));
+o16.$init("5029214e-e0e4-429d-bcf2-8c240ed3881e");
+let e9 = document.querySelectorAll("[ws-9]");
+e9.forEach(e => e.addEventListener(e.getAttribute('ws-9'),wsbundle.EventQ2Client("5029214e-e0e4-429d-bcf2-8c240ed3881e",e9,wsbundle.Tab$39$22())));
+o18.$init("0d4e0872-dae6-43b3-a0ae-6920dbb26d41");
+let e10 = document.querySelectorAll("[ws-10]");
+e10.forEach(e => e.addEventListener(e.getAttribute('ws-10'),wsbundle.EventQ2Client("0d4e0872-dae6-43b3-a0ae-6920dbb26d41",e10,wsbundle.Tab$39$22())));
+let e11 = document.querySelector("[ws-11]");
+wsbundle.CodeFiles$59$18()(e11);
+o21.$init("c3dd4dd2-12d7-4b9d-94d5-0c04f1543998");
+o22.$init("87d0326e-8ffd-47cc-89e6-090328e039c7");
+let e12 = document.querySelectorAll("[ws-12]");
+e12.forEach(e => e.addEventListener(e.getAttribute('ws-12'),wsbundle.EventQ2Client("87d0326e-8ffd-47cc-89e6-090328e039c7",e12,wsbundle.Tab$39$22())));
+o24.$init("2ec296fc-d775-4e79-ac93-25ea46ecc9df");
+let e13 = document.querySelectorAll("[ws-13]");
+e13.forEach(e => e.addEventListener(e.getAttribute('ws-13'),wsbundle.EventQ2Client("2ec296fc-d775-4e79-ac93-25ea46ecc9df",e13,wsbundle.Tab$39$22())));
+let e14 = document.querySelector("[ws-14]");
+wsbundle.CodeFiles$59$18()(e14);
+o27.$init("32a14944-44f7-4254-8577-c62e402fafd4");
+o28.$init("6fe2ef14-29f3-4bba-82e6-687e574d1e7a");
+let e15 = document.querySelectorAll("[ws-15]");
+e15.forEach(e => e.addEventListener(e.getAttribute('ws-15'),wsbundle.EventQ2Client("6fe2ef14-29f3-4bba-82e6-687e574d1e7a",e15,wsbundle.Tab$39$22())));
+o30.$init("50878360-f85b-445f-b42e-e4f483b3442b");
+let e16 = document.querySelectorAll("[ws-16]");
+e16.forEach(e => e.addEventListener(e.getAttribute('ws-16'),wsbundle.EventQ2Client("50878360-f85b-445f-b42e-e4f483b3442b",e16,wsbundle.Tab$39$22())));
+let e17 = document.querySelector("[ws-17]");
+wsbundle.CodeFiles$59$18()(e17);
+o33.$init("339358ef-255a-42ed-89ea-a307506d1706");
+o34.$init("c602a6c8-0b11-4227-b7ee-41c2d6a221c1");
+let e18 = document.querySelectorAll("[ws-18]");
+e18.forEach(e => e.addEventListener(e.getAttribute('ws-18'),wsbundle.EventQ2Client("c602a6c8-0b11-4227-b7ee-41c2d6a221c1",e18,wsbundle.Tab$39$22())));
+o36.$init("cde20835-b0c2-4c02-8357-24711bef81fc");
+let e19 = document.querySelectorAll("[ws-19]");
+e19.forEach(e => e.addEventListener(e.getAttribute('ws-19'),wsbundle.EventQ2Client("cde20835-b0c2-4c02-8357-24711bef81fc",e19,wsbundle.Tab$39$22())));
+let e20 = document.querySelector("[ws-20]");
+wsbundle.CodeFiles$59$18()(e20);
+o39.$init("8b9037e6-43a7-41f0-9d4b-5a21df014bca");
+o40.$init("d6f2ef1e-8728-446b-85e8-65061481bce0");
+let e21 = document.querySelectorAll("[ws-21]");
+e21.forEach(e => e.addEventListener(e.getAttribute('ws-21'),wsbundle.EventQ2Client("d6f2ef1e-8728-446b-85e8-65061481bce0",e21,wsbundle.Tab$39$22())));
+o42.$init("10c46e7b-d583-4971-b375-90dda1609103");
+let e22 = document.querySelectorAll("[ws-22]");
+e22.forEach(e => e.addEventListener(e.getAttribute('ws-22'),wsbundle.EventQ2Client("10c46e7b-d583-4971-b375-90dda1609103",e22,wsbundle.Tab$39$22())));
+let e23 = document.querySelector("[ws-23]");
+wsbundle.CodeFiles$59$18()(e23);
+let e24 = document.querySelector("[ws-24]");
+wsbundle.HydrateSCGDoc().ReplaceInDom(e24);
+o1.$postinit("40dd16a1-94b5-4213-8840-2e8f7847f191");
+o2.$postinit("e8c0f958-e63b-4f8e-9a46-8e050679ab09");
+o4.$postinit("fad6b266-1a4f-4a77-b56c-8f3db210c094");
+o7.$postinit("b8df6e57-f42f-496a-9c7a-b5798f341038");
+o8.$postinit("ba96c451-4fe1-473a-a33b-c300e4b43a8b");
+o10.$postinit("d6a39b75-7075-452a-bdac-1d1ce3829cf8");
+o13.$postinit("c9a3954c-9ece-489d-a17f-c33768545c3e");
+o14.$postinit("8fad84f0-34a0-45ee-8379-d1358acddd0c");
+o16.$postinit("5029214e-e0e4-429d-bcf2-8c240ed3881e");
+o18.$postinit("0d4e0872-dae6-43b3-a0ae-6920dbb26d41");
+o21.$postinit("c3dd4dd2-12d7-4b9d-94d5-0c04f1543998");
+o22.$postinit("87d0326e-8ffd-47cc-89e6-090328e039c7");
+o24.$postinit("2ec296fc-d775-4e79-ac93-25ea46ecc9df");
+o27.$postinit("32a14944-44f7-4254-8577-c62e402fafd4");
+o28.$postinit("6fe2ef14-29f3-4bba-82e6-687e574d1e7a");
+o30.$postinit("50878360-f85b-445f-b42e-e4f483b3442b");
+o33.$postinit("339358ef-255a-42ed-89ea-a307506d1706");
+o34.$postinit("c602a6c8-0b11-4227-b7ee-41c2d6a221c1");
+o36.$postinit("cde20835-b0c2-4c02-8357-24711bef81fc");
+o39.$postinit("8b9037e6-43a7-41f0-9d4b-5a21df014bca");
+o40.$postinit("d6f2ef1e-8728-446b-85e8-65061481bce0");
+o42.$postinit("10c46e7b-d583-4971-b375-90dda1609103");
 });
 </script>
 
 
     <script>
         const DOC = document.documentElement;
-        const THEME_KEY = "color-theme";
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
         const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
         function setThemeClass(theme) {
-            DOC.classList.toggle("dark", theme === "dark");
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
         }
 
         function getInitialTheme() {
             const saved = localStorage.getItem(THEME_KEY);
-            if (saved === "dark" || (saved === null && prefersDark())) return "dark";
-            return "light";
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
         }
 
         function currentTheme() {
@@ -61,8 +248,8 @@ wsbundle.Features().ReplaceInDom(e2);
 
         function applyTheme(theme) {
             setThemeClass(theme);
-            localStorage.setItem(THEME_KEY, theme);
-            updateAllIframesTheme(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
         }
 
         function toggleTheme() {
@@ -87,10 +274,44 @@ wsbundle.Features().ReplaceInDom(e2);
         });
 
         window.addEventListener("storage", (e) => {
-            if (e.key === THEME_KEY && (e.newValue === "dark" || e.newValue === "light")) {
-                setThemeClass(e.newValue);
-                updateAllIframesTheme(e.newValue);
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
             }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
         });
 
     </script>
@@ -100,17 +321,17 @@ wsbundle.Features().ReplaceInDom(e2);
         <div class="px-6 py-4 lg:px-8">
             <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
                 <div class="flex lg:flex-1">
-                    <a href="./" class="-m-1.5 p-1.5">
-                        <span class="sr-only">WebSharper logo</span>
-                        <img class="h-9 w-9 rounded-full bg-white dark:bg-transparent" src="./Assets/favicon.png" alt="websharper logo" width="164" height="164" />
+                    <a href="./" class="-m-1.5 flex items-center gap-2.5 p-1.5">
+                        <img class="h-9 w-9" src="./Assets/logo.png" alt="" width="164" height="164" />
+                        <span class="text-lg font-bold tracking-tight text-gray-950 dark:text-white">WebSharper</span>
                     </a>
                 </div>
                 <div class="flex gap-4 lg:hidden">
                     <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-10 w-10 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
                         </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
                             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                         </svg>
                     </button>
@@ -133,24 +354,26 @@ wsbundle.Features().ReplaceInDom(e2);
                 </div>
                 <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
                     <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="./examples" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
                     <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
                     <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
                     <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
-                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
                 </div>
                 <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
                     <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
                         </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="transistion relative m-auto h-5 w-5 fill-gray-700 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition relative m-auto h-5 w-5 fill-gray-700 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
                             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                         </svg>
                     </button>
                     <ul class="flex items-center gap-1">
                         <li>
                             <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                     <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
                                 </svg>
                                 <span class="sr-only">WebSharper GitHub organization</span>
@@ -158,7 +381,7 @@ wsbundle.Features().ReplaceInDom(e2);
                         </li>
                         <li>
                             <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                     <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
                                 </svg>
                                 <span class="sr-only">Follow WebSharper on Twitter</span>
@@ -166,7 +389,7 @@ wsbundle.Features().ReplaceInDom(e2);
                         </li>
                         <li>
                             <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                     <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
                                 </svg>
                                 <span class="sr-only">Join WebSharper community on Discord</span>
@@ -205,7 +428,7 @@ wsbundle.Features().ReplaceInDom(e2);
                                 </button>
 
                                 
-                                <button id="btnLogin" class="cursor-pointer flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLoginAttrD" ws-onclick="Login">
+                                <div id="btnLogin" class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttrD" aria-disabled="true">
                                     
                                     <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
                                         <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
@@ -218,8 +441,8 @@ wsbundle.Features().ReplaceInDom(e2);
                                             0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
                                             c0-4.42-3.58-8-8-8z"></path>
                                     </svg>
-                                    Log in with GitHub
-                                </button>
+                                    Coming soon...
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -233,17 +456,19 @@ wsbundle.Features().ReplaceInDom(e2);
 
                             <div class="flex flex-col space-y-6 py-6">
                                 <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="./examples" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
                                 <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
                                 <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
                                 <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
-                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Support</a>
+                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
                             </div>
 
                             <div class="py-6">
                                 <ul class="flex gap-x-4">
                                     <li>
                                         <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                                 <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
                                             </svg>
                                             <span class="sr-only">WebSharper GitHub organization</span>
@@ -251,7 +476,7 @@ wsbundle.Features().ReplaceInDom(e2);
                                     </li>
                                     <li>
                                         <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                                 <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
                                             </svg>
                                             <span class="sr-only">Follow WebSharper on Twitter</span>
@@ -259,7 +484,7 @@ wsbundle.Features().ReplaceInDom(e2);
                                     </li>
                                     <li>
                                         <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
                                                 <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
                                             </svg>
                                             <span class="sr-only">Join WebSharper community on Discord</span>
@@ -292,7 +517,7 @@ wsbundle.Features().ReplaceInDom(e2);
                                         Log out
                                     </button>
 
-                                    <button data-el="login" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLoginAttr" ws-onclick="Login">
+                                    <div data-el="login" class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttr" aria-disabled="true">
                                         <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
                                                     <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
                                             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
@@ -304,8 +529,8 @@ wsbundle.Features().ReplaceInDom(e2);
                                             0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
                                             c0-4.42-3.58-8-8-8z"></path>
                                         </svg>
-                                        Log in with GitHub
-                                    </button>
+                                        Coming soon...
+                                    </div>
                                 </div>
                             </div>
 
@@ -316,77 +541,760 @@ wsbundle.Features().ReplaceInDom(e2);
         </div>
     </header>
 
-    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div><div ws-2>
-        <div class="mx-auto max-w-7xl px-6 lg:px-8 pt-28 pb-20">
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
+        <section>
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl pt-28">
 
-            <div class="mx-auto max-w-2xl lg:text-center mb-16">
-                <h2 class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">WebSharper Capabilities</h2>
-                <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Everything you need to build modern apps</p>
-                <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-                    Explore the power of F# full-stack development.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 gap-4 lg:grid-cols-[260px_1fr] mb-24">
-                <aside class="h-max">
-                    <nav aria-label="Features" class="rounded-xl border border-gray-200 p-3 dark:border-gray-800">
-                        <ul class="space-y-1 text-sm">
-                            <li>
-                                <button class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Charts</button>
-                            </li>
-                            <li>
-                                <button class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Maps</button>
-                            </li>
-                            <li>
-                                <button class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Forms</button>
-                            </li>
-                            <li>
-                                <button class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Visualization</button>
-                            </li>
-                            <li>
-                                <button class="w-full text-left rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-white/5">Spreadsheet</button>
-                            </li>
-                        </ul>
-                    </nav>
-                </aside>
-
-                <section class="animate-[fadeIn_0.5s_ease-out]">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 h-[42rem]">
-
-                        <div class="rounded-xl bg-white dark:bg-gray-900 p-4 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 flex flex-col">
-                            <div class="flex items-center justify-between h-10 mb-2 border-b border-gray-300 dark:border-gray-700">
-                                <span class="text-xs font-mono text-gray-400">F# / Source</span>
-                            </div>
-                            <div class="snippet-code flex-1"></div>
-                        </div>
-
-                        <div class="h-full rounded-xl bg-white dark:bg-gray-900 p-4 shadow-sm ring-1 ring-gray-200 dark:ring-white/10 overflow-auto flex flex-col relative border border-gray-200 dark:border-transparent">
-                            <div class="flex items-center justify-between h-10 mb-2 border-b border-gray-100 dark:border-gray-700">
-                                <span class="text-xs font-mono text-gray-500 dark:text-gray-400">Live Result</span>
-                            </div>
-                            <div class="flex-1"></div>
-                        </div>
-
+            <div class="relative lg:flex">
+                <div class="sticky top-[33%] mb-16 mt-24 hidden h-max justify-end lg:flex lg:w-[10rem] xl:w-[6rem]">
+                    <div class="sticky top-32 ml-auto flex flex-col items-end space-y-4">
+                        <a href="#mvu" data-step="mvu" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Model-View-Update</span>
+                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                        </a>
+                        <a href="#react" data-step="react" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">React Components</span>
+                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                        </a>
+                        <a href="#webapi" data-step="webapi" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Web APIs</span>
+                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                        </a>
+                        <a href="#csr" data-step="csr" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Client-side routing</span>
+                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                        </a>
+                        <a href="#lc" data-step="lc" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Language constructs</span>
+                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                        </a>
+                        <a href="#tsh" data-step="tsh" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Type-safe HTML</span>
+                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                        </a>
+                        <a href="#rwe" data-step="rwe" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Remoting with ease</span>
+                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                        </a>
                     </div>
-                </section>
-            </div>
+                </div>
+                <div class="lg:w-[calc(100%-6rem)] ml-auto">
+                    <div id="mvu" class="section py-16 md:flex">
+                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Model-View-Update architecture with WebSharper.Mvu</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Structure client-side applications with clear separation of concerns between logic and display. Based on WebSharper.UI, Mvu brings Elm-like architecture to WebSharper.</p>
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
+        <div data-name="snippet" ws-4="" class="relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-2="click" role="tab" aria-selected="false" data-target="NameInput.fs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="236" height="224" viewbox="0 0 62.441665 59.266668" version="1.1">
+            <path style="fill: #378bba" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z"></path>
+            <path style="fill: #378bba" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z"></path>
+            <path style="fill: #30b9db" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">NameInput.fs</span>
+    </button><button ws-3="click" role="tab" aria-selected="false" data-target="nameInput.js" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3 w-3" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0H28V28H0V0Z" fill="#F5DE19"></path>
+            <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z" fill="black"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">nameInput.js</span>
+    </button></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs"><div role="tabpanel" data-lang="NameInput.fs" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-fsharp">type Model = { name: string }
+let InitModel = { name = &quot;&quot; }
 
-            
+type Message =
+    | SetName of string
+
+let Update message model =
+    match message with
+    | SetName n -&gt; { model with name = n }
+
+let View dispatch (view: View&lt;Model&gt;) =
+    div [] [
+        input [
+            attr.value view.V.name
+            on.change (fun el _ -&gt;
+                dispatch (SetName el?value))
+        ] []
+    ]
+
+let Main = App.CreateSimple InitModel Update View |&gt; App.Run
+</code></pre>
+    </div><div role="tabpanel" data-lang="nameInput.js" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-js">let model = { name: &quot;&quot; };
+
+function update(message) {
+    if (message.type === &quot;SetName&quot;) {
+        model = { ...model, name: message.value };
+        render();
+    }
+}
+
+function render() {
+    const main = document.getElementById(&quot;main&quot;);
+    main.innerHTML = &quot;&quot;;
+
+    const input = document.createElement(&quot;input&quot;);
+    input.value = model.name;
+    input.addEventListener(&quot;change&quot;, (e) =&gt; {
+        update({ type: &quot;SetName&quot;, value: e.target.value });
+    });
+
+    main.appendChild(input);
+}
+
+render();
+</code></pre>
+    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    </div>
+                    <div id="react" class="section py-16 md:flex">
+                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Build React components</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">You can also use widespread libraries such as React to build applications. The syntax is as convenient as JSX, with the added benefit of strong typing.</p>
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
+        <div data-name="snippet" ws-7="" class="relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-5="click" role="tab" aria-selected="false" data-target="Person.fs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="236" height="224" viewbox="0 0 62.441665 59.266668" version="1.1">
+            <path style="fill: #378bba" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z"></path>
+            <path style="fill: #378bba" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z"></path>
+            <path style="fill: #30b9db" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">Person.fs</span>
+    </button><button ws-6="click" role="tab" aria-selected="false" data-target="Person.js" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3 w-3" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0H28V28H0V0Z" fill="#F5DE19"></path>
+            <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z" fill="black"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">Person.js</span>
+    </button></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs"><div role="tabpanel" data-lang="Person.fs" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-fsharp">type Person = { name: string; age: int }
+
+type ShowPerson(props) =
+    inherit React.Component&lt;Person, unit&gt;(props)
+
+    override this.Render() =
+        ul [attr.className &quot;person&quot;] [
+            li [] [text (&quot;Name: &quot; + this.Props.name)]
+            li [] [text (&quot;Age: &quot; + string this.Props.age)]
+        ]
+</code></pre>
+    </div><div role="tabpanel" data-lang="Person.js" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-js">import React from &quot;react&quot;;
+
+function ShowPerson(props) {
+    return (
+        &lt;ul className=&quot;person&quot;&gt;
+            &lt;li&gt;Name: {props.name}&lt;/li&gt;
+            &lt;li&gt;Age: {props.age}&lt;/li&gt;
+        &lt;/ul&gt;
+    );
+}
+
+// Example usage:
+// &lt;ShowPerson name=&quot;Alice&quot; age={30} /&gt;
+</code></pre>
+    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    </div>
+                    <div id="webapi" class="section py-16 md:flex">
+                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Web APIs and server-side JSON and HTML</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">
+                                Declare your URLs as a C# or F# endpoint type, and WebSharper handles the dispatch. Create safe internal links from endpoint values.
+
+                                <br /><br />You can share the same rendering code and templates between the server and the client.
+
+                                <br /><br />Automatically parse JSON requests and generate JSON responses based on your types.
+                            </p>
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
+        <div data-name="snippet" ws-11="" class="relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-8="click" role="tab" aria-selected="false" data-target="ArticleSite.fs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="236" height="224" viewbox="0 0 62.441665 59.266668" version="1.1">
+            <path style="fill: #378bba" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z"></path>
+            <path style="fill: #378bba" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z"></path>
+            <path style="fill: #30b9db" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">ArticleSite.fs</span>
+    </button><button ws-9="click" role="tab" aria-selected="false" data-target="articles" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewbox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 8-4 4 4 4m8 0 4-4-4-4m-2-3-4 14"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">articles</span>
+    </button><button ws-10="click" role="tab" aria-selected="false" data-target="articleWithId.json" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M4.014,14.976a2.51,2.51,0,0,0,1.567-.518A2.377,2.377,0,0,0,6.386,13.1,15.261,15.261,0,0,0,6.6,10.156q.012-2.085.075-2.747a5.236,5.236,0,0,1,.418-1.686,3.025,3.025,0,0,1,.755-1.018A3.046,3.046,0,0,1,9,4.125,6.762,6.762,0,0,1,10.544,4h.7V5.96h-.387a2.338,2.338,0,0,0-1.723.468A3.4,3.4,0,0,0,8.709,8.52a36.054,36.054,0,0,1-.137,4.133,4.734,4.734,0,0,1-.768,2.06A4.567,4.567,0,0,1,6.1,16a3.809,3.809,0,0,1,1.992,1.754,8.861,8.861,0,0,1,.618,3.865q0,2.435.05,2.9A1.755,1.755,0,0,0,9.264,25.7a2.639,2.639,0,0,0,1.592.337h.387V28h-.7a5.655,5.655,0,0,1-1.773-.2,2.97,2.97,0,0,1-1.324-.93,3.353,3.353,0,0,1-.681-1.63A24.175,24.175,0,0,1,6.6,22.006,16.469,16.469,0,0,0,6.386,18.9a2.408,2.408,0,0,0-.805-1.361,2.489,2.489,0,0,0-1.567-.524Z" style="fill:#f5de19"></path><path d="M27.986,17.011a2.489,2.489,0,0,0-1.567.524,2.408,2.408,0,0,0-.805,1.361,16.469,16.469,0,0,0-.212,3.109,24.175,24.175,0,0,1-.169,3.234,3.353,3.353,0,0,1-.681,1.63,2.97,2.97,0,0,1-1.324.93,5.655,5.655,0,0,1-1.773.2h-.7V26.04h.387a2.639,2.639,0,0,0,1.592-.337,1.755,1.755,0,0,0,.506-1.186q.05-.462.05-2.9a8.861,8.861,0,0,1,.618-3.865A3.809,3.809,0,0,1,25.9,16a4.567,4.567,0,0,1-1.7-1.286,4.734,4.734,0,0,1-.768-2.06,36.054,36.054,0,0,1-.137-4.133,3.4,3.4,0,0,0-.425-2.092,2.338,2.338,0,0,0-1.723-.468h-.387V4h.7A6.762,6.762,0,0,1,23,4.125a3.046,3.046,0,0,1,1.149.581,3.025,3.025,0,0,1,.755,1.018,5.236,5.236,0,0,1,.418,1.686q.062.662.075,2.747a15.261,15.261,0,0,0,.212,2.947,2.377,2.377,0,0,0,.805,1.355,2.51,2.51,0,0,0,1.567.518Z" style="fill:#f5de19"></path></svg>
+    </span></span>
+        <span class="text-sm">articleWithId.json</span>
+    </button></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs"><div role="tabpanel" data-lang="ArticleSite.fs" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-fsharp">// Define the application&#39;s endpoints
+type EndPoint =
+    | [&lt;EndPoint &quot;GET /articles&quot;&gt;]
+        ArticleList
+    | [&lt;EndPoint &quot;GET /article&quot;&gt;]
+        Article of id: int
+
+// Define the content served by these endpoints
+let Website =
+    Application.MultiPage (fun (ctx: Context&lt;_&gt;) endpoint -&gt;
+        match endpoint with
+        | ArticleList -&gt;
+            Content.Page(
+                div [] [
+                    h1 [] [text &quot;Welcome!&quot;]
+                    a [attr.href (ctx.Link (Article 42))] [
+                        text &quot;Go to article 42&quot;
+                    ]
+                ]
+            )
+        | Article id -&gt;
+            Content.Json { id = id
+                            title = &quot;Hello!&quot;
+                            date = System.DateTime.Now }
+    )
+</code></pre>
+    </div><div role="tabpanel" data-lang="articles" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-html">&lt;!-- /articles endpoint --&gt;
+&lt;div&gt;
+  &lt;h1&gt;Welcome!&lt;/h1&gt;
+  &lt;a href=&quot;/article?id=42&quot;&gt;Go to article 42&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+    </div><div role="tabpanel" data-lang="articleWithId.json" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-json">{
+  &quot;date&quot;: &quot;2025-10-01T13:50:44.3596542+02:00&quot;,
+  &quot;id&quot;: 42,
+  &quot;title&quot;: &quot;Hello!&quot;
+}
+</code></pre>
+    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    </div>
+                    <div id="csr" class="section py-16 md:flex">
+                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Client-side routing</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Write SPAs with the same routing API on the client side as you would use on the server side.</p>
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
+        <div data-name="snippet" ws-14="" class="relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-12="click" role="tab" aria-selected="false" data-target="ArticleRouter.fs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="236" height="224" viewbox="0 0 62.441665 59.266668" version="1.1">
+            <path style="fill: #378bba" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z"></path>
+            <path style="fill: #378bba" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z"></path>
+            <path style="fill: #30b9db" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">ArticleRouter.fs</span>
+    </button><button ws-13="click" role="tab" aria-selected="false" data-target="articleRouter.js" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3 w-3" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0H28V28H0V0Z" fill="#F5DE19"></path>
+            <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z" fill="black"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">articleRouter.js</span>
+    </button></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs"><div role="tabpanel" data-lang="ArticleRouter.fs" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-fsharp">let router = Router.Infer&lt;EndPoint&gt;()
+let route = router.Install(Article 1)
+
+let view =
+    route.View.Map (function
+        | Article id -&gt;
+            div [] [
+                h1 [] [text $&quot;This is article {id}&quot;]
+                a [attr.href (router.Link Articles)] [text &quot;Go back to the list of articles&quot;]
+            ]
+        | Articles -&gt;
+            h1 [] [text &quot;List of articles&quot;]
+    )
+
+let doc = Doc.BindView id view
+Doc.RunById &quot;main&quot; doc
+</code></pre>
+    </div><div role="tabpanel" data-lang="articleRouter.js" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-js">// The router installed with the initial route `Article 1`
+const router = {
+    currentRoute: { type: &quot;Article&quot;, id: 1 },
+    link: (route) =&gt; {
+        if (route.type === &quot;Articles&quot;) return &quot;/articles&quot;;
+        if (route.type === &quot;Article&quot;) return `/article/${route.id}`;
+    }
+};
+
+// Render function
+function render(route) {
+    const main = document.getElementById(&quot;main&quot;);
+    main.innerHTML = &quot;&quot;;
+
+    if (route.type === &quot;Article&quot;) {
+        const divEl = document.createElement(&quot;div&quot;);
+
+        const h1El = document.createElement(&quot;h1&quot;);
+        h1El.textContent = `This is article ${route.id}`;
+
+        const link = document.createElement(&quot;a&quot;);
+        link.href = router.link({ type: &quot;Articles&quot; });
+        link.textContent = &quot;Go back to the list of articles&quot;;
+
+        divEl.appendChild(h1El);
+        divEl.appendChild(link);
+        main.appendChild(divEl);
+    } else {
+        const h1El = document.createElement(&quot;h1&quot;);
+        h1El.textContent = &quot;List of articles&quot;;
+        main.appendChild(h1El);
+    }
+}
+
+// Initial render
+render(router.currentRoute);
+</code></pre>
+    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    </div>
+                    <div id="lc" class="section py-16 md:flex">
+                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Use powerful language constructs on the client side</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">
+                                F#: Query expressions, async workflows, sequence expressions...
+
+
+                                <br /><br />C#: LINQ queries, asynchronous Tasks, generators...
+                            </p>
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
+        <div data-name="snippet" ws-17="" class="relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-15="click" role="tab" aria-selected="false" data-target="query.fs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="236" height="224" viewbox="0 0 62.441665 59.266668" version="1.1">
+            <path style="fill: #378bba" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z"></path>
+            <path style="fill: #378bba" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z"></path>
+            <path style="fill: #30b9db" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">query.fs</span>
+    </button><button ws-16="click" role="tab" aria-selected="false" data-target="query.cs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z"></path><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z"></path><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z"></path></svg>
+    </span></span>
+        <span class="text-sm">query.cs</span>
+    </button></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs"><div role="tabpanel" data-lang="query.fs" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-fsharp">type Article = { id: int; title: string; date: DateTime }
+
+let start = DateTime(2025, 9, 1)
+
+let articles : Article list = [
+    { id = 1; title = &quot;Welcome to WebSharper&quot;; date = DateTime(2025, 9, 20) }
+    { id = 2; title = &quot;Async workflows 101&quot;; date = DateTime(2025, 8, 15) }
+    { id = 3; title = &quot;Query expressions on client&quot;; date = DateTime(2025, 9, 28) }
+    { id = 4; title = &quot;Remoting tips&quot;; date = DateTime(2025, 7, 5)  }
+]
+// Query expressions (LINQ for F#)
+let recentIds =
+    query {
+        for article in articles do
+        where (article.date &gt; start)
+        sortByDescending article.date
+        select article.id
+    }
+// Async workflows (run non-blocking work on the client)
+let loadAndShow =
+    async {
+        do! Async.Sleep 10
+        Console.Log(sprintf &quot;Recent IDs: %A&quot; (recentIds |&gt; Seq.toList))
+    }    
+
+Async.Start loadAndShow
+
+// Sequence expressions (lazy generators)
+let squares =
+    seq {
+        for i in 1 .. 5 do
+            yield i * i
+    }   
+    
+Console.Log(String.concat &quot;, &quot; (squares |&gt; Seq.map string))
+</code></pre>
+    </div><div role="tabpanel" data-lang="query.cs" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-csharp">public record Article(int Id, string Title, DateTime Date);
+// Async/await with Task (supported on client)
+public static async Task LoadAndShowAsync(IEnumerable&lt;int&gt; recentIds)
+{
+    await Task.Delay(10);
+    JS.Console.Log($&quot;Recent IDs: {string.Join(&quot;, &quot;, recentIds.Select(i =&gt; i.ToString()))}&quot;);
+}
+// Iterator (yield)
+public static IEnumerable&lt;int&gt; Squares()
+{
+    for (var i = 1; i &lt;= 5; i++)
+        yield return i * i;
+}
+public static void Main()
+{
+    var start = new DateTime(2025, 9, 1);
+
+    var articles = new List&lt;Article&gt;
+        {
+            new(1, &quot;Welcome to WebSharper&quot;, new DateTime(2025, 9, 20)),
+            new(2, &quot;Async workflows 101&quot;, new DateTime(2025, 8, 15)),
+            new(3, &quot;Query expressions on client&quot;, new DateTime(2025, 9, 28)),
+            new(4, &quot;Remoting tips&quot;, new DateTime(2025, 7, 5)),
+        };
+
+    // LINQ query
+    var recentIds =
+        from article in articles
+        where article.Date &gt; start
+        orderby article.Date descending
+        select article.Id;
+
+    LoadAndShowAsync(recentIds);
+
+    JS.Console.Log(string.Join(&quot;, &quot;, Squares().Select(i =&gt; i.ToString())));
+}
+</code></pre>
+    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    </div>
+                    <div id="tsh" class="section py-16 md:flex">
+                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Type-safe HTML templating</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">
+                                Use HTML templates to keep your logic and UI clearly separate and facilitate the collaboration between programmers and designers.
+                            </p>
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
+        <div data-name="snippet" ws-20="" class="relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-18="click" role="tab" aria-selected="false" data-target="Client.fs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="236" height="224" viewbox="0 0 62.441665 59.266668" version="1.1">
+            <path style="fill: #378bba" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z"></path>
+            <path style="fill: #378bba" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z"></path>
+            <path style="fill: #30b9db" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">Client.fs</span>
+    </button><button ws-19="click" role="tab" aria-selected="false" data-target="index" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewbox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 8-4 4 4 4m8 0 4-4-4-4m-2-3-4 14"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">index</span>
+    </button></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs"><div role="tabpanel" data-lang="Client.fs" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-fsharp">IndexTemplate.Main()
+    .Name(newName)
+    .Add(fun _ -&gt;
+        People.Add(newName.Value)
+        newName.Value &lt;- &quot;&quot;
+    )
+    .Remove(fun _ -&gt; 
+        People.Remove newName.Value                                                            
+    ) 
+    .Doc()
+</code></pre>
+    </div><div role="tabpanel" data-lang="index" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-html">&lt;h1&gt;My list of unique people&lt;/h1&gt;
+&lt;div ws-children-template=&quot;Main&quot;&gt;
+    &lt;input ws-var=&quot;Name&quot; /&gt;
+    &lt;button ws-onclick=&quot;Add&quot;&gt;Add&lt;/button&gt;
+    &lt;button ws-onclick=&quot;Remove&quot;&gt;Remove&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    </div>
+                    <div id="rwe" class="section py-16 md:flex">
+                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Remoting with ease</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">
+                                Seamlessly call server-side asynchronous functions from the client side.
+
+                                <br /><br />AJAX call, JSON serialization... Everything is handled automatically.
+                            </p>
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2">
+        <div data-name="snippet" ws-23="" class="relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-21="click" role="tab" aria-selected="false" data-target="RemoteCall.fs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="236" height="224" viewbox="0 0 62.441665 59.266668" version="1.1">
+            <path style="fill: #378bba" d="M 29.633333,59.266667 0,29.633333 29.633333,0 V 14.816667 L 14.816667,29.633333 29.633333,44.45 Z"></path>
+            <path style="fill: #378bba" d="M 29.633333,40.216667 19.05,29.633333 29.633333,19.05 Z"></path>
+            <path style="fill: #30b9db" d="M 31.75,0 V 14.816667 L 46.566667,29.633333 31.75,44.45 V 59.266667 L 62.441667,29.633333 Z"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">RemoteCall.fs</span>
+    </button><button ws-22="click" role="tab" aria-selected="false" data-target="remoteCall.js" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-3 w-3" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0H28V28H0V0Z" fill="#F5DE19"></path>
+            <path d="M18.809 21.875C19.0476 22.3596 19.4182 22.7669 19.8782 23.05C20.3383 23.3331 20.8689 23.4804 21.409 23.475C22.499 23.475 23.196 22.93 23.196 22.175C23.196 21.275 22.48 20.953 21.28 20.428L20.622 20.146C18.722 19.337 17.462 18.324 17.462 16.182C17.462 14.209 18.962 12.706 21.315 12.706C22.0767 12.651 22.8378 12.8215 23.5032 13.1962C24.1687 13.5709 24.7091 14.1332 25.057 14.813L23 16.128C22.866 15.7909 22.6327 15.5026 22.3311 15.3011C22.0295 15.0997 21.6737 14.9946 21.311 15C21.1528 14.9842 20.993 15.0015 20.8418 15.0508C20.6906 15.1001 20.5513 15.1804 20.4329 15.2865C20.3145 15.3927 20.2194 15.5223 20.1538 15.6672C20.0883 15.8121 20.0536 15.969 20.052 16.128C20.052 16.917 20.541 17.237 21.67 17.728L22.328 18.01C24.564 18.969 25.828 19.946 25.828 22.143C25.828 24.512 23.967 25.81 21.468 25.81C20.4943 25.8721 19.5235 25.651 18.6726 25.1735C17.8218 24.696 17.1273 23.9825 16.673 23.119L18.809 21.875ZM9.51401 22.103C9.92701 22.836 10.303 23.456 11.207 23.456C12.071 23.456 12.617 23.118 12.617 21.803V12.856H15.248V21.838C15.248 24.562 13.648 25.802 11.319 25.802C10.4958 25.847 9.67816 25.6419 8.97369 25.2135C8.26923 24.7851 7.71086 24.1537 7.37201 23.402L9.51401 22.103Z" fill="black"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">remoteCall.js</span>
+    </button></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs"><div role="tabpanel" data-lang="RemoteCall.fs" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-fsharp">// Server-side, remote-callable function
+[&lt;Remote&gt;]
+let ServerFn () : Async&lt;string&gt; =
+    async { return &quot;Hello, world!&quot; }
+
+// Client-side function
+[&lt;JavaScript&gt;]
+let CallServer () : unit =
+    async {
+        let! result = ServerFn()
+        Console.Log(result)
+    }
+    |&gt; Async.Start
+</code></pre>
+    </div><div role="tabpanel" data-lang="remoteCall.js" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-js">// Calling a [&lt;Remote&gt;] function from the client compiles to a typed HTTP call.
+async function CallServer() {
+    const response = await fetch(&quot;/Server/ServerFn&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        body: JSON.stringify([])
+    });
+    const result = await response.json();   // &quot;Hello, world!&quot;
+    console.log(result);
+}
+
+CallServer();
+</code></pre>
+    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <div class="mx-auto max-w-7xl px-6 lg:px-8 pb-20">
+
+            <div ws-24><div class="border-t border-gray-200 dark:border-gray-800 pt-16">
+                <div class="mx-auto max-w-2xl lg:text-center mb-12">
+                    <h2 class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Metaprogramming</h2>
+                    <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Source Code Generators</p>
+                    <p class="mt-4 text-gray-600 dark:text-gray-300">
+                        Write high-level specifications in F# (Warp) and let WebSharper generate the optimized boilerplate for you.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 mb-16">
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-96 flex flex-col">
+                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
+                            <span class="text-xs font-mono text-yellow-400">MyApp.warp</span>
+                        </div>
+                        <div class="snippet-code flex-1 overflow-hidden"><pre class="line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-[38rem] text-xs m-0 !bg-transparent"><code class="language-fsharp pt-[1px]">template Main &quot;index.html&quot;
+
+endpoint Home &quot;/&quot; return Main
+</code></pre></div>
+                    </div>
+
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-96 flex flex-col">
+                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
+                            <span class="text-xs font-mono text-blue-400">MyApp.warp_EndPoint.fs</span>
+                        </div>
+                        <div class="snippet-code flex-1 overflow-hidden"><pre class="line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-[38rem] text-xs m-0 !bg-transparent"><code class="language-fsharp pt-[1px]">namespace MyApplication
+
+open WebSharper.Sitelets
+
+type EndPoint =
+    | [&lt;EndPoint &quot;/&quot;&gt;] Home
+</code></pre></div>
+                    </div>
+
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-96 flex flex-col">
+                        <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-300 dark:border-gray-700">
+                            <span class="text-xs font-mono text-blue-400">MyApp.warp_UI.fs</span>
+                        </div>
+                        <div class="snippet-code flex-1 overflow-hidden"><pre class="line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-[38rem] text-xs m-0 !bg-transparent"><code class="language-fsharp pt-[1px]">namespace MyApplication
+
+open WebSharper.UI.Templating
+
+[&lt;JavaScript&gt;]
+module UI =
+    type MyTemplate = Template&lt;&quot;index.html&quot;&gt;
+    let Main = MyTemplate().Doc()
+</code></pre></div>
+                    </div>
+                </div>
+
+                <div class="mx-auto max-w-2xl lg:text-center mb-8">
+                    <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Interactive Explorer</h3>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 items-start h-[32rem]">
+
+                    <div class="rounded-xl bg-white dark:bg-gray-900 p-1 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-full flex flex-col">
+                        <div class="flex items-center justify-between px-4 h-14 border-b border-gray-100 dark:border-gray-800">
+                            <span class="text-xs font-mono text-yellow-500 font-semibold">MyApp.warp</span>
+                        </div>
+                        <div class="flex-1 overflow-hidden relative">
+                            <div class="snippet-code h-full w-full"><pre class="line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-[38rem] text-xs m-0 !bg-transparent"><code class="language-fsharp pt-[1px]">template Main &quot;index.html&quot;
+
+endpoint Home &quot;/&quot; return Main
+</code></pre></div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 rounded-xl bg-white dark:bg-gray-900 p-1 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 h-full flex flex-col">
+                        <div class="flex items-center gap-4 px-2 h-14 border-b border-gray-100 dark:border-gray-800">
+                            <div class="flex p-1 bg-gray-100/50 dark:bg-gray-800/50 rounded-lg w-full overflow-x-auto no-scrollbar">
+                                <button class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">EndPoint.fs</button>
+                                <button class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">UI.fs</button>
+                                <button class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">Client.fs</button>
+                                <button class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">Shared.fs</button>
+                                <button class="flex-1 min-w-max rounded-md px-3 py-1.5 text-xs font-medium transition-all">Server.fs</button>
+                            </div>
+                        </div>
+                        <div class="flex-1 overflow-hidden relative group">
+                            <div class="absolute inset-0 snippet-code"><pre class="line-numbers language-fsharp w-full rounded-xl !overflow-auto custom-scrollbar max-h-[38rem] text-xs m-0 !bg-transparent"><code class="language-fsharp pt-[1px]">namespace MyApplication
+
+open WebSharper.Sitelets
+
+type EndPoint =
+    | [&lt;EndPoint &quot;/&quot;&gt;] Home
+</code></pre></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div></div>
 
             
 
         </div>
 
-        <div></div>
-
-        <div></div>
-
-        <div></div>
-
-        <div></div>
-
-        <div></div>
-    </div></main>
+    </main>
 
     <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
         <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
@@ -421,13 +1329,13 @@ wsbundle.Features().ReplaceInDom(e2);
                             <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                            <a href="./privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                            <a href="./terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                            <a href="./cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
                         </li>
                     </ul>
                 </div>
@@ -481,12 +1389,12 @@ wsbundle.Features().ReplaceInDom(e2);
                 <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
                     <div class="flex gap-4 items-center">
                         <a href="./">
-                            <img class="size-8" src="./Assets/favicon.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <img class="size-8" src="./Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
                             <span class="sr-only">WebSharper logo</span>
                         </a>
-                        <span class="">WebSharper &copy; 2008-2025 IntelliFactory. All rights reserved.</span>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
                     </div>
-                    <span>Latest version is 10.x.x-beta1</span>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
                 </div>
             </div>
         </div>

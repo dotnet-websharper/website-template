@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><title>TodoMVC · wsocaml</title><link rel="stylesheet" href="./css/app.css"></head><body>
+		<section class="todoapp">
+			<header class="header">
+				<h1>todos</h1>
+				<input class="new-todo" placeholder="What needs to be done?" autofocus="" ws-var="newTodo" ws-onkeyup="newTodoKey" ws-onafterrender="newTodoFocus"></input>
+			</header>
+			<section class="main ${mainClass}" id="main">
+				<input id="toggle-all" class="toggle-all" type="checkbox" ws-attr="toggleAttr" ws-onclick="toggleAll"></input>
+				<label for="toggle-all">Mark all as complete</label>
+				<ul ws-hole="todos" class="todo-list"></ul>
+			</section>
+			<footer class="footer ${footerClass}" id="footer">
+				<span ws-hole="count" class="todo-count"></span>
+				<ul class="filters">
+					<li><a class="${allClass}" href="#/" ws-onclick="filterAll">All</a></li>
+					<li><a class="${activeClass}" href="#/active" ws-onclick="filterActive">Active</a></li>
+					<li><a class="${completedClass}" href="#/completed" ws-onclick="filterCompleted">Completed</a></li>
+				</ul>
+				<button class="clear-completed ${clearClass}" ws-onclick="clearCompleted">Clear completed</button>
+			</footer>
+		</section>
+		<footer class="info">
+			<p>Double-click to edit a todo</p>
+			<p>Written in OCaml with WebSharper.UI</p>
+			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+		</footer>
+	<div style="display:none" ws-children-template="todoItem">
+						<li class="${itemClass}">
+							<div class="view">
+								<input class="toggle" type="checkbox" ws-attr="toggleAttr" ws-onclick="toggle"></input>
+								<label ws-ondblclick="editStart">${title}</label>
+								<button class="destroy" ws-onclick="destroy"></button>
+							</div>
+							<input class="edit" ws-var="editText" ws-onblur="editCommit" ws-onkeydown="editKey" ws-onafterrender="editFocus"></input>
+						</li>
+					</div><script src="./app.js"></script>
+<script>globalThis.OCamlRuntime.hydrate();</script></body></html>
