@@ -60,7 +60,10 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   rendered (each page calls `Templates.XTemplate.Content()`); the page-level
   chrome copied into those files is **dead markup** — the visible header comes
   from `Layout.html`. Checked: every built page has exactly one
-  `aria-label="Global"`.
+  `aria-label="Global"`. The page template's `<head>` is dead too: the emitted
+  `<head>`/`<title>` and the head `<script>` come from `Layout.html`, so **only
+  `Layout.html`'s copy of the theme script actually runs** (the identical copies in
+  each page template are kept in sync but never emitted).
 - The five `noChrome` endpoints (Checkout, Error, Invoice, NotFound, Success)
   hide the Layout header and footer (`HeaderVisibility`/`FooterVisibility` =
   `attr.hidden ""`) and render their own chrome from their page template,
@@ -102,6 +105,26 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
 - **Diffs**: `git diff` is routed through the `difft` external diff
   (`git config diff.external`), which is unreadable in scripts — use
   `git --no-pager diff --no-ext-diff` for machine-readable patches.
+- **Rendered layout without a visible browser (Chrome + CDP)**: for anything the
+  eye checks (code-window alignment, hero alignment, theme), launch headless Chrome
+  with a debugging port and drive it over the DevTools protocol from Node (global
+  `WebSocket` exists in Node ≥22). This is how the line-number/hero alignment was
+  verified:
+
+  ```sh
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
+    --disable-gpu --no-sandbox --ignore-certificate-errors --hide-scrollbars \
+    --remote-debugging-port=9222 --window-size=1440,1000 about:blank
+  ```
+
+  Then connect to the `page` target from `http://127.0.0.1:9222/json/list`
+  (`page.webSocketDebuggerUrl`) and use:
+  - `Emulation.setEmulatedMedia` with `prefers-color-scheme: dark` to force dark.
+  - `Network.setCacheDisabled { cacheDisabled: true }` (see the CSS-cache note).
+  - `Page.captureScreenshot` with a `clip` and `captureBeyondViewport: true`
+    (plus `scale` for a zoomed read) to screenshot a region or element.
+  - `Runtime.evaluate` for geometry, e.g. compare each code line's `top` (a `Range`
+    per line) against the line-number column to confirm they line up.
 
 ## Page notes
 
@@ -198,7 +221,11 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   is the link** (`#ws-latest-version` → nuget.org/packages/WebSharper).
 - **Login**: the account dropdown and mobile menu render a non-interactive
   "Coming soon..." (no `ws-onclick`); `AuthClient.Login` / `AccountMenu` stay in the
-  codebase.
+  codebase. **Nothing login- or purchase-related was deleted** — `Src/AuthClient.fs`,
+  `Src/AccountMenu.fs`, `Src/Checkout/*`, `Src/ManageSubscription/*` and the
+  `/checkout` + `/account` routes are all still wired, and `AuthClient.Login()` is
+  still called from the checkout GitHub-login and the manage-subscription auth view;
+  only the header's "Log in" entry point was unwired.
 
 ## Placeholder & legal pages
 
@@ -221,3 +248,32 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   `Render()` returning `ul/li` → valid JSX `<ul className="person">…`; a router installed
   with `Article 1` starts at that route; and a WebSharper endpoint `GET /article` with an
   `id` field links as `/article?id=…` (a query param, not a path segment).
+
+## Snippets & static previews
+
+- A snippet's `wwwroot` is copied **verbatim** into the site: `extra.files` copies
+  `WebSharperWebsite/snippets/*` into `build/`, and `esbuild.config.mjs` copies
+  `build/snippets/<name>/wwwroot/*` into `bin/html/snippets/<name>/`, served live at
+  `./snippets/<name>/…`.
+- `.gitignore` ignores `snippets/*/wwwroot/Scripts` (the .NET snippets rebuild those),
+  but **the two OCaml previews are committed generated bundles** (this repo has no OCaml
+  toolchain in its build): `snippets/todomvc-lm/wwwroot/{app.js,index.html,css/app.css}`
+  and `snippets/ocaml-counter/wwwroot/{app.js,index.html}`; each has a README with the
+  regeneration commands (build the sample with `wsocaml`, then esbuild-bundle `Main.js`).
+- Snippet shells that adapt to `?theme` must set `color-scheme` (see "Preview iframes &
+  theme").
+
+## OCaml page
+
+`/ocaml` (`Ocaml.html`, `Src/Pages.fs` `Ocaml`) is a coming-soon-styled page:
+
+- Hero: an `Experimental` pill + an amber callout, the same `max-w-4xl` box as Warp /
+  For Teams, and GitHub + Discord buttons (no "Get started").
+- `OcamlHero` is a `VsCode` whose Preview is the **todomvc-lm** static app
+  (`./snippets/todomvc-lm/index.html`), with the wsocaml terminal
+  (`Component.WsocamlTerminal()`).
+- `OcamlReactive` is a `CodeFilesWithPreviewPanel` showing `counter.ml` with the live
+  **ocaml-counter** preview; `OcamlTiers` is a `VsCode3` (shared / server / client), and
+  the section copy highlights hydration.
+- The code fragments (`CodeFragments/ocaml/*`) are the source of truth for both the
+  displayed tabs and the preview builds; keep them valid and beginner-friendly.
