@@ -10,3 +10,5 @@ node_modules
 temp
 dist
 WebSharperWebsite/snippets/*/wwwroot/Scripts
+
+.fake
