@@ -9,9 +9,10 @@ open WebSharperWebApi
 module AuthClient = 
     [<Literal>]
 #if DEBUG
+    // Point this to your local API server or to a deployed test server
     let API = "https://localhost:8234"
 #else
-    let API = "https://api.websharper.io"
+    let API = "https://api.websharper.com"
 #endif
 
     do Remoting.EndPoint <- API

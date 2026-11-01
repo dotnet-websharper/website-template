@@ -110,8 +110,8 @@ module Api =
                 IsLoadingVar.Value <- false
         }
 
-    [<Literal>]
-    let private ContactEndpoint = "https://api.intellifactory.com/api/contact"
+    // The contact form posts to the WebSharper API (same host as the RPC endpoint).
+    let private ContactEndpoint = AuthClient.API + "/api/contact"
 
     let SendContact (form: ContactForm) : Async<bool> =
         async {

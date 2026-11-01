@@ -146,7 +146,9 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   API data, and only the `pro` and `freelancer` slots are wired; the Enterprise
   card is static and contact-sales only). `#services` is the quote-only
   professional-services block (CTAs link to `./support?quote=<slug>#contact`),
-  `#contact` posts a `FormData` to `https://api.intellifactory.com/api/contact`.
+  `#contact` posts a `FormData` (subject, message, email, name, country) to the
+  WebSharper API's `POST /api/contact` — `AuthClient.API + "/api/contact"` in
+  `Src/Support/SupportApi.fs`.
   `ApplyQuoteSubject()` in `Src/Support/Page.fs` reads `?quote=` and presets the
   subject before `HydrateCatalog()` runs. **Note:** the `/support` route now renders
   the For Teams coming-soon page (`ForTeams.html`); the Support machinery above is kept
