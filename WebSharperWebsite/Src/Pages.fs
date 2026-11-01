@@ -28,6 +28,14 @@ module ClientPages =
         Templates.LayoutTemplate()
             .ToggleMenu(fun _ -> ToggleMenu())
             .ToggleTheme(fun _ -> Theme.Toggle())
+            // Newsletter (footer) — rendered client-side so its `ws-var` binds.
+            .Newsletter(
+                Templates.NewsletterTemplate()
+                    .SubscribeEmail(Newsletter.EmailVar)
+                    .OnSubscribe(Newsletter.OnSubscribe)
+                    .SubscribeStatus(Doc.TextView Newsletter.StatusVar.View)
+                    .Doc()
+            )
             // Account menu bindings
             .OnKeyDown(AccountMenu.CloseOnEscape)
             .OnStopPropagation(AccountMenu.StopPropagation)
