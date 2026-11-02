@@ -404,8 +404,41 @@
 
     <main ws-children-template="Content">
         <div class="space-y-40" ws-onafterrender="OnAfterRender">
-            <section>
-                <div class="mx-auto max-w-6xl px-6 pt-36 sm:pt-40 lg:px-8 lg:pb-12 lg:pt-48 xl:px-0 2xl:max-w-7xl">
+            <section class="relative overflow-x-clip">
+                <div class="relative mx-auto max-w-6xl px-6 pt-36 sm:pt-40 lg:px-8 lg:pb-12 lg:pt-48 xl:px-0 2xl:max-w-7xl">
+                    <!-- Decorative graphics in the page gutters, outside the content
+                         box, so they never push the hero title/text down. -->
+                    <div aria-hidden="true" class="pointer-events-none absolute right-full top-40 mr-3 hidden w-24 -rotate-6 select-none 2xl:block min-[1728px]:mr-6 min-[1728px]:w-44">
+                        <div class="rounded-2xl border border-gray-200/80 bg-white/70 p-3 shadow-xl shadow-gray-950/5 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/60">
+                            <div class="flex gap-1.5 pb-3">
+                                <span class="h-2.5 w-2.5 rounded-full" style="background-color:#ff5f57"></span>
+                                <span class="h-2.5 w-2.5 rounded-full" style="background-color:#febc2e"></span>
+                                <span class="h-2.5 w-2.5 rounded-full" style="background-color:#28c840"></span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="h-2 w-3/4 rounded-full bg-brand-primary/50"></div>
+                                <div class="h-2 w-1/2 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+                                <div class="h-2 w-2/3 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+                                <div class="h-2 w-2/5 rounded-full bg-brand-primary/30"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div aria-hidden="true" class="pointer-events-none absolute left-full top-[34rem] ml-3 hidden w-24 rotate-6 select-none 2xl:block min-[1728px]:ml-6 min-[1728px]:w-44">
+                        <div class="rounded-2xl border border-gray-200/80 bg-white/70 p-3 shadow-xl shadow-gray-950/5 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/60">
+                            <div class="flex gap-1.5 pb-3">
+                                <span class="h-2.5 w-2.5 rounded-full" style="background-color:#ff5f57"></span>
+                                <span class="h-2.5 w-2.5 rounded-full" style="background-color:#febc2e"></span>
+                                <span class="h-2.5 w-2.5 rounded-full" style="background-color:#28c840"></span>
+                            </div>
+                            <div class="flex h-16 items-end gap-2">
+                                <div class="flex-1 rounded-md bg-brand-primary/30" style="height:45%"></div>
+                                <div class="flex-1 rounded-md bg-brand-primary/60" style="height:75%"></div>
+                                <div class="flex-1 rounded-md bg-brand-primary/40" style="height:55%"></div>
+                                <div class="flex-1 rounded-md bg-brand-primary/80" style="height:95%"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="relative z-10 text-center w-full">
                         <!-- Headline -->
                         <h1 class="max-w-2xl mx-auto text-gray-950 dark:text-white text-4xl font-bold sm:text-5xl">Build full-stack web apps. Stay in F#.</h1>
@@ -441,10 +474,10 @@
                     <!-- Sample code -->
                     <div id="code-snippet" class="scroll-my-16 relative z-10 mt-20 xl:w-4/5 mx-auto" ws-hole="VsCodeDemo"></div>
 
-                    <!-- Shaded background color -->
-                    <div class="dark:hidden absolute -bottom-1/4 left-1/2 -z-20 h-[500px] w-screen -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.gray.200/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.gray.200/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)]"></div>
-                    <div class="hidden dark:block absolute -bottom-1/4 left-1/2 -z-20 h-[500px] w-screen -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.gray.900/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.gray.900/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)]"></div>
-                    <div class="absolute h-96 inset-x-[10%] -bottom-[20%] my-auto hidden dark:block">
+                    <!-- Shaded background, behind the hero text -->
+                    <div class="dark:hidden absolute top-0 left-1/2 -z-20 h-[500px] w-screen -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.gray.200/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.gray.200/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)]"></div>
+                    <div class="hidden dark:block absolute top-0 left-1/2 -z-20 h-[500px] w-screen -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.gray.900/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.gray.900/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)]"></div>
+                    <div class="absolute h-96 inset-x-[10%] top-16 hidden dark:block">
                         <div aria-hidden="true" class="grid grid-cols-2 -space-x-52 opacity-50 dark:opacity-50 2xl:mx-auto 2xl:max-w-6xl">
                             <!--background colors here -->
                             <div class="h-72 bg-gradient-to-br from-pink-400 to-purple-400 blur-3xl dark:from-blue-800"></div>
