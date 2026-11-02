@@ -18,7 +18,14 @@ module Examples =
 
     let ActiveTab : Var<Tab> = 
         if IsClient then
-            if JS.Document.Location.Hash = "" then
+            let loc = JS.Document.Location
+
+            // The page is published at /examples/ (examples/index.html) so the hash
+            // reads as /examples/#/charts; send older /examples links there too.
+            if not (loc.Pathname.EndsWith "/") then
+                JS.Window.Location.Replace(loc.Pathname + "/" + loc.Hash)
+
+            if loc.Hash = "" then
                 JS.Document.Location.Hash <- "/charts"
 
             Router.Infer<Tab>()
@@ -29,11 +36,7 @@ module Examples =
     let private tabAttr targetTab =
         ActiveTab.View 
         |> View.Map (fun current -> current = targetTab)
-        |> fun isActive -> 
-            Attr.Concat [
-                Attr.DynamicClassPred "bg-gray-200" isActive
-                Attr.DynamicClassPred "dark:bg-white/5" isActive
-            ]
+        |> Attr.DynamicClassPred "active-link"
 
     // Tab Content Generators
 

@@ -105,4 +105,11 @@
     <Exec Command="node ./esbuild.config.mjs" />
   </Target>
 
+  <!-- Serve the Examples page from a directory so its client-side hash router reads
+       as /examples/#/charts. GitHub Pages serves /examples/ from examples/index.html;
+       the copy's URLs are made root-absolute (see makeExamplesIndex.mjs). -->
+  <Target Name="ExamplesDirectoryIndex" AfterTargets="ESBuildBundle">
+    <Exec Command="node &quot;$(MSBuildThisFileDirectory)makeExamplesIndex.mjs&quot; &quot;$(MSBuildThisFileDirectory)bin/html&quot;" />
+  </Target>
+
 </Project>

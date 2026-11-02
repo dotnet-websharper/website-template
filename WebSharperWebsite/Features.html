@@ -405,6 +405,44 @@
         <section>
             <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl pt-28">
 
+            <div class="mx-auto max-w-3xl text-center mb-16 lg:mb-24">
+                <h2 class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Why WebSharper</h2>
+                <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">One language across the whole stack</h1>
+                <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                    Write your reactive UI, your server endpoints and the types they share in a single F# codebase. WebSharper compiles it to a native .NET server and a JavaScript client that stay in sync — with typed calls instead of hand-written fetch and JSON glue.
+                </p>
+                <svg viewBox="0 0 900 240" role="img" aria-label="A browser client and a .NET server sharing F# types and typed calls" class="mx-auto mt-12 h-auto w-full max-w-4xl text-gray-900 dark:text-white">
+                    <defs>
+                        <marker id="features-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M0 0L10 5L0 10z" fill="currentColor" opacity="0.55" />
+                        </marker>
+                    </defs>
+                    <g fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.5">
+                        <rect x="20" y="30" width="250" height="150" rx="14" />
+                        <rect x="630" y="30" width="250" height="150" rx="14" />
+                        <rect x="340" y="30" width="220" height="150" rx="14" class="fill-brand-primary/15 stroke-brand-primary/45 dark:fill-brand-primary/20 dark:stroke-brand-primary/55" stroke-opacity="1" />
+                        <path d="M270 78 H340" marker-end="url(#features-arrow)" />
+                        <path d="M340 132 H270" marker-end="url(#features-arrow)" />
+                        <path d="M560 78 H630" marker-end="url(#features-arrow)" />
+                        <path d="M630 132 H560" marker-end="url(#features-arrow)" />
+                    </g>
+                    <g fill="currentColor" text-anchor="middle" font-size="15">
+                        <text x="145" y="98">Browser client</text>
+                        <text x="145" y="122" opacity="0.6" font-size="12">reactive UI · DOM</text>
+                        <text x="145" y="144" opacity="0.6" font-size="12">typed remoting</text>
+                        <text x="450" y="98">Shared F# types</text>
+                        <text x="450" y="122" opacity="0.6" font-size="12">routing · data</text>
+                        <text x="450" y="144" opacity="0.6" font-size="12">used on both sides</text>
+                        <text x="755" y="98">.NET server</text>
+                        <text x="755" y="122" opacity="0.6" font-size="12">sitelets · async</text>
+                        <text x="755" y="144" opacity="0.6" font-size="12">JSON · webhooks</text>
+                    </g>
+                    <g fill="currentColor" text-anchor="middle" font-size="12" opacity="0.55">
+                        <text x="450" y="215">Typed calls and shared types across the boundary — no hand-written fetch or serialization.</text>
+                    </g>
+                </svg>
+            </div>
+
             <div class="relative lg:flex">
                 <div class="sticky top-[33%] mb-16 mt-24 hidden h-max justify-end lg:flex lg:w-[10rem] xl:w-[6rem]">
                     <div class="sticky top-32 ml-auto flex flex-col items-end space-y-4">
