@@ -1,5 +1,27 @@
 ﻿import { cpSync, readdirSync, existsSync } from 'fs'
+import path from 'path'
 import { build } from 'esbuild'
+
+// WebSharper 10.1 emits local `JS.ImportFile` resources as
+// `.../Content/WebSharper/<Assembly>/<file>` imports, while this "html"
+// project's output places them under `build/Scripts/WebSharper/<Assembly>/`.
+// Resolve the former from the latter (and relative paths such as Tailwind's
+// `../../tailwind.css` from `build/`).
+const websharperContentImports = {
+    name: 'websharper-content-imports',
+    setup(build) {
+        build.onResolve({ filter: /\/Content\/WebSharper\// }, (args) => {
+            const suffix = args.path.split('/Content/WebSharper/')[1]
+            if (!suffix) return null
+            const candidates = [
+                path.resolve('./build/Scripts/WebSharper', suffix),
+                path.resolve('./build', suffix),
+            ]
+            const found = candidates.find(existsSync)
+            return found ? { path: found } : null
+        })
+    },
+}
 
 cpSync('./build/', './bin/html/', { recursive: true, filter: src => src == "./build/" || src.endsWith(".html") });
 cpSync('./build/Assets/', './bin/html/Assets/', { recursive: true });
@@ -29,7 +51,8 @@ prebundles.forEach(file => {
             minify: true,
             format: 'iife',
             outfile: 'bin/html/Scripts/WebSharper/' + file,
-            globalName: 'wsbundle'
+            globalName: 'wsbundle',
+            plugins: [websharperContentImports]
         };
 
         console.log("Bundling:", file);
@@ -49,6 +72,7 @@ if (existsSync('./build/Scripts/WebSharper/workers/')) {
                 minify: true,
                 format: 'iife',
                 outfile: 'wwwroot/Scripts/WebSharper/workers/' + file,
+                plugins: [websharperContentImports]
             };
 
             console.log("Bundling worker:", file);

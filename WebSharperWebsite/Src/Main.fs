@@ -201,9 +201,7 @@ type Website() =
     interface IWebsite<EndPoint> with
         member this.Sitelet = 
             Site.Main
-            |> Sitelet.WithSettings [
-                "LogBundleChoice", "true" 
-            ]
+            |> Sitelet.WithSettings (Seq.singleton ("LogBundleChoice", "true"))
         member this.Actions = [
             Home; Features; Examples; Support; Warp; Ocaml; Checkout 
             Error; Invoice; MyAccount; Success; NotFound

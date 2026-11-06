@@ -13,6 +13,14 @@ dotnet build WebSharperWebsite/WebSharperWebsite.fsproj -c Release --no-incremen
 - The `ESBuildBundle` target (after `WebSharperCompile`) runs `npm install`,
   `npm run css:build` (Tailwind v4 → `build/tailwind.css`) and
   `node ./esbuild.config.mjs`.
+- Package versions: `WebSharper` / `WebSharper.FSharp` `10.1.9.686`,
+  `WebSharper.UI` `10.1.7.686`, `WebSharper.SweetAlert` `10.1.0.667`.
+- WS 10.1 emits local `JS.ImportFile` resources as
+  `.../Content/WebSharper/<Assembly>/<file>` imports, but the `html` project
+  output puts them under `build/Scripts/WebSharper/<Assembly>/`. The
+  `websharper-content-imports` plugin in `esbuild.config.mjs` resolves the
+  former from the latter (and `../../tailwind.css` from `build/`); without it
+  the bundle fails on `Styles/prism-override.css`.
 - Output lands in `WebSharperWebsite/bin/html/` (`*.html`, `Assets/`,
   `snippets/`, `Scripts/WebSharper/*.{js,css}`).
 - `--no-incremental` matters: **`.html` edits do not reliably trigger a
