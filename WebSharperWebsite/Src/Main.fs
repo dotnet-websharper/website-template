@@ -9,6 +9,7 @@ type EndPoint =
     | [<EndPoint "GET /">] Home
     | [<EndPoint "GET /features">] Features
     | [<EndPoint "GET /examples">] Examples
+    | [<EndPoint "GET /bindings">] Bindings
     | [<EndPoint "GET /support">] Support
     | [<EndPoint "GET /warp">] Warp
     | [<EndPoint "GET /ocaml">] Ocaml
@@ -74,6 +75,14 @@ module Site =
                 hydrate (ClientPages.Examples())
             ],
             Bundle = "examples"
+        )
+
+    let BindingsPage =
+        Content.Page(
+            Templating.Layout EndPoint.Bindings [
+                ServerPages.Bindings()
+            ],
+            Bundle = "bindings"
         )
 
     let SupportPage =
@@ -182,6 +191,7 @@ module Site =
             | Home -> HomePage
             | Features -> FeaturesPage
             | Examples -> ExamplesPage
+            | Bindings -> BindingsPage
             | Support -> SupportPage
             | Warp -> WarpPage
             | Ocaml -> OcamlPage
@@ -203,7 +213,7 @@ type Website() =
             Site.Main
             |> Sitelet.WithSettings (Seq.singleton ("LogBundleChoice", "true"))
         member this.Actions = [
-            Home; Features; Examples; Support; Warp; Ocaml; Checkout 
+            Home; Features; Examples; Bindings; Support; Warp; Ocaml; Checkout 
             Error; Invoice; MyAccount; Success; NotFound
             PrivacyPolicy; TermsOfUse; CookiePolicy
         ]

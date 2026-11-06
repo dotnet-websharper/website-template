@@ -163,6 +163,9 @@ module ServerPages =
                 .Doc()
         )
 
+    let Bindings () =
+        Bindings.BindingsDoc()
+
     let Features () =
         Content.BundleScope "features" (
             Templates.FeaturesTemplate.Content()

@@ -1,0 +1,99 @@
+<main ws-children-template="Content">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 pt-28 pb-20">
+        <div class="mx-auto max-w-3xl text-center">
+            <p class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Bindings</p>
+            <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">Typed bindings for the JavaScript ecosystem</h1>
+            <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                Hand-written, strongly typed F# and C# wrappers for the libraries and browser APIs you already use. Each package targets a specific upstream version, so the types match the JavaScript you actually ship.
+            </p>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <a href="#libraries" class="group relative flex h-9 items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                    <span class="relative text-sm font-medium text-gray-600 dark:text-white">${LibraryCount} JavaScript libraries</span>
+                </a>
+                <a href="#browser-apis" class="group relative flex h-9 items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-gray-100 before:transition before:duration-300 hover:before:bg-gray-200 active:duration-75 active:before:scale-95 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                    <span class="relative text-sm font-medium text-gray-600 dark:text-white">${BrowserCount} browser APIs</span>
+                </a>
+            </div>
+            <p class="mt-6 text-xs text-gray-500 dark:text-gray-500">Binding versions are refreshed from NuGet. Library versions show the latest stable release on npm.</p>
+        </div>
+
+        <section id="libraries" class="mt-20 scroll-mt-28">
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div class="max-w-2xl">
+                        <h2 class="text-2xl font-bold tracking-tight text-gray-950 dark:text-white">JavaScript libraries</h2>
+                        <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-400">Typed wrappers for charting, maps, editors, documents, UI frameworks and more.</p>
+                    </div>
+                    <div class="relative w-full sm:w-64">
+                        <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                        <input type="search" data-binding-search="#libraries" placeholder="Filter libraries…" class="w-full rounded-full border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 transition duration-300 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary/20 dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500" />
+                    </div>
+                </div>
+                <div ws-hole="LibraryCategoryNav" class="flex flex-wrap gap-3"></div>
+            </div>
+            <div ws-hole="LibrarySections"></div>
+        </section>
+
+        <section id="browser-apis" class="mt-20 scroll-mt-28">
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div class="max-w-2xl">
+                        <h2 class="text-2xl font-bold tracking-tight text-gray-950 dark:text-white">Browser APIs</h2>
+                        <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-400">Typed access to modern browser APIs — no third-party library, no hand-written interop.</p>
+                    </div>
+                    <div class="relative w-full sm:w-64">
+                        <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                        <input type="search" data-binding-search="#browser-apis" placeholder="Filter browser APIs…" class="w-full rounded-full border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 transition duration-300 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary/20 dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500" />
+                    </div>
+                </div>
+                <div ws-hole="BrowserCategoryNav" class="flex flex-wrap gap-3"></div>
+            </div>
+            <div ws-hole="BrowserSections"></div>
+        </section>
+
+        <div class="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <a href="https://www.nuget.org/packages?q=WebSharper" target="_blank" rel="noopener" class="group relative flex h-10 items-center px-5 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                <span class="relative text-sm font-medium text-gray-600 dark:text-white">Browse all packages on NuGet <span aria-hidden="true">→</span></span>
+            </a>
+            <a href="https://github.com/dotnet-websharper" target="_blank" rel="noopener" class="text-sm font-medium text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Bindings on GitHub <span aria-hidden="true">→</span></a>
+        </div>
+    </div>
+
+    <div ws-template="LibraryCard" data-binding-card="" data-binding-name="${Name}" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">${Name}</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">${PackageName} <span ws-attr="VersionAttr" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">${PackageVersion}</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">${BoundVersion}</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">${Description}</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">${LatestVersion}</span>
+                <span ws-attr="StatusAttr" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">${StatusLabel}</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="${WebsiteUrl}" ws-attr="WebsiteAttr" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="${NuGetUrl}" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="${SourceUrl}" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="${SampleUrl}" ws-attr="SampleAttr" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">${SampleLabel}</a>
+            </div>
+    </div>
+
+    <div ws-template="BrowserCard" data-binding-card="" data-binding-name="${Name}" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">${Name}</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">${PackageName} <span ws-attr="VersionAttr" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">${PackageVersion}</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">${Description}</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="${WebsiteUrl}" ws-attr="WebsiteAttr" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="${NuGetUrl}" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="${SourceUrl}" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div>
+</main>

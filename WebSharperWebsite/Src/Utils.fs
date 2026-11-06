@@ -12,6 +12,7 @@ module Templates =
     type HomeTemplate = Template<"Home.html">
     type FeaturesTemplate = Template<"Features.html">
     type ExamplesTemplate = Template<"Examples.html">
+    type BindingsTemplate = Template<"Bindings.html">
     type DownloadTemplate = Template<"Download.html">
     type SupportTemplate = Template<"Support.html">
     type DslAiTemplate = Template<"DslAi.html">
