@@ -161,6 +161,22 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   subject before `HydrateCatalog()` runs. **Note:** the `/support` route now renders
   the For Teams coming-soon page (`ForTeams.html`); the Support machinery above is kept
   in the codebase but no longer wired to the route.
+- **Examples → samples sections** (`Examples.html`, below the interactive
+  tabs): nine client-only cards (2048, Mvu, D3, MathJS, JsPDF, CodeMirror, Forms,
+  WebSpeech, ShoppingCart) plus two full-stack cards (WebSocketChart,
+  PeopleAPI + PeopleClient). The markup is static — no F# holes — so adding or
+  reordering a card needs only an `Examples.html` change. Card screenshots are
+  800×600 JPEGs under `Assets/images/samples/` (4:3, quality 82). Use
+  **root-absolute** `/Assets/images/samples/...` paths: the page is hydrated
+  from the client template at `/examples/`, where `./Assets` would resolve to
+  `/examples/Assets` (`makeExamplesIndex.mjs` only rewrites the static HTML
+  copy). WebSocketChart's image comes from its repo screenshot; People's was
+  captured against a locally running PeopleAPI (the public PeopleClient Pages
+  deployment still serves the old UI and hardcodes `http://localhost:5585`).
+  Client screenshots were recaptured with `~/.opencode-tools/shot` (Playwright),
+  with light interactions to make them representative (2048 arrow moves, Mvu
+  todos, a filled Forms form with pets, a populated ShoppingCart) and `zoom`
+  where the UI is taller than the 4:3 crop.
 - **Snippet tabs** (`SnippetCode.fs` + `Js/line-numbers.js`): tab `data-target`
   values must match a panel's `data-lang` and be unique per tab set — key them by
   the tab **Label**, not the Prism `Lang`.
