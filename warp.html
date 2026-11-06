@@ -126,10 +126,51 @@ wsbundle.Layout().ReplaceInDom(e1);
                 .catch(() => {});
         }
 
+        // Refresh binding versions from NuGet (Bindings page).
+        function loadBindingVersions() {
+            const els = document.querySelectorAll("[data-nuget-package]");
+            if (!els.length) return;
+            fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=false")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = new Map((d.data || []).map((p) => [p.id.toLowerCase(), p.version]));
+                    els.forEach((el) => {
+                        const v = versions.get(el.getAttribute("data-nuget-package").toLowerCase());
+                        if (v) el.textContent = v;
+                    });
+                })
+                .catch(() => {});
+        }
+
+        // Filter the bindings in a section by name (case-insensitive, partial match).
+        function initBindingSearch() {
+            document.querySelectorAll("[data-binding-search]").forEach((input) => {
+                const root = document.querySelector(input.getAttribute("data-binding-search"));
+                if (!root) return;
+                const update = () => {
+                    const q = input.value.trim().toLowerCase();
+                    root.querySelectorAll("[data-binding-card]").forEach((card) => {
+                        const name = (card.getAttribute("data-binding-name") || "").toLowerCase();
+                        card.style.display = !q || name.indexOf(q) !== -1 ? "" : "none";
+                    });
+                    root.querySelectorAll("[data-binding-section]").forEach((section) => {
+                        const visible = Array.prototype.some.call(
+                            section.querySelectorAll("[data-binding-card]"),
+                            (c) => c.style.display !== "none"
+                        );
+                        section.style.display = visible ? "" : "none";
+                    });
+                };
+                input.addEventListener("input", update);
+            });
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             markActiveNav();
             updateAllIframesTheme(resolveTheme(getInitialTheme()));
             loadLatestVersion();
+            loadBindingVersions();
+            initBindingSearch();
         });
 
     </script>
@@ -173,6 +214,7 @@ wsbundle.Layout().ReplaceInDom(e1);
                 <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
                     <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
                     <a href="./examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                    <a href="./bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
                     <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
                     <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
                     <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
@@ -275,6 +317,7 @@ wsbundle.Layout().ReplaceInDom(e1);
                             <div class="flex flex-col space-y-6 py-6">
                                 <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
                                 <a href="./examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                                <a href="./bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
                                 <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
                                 <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
                                 <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
@@ -628,6 +671,9 @@ wsbundle.Layout().ReplaceInDom(e1);
                 <div class="sm:col-start-3 md:col-start-auto">
                     <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
                     <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="./bindings" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
                         <li>
                             <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
                         </li>

@@ -1,0 +1,1262 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" ws-2="">
+<head>
+    <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+    <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta property="og:url" content="https://websharper.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WebSharper" />
+    <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta property="og:image" content="" />
+
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="websharper.com" />
+    <meta property="twitter:url" content="https://websharper.com/" />
+    <meta name="twitter:title" content="WebSharper" />
+    <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta name="twitter:image" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
+
+    <link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/all.css"></link>
+<script src="./Scripts/WebSharper/all.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+});
+</script>
+
+
+    <script>
+        const DOC = document.documentElement;
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
+            }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        // Refresh binding versions from NuGet (Bindings page).
+        function loadBindingVersions() {
+            const els = document.querySelectorAll("[data-nuget-package]");
+            if (!els.length) return;
+            fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=false")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = new Map((d.data || []).map((p) => [p.id.toLowerCase(), p.version]));
+                    els.forEach((el) => {
+                        const v = versions.get(el.getAttribute("data-nuget-package").toLowerCase());
+                        if (v) el.textContent = v;
+                    });
+                })
+                .catch(() => {});
+        }
+
+        // Filter the bindings in a section by name (case-insensitive, partial match).
+        function initBindingSearch() {
+            document.querySelectorAll("[data-binding-search]").forEach((input) => {
+                const root = document.querySelector(input.getAttribute("data-binding-search"));
+                if (!root) return;
+                const update = () => {
+                    const q = input.value.trim().toLowerCase();
+                    root.querySelectorAll("[data-binding-card]").forEach((card) => {
+                        const name = (card.getAttribute("data-binding-name") || "").toLowerCase();
+                        card.style.display = !q || name.indexOf(q) !== -1 ? "" : "none";
+                    });
+                    root.querySelectorAll("[data-binding-section]").forEach((section) => {
+                        const visible = Array.prototype.some.call(
+                            section.querySelectorAll("[data-binding-card]"),
+                            (c) => c.style.display !== "none"
+                        );
+                        section.style.display = visible ? "" : "none";
+                    });
+                };
+                input.addEventListener("input", update);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
+            loadBindingVersions();
+            initBindingSearch();
+        });
+
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-950 overflow-x-hidden">
+    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
+        <div class="px-6 py-4 lg:px-8">
+            <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                <div class="flex lg:flex-1">
+                    <a href="./" class="-m-1.5 flex items-center gap-2.5 p-1.5">
+                        <img class="h-9 w-9" src="./Assets/logo.png" alt="" width="164" height="164" />
+                        <span class="text-lg font-bold tracking-tight text-gray-950 dark:text-white">WebSharper</span>
+                    </a>
+                </div>
+                <div class="flex gap-4 lg:hidden">
+                    <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-10 w-10 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition dark:fill-gray-300 relative m-auto hidden h-6 w-6 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition relative m-auto h-6 w-6 fill-gray-500/80 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <button ws-onclick="ToggleMenu" id="openMenu" type="button" class="cursor-pointer text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                        <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                            <span class="sr-only">Open main menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                        </div>
+                        <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                            <span class="sr-only">Close menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
+                    <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="./examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                    <a href="./bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                    <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                    <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                </div>
+                <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                    <button ws-onclick="ToggleTheme" aria-label="switch theme" class="cursor-pointer group h-9 w-9 rounded-full transition duration-500 hover:bg-gray-200/20 dark:hover:bg-white/10 lg:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition dark:fill-gray-300 relative m-auto hidden h-5 w-5 fill-gray-200 duration-300 group-hover:rotate-180 group-hover:fill-white dark:block" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="transition relative m-auto h-5 w-5 fill-gray-700 duration-300 group-hover:-rotate-90 group-hover:fill-gray-600/80 dark:hidden" viewbox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <ul class="flex items-center gap-1">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                </svg>
+                                <span class="sr-only">WebSharper GitHub organization</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                </svg>
+                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                </svg>
+                                <span class="sr-only">Join WebSharper community on Discord</span>
+                            </a>
+                        </li>
+                        
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
+                            <button id="accountBtn" class="cursor-pointer group flex h-9 w-9 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-haspopup="menu" aria-expanded="false" aria-label="Account" ws-attr="AccountBtnAria" ws-onclick="AccountBtnClick" ws-onkeydown="AccountBtnKeyDown">
+
+                                <div ws-attr="SkeletonAttr" class="absolute inset-0 m-auto h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse transition-opacity duration-500 ease-out">
+                                </div>
+
+                                <img id="accountAvatar" class="h-9 w-9 rounded-full ring-1 ring-black/5 dark:ring-white/10 transition-opacity duration-500 ease-out opacity-0" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
+
+                                <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" class="m-auto h-4 w-4 text-gray-700 transition-all duration-300 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white ease-out opacity-0" fill="currentColor" aria-hidden="true" ws-attr="IconAttr">
+                                    <path fill-rule="evenodd" d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+
+                            
+                            <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10" ws-attr="DropdownAttr">
+                                <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
+
+                                
+                                <a id="btnManage" href="./account" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
+                                    My account
+                                </a>
+                                <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path></svg>
+                                    Log out
+                                </button>
+
+                                
+                                <div id="btnLogin" class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttrD" aria-disabled="true">
+                                    
+                                    <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                    </svg>
+                                    Coming soon...
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900 dark:backdrop-blur-3xl">
+                    <div class="mt-24 flow-root">
+                        <div class="divide-y divide-gray-200 dark:divide-white">
+
+                            <div class="flex flex-col space-y-6 py-6">
+                                <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="./examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                                <a href="./bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                                <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                                <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                                <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                            </div>
+
+                            <div class="py-6">
+                                <ul class="flex gap-x-4">
+                                    <li>
+                                        <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                            </svg>
+                                            <span class="sr-only">WebSharper GitHub organization</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                            </svg>
+                                            <span class="sr-only">Follow WebSharper on Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                            </svg>
+                                            <span class="sr-only">Join WebSharper community on Discord</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="py-6">
+                                <div data-account-menu="" data-variant="mobile" class="flex flex-col gap-2">
+                                    <div data-el="header" class="hidden flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttr">
+
+                                        <img ws-attr="AvatarAttrHamburger" src="" alt="Profile" class="h-9 w-9 rounded-full bg-gray-100 ring-1 ring-black/5 dark:bg-gray-800 dark:ring-white/10" />
+
+                                        <span class="font-medium">${AccountHeaderText}</span>
+                                    </div>
+
+                                    <a data-el="manage" href="./account" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
+                                        </svg>
+                                        My account
+                                    </a>
+
+                                    <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path>
+                                            <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path>
+                                        </svg>
+                                        Log out
+                                    </button>
+
+                                    <div data-el="login" class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttr" aria-disabled="true">
+                                        <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                        </svg>
+                                        Coming soon...
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 pt-28 pb-20">
+        <div class="mx-auto max-w-3xl text-center">
+            <p class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Bindings</p>
+            <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">Typed bindings for the JavaScript ecosystem</h1>
+            <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                Hand-written, strongly typed F# and C# wrappers for the libraries and browser APIs you already use. Each package targets a specific upstream version, so the types match the JavaScript you actually ship.
+            </p>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <a href="#libraries" class="group relative flex h-9 items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                    <span class="relative text-sm font-medium text-gray-600 dark:text-white">27 JavaScript libraries</span>
+                </a>
+                <a href="#browser-apis" class="group relative flex h-9 items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-gray-100 before:transition before:duration-300 hover:before:bg-gray-200 active:duration-75 active:before:scale-95 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                    <span class="relative text-sm font-medium text-gray-600 dark:text-white">11 browser APIs</span>
+                </a>
+            </div>
+            <p class="mt-6 text-xs text-gray-500 dark:text-gray-500">Binding versions are refreshed from NuGet. Library versions show the latest stable release on npm.</p>
+        </div>
+
+        <section id="libraries" class="mt-20 scroll-mt-28">
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div class="max-w-2xl">
+                        <h2 class="text-2xl font-bold tracking-tight text-gray-950 dark:text-white">JavaScript libraries</h2>
+                        <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-400">Typed wrappers for charting, maps, editors, documents, UI frameworks and more.</p>
+                    </div>
+                    <div class="relative w-full sm:w-64">
+                        <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                        <input type="search" data-binding-search="#libraries" placeholder="Filter libraries…" class="w-full rounded-full border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 transition duration-300 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary/20 dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500" />
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-3"><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#charts-visualization">Charts &amp; visualization<span class="text-gray-400 dark:text-gray-500">6</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#editors-documents">Editors &amp; documents<span class="text-gray-400 dark:text-gray-500">5</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#ui-components">UI components<span class="text-gray-400 dark:text-gray-500">5</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#maps-geo">Maps &amp; geo<span class="text-gray-400 dark:text-gray-500">2</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#utilities-dates">Utilities &amp; dates<span class="text-gray-400 dark:text-gray-500">4</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#math-typesetting">Math &amp; typesetting<span class="text-gray-400 dark:text-gray-500">2</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#mobile-native">Mobile &amp; native<span class="text-gray-400 dark:text-gray-500">3</span></a></div>
+            </div>
+            <div><section class="mt-14 scroll-mt-28" id="charts-visualization" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Charts &amp; visualization</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">6</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="Chart.js" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Chart.js</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.ChartJs <span data-nuget-package="WebSharper.ChartJs" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">4.4.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Canvas charts — line, bar, radar, doughnut and more — configured through a typed model.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">4.6.1</span>
+                <span data-status="recent" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Recent</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.chartjs.org/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.ChartJs" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/chartjs" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/ChartJS/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="D3" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">D3</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.D3 <span data-nuget-package="WebSharper.D3" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">7.9.2</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Data-driven documents: selections, scales, shapes, transitions and geo projections.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">7.9.2</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://d3js.org/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.D3" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/d3" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/D3/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Highcharts" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Highcharts</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Highcharts <span data-nuget-package="WebSharper.Highcharts" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">latest</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Interactive charts, Highstock and Highmaps, generated from the official Highcharts API.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">13.1.1</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.highcharts.com/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Highcharts" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/highcharts" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/HighCharts/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Highstock" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Highstock</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Highstock <span data-nuget-package="WebSharper.Highstock" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">latest</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Time-series and financial charts with navigator, range selector and data grouping.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">13.1.1</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.highcharts.com/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Highstock" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/highcharts" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/HighCharts/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Highmaps" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Highmaps</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Highmaps <span data-nuget-package="WebSharper.Highmaps" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">latest</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Geographic maps and map series, generated from the official Highcharts API.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">13.1.1</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.highcharts.com/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Highmaps" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/highcharts" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/HighCharts/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Plotly.js" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Plotly.js</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Plotly <span data-nuget-package="WebSharper.Plotly" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">2.26.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Interactive scientific and statistical charts with a typed trace and layout model.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">4.2.0</span>
+                <span hidden="" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300"></span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://plotly.com/javascript/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Plotly" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/plotly" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://dotnet-websharper.github.io/plotly/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Test case</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="editors-documents" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Editors &amp; documents</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">5</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="CodeMirror" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">CodeMirror</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.CodeMirror <span data-nuget-package="WebSharper.CodeMirror" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">6.0.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">The modular CodeMirror 6 editor, with typed language extensions and themes.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">6.0.2</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://codemirror.net/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.CodeMirror" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/codemirror" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/CodeMirror/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="highlight.js" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">highlight.js</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.HighlightJS <span data-nuget-package="WebSharper.HighlightJS" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">11.8.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Client-side syntax highlighting with the core build and typed language registration.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">11.12.0</span>
+                <span data-status="recent" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Recent</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://highlightjs.org/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.HighlightJS" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/highlightjs" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/HighlightJS/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="jsPDF" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">jsPDF</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.JsPDF <span data-nuget-package="WebSharper.JsPDF" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">2.5.1+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Client-side PDF generation — text, images, tables and page breaks.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">4.2.1</span>
+                <span hidden="" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300"></span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://jspdf.com/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.JsPDF" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/jspdf" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/JsPDF/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Remarkable" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Remarkable</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Remarkable <span data-nuget-package="WebSharper.Remarkable" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">2.0.1+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Markdown parsing and rendering with configurable options.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">2.0.1</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://remarkablemark.org/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Remarkable" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/remarkable" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/Remarkable/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="SlickGrid" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">SlickGrid</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.SlickGrid <span data-nuget-package="WebSharper.SlickGrid" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">5.18.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Fast virtualized data grids with sorting, formatting and editing.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">5.20.2</span>
+                <span data-status="recent" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Recent</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://github.com/6pac/SlickGrid" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.SlickGrid" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/slickgrid" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://dotnet-websharper.github.io/slickgrid/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Test case</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="ui-components" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">UI components</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">5</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="React" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">React</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.React <span data-nuget-package="WebSharper.React" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">18.0.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">React components and hooks with typed props and state.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">19.3.1</span>
+                <span hidden="" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300"></span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://react.dev/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.React" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/react" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://dotnet-websharper.github.io/react/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Test case</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="FluentUI React" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">FluentUI React</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.FluentUI.React.Components <span data-nuget-package="WebSharper.FluentUI.React.Components" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">9.41.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Fluent UI React components — buttons, dialogs, inputs and layout primitives.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">9.75.1</span>
+                <span data-status="recent" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Recent</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://react.fluentui.dev/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.FluentUI.React.Components" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/fluentui-react-components" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="" hidden="" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="FluentUI Icons" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">FluentUI Icons</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.FluentUI.React.Icons <span data-nuget-package="WebSharper.FluentUI.React.Icons" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">2.0.220+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">The full Fluent UI icon set exposed as typed React components.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">2.0.345</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://react.fluentui.dev/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.FluentUI.React.Icons" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/fluentui-react-icons" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="" hidden="" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="SweetAlert2" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">SweetAlert2</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.SweetAlert <span data-nuget-package="WebSharper.SweetAlert" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">11.7.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Accessible modal dialogs and alerts with a small, typed API.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">11.26.25</span>
+                <span data-status="recent" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Recent</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://sweetalert2.github.io/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.SweetAlert" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/sweetalert" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="" hidden="" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="jQuery" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">jQuery</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.JQuery <span data-nuget-package="WebSharper.JQuery" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">latest</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">jQuery selections, events, Ajax and Deferred, plus sitelet router helpers.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">4.0.0</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://jquery.com/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.JQuery" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/jquery" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://dotnet-websharper.github.io/jquery/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Test case</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="maps-geo" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Maps &amp; geo</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">2</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="Leaflet" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Leaflet</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Leaflet <span data-nuget-package="WebSharper.Leaflet" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">1.9.4+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Interactive maps, markers, popups and tile layers from F#.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">1.9.4</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://leafletjs.com/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Leaflet" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/leaflet" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/Leaflet/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="TopoJSON" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">TopoJSON</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.TopoJson <span data-nuget-package="WebSharper.TopoJson" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">3.1.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">TopoJSON decoding and geometry conversion for D3 maps.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">3.1.0</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://github.com/topojson/topojson" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.TopoJson" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/TopoJSON" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="" hidden="" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="utilities-dates" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Utilities &amp; dates</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">4</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="Anime.js" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Anime.js</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.AnimeJs <span data-nuget-package="WebSharper.AnimeJs" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">3.2.1+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">A lightweight animation engine with a declarative API for CSS, SVG and DOM animations.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">4.5.0</span>
+                <span hidden="" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300"></span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://animejs.com/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.AnimeJs" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/animejs" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="" hidden="" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="date-fns" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">date-fns</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.DateFNS <span data-nuget-package="WebSharper.DateFNS" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">2.30.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Immutable date manipulation with a large set of small, composable functions.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">4.4.0</span>
+                <span hidden="" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300"></span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://date-fns.org/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.DateFNS" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/datefns" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="" hidden="" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Moment.js" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Moment.js</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Moment <span data-nuget-package="WebSharper.Moment" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">2.29.4+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Date parsing, formatting, durations and time zones.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">2.31.0</span>
+                <span data-status="recent" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Recent</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://momentjs.com/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Moment" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/moment" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="" hidden="" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="SignalR" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">SignalR</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.SignalR <span data-nuget-package="WebSharper.SignalR" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">5.0.9</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Typed SignalR hubs and clients for real-time server push.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">10.0.11</span>
+                <span hidden="" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300"></span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://learn.microsoft.com/aspnet/core/signalr/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.SignalR" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/signalr" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="" hidden="" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="math-typesetting" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Math &amp; typesetting</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">2</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="math.js" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">math.js</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.MathJS <span data-nuget-package="WebSharper.MathJS" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">14.5.2+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Arbitrary-precision numbers, expression parsing, matrices, vectors and units.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">15.2.0</span>
+                <span hidden="" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300"></span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://mathjs.org/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.MathJS" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/mathjs" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/MathJS/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="MathJax" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">MathJax</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.MathJax <span data-nuget-package="WebSharper.MathJax" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">latest</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">TeX and MathML typesetting with the MathJax v3 API.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">4.1.3</span>
+                <span data-status="up-to-date" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300">Up to date</span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.mathjax.org/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.MathJax" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/mathjax" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://websharper-samples.github.io/MathJax/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="mobile-native" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Mobile &amp; native</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">3</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="Capacitor" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Capacitor</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Capacitor <span data-nuget-package="WebSharper.Capacitor" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">6.0.2+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Typed bindings for the official Capacitor plugins — camera, filesystem, browser, haptics and more.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">8.6.0</span>
+                <span hidden="" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300"></span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://capacitorjs.com/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Capacitor" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/Capacitor" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://dotnet-websharper.github.io/Capacitor/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Test case</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Capacitor Community" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Capacitor Community</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Capacitor.Community <span data-nuget-package="WebSharper.Capacitor.Community" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">4.0.1+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Community Capacitor plugins, including Bluetooth LE, text-to-speech, native audio and camera preview.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">8.0.2</span>
+                <span hidden="" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300"></span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://github.com/capacitor-community" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Capacitor.Community" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/Capacitor.Community" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="https://dotnet-websharper.github.io/Capacitor.Community/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Test case</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Capacitor CapGo" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Capacitor CapGo</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Capacitor.CapGo <span data-nuget-package="WebSharper.Capacitor.CapGo" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">6.7.0+</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">CapGo plugins for over-the-air updates, purchases, uploads and native device features.</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-gray-500 dark:text-gray-500">Latest</span>
+                <span class="font-mono font-medium text-gray-700 dark:text-gray-300">8.54.2</span>
+                <span hidden="" class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium data-[status=up-to-date]:bg-emerald-50 data-[status=up-to-date]:text-emerald-700 dark:data-[status=up-to-date]:bg-emerald-400/10 dark:data-[status=up-to-date]:text-emerald-300 data-[status=recent]:bg-amber-50 data-[status=recent]:text-amber-700 dark:data-[status=recent]:bg-amber-400/10 dark:data-[status=recent]:text-amber-300"></span>
+            </div>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://capgo.app/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Capacitor.CapGo" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/Capacitor.CapGo" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="" hidden="" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Sample</a>
+            </div>
+    </div></div></section></div>
+        </section>
+
+        <section id="browser-apis" class="mt-20 scroll-mt-28">
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div class="max-w-2xl">
+                        <h2 class="text-2xl font-bold tracking-tight text-gray-950 dark:text-white">Browser APIs</h2>
+                        <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-400">Typed access to modern browser APIs — no third-party library, no hand-written interop.</p>
+                    </div>
+                    <div class="relative w-full sm:w-64">
+                        <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                        <input type="search" data-binding-search="#browser-apis" placeholder="Filter browser APIs…" class="w-full rounded-full border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 transition duration-300 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary/20 dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500" />
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-3"><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#graphics-compute">Graphics &amp; compute<span class="text-gray-400 dark:text-gray-500">1</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#devices">Devices<span class="text-gray-400 dark:text-gray-500">3</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#media-communication">Media &amp; communication<span class="text-gray-400 dark:text-gray-500">2</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#storage-state">Storage &amp; state<span class="text-gray-400 dark:text-gray-500">2</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#input-ui">Input &amp; UI<span class="text-gray-400 dark:text-gray-500">2</span></a><a class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 transition duration-300 hover:border-gray-300 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:text-white" href="#performance">Performance<span class="text-gray-400 dark:text-gray-500">1</span></a></div>
+            </div>
+            <div><section class="mt-14 scroll-mt-28" id="graphics-compute" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Graphics &amp; compute</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">1</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="WebGPU" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">WebGPU</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.WebGPU <span data-nuget-package="WebSharper.WebGPU" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">GPU-accelerated graphics and compute from the browser.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.w3.org/TR/webgpu/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.WebGPU" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/WebGPU" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="devices" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Devices</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">3</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="WebUSB" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">WebUSB</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.WebUSB <span data-nuget-package="WebSharper.WebUSB" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Communicate with USB devices directly from the browser.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://wicg.github.io/webusb/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.WebUSB" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/WebUSB" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Web Serial" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Web Serial</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.WebSerial <span data-nuget-package="WebSharper.WebSerial" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Read from and write to serial devices.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://wicg.github.io/serial/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.WebSerial" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/WebSerial" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="WebMIDI" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">WebMIDI</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.WebMIDI <span data-nuget-package="WebSharper.WebMIDI" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">MIDI input, output and device discovery.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.w3.org/TR/webmidi/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.WebMIDI" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/WebMIDI" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="media-communication" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Media &amp; communication</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">2</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="WebRTC" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">WebRTC</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.WebRTC <span data-nuget-package="WebSharper.WebRTC" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Camera and microphone streams, plus peer-to-peer media types.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.w3.org/TR/webrtc/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.WebRTC" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/webrtc" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Web Speech" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Web Speech</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.WebSpeech <span data-nuget-package="WebSharper.WebSpeech" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Speech synthesis and speech recognition.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://wicg.github.io/speech-api/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.WebSpeech" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/webspeech" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="storage-state" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Storage &amp; state</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">2</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="Web Locks" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Web Locks</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.WebLocks <span data-nuget-package="WebSharper.WebLocks" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Coordinate access to resources across tabs and workers.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.w3.org/TR/web-locks/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.WebLocks" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/WebLocks" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="IndexedDB" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">IndexedDB</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.IndexedDB <span data-nuget-package="WebSharper.IndexedDB" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Structured client-side storage with typed object stores.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.w3.org/TR/IndexedDB/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.IndexedDB" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/w3c-indexeddb" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="input-ui" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Input &amp; UI</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">2</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="Touch Events" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Touch Events</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.TouchEvents <span data-nuget-package="WebSharper.TouchEvents" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Touch and pointer events for mobile interactions.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.w3.org/TR/touch-events/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.TouchEvents" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/TouchEvents" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div><div data-binding-card="" data-binding-name="Popover API" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Popover API</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.Popover <span data-nuget-package="WebSharper.Popover" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Native HTML popovers anchored to elements.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://html.spec.whatwg.org/multipage/popover.html" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.Popover" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/popover" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div></div></section><section class="mt-14 scroll-mt-28" id="performance" data-binding-section=""><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-lg font-semibold tracking-tight text-gray-950 dark:text-white">Performance</h3><span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">1</span></div><div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"><div data-binding-card="" data-binding-name="Performance API" class="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-950/5 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:shadow-none dark:hover:border-gray-700">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-semibold text-gray-950 dark:text-white">Performance API</h3>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">WebSharper.PerformanceAPI <span data-nuget-package="WebSharper.PerformanceAPI" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">10.1.0.667</span></p>
+                </div>
+                <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">Navigation and resource timing, plus custom performance marks.</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
+                <a href="https://www.w3.org/TR/performance-timeline/" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
+                <a href="https://www.nuget.org/packages/WebSharper.PerformanceAPI" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="https://github.com/dotnet-websharper/PerformanceAPI" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+            </div>
+    </div></div></section></div>
+        </section>
+
+        <div class="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <a href="https://www.nuget.org/packages?q=WebSharper" target="_blank" rel="noopener" class="group relative flex h-10 items-center px-5 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                <span class="relative text-sm font-medium text-gray-600 dark:text-white">Browse all packages on NuGet <span aria-hidden="true">→</span></span>
+            </a>
+            <a href="https://github.com/dotnet-websharper" target="_blank" rel="noopener" class="text-sm font-medium text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Bindings on GitHub <span aria-hidden="true">→</span></a>
+        </div>
+    </div>
+
+    
+
+    
+</main>
+
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                        </li>
+                        <li>
+                            <a href="./privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="./terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                        </li>
+                        <li>
+                            <a href="./cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-2 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-3 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="./bindings" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
+                        </li>
+                        <li>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
+                        </li>
+                        <li>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row-start-1 col-span-2 lg:row-start-auto">
+                    <div ws-replace="Newsletter"></div>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
+                <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                    <div class="flex gap-4 items-center">
+                        <a href="./">
+                            <img class="size-8" src="./Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <span class="sr-only">WebSharper logo</span>
+                        </a>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
+                    </div>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
