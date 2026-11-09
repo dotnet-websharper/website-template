@@ -254,10 +254,18 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
     the "Dev feed" badge is `ws-attr="DevFeedAttr"`, and the sample link is
     `ws-attr="SampleAttr"`. `DevFeedAttr` is `attr.hidden ""` when false.
   - **Section nav**: `sectionNav` renders a sticky vertical rail (same
-    `.section-link`/`data-step` + IntersectionObserver scroll-spy as the Features
-    page); the two top-level entries ("JavaScript libraries", "Browser APIs")
+    `.section-link`/`data-step` markup as the Features page); the two top-level
+    entries ("JavaScript libraries", "Browser APIs")
     use a larger font than their category subsections. The horizontal category
     pills are `lg:hidden` (mobile only), so desktop navigation is the rail.
+    The scroll-spy (`Js/intersection-observer.js`) is **scroll-based**, keyed off
+    each link's `data-step` target id (not the `.section` class) and picking the
+    last target whose top is above a ~140px line. Do **not** go back to an
+    `IntersectionObserver` with `threshold: 1`: the Bindings category sections are
+    taller than the viewport, so they never reach 100% visibility, the callback
+    only fires for a short neighbour, and the wrong rail entry lights up
+    (off-by-one). Keying off the links also covers the two top-level anchors, which
+    are plain `<section>`s without the `.section` class.
     The page container (`max-w-6xl … xl:px-0 2xl:max-w-7xl`) and the content
     wrapper (`lg:w-[calc(100%-6rem)] ml-auto lg:pl-12`) mirror Features so the
     dot column lands at the same x as the Features rail (dot right edge = content
