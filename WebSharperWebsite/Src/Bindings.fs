@@ -275,7 +275,7 @@ module Bindings =
         |> List.map (fun (category, items) ->
             section
                 [
-                    attr.``class`` "mt-14 scroll-mt-28"
+                    attr.``class`` "section mt-14 scroll-mt-28"
                     attr.id (slug category)
                     Attr.Create "data-binding-section" ""
                 ]
@@ -290,7 +290,7 @@ module Bindings =
         |> List.map (fun (category, items) ->
             section
                 [
-                    attr.``class`` "mt-14 scroll-mt-28"
+                    attr.``class`` "section mt-14 scroll-mt-28"
                     attr.id (slug category)
                     Attr.Create "data-binding-section" ""
                 ]
@@ -300,12 +300,56 @@ module Bindings =
                 ])
         |> Doc.Concat
 
+    /// A single link in the sticky vertical section nav (mirrors the Features page).
+    /// `large` is used for the two top-level entries ("JavaScript libraries",
+    /// "Browser APIs"); the category subsections below them are smaller.
+    let private sectionNavLink (large: bool) (id: string) (label: string) =
+        let labelClass =
+            if large then
+                "block translate-x-1 text-base font-semibold text-gray-900 opacity-40 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-white"
+            else
+                "block translate-x-1 text-sm text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200"
+        let dotClass =
+            if large then
+                "h-2 w-2 rounded-full bg-gray-300/40 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"
+            else
+                "h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"
+        a
+            [
+                attr.``class`` "section-link group flex w-max items-center justify-end gap-3"
+                attr.href ("#" + id)
+                Attr.Create "data-step" id
+            ]
+            [
+                span [ attr.``class`` labelClass ] [ text label ]
+                div [ attr.``class`` dotClass; Attr.Create "aria-hidden" "true" ] []
+            ]
+
+    /// The sticky vertical section nav: the two top-level sections (larger) with
+    /// their category subsections listed underneath each.
+    let private sectionNav () =
+        let group (title: string) (sectionId: string) (cats: (string * 'a list) list) =
+            div
+                [ attr.``class`` "flex flex-col items-end gap-2" ]
+                [
+                    yield sectionNavLink true sectionId title
+                    for category, _ in cats do
+                        yield sectionNavLink false (slug category) category
+                ]
+        div
+            [ attr.``class`` "flex flex-col items-end gap-6" ]
+            [
+                group "JavaScript libraries" "libraries" (libraryGroups ())
+                group "Browser APIs" "browser-apis" (browserGroups ())
+            ]
+
     let BindingsDoc () =
         Templates.BindingsTemplate.Content()
             .LibraryCount(string libraries.Length)
             .BrowserCount(string browserApis.Length)
             .LibraryCategoryNav(categoryNav (libraryGroups ()))
             .BrowserCategoryNav(categoryNav (browserGroups ()))
+            .SectionNav(sectionNav ())
             .LibrarySections(librarySections ())
             .BrowserSections(browserSections ())
             .Doc()

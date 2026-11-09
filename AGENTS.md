@@ -231,6 +231,15 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
     `data-binding-card`/`data-binding-name`; the version is `ws-attr="VersionAttr"`,
     the "Dev feed" badge is `ws-attr="DevFeedAttr"`, and the sample link is
     `ws-attr="SampleAttr"`. `DevFeedAttr` is `attr.hidden ""` when false.
+  - **Section nav**: `sectionNav` renders a sticky vertical rail (same
+    `.section-link`/`data-step` + IntersectionObserver scroll-spy as the Features
+    page); the two top-level entries ("JavaScript libraries", "Browser APIs")
+    use a larger font than their category subsections. The horizontal category
+    pills are `lg:hidden` (mobile only), so desktop navigation is the rail.
+    The page container (`max-w-6xl … xl:px-0 2xl:max-w-7xl`) and the content
+    wrapper (`lg:w-[calc(100%-6rem)] ml-auto lg:pl-12`) mirror Features so the
+    dot column lands at the same x as the Features rail (dot right edge = content
+    column left; the `lg:pl-12` gives the text its 48px clearance).
   - **Search/filter**: filtering is client-side (category pills + search) and
     hides cards by toggling `hidden` on the `data-binding-card` root. Keep the
     card classes **and** `data-binding-card` on the template root `<div>` — an
