@@ -132,6 +132,8 @@ wsbundle.Examples().ReplaceInDom(e2);
         function loadBindingVersions() {
             const els = document.querySelectorAll("[data-nuget-package]");
             if (!els.length) return;
+            // Stable releases only, so the value matches the one baked into
+            // bindings.json (a prerelease here would flicker the version badge).
             fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=false")
                 .then((r) => r.json())
                 .then((d) => {

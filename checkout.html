@@ -132,6 +132,8 @@ wsbundle.Checkout().ReplaceInDom(e2);
         function loadBindingVersions() {
             const els = document.querySelectorAll("[data-nuget-package]");
             if (!els.length) return;
+            // Stable releases only, so the value matches the one baked into
+            // bindings.json (a prerelease here would flicker the version badge).
             fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=false")
                 .then((r) => r.json())
                 .then((d) => {
@@ -477,7 +479,7 @@ wsbundle.Checkout().ReplaceInDom(e2);
                             <button type="button" id="wsMinus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 -
                             </button>
-                            <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1" class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" ws-var="0570fedc-a882-4825-8152-2562bbbf64ce::seatstext" />
+                            <input id="wsSeats" name="wsSeats" inputmode="numeric" pattern="[0-9]*" value="1" class="h-10 w-20 text-center rounded-lg border shadow border-gray-300 dark:border-gray-800 bg-transparent text-gray-900 dark:text-white" ws-var="fde1b525-f500-492b-9460-b59fc67fd958::seatstext" />
                             <button type="button" id="wsPlus" class="cursor-pointer h-10 w-10 rounded-lg border border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 +
                             </button>
