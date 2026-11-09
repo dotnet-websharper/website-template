@@ -29,6 +29,7 @@ module Bindings =
             Status: string option
             SampleUrl: string option
             SampleLabel: string option
+            DevFeed: bool
         }
 
     type BrowserBinding =
@@ -40,6 +41,9 @@ module Bindings =
             Repo: string
             Category: string
             Website: string option
+            SampleUrl: string option
+            SampleLabel: string option
+            DevFeed: bool
         }
 
     type BindingsData =
@@ -77,6 +81,11 @@ module Bindings =
     let private propString (el: JsonElement) (name: string) =
         tryPropString el name |> Option.defaultValue ""
 
+    let private tryPropBool (el: JsonElement) (name: string) =
+        match el.TryGetProperty name with
+        | true, v when v.ValueKind = JsonValueKind.True -> true
+        | _ -> false
+
     let private parseLibrary (el: JsonElement) =
         {
             Name = propString el "name"
@@ -92,6 +101,7 @@ module Bindings =
             Status = tryPropString el "status"
             SampleUrl = tryPropString el "sampleUrl"
             SampleLabel = tryPropString el "sampleLabel"
+            DevFeed = tryPropBool el "devFeed"
         }
 
     let private parseBrowser (el: JsonElement) =
@@ -103,6 +113,9 @@ module Bindings =
             Repo = propString el "repo"
             Category = propString el "category"
             Website = tryPropString el "website"
+            SampleUrl = tryPropString el "sampleUrl"
+            SampleLabel = tryPropString el "sampleLabel"
+            DevFeed = tryPropBool el "devFeed"
         }
 
     let private parse (json: string) =
@@ -167,6 +180,9 @@ module Bindings =
 
     let private nugetUrl (package: string) = "https://www.nuget.org/packages/" + package
 
+    let private devFeedUrl (package: string) =
+        "https://github.com/orgs/dotnet-websharper/packages/nuget/" + package.ToLowerInvariant()
+
     let private sectionHeader (title: string) (count: int) =
         div
             [ attr.``class`` "flex flex-wrap items-baseline gap-x-3 gap-y-1" ]
@@ -216,7 +232,7 @@ module Bindings =
             .Name(b.Name)
             .PackageName(b.Package)
             .PackageVersion(b.Version)
-            .VersionAttr(Attr.Create "data-nuget-package" b.Package)
+            .VersionAttr(if b.Version = "" then attr.hidden "" else Attr.Create "data-nuget-package" b.Package)
             .Description(b.Description)
             .BoundVersion(boundVersionText b.LibraryVersion)
             .LatestVersion(defaultArg b.LatestVersion "—")
@@ -224,7 +240,9 @@ module Bindings =
             .StatusAttr(if key = "" then attr.hidden "" else Attr.Create "data-status" key)
             .WebsiteUrl(defaultArg b.Website "#")
             .WebsiteAttr(if b.Website.IsSome then Attr.Empty else attr.hidden "")
-            .NuGetUrl(nugetUrl b.Package)
+            .NuGetUrl(if b.DevFeed then devFeedUrl b.Package else nugetUrl b.Package)
+            .NuGetLabel(if b.DevFeed then "Dev feed" else "NuGet")
+            .NuGetAttr(if b.Version = "" then attr.hidden "" else Attr.Empty)
             .SourceUrl(b.Repo)
             .SampleUrl(defaultArg b.SampleUrl "")
             .SampleLabel(defaultArg b.SampleLabel "Sample")
@@ -236,12 +254,17 @@ module Bindings =
             .Name(b.Name)
             .PackageName(b.Package)
             .PackageVersion(b.Version)
-            .VersionAttr(Attr.Create "data-nuget-package" b.Package)
+            .VersionAttr(if b.Version = "" then attr.hidden "" else Attr.Create "data-nuget-package" b.Package)
             .Description(b.Description)
             .WebsiteUrl(defaultArg b.Website "#")
             .WebsiteAttr(if b.Website.IsSome then Attr.Empty else attr.hidden "")
-            .NuGetUrl(nugetUrl b.Package)
+            .NuGetUrl(if b.DevFeed then devFeedUrl b.Package else nugetUrl b.Package)
+            .NuGetLabel(if b.DevFeed then "Dev feed" else "NuGet")
+            .NuGetAttr(if b.Version = "" then attr.hidden "" else Attr.Empty)
             .SourceUrl(b.Repo)
+            .SampleUrl(defaultArg b.SampleUrl "")
+            .SampleLabel(defaultArg b.SampleLabel "Test case")
+            .SampleAttr(if b.SampleUrl.IsSome then Attr.Empty else attr.hidden "")
             .Doc()
 
     let private libraryGroups () = libraries |> groupByCategory (fun b -> b.Category)

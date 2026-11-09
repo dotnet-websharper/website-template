@@ -63,7 +63,7 @@
             <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
                     <h3 class="text-base font-semibold text-gray-950 dark:text-white">${Name}</h3>
-                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">${PackageName} <span ws-attr="VersionAttr" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">${PackageVersion}</span></p>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-words dark:text-gray-400">${PackageName} <span ws-attr="VersionAttr" class="ml-1 inline-block whitespace-nowrap rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">${PackageVersion}</span></p>
                 </div>
                 <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300" title="Bound library version">${BoundVersion}</span>
             </div>
@@ -75,7 +75,7 @@
             </div>
             <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
                 <a href="${WebsiteUrl}" ws-attr="WebsiteAttr" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Website</a>
-                <a href="${NuGetUrl}" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="${NuGetUrl}" ws-attr="NuGetAttr" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">${NuGetLabel}</a>
                 <a href="${SourceUrl}" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
                 <a href="${SampleUrl}" ws-attr="SampleAttr" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">${SampleLabel}</a>
             </div>
@@ -85,15 +85,16 @@
             <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
                     <h3 class="text-base font-semibold text-gray-950 dark:text-white">${Name}</h3>
-                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-all dark:text-gray-400">${PackageName} <span ws-attr="VersionAttr" class="ml-1 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">${PackageVersion}</span></p>
+                    <p class="mt-1 font-mono text-[11px] text-gray-500 break-words dark:text-gray-400">${PackageName} <span ws-attr="VersionAttr" class="ml-1 inline-block whitespace-nowrap rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">${PackageVersion}</span></p>
                 </div>
                 <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Native API</span>
             </div>
             <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">${Description}</p>
             <div class="mt-auto flex flex-wrap items-center gap-4 pt-5 text-sm font-medium">
                 <a href="${WebsiteUrl}" ws-attr="WebsiteAttr" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Spec</a>
-                <a href="${NuGetUrl}" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">NuGet</a>
+                <a href="${NuGetUrl}" ws-attr="NuGetAttr" target="_blank" rel="noopener" class="text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">${NuGetLabel}</a>
                 <a href="${SourceUrl}" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">GitHub</a>
+                <a href="${SampleUrl}" ws-attr="SampleAttr" target="_blank" rel="noopener" class="text-gray-500 transition duration-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">${SampleLabel}</a>
             </div>
     </div>
 </main>

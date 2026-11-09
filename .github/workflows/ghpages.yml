@@ -53,6 +53,8 @@ jobs:
       - name: Refresh bindings.json
         if: github.event_name == 'workflow_dispatch' && inputs.refresh_bindings
         shell: bash
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.PAT_PACKAGE }}
         run: dotnet fsi WebSharperWebsite/scripts/extract-bindings.fsx
 
       - name: Commit bindings.json

@@ -17,6 +17,7 @@
 open System
 open System.IO
 open System.Net.Http
+open System.Net.Http.Headers
 open System.Text.Json
 open System.Text.Json.Nodes
 
@@ -113,17 +114,66 @@ let libraries: BindingMeta list =
 
 let browserApis: BrowserMeta list =
     [
+        // Graphics & compute
         { Name = "WebGPU"; Package = "WebSharper.WebGPU"; Repo = "WebGPU"; Category = "Graphics & compute"; Description = "GPU-accelerated graphics and compute from the browser." }
+        { Name = "Houdini"; Package = "WebSharper.Houdini"; Repo = "HoudiniAPI"; Category = "Graphics & compute"; Description = "CSS Typed OM, custom properties, and paint, layout and animation worklets." }
+
+        // Devices
         { Name = "WebUSB"; Package = "WebSharper.WebUSB"; Repo = "WebUSB"; Category = "Devices"; Description = "Communicate with USB devices directly from the browser." }
         { Name = "Web Serial"; Package = "WebSharper.WebSerial"; Repo = "WebSerial"; Category = "Devices"; Description = "Read from and write to serial devices." }
         { Name = "WebMIDI"; Package = "WebSharper.WebMIDI"; Repo = "WebMIDI"; Category = "Devices"; Description = "MIDI input, output and device discovery." }
+        { Name = "Web Bluetooth"; Package = "WebSharper.WebBluetooth"; Repo = "WebBluetooth"; Category = "Devices"; Description = "Connect to Bluetooth Low Energy devices and GATT services." }
+        { Name = "Gamepad"; Package = "WebSharper.Gamepad"; Repo = "GamepadAPI"; Category = "Devices"; Description = "Gamepad discovery, button, axis and rumble state." }
+        { Name = "Battery Status"; Package = "WebSharper.BatteryStatus"; Repo = "BatteryStatusAPI"; Category = "Devices"; Description = "Battery charge level and charging state." }
+        { Name = "Screen Wake Lock"; Package = "WebSharper.ScreenWakeLock"; Repo = "ScreenWakeLockAPI"; Category = "Devices"; Description = "Keep the screen awake while a task is running." }
+        { Name = "Geolocation"; Package = "WebSharper.Geolocation"; Repo = "Geolocation"; Category = "Devices"; Description = "One-shot and continuous device location." }
+
+        // Media & communication
         { Name = "WebRTC"; Package = "WebSharper.WebRTC"; Repo = "webrtc"; Category = "Media & communication"; Description = "Camera and microphone streams, plus peer-to-peer media types." }
         { Name = "Web Speech"; Package = "WebSharper.WebSpeech"; Repo = "webspeech"; Category = "Media & communication"; Description = "Speech synthesis and speech recognition." }
+        { Name = "WebCodecs"; Package = "WebSharper.WebCodecs"; Repo = "WebCodecs"; Category = "Media & communication"; Description = "Low-level audio and video encoding and decoding." }
+        { Name = "WebVTT"; Package = "WebSharper.WebVTT"; Repo = "WebVTT"; Category = "Media & communication"; Description = "Parse and manipulate WebVTT subtitle and caption tracks." }
+        { Name = "Media Session"; Package = "WebSharper.MediaSession"; Repo = "MediaSession"; Category = "Media & communication"; Description = "Expose playback to OS media controls and the media notification." }
+        { Name = "Media Capabilities"; Package = "WebSharper.MediaCapabilities"; Repo = "MediaCapabilities"; Category = "Media & communication"; Description = "Query decoding and encoding capabilities and smoothness." }
+        { Name = "Picture-in-Picture"; Package = "WebSharper.PictureInPicture"; Repo = "PictureInPictureAPI"; Category = "Media & communication"; Description = "Float a video element into a system Picture-in-Picture window." }
+        { Name = "Encrypted Media Extensions"; Package = "WebSharper.EncryptedMediaExtensions"; Repo = "EncryptedMediaExtensionsAPI"; Category = "Media & communication"; Description = "Playback of DRM-protected audio and video." }
+
+        // Storage & state
         { Name = "Web Locks"; Package = "WebSharper.WebLocks"; Repo = "WebLocks"; Category = "Storage & state"; Description = "Coordinate access to resources across tabs and workers." }
         { Name = "IndexedDB"; Package = "WebSharper.IndexedDB"; Repo = "w3c-indexeddb"; Category = "Storage & state"; Description = "Structured client-side storage with typed object stores." }
+        { Name = "Cookie Store"; Package = "WebSharper.CookieStore"; Repo = "CookieStore"; Category = "Storage & state"; Description = "Asynchronous cookie read and write, with change events." }
+        { Name = "File System"; Package = "WebSharper.FileSystem"; Repo = "FileSystemAPI"; Category = "Storage & state"; Description = "Origin-private and user-selected files and directories." }
+
+        // Input & UI
         { Name = "Touch Events"; Package = "WebSharper.TouchEvents"; Repo = "TouchEvents"; Category = "Input & UI"; Description = "Touch and pointer events for mobile interactions." }
-        { Name = "Popover API"; Package = "WebSharper.Popover"; Repo = "popover"; Category = "Input & UI"; Description = "Native HTML popovers anchored to elements." }
+        { Name = "Popover API"; Package = "WebSharper.Popover"; Repo = "PopoverAPI"; Category = "Input & UI"; Description = "Native HTML popovers anchored to elements." }
+        { Name = "Clipboard"; Package = "WebSharper.Clipboard"; Repo = "ClipboardAPI"; Category = "Input & UI"; Description = "Asynchronous clipboard read and write of text and arbitrary items." }
+        { Name = "Drag and Drop"; Package = "WebSharper.DragDrop"; Repo = "DragDropAPI"; Category = "Input & UI"; Description = "HTML5 drag-and-drop with typed data transfer." }
+        { Name = "Intersection Observer"; Package = "WebSharper.IntersectionObserver"; Repo = "IntersectionObserverAPI"; Category = "Input & UI"; Description = "Observe element visibility and viewport intersections." }
+        { Name = "Permissions"; Package = "WebSharper.Permissions"; Repo = "Permissions"; Category = "Input & UI"; Description = "Query and request the permission state of browser features." }
+
+        // Performance
         { Name = "Performance API"; Package = "WebSharper.PerformanceAPI"; Repo = "PerformanceAPI"; Category = "Performance"; Description = "Navigation and resource timing, plus custom performance marks." }
+        { Name = "Task Scheduling"; Package = "WebSharper.TaskScheduling"; Repo = "TaskSchedulingAPI"; Category = "Performance"; Description = "Prioritized, yielding work with the scheduler API." }
+        { Name = "Background Fetch"; Package = "WebSharper.BackgroundFetch"; Repo = "BackgroundFetch"; Category = "Performance"; Description = "Long-running background downloads that outlive the page." }
+
+        // Networking & runtime
+        { Name = "Service Worker"; Package = "WebSharper.ServiceWorker"; Repo = "ServiceWorker"; Category = "Networking & runtime"; Description = "Offline-capable background scripts for caching, push and sync." }
+        { Name = "Network Information"; Package = "WebSharper.NetworkInformation"; Repo = "NetworkInformationAPI"; Category = "Networking & runtime"; Description = "Connection type, effective bandwidth and downlink." }
+        { Name = "Push"; Package = "WebSharper.Push"; Repo = "PushAPI"; Category = "Networking & runtime"; Description = "Web push notifications via a service worker subscription." }
+        { Name = "Notifications"; Package = "WebSharper.Notifications"; Repo = "NotificationsAPI"; Category = "Networking & runtime"; Description = "Display system notifications with actions and payloads." }
+
+        // Payments
+        { Name = "Payment Request"; Package = "WebSharper.PaymentRequest"; Repo = "PaymentRequest"; Category = "Payments"; Description = "Native payment flows backed by the browser's payment sheet." }
+
+        // Security & identity
+        { Name = "Web Crypto"; Package = "WebSharper.WebCrypto"; Repo = "WebCrypto"; Category = "Security & identity"; Description = "Cryptographic primitives: keys, encryption, signing and hashing." }
+        { Name = "Credential Management"; Package = "WebSharper.CredentialManagement"; Repo = "CredentialManagement"; Category = "Security & identity"; Description = "Store and retrieve credentials through the browser's credential store." }
+        { Name = "Web Authentication"; Package = "WebSharper.WebAuthentication"; Repo = "WebAuthentication"; Category = "Security & identity"; Description = "Passwordless public-key authentication with WebAuthn." }
+
+        // Data & encoding
+        { Name = "Compression Streams"; Package = "WebSharper.CompressionStreams"; Repo = "CompressionStreamsAPI"; Category = "Data & encoding"; Description = "Streaming gzip and deflate compression and decompression." }
+        { Name = "Encoding"; Package = "WebSharper.Encoding"; Repo = "EncodingAPI"; Category = "Data & encoding"; Description = "TextEncoder and TextDecoder for UTF-8 and legacy encodings." }
     ]
 
 // ---------------------------------------------------------------------------
@@ -194,16 +244,46 @@ let npmLatestPackages =
 let browserWebsites =
     dict [
         "WebGPU", "https://www.w3.org/TR/webgpu/"
+        "HoudiniAPI", "https://drafts.css-houdini.org/"
         "WebUSB", "https://wicg.github.io/webusb/"
         "WebSerial", "https://wicg.github.io/serial/"
         "WebMIDI", "https://www.w3.org/TR/webmidi/"
-        "WebLocks", "https://www.w3.org/TR/web-locks/"
+        "WebBluetooth", "https://webbluetoothcg.github.io/web-bluetooth/"
+        "GamepadAPI", "https://www.w3.org/TR/gamepad/"
+        "BatteryStatusAPI", "https://www.w3.org/TR/battery-status/"
+        "ScreenWakeLockAPI", "https://www.w3.org/TR/screen-wake-lock/"
+        "Geolocation", "https://www.w3.org/TR/geolocation/"
         "webrtc", "https://www.w3.org/TR/webrtc/"
         "webspeech", "https://wicg.github.io/speech-api/"
+        "WebCodecs", "https://www.w3.org/TR/webcodecs/"
+        "WebVTT", "https://www.w3.org/TR/webvtt1/"
+        "MediaSession", "https://www.w3.org/TR/mediasession/"
+        "MediaCapabilities", "https://www.w3.org/TR/media-capabilities/"
+        "PictureInPictureAPI", "https://www.w3.org/TR/picture-in-picture/"
+        "EncryptedMediaExtensionsAPI", "https://www.w3.org/TR/encrypted-media/"
+        "WebLocks", "https://www.w3.org/TR/web-locks/"
         "w3c-indexeddb", "https://www.w3.org/TR/IndexedDB/"
+        "CookieStore", "https://wicg.github.io/cookie-store/"
+        "FileSystemAPI", "https://fs.spec.whatwg.org/"
         "TouchEvents", "https://www.w3.org/TR/touch-events/"
+        "PopoverAPI", "https://html.spec.whatwg.org/multipage/popover.html"
+        "ClipboardAPI", "https://www.w3.org/TR/clipboard-apis/"
+        "DragDropAPI", "https://html.spec.whatwg.org/multipage/dnd.html"
+        "IntersectionObserverAPI", "https://www.w3.org/TR/intersection-observer/"
+        "Permissions", "https://www.w3.org/TR/permissions/"
         "PerformanceAPI", "https://www.w3.org/TR/performance-timeline/"
-        "popover", "https://html.spec.whatwg.org/multipage/popover.html"
+        "TaskSchedulingAPI", "https://wicg.github.io/scheduling-apis/"
+        "BackgroundFetch", "https://wicg.github.io/background-fetch/"
+        "ServiceWorker", "https://www.w3.org/TR/service-workers/"
+        "NetworkInformationAPI", "https://wicg.github.io/netinfo/"
+        "PushAPI", "https://www.w3.org/TR/push-api/"
+        "NotificationsAPI", "https://www.w3.org/TR/notifications/"
+        "PaymentRequest", "https://www.w3.org/TR/payment-request/"
+        "WebCrypto", "https://www.w3.org/TR/WebCryptoAPI/"
+        "CredentialManagement", "https://www.w3.org/TR/credential-management-1/"
+        "WebAuthentication", "https://www.w3.org/TR/webauthn-3/"
+        "CompressionStreamsAPI", "https://compression.spec.whatwg.org/"
+        "EncodingAPI", "https://encoding.spec.whatwg.org/"
     ]
 
 /// The latest stable version published on npm (None when unknown).
@@ -252,6 +332,72 @@ let nugetVersion (package: string) =
             else versions.[versions.GetArrayLength() - 1].GetString()
         with _ -> ""
     | None -> ""
+
+// ---------------------------------------------------------------------------
+// dotnet-websharper GitHub Packages feed
+// ---------------------------------------------------------------------------
+
+/// The token used to read the dotnet-websharper GitHub Packages feed. It comes from
+/// the GH_PACKAGES_TOKEN / GITHUB_TOKEN / GH_TOKEN environment variable, or (for
+/// local runs) from the credentials in the user's NuGet config.
+let ghFeedToken =
+    let fromEnv =
+        [ "GH_PACKAGES_TOKEN"; "GITHUB_TOKEN"; "GH_TOKEN" ]
+        |> List.tryPick (fun name ->
+            match Environment.GetEnvironmentVariable name with
+            | null | "" -> None
+            | value -> Some value)
+    match fromEnv with
+    | Some token -> Some token
+    | None ->
+        try
+            let configPath =
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    ".nuget", "NuGet", "NuGet.Config")
+            if File.Exists configPath then
+                let text = File.ReadAllText configPath
+                let m =
+                    Text.RegularExpressions.Regex.Match(
+                        text,
+                        "<dotnet-websharper-GitHub>[\\s\\S]*?ClearTextPassword[^>]*value=\"([^\"]+)\"")
+                if m.Success then Some m.Groups.[1].Value else None
+            else None
+        with _ -> None
+
+/// Latest version in the dotnet-websharper GitHub Packages feed (None when the
+/// package is absent or the feed is unavailable).
+let ghFeedVersion (package: string) =
+    match ghFeedToken with
+    | None -> None
+    | Some token ->
+        try
+            let url =
+                sprintf "https://nuget.pkg.github.com/dotnet-websharper/download/%s/index.json" (package.ToLowerInvariant())
+            let req = new HttpRequestMessage(HttpMethod.Get, url)
+            req.Headers.Authorization <- AuthenticationHeaderValue("Bearer", token)
+            let resp = http.SendAsync(req).GetAwaiter().GetResult()
+            if resp.IsSuccessStatusCode then
+                let body = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult()
+                let doc = JsonDocument.Parse(body)
+                let versions = doc.RootElement.GetProperty("versions")
+                // GitHub Packages returns the versions newest-first.
+                if versions.GetArrayLength() = 0 then None
+                else Some (versions.[0].GetString())
+            else None
+        with _ -> None
+
+/// Resolve the version to show and whether it came from the dev feed.
+/// The main NuGet feed wins when the package is there; otherwise the dev feed
+/// version is used and the "Dev feed" label is shown.
+let resolveVersion (package: string) =
+    let nuget = nugetVersion package
+    if not (String.IsNullOrEmpty nuget) then
+        nuget, false
+    else
+        match ghFeedVersion package with
+        | Some v -> v, true
+        | None -> "", false
 
 /// Read a file either from the local binding repo or from raw GitHub.
 let readRepoFile (repo: string) (path: string) =
@@ -352,14 +498,14 @@ let libraryVersion (meta: BindingMeta) =
     | None, None -> "latest (unpinned)"
 
 /// Sample link: websharper-samples first, then the binding repo's own demo.
-let sampleLink (meta: BindingMeta) =
-    match meta.SampleName with
+let sampleLink (repo: string) (sampleName: string option) =
+    match sampleName with
     | Some name ->
         let url = sprintf "https://websharper-samples.github.io/%s/" name
         if tryHead url then Some (url, "Sample") else None
     | None -> None
     |> Option.orElse (
-        let url = sprintf "https://dotnet-websharper.github.io/%s/" meta.Repo
+        let url = sprintf "https://dotnet-websharper.github.io/%s/" repo
         if tryHead url then Some (url, "Test case") else None
     )
 
@@ -372,13 +518,14 @@ let now = DateTimeOffset.UtcNow.ToString("o")
 let libraryNodes =
     libraries
     |> List.map (fun b ->
-        let pkgVersion = nugetVersion b.Package
+        let pkgVersion, devFeed = resolveVersion b.Package
         let libVersion = libraryVersion b
-        let sample = sampleLink b
+        let sample = sampleLink b.Repo b.SampleName
         let node = JsonObject()
         node.["name"] <- JsonValue.Create b.Name
         node.["package"] <- JsonValue.Create b.Package
         node.["version"] <- JsonValue.Create pkgVersion
+        if devFeed then node.["devFeed"] <- JsonValue.Create true
         node.["library"] <- JsonValue.Create b.Library
         node.["libraryVersion"] <- JsonValue.Create libVersion
         node.["description"] <- JsonValue.Create b.Description
@@ -407,14 +554,21 @@ let libraryNodes =
 let browserNodes =
     browserApis
     |> List.map (fun b ->
-        let pkgVersion = nugetVersion b.Package
+        let pkgVersion, devFeed = resolveVersion b.Package
+        let sample = sampleLink b.Repo None
         let node = JsonObject()
         node.["name"] <- JsonValue.Create b.Name
         node.["package"] <- JsonValue.Create b.Package
         node.["version"] <- JsonValue.Create pkgVersion
+        if devFeed then node.["devFeed"] <- JsonValue.Create true
         node.["description"] <- JsonValue.Create b.Description
         node.["repo"] <- JsonValue.Create(sprintf "https://github.com/dotnet-websharper/%s" b.Repo)
         node.["category"] <- JsonValue.Create b.Category
+        match sample with
+        | Some (url, label) ->
+            node.["sampleUrl"] <- JsonValue.Create url
+            node.["sampleLabel"] <- JsonValue.Create label
+        | None -> ()
         match browserWebsites.TryGetValue b.Repo with
         | true, url -> node.["website"] <- JsonValue.Create url
         | _ -> ()
