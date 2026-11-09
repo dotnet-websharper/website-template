@@ -169,13 +169,23 @@ module ServerPages =
     let Features () =
         Content.BundleScope "features" (
             Templates.FeaturesTemplate.Content()
-                .Feature_mvu(Component.CodeFiles([
-                    { Label = "NameInput.fs"; Lang = "fsharp"; Code = Snippets.text "mvu/NameInput.fs" }
-                    { Label = "nameInput.js"; Lang = "js"; Code = Snippets.text "mvu/nameInput.mjs" }
+                .Feature_reactive(Component.CodeFilesWithPreviewTab("./snippets/reactive/index.html", [
+                    { Label = "Client.fs"; Lang = "fsharp"; Code = Snippets.text "reactive/ReactiveValues.fs" }
+                    { Label = "index.html"; Lang = "html"; Code = Snippets.text "reactive/index.html" }
+                    { Label = "reactive.js"; Lang = "js"; Code = Snippets.text "reactive/reactiveValues.mjs" }
                 ]))
-                .Feature_react(Component.CodeFiles([
-                    { Label = "Person.fs"; Lang = "fsharp"; Code = Snippets.text "react/Person.fs" }
-                    { Label = "Person.js"; Lang = "js"; Code = Snippets.text "react/Person.mjs" }
+                .Feature_jsbindings(Component.CodeFilesWithPreviewTab("./snippets/maps/index.html", [
+                    { Label = "Leaflet.fs"; Lang = "fsharp"; Code = Snippets.text "jsbindings/LeafletBinding.fs" }
+                    { Label = "Client.fs"; Lang = "fsharp"; Code = Snippets.text "jsbindings/Client.fs" }
+                    { Label = "index.html"; Lang = "html"; Code = Snippets.text "jsbindings/index.html" }
+                ]))
+                .Feature_tsh(Component.CodeFiles([
+                    { Label = "Client.fs"; Lang = "fsharp"; Code = Snippets.text "tsh/Client.fs" }
+                    { Label = "index"; Lang = "html"; Code = Snippets.text "tsh/index" }
+                ]))
+                .Feature_rwe(Component.CodeFiles([
+                    { Label = "RemoteCall.fs"; Lang = "fsharp"; Code = Snippets.text "rwe/RemoteCall.fs" }
+                    { Label = "remoteCall.js"; Lang = "js"; Code = Snippets.text "rwe/remoteCall.mjs" }
                 ]))
                 .Feature_webapi(Component.CodeFiles([
                     { Label = "ArticleSite.fs"; Lang = "fsharp"; Code = Snippets.text "webapi/ArticleSite.fs" }
@@ -186,17 +196,17 @@ module ServerPages =
                     { Label = "ArticleRouter.fs"; Lang = "fsharp"; Code = Snippets.text "csr/ArticleRouter.fs" }
                     { Label = "articleRouter.js"; Lang = "js"; Code = Snippets.text "csr/articleRouter.mjs" }
                 ]))
+                .Feature_mvu(Component.CodeFiles([
+                    { Label = "NameInput.fs"; Lang = "fsharp"; Code = Snippets.text "mvu/NameInput.fs" }
+                    { Label = "nameInput.js"; Lang = "js"; Code = Snippets.text "mvu/nameInput.mjs" }
+                ]))
                 .Feature_lc(Component.CodeFiles([
                     { Label = "query.fs"; Lang = "fsharp"; Code = Snippets.text "lc/query.fs" }
                     { Label = "query.cs"; Lang = "csharp"; Code = Snippets.text "lc/query.cs" }
                 ]))
-                .Feature_tsh(Component.CodeFiles([
-                    { Label = "Client.fs"; Lang = "fsharp"; Code = Snippets.text "tsh/Client.fs" }
-                    { Label = "index"; Lang = "html"; Code = Snippets.text "tsh/index" }
-                ]))
-                .Feature_rwe(Component.CodeFiles([
-                    { Label = "RemoteCall.fs"; Lang = "fsharp"; Code = Snippets.text "rwe/RemoteCall.fs" }
-                    { Label = "remoteCall.js"; Lang = "js"; Code = Snippets.text "rwe/remoteCall.mjs" }
+                .Feature_react(Component.CodeFiles([
+                    { Label = "Person.fs"; Lang = "fsharp"; Code = Snippets.text "react/Person.fs" }
+                    { Label = "Person.js"; Lang = "js"; Code = Snippets.text "react/Person.mjs" }
                 ]))
                 .SCGContent(hydrate (FeaturesSCG.HydrateSCGDoc ()))
                 .Doc()

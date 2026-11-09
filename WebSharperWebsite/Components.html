@@ -22,6 +22,26 @@
         </div>
     </div>
 
+    <!-- Like CodeFiles, but with an extra "Preview" tab (Components.CodeFilesWithPreviewTab).
+         The tab set/handlers mirror CodeFilesWithPreviewPanel so the result tab switches. -->
+    <div ws-children-template="CodeFilesWithPreviewTab">
+        <div data-name="snippet" ws-onafterrender="Init" ws-onclick="OnTabClick" class="relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70" ws-hole="Tabs"></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs" ws-hole="Panels"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <button ws-template="CodeTab"
             ws-onclick="TabClick"
             role="tab" aria-selected="false" data-target="${Label}"

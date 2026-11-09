@@ -121,7 +121,9 @@
         function loadBindingVersions() {
             const els = document.querySelectorAll("[data-nuget-package]");
             if (!els.length) return;
-            fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=true")
+            // Stable releases only, so the value matches the one baked into
+            // bindings.json (a prerelease here would flicker the version badge).
+            fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=false")
                 .then((r) => r.json())
                 .then((d) => {
                     const versions = new Map((d.data || []).map((p) => [p.id.toLowerCase(), p.version]));

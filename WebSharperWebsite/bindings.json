@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-09T15:24:11.5262800\u002B00:00",
+  "generatedAt": "2026-11-09T19:31:57.6348090\u002B00:00",
   "libraries": [
     {
       "name": "Chart.js",
       "package": "WebSharper.ChartJs",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Chart.js",
       "libraryVersion": "4.4.0\u002B",
       "description": "Canvas charts \u2014 line, bar, radar, doughnut and more \u2014 configured through a typed model.",
@@ -19,9 +19,9 @@
     {
       "name": "D3",
       "package": "WebSharper.D3",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "D3",
-      "libraryVersion": "7.9.2",
+      "libraryVersion": "7.9.2\u002B",
       "description": "Data-driven documents: selections, scales, shapes, transitions and geo projections.",
       "repo": "https://github.com/dotnet-websharper/d3",
       "category": "Charts \u0026 visualization",
@@ -34,7 +34,7 @@
     {
       "name": "Highcharts",
       "package": "WebSharper.Highcharts",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Highcharts",
       "libraryVersion": "latest (unpinned)",
       "description": "Interactive charts, Highstock and Highmaps, generated from the official Highcharts API.",
@@ -49,7 +49,7 @@
     {
       "name": "Highstock",
       "package": "WebSharper.Highstock",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Highcharts",
       "libraryVersion": "latest (unpinned)",
       "description": "Time-series and financial charts with navigator, range selector and data grouping.",
@@ -64,7 +64,7 @@
     {
       "name": "Highmaps",
       "package": "WebSharper.Highmaps",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Highcharts",
       "libraryVersion": "latest (unpinned)",
       "description": "Geographic maps and map series, generated from the official Highcharts API.",
@@ -79,7 +79,7 @@
     {
       "name": "Plotly.js",
       "package": "WebSharper.Plotly",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Plotly.js",
       "libraryVersion": "2.26.0\u002B",
       "description": "Interactive scientific and statistical charts with a typed trace and layout model.",
@@ -94,7 +94,7 @@
     {
       "name": "CodeMirror",
       "package": "WebSharper.CodeMirror",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "CodeMirror",
       "libraryVersion": "6.0.0\u002B",
       "description": "The modular CodeMirror 6 editor, with typed language extensions and themes.",
@@ -109,7 +109,7 @@
     {
       "name": "highlight.js",
       "package": "WebSharper.HighlightJS",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "highlight.js",
       "libraryVersion": "11.8.0\u002B",
       "description": "Client-side syntax highlighting with the core build and typed language registration.",
@@ -124,7 +124,7 @@
     {
       "name": "jsPDF",
       "package": "WebSharper.JsPDF",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "jsPDF",
       "libraryVersion": "2.5.1\u002B",
       "description": "Client-side PDF generation \u2014 text, images, tables and page breaks.",
@@ -139,7 +139,7 @@
     {
       "name": "Remarkable",
       "package": "WebSharper.Remarkable",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Remarkable",
       "libraryVersion": "2.0.1\u002B",
       "description": "Markdown parsing and rendering with configurable options.",
@@ -154,7 +154,7 @@
     {
       "name": "SlickGrid",
       "package": "WebSharper.SlickGrid",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "SlickGrid",
       "libraryVersion": "5.18.0\u002B",
       "description": "Fast virtualized data grids with sorting, formatting and editing.",
@@ -169,7 +169,7 @@
     {
       "name": "React",
       "package": "WebSharper.React",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "React",
       "libraryVersion": "18.0.0\u002B",
       "description": "React components and hooks with typed props and state.",
@@ -184,7 +184,7 @@
     {
       "name": "FluentUI React",
       "package": "WebSharper.FluentUI.React.Components",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Fluent UI React",
       "libraryVersion": "9.41.0\u002B",
       "description": "Fluent UI React components \u2014 buttons, dialogs, inputs and layout primitives.",
@@ -197,7 +197,7 @@
     {
       "name": "FluentUI Icons",
       "package": "WebSharper.FluentUI.React.Icons",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Fluent UI React Icons",
       "libraryVersion": "2.0.220\u002B",
       "description": "The full Fluent UI icon set exposed as typed React components.",
@@ -210,7 +210,7 @@
     {
       "name": "SweetAlert2",
       "package": "WebSharper.SweetAlert",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "SweetAlert2",
       "libraryVersion": "11.7.0\u002B",
       "description": "Accessible modal dialogs and alerts with a small, typed API.",
@@ -223,7 +223,7 @@
     {
       "name": "jQuery",
       "package": "WebSharper.JQuery",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "jQuery",
       "libraryVersion": "latest (unpinned)",
       "description": "jQuery selections, events, Ajax and Deferred, plus sitelet router helpers.",
@@ -238,7 +238,7 @@
     {
       "name": "Leaflet",
       "package": "WebSharper.Leaflet",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Leaflet",
       "libraryVersion": "1.9.4\u002B",
       "description": "Interactive maps, markers, popups and tile layers from F#.",
@@ -253,7 +253,7 @@
     {
       "name": "TopoJSON",
       "package": "WebSharper.TopoJson",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "TopoJSON",
       "libraryVersion": "3.1.0\u002B",
       "description": "TopoJSON decoding and geometry conversion for D3 maps.",
@@ -266,7 +266,7 @@
     {
       "name": "Anime.js",
       "package": "WebSharper.AnimeJs",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Anime.js",
       "libraryVersion": "3.2.1\u002B",
       "description": "A lightweight animation engine with a declarative API for CSS, SVG and DOM animations.",
@@ -279,7 +279,7 @@
     {
       "name": "date-fns",
       "package": "WebSharper.DateFNS",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "date-fns",
       "libraryVersion": "2.30.0\u002B",
       "description": "Immutable date manipulation with a large set of small, composable functions.",
@@ -292,7 +292,7 @@
     {
       "name": "Moment.js",
       "package": "WebSharper.Moment",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Moment.js",
       "libraryVersion": "2.29.4\u002B",
       "description": "Date parsing, formatting, durations and time zones.",
@@ -305,7 +305,7 @@
     {
       "name": "SignalR",
       "package": "WebSharper.SignalR",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "SignalR",
       "libraryVersion": "5.0.9",
       "description": "Typed SignalR hubs and clients for real-time server push.",
@@ -318,7 +318,7 @@
     {
       "name": "math.js",
       "package": "WebSharper.MathJS",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "math.js",
       "libraryVersion": "14.5.2\u002B",
       "description": "Arbitrary-precision numbers, expression parsing, matrices, vectors and units.",
@@ -333,7 +333,7 @@
     {
       "name": "MathJax",
       "package": "WebSharper.MathJax",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "MathJax",
       "libraryVersion": "latest (unpinned)",
       "description": "TeX and MathML typesetting with the MathJax v3 API.",
@@ -348,7 +348,7 @@
     {
       "name": "Capacitor",
       "package": "WebSharper.Capacitor",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Capacitor",
       "libraryVersion": "6.0.2\u002B",
       "description": "Typed bindings for the official Capacitor plugins \u2014 camera, filesystem, browser, haptics and more.",
@@ -363,7 +363,7 @@
     {
       "name": "Capacitor Community",
       "package": "WebSharper.Capacitor.Community",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Capacitor",
       "libraryVersion": "4.0.1\u002B",
       "description": "Community Capacitor plugins, including Bluetooth LE, text-to-speech, native audio and camera preview.",
@@ -378,7 +378,7 @@
     {
       "name": "Capacitor CapGo",
       "package": "WebSharper.Capacitor.CapGo",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "library": "Capacitor",
       "libraryVersion": "6.7.0\u002B",
       "description": "CapGo plugins for over-the-air updates, purchases, uploads and native device features.",
@@ -393,7 +393,7 @@
     {
       "name": "WebGPU",
       "package": "WebSharper.WebGPU",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "GPU-accelerated graphics and compute from the browser.",
       "repo": "https://github.com/dotnet-websharper/WebGPU",
       "category": "Graphics \u0026 compute",
@@ -414,7 +414,7 @@
     {
       "name": "WebUSB",
       "package": "WebSharper.WebUSB",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "Communicate with USB devices directly from the browser.",
       "repo": "https://github.com/dotnet-websharper/WebUSB",
       "category": "Devices",
@@ -425,7 +425,7 @@
     {
       "name": "Web Serial",
       "package": "WebSharper.WebSerial",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "Read from and write to serial devices.",
       "repo": "https://github.com/dotnet-websharper/WebSerial",
       "category": "Devices",
@@ -436,7 +436,7 @@
     {
       "name": "WebMIDI",
       "package": "WebSharper.WebMIDI",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "MIDI input, output and device discovery.",
       "repo": "https://github.com/dotnet-websharper/WebMIDI",
       "category": "Devices",
@@ -447,7 +447,8 @@
     {
       "name": "Web Bluetooth",
       "package": "WebSharper.WebBluetooth",
-      "version": "",
+      "version": "10.1.0.701",
+      "devFeed": true,
       "description": "Connect to Bluetooth Low Energy devices and GATT services.",
       "repo": "https://github.com/dotnet-websharper/WebBluetooth",
       "category": "Devices",
@@ -506,7 +507,7 @@
     {
       "name": "WebRTC",
       "package": "WebSharper.WebRTC",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "Camera and microphone streams, plus peer-to-peer media types.",
       "repo": "https://github.com/dotnet-websharper/webrtc",
       "category": "Media \u0026 communication",
@@ -517,7 +518,7 @@
     {
       "name": "Web Speech",
       "package": "WebSharper.WebSpeech",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "Speech synthesis and speech recognition.",
       "repo": "https://github.com/dotnet-websharper/webspeech",
       "category": "Media \u0026 communication",
@@ -528,7 +529,8 @@
     {
       "name": "WebCodecs",
       "package": "WebSharper.WebCodecs",
-      "version": "",
+      "version": "10.1.0.701",
+      "devFeed": true,
       "description": "Low-level audio and video encoding and decoding.",
       "repo": "https://github.com/dotnet-websharper/WebCodecs",
       "category": "Media \u0026 communication",
@@ -539,7 +541,8 @@
     {
       "name": "WebVTT",
       "package": "WebSharper.WebVTT",
-      "version": "",
+      "version": "10.1.0.701",
+      "devFeed": true,
       "description": "Parse and manipulate WebVTT subtitle and caption tracks.",
       "repo": "https://github.com/dotnet-websharper/WebVTT",
       "category": "Media \u0026 communication",
@@ -598,7 +601,7 @@
     {
       "name": "Web Locks",
       "package": "WebSharper.WebLocks",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "Coordinate access to resources across tabs and workers.",
       "repo": "https://github.com/dotnet-websharper/WebLocks",
       "category": "Storage \u0026 state",
@@ -609,7 +612,7 @@
     {
       "name": "IndexedDB",
       "package": "WebSharper.IndexedDB",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "Structured client-side storage with typed object stores.",
       "repo": "https://github.com/dotnet-websharper/w3c-indexeddb",
       "category": "Storage \u0026 state",
@@ -644,7 +647,7 @@
     {
       "name": "Touch Events",
       "package": "WebSharper.TouchEvents",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "Touch and pointer events for mobile interactions.",
       "repo": "https://github.com/dotnet-websharper/TouchEvents",
       "category": "Input \u0026 UI",
@@ -655,7 +658,7 @@
     {
       "name": "Popover API",
       "package": "WebSharper.Popover",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "Native HTML popovers anchored to elements.",
       "repo": "https://github.com/dotnet-websharper/PopoverAPI",
       "category": "Input \u0026 UI",
@@ -714,7 +717,7 @@
     {
       "name": "Performance API",
       "package": "WebSharper.PerformanceAPI",
-      "version": "11.0.0.695-preview.1",
+      "version": "10.1.0.667",
       "description": "Navigation and resource timing, plus custom performance marks.",
       "repo": "https://github.com/dotnet-websharper/PerformanceAPI",
       "category": "Performance",
@@ -807,7 +810,8 @@
     {
       "name": "Web Crypto",
       "package": "WebSharper.WebCrypto",
-      "version": "",
+      "version": "10.1.0.701",
+      "devFeed": true,
       "description": "Cryptographic primitives: keys, encryption, signing and hashing.",
       "repo": "https://github.com/dotnet-websharper/WebCrypto",
       "category": "Security \u0026 identity",
@@ -830,7 +834,8 @@
     {
       "name": "Web Authentication",
       "package": "WebSharper.WebAuthentication",
-      "version": "",
+      "version": "10.1.0.701",
+      "devFeed": true,
       "description": "Passwordless public-key authentication with WebAuthn.",
       "repo": "https://github.com/dotnet-websharper/WebAuthentication",
       "category": "Security \u0026 identity",

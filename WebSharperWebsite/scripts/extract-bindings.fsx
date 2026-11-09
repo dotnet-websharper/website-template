@@ -320,7 +320,10 @@ let versionStatus (bound: string) (latest: string option) =
 // Dynamic lookups
 // ---------------------------------------------------------------------------
 
-/// Latest published version on NuGet (empty string when unknown).
+/// Latest **stable** published version on NuGet (empty string when unknown).
+/// Prereleases are skipped on purpose: the page then fetches the same stable
+/// version live on load, so baking a prerelease here only causes the badge to
+/// flicker (it is immediately overwritten with the stable release).
 let nugetVersion (package: string) =
     let url = sprintf "https://api.nuget.org/v3-flatcontainer/%s/index.json" (package.ToLowerInvariant())
     match tryGet url with
@@ -328,8 +331,12 @@ let nugetVersion (package: string) =
         try
             let doc = JsonDocument.Parse(body)
             let versions = doc.RootElement.GetProperty("versions")
-            if versions.GetArrayLength() = 0 then ""
-            else versions.[versions.GetArrayLength() - 1].GetString()
+            let stable =
+                versions.EnumerateArray()
+                |> Seq.map (fun v -> v.GetString())
+                |> Seq.filter (fun v -> not (String.IsNullOrEmpty v) && not (v.Contains "-"))
+                |> Seq.toList
+            if List.isEmpty stable then "" else List.last stable
         with _ -> ""
     | None -> ""
 
@@ -381,9 +388,11 @@ let ghFeedVersion (package: string) =
                 let body = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult()
                 let doc = JsonDocument.Parse(body)
                 let versions = doc.RootElement.GetProperty("versions")
-                // GitHub Packages returns the versions newest-first.
-                if versions.GetArrayLength() = 0 then None
-                else Some (versions.[0].GetString())
+                // GitHub Packages returns the versions newest-first; take the
+                // newest stable one (skip prereleases, same as the main feed).
+                versions.EnumerateArray()
+                |> Seq.map (fun v -> v.GetString())
+                |> Seq.tryFind (fun v -> not (String.IsNullOrEmpty v) && not (v.Contains "-"))
             else None
         with _ -> None
 
@@ -492,7 +501,7 @@ let libraryVersion (meta: BindingMeta) =
         let m = Text.RegularExpressions.Regex.Match(range, "([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)")
         if m.Success then m.Groups.[1].Value + "+" else range
     | _, Some url ->
-        // .../d3/7.0.1/d3.min.js or .../highcharts.js (unpinned)
+        // .../d3/<x.y.z>/d3.min.js or .../highcharts.js (unpinned)
         let m = Text.RegularExpressions.Regex.Match(url, "/([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)/")
         if m.Success then m.Groups.[1].Value else "latest (unpinned)"
     | None, None -> "latest (unpinned)"

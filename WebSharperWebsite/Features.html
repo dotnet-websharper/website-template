@@ -446,12 +446,20 @@
             <div class="relative lg:flex">
                 <div class="sticky top-[33%] mb-16 mt-24 hidden h-max justify-end lg:flex lg:w-[10rem] xl:w-[6rem]">
                     <div class="sticky top-32 ml-auto flex flex-col items-end space-y-4">
-                        <a href="#mvu" data-step="mvu" class="section-link group flex w-max items-center justify-end gap-3">
-                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Model-View-Update</span>
+                        <a href="#reactive" data-step="reactive" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Reactive values</span>
                             <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
                         </a>
-                        <a href="#react" data-step="react" class="section-link group flex w-max items-center justify-end gap-3">
-                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">React Components</span>
+                        <a href="#js-bindings" data-step="js-bindings" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Type-safe JS bindings</span>
+                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                        </a>
+                        <a href="#tsh" data-step="tsh" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Type-safe HTML</span>
+                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                        </a>
+                        <a href="#rwe" data-step="rwe" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Type-safe remoting</span>
                             <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
                         </a>
                         <a href="#webapi" data-step="webapi" class="section-link group flex w-max items-center justify-end gap-3">
@@ -462,40 +470,66 @@
                             <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Client-side routing</span>
                             <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
                         </a>
+                        <a href="#mvu" data-step="mvu" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Model-View-Update</span>
+                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
+                        </a>
                         <a href="#lc" data-step="lc" class="section-link group flex w-max items-center justify-end gap-3">
                             <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Language constructs</span>
                             <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
                         </a>
-                        <a href="#tsh" data-step="tsh" class="section-link group flex w-max items-center justify-end gap-3">
-                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Type-safe HTML</span>
-                            <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
-                        </a>
-                        <a href="#rwe" data-step="rwe" class="section-link group flex w-max items-center justify-end gap-3">
-                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">Remoting with ease</span>
+                        <a href="#react" data-step="react" class="section-link group flex w-max items-center justify-end gap-3">
+                            <span class="block translate-x-1 text-sm text-gray-900 opacity-30 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 dark:text-white">React components</span>
                             <div aria-hidden="true" class="h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"></div>
                         </a>
                     </div>
                 </div>
                 <div class="lg:w-[calc(100%-6rem)] ml-auto">
-                    <div id="mvu" class="section py-16 md:flex">
+                    <div id="reactive" class="section py-16 md:flex">
                         <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
-                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Model-View-Update architecture with WebSharper.Mvu</h3>
-                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Structure client-side applications with clear separation of concerns between logic and display. Based on WebSharper.UI, Mvu brings Elm-like architecture to WebSharper.</p>
-                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Reactive values</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">A single <span class="font-mono">Var</span> is the source of truth, bound <span class="font-medium">two-way</span> to the DOM. Derived views recompute on their own when it changes, and the page updates in place — no virtual DOM and no DOM diffing needed.</p>
+                            <a href="https://docs.websharper.com/ui" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
                                 <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                             </a>
                         </div>
-                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_mvu"></div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_reactive"></div>
                     </div>
-                    <div id="react" class="section py-16 md:flex">
+                    <div id="js-bindings" class="section py-16 md:flex">
                         <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
-                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Build React components</h3>
-                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">You can also use widespread libraries such as React to build applications. The syntax is as convenient as JSX, with the added benefit of strong typing.</p>
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Type-safe JS bindings</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Describe a JavaScript library once, then use it from F# with full type checking — no hand-written interop, no <span class="font-mono">any</span>. Here the Leaflet map library is bound and the client fills the <span class="font-mono">index.html</span> template's holes.</p>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_jsbindings"></div>
+                    </div>
+                    <div id="tsh" class="section py-16 md:flex">
+                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Type-safe HTML templating</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">
+                                Use HTML templates to keep your logic and UI clearly separate and facilitate the collaboration between programmers and designers.
+                            </p>
                             <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
                                 <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                             </a>
                         </div>
-                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_react"></div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_tsh"></div>
+                    </div>
+                    <div id="rwe" class="section py-16 md:flex">
+                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Type-safe remoting</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">
+                                Seamlessly call server-side asynchronous functions from the client side.
+
+                                <br><br>AJAX call, JSON serialization... Everything is handled automatically.
+                            </p>
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_rwe"></div>
                     </div>
                     <div id="webapi" class="section py-16 md:flex">
                         <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
@@ -523,6 +557,16 @@
                         </div>
                         <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_csr"></div>
                     </div>
+                    <div id="mvu" class="section py-16 md:flex">
+                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Model-View-Update architecture with WebSharper.Mvu</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">Structure client-side applications with clear separation of concerns between logic and display. Based on WebSharper.UI, Mvu brings Elm-like architecture to WebSharper.</p>
+                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
+                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_mvu"></div>
+                    </div>
                     <div id="lc" class="section py-16 md:flex">
                         <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
                             <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Use powerful language constructs on the client side</h3>
@@ -538,31 +582,15 @@
                         </div>
                         <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_lc"></div>
                     </div>
-                    <div id="tsh" class="section py-16 md:flex">
+                    <div id="react" class="section py-16 md:flex">
                         <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
-                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Type-safe HTML templating</h3>
-                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">
-                                Use HTML templates to keep your logic and UI clearly separate and facilitate the collaboration between programmers and designers.
-                            </p>
+                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Build React components</h3>
+                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">You can also use widespread libraries such as React to build applications. The syntax is as convenient as JSX, with the added benefit of strong typing.</p>
                             <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
                                 <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
                             </a>
                         </div>
-                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_tsh"></div>
-                    </div>
-                    <div id="rwe" class="section py-16 md:flex">
-                        <div class="w-full md:w-1/2 md:pr-6 lg:mt-8 lg:px-12">
-                            <h3 class="text-2xl font-bold text-gray-700 dark:text-white">Remoting with ease</h3>
-                            <p class="mb-8 mt-6 text-gray-500 dark:text-gray-200 lg:mb-12">
-                                Seamlessly call server-side asynchronous functions from the client side.
-
-                                <br><br>AJAX call, JSON serialization... Everything is handled automatically.
-                            </p>
-                            <a href="https://docs.websharper.com/" class="disabled:before:bg-gray-300 group relative flex h-9 w-max items-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-brand-primary/20 before:transition before:duration-300 hover:before:bg-brand-primary/30 active:duration-75 active:before:scale-95 disabled:before:scale-100 dark:before:bg-white/10 dark:hover:before:bg-white/20">
-                                <span class="relative w-max text-sm font-medium text-gray-600 dark:text-white"> Learn more </span>
-                            </a>
-                        </div>
-                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_rwe"></div>
+                        <div class="mt-8 ml-auto w-full md:mt-0 md:w-1/2" ws-hole="Feature_react"></div>
                     </div>
                 </div>
             </div>

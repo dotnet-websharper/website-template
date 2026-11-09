@@ -217,8 +217,9 @@ module Bindings =
                 ])
         |> Doc.Concat
 
+    /// The card's bound-version pill: "N/A" when no upstream version was found.
     let private boundVersionText (version: string) =
-        if version.Contains "unpinned" then "latest" else version
+        if version = "" || version.Contains "unpinned" then "N/A" else version
 
     let private statusInfo (status: string option) =
         match status with
@@ -227,7 +228,10 @@ module Bindings =
         | _ -> "", ""
 
     let private libraryCard (b: LibraryBinding) =
-        let label, key = statusInfo b.Status
+        // No bound version means there is nothing to compare against npm, so the
+        // status badge is meaningless (and would read "Up to date" for "N/A").
+        let noBound = b.LibraryVersion = "" || b.LibraryVersion.Contains "unpinned"
+        let label, key = if noBound then "", "" else statusInfo b.Status
         Templates.BindingsTemplate.LibraryCard()
             .Name(b.Name)
             .PackageName(b.Package)

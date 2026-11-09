@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>reactive</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="Scripts/reactive.css" />
+    <style>
+        /* Don't show the not-yet-loaded templates */
+        [ws-template], [ws-children-template] { display: none; }
+        html, body { margin: 0; height: 100%; }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+        }
+    </style>
+    <script type="text/javascript" src="Scripts/reactive.head.js"></script>
+</head>
+<body>
+    <!-- A minimal page: the client fills the holes and binds the template. -->
+    <div class="card">
+        <h1>Reactive counter</h1>
+        <div class="row">
+            <button ws-onclick="Decrement" aria-label="decrement">&minus;</button>
+            <input class="field" type="number" ws-var="Count" />
+            <button ws-onclick="Increment" aria-label="increment">+</button>
+        </div>
+        <p>square = <span ws-hole="Squared">0</span></p>
+        <p>parity = <span ws-hole="Parity">even</span></p>
+        <button class="reset" ws-onclick="Reset">Reset</button>
+    </div>
+    <script type="module" src="Scripts/reactive.min.js"></script>
+</body>
+</html>

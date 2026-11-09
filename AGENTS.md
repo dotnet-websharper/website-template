@@ -214,19 +214,41 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
     NuGet config's `dotnet-websharper-GitHub` credentials). `resolveVersion`
     prefers the **nuget.org** version when present (so a package in both feeds
     uses the NuGet version); otherwise it uses the GH-feed version and sets
-    `devFeed: true`, which renders the **Dev feed** badge. The GH feed's
-    `versions` array is **newest-first** (`versions.[0]`); nuget.org's is
-    ascending (`versions.[last]`). Most of the modernized browser-API bindings
-    (`ServiceWorker`, `Clipboard`, `CookieStore`, `BatteryStatus`, `Push`,
-    `BackgroundFetch`, `Permissions`, …) are published only to the GH feed and
-    not to nuget.org, so their cards do show the badge; a few newer catalog
-    entries (`WebBluetooth`, `WebCodecs`, `WebVTT`, `WebCrypto`,
-    `WebAuthentication`) have no published package yet and get an empty version
-    (the version badge is then hidden).
-  - **Version display**: `nugetVersion` returns the **last** entry in the
-    nuget.org `versions` array, which is the newest version and may be a preview
-    (`11.0.0.695-preview.1`). Filter previews in `nugetVersion` if the page
-    should show only stable releases.
+    `devFeed: true`, which renders the **Dev feed** badge. Both feeds skip
+    prereleases (any version containing `-`): the GH feed is **newest-first**,
+    so the first stable one wins (`10.1.0.700`-style); nuget.org's list is
+    ascending, so its last stable wins. Most of the modernized browser-API
+    bindings (`ServiceWorker`, `Clipboard`, `CookieStore`, `BatteryStatus`,
+    `Push`, `BackgroundFetch`, `Permissions`, …) are published only to the GH
+    feed and not to nuget.org, so their cards do show the badge.
+  - **Version display (stable only)**: the refresh script never bakes a
+    prerelease — `nugetVersion` and `ghFeedVersion` skip any version containing
+    `-`. This is deliberate: the page's live refresh (`loadBindingVersions` in
+    `Layout.html`, `&prerelease=false`) returns the latest **stable** `version`
+    from the Azure Search API even when asked for prereleases, so a baked
+    `-preview` value only flickered on load (immediately overwritten with the
+    stable release).
+  - **Bound version** (`libraryVersion`, shown in the card's `BoundVersion`
+    pill, e.g. `4.4.0+`): the upstream library version a binding targets,
+    resolved by `libraryVersion` in this priority order:
+    1. `<NpmPackage Name="…" Version="…">` entries in the repo's `.fsproj`
+       (`projectFiles`): the entry named by `mainPackages` when the repo has a
+       headline package, otherwise the **first** entry. The range's first
+       `major.minor[.patch]` is rendered with `+` (`>= 4.4.0 <5.0.0` → `4.4.0+`).
+    2. Otherwise the first `Resource "…" "https://…"` URL in the file listed in
+       `resourceFiles` (`Main.fs`/`Definition.fs`), taking the `/<x.y.z>/` path
+       segment — e.g. D3's `…/d3/7.9.2/d3.min.js` → `7.9.2`.
+    3. Otherwise `"latest (unpinned)"`, rendered as **N/A**; the Up to
+       date/Recent/Outdated badge is hidden because there is nothing to compare.
+    A repo can be in `projectFiles` yet fall through to step 2 if its fsproj has
+    no `<NpmPackage>` (D3 is exactly this case: it pins 7.9.2 via its CDN
+    resource, not via `NpmPackage`). `readRepoFile` prefers a local
+    `~/dotnet-websharper/<repo>/<path>` checkout over
+    `raw.githubusercontent.com/dotnet-websharper/<repo>/HEAD/<path>`.
+    `versionStatus` compares the bound major.minor against the npm `latest`
+    (`npmLatestPackages` → `npmLatest`, `registry.npmjs.org/<pkg>/latest`).
+    A card shows three distinct versions: `version` (NuGet package),
+    `libraryVersion` (this bound upstream version) and `latestVersion` (npm).
   - **Template holes**: `LibraryCard`/`BrowserCard` are `ws-template` roots with
     `data-binding-card`/`data-binding-name`; the version is `ws-attr="VersionAttr"`,
     the "Dev feed" badge is `ws-attr="DevFeedAttr"`, and the sample link is
@@ -271,7 +293,14 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   sit at the same height (not clustered in the top bar). Panes are an even
   `md:grid-cols-3 md:divide-x`, with the Terminal as `md:col-span-3`.
 - **`CodeFilesWithPreviewPanel` / `CodeFiles`** — tabbed code beside a live preview
-  iframe (or plain tabs).
+  iframe (or plain tabs). The preview panel is `sm:absolute` / `sm:-right-0`, so it
+  positions against the nearest positioned ancestor: the `ws-hole` wrapper **must be
+  `relative`** (the OCaml page does this) — without it the preview floats to the
+  top-right of the whole `relative lg:flex` rail.
+- **`CodeFilesWithPreviewTab`** — the `CodeFiles` shell plus an extra **Preview** tab
+  (the shared `VsCodeResultTab`/`VsCodePanelResult`), so the app preview lives in a
+  tab instead of beside the code. Used by the first two Features sections (in their
+  normal text-LHS / widget-RHS half column).
 
 ### Line-number alignment (`Js/line-numbers.js`)
 
@@ -341,6 +370,17 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   `Render()` returning `ul/li` → valid JSX `<ul className="person">…`; a router installed
   with `Article 1` starts at that route; and a WebSharper endpoint `GET /article` with an
   `id` field links as `/article?id=…` (a query param, not a path segment).
+  - **Reactive values** and **Type-safe JS bindings** (the first two Features sections,
+    in the usual text-LHS / widget-RHS half column) use `CodeFilesWithPreviewTab`, so
+    their app preview is the fourth tab. Tabs: `Leaflet.fs` (WIG), `Client.fs`,
+    `index.html`, **Preview** — and for reactive `Client.fs`, `index.html`,
+    `reactive.js`, **Preview**. The snippets (`snippets/maps`, `snippets/reactive`)
+    keep their markup in `index.html` and fill it with **`.Bind()`**: holes live
+    directly in the page (no `ws-children-template`), and `.Bind()` is a method on the
+    **root** template (`IndexTemplate()`), not on a `ws-children-template` (there you
+    use `.Doc() |> Doc.RunById`). `snippets/reactive` is a copy of the
+    `add_two_numbers` scaffold (same `SPAEntryPoint` + esbuild setup); `snippets/maps`
+    is shared with the Examples Maps tab, so changing it changes both.
 
 ## Snippets & static previews
 

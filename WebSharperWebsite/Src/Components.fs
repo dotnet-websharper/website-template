@@ -61,6 +61,26 @@ type Component private () =
                 SnippetCode.InitTabs())
             .Doc()
 
+    /// Like `CodeFiles`, but with an extra "Preview" tab that shows `previewPath`
+    /// in an iframe — the app preview lives in a tab instead of beside the code.
+    static member CodeFilesWithPreviewTab(previewPath: string, tabs: CodeTab list) : Doc =
+        Templates.ComponentsTemplate.CodeFilesWithPreviewTab()
+            .Tabs(
+                Doc.Concat (
+                    (Component.TabIndicator () :: List.map Component.Tab tabs)
+                    @ [ Templates.ComponentsTemplate.VsCodeResultTab()
+                            .TabClick(fun e -> SnippetCode.OnTabClick e.Event)
+                            .Doc() ]))
+            .Panels(
+                Doc.Concat (
+                    (tabs |> List.mapi (fun i t -> Component.EditorPanel(i, t)))
+                    @ [ Templates.ComponentsTemplate.VsCodePanelResult().Url(previewPath).Doc() ]))
+            .OnTabClick(fun e -> SnippetCode.OnTabClick e.Event)
+            .Init(fun () ->
+                SnippetCode.Init()
+                SnippetCode.InitTabs())
+            .Doc()
+
     /// A three-pane code window (worker + two JS files) with a Terminal.
     static member VsCode3(tab1: CodeTab, tab2: CodeTab, tab3: CodeTab, terminalContent: string) : Doc =
         Templates.ComponentsTemplate.VsCode3()
