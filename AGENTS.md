@@ -194,7 +194,7 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   `Bindings.fs` reads it and renders the cards. Reordering or changing a
   category is a JSON edit; adding a binding or changing its metadata is a
   catalog edit in the script.
-  - **Catalog** in `extract-bindings.fsx`: `libraries` (27) and `browserApis`
+  - **Catalog** in `extract-bindings.fsx`: `libraries` (28) and `browserApis`
     (41), each with `Name`, `Package`, `Repo`, `Description`, `Category` and
     `SampleName` (libraries only); the categories (17 today) drive the section
     headings and the jump-pill nav.
@@ -212,15 +212,24 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   - **Dev feed**: the `dotnet-websharper` GitHub Packages feed. The script reads
     it with `GH_PACKAGES_TOKEN` / `GITHUB_TOKEN` / `GH_TOKEN` (or the local
     NuGet config's `dotnet-websharper-GitHub` credentials). `resolveVersion`
-    prefers the **nuget.org** version when present (so a package in both feeds
-    uses the NuGet version); otherwise it uses the GH-feed version and sets
-    `devFeed: true`, which renders the **Dev feed** badge. Both feeds skip
-    prereleases (any version containing `-`): the GH feed is **newest-first**,
-    so the first stable one wins (`10.1.0.700`-style); nuget.org's list is
-    ascending, so its last stable wins. Most of the modernized browser-API
-    bindings (`ServiceWorker`, `Clipboard`, `CookieStore`, `BatteryStatus`,
-    `Push`, `BackgroundFetch`, `Permissions`, …) are published only to the GH
-    feed and not to nuget.org, so their cards do show the badge.
+    picks the **newest stable** version across both feeds — a package that is
+    only on the GH feed, *or whose dev-feed build is ahead of the released one*
+    (e.g. `Ace`/`date-fns` right after a push), uses the GH-feed version and sets
+    `devFeed: true`, which renders the **Dev** badge; otherwise the
+    nuget.org version is used. (The `WebSharper.Ace` id is a good reason for the
+    "newer wins" rule: nuget.org still serves a legacy `4.7.2.189` for it, far
+    behind the GH feed's `10.1.0.706`.) Both feeds skip prereleases (any version
+    containing `-`): the GH feed is **newest-first**, so the first stable one
+    wins (`10.1.0.700`-style); nuget.org's list is ascending, so its last stable
+    wins. Because a dev-feed version can be newer than the released one, the
+    card's version pill is only tagged `data-nuget-package` (for the page's live
+    NuGet refresh) when it came from nuget.org — `versionAttr` in `Bindings.fs`.
+    `resolveVersion` also records `onNuGet`/`onDevFeed` (whether each feed
+    actually carries the package), which drive the two icon links on the card.
+    Most of the modernized browser-API bindings (`ServiceWorker`, `Clipboard`,
+    `CookieStore`, `BatteryStatus`, `Push`, `BackgroundFetch`, `Permissions`, …)
+    are published only to the GH feed and not to nuget.org, so their cards do
+    show the badge.
   - **Version display (stable only)**: the refresh script never bakes a
     prerelease — `nugetVersion` and `ghFeedVersion` skip any version containing
     `-`. This is deliberate: the page's live refresh (`loadBindingVersions` in
@@ -251,8 +260,12 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
     `libraryVersion` (this bound upstream version) and `latestVersion` (npm).
   - **Template holes**: `LibraryCard`/`BrowserCard` are `ws-template` roots with
     `data-binding-card`/`data-binding-name`; the version is `ws-attr="VersionAttr"`,
-    the "Dev feed" badge is `ws-attr="DevFeedAttr"`, and the sample link is
-    `ws-attr="SampleAttr"`. `DevFeedAttr` is `attr.hidden ""` when false.
+    the "Dev" version label (next to the version pill) is
+    `ws-attr="DevFeedLabelAttr"`, the NuGet and GitHub-Packages icon links are
+    `ws-attr="NuGetAttr"`/`ws-attr="DevFeedAttr"` (each `attr.hidden ""` when the
+    package is not on that feed), and the sample link is `ws-attr="SampleAttr"`.
+    The bottom row is: NuGet icon, GH icon, Website/Spec, Source, Sample/Test case
+    (the old single "NuGet"/"Dev feed" text link is gone).
   - **Section nav**: `sectionNav` renders a sticky vertical rail (same
     `.section-link`/`data-step` markup as the Features page); the two top-level
     entries ("JavaScript libraries", "Browser APIs")

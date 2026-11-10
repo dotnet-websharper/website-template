@@ -30,6 +30,8 @@ module Bindings =
             SampleUrl: string option
             SampleLabel: string option
             DevFeed: bool
+            OnNuGet: bool
+            OnDevFeed: bool
         }
 
     type BrowserBinding =
@@ -44,6 +46,8 @@ module Bindings =
             SampleUrl: string option
             SampleLabel: string option
             DevFeed: bool
+            OnNuGet: bool
+            OnDevFeed: bool
         }
 
     type BindingsData =
@@ -102,6 +106,8 @@ module Bindings =
             SampleUrl = tryPropString el "sampleUrl"
             SampleLabel = tryPropString el "sampleLabel"
             DevFeed = tryPropBool el "devFeed"
+            OnNuGet = tryPropBool el "onNuGet"
+            OnDevFeed = tryPropBool el "onDevFeed"
         }
 
     let private parseBrowser (el: JsonElement) =
@@ -116,6 +122,8 @@ module Bindings =
             SampleUrl = tryPropString el "sampleUrl"
             SampleLabel = tryPropString el "sampleLabel"
             DevFeed = tryPropBool el "devFeed"
+            OnNuGet = tryPropBool el "onNuGet"
+            OnDevFeed = tryPropBool el "onDevFeed"
         }
 
     let private parse (json: string) =
@@ -221,6 +229,15 @@ module Bindings =
     let private boundVersionText (version: string) =
         if version = "" || version.Contains "unpinned" then "N/A" else version
 
+    /// Attributes for the version pill. Only nuget.org-sourced versions are tagged
+    /// `data-nuget-package`: a dev-feed version can be newer than the released one
+    /// (a fresh push before the next nuget.org release), and the page's live NuGet
+    /// refresh would otherwise overwrite it with the older released version.
+    let private versionAttr (version: string) (package: string) (devFeed: bool) =
+        if version = "" then attr.hidden ""
+        elif devFeed then Attr.Empty
+        else Attr.Create "data-nuget-package" package
+
     let private statusInfo (status: string option) =
         match status with
         | Some "up-to-date" -> "Up to date", "up-to-date"
@@ -236,7 +253,7 @@ module Bindings =
             .Name(b.Name)
             .PackageName(b.Package)
             .PackageVersion(b.Version)
-            .VersionAttr(if b.Version = "" then attr.hidden "" else Attr.Create "data-nuget-package" b.Package)
+            .VersionAttr(versionAttr b.Version b.Package b.DevFeed)
             .Description(b.Description)
             .BoundVersion(boundVersionText b.LibraryVersion)
             .LatestVersion(defaultArg b.LatestVersion "—")
@@ -244,9 +261,11 @@ module Bindings =
             .StatusAttr(if key = "" then attr.hidden "" else Attr.Create "data-status" key)
             .WebsiteUrl(defaultArg b.Website "#")
             .WebsiteAttr(if b.Website.IsSome then Attr.Empty else attr.hidden "")
-            .NuGetUrl(if b.DevFeed then devFeedUrl b.Package else nugetUrl b.Package)
-            .NuGetLabel(if b.DevFeed then "Dev feed" else "NuGet")
-            .NuGetAttr(if b.Version = "" then attr.hidden "" else Attr.Empty)
+            .NuGetUrl(nugetUrl b.Package)
+            .NuGetAttr(if b.OnNuGet then Attr.Empty else attr.hidden "")
+            .DevFeedUrl(devFeedUrl b.Package)
+            .DevFeedAttr(if b.OnDevFeed then Attr.Empty else attr.hidden "")
+            .DevFeedLabelAttr(if b.DevFeed then Attr.Empty else attr.hidden "")
             .SourceUrl(b.Repo)
             .SampleUrl(defaultArg b.SampleUrl "")
             .SampleLabel(defaultArg b.SampleLabel "Sample")
@@ -258,13 +277,15 @@ module Bindings =
             .Name(b.Name)
             .PackageName(b.Package)
             .PackageVersion(b.Version)
-            .VersionAttr(if b.Version = "" then attr.hidden "" else Attr.Create "data-nuget-package" b.Package)
+            .VersionAttr(versionAttr b.Version b.Package b.DevFeed)
             .Description(b.Description)
             .WebsiteUrl(defaultArg b.Website "#")
             .WebsiteAttr(if b.Website.IsSome then Attr.Empty else attr.hidden "")
-            .NuGetUrl(if b.DevFeed then devFeedUrl b.Package else nugetUrl b.Package)
-            .NuGetLabel(if b.DevFeed then "Dev feed" else "NuGet")
-            .NuGetAttr(if b.Version = "" then attr.hidden "" else Attr.Empty)
+            .NuGetUrl(nugetUrl b.Package)
+            .NuGetAttr(if b.OnNuGet then Attr.Empty else attr.hidden "")
+            .DevFeedUrl(devFeedUrl b.Package)
+            .DevFeedAttr(if b.OnDevFeed then Attr.Empty else attr.hidden "")
+            .DevFeedLabelAttr(if b.DevFeed then Attr.Empty else attr.hidden "")
             .SourceUrl(b.Repo)
             .SampleUrl(defaultArg b.SampleUrl "")
             .SampleLabel(defaultArg b.SampleLabel "Test case")

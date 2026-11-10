@@ -79,6 +79,7 @@ let libraries: BindingMeta list =
         { Name = "Plotly.js"; Package = "WebSharper.Plotly"; Library = "Plotly.js"; Repo = "plotly"; Category = "Charts & visualization"; SampleName = None; Description = "Interactive scientific and statistical charts with a typed trace and layout model." }
 
         // Editors & documents
+        { Name = "Ace"; Package = "WebSharper.Ace"; Library = "Ace"; Repo = "ace"; Category = "Editors & documents"; SampleName = None; Description = "The embeddable code editor — sessions, documents, ranges, selections, search, markers and themes." }
         { Name = "CodeMirror"; Package = "WebSharper.CodeMirror"; Library = "CodeMirror"; Repo = "codemirror"; Category = "Editors & documents"; SampleName = Some "CodeMirror"; Description = "The modular CodeMirror 6 editor, with typed language extensions and themes." }
         { Name = "highlight.js"; Package = "WebSharper.HighlightJS"; Library = "highlight.js"; Repo = "highlightjs"; Category = "Editors & documents"; SampleName = Some "HighlightJS"; Description = "Client-side syntax highlighting with the core build and typed language registration." }
         { Name = "jsPDF"; Package = "WebSharper.JsPDF"; Library = "jsPDF"; Repo = "jspdf"; Category = "Editors & documents"; SampleName = Some "JsPDF"; Description = "Client-side PDF generation — text, images, tables and page breaks." }
@@ -183,6 +184,7 @@ let browserApis: BrowserMeta list =
 /// The bound library's official website (docs or product page).
 let libraryWebsites =
     dict [
+        "ace", "https://ace.c9.io/"
         "animejs", "https://animejs.com/"
         "Capacitor", "https://capacitorjs.com/"
         "Capacitor.Community", "https://github.com/capacitor-community"
@@ -213,6 +215,7 @@ let libraryWebsites =
 /// The npm package whose `latest` dist-tag is the library's current stable version.
 let npmLatestPackages =
     dict [
+        "ace", "ace-builds"
         "animejs", "animejs"
         "Capacitor", "@capacitor/core"
         "Capacitor.Community", "@capacitor-community/text-to-speech"
@@ -396,17 +399,52 @@ let ghFeedVersion (package: string) =
             else None
         with _ -> None
 
-/// Resolve the version to show and whether it came from the dev feed.
-/// The main NuGet feed wins when the package is there; otherwise the dev feed
-/// version is used and the "Dev feed" label is shown.
+/// Compare two dotted numeric versions (WebSharper's `major.minor.patch.build`),
+/// ignoring any prerelease suffix (non-numeric segments count as 0).
+let private compareVersions (a: string) (b: string) =
+    let parts (s: string) =
+        s.Split([| '.'; '-' |])
+        |> Array.map (fun p ->
+            match Int32.TryParse p with
+            | true, n -> n
+            | _ -> 0)
+    let pa, pb = parts a, parts b
+    let len = max pa.Length pb.Length
+    let rec go i =
+        if i >= len then 0
+        else
+            let x = if i < pa.Length then pa.[i] else 0
+            let y = if i < pb.Length then pb.[i] else 0
+            if x <> y then compare x y else go (i + 1)
+    go 0
+
+/// Where a package's versions live and which one to show.
+type ResolvedVersion =
+    {
+        /// The version to show (the newest stable one).
+        Version: string
+        /// True when the shown version comes from the dev feed.
+        DevFeed: bool
+        /// True when the package was found on nuget.org.
+        OnNuGet: bool
+        /// True when the package was found on the dev feed.
+        OnDevFeed: bool
+    }
+
+/// Resolve the version to show and which feeds actually carry the package. The
+/// newest **stable** version across nuget.org and the dev feed wins: a package
+/// that is only on the dev feed — or whose dev-feed build is ahead of the
+/// released one (e.g. a fresh push before the next nuget.org release) — shows
+/// the dev-feed version and the "Dev feed" label.
 let resolveVersion (package: string) =
     let nuget = nugetVersion package
-    if not (String.IsNullOrEmpty nuget) then
-        nuget, false
-    else
-        match ghFeedVersion package with
-        | Some v -> v, true
-        | None -> "", false
+    let gh = ghFeedVersion package
+    let onNuGet = not (String.IsNullOrEmpty nuget)
+    let version, devFeed =
+        match gh with
+        | Some g when not onNuGet || compareVersions g nuget > 0 -> g, true
+        | _ -> nuget, false
+    { Version = version; DevFeed = devFeed; OnNuGet = onNuGet; OnDevFeed = gh.IsSome }
 
 /// Read a file either from the local binding repo or from raw GitHub.
 let readRepoFile (repo: string) (path: string) =
@@ -417,6 +455,7 @@ let readRepoFile (repo: string) (path: string) =
 /// Upstream library version from NpmDependencies or a CDN resource URL.
 let private projectFiles =
     dict [
+        "ace", "WebSharper.Ace/WebSharper.Ace.fsproj"
         "animejs", "WebSharper.AnimeJs/WebSharper.AnimeJs.fsproj"
         "chartjs", "WebSharper.ChartJs/WebSharper.ChartJs.fsproj"
         "codemirror", "WebSharper.CodeMirror/WebSharper.CodeMirror.fsproj"
@@ -527,14 +566,16 @@ let now = DateTimeOffset.UtcNow.ToString("o")
 let libraryNodes =
     libraries
     |> List.map (fun b ->
-        let pkgVersion, devFeed = resolveVersion b.Package
+        let v = resolveVersion b.Package
         let libVersion = libraryVersion b
         let sample = sampleLink b.Repo b.SampleName
         let node = JsonObject()
         node.["name"] <- JsonValue.Create b.Name
         node.["package"] <- JsonValue.Create b.Package
-        node.["version"] <- JsonValue.Create pkgVersion
-        if devFeed then node.["devFeed"] <- JsonValue.Create true
+        node.["version"] <- JsonValue.Create v.Version
+        if v.DevFeed then node.["devFeed"] <- JsonValue.Create true
+        if v.OnNuGet then node.["onNuGet"] <- JsonValue.Create true
+        if v.OnDevFeed then node.["onDevFeed"] <- JsonValue.Create true
         node.["library"] <- JsonValue.Create b.Library
         node.["libraryVersion"] <- JsonValue.Create libVersion
         node.["description"] <- JsonValue.Create b.Description
@@ -563,13 +604,15 @@ let libraryNodes =
 let browserNodes =
     browserApis
     |> List.map (fun b ->
-        let pkgVersion, devFeed = resolveVersion b.Package
+        let v = resolveVersion b.Package
         let sample = sampleLink b.Repo None
         let node = JsonObject()
         node.["name"] <- JsonValue.Create b.Name
         node.["package"] <- JsonValue.Create b.Package
-        node.["version"] <- JsonValue.Create pkgVersion
-        if devFeed then node.["devFeed"] <- JsonValue.Create true
+        node.["version"] <- JsonValue.Create v.Version
+        if v.DevFeed then node.["devFeed"] <- JsonValue.Create true
+        if v.OnNuGet then node.["onNuGet"] <- JsonValue.Create true
+        if v.OnDevFeed then node.["onDevFeed"] <- JsonValue.Create true
         node.["description"] <- JsonValue.Create b.Description
         node.["repo"] <- JsonValue.Create(sprintf "https://github.com/dotnet-websharper/%s" b.Repo)
         node.["category"] <- JsonValue.Create b.Category
