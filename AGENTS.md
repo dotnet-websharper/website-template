@@ -32,9 +32,14 @@ dotnet build WebSharperWebsite/WebSharperWebsite.fsproj -c Release --no-incremen
   server (e.g. `python3 -m http.server`) needs `/support.html`.
 - `WEBSHARPERTASK : WSB9002 … Retrying with Standalone build` is pre-existing
   noise, not a failure.
-- The dev server serves `Scripts/WebSharper/all.css`/`*.js` **without any
-  cache-busting**, so a previously-loaded page can keep a stale stylesheet and mask
-  CSS changes — hard-reload (or disable cache) when verifying styling.
+- `Scripts/WebSharper/*.css|js` are referenced with a content-hash query
+  (`all.css?v=<hash>`), added by `cache-bust.mjs` in the `CacheBustAssets` target
+  (after `ExamplesDirectoryIndex`). This is required in production: Cloudflare
+  caches those un-versioned URLs for hours, so without it a deploy can serve new
+  HTML with a stale stylesheet (new Tailwind classes silently missing). The hash
+  changes only when the bundle content changes; keep the step after all bundles
+  and HTML are written. A previously-loaded page can still hold an old hash, so
+  hard-reload when verifying styling.
 - Tailwind is generated from the project's `.html` sources: **a class only
   exists if it appears in a scanned file**. `npm run css:dev` gives a watch loop
   while iterating on styling.

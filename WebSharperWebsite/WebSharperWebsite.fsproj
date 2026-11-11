@@ -80,6 +80,7 @@
     <None Include="extra.files" />
     <None Include="package.json" />
     <None Include="esbuild.config.mjs" />
+    <None Include="cache-bust.mjs" />
     <None Include="wsconfig.json" />
   </ItemGroup>
 
@@ -113,6 +114,12 @@
        the copy's URLs are made root-absolute (see makeExamplesIndex.mjs). -->
   <Target Name="ExamplesDirectoryIndex" AfterTargets="ESBuildBundle">
     <Exec Command="node &quot;$(MSBuildThisFileDirectory)makeExamplesIndex.mjs&quot; &quot;$(MSBuildThisFileDirectory)bin/html&quot;" />
+  </Target>
+
+  <!-- Append a content-hash query to the Scripts/WebSharper/*.css|js references
+       so Cloudflare can't serve a stale bundle after a deploy (see cache-bust.mjs). -->
+  <Target Name="CacheBustAssets" AfterTargets="ExamplesDirectoryIndex">
+    <Exec Command="node &quot;$(MSBuildThisFileDirectory)cache-bust.mjs&quot; &quot;$(MSBuildThisFileDirectory)bin/html&quot;" />
   </Target>
 
 </Project>
