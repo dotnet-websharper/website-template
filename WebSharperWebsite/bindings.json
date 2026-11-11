@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T15:33:34.4096800\u002B00:00",
+  "generatedAt": "2026-11-11T00:35:51.1322660\u002B00:00",
   "libraries": [
     {
       "name": "Chart.js",
@@ -100,7 +100,7 @@
       "sampleUrl": "https://dotnet-websharper.github.io/plotly/",
       "sampleLabel": "Test case",
       "website": "https://plotly.com/javascript/",
-      "latestVersion": "4.2.0",
+      "latestVersion": "4.3.0",
       "status": "outdated"
     },
     {
@@ -158,11 +158,12 @@
     {
       "name": "jsPDF",
       "package": "WebSharper.JsPDF",
-      "version": "10.1.0.667",
+      "version": "10.1.0.710",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "jsPDF",
-      "libraryVersion": "2.5.1\u002B",
+      "libraryVersion": "4.2.1\u002B",
       "description": "Client-side PDF generation \u2014 text, images, tables and page breaks.",
       "repo": "https://github.com/dotnet-websharper/jspdf",
       "category": "Editors \u0026 documents",
@@ -170,7 +171,7 @@
       "sampleLabel": "Sample",
       "website": "https://jspdf.com/",
       "latestVersion": "4.2.1",
-      "status": "outdated"
+      "status": "up-to-date"
     },
     {
       "name": "Remarkable",
@@ -236,7 +237,7 @@
       "repo": "https://github.com/dotnet-websharper/fluentui-react-components",
       "category": "UI components",
       "website": "https://react.fluentui.dev/",
-      "latestVersion": "9.75.1",
+      "latestVersion": "9.75.2",
       "status": "recent"
     },
     {
@@ -321,17 +322,20 @@
     {
       "name": "Anime.js",
       "package": "WebSharper.AnimeJs",
-      "version": "10.1.0.667",
+      "version": "10.1.0.708",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "Anime.js",
-      "libraryVersion": "3.2.1\u002B",
+      "libraryVersion": "4.5.0\u002B",
       "description": "A lightweight animation engine with a declarative API for CSS, SVG and DOM animations.",
       "repo": "https://github.com/dotnet-websharper/animejs",
       "category": "Utilities \u0026 dates",
+      "sampleUrl": "https://dotnet-websharper.github.io/animejs/",
+      "sampleLabel": "Test case",
       "website": "https://animejs.com/",
       "latestVersion": "4.5.0",
-      "status": "outdated"
+      "status": "up-to-date"
     },
     {
       "name": "date-fns",
@@ -369,17 +373,20 @@
     {
       "name": "SignalR",
       "package": "WebSharper.SignalR",
-      "version": "10.1.0.667",
+      "version": "10.1.0.709",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "SignalR",
-      "libraryVersion": "5.0.9",
+      "libraryVersion": "11.0.0\u002B",
       "description": "Typed SignalR hubs and clients for real-time server push.",
       "repo": "https://github.com/dotnet-websharper/signalr",
       "category": "Utilities \u0026 dates",
+      "sampleUrl": "https://dotnet-websharper.github.io/signalr/",
+      "sampleLabel": "Test case",
       "website": "https://learn.microsoft.com/aspnet/core/signalr/",
-      "latestVersion": "10.0.11",
-      "status": "outdated"
+      "latestVersion": "11.0.0",
+      "status": "up-to-date"
     },
     {
       "name": "math.js",
