@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11T22:06:37.1406940\u002B00:00",
+  "generatedAt": "2026-11-11T22:51:25.2010470\u002B00:00",
   "libraries": [
     {
       "name": "Chart.js",
@@ -278,7 +278,8 @@
     {
       "name": "jQuery",
       "package": "WebSharper.JQuery",
-      "version": "10.1.0.667",
+      "version": "10.1.0.717",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "jQuery",
