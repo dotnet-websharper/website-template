@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11T00:35:51.1322660\u002B00:00",
+  "generatedAt": "2026-11-11T02:05:27.1787300\u002B00:00",
   "libraries": [
     {
       "name": "Chart.js",
@@ -358,17 +358,20 @@
     {
       "name": "Moment.js",
       "package": "WebSharper.Moment",
-      "version": "10.1.0.667",
+      "version": "10.1.0.711",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "Moment.js",
-      "libraryVersion": "2.29.4\u002B",
+      "libraryVersion": "2.31.0\u002B",
       "description": "Date parsing, formatting, durations and time zones.",
       "repo": "https://github.com/dotnet-websharper/moment",
       "category": "Utilities \u0026 dates",
+      "sampleUrl": "https://dotnet-websharper.github.io/moment/",
+      "sampleLabel": "Test case",
       "website": "https://momentjs.com/",
       "latestVersion": "2.31.0",
-      "status": "recent"
+      "status": "up-to-date"
     },
     {
       "name": "SignalR",
