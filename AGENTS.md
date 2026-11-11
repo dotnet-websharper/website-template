@@ -85,8 +85,7 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   ship the `dark:` twin of every colour.
 - Tailwind v4 quirks: bare `border`/`border-b` resolves to `currentColor` (spell
   out `border-gray-200 dark:border-gray-800`), and `duration-*` alone does not
-  animate — pair it with `transition`/`transition-transform`. (The theme toggle's
-  `transistion` typo silently disabled its hover rotation until it was fixed.)
+  animate — pair it with `transition`/`transition-transform`.
 
 ## Verification recipes
 
@@ -290,6 +289,27 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
     a hole (a hidden article still occupies its grid cell).
   - **GHA**: the workflow passes `secrets.PAT_PACKAGE` as `GH_PACKAGES_TOKEN` so
     the feed refresh can read the GitHub Packages feed.
+  - **Explainer band** (`#why-bindings`, static markup in `Bindings.html` between
+    the hero and the card sections): a full-bleed `<section>` (its own container
+    is the standard `mx-auto max-w-6xl …`, so it spans the viewport with a tinted
+    `border-y` background; the hero and the card area are now two separate
+    containers around it). The left half lists WIG value props; the right half
+    is an **inline SVG** annotated card (not the `LibraryCard` template) with
+    arrow callouts — a real, coherent example (jsPDF, incl. the Dev badge).
+    Keep the `min-w-[540px]` + `overflow-x-auto` wrapper (small screens scroll
+    the diagram horizontally, like the Home "How it works" SVG), and keep the
+    two-column grid at `xl`, **not** `lg`: at 1024px the half column (~456px) is
+    too narrow and clips the right-hand callouts. Give grid children `min-w-0`
+    or the `min-w` SVG forces the grid wider than the viewport (body is
+    `overflow-x-hidden`, so it clips instead of scrolling). No `ws-*` holes, so
+    no F# change is needed. Below the SVG is a static **"Generating bindings
+    with AI"** card whose big button downloads
+    `Assets/websharper-binding-skill.md` (served at
+    `/Assets/websharper-binding-skill.md`, `download` attribute — the `Assets/`
+    copy is verbatim). That file is a **generic** edition of the internal
+    `modernize-binding` skill: keep it free of workspace internals
+    (`websharper100`, the build stack/`repos.yml`, subagents, local paths, `gh`
+    specifics) so it can be shared publicly.
 
 ## WebSharper client-code constraints (met in this repo)
 
@@ -353,6 +373,15 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   `Layout.html`, and in `Src/Theme.fs` (`Init` / `Toggle`).
 - **Default is dark** when nothing is stored (`getInitialTheme` returns `"dark"`).
 - `applyTheme` also sets `color-scheme` on `<html>` and syncs the iframes.
+- The header theme control is a **docs-style segment pill**, mirroring fumadocs'
+  `ThemeToggle` in `light-dark` mode: a single `[data-theme-toggle]` button with
+  sun + moon chips, the active one highlighted. The pill is `border` + `p-1`,
+  each chip is `size-[26px]`; the active state is inferred purely from the
+  `.dark` class (light → sun chip, dark → moon chip), so no separate JS is
+  needed. Both header instances (mobile + desktop) must stay in sync. Arbitrary
+  `hsl(...)` colours do not emit Tailwind utilities here — use the equivalent
+  hex values (`#e5e5e5`/`#242424` border, `#e6e6e6`/`#2b2b2b` active chip,
+  `#171717`/`#e6e6e6` active icon, `#737373`/`#9b9b9b` inactive icon).
 
 ## Menu, footer, chrome
 

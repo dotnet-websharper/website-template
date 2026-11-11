@@ -1,14 +1,15 @@
 {
-  "generatedAt": "2026-11-11T02:05:27.1787300\u002B00:00",
+  "generatedAt": "2026-11-11T22:06:37.1406940\u002B00:00",
   "libraries": [
     {
       "name": "Chart.js",
       "package": "WebSharper.ChartJs",
-      "version": "10.1.0.667",
+      "version": "10.1.0.713",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "Chart.js",
-      "libraryVersion": "4.4.0\u002B",
+      "libraryVersion": "4.6.1\u002B",
       "description": "Canvas charts \u2014 line, bar, radar, doughnut and more \u2014 configured through a typed model.",
       "repo": "https://github.com/dotnet-websharper/chartjs",
       "category": "Charts \u0026 visualization",
@@ -16,7 +17,7 @@
       "sampleLabel": "Sample",
       "website": "https://www.chartjs.org/",
       "latestVersion": "4.6.1",
-      "status": "recent"
+      "status": "up-to-date"
     },
     {
       "name": "D3",
@@ -89,11 +90,12 @@
     {
       "name": "Plotly.js",
       "package": "WebSharper.Plotly",
-      "version": "10.1.0.667",
+      "version": "10.1.0.712",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "Plotly.js",
-      "libraryVersion": "2.26.0\u002B",
+      "libraryVersion": "4.3.0\u002B",
       "description": "Interactive scientific and statistical charts with a typed trace and layout model.",
       "repo": "https://github.com/dotnet-websharper/plotly",
       "category": "Charts \u0026 visualization",
@@ -101,7 +103,7 @@
       "sampleLabel": "Test case",
       "website": "https://plotly.com/javascript/",
       "latestVersion": "4.3.0",
-      "status": "outdated"
+      "status": "up-to-date"
     },
     {
       "name": "Ace",
@@ -124,11 +126,12 @@
     {
       "name": "CodeMirror",
       "package": "WebSharper.CodeMirror",
-      "version": "10.1.0.667",
+      "version": "10.1.0.716",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "CodeMirror",
-      "libraryVersion": "6.0.0\u002B",
+      "libraryVersion": "6.0.2\u002B",
       "description": "The modular CodeMirror 6 editor, with typed language extensions and themes.",
       "repo": "https://github.com/dotnet-websharper/codemirror",
       "category": "Editors \u0026 documents",
@@ -141,11 +144,12 @@
     {
       "name": "highlight.js",
       "package": "WebSharper.HighlightJS",
-      "version": "10.1.0.667",
+      "version": "10.1.0.715",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "highlight.js",
-      "libraryVersion": "11.8.0\u002B",
+      "libraryVersion": "11.12.0\u002B",
       "description": "Client-side syntax highlighting with the core build and typed language registration.",
       "repo": "https://github.com/dotnet-websharper/highlightjs",
       "category": "Editors \u0026 documents",
@@ -153,7 +157,7 @@
       "sampleLabel": "Sample",
       "website": "https://highlightjs.org/",
       "latestVersion": "11.12.0",
-      "status": "recent"
+      "status": "up-to-date"
     },
     {
       "name": "jsPDF",
@@ -193,11 +197,12 @@
     {
       "name": "SlickGrid",
       "package": "WebSharper.SlickGrid",
-      "version": "10.1.0.667",
+      "version": "10.1.0.714",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "SlickGrid",
-      "libraryVersion": "5.18.0\u002B",
+      "libraryVersion": "6.0.0\u002B",
       "description": "Fast virtualized data grids with sorting, formatting and editing.",
       "repo": "https://github.com/dotnet-websharper/slickgrid",
       "category": "Editors \u0026 documents",
@@ -205,7 +210,7 @@
       "sampleLabel": "Test case",
       "website": "https://github.com/6pac/SlickGrid",
       "latestVersion": "6.0.0",
-      "status": "outdated"
+      "status": "up-to-date"
     },
     {
       "name": "React",
@@ -277,7 +282,7 @@
       "onNuGet": true,
       "onDevFeed": true,
       "library": "jQuery",
-      "libraryVersion": "latest (unpinned)",
+      "libraryVersion": "4.0.0\u002B",
       "description": "jQuery selections, events, Ajax and Deferred, plus sitelet router helpers.",
       "repo": "https://github.com/dotnet-websharper/jquery",
       "category": "UI components",
