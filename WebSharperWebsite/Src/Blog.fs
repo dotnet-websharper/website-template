@@ -178,9 +178,13 @@ module Blog =
 
     /// Renders an article body. Links to sibling articles are stored as
     /// repository paths (`/user/<author>/<stem>.md`); rewrite them to the
-    /// generated `/blogs/<stem>` pages.
+    /// generated `/blogs/<stem>` pages. Asset references (`/assets/…` or
+    /// `../../assets/…`) point at the copied `Assets/blog/` folder.
     let ArticleBody (a: Article) =
-        let body = Regex.Replace(a.Body, @"\(/user/[^/]+/([^)\s""]+)\.md", "(/blogs/$1)")
+        let body =
+            a.Body
+            |> fun s -> Regex.Replace(s, @"\(/user/[^/]+/([^)\s""]+)\.md", "(/blogs/$1)")
+            |> fun s -> Regex.Replace(s, @"(?<=[""(])(?:\.\./)*/?assets/", "/Assets/blog/")
         Markdown.ToHtml(body, pipeline)
 
     let private tag (name: string) =

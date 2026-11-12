@@ -440,13 +440,14 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   so the URL is `/blogs/<stem>` and every article is added to
   `Website.Actions`. Author display names also come from `config.yml`
   (`users: "granicz->Adam Granicz,…"`). Article images come from the submodule's
-  `assets/`, copied to `bin/html/assets/` by `esbuild.config.mjs` and referenced
-  as `/assets/...`. `.blog-content figure img` uses `max-width: 100%` +
-  `height: auto !important` (never `width: 100%`): some articles set
-  `height: 100%` inline, which would otherwise stretch and skew the image. The
-  GHA checkout uses `submodules: recursive`. The menubar entry sits before
-  "For Teams"; the footer's "Blogs" link still points at
-  `intellifactory.com/blogs`.
+  `assets/`, copied to `bin/html/Assets/blog/` by `esbuild.config.mjs` and
+  referenced as `/Assets/blog/...` (a lowercase `assets/` would collide with
+  `Assets/` on case-insensitive filesystems and 404 on GitHub Pages).
+  `.blog-content figure img` uses `max-width: 100%` + `height: auto !important`
+  (never `width: 100%`): some articles set `height: 100%` inline, which would
+  otherwise stretch and skew the image. The GHA checkout uses
+  `submodules: recursive`. The menubar entry sits before "For Teams"; the
+  footer's "Blogs" link still points at `intellifactory.com/blogs`.
 
 ## Examples & Features content
 

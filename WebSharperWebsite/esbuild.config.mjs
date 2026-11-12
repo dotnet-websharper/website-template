@@ -37,11 +37,13 @@ cpSync('./build/', './bin/html/', {
 })
 cpSync('./build/Assets/', './bin/html/Assets/', { recursive: true });
 
-// Article images live in the `blogs` submodule's `assets/` folder and are
-// referenced as root-absolute `/assets/...` from the articles.
+// Article images live in the `blogs` submodule's `assets/` folder. Copy them to
+// `Assets/blog/` (a case-safe subfolder of the site's `Assets/`) and rewrite the
+// article URLs to match — a lowercase `assets/` would collide with `Assets/` on
+// case-insensitive filesystems and 404 on GitHub Pages.
 const blogAssets = path.resolve('../blogs/assets');
 if (existsSync(blogAssets)) {
-    cpSync(blogAssets, './bin/html/assets/', { recursive: true });
+    cpSync(blogAssets, './bin/html/Assets/blog/', { recursive: true });
 }
 
 const snippetsDir = './build/snippets/';
