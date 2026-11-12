@@ -27,7 +27,7 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=bbe21f2396"></link>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=2097e80c9a"></link>
 <script src="../Scripts/WebSharper/all.js?v=8665ec365f"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -438,7 +438,7 @@ wsbundle.Layout().ReplaceInDom(e1);
 </ol>
 </blockquote>
 <p>Below is what our final app looks like with the CMS functionality applied on a micro blogging app, showing the results in two tabs: viewing a given post in one and editing it in another:</p>
-<p><img src="/assets/BlogWithCMS-EditAndView.gif" alt="Our final app" /></p>
+<p><img src="/Assets/blog/BlogWithCMS-EditAndView.gif" alt="Our final app" /></p>
 <h2 id="web-controls">Web controls</h2>
 <p>WebSharper web controls go way back to ASP.NET where they served as a bridge between client-side/dynamic content/behavior and ASP.NET server-side markup (you can read more on the <a href="https://developers.websharper.com/docs/v4.x/fs/aspnet">ASP.NET page</a> of the documentation.) They do so by providing a <code>System.Web.Control</code> derivative type called <code>WebSharper.Web.Control</code>, which you can inherit from to create your own server-side controls.</p>
 <p>The main thing to remember with web controls, though, is that they are merely a placeholder when rendered on the server, and they light up automatically on the client by evaluating their <code>Body</code> property (as indicated by the <code>[&lt;JavaScript&gt;]</code> annotation), and embedding the result into this placeholder. In other words, the content appears shortly after loading the page, causing a visual flicker.</p>
@@ -656,9 +656,9 @@ type MainTemplate = Template&lt;&quot;main.html&quot;, serverLoad=ServerLoad.Whe
 &lt;head&gt;
   ...
   &lt;!-- Make sure asset references start with root --&gt;
-  &lt;link href=&quot;/assets/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+  &lt;link href=&quot;/Assets/blog/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
   ...
-  &lt;link href=&quot;/assets/css/mediumish.css&quot; rel=&quot;stylesheet&quot;&gt;
+  &lt;link href=&quot;/Assets/blog/css/mediumish.css&quot; rel=&quot;stylesheet&quot;&gt;
 &lt;/head&gt;
 &lt;body&gt;
 

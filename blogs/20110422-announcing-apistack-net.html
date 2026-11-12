@@ -27,7 +27,7 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=bbe21f2396"></link>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=2097e80c9a"></link>
 <script src="../Scripts/WebSharper/all.js?v=8665ec365f"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -429,16 +429,16 @@ wsbundle.Layout().ReplaceInDom(e1);
         <div class="blog-content mt-12"><p>Have you ever wanted to give your F# library users a nice and clean API documentation but didn't have the right tools to create it? Or you have tried all kinds of API documentation tools and none of them worked for your F# assemblies? Well, now you have to look no further - we have the perfect tool for you: <a href="http://apistack.net/">ApiStack.net</a>.</p>
 <h3 id="introducing-apistack.net-a.k.a.fsapis.net">Introducing ApiStack.net (a.k.a. FsApis.net)</h3>
 <p>The concept of ApiStack.net is very simple: you upload the assemblies (one or more) of your project and you get a nice API browser prepared and hosted on ApiStack.net. You can give the Permalink to your users or redirect to it from your website, your users won't even see that it's hosted elsewhere.</p>
-<img src="/assets/ApiStack.png">
+<img src="/Assets/blog/ApiStack.png">
 <h3 id="why-apistack.net">Why ApiStack.net?</h3>
 <p>For one thing, it works well on F# assemblies, in fact it's been designed so - unlike most other &quot;mainstream&quot; documentation generation tools that didn't catch up with F# yet. So it can render your tuple and record types correctly, it will display your custom F# operators properly, and it will adjust over the F#-specific details so you don't have to worry about any of that internals stuff.</p>
 <h3 id="why-is-apistack.net-so-special">Why is ApiStack.net so special?</h3>
 <p><a href="http://apistack.net/">ApiStack.net</a> is a <a href="http://websharper.com/">WebSharper</a> application modeled entirely as a <a href="http://websharper.com/docs/WorkingWithSitelets.aspx">sitelet</a>. It uses no ASPX markup and all of its code (~55 KB total, a dozen 4-5 KB files) is in F#. This small code base contains a few non-trivial pieces, including handling file uploads via <a href="http://websharper.com/docs/WorkingWithFormlets.aspx">formlets</a>, full login story with user registration via confirmation emails and authentication, and some database logic for filtering by tags and submitters. In general, WebSharper sitelet pages are very fast, often much faster than equivalent ASP.NET content.</p>
 <h3 id="how-do-you-use-it">How do you use it?</h3>
 <p>Using <a href="http://apistack.net/">ApiStack.net</a> is as easy as it gets. First sign up by giving your email address and a couple other things. Then wait to receive your confirmation email, click on the activation link in it, and you will be taken to your home page. Here, you can go to Upload - and send in your project assemblies. Below is an example for the F# Core library.</p>
-<img src="/assets/ApiStack-form.png">
+<img src="/Assets/blog/ApiStack-form.png">
 <p>Once uploaded, you will get the Permalink to your documentation and it will appear in the listing on the home page as well. Clicking on it will render your documentation in its full glory:</p>
-<img src="/assets/ApiStack-FSharpCore.png">
+<img src="/Assets/blog/ApiStack-FSharpCore.png">
 <p>While still in beta, <a href="http://apistack.net/">ApiStack.net</a> can already be very useful. For instance, we are hosting a lot of <a href="http://websharper.com/">WebSharper</a> documentation on the site already. Even though some of the more advanced features are still in development, we hope you will find the site useful for your projects - and we definitely want to hear your opinion so don't hesitate to get in touch.</p>
 </div>
     </div>

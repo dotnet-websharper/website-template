@@ -27,7 +27,7 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=bbe21f2396"></link>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=2097e80c9a"></link>
 <script src="../Scripts/WebSharper/all.js?v=8665ec365f"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -438,9 +438,9 @@ wsbundle.Layout().ReplaceInDom(e1);
 </thead>
 <tbody>
 <tr>
-<td><a href="/assets/fullstack-spa-Tables.png"><img src="/assets/fullstack-spa-Tables.png" alt="" /></a></td>
-<td><a href="/assets/fullstack-spa-Charting.png"><img src="/assets/fullstack-spa-Charting.png" alt="" /></a></td>
-<td><a href="/assets/fullstack-spa-Forms.png"><img src="/assets/fullstack-spa-Forms.png" alt="" /></a></td>
+<td><a href="/Assets/blog/fullstack-spa-Tables.png"><img src="/Assets/blog/fullstack-spa-Tables.png" alt="" /></a></td>
+<td><a href="/Assets/blog/fullstack-spa-Charting.png"><img src="/Assets/blog/fullstack-spa-Charting.png" alt="" /></a></td>
+<td><a href="/Assets/blog/fullstack-spa-Forms.png"><img src="/Assets/blog/fullstack-spa-Forms.png" alt="" /></a></td>
 </tr>
 </tbody>
 </table>
@@ -461,7 +461,7 @@ wsbundle.Layout().ReplaceInDom(e1);
 <hr />
 <p>Recently, I teamed up with others to build a handful of new project templates (PTs) for the upcoming WebSharper 7, and to release these individually (so you can install them on-demand) as we go without any special ties to <a href="https://www.nuget.org/packages/WebSharper.Templates/">WebSharper.Templates</a>, the main collection of PTs that contains the standard fullstack (<code>websharper-web</code>), SPA (<code>websharper-spa</code>), static website (<code>websharper-html</code>), library (<code>websharper-lib</code>), microservice (<code>websharper-svc</code>), .NET proxy (<code>websharper-prx</code>), and JavaScript binding (<code>websharper-ext</code>) PTs that you might already be familiar with.</p>
 <p>For one of these new PTs, I decided to take my &quot;Full-stack F# with charting, reactive forms, and more under 300 LOC with WebSharper&quot; <a href="https://github.com/granicz/fsadvent2022">FSAdvent2022 project</a> from last year's FSA, and modernize it with a few overdue changes and enhancements.</p>
-<p><a href="https://twitter.com/granicz/status/1609060870289489920"><img src="/assets/X-fullstack-300.png" alt="image" width="50%" height="auto" /></a></p>
+<p><a href="https://twitter.com/granicz/status/1609060870289489920"><img src="/Assets/blog/X-fullstack-300.png" alt="image" width="50%" height="auto" /></a></p>
 <p>For the general idea and walkthrough of the charting and forms bits, feel free to refer to the <a href="https://intellifactory.com/user/granicz/20221229-full-stack-fsharp-with-charting-reactive-forms-and-more-under-300-loc-with-websharper">article</a> - it's a fun read! As for the rest of the updated version, here is a quick summary.</p>
 <h3 id="tailwind-for-ui">1. Tailwind for UI</h3>
 <p>The <code>fullstack-spa</code> PT uses an MIT-licensed <a href="https://tailwindcss.com/">Tailwind</a>-based template, <a href="https://github.com/estevanmaito/windmill-dashboard">Windmill Dashboard</a> by <a href="https://github.com/estevanmaito">@estevanmaito</a>, part of the <a href="https://windmillui.com/">Windmill UI suite</a>. It's a lovely free resource for web devs, supports dark/light modes, comes with a bundle of prebuilt admin and other components/pages, etc. - so be sure to support Estevan's work in any way you can.</p>
@@ -469,13 +469,13 @@ wsbundle.Layout().ReplaceInDom(e1);
 <h3 id="code-reorganization-and-a-separate-build-project">2. Code reorganization and a separate build project</h3>
 <p>Instead of the <a href="https://github.com/granicz/fsadvent2022">FSAdvent2022 application</a>'s single F# project to hold both the server and client-side, these are now split into three separate F# projects: <code>client</code>, <code>server</code>, and <code>shared</code>. This is not strictly necessary as the WebSharper Booster (which is responsible for cached compilation of WebSharper projects) usually recompiles colocated client+server code in a 2-3-4 seconds, it can, however, result in faster turn-around times if your changes to be compiled are only in your client-side code.</p>
 <p>The new build project (<code>Build.fsproj</code> and <code>build/build.fs</code>) follows the typical FAKE layout that you might have seen with other web apps, with a <code>Run</code> target to build and watch the client/server projects and starting a <code>vite</code> server. The client project uses the WebSharper CLI to provide a more streamlined watch functionality, bypassing ordinary MSBuild logic, and recompilation after changing+saving source files takes ~1.5 seconds. The page is also automatically refreshed, thanks to vite's development mode.</p>
-<p><a href="/assets/watch-recompilation.png"><img src="/assets/watch-recompilation.png" alt="image" width="50%" height="auto"></a></p>
+<p><a href="/Assets/blog/watch-recompilation.png"><img src="/Assets/blog/watch-recompilation.png" alt="image" width="50%" height="auto"></a></p>
 <h3 id="esm-output-and-vite">3. ESM output and Vite</h3>
 <p>WebSharper 7 produces one-file-per-type (OFPT) ESM output and TypeScript declarations, and while it has its own dead-code eliminator and bundler, it is also designed to readily integrate with standard JavaScript tooling, and this PT is no exception: it comes with <a href="https://vitejs.dev/">vite</a> for running an ESM development server and providing production mode bundling.</p>
 <p>To start your app, all you need is to trigger the <code>Run</code> target:</p>
 <pre><code>dotnet run
 </code></pre>
-<p><a href="/assets/vite.png"><img src="/assets/vite.png" alt="image" width="50%" height="auto"></a></p>
+<p><a href="/Assets/blog/vite.png"><img src="/Assets/blog/vite.png" alt="image" width="50%" height="auto"></a></p>
 <h3 id="femto">4. Femto</h3>
 <p>WebSharper 7 JavaScript bindings/NuGet packages are compatible with <a href="https://github.com/Zaid-Ajaj/Femto">femto</a> for managing their underlying npm dependencies. You can use femto to finetune/update/validate package references in your <code>packages.config</code> as needed, and otherwise just continue adding new WebSharper libraries as NuGet packages.</p>
 <h3 id="record-style-rpcs">5. Record-style RPCs</h3>

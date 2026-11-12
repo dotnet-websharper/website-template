@@ -27,7 +27,7 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=bbe21f2396"></link>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=2097e80c9a"></link>
 <script src="../Scripts/WebSharper/all.js?v=8665ec365f"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -439,7 +439,7 @@ wsbundle.Layout().ReplaceInDom(e1);
 <p>There are three main parts to this WebSharper application. First, you need a design for how the page should look, second you need a WebSharper binding for the chosen client-side persistency framework, and third you need the WebSharper code for the main functionality of the shopping cart. We will discuss each of these below.
 To get started, you should create a new WebSharper application in Visual Studio. If you don't have WebSharper installed, you can search for the <a href="http://visualstudiogallery.msdn.microsoft.com/en-us/288b94ea-0ea7-4dde-8906-f72eb22fbe1b">WebSharper Standard</a> plugin in the Visual Studio Gallery (in Visual Studio 2010, go to Tools / Extension Manager, and search for WebSharper in the Online Gallery), or download <a href="http://www.intellifactory.com/products/wsp/DownloadStd.aspx">WebSharper Standard from our web site</a> directly.</p>
 <p>The following screenshot shows how your solution will eventually look like in the Visual Studio Solution Explorer.</p>
-<img src="/assets/shopping-cart-solution.png">
+<img src="/Assets/blog/shopping-cart-solution.png">
 <h4 id="step-1-getting-the-design-done">Step 1 - Getting the design done</h4>
 <p>With WebSharper Standard, the primary way to expose your WebSharper applications is via ASP.NET. You will see shortly how easily you can accomplish this. In this first step, however, you will create a basic master page and populate the web application project in your WebSharper solution with a couple pages.</p>
 <p>First, note that I am showing an out-of-project design.html file in the WebApplication project. This I used to create a basic HTML layout page that will serve as my ASP.NET master page. I then took this design and transliterated it to the following master page:</p>
@@ -499,7 +499,7 @@ To get started, you should create a new WebSharper application in Visual Studio.
 </code></pre>
 <p>I won't inline reset.css and site.css here, you can find them in the attachment zip file in the bottom of this article. As you would expect, the former implements some basic &quot;reset&quot; on the HTML styles, and the latter implements the look and feel for the mini-site.</p>
 <p>The master page with a default instantiation looks like the following:</p>
-<img src="/assets/shopping-cart-base.png">
+<img src="/Assets/blog/shopping-cart-base.png">
 <p>With this new master page, you can add a couple new pages and modify the default page to have links to both. Here is Flowlet.aspx - which wraps the SignupSequence pagelet (renamed to signup.fs in WebSharperProject) from the &quot;default&quot; WebSharper project that I left for the sake of having two different pages in our mini site:</p>
 <pre><code class="language-xml">&lt;%@ Page MasterPageFile=&quot;~/site.master&quot; %&gt;
 
@@ -625,8 +625,8 @@ type Store =
 <h4 id="part-3-implementing-the-shopping-cart">Part 3 - Implementing the shopping cart</h4>
 <p>Now you are ready to implement the main shopping cart functionality. This has two parts- a listing of available products broken down by category, and the shopping cart that summarizes the items already in the cart.</p>
 <p>Below is a mockup of these two &quot;controls&quot; and the events that can originate from both.</p>
-<img src="/assets/shopping-cart-mockup-1.png">
-<img src="/assets/shopping-cart-mockup-2.png">
+<img src="/Assets/blog/shopping-cart-mockup-1.png">
+<img src="/Assets/blog/shopping-cart-mockup-2.png">
 <p>Note that both the ItemsForSale and the ShoppingCart controls can originate events, but only the latter one can react to them visually. You can implement these events in a variety of ways. In my talk I mentioned several alternatives:</p>
 <ul>
 <li>Implementing a simple message queue, such as a MailBox</li>
