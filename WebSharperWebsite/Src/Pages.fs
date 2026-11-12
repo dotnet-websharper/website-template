@@ -166,6 +166,34 @@ module ServerPages =
     let Bindings () =
         Bindings.BindingsDoc()
 
+    // The blog listing and article pages are generated from the article files in
+    // the `blogs` submodule (see Blog.fs).
+    let Blogs () =
+        Content.BundleScope "blogs" (
+            Templates.BlogsTemplate.Content()
+                .Posts(Blog.Listing())
+                .YearNav(Blog.YearNav())
+                .Doc()
+        )
+
+    let BlogArticle (stem: string) =
+        match Blog.Find stem with
+        | None ->
+            // Unknown article — fall back to the listing.
+            Content.BundleScope "blogs" (
+                Templates.BlogsTemplate.Content()
+                    .Posts(Blog.Listing())
+                    .Doc()
+            )
+        | Some article ->
+            Content.BundleScope "blogs" (
+                Templates.BlogsArticleTemplate.Content()
+                    .Title(article.Title)
+                    .Meta(Blog.ArticleMeta article)
+                    .Body(Doc.Verbatim (Blog.ArticleBody article))
+                    .Doc()
+            )
+
     let Features () =
         Content.BundleScope "features" (
             Templates.FeaturesTemplate.Content()

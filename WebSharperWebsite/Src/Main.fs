@@ -10,6 +10,8 @@ type EndPoint =
     | [<EndPoint "GET /features">] Features
     | [<EndPoint "GET /examples">] Examples
     | [<EndPoint "GET /bindings">] Bindings
+    | [<EndPoint "GET /blogs">] Blogs
+    | [<EndPoint "GET /blogs">] BlogArticle of stem: string
     | [<EndPoint "GET /support">] Support
     | [<EndPoint "GET /warp">] Warp
     | [<EndPoint "GET /ocaml">] Ocaml
@@ -83,6 +85,22 @@ module Site =
                 ServerPages.Bindings()
             ],
             Bundle = "bindings"
+        )
+
+    let BlogsPage =
+        Content.Page(
+            Templating.Layout EndPoint.Blogs [
+                ServerPages.Blogs()
+            ],
+            Bundle = "blogs"
+        )
+
+    let BlogArticlePage (stem: string) =
+        Content.Page(
+            Templating.Layout (EndPoint.BlogArticle stem) [
+                ServerPages.BlogArticle stem
+            ],
+            Bundle = "blogs"
         )
 
     let SupportPage =
@@ -192,6 +210,8 @@ module Site =
             | Features -> FeaturesPage
             | Examples -> ExamplesPage
             | Bindings -> BindingsPage
+            | Blogs -> BlogsPage
+            | BlogArticle stem -> BlogArticlePage stem
             | Support -> SupportPage
             | Warp -> WarpPage
             | Ocaml -> OcamlPage
@@ -213,7 +233,10 @@ type Website() =
             Site.Main
             |> Sitelet.WithSettings (Seq.singleton ("LogBundleChoice", "true"))
         member this.Actions = [
-            Home; Features; Examples; Bindings; Support; Warp; Ocaml; Checkout 
+            Home; Features; Examples; Bindings; Blogs
+            for a in Blog.Articles () do
+                BlogArticle a.Stem
+            Support; Warp; Ocaml; Checkout 
             Error; Invoice; MyAccount; Success; NotFound
             PrivacyPolicy; TermsOfUse; CookiePolicy
         ]

@@ -90,6 +90,85 @@ button {
     @apply mt-0 text-sm text-gray-500 dark:text-gray-400;
 }
 
+/* Blog pages: the body is markdown rendered to HTML on the server, so it is
+   styled through the wrapper (same prose typography as the legal pages). */
+.blog-content {
+    @apply text-[17px] leading-8 text-gray-700 dark:text-gray-300;
+}
+.blog-content h2 {
+    @apply mt-12 text-2xl font-semibold text-gray-950 dark:text-white;
+}
+.blog-content h3 {
+    @apply mt-8 text-xl font-semibold text-gray-900 dark:text-white;
+}
+.blog-content p {
+    @apply mt-4;
+}
+.blog-content ul {
+    @apply mt-4 list-disc space-y-1.5 pl-5;
+}
+.blog-content ol {
+    @apply mt-4 list-decimal space-y-1.5 pl-5;
+}
+.blog-content a {
+    @apply text-brand-primary underline underline-offset-2 hover:opacity-80;
+}
+.blog-content strong {
+    @apply font-semibold text-gray-900 dark:text-white;
+}
+.blog-content blockquote {
+    @apply mt-4 border-l-4 border-gray-200 pl-4 italic text-gray-600 dark:border-gray-700 dark:text-gray-400;
+}
+.blog-content code {
+    @apply rounded bg-gray-100 px-1 py-0.5 text-[0.85em] text-gray-700 dark:bg-white/10 dark:text-gray-200;
+}
+.blog-content pre {
+    @apply mt-5 overflow-x-auto rounded-xl bg-gray-950 p-4 text-[15px] text-gray-100 dark:bg-black/40;
+}
+.blog-content pre code {
+    @apply bg-transparent p-0 text-inherit;
+}
+.blog-content table {
+    @apply mt-4 w-full border-collapse text-sm;
+}
+.blog-content th,
+.blog-content td {
+    @apply border border-gray-200 px-3 py-2 align-top dark:border-gray-700;
+}
+.blog-content th {
+    @apply bg-gray-50 font-semibold text-gray-900 dark:bg-white/5 dark:text-white;
+}
+.blog-content figure {
+    @apply mt-6;
+}
+.blog-content img {
+    @apply my-4 max-w-full rounded-xl;
+}
+.blog-content figure img {
+    @apply mx-auto max-w-full rounded-xl border border-gray-200 dark:border-gray-800;
+    /* Never force both dimensions: articles may set `height: 100%` inline,
+       which would stretch the image and skew its aspect ratio. */
+    height: auto !important;
+}
+.blog-content figcaption {
+    @apply mt-2 text-center text-xs text-gray-500 dark:text-gray-400;
+}
+.blog-content .contains-task-list {
+    @apply list-none pl-0;
+}
+.blog-content .task-list-item {
+    @apply flex items-start gap-2;
+}
+.blog-content input[type="checkbox"] {
+    @apply mt-1.5 h-4 w-4 rounded border-gray-300 accent-brand-primary dark:border-gray-600;
+}
+.blog-content .footnotes {
+    @apply mt-10 border-t border-gray-200 pt-4 text-sm dark:border-gray-800;
+}
+.blog-content hr {
+    @apply my-10 border-gray-200 dark:border-gray-800;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
     @apply h-1.5 w-1.5;
 }

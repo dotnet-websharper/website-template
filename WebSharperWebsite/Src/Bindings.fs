@@ -331,14 +331,14 @@ module Bindings =
     let private sectionNavLink (large: bool) (id: string) (label: string) =
         let labelClass =
             if large then
-                "block translate-x-1 text-base font-semibold text-gray-900 opacity-40 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-white"
+                "block translate-x-1 text-lg font-semibold text-gray-900 opacity-40 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-white"
             else
-                "block translate-x-1 text-sm text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200"
+                "block translate-x-1 text-base text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200"
         let dotClass =
             if large then
-                "h-2 w-2 rounded-full bg-gray-300/40 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"
+                "h-2.5 w-2.5 rounded-full bg-gray-300/40 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"
             else
-                "h-2 w-2 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"
+                "h-2.5 w-2.5 rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"
         a
             [
                 attr.``class`` "section-link group flex w-max items-center justify-end gap-3"

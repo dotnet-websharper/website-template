@@ -54,6 +54,7 @@
     <Compile Include="Src/Bindings.fs" />
     <Compile Include="Src/Components.fs" />
     <Compile Include="Src/Newsletter.fs" />
+    <Compile Include="Src/Blog.fs" />
     <Compile Include="Src/Pages.fs" />
     <Compile Include="Src/Main.fs" />
     <Content Include="Styles/app.css" />
@@ -75,6 +76,8 @@
     <Content Include="Features.html" />
     <Content Include="Examples.html" />
     <Content Include="Bindings.html" />
+    <Content Include="Blogs.html" />
+    <Content Include="BlogsArticle.html" />
     <Content Include="ManageSubscription.html" />
     <Content Include="Success.html" />
     <None Include="extra.files" />
@@ -97,6 +100,7 @@
     <PackageReference Include="WebSharper.FSharp" Version="10.1.9.686" />
     <PackageReference Include="WebSharper.SweetAlert" Version="10.1.0.667" />
     <PackageReference Include="WebSharper.UI" Version="10.1.7.686" />
+    <PackageReference Include="Markdig" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>

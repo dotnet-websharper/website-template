@@ -14,7 +14,8 @@ dotnet build WebSharperWebsite/WebSharperWebsite.fsproj -c Release --no-incremen
   `npm run css:build` (Tailwind v4 → `build/tailwind.css`) and
   `node ./esbuild.config.mjs`.
 - Package versions: `WebSharper` / `WebSharper.FSharp` `10.1.9.686`,
-  `WebSharper.UI` `10.1.7.686`, `WebSharper.SweetAlert` `10.1.0.667`.
+  `WebSharper.UI` `10.1.7.686`, `WebSharper.SweetAlert` `10.1.0.667`,
+  `Markdig` `1.6.0` (server-side markdown for the Blogs page).
 - WS 10.1 emits local `JS.ImportFile` resources as
   `.../Content/WebSharper/<Assembly>/<file>` imports, but the `html` project
   output puts them under `build/Scripts/WebSharper/<Assembly>/`. The
@@ -23,6 +24,12 @@ dotnet build WebSharperWebsite/WebSharperWebsite.fsproj -c Release --no-incremen
   the bundle fails on `Styles/prism-override.css`.
 - Output lands in `WebSharperWebsite/bin/html/` (`*.html`, `Assets/`,
   `snippets/`, `Scripts/WebSharper/*.{js,css}`).
+- **Nested page routes** (e.g. `/blogs/article`) work: `esbuild.config.mjs` copies
+  the generated `.html` pages from `build/` **recursively** (the copy filter must
+  let directories through, or `cpSync` skips their contents — which is why a
+  nested page was silently missing) and rebases the shared chrome's `./` links to
+  root-absolute `/` in nested pages (otherwise `./bindings` would resolve under
+  `/blogs/`). `snippets/` keep their relative URLs.
 - `--no-incremental` matters: **`.html` edits do not reliably trigger a
   WebSharper rebuild** (templates are compiled), so a stale page is usually a
   missed rebuild rather than a caching bug.
@@ -412,6 +419,34 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
 - Legal pages `/privacy-policy`, `/terms-of-use`, `/cookie-policy` use `Legal.html` +
   raw-HTML fragments in `CodeFragments/legal/*.html`, injected with `Doc.Verbatim` and
   styled via `.legal-content` in `app.css`. Only websharper.com is mentioned.
+- **Blogs** (`/blogs` + `/blogs/<stem>`): generated from the **`blogs` git
+  submodule** (`intellifactory/blogs`) — ~300 markdown articles under
+  `blogs/user/<author>/`, each named `YYYYMMDD-<slug>.md` with a `---` front
+  matter block (`title`, `categories`, `abstract`). `Src/Blog.fs` loads them **at
+  build time** from `../blogs/user` (the page generator's cwd is the project
+  dir), parses the front matter, renders the body with **Markdig**
+  (`UseAdvancedExtensions().UseFigures()`) and rewrites in-content
+  `/user/<author>/<stem>.md` links to `/blogs/<stem>`. The tag filter is
+  **config-driven** (`includeTags` / `excludeTags` in `WebSharperWebsite/config.yml`,
+  defaults `websharper` and `cloudsharper,bolero,webassembly,mvp`; ~203 of 297
+  articles). `Blogs.html` lists them grouped by year (title link, date, author,
+  tags, `abstract`) with a **sticky year rail** (`.section-link` + `data-step`,
+  same scroll-spy as Features/Bindings); article pages reuse `BlogsArticle.html`
+  (centered header matching the Bindings page: title + author/date/tags + body,
+  styled via `.blog-content` in `app.css`). The action is `BlogArticle of stem`
+  with `[<EndPoint "GET /blogs">]` (same endpoint as the listing): the
+  **union-case router appends unmatched fields as path segments** and does
+  **not** substitute `{field}` holes (those only work for record/class routers),
+  so the URL is `/blogs/<stem>` and every article is added to
+  `Website.Actions`. Author display names also come from `config.yml`
+  (`users: "granicz->Adam Granicz,…"`). Article images come from the submodule's
+  `assets/`, copied to `bin/html/assets/` by `esbuild.config.mjs` and referenced
+  as `/assets/...`. `.blog-content figure img` uses `max-width: 100%` +
+  `height: auto !important` (never `width: 100%`): some articles set
+  `height: 100%` inline, which would otherwise stretch and skew the image. The
+  GHA checkout uses `submodules: recursive`. The menubar entry sits before
+  "For Teams"; the footer's "Blogs" link still points at
+  `intellifactory.com/blogs`.
 
 ## Examples & Features content
 
