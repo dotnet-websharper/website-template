@@ -1,0 +1,721 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" ws-2="">
+<head>
+    <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+    <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta property="og:url" content="https://websharper.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WebSharper" />
+    <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta property="og:image" content="" />
+
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="websharper.com" />
+    <meta property="twitter:url" content="https://websharper.com/" />
+    <meta name="twitter:title" content="WebSharper" />
+    <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta name="twitter:image" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
+
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=bbe21f2396"></link>
+<script src="../Scripts/WebSharper/all.js?v=8665ec365f"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = '../Scripts/WebSharper/';
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+});
+</script>
+
+
+    <script>
+        const DOC = document.documentElement;
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
+            }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        // Refresh binding versions from NuGet (Bindings page).
+        function loadBindingVersions() {
+            const els = document.querySelectorAll("[data-nuget-package]");
+            if (!els.length) return;
+            // Stable releases only, so the value matches the one baked into
+            // bindings.json (a prerelease here would flicker the version badge).
+            fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=false")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = new Map((d.data || []).map((p) => [p.id.toLowerCase(), p.version]));
+                    els.forEach((el) => {
+                        const v = versions.get(el.getAttribute("data-nuget-package").toLowerCase());
+                        if (v) el.textContent = v;
+                    });
+                })
+                .catch(() => {});
+        }
+
+        // Filter the bindings in a section by name (case-insensitive, partial match).
+        function initBindingSearch() {
+            document.querySelectorAll("[data-binding-search]").forEach((input) => {
+                const root = document.querySelector(input.getAttribute("data-binding-search"));
+                if (!root) return;
+                const update = () => {
+                    const q = input.value.trim().toLowerCase();
+                    root.querySelectorAll("[data-binding-card]").forEach((card) => {
+                        const name = (card.getAttribute("data-binding-name") || "").toLowerCase();
+                        card.style.display = !q || name.indexOf(q) !== -1 ? "" : "none";
+                    });
+                    root.querySelectorAll("[data-binding-section]").forEach((section) => {
+                        const visible = Array.prototype.some.call(
+                            section.querySelectorAll("[data-binding-card]"),
+                            (c) => c.style.display !== "none"
+                        );
+                        section.style.display = visible ? "" : "none";
+                    });
+                };
+                input.addEventListener("input", update);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
+            loadBindingVersions();
+            initBindingSearch();
+        });
+
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-950 overflow-x-hidden">
+    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
+        <div class="px-6 py-4 lg:px-8">
+            <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                <div class="flex lg:flex-1">
+                    <a href="/" class="-m-1.5 flex items-center gap-2.5 p-1.5">
+                        <img class="h-9 w-9" src="/Assets/logo.png" alt="" width="164" height="164" />
+                        <span class="text-lg font-bold tracking-tight text-gray-950 dark:text-white">WebSharper</span>
+                    </a>
+                </div>
+                <div class="flex gap-4 lg:hidden">
+                    <button ws-onclick="ToggleTheme" type="button" aria-label="Toggle theme" data-theme-toggle="" class="inline-flex cursor-pointer items-center rounded-full border border-[#e5e5e5] p-1 transition-colors dark:border-[#242424]">
+                        <span class="flex size-[26px] items-center justify-center rounded-full bg-[#e6e6e6] text-[#171717] transition-colors dark:bg-transparent dark:text-[#9b9b9b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                        </span>
+                        <span class="flex size-[26px] items-center justify-center rounded-full text-[#737373] transition-colors dark:bg-[#2b2b2b] dark:text-[#e6e6e6]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <button ws-onclick="ToggleMenu" id="openMenu" type="button" class="cursor-pointer text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                        <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                            <span class="sr-only">Open main menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                        </div>
+                        <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                            <span class="sr-only">Close menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
+                    <a href="/" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="/examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                    <a href="/bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                    <a href="/features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="/ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                    <a href="/warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                    <a href="/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                    <a href="/support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                </div>
+                <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                    <button ws-onclick="ToggleTheme" type="button" aria-label="Toggle theme" data-theme-toggle="" class="inline-flex cursor-pointer items-center rounded-full border border-[#e5e5e5] p-1 transition-colors dark:border-[#242424]">
+                        <span class="flex size-[26px] items-center justify-center rounded-full bg-[#e6e6e6] text-[#171717] transition-colors dark:bg-transparent dark:text-[#9b9b9b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                        </span>
+                        <span class="flex size-[26px] items-center justify-center rounded-full text-[#737373] transition-colors dark:bg-[#2b2b2b] dark:text-[#e6e6e6]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <ul class="flex items-center gap-1">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                </svg>
+                                <span class="sr-only">WebSharper GitHub organization</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                </svg>
+                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                </svg>
+                                <span class="sr-only">Join WebSharper community on Discord</span>
+                            </a>
+                        </li>
+                        
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
+                            <button id="accountBtn" class="cursor-pointer group flex h-9 w-9 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-haspopup="menu" aria-expanded="false" aria-label="Account" ws-attr="AccountBtnAria" ws-onclick="AccountBtnClick" ws-onkeydown="AccountBtnKeyDown">
+
+                                <div ws-attr="SkeletonAttr" class="absolute inset-0 m-auto h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse transition-opacity duration-500 ease-out">
+                                </div>
+
+                                <img id="accountAvatar" class="h-9 w-9 rounded-full ring-1 ring-black/5 dark:ring-white/10 transition-opacity duration-500 ease-out opacity-0" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
+
+                                <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" class="m-auto h-4 w-4 text-gray-700 transition-all duration-300 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white ease-out opacity-0" fill="currentColor" aria-hidden="true" ws-attr="IconAttr">
+                                    <path fill-rule="evenodd" d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+
+                            
+                            <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10" ws-attr="DropdownAttr">
+                                <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
+
+                                
+                                <a id="btnManage" href="/account" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
+                                    My account
+                                </a>
+                                <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path></svg>
+                                    Log out
+                                </button>
+
+                                
+                                <div id="btnLogin" class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttrD" aria-disabled="true">
+                                    
+                                    <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                    </svg>
+                                    Coming soon...
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900 dark:backdrop-blur-3xl">
+                    <div class="mt-24 flow-root">
+                        <div class="divide-y divide-gray-200 dark:divide-white">
+
+                            <div class="flex flex-col space-y-6 py-6">
+                                <a href="/" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="/examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                                <a href="/bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                                <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                                <a href="/features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="/ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                                <a href="/warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                                <a href="/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                                <a href="/support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                            </div>
+
+                            <div class="py-6">
+                                <ul class="flex gap-x-4">
+                                    <li>
+                                        <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                            </svg>
+                                            <span class="sr-only">WebSharper GitHub organization</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                            </svg>
+                                            <span class="sr-only">Follow WebSharper on Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                            </svg>
+                                            <span class="sr-only">Join WebSharper community on Discord</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="py-6">
+                                <div data-account-menu="" data-variant="mobile" class="flex flex-col gap-2">
+                                    <div data-el="header" class="hidden flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttr">
+
+                                        <img ws-attr="AvatarAttrHamburger" src="" alt="Profile" class="h-9 w-9 rounded-full bg-gray-100 ring-1 ring-black/5 dark:bg-gray-800 dark:ring-white/10" />
+
+                                        <span class="font-medium">${AccountHeaderText}</span>
+                                    </div>
+
+                                    <a data-el="manage" href="/account" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
+                                        </svg>
+                                        My account
+                                    </a>
+
+                                    <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path>
+                                            <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path>
+                                        </svg>
+                                        Log out
+                                    </button>
+
+                                    <div data-el="login" class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttr" aria-disabled="true">
+                                        <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                        </svg>
+                                        Coming soon...
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
+    <div class="mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
+        <div class="text-center">
+            <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                <span aria-hidden="true">&larr;</span> All articles
+            </a>
+            <p class="mt-6 text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Blogs</p>
+            <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">A new fullstack SPA template for WebSharper and what&#39;s next</h1>
+            <div class="mt-6"><div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base text-gray-500 dark:text-gray-400"><span>by Adam Granicz</span><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><time class="text-gray-500 dark:text-gray-400" datetime="2024-01-02">2 January 2024</time><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">f#</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">websharper</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">fullstack</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">template</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">tailwind</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">vite</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">fsadvent</span></div></div>
+        </div>
+        <div class="blog-content mt-12"><p>First off, Happy 2024 everyone! This is the last (belated, sorry!) entry in the F# Advent (FSA) 2023 calendar, and I would like to thank Sergey for organizing, and all those who contributed to make it AGAIN a goldmine for F# content! No better way to spend December and the start of the new year than reading about how productive F# can make you!</p>
+<h2 id="introducing-fullstack-spa">Introducing <code>fullstack-spa</code></h2>
+<table>
+<thead>
+<tr>
+<th>Tables</th>
+<th>Charts</th>
+<th>Forms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/assets/fullstack-spa-Tables.png"><img src="/assets/fullstack-spa-Tables.png" alt="" /></a></td>
+<td><a href="/assets/fullstack-spa-Charting.png"><img src="/assets/fullstack-spa-Charting.png" alt="" /></a></td>
+<td><a href="/assets/fullstack-spa-Forms.png"><img src="/assets/fullstack-spa-Forms.png" alt="" /></a></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Currently, WebSharper 7 is in beta, latest version is <code>beta-4</code> - available from the WebSharper developer feed. Check <a href="https://docs.websharper.com/basics/nuget/">here</a> about configuring your NuGet/Paket client to use these releases, you won't be able to compile the <a href="https://github.com/granicz/fullstack-spa">project</a> otherwise!</p>
+<h3 id="try-it">Try it!</h3>
+<ol>
+<li><p>Clone the repo: <code>git clone https://github.com/granicz/fullstack-spa</code></p>
+</li>
+<li><p>cd into the project: <code>cd fullstack-spa</code></p>
+</li>
+<li><p>Build and run it: <code>dotnet run</code></p>
+</li>
+<li><p>Navigate to <code>https://localhost:xxxx</code>, where <code>xxxx</code> is the port the app is started on (as reported by vite)</p>
+</li>
+</ol>
+</blockquote>
+<hr />
+<p>Recently, I teamed up with others to build a handful of new project templates (PTs) for the upcoming WebSharper 7, and to release these individually (so you can install them on-demand) as we go without any special ties to <a href="https://www.nuget.org/packages/WebSharper.Templates/">WebSharper.Templates</a>, the main collection of PTs that contains the standard fullstack (<code>websharper-web</code>), SPA (<code>websharper-spa</code>), static website (<code>websharper-html</code>), library (<code>websharper-lib</code>), microservice (<code>websharper-svc</code>), .NET proxy (<code>websharper-prx</code>), and JavaScript binding (<code>websharper-ext</code>) PTs that you might already be familiar with.</p>
+<p>For one of these new PTs, I decided to take my &quot;Full-stack F# with charting, reactive forms, and more under 300 LOC with WebSharper&quot; <a href="https://github.com/granicz/fsadvent2022">FSAdvent2022 project</a> from last year's FSA, and modernize it with a few overdue changes and enhancements.</p>
+<p><a href="https://twitter.com/granicz/status/1609060870289489920"><img src="/assets/X-fullstack-300.png" alt="image" width="50%" height="auto" /></a></p>
+<p>For the general idea and walkthrough of the charting and forms bits, feel free to refer to the <a href="https://intellifactory.com/user/granicz/20221229-full-stack-fsharp-with-charting-reactive-forms-and-more-under-300-loc-with-websharper">article</a> - it's a fun read! As for the rest of the updated version, here is a quick summary.</p>
+<h3 id="tailwind-for-ui">1. Tailwind for UI</h3>
+<p>The <code>fullstack-spa</code> PT uses an MIT-licensed <a href="https://tailwindcss.com/">Tailwind</a>-based template, <a href="https://github.com/estevanmaito/windmill-dashboard">Windmill Dashboard</a> by <a href="https://github.com/estevanmaito">@estevanmaito</a>, part of the <a href="https://windmillui.com/">Windmill UI suite</a>. It's a lovely free resource for web devs, supports dark/light modes, comes with a bundle of prebuilt admin and other components/pages, etc. - so be sure to support Estevan's work in any way you can.</p>
+<p>Changing, or even swapping out the presentation layer entirely only requires changing a single file (<code>client/index.html</code>). Since the PT uses WebSharper.UI templating, be sure to correctly apply the templating attributes (<code>ws-*</code>) for any new UI building block. These then will expose new types and members for your F# code to use for each template, placeholder, etc in the source template. Type-safe templating for the win!</p>
+<h3 id="code-reorganization-and-a-separate-build-project">2. Code reorganization and a separate build project</h3>
+<p>Instead of the <a href="https://github.com/granicz/fsadvent2022">FSAdvent2022 application</a>'s single F# project to hold both the server and client-side, these are now split into three separate F# projects: <code>client</code>, <code>server</code>, and <code>shared</code>. This is not strictly necessary as the WebSharper Booster (which is responsible for cached compilation of WebSharper projects) usually recompiles colocated client+server code in a 2-3-4 seconds, it can, however, result in faster turn-around times if your changes to be compiled are only in your client-side code.</p>
+<p>The new build project (<code>Build.fsproj</code> and <code>build/build.fs</code>) follows the typical FAKE layout that you might have seen with other web apps, with a <code>Run</code> target to build and watch the client/server projects and starting a <code>vite</code> server. The client project uses the WebSharper CLI to provide a more streamlined watch functionality, bypassing ordinary MSBuild logic, and recompilation after changing+saving source files takes ~1.5 seconds. The page is also automatically refreshed, thanks to vite's development mode.</p>
+<p><a href="/assets/watch-recompilation.png"><img src="/assets/watch-recompilation.png" alt="image" width="50%" height="auto"></a></p>
+<h3 id="esm-output-and-vite">3. ESM output and Vite</h3>
+<p>WebSharper 7 produces one-file-per-type (OFPT) ESM output and TypeScript declarations, and while it has its own dead-code eliminator and bundler, it is also designed to readily integrate with standard JavaScript tooling, and this PT is no exception: it comes with <a href="https://vitejs.dev/">vite</a> for running an ESM development server and providing production mode bundling.</p>
+<p>To start your app, all you need is to trigger the <code>Run</code> target:</p>
+<pre><code>dotnet run
+</code></pre>
+<p><a href="/assets/vite.png"><img src="/assets/vite.png" alt="image" width="50%" height="auto"></a></p>
+<h3 id="femto">4. Femto</h3>
+<p>WebSharper 7 JavaScript bindings/NuGet packages are compatible with <a href="https://github.com/Zaid-Ajaj/Femto">femto</a> for managing their underlying npm dependencies. You can use femto to finetune/update/validate package references in your <code>packages.config</code> as needed, and otherwise just continue adding new WebSharper libraries as NuGet packages.</p>
+<h3 id="record-style-rpcs">5. Record-style RPCs</h3>
+<p>WebSharper 7 remoting supports record-style RPCs, in addition to annotated RPCs and classes used in previous releases. One added benefit is that WebSharper RPCs are now also callable from <a href="https://github.com/Zaid-Ajaj/Fable.Remoting">Fable.Remoting</a> clients (as long as the types involved are supported by the caller code), and vice versa with minimal code changes.</p>
+<p>For instance, here is the RPC contract from <code>shared</code> that can supply an array of customer transactions:</p>
+<pre><code class="language-fsharp">namespace Shared
+
+open WebSharper
+
+module DTO =
+    type Client =
+        {
+            FirstName: string
+            LastName: string
+            Position: string
+            AvatarUrl: string
+        }
+
+    type Status =
+        | Approved
+        | Pending
+        | Denied
+        | Expired
+
+    type Transaction =
+        {
+            To: Client
+            Amount: float
+            Status: Status
+            Date: System.DateTime
+        }
+
+(*
+ * A record type to hold our RPCs.
+ * For discovering these RPCs, they need to be marked
+ * with the [&lt;Rpc&gt;] attribute.
+ *)
+type IApi = {
+    [&lt;Rpc&gt;]
+    GetAllTransactions : unit -&gt; Async&lt;DTO.Transaction array&gt;
+}
+</code></pre>
+<p>And here is the implementation code from <code>server</code>:</p>
+<pre><code class="language-fsharp">module Service
+
+open Shared
+open Shared.DTO
+
+let server : IApi = {
+    GetAllTransactions = fun () -&gt;
+        async {
+            ...
+        }
+    }
+
+// Register the server-side handler for the RPCs.
+WebSharper.Core.Remoting.AddHandler typeof&lt;IApi&gt; server
+</code></pre>
+<h2 id="whats-next">What's next?</h2>
+<p>If you haven't tried it yet, the above PT is a good way to give WebSharper 7 beta a go, and share your feedback on the <a href="https://forums.websharper.com">WebSharper forums</a>, or in the <a href="https://github.com/dotnet-websharper/core">core GitHub repo</a> - your bug reports, PRs, questions/comments are welcome!</p>
+<p>Keep in mind that the final WebSharper 7 might undergo API and other changes in the coming weeks. We expect to ship WebSharper 7 around/by mid-Q1 2024, followed with a comprehensive update to the documentation and main websites.</p>
+<h3 id="proxies-proxies">Proxies, proxies</h3>
+<p>More PTs are underway. Some of these PTs will showcase using Elmish+React+JSX and various UI libraries, and help you jumpstart your journey with WebSharper.</p>
+<p>The standard UI paradigm for WebSharper applications has been a native-F#, dynamic dataflow-based reactive model via <a href="https://github.com/dotnet-websharper/ui">WebSharper.UI</a>, similar to the increasingly popular SolidJS/Svelte approach in JS applications. In addition, an Elmish-like Model-View-Update (MVU) library has been implemented on top as <a href="https://github.com/dotnet-websharper/mvu">WebSharper.Mvu</a>, and later, an actual Elmish implementation was added under <a href="https://github.com/elmish/elmish">WebSharper.Elmish</a>. This latter library used a <a href="https://developers.websharper.com/docs/v4.x/fs/proxying">proxy</a>, WebSharper's way of providing translation over arbitrary .NET APIs, to bring Elmish to WebSharper.</p>
+<p>Recently, we have been investigating adding more proxies around some of the notable non-WebSharper libraries from the F# web ecosystem (Feliz, etc.) and Fable itself. This will soon open up interesting possibilities for both Fable and WebSharper developers, enable Fable web developers to benchmark code generation using WebSharper on their Fable apps, and to use WebSharper features otherwise not available in their stacks. For instance, essentially, you can soon take a Fable SPA and compile it with WebSharper without requiring any code changes, enhance it with WebSharper features/code, and host it in a WebSharper sitelet.</p>
+<p>If you would like to further explore what WebSharper can do for your existing .NET web apps, feel free to DM me on X/FB/LinkedIn, or use our <a href="https://intellifactory.com/contact">contact form</a> to get in touch.</p>
+<h3 id="i-am-a-c-developer-can-i-use-websharper">I am a C# developer, can I use WebSharper?</h3>
+<p>Absolutely! WebSharper supports compiling both F# and C#, and even though the C# compilation path is not as feature rich as the F# one, it has been successfully used in various .NET/C# web projects. If you would like to help volunteer adding more C# features or fix/enhance the features already implemented, don't hesitate to reach out.</p>
+<h3 id="whats-left-for-websharper-7">What's left for WebSharper 7?</h3>
+<p>One of the many unique WebSharper features is the ability to embed client-side code in server-side markup, giving you a true fullstack developer experience. The SPA PT from above and other F# SPA projects you might have encountered before (SAFE or other Fable-based variants) are primarily client-centric, and approach your app as an exercise to enhance an HTML page with JavaScript code generated from an F# codebase. Any server-side code is then only loosely coupled, and the remoting layer makes no guarantees about matching the contract required by both tiers.</p>
+<p>For WebSharper apps, there is another mode of operation, which has traditionally been the default mode: using <a href="https://developers.websharper.com/docs/v4.x/fs/sitelets">sitelets</a>.</p>
+<p>Sitelets are self-hosted ASP.NET Core applications, but can also be made to run in Giraffe or Saturn using an <a href="https://github.com/intellifactory/sitelets">experimental bridge</a>, although recently, this received less focus than it deserved.</p>
+<p>Sitelets bring client and server code under a unified programming model, give you isomorphic HTML over a range of UI paradigms (including the default WebSharper.UI reactive model with type-safe templating), and enable you to define how server responses (that may or may not include dynamic, client-side content) are computed for incoming requests, which themselves are mapped to values of endpoint types.</p>
+<pre><code class="language-fsharp">type MyEndPoint =
+    | [&lt;EndPoint &quot;/&quot;&gt;] Home
+    | [&lt;EndPoint &quot;/echo&quot;&gt;] Echo of string
+    ...
+
+[Website]
+let Main =
+    Application.MultiPage (fun ctx -&gt; function
+        | Home -&gt;
+            Content.Page (...) // &lt;--- Your home page content here
+        | Echo msg -&gt;
+            Content.Text msg
+    )
+</code></pre>
+<p>In the code above, <code>Content.Page</code> is a helper that constructs HTML responses, which takes an entire document or a document fragment (body), and will automatically include all required resources (npm and other) via a page-wide script generated at compile time. This is the piece currently in development before WebSharper 7 can be released: generating these include scripts for every sitelet page and making them available to post-compilation bundling.</p>
+<p>It's likely that the final design won't arise until WebSharper 8, and WebSharper 7 will only include a basic implementation.</p>
+<p>Just for fun and to give you an idea of the complexities involved, in the content passed to <code>Page.Content</code>, you can embed a variety of constructs that may in turn have dynamic, client-side aspects, among others:</p>
+<ol>
+<li><p>Server-side HTML with <code>OnAfterRender</code> and other event handlers:</p>
+<pre><code class="language-fsharp">div [] [text &quot;Hello world!&quot;]
+
+div [
+    on.afterRender (fun e -&gt; Console.Log &quot;OAR!&quot;)
+] [text &quot;I am a div with OAR&quot;]
+
+div [
+    on.click (fun e args -&gt; Console.Log &quot;clicked!&quot;)
+] [text &quot;I am a div with a click handler&quot;]
+</code></pre>
+</li>
+<li><p>Client-side HTML, using <code>client</code> - these execute after the containing page loads:</p>
+<pre><code class="language-fsharp">client (div [] [text &quot;Hello world!&quot;])
+</code></pre>
+</li>
+<li><p>Hydrated client-side HTML, using <code>hydrate</code> - these render on the server, with any client-side functionality lit up after page load:</p>
+<pre><code class="language-fsharp">hydrate (RenderClientForm())
+</code></pre>
+</li>
+<li><p>Client-side controls:</p>
+<pre><code class="language-fsharp">Doc.WebControl (MyControl(&quot;I am a client-side control&quot;))
+</code></pre>
+<p>where <code>MyControl</code> is defined as:</p>
+<pre><code class="language-fsharp">type MyControl(a: string) =
+    inherit Web.Control()
+
+    [&lt;JavaScript&gt;]
+    override this.Body =
+        div [
+            on.click (fun e arg -&gt; Console.Log &quot;MyControl clicked&quot;)
+        ] [text &quot;Click me, I am a client-side control&quot;]
+</code></pre>
+</li>
+<li><p>Template-driven components with event bindings:</p>
+<pre><code class="language-fsharp">type TemplateFile = Template&lt;
+    @&quot;wwwroot\template.html&quot;, ClientLoad.FromDocument, ServerLoad.WhenChanged&gt;
+
+TemplateFile.MyComponent()
+    .Title(&quot;Click me, I am a templated component&quot;)
+    .OnClick(fun e -&gt;
+        Console.Log $&quot;MyComponent onClick =&gt; Textbox has \&quot;{e.Vars.Textbox.Value}\&quot;&quot;)
+    .Doc()
+</code></pre>
+</li>
+</ol>
+<h3 id="what-about-support-for-f-8">What about support for F# 8?</h3>
+<p>Once WebSharper 7 rolls out, we expect to make a short iteration to bring in all the latest <a href="https://github.com/dotnet-websharper/core/issues/1366">F# 8</a> and <a href="https://github.com/dotnet-websharper/core/issues/1367">C# 12</a> features, and release WebSharper 8, putting us back on track with frequent incremental releases and matching the latest F# and .NET SDK version. Be sure to check on the <a href="https://github.com/orgs/dotnet-websharper/projects/1">release bucket</a> to see what items are being worked on. Get involved on GitHub, your help is always greatly appreciated!</p>
+<p>All in all, a great year ahead! I can't wait to see what the WebSharper community will accomplish in 2024!</p>
+<p>Happy 2024 and happy coding!</p>
+</div>
+    </div>
+</main>
+
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                        </li>
+                        <li>
+                            <a href="/privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="/terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                        </li>
+                        <li>
+                            <a href="/cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-2 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-3 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="/bindings" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
+                        </li>
+                        <li>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
+                        </li>
+                        <li>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row-start-1 col-span-2 lg:row-start-auto">
+                    <div ws-replace="Newsletter"></div>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
+                <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                    <div class="flex gap-4 items-center">
+                        <a href="/">
+                            <img class="size-8" src="/Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <span class="sr-only">WebSharper logo</span>
+                        </a>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
+                    </div>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

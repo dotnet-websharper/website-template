@@ -1,0 +1,1186 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" ws-2="">
+<head>
+    <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+    <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta property="og:url" content="https://websharper.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WebSharper" />
+    <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta property="og:image" content="" />
+
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="websharper.com" />
+    <meta property="twitter:url" content="https://websharper.com/" />
+    <meta name="twitter:title" content="WebSharper" />
+    <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta name="twitter:image" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
+
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=bbe21f2396"></link>
+<script src="../Scripts/WebSharper/all.js?v=8665ec365f"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = '../Scripts/WebSharper/';
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+});
+</script>
+
+
+    <script>
+        const DOC = document.documentElement;
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
+            }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        // Refresh binding versions from NuGet (Bindings page).
+        function loadBindingVersions() {
+            const els = document.querySelectorAll("[data-nuget-package]");
+            if (!els.length) return;
+            // Stable releases only, so the value matches the one baked into
+            // bindings.json (a prerelease here would flicker the version badge).
+            fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=false")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = new Map((d.data || []).map((p) => [p.id.toLowerCase(), p.version]));
+                    els.forEach((el) => {
+                        const v = versions.get(el.getAttribute("data-nuget-package").toLowerCase());
+                        if (v) el.textContent = v;
+                    });
+                })
+                .catch(() => {});
+        }
+
+        // Filter the bindings in a section by name (case-insensitive, partial match).
+        function initBindingSearch() {
+            document.querySelectorAll("[data-binding-search]").forEach((input) => {
+                const root = document.querySelector(input.getAttribute("data-binding-search"));
+                if (!root) return;
+                const update = () => {
+                    const q = input.value.trim().toLowerCase();
+                    root.querySelectorAll("[data-binding-card]").forEach((card) => {
+                        const name = (card.getAttribute("data-binding-name") || "").toLowerCase();
+                        card.style.display = !q || name.indexOf(q) !== -1 ? "" : "none";
+                    });
+                    root.querySelectorAll("[data-binding-section]").forEach((section) => {
+                        const visible = Array.prototype.some.call(
+                            section.querySelectorAll("[data-binding-card]"),
+                            (c) => c.style.display !== "none"
+                        );
+                        section.style.display = visible ? "" : "none";
+                    });
+                };
+                input.addEventListener("input", update);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
+            loadBindingVersions();
+            initBindingSearch();
+        });
+
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-950 overflow-x-hidden">
+    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
+        <div class="px-6 py-4 lg:px-8">
+            <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                <div class="flex lg:flex-1">
+                    <a href="/" class="-m-1.5 flex items-center gap-2.5 p-1.5">
+                        <img class="h-9 w-9" src="/Assets/logo.png" alt="" width="164" height="164" />
+                        <span class="text-lg font-bold tracking-tight text-gray-950 dark:text-white">WebSharper</span>
+                    </a>
+                </div>
+                <div class="flex gap-4 lg:hidden">
+                    <button ws-onclick="ToggleTheme" type="button" aria-label="Toggle theme" data-theme-toggle="" class="inline-flex cursor-pointer items-center rounded-full border border-[#e5e5e5] p-1 transition-colors dark:border-[#242424]">
+                        <span class="flex size-[26px] items-center justify-center rounded-full bg-[#e6e6e6] text-[#171717] transition-colors dark:bg-transparent dark:text-[#9b9b9b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                        </span>
+                        <span class="flex size-[26px] items-center justify-center rounded-full text-[#737373] transition-colors dark:bg-[#2b2b2b] dark:text-[#e6e6e6]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <button ws-onclick="ToggleMenu" id="openMenu" type="button" class="cursor-pointer text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                        <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                            <span class="sr-only">Open main menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                        </div>
+                        <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                            <span class="sr-only">Close menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
+                    <a href="/" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="/examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                    <a href="/bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                    <a href="/features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="/ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                    <a href="/warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                    <a href="/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                    <a href="/support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                </div>
+                <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                    <button ws-onclick="ToggleTheme" type="button" aria-label="Toggle theme" data-theme-toggle="" class="inline-flex cursor-pointer items-center rounded-full border border-[#e5e5e5] p-1 transition-colors dark:border-[#242424]">
+                        <span class="flex size-[26px] items-center justify-center rounded-full bg-[#e6e6e6] text-[#171717] transition-colors dark:bg-transparent dark:text-[#9b9b9b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                        </span>
+                        <span class="flex size-[26px] items-center justify-center rounded-full text-[#737373] transition-colors dark:bg-[#2b2b2b] dark:text-[#e6e6e6]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <ul class="flex items-center gap-1">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                </svg>
+                                <span class="sr-only">WebSharper GitHub organization</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                </svg>
+                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                </svg>
+                                <span class="sr-only">Join WebSharper community on Discord</span>
+                            </a>
+                        </li>
+                        
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
+                            <button id="accountBtn" class="cursor-pointer group flex h-9 w-9 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-haspopup="menu" aria-expanded="false" aria-label="Account" ws-attr="AccountBtnAria" ws-onclick="AccountBtnClick" ws-onkeydown="AccountBtnKeyDown">
+
+                                <div ws-attr="SkeletonAttr" class="absolute inset-0 m-auto h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse transition-opacity duration-500 ease-out">
+                                </div>
+
+                                <img id="accountAvatar" class="h-9 w-9 rounded-full ring-1 ring-black/5 dark:ring-white/10 transition-opacity duration-500 ease-out opacity-0" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
+
+                                <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" class="m-auto h-4 w-4 text-gray-700 transition-all duration-300 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white ease-out opacity-0" fill="currentColor" aria-hidden="true" ws-attr="IconAttr">
+                                    <path fill-rule="evenodd" d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+
+                            
+                            <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10" ws-attr="DropdownAttr">
+                                <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
+
+                                
+                                <a id="btnManage" href="/account" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
+                                    My account
+                                </a>
+                                <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path></svg>
+                                    Log out
+                                </button>
+
+                                
+                                <div id="btnLogin" class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttrD" aria-disabled="true">
+                                    
+                                    <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                    </svg>
+                                    Coming soon...
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900 dark:backdrop-blur-3xl">
+                    <div class="mt-24 flow-root">
+                        <div class="divide-y divide-gray-200 dark:divide-white">
+
+                            <div class="flex flex-col space-y-6 py-6">
+                                <a href="/" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="/examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                                <a href="/bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                                <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                                <a href="/features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="/ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                                <a href="/warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                                <a href="/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                                <a href="/support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                            </div>
+
+                            <div class="py-6">
+                                <ul class="flex gap-x-4">
+                                    <li>
+                                        <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                            </svg>
+                                            <span class="sr-only">WebSharper GitHub organization</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                            </svg>
+                                            <span class="sr-only">Follow WebSharper on Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                            </svg>
+                                            <span class="sr-only">Join WebSharper community on Discord</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="py-6">
+                                <div data-account-menu="" data-variant="mobile" class="flex flex-col gap-2">
+                                    <div data-el="header" class="hidden flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttr">
+
+                                        <img ws-attr="AvatarAttrHamburger" src="" alt="Profile" class="h-9 w-9 rounded-full bg-gray-100 ring-1 ring-black/5 dark:bg-gray-800 dark:ring-white/10" />
+
+                                        <span class="font-medium">${AccountHeaderText}</span>
+                                    </div>
+
+                                    <a data-el="manage" href="/account" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
+                                        </svg>
+                                        My account
+                                    </a>
+
+                                    <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path>
+                                            <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path>
+                                        </svg>
+                                        Log out
+                                    </button>
+
+                                    <div data-el="login" class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttr" aria-disabled="true">
+                                        <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                        </svg>
+                                        Coming soon...
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
+    <div class="mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
+        <div class="text-center">
+            <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                <span aria-hidden="true">&larr;</span> All articles
+            </a>
+            <p class="mt-6 text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Blogs</p>
+            <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">Introducing WebSharper source code generators</h1>
+            <div class="mt-6"><div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base text-gray-500 dark:text-gray-400"><span>by Adam Granicz</span><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><time class="text-gray-500 dark:text-gray-400" datetime="2025-12-24">24 December 2025</time><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">f#</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">websharper</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">metaprogramming</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">scg</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">fsadvent</span></div></div>
+        </div>
+        <div class="blog-content mt-12"><p>One of the major new features of the upcoming <a href="https://websharper.com">WebSharper 10</a> is F# source code generators (SCGs), with an initial, rudimentary documentation available <a href="https://docs.websharper.com/metaprogramming/fsharp-code-generators">here</a>. While we haven't yet formally announced WebSharper 10, those who keep a closer look at the <a href="https://github.com/orgs/dotnet-websharper/packages">WebSharper developer NuGet feed</a> could spot the first non-RC <code>10.0.0.x</code> releases. In this article, I will use the current latest release, <code>10.0.0.652</code>, and you can also follow along by checking out the <a href="https://github.com/granicz/Tabler">sources for this article</a>.</p>
+<blockquote>
+<h3 id="try-it">Try it!</h3>
+<p>(You will need the latest <code>dotnet</code> CLI,  <code>node</code> and <code>npm</code> installed on your system.)</p>
+<ol>
+<li><p>Clone the repo: <code>git clone https://github.com/granicz/Tabler</code></p>
+</li>
+<li><p>cd into the test app folder: <code>cd Tabler\MyApp</code></p>
+</li>
+<li><p>Build and run it: <code>dotnet run</code></p>
+</li>
+<li><p>Navigate to <code>https://localhost:5000</code>, (change port as needed and reported by the self-hosted <code>.exe</code>)</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="tabler-a-scg-for-annotated-csv-files-to-tables">Tabler - a SCG for annotated CSV files to tables</h2>
+<p>I will demonstrate WebSharper SCGs with a simple CSV to HTML converter. But instead of blindly turning raw data to HTML tables, we'll generate F# code - types that model the structure of the data and UI code that constructs a table rendering. To help code generation we'll add annotations to the CSV header, and codename the code generator for this transformation &quot;Tabler&quot;.</p>
+<p>Armed with Tabler, we can embed annotated CSV source files directly in WebSharper projects, with generated code appearing with every compilation.</p>
+<figure style="text-align: center;">
+  <img src="../../assets/tabler-solution-tree.png"
+       alt="Solution tree"
+       style="max-height: 400px; height: 100%; margin: 0 auto;" />
+  <figcaption style="font-size: 0.9em; opacity: 0.7;">
+    Figure 1: Tabler-generated file in VS
+  </figcaption>
+</figure>
+<p>With the help of the generated code, you get ready-to-embed, highly customizable HTML tables from the raw data file:</p>
+<figure style="text-align: center;">
+  <img src="../../assets/tabler-table.png"
+       alt="Solution tree"
+       style="max-width: 800px; width: 100%; margin: 0 auto;" />
+  <figcaption style="font-size: 0.9em; opacity: 0.7;">
+    Figure 1: Tabler-generated file in VS
+  </figcaption>
+</figure>
+<h2 id="csv-file-format">CSV file format</h2>
+<p>A sample annotated CSV file looks like this:</p>
+<pre><code class="language-csv"># MyApp.Employees.Data = Person list {
+#   &quot;First Name&quot;  -&gt; FirstName: string
+#   &quot;Last Name&quot;   -&gt; LastName: string
+#   &quot;Age&quot;		  -&gt; Age: int
+#   &quot;Department&quot;  -&gt; Department: union
+#   &quot;Start Date&quot;  -&gt; StartDate: date
+# }
+First Name, Last Name, Age, Department, Start Date
+Anna,Kovacs,29,Engineering,2021-04-12
+Mark,Stevens,41,Finance,2016-09-01
+Lucia,Ramirez,34,Marketing,2019-02-18
+Peter,Nagy,38,Operations,2017-06-05
+Sofia,Morales,26,Customer Support,2023-01-09
+Daniel,Weber,45,Human Resources,2014-11-24
+Emily,Chen,31,Product Management,2020-08-17
+Robert,Klein,52,Legal,2010-03-22
+Isabel,Fernandez,28,Design,2022-05-30
+Thomas,OConnor,36,Sales,2018-10-08
+</code></pre>
+<p>Note the header block inside the commented lines. This section defines a fully qualified name <code>MyApp.Employees.Data</code> for the data that follows, names each row/record as <code>Person</code>, and describes a mapping from column headers (<code>&quot;First Name&quot;</code>) to an identifier*type pair. Here, for the type, there are four built-in types, which are straightforward to extend later: strings, numbers, dates, and unions. Unions provide a closed set of values extracted from the dataset, and can be used to model a finite set of possible values in a type-safe manner.</p>
+<p>From the header metainfo we want to generate an F# record type to represent <code>Person</code> records/rows, along with a constructor helper. If any of the record fields are unions, their values are collected into a DU with a mapping function between DU values and data values.</p>
+<p>So for the above CSV snippet, we expect to generate the following code:</p>
+<pre><code class="language-fsharp">namespace MyApp
+
+module Employees =
+    open System
+    
+    type Department = 
+        | CustomerSupport
+        | Design
+        | Engineering
+        | Finance
+        | HumanResources
+        | Legal
+        | Marketing
+        | Operations
+        | ProductManagement
+        | Sales
+    
+        override this.ToString() =
+            match this with
+                | CustomerSupport -&gt; &quot;Customer Support&quot;
+                | Design -&gt; &quot;Design&quot;
+                | Engineering -&gt; &quot;Engineering&quot;
+                | Finance -&gt; &quot;Finance&quot;
+                | HumanResources -&gt; &quot;Human Resources&quot;
+                | Legal -&gt; &quot;Legal&quot;
+                | Marketing -&gt; &quot;Marketing&quot;
+                | Operations -&gt; &quot;Operations&quot;
+                | ProductManagement -&gt; &quot;Product Management&quot;
+                | Sales -&gt; &quot;Sales&quot;
+    
+    type Person =
+        {
+            FirstName: string
+            LastName: string
+            Age: int
+            Department: Department
+            StartDate: DateTime
+        }
+    
+        static member Create (firstName, lastName, age, department, startDate) =
+            {
+                FirstName = firstName
+                LastName = lastName
+                Age = age
+                Department = department
+                StartDate = startDate
+            }
+    
+</code></pre>
+<h2 id="rendering-tables">Rendering tables</h2>
+<p>Since the main use of Tabler is compile-time code generation to render HTML tables from raw CSV data, it is important that these tables can be styled according to the host page's theme.</p>
+<p>We can accomplish this using WebSharper.UI templating. First, we assume that there is an HTML template file that contains the template markup for our table. For simplicity, we use a hardcoded name <code>Main.html</code> and generate a UI type provider call to generate a strongly-typed representation of the template under <code>MainTemplate</code>:</p>
+<pre><code class="language-fsharp">namespace MyApp
+
+open WebSharper.UI.Templating
+
+type MainTemplate=Template&lt;&quot;Main.html&quot;, ClientLoad.FromDocument&gt;
+
+module Employees =
+    ...
+</code></pre>
+<p>From here, we assume that there are various inner templates defined in the master template file. For example, since we used <code>MyApp.Employees.Data</code> in the CSV header, we require:</p>
+<ul>
+<li><p><code>EmployeesTable_HeaderColumn</code> (=&gt; a single header column) with a single <code>Header</code> placeholder, to represent a header cell.</p>
+</li>
+<li><p><code>Employee</code> (=&gt; a table row, and note the singular case) with placeholders whose names match the field names declared in the CSV header block. For instance, for <code>&quot;First name&quot;</code>, we declared <code>FirstName</code>, so this field needs to be present in the inner template, along all others.</p>
+</li>
+<li><p><code>Employees</code> (=&gt; the full table) with a <code>HeaderRow</code>, <code>Data</code>, <code>Count</code> placeholders - this template gives the presentation artifact of the entire table. <code>HeaderRow</code> will be automatically populated by injecting all column headers (using the <code>EmployeesTable_HeaderColumn</code> template we saw above), <code>Data</code> will receive all rows (using <code>Employee</code>), and <code>Count</code> will be populated by the number of rows processed.</p>
+</li>
+</ul>
+<p>So the final bit of the generated code, related to constructing these template-based blocks for the entire table, looks like this:</p>
+<pre><code class="language-fsharp">module Employees =
+    ...
+
+    let headerColumn (col: string) =
+        MainTemplate.EmployeesTable_HeaderColumn()
+            .Header(col)
+            .Doc()
+    
+    let row (person:Person) =
+        MainTemplate.Employee()
+            .FirstName(person.FirstName)
+            .LastName(person.LastName)
+            .Age(string person.Age)
+            .Department(person.Department.ToString())
+            .StartDate(person.StartDate.ToShortDateString())
+            .Doc()
+    
+    let Data =
+        MainTemplate.Employees()
+            .HeaderRow([
+                headerColumn &quot;First Name&quot;
+                headerColumn &quot;Last Name&quot;
+                headerColumn &quot;Age&quot;
+                headerColumn &quot;Department&quot;
+                headerColumn &quot;Start Date&quot;
+            ])
+            .Data([
+                row &lt;| Person.Create (&quot;Anna&quot;, &quot;Kovacs&quot;, 29, Department.Engineering, DateTime.Parse &quot;2021-04-12&quot;)
+                ...
+            ])
+            .Count(string 10)
+            .Doc()
+</code></pre>
+<h2 id="the-scg">The SCG</h2>
+<p>Now that we have seen the code we want to generate, it's time to write our SCG. This will go into a separate project (<code>Tabler</code> in the <a href="https://github.com/granicz/Tabler">linked repository</a>), which we will reference in our main app project.</p>
+<p>SCGs declare one or more file extensions, for which they are activated in the compilation pipeline, so for every file added to a SCG-enhanced project with those file extensions, source code is generated (one or more F# files) and added to the list of source files to be compiled. Next to this, there is a single entrypoint <code>Generate</code> to implement, which will be called with each input file and some meta information about the compilation context.</p>
+<p>The skeleton of our <code>.table</code> SCG looks like this:</p>
+<pre><code class="language-fsharp">namespace Tabler
+
+open System.IO
+open WebSharper
+
+type TableSourceGenerator() =
+    interface ISourceGenerator with
+        member this.Generate (gen: GenerateCall) : string array option =
+            let file = gen.FilePath
+            File.ReadAllLines(file)
+            |&gt; Reader.ParseAll
+            |&gt; function
+                | Ok res -&gt;
+                    ...
+                    Some ...
+                | Error e -&gt;
+                    ...
+                    IDE.error gen pos e.Message
+                    None
+
+[&lt;assembly:FSharpSourceGenerator(&quot;table&quot;, typeof&lt;TableSourceGenerator&gt;)&gt;]
+do ()
+</code></pre>
+<h2 id="our-csv-reader">Our CSV reader</h2>
+<p>Since we enhance CSV syntax with our custom comment header, we need to write a parser for it. I decided to go with a simple line-based parser and utilize <code>Result</code> values to weave each parsing step together, enabling me to handle syntax errors precisely.</p>
+<p>First, I build a simple computation expression (CE) to compose <code>Result</code> values:</p>
+<pre><code class="language-fsharp">    type ResultBuilder() =
+        member _.Bind(x, f) =
+            match x with
+            | Ok v    -&gt; f v
+            | Error e -&gt; Error e
+
+        member _.Return(x) = Ok x
+        member _.ReturnFrom(x) = x
+
+    let result = ResultBuilder()
+</code></pre>
+<p>Next, my line-based parser functions will all yield either an error that pinpoints what's wrong and where in the syntax, or a custom value that contains all the parsed data.</p>
+<p>So my <code>ParseError</code> and a <code>Cursor</code> type to keep track of parsing position within a line looks like this:</p>
+<pre><code class="language-fsharp">    type ParseError =
+        {
+            Message: string
+            StartLine: int
+            StartColumn: int
+            Length: int
+        }
+
+    type Cursor =
+        {
+            Text: string
+            LineNumber: int
+            Column: int
+        }
+</code></pre>
+<p>Equally unimpressive is my built-in CSV field type and a helper to construct errors:</p>
+<pre><code class="language-fsharp">    type FieldType =
+        | String
+        | Int
+        | Union
+        | Date
+
+    let error msg (line, col, length) =
+        Error { Message = msg; StartLine = line; StartColumn = col; Length = length }
+</code></pre>
+<p>The heart of the main parser functions is <code>tryMatch</code> - a function that tries to match a given regex against a <code>Cursor</code> value:</p>
+<pre><code class="language-fsharp">    let tryMatch (lineNo, rxName, rx: Regex) (c: Cursor) =
+        let m = rx.Match(c.Text, c.Column)
+        if m.Success &amp;&amp; m.Index = c.Column then
+            Ok (m, { c with Column = c.Column + m.Length })
+        else
+            error $&quot;Expected {rxName}&quot; (lineNo, c.Column, 1)
+</code></pre>
+<p>Using this helper, we can extract the information from the first header line:</p>
+<pre><code class="language-fsharp">    type DataHeader =
+        {
+            QuantifiedName: string
+            TypeName: string
+        }
+
+    let ParseHeaderLine (line: string, lineNo) =
+        let c0 = { Text = line; LineNumber = lineNo; Column = 0 }
+        // # MyApp.Employees = Person list {
+        result {
+            let! (_, c1) = tryMatch (lineNo, &quot;whitespace&quot;, Regex @&quot;\s*#\s*&quot;) c0
+            let! (qn, c2) = tryMatch (lineNo, &quot;target identifier&quot;, Regex @&quot;(?&lt;q&gt;(?:[A-Za-z_][A-Za-z0-9_]*\.)*[A-Za-z_][A-Za-z0-9_]*)&quot;) c1
+            let! (_, c3) = tryMatch (lineNo, &quot;=&quot;, Regex @&quot;\s*=\s*&quot;) c2
+            let! (item, c4) = tryMatch (lineNo, &quot;item identifier&quot;, Regex @&quot;[A-Za-z_][A-Za-z0-9_]*&quot;) c3
+            let! (_, c5) = tryMatch (lineNo, &quot;'list'&quot;, Regex @&quot;\s+list\s+&quot;) c4
+            let! (_, _)  = tryMatch (lineNo, &quot;'{'&quot;, Regex @&quot;\{\s*$&quot;) c5
+            return
+                {
+                    DataHeader.QuantifiedName = qn.Groups[&quot;q&quot;].Value
+                    DataHeader.TypeName = item.Value
+                }
+        }
+</code></pre>
+<p>At any token, if we fail to match what's expected, <code>tryMatch</code> will provide a meaningful message given the supplied names and line info.</p>
+<p>Parsing the label-to-field mappings and the CSV data is just building up similar primitives:</p>
+<pre><code class="language-fsharp">    type DataColumn =
+        {
+            ColumnName: string
+            FieldName: string
+            FieldType: FieldType
+        }
+
+    type ParsedData =
+        {
+            Header: DataHeader
+            Columns: DataColumn list
+            CsvHead: string list
+            CsvRows: string list list
+        }
+
+    let ParseMappingLine (line: string, lineNo) =
+        let c0 = { Text = line; LineNumber = lineNo; Column = 0 }
+        // #    &quot;First Name&quot; -&gt; FirstName: string
+        result {
+            let! (_, c1) = tryMatch (lineNo, &quot;whitespace&quot;, Regex @&quot;\s*#\s*&quot;) c0
+            let! (q, c2) = tryMatch (lineNo, &quot;column name&quot;, Regex &quot;\&quot;(?&lt;col&gt;[^\&quot;]*)\&quot;&quot;) c1
+            let! (_, c3) = tryMatch (lineNo, &quot;-&gt;&quot;, Regex @&quot;\s*-&gt;\s*&quot;) c2
+            let! (f, c4) = tryMatch (lineNo, &quot;field name&quot;, Regex @&quot;[A-Za-z_][A-Za-z0-9_]*&quot;) c3
+            let! (_, c5) = tryMatch (lineNo, &quot;:&quot;, Regex @&quot;\s*:\s*&quot;) c4
+            let! (t, _)  = tryMatch (lineNo, &quot;field type&quot;, Regex @&quot;[A-Za-z_][A-Za-z0-9_]*&quot;) c5
+            let! tt =
+                match t.Value.ToLower() with
+                | &quot;string&quot; -&gt;
+                    Ok FieldType.String
+                | &quot;int&quot; -&gt;
+                    Ok FieldType.Int
+                | &quot;union&quot; -&gt;
+                    Ok FieldType.Union
+                | &quot;date&quot; -&gt;
+                    Ok FieldType.Date
+                | _ -&gt;
+                    error $&quot;Valid field type expected, got {t.Value}&quot; (lineNo, c5.Column, t.Value.Length) 
+            return
+                {
+                    DataColumn.ColumnName = q.Groups[&quot;col&quot;].Value
+                    DataColumn.FieldName = f.Value
+                    DataColumn.FieldType = tt
+                }
+        }
+
+    let ParseCloserLine (line: string, lineNo) =
+        let c0 = { Text = line; LineNumber = lineNo; Column = 0 }
+        // # }
+        result {
+            let! (_, c1) = tryMatch (lineNo, &quot;whitespace&quot;, Regex @&quot;\s*#\s*&quot;) c0
+            let! (_, c2) = tryMatch (lineNo, &quot;}&quot;, Regex @&quot;}\s*$&quot;) c1
+            return true
+        }
+
+    let splitCsvLine (line: string) =
+        line.Split(',')
+        |&gt; Array.map (fun s -&gt; s.Trim())
+        |&gt; Array.toList
+
+    let ParseSchemaBlock (lines: (int * string) list) =
+        result {
+            match lines with
+            | [] -&gt;
+                return! error &quot;Expected header line&quot; (0, 0, 0)
+            | (ln, line) :: rest -&gt;
+                let! header = ParseHeaderLine (line, ln)
+                let rec parseMappings acc remaining =
+                    result {
+                        match remaining with
+                        | [] -&gt;
+                            return! error &quot;Unexpected end of file in schema block&quot; (ln, 0, 0)
+                        | (ln, line) :: tail -&gt;
+                            match ParseCloserLine (line, ln) with
+                            | Ok _ -&gt;
+                                return List.rev acc, tail
+                            | Error _ -&gt;
+                                let! col = ParseMappingLine (line, ln)
+                                return! parseMappings (col :: acc) tail
+                    }
+                let! columns, restLines = parseMappings [] rest
+                return header, columns, restLines
+        }
+
+    let ParseCsv (lines: (int * string) list) =
+        result {
+            match lines with
+            | [] -&gt;
+                return! error &quot;Expected CSV header&quot; (0, 0, 0)
+            | (_, headerLine) :: rows -&gt;
+                let csvHeader = splitCsvLine headerLine
+                let csvRows =
+                    rows
+                    |&gt; List.map (fun (_, l) -&gt; splitCsvLine l)
+                return csvHeader, csvRows
+        }
+
+    let ParseAll (lines: string array) =
+        let lines =
+            lines
+            |&gt; Array.mapi (fun i l -&gt; i + 1, l)
+            |&gt; Array.toList
+            |&gt; List.filter (fun (_, l) -&gt; not (System.String.IsNullOrWhiteSpace l))
+        result {
+            let! header, columns, rest = ParseSchemaBlock lines
+            let! csvHeader, csvRows = ParseCsv rest
+            return
+                {
+                    Header  = header
+                    Columns = columns
+                    CsvHead = csvHeader
+                    CsvRows = csvRows
+                }
+        }
+</code></pre>
+<h2 id="code-generator">Code generator</h2>
+<p>There are a number of ways to generate F# code programmatically, ranging from simple string writing to using various AST representations and pretty-printing with proper code formatting to F# code.</p>
+<p>For this article, I decided to go with the simplest form: generating F# code by concatenating strings.</p>
+<p>This needs a simple abstraction to keep track of indentation levels:</p>
+<pre><code class="language-fsharp">module PP =
+    open System
+    open System.Text
+
+    type IndentedStringBuilder(s: string) =
+        let sb = new StringBuilder(s)
+    
+        new () = IndentedStringBuilder(&quot;&quot;)
+
+        member val TAB_SIZE = 4 with get, set
+        member val CURRENT_INDENT = 0 with get, set
+
+        member this.AddIndent () = this.CURRENT_INDENT &lt;- this.CURRENT_INDENT + 1
+
+        member this.RemoveIndent () =
+            if this.CURRENT_INDENT &gt; 0 then
+                this.CURRENT_INDENT &lt;- this.CURRENT_INDENT - 1
+            else
+                this.CURRENT_INDENT &lt;- 0
+
+        member this.AddLine ind s =
+            let tab = String.init this.TAB_SIZE (fun _ -&gt; &quot; &quot;)
+            let indent = String.init (this.CURRENT_INDENT+ind) (fun _ -&gt; tab)
+            sb.AppendLine (sprintf &quot;%s%s&quot; indent s) |&gt; ignore
+
+        member __.AddString ind (s: string) =
+            for line in s.Split([| System.Environment.NewLine; &quot;\r&quot;; &quot;\n&quot;|], StringSplitOptions.None) do
+                __.AddLine ind line
+
+        member __.StringOf() =
+            sb.ToString()
+
+        member pp.EMPTY_LINE () =
+            pp.AddLine 0 &quot;&quot;
+
+        member pp.NAMESPACE ns =
+            pp.AddLine 0 &lt;| sprintf &quot;namespace %s&quot; ns
+
+        member pp.OPEN ns =
+            pp.AddLine 0 &lt;| sprintf &quot;open %s&quot; ns
+
+        member pp.OPEN_TYPE ns =
+            pp.AddLine 0 &lt;| sprintf &quot;open type %s&quot; ns
+
+        member pp.ATTRIBUTE att =
+            pp.AddLine 0 &lt;| sprintf &quot;[&lt;%s&gt;]&quot; att
+
+        member pp.MODULE recu mo =
+            if recu then
+                pp.AddLine 0 &lt;| sprintf &quot;and %s =&quot; mo
+            else
+                pp.AddLine 0 &lt;| sprintf &quot;module %s =&quot; mo
+            pp.AddIndent()
+
+        member pp.MODULE_NOT_INDENTED mo =
+            pp.AddLine 0 &lt;| sprintf &quot;module %s&quot; mo
+
+        member pp.MODULE_END () =
+            pp.RemoveIndent()
+
+        member pp.TYPE_RECORD recu ty fields =
+            if recu then
+                pp.AddLine 0 &lt;| sprintf &quot;and %s =&quot; ty
+            else
+                pp.AddLine 0 &lt;| sprintf &quot;type %s =&quot; ty
+            pp.AddLine 1 &quot;{&quot;
+            for (f, v) in fields do
+                pp.AddLine 2 &lt;| sprintf &quot;%s: %s&quot; f v
+            pp.AddLine 1 &quot;}&quot;
+
+    type IndentedCodeFileBuilder(fname, content) =
+        let isb = IndentedStringBuilder(content)
+
+        new (fname) = IndentedCodeFileBuilder(fname, &quot;&quot;)
+
+        member this.Builder = isb
+
+        member this.OutputCodeFileOf() =
+            {
+                BaseFilename = fname
+                Content = isb.StringOf()
+            }
+</code></pre>
+<p>Using <code>IndentedCodeFileBuilder</code>, I can now generate the skeleton code for a <code>ParsedData</code> value:</p>
+<pre><code class="language-fsharp">namespace Tabler
+
+open PP
+open Reader
+open Helpers
+
+module CodeGen =
+    type UnionValues =
+        {
+            Column: DataColumn
+            Values: string list
+        }
+
+    let ExtractUnionValues (data: ParsedData) : UnionValues list =
+        // Compute all raw values for each union column
+        ...
+
+    let Generate (data: Reader.ParsedData) = [
+        let cfb = IndentedCodeFileBuilder(&quot;Data.fs&quot;)
+        let pp = cfb.Builder
+
+        let nss = data.Header.QuantifiedName.Split([|'.'|])
+        let ns, m, v = nss.[0], nss.[1], nss.[2]
+        pp.NAMESPACE ns
+        pp.EMPTY_LINE()
+        pp.OPEN &quot;WebSharper.UI.Templating&quot;
+        pp.EMPTY_LINE()
+        pp.AddLine 0 $&quot;type MainTemplate=Template&lt;\&quot;Main.html\&quot;, ClientLoad.FromDocument&gt;&quot;
+        pp.EMPTY_LINE()
+        pp.MODULE false (capitalize m)
+        pp.OPEN &quot;System&quot;
+        pp.EMPTY_LINE()
+        // Print types for each union
+        ExtractUnionValues data
+        |&gt; List.iter (fun union -&gt;
+            pp.AddLine 0 $&quot;type {union.Column.FieldName} = &quot;
+            union.Values
+            |&gt; List.iter (fun uv -&gt;
+                pp.AddLine 1 $&quot;| {toPascalCase uv}&quot;
+            )
+            pp.EMPTY_LINE()
+            pp.AddLine 1 $&quot;override this.ToString() =&quot;
+            pp.AddLine 2 $&quot;match this with&quot;
+            union.Values
+            |&gt; List.iter (fun uv -&gt;
+                pp.AddLine 3 $&quot;| {toPascalCase uv} -&gt; \&quot;{uv}\&quot;&quot;
+            )
+            pp.EMPTY_LINE()
+        )
+        // Print main type
+        pp.AddLine 0 $&quot;type {capitalize data.Header.TypeName} =&quot;
+        pp.AddLine 1 &quot;{&quot;
+        data.Columns
+        |&gt; List.iter (fun col -&gt;
+            let colTy =
+                match col.FieldType with
+                | FieldType.String -&gt;
+                    &quot;string&quot;
+                | FieldType.Int -&gt;
+                    &quot;int&quot;
+                | FieldType.Union -&gt;
+                    capitalize col.FieldName
+                | FieldType.Date -&gt;
+                    &quot;DateTime&quot;
+            pp.AddLine 2 $&quot;{capitalize col.FieldName}: {colTy}&quot;
+        )
+        pp.AddLine 1 &quot;}&quot;
+        pp.EMPTY_LINE()
+        // Create member
+        let pars =
+            data.Columns
+            |&gt; List.map (fun c -&gt; lowerFirst c.FieldName)
+            |&gt; String.concat &quot;, &quot;
+        pp.AddLine 1 $&quot;static member Create ({pars}) =&quot;
+        pp.AddLine 2 &quot;{&quot;
+        data.Columns
+        |&gt; List.iter (fun c -&gt;
+            pp.AddLine 3 $&quot;{capitalize c.FieldName} = {lowerFirst c.FieldName}&quot;
+        )
+        pp.AddLine 2 &quot;}&quot;
+        pp.EMPTY_LINE()
+        //
+        pp.AddLine 0 $&quot;let headerColumn (col: string) =&quot;
+        pp.AddLine 1 $&quot;MainTemplate.{capitalize m}Table_HeaderColumn()&quot;
+        pp.AddLine 2 $&quot;.Header(col)&quot;
+        pp.AddLine 2 $&quot;.Doc()&quot;
+        pp.EMPTY_LINE()
+        //
+        pp.AddLine 0 $&quot;let row ({lowerFirst data.Header.TypeName}:{capitalize data.Header.TypeName}) =&quot;
+        pp.AddLine 1 $&quot;MainTemplate.{capitalize (singularize m)}()&quot;
+        data.Columns
+        |&gt; List.iter (fun c -&gt;
+            match c.FieldType with
+            | FieldType.String -&gt;
+                pp.AddLine 2 $&quot;.{capitalize c.FieldName}({lowerFirst data.Header.TypeName}.{capitalize c.FieldName})&quot;
+            | FieldType.Int -&gt;
+                pp.AddLine 2 $&quot;.{capitalize c.FieldName}(string {lowerFirst data.Header.TypeName}.{capitalize c.FieldName})&quot;
+            | FieldType.Union -&gt;
+                pp.AddLine 2 $&quot;.{capitalize c.FieldName}({lowerFirst data.Header.TypeName}.{capitalize c.FieldName}.ToString())&quot;
+            | FieldType.Date -&gt;
+                pp.AddLine 2 $&quot;.{capitalize c.FieldName}({lowerFirst data.Header.TypeName}.{capitalize c.FieldName}.ToShortDateString())&quot;
+        )
+        pp.AddLine 2 $&quot;.Doc()&quot;
+        pp.EMPTY_LINE()
+        pp.AddLine 0 $&quot;let {capitalize v} =&quot;
+        pp.AddLine 1 $&quot;MainTemplate.{capitalize m}()&quot;
+        pp.AddLine 2 $&quot;.HeaderRow([&quot;
+        data.Columns
+        |&gt; List.iter (fun c -&gt;
+            pp.AddLine 3 $&quot;headerColumn \&quot;{c.ColumnName}\&quot;&quot;
+        )
+        pp.AddLine 2 $&quot;])&quot;
+        pp.AddLine 2 $&quot;.Data([&quot;
+        data.CsvRows
+        |&gt; List.iter (fun row -&gt;
+            let vs =
+                List.zip data.Columns row
+                |&gt; List.map (fun (c, row) -&gt;
+                    match c.FieldType with
+                    | FieldType.String -&gt;
+                        $&quot;\&quot;{row}\&quot;&quot;
+                    | FieldType.Int -&gt;
+                        $&quot;{row}&quot;
+                    | FieldType.Union -&gt;
+                        $&quot;{capitalize c.FieldName}.{toPascalCase row}&quot;
+                    | FieldType.Date -&gt;
+                        $&quot;DateTime.Parse \&quot;{row}\&quot;&quot;
+                )
+                |&gt; String.concat &quot;, &quot;
+            pp.AddLine 3 $&quot;row &lt;| {capitalize data.Header.TypeName}.Create ({vs})&quot;
+        )
+        pp.AddLine 2 &quot;])&quot;
+        pp.AddLine 2 $&quot;.Count(string {data.CsvRows.Length})&quot;
+        pp.AddLine 2 &quot;.Doc()&quot;
+        pp.EMPTY_LINE()
+        pp.AddLine 0 $&quot;let DataCount = {data.CsvRows.Length}&quot;
+        yield cfb.OutputCodeFileOf()
+    ]
+</code></pre>
+<p>There are a few helpers (<code>capitalize</code>, <code>lowerFirst</code>, <code>singularize</code>, <code>toPascalCase</code>) to deal with minor code generation details, feel free to check the <a href="https://github.com/granicz/Tabler">source repository</a> for these.</p>
+<h2 id="completing-the-scg">Completing the SCG</h2>
+<p>Now with all the pieces we need, we are ready to complete the SCG's <code>Generate</code> method:</p>
+<pre><code class="language-fsharp">member this.Generate (gen: GenerateCall) : string array option =
+    let file = gen.FilePath
+    IDE.debug gen &lt;| sprintf &quot;Processing %s...\n&quot; file
+    File.ReadAllLines(file)
+    |&gt; Reader.ParseAll
+    |&gt; function
+        | Ok res -&gt;
+            // TODO: Sanity check to make sure all CSV rows contain enough columns
+            // ...
+            // Sanity check: the quantified name of the data source needs to be X.Y.Z
+            let qn = res.Header.QuantifiedName
+            if qn.Split([|'.'|]) |&gt; Array.length &lt;&gt; 3 then
+                IDE.error gen (file, (1, 0), (1, qn.Length)) &quot;Quantified name needs to be of the format X.Y.Z&quot;
+                None
+            else
+                CodeGen.Generate res
+                |&gt; List.map (fun cf -&gt;
+                    // Gets the parent folder of the original .table file
+                    let outputPath = Path.GetDirectoryName(file)
+                    let outputFile = Path.Combine(outputPath, file+&quot;_&quot;+cf.BaseFilename) |&gt; Path.GetFullPath
+                    let outputPath = Path.GetDirectoryName(outputFile)
+                    if not (Directory.Exists(outputPath)) then
+                        Directory.CreateDirectory(outputPath) |&gt; ignore
+                    // Write generated file
+                    File.WriteAllText(outputFile, cf.Content)
+                    outputFile
+                )
+                |&gt; List.toArray
+                |&gt; Some
+        | Error e -&gt;
+            let pos = (file, (e.StartLine, e.StartColumn), (e.StartLine, e.StartColumn+e.Length))
+            IDE.error gen pos e.Message
+            None
+</code></pre>
+<p><code>Generate</code> is expected to return an optional list of generated code filenames, and they need to be written on disk for the compiler to process them. The caller process (the WebSharper compiler) will treat a <code>None</code> value as a no-op, and otherwise it will generate a <code>.props</code> file that links these files to the source file, causing them to show up as nested artifacts in Visual Studio's Solution Explorer.</p>
+<h2 id="ide-error-reporting">IDE error reporting</h2>
+<p>You can also recover from various errors that may happen during processing an input file. You can signal these back to the build process using specially printed messages, and if you work inside Visual Studio or your other favorite IDE, these will surface as errors, and clicking on them will navigate you to the offending position.</p>
+<p>Note that SCG errors only surface after a compilation attempt. If you need continuous as-you-type error checking in a custom source/DSL/data files, you will need to implement an IDE plugin, in addition to the SCG.</p>
+<h2 id="building-on-scgs-the-rise-of-dsls">Building on SCGs - the rise of DSLs</h2>
+<p>With WebSharper 10, we'll be soon introducing more tools that focus on enlisting domain-specific languages (DSLs) in your WebSharper applications. You can already implement your own full-blown DSLs using <code>WebSharper.FsLexYacc</code> (a WebSharper runtime for F#'s <code>fslex</code> and <code>fsyacc</code> tools, repository <a href="https://github.com/dotnet-websharper/FsLexYacc.Runtime">here</a>), and now with WebSharper SCGs, nothing stops you from using them inside your WebSharper applications.</p>
+<p>One of the upcoming releases that I am excited about is a project we codenamed Warp, building on but also reinventing with a much larger scope some of the interactive web development toolset we
+developed years ago as part of the now archived <code>WebSharper.Warp</code> library (<a href="https://github.com/dotnet-websharper/warp">repository</a>).</p>
+<p>With Warp, we are aiming to ship a feature-rich specification DSL for WebSharper applications. Initially, this will cover fullstack applications only, and later more syntax will be added for SPAs, HTML applications, and other project types (microservices, etc.)</p>
+<p>These will be introduced continuously in early 2026 Q1, so keep checking back often!</p>
+<h2 id="happy-holidays">Happy holidays!</h2>
+<p>Thanks to Sergey Tihon for organizing F# Advent and to everyone who participated!</p>
+<p>Happy coding!</p>
+</div>
+    </div>
+</main>
+
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                        </li>
+                        <li>
+                            <a href="/privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="/terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                        </li>
+                        <li>
+                            <a href="/cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-2 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-3 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="/bindings" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
+                        </li>
+                        <li>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
+                        </li>
+                        <li>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row-start-1 col-span-2 lg:row-start-auto">
+                    <div ws-replace="Newsletter"></div>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
+                <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                    <div class="flex gap-4 items-center">
+                        <a href="/">
+                            <img class="size-8" src="/Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <span class="sr-only">WebSharper logo</span>
+                        </a>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
+                    </div>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

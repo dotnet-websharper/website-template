@@ -1,0 +1,996 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" ws-2="">
+<head>
+    <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+    <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta property="og:url" content="https://websharper.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WebSharper" />
+    <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta property="og:image" content="" />
+
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="websharper.com" />
+    <meta property="twitter:url" content="https://websharper.com/" />
+    <meta name="twitter:title" content="WebSharper" />
+    <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta name="twitter:image" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
+
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=bbe21f2396"></link>
+<script src="../Scripts/WebSharper/all.js?v=8665ec365f"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = '../Scripts/WebSharper/';
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+});
+</script>
+
+
+    <script>
+        const DOC = document.documentElement;
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
+            }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        // Refresh binding versions from NuGet (Bindings page).
+        function loadBindingVersions() {
+            const els = document.querySelectorAll("[data-nuget-package]");
+            if (!els.length) return;
+            // Stable releases only, so the value matches the one baked into
+            // bindings.json (a prerelease here would flicker the version badge).
+            fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=false")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = new Map((d.data || []).map((p) => [p.id.toLowerCase(), p.version]));
+                    els.forEach((el) => {
+                        const v = versions.get(el.getAttribute("data-nuget-package").toLowerCase());
+                        if (v) el.textContent = v;
+                    });
+                })
+                .catch(() => {});
+        }
+
+        // Filter the bindings in a section by name (case-insensitive, partial match).
+        function initBindingSearch() {
+            document.querySelectorAll("[data-binding-search]").forEach((input) => {
+                const root = document.querySelector(input.getAttribute("data-binding-search"));
+                if (!root) return;
+                const update = () => {
+                    const q = input.value.trim().toLowerCase();
+                    root.querySelectorAll("[data-binding-card]").forEach((card) => {
+                        const name = (card.getAttribute("data-binding-name") || "").toLowerCase();
+                        card.style.display = !q || name.indexOf(q) !== -1 ? "" : "none";
+                    });
+                    root.querySelectorAll("[data-binding-section]").forEach((section) => {
+                        const visible = Array.prototype.some.call(
+                            section.querySelectorAll("[data-binding-card]"),
+                            (c) => c.style.display !== "none"
+                        );
+                        section.style.display = visible ? "" : "none";
+                    });
+                };
+                input.addEventListener("input", update);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
+            loadBindingVersions();
+            initBindingSearch();
+        });
+
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-950 overflow-x-hidden">
+    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
+        <div class="px-6 py-4 lg:px-8">
+            <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                <div class="flex lg:flex-1">
+                    <a href="/" class="-m-1.5 flex items-center gap-2.5 p-1.5">
+                        <img class="h-9 w-9" src="/Assets/logo.png" alt="" width="164" height="164" />
+                        <span class="text-lg font-bold tracking-tight text-gray-950 dark:text-white">WebSharper</span>
+                    </a>
+                </div>
+                <div class="flex gap-4 lg:hidden">
+                    <button ws-onclick="ToggleTheme" type="button" aria-label="Toggle theme" data-theme-toggle="" class="inline-flex cursor-pointer items-center rounded-full border border-[#e5e5e5] p-1 transition-colors dark:border-[#242424]">
+                        <span class="flex size-[26px] items-center justify-center rounded-full bg-[#e6e6e6] text-[#171717] transition-colors dark:bg-transparent dark:text-[#9b9b9b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                        </span>
+                        <span class="flex size-[26px] items-center justify-center rounded-full text-[#737373] transition-colors dark:bg-[#2b2b2b] dark:text-[#e6e6e6]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <button ws-onclick="ToggleMenu" id="openMenu" type="button" class="cursor-pointer text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                        <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                            <span class="sr-only">Open main menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                        </div>
+                        <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                            <span class="sr-only">Close menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
+                    <a href="/" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="/examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                    <a href="/bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                    <a href="/features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="/ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                    <a href="/warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                    <a href="/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                    <a href="/support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                </div>
+                <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                    <button ws-onclick="ToggleTheme" type="button" aria-label="Toggle theme" data-theme-toggle="" class="inline-flex cursor-pointer items-center rounded-full border border-[#e5e5e5] p-1 transition-colors dark:border-[#242424]">
+                        <span class="flex size-[26px] items-center justify-center rounded-full bg-[#e6e6e6] text-[#171717] transition-colors dark:bg-transparent dark:text-[#9b9b9b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                        </span>
+                        <span class="flex size-[26px] items-center justify-center rounded-full text-[#737373] transition-colors dark:bg-[#2b2b2b] dark:text-[#e6e6e6]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <ul class="flex items-center gap-1">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                </svg>
+                                <span class="sr-only">WebSharper GitHub organization</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                </svg>
+                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                </svg>
+                                <span class="sr-only">Join WebSharper community on Discord</span>
+                            </a>
+                        </li>
+                        
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
+                            <button id="accountBtn" class="cursor-pointer group flex h-9 w-9 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-haspopup="menu" aria-expanded="false" aria-label="Account" ws-attr="AccountBtnAria" ws-onclick="AccountBtnClick" ws-onkeydown="AccountBtnKeyDown">
+
+                                <div ws-attr="SkeletonAttr" class="absolute inset-0 m-auto h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse transition-opacity duration-500 ease-out">
+                                </div>
+
+                                <img id="accountAvatar" class="h-9 w-9 rounded-full ring-1 ring-black/5 dark:ring-white/10 transition-opacity duration-500 ease-out opacity-0" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
+
+                                <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" class="m-auto h-4 w-4 text-gray-700 transition-all duration-300 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white ease-out opacity-0" fill="currentColor" aria-hidden="true" ws-attr="IconAttr">
+                                    <path fill-rule="evenodd" d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+
+                            
+                            <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10" ws-attr="DropdownAttr">
+                                <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
+
+                                
+                                <a id="btnManage" href="/account" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
+                                    My account
+                                </a>
+                                <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path></svg>
+                                    Log out
+                                </button>
+
+                                
+                                <div id="btnLogin" class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttrD" aria-disabled="true">
+                                    
+                                    <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                    </svg>
+                                    Coming soon...
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900 dark:backdrop-blur-3xl">
+                    <div class="mt-24 flow-root">
+                        <div class="divide-y divide-gray-200 dark:divide-white">
+
+                            <div class="flex flex-col space-y-6 py-6">
+                                <a href="/" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="/examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                                <a href="/bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                                <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                                <a href="/features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="/ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                                <a href="/warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                                <a href="/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                                <a href="/support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                            </div>
+
+                            <div class="py-6">
+                                <ul class="flex gap-x-4">
+                                    <li>
+                                        <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                            </svg>
+                                            <span class="sr-only">WebSharper GitHub organization</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                            </svg>
+                                            <span class="sr-only">Follow WebSharper on Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                            </svg>
+                                            <span class="sr-only">Join WebSharper community on Discord</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="py-6">
+                                <div data-account-menu="" data-variant="mobile" class="flex flex-col gap-2">
+                                    <div data-el="header" class="hidden flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttr">
+
+                                        <img ws-attr="AvatarAttrHamburger" src="" alt="Profile" class="h-9 w-9 rounded-full bg-gray-100 ring-1 ring-black/5 dark:bg-gray-800 dark:ring-white/10" />
+
+                                        <span class="font-medium">${AccountHeaderText}</span>
+                                    </div>
+
+                                    <a data-el="manage" href="/account" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
+                                        </svg>
+                                        My account
+                                    </a>
+
+                                    <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path>
+                                            <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path>
+                                        </svg>
+                                        Log out
+                                    </button>
+
+                                    <div data-el="login" class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttr" aria-disabled="true">
+                                        <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                        </svg>
+                                        Coming soon...
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
+    <div class="mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
+        <div class="text-center">
+            <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                <span aria-hidden="true">&larr;</span> All articles
+            </a>
+            <p class="mt-6 text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Blogs</p>
+            <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">IntelliLogo</h1>
+            <div class="mt-6"><div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base text-gray-500 dark:text-gray-400"><span>by Adam Granicz</span><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><time class="text-gray-500 dark:text-gray-400" datetime="2024-12-28">28 December 2024</time><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">f#</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">websharper</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">parsing</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">lexing</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">logo</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">fsadvent</span></div></div>
+        </div>
+        <div class="blog-content mt-12"><p>(Happy Holidays everyone and sorry for the delay in getting this article out to you! Just want to say a huge thanks to Sergey Tihon for organizing F# Advent and to everyone who participated!)</p>
+<p>I wrote an article nearly 20 years ago about <a href="https://intellifactory.com/user/granicz/20061124-a-logo-interpreter-under-400-lines">implementing a Logo interpreter in F# with 400 LOC</a>, and a fun fact is that it was the first article on this very blog. Back then, one of the coolest things about it was that it used partial active patterns to parse Logo programs and executed them in a desktop client.</p>
+<p>In this article, I will give a quick overview of a more sophisticated rewrite, by implementing IntelliLogo, an abstract Logo &quot;virtual machine&quot; with a range of built-in functions and features, and adding a simple web UI around it using WebSharper. The <a href="https://logo.intellifactorylabs.com">resulting app</a> looks like this in action (click for a larger image):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/assets/intellilogo-app.png"><img src="/assets/intellilogo-app.png" alt="" /></a></td>
+<td><a href="/assets/intellilogo-warning.png"><img src="/assets/intellilogo-warning.png" alt="" /></a></td>
+<td><a href="/assets/intellilogo-plant.png"><img src="/assets/intellilogo-plant.png" alt="" /></a></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Currently, WebSharper 8 is in beta, and it is most readily available from the WebSharper GitHub/developer feed. Check <a href="https://docs.websharper.com/basics/nuget/">here</a> about configuring your NuGet/Paket client to use these releases, you won't be able to compile the <a href="https://github.com/granicz/IntelliLogo">project</a> otherwise!</p>
+<h3 id="try-it">Try it!</h3>
+<p>(You will need the latest <code>dotnet</code> CLI and <code>npx</code> installed on your system.)</p>
+<ol>
+<li><p>Clone the repo: <code>git clone https://github.com/granicz/IntelliLogo</code></p>
+</li>
+<li><p>cd into the project: <code>cd IntelliLogo</code></p>
+</li>
+<li><p>Build and run it: <code>dotnet build</code></p>
+</li>
+<li><p>Run the client: <code>npx vite</code></p>
+</li>
+<li><p>Navigate to <code>https://localhost:xxxx</code>, where <code>xxxx</code> is the port the app is started on (as reported by vite)</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="project-structure">Project structure</h2>
+<pre><code>- IntelliLogo
+   - AST.fs
+   - Lexer.fsl
+   - Parser.fsy
+   - [Parser.fs]  -&gt; generated
+   - [Lexer.fs]   -&gt; generated
+   - Eval.fs
+- Client
+   - [AST.fs]     -&gt; from IntelliLogo
+   - [Parser.fs]  -&gt; from IntelliLogo
+   - [Lexer.fs]   -&gt; from IntelliLogo
+   - [Eval.fs]    -&gt; from IntelliLogo
+   - Builtins.fs
+   - App.fs
+</code></pre>
+<h2 id="the-ast">The AST</h2>
+<p>The types needed for the IntelliLogo VM are in <code>AST.fs</code>, the AST itself is pretty straightforward, with a constructor for each notable feature:</p>
+<pre><code class="language-fsharp">module AST =
+    type id = string * pos
+
+    type Program = Statement list
+
+    and Commands = Statement list
+    
+    and Statement =
+        | FunDef of id * id list * Commands * pos
+        | Repeat of Expr * Commands * pos
+        | For of id * Expr * Expr * Expr option * Commands * pos
+        | If of Expr * Commands * pos
+        | IfElse of Expr * Commands * Commands * pos
+        // make &quot;i 1
+        | Make of id * Expr * pos
+        // makelocal &quot;i 1
+        | MakeLocal of id * Expr * pos
+        // local &quot;i
+        | Local of id * pos
+        | FunCall of id * Expr list * pos
+        // Expressions can be returned with &quot;output&quot;
+        | Output of Expr * pos
+
+    and Expr =
+        | RepCount of pos
+        | Var of string * pos
+        | Number of float * pos
+        | Word of string * pos
+        | Text of string * pos
+        | FunCall of id * Expr list * pos
+        | List of Expr list * pos
+        | Add of Expr * Expr * pos
+        | Sub of Expr * Expr * pos
+        | Mul of Expr * Expr * pos
+        | Div of Expr * Expr * pos
+        | Gt of Expr * Expr * pos
+        | Lt of Expr * Expr * pos
+        | Ge of Expr * Expr * pos
+        | Le of Expr * Expr * pos
+        | Eq of Expr * Expr * pos
+        | NotEq of Expr * Expr * pos
+</code></pre>
+<p>For <code>pos</code>, we use a record type that wraps FsLexYacc's native <code>Lexing.Position</code> type and adds its own helpers, this way a consuming library doesn't have to know about lexing internals.</p>
+<h2 id="the-parser">The parser</h2>
+<p>For IntelliLogo, I decided to use a lexer/parser generator instead of the active pattern-based approach to benefit from a more formal way to describe IntelliLogo's syntax, although in the process I opted for a small but notable deviation from the mainstream LOGO syntax: function calls with zero or multiple arguments use parentheses to surround those arguments.</p>
+<p>For instance, the following:</p>
+<pre><code class="language-logo">LT 10 PENUP PRINT 1 2 3
+</code></pre>
+<p>need to be written as:</p>
+<pre><code class="language-logo">LT 10 PENUP () PRINT (1 2 3)
+</code></pre>
+<p>Functions are defined the same way as in standard logo, no extra parentheses needed there.</p>
+<p>An IntelliLogo program consists of a list of statements:</p>
+<pre><code>program:
+    | statements EOF {
+        fst $1
+    }
+</code></pre>
+<p>Here, <code>program</code> is a so-called non-terminal symbol, as opposed to terminal symbols which are fed from the lexer. We can write <code>statements</code>, and list of anything in general, as follows:</p>
+<pre><code>statements:
+    | statement {
+        ...
+    }
+    | statement statements {
+        ...
+    }
+</code></pre>
+<p>Another useful grammar abstraction is expressing optionality. For statements, a &quot;possibly empty list of statements&quot; is written as:</p>
+<pre><code>statements_opt:
+    | {
+        []
+    }
+    | statements {
+        (fst $1)
+    }
+</code></pre>
+<p>Note how the first rule is &quot;empty&quot;. The order of cases within a rule is not relevant, and the generated parser will always use the pattern that matches the longest input string.</p>
+<p>Many statements use blocks of code (further statements) as part of their syntax, and put these bits inside brackets, for instance, conditionals or REPEAT blocks:</p>
+<pre><code>REPEAT 10 [LT 10 FD 10]
+</code></pre>
+<p>To make parsing these inner blocks easier, we can introduce another rule for them:</p>
+<pre><code>commands:
+    | LBRACK statements_opt RBRACK {
+        $2, pos.union $1 $3
+    }
+</code></pre>
+<p>At this point, we can start specifying what statements we accept - function definitions, REPEAT and FOR statements, etc:</p>
+<pre><code>statement:
+    | TO ID vars_opt statements END {
+        ...
+    }
+    | REPEAT expr commands {
+        ...
+    }
+    | FOR LBRACK ID expr expr RBRACK commands {
+        ...
+    }
+    ...
+</code></pre>
+<h3 id="handling-source-positions">Handling source positions</h3>
+<p>An essential components of parsing IntelliLogo programs is keeping track of source regions that correspond to each parsed symbol. This involves aggregating the positions of the inner symbols within a production rule, and returning this combined source position as well. Consider a couple actual snippets from parsing expressions:</p>
+<pre><code>expr:
+    ...
+    | ID LPAREN exprs RPAREN {
+        let pos = pos.union (snd $1) $4
+        FunCall ($1, fst $3, pos), pos
+    }
+    // A list is an expression, not to be confused with statement blocks.
+    | LBRACK exprs_opt RBRACK {
+        let pos = pos.union $1 $3
+        List ($2, pos), pos
+    }
+    | expr PLUS expr {
+        let pos = pos.union (snd $1) (snd $3)
+        Add (fst $1, fst $3, pos), pos
+    }
+</code></pre>
+<p>Here, some symbols (<code>ID</code>, <code>expr</code>) carry a value and a source position as a tuple, and we extract these to combine with other positions with <code>pos.union</code>, which simply creates a position value that spans its two input positions.</p>
+<h2 id="the-evaluator">The evaluator</h2>
+<p>The evaluator computes a <code>Value</code> for various AST forms. These values can be of a range of shapes:</p>
+<pre><code class="language-fsharp">type Value =
+    | Nothing
+    | Number of float
+    | Boolean of bool
+    | Text of string
+    | List of Value list
+    | Explicit of Value
+
+...
+
+let evalCommands ... = ...
+and evalStatements ... = ...
+and evalExpr ... = ...
+</code></pre>
+<p>Statements eventually evaluate to <code>Nothing</code> (but may change the execution context), after all, these constructs don't return values like functions and expressions. <code>Explicit</code> marks values returned using the <code>OUTPUT</code> function - this shape is not strictly necessary, but I decided to keep it explicit in case I later wanted to add extra semantic checks around user-defined functions.</p>
+<p>Each helper in the evaluator receives an <code>Environment</code>, the evaluation context, containing the global and local variables in scope, and the user-defined and built-in functions.</p>
+<pre><code class="language-fsharp">type Environment =
+    {
+        GlobalVariables: Map&lt;string, Value&gt;
+        LocalVariables: Map&lt;string, Value option&gt;
+        Functions: Map&lt;string, (string list * Commands)&gt;
+        BuiltIns: Map&lt;string, (Environment -&gt; pos -&gt; Value list -&gt; ((Environment * Value) * bool))&gt;
+    }
+</code></pre>
+<p>When calling user-defined functions, the evaluator manages the environment, but built-in functions explicitly take and return an <code>Environment</code> value: this allows certain built-in functions (such as <code>debug_environment</code>) to examine/print it.</p>
+<p>The evaluator helpers return a new environment and the computed value, along with a Boolean that signals whether the evaluation has been stopped using <code>STOP ()</code> - this function terminates the currently executing user-defined function and returns control to the caller (without a return value). (Under the cover, this shortcut logic is implemented in <code>List.foldUntil</code> - a custom extension method.)</p>
+<pre><code class="language-fsharp">let rec evalCommands (env: Environment) commands : ((Environment * Value) * bool)=
+    commands
+    |&gt; List.foldUntil (fun (env, v) stmt -&gt;
+        evalStatement env stmt
+    ) (env, Value.Nothing)
+
+// Evaluates a list of commands, assuming that they can only
+// return a value via OUTPUT.
+and evalStatementCommands env body =
+    let (env, v), isStopped = evalCommands env body
+    match v with
+    | Value.Explicit v -&gt;
+        (env, v), isStopped
+    | _ -&gt;
+        (env, Value.Nothing), isStopped
+
+and evalStatement (env: Environment) stmt : (Environment * Value) * bool =
+    match stmt with
+    ...
+    | Statement.IfElse(cond, yes, no, pos) -&gt;
+        let env, v = evalExpr env cond
+        match v with
+        | Value.Boolean b -&gt;
+            if b then
+                evalStatementCommands env yes
+            else
+                evalStatementCommands env no
+        | _ -&gt;
+            raise (BooleanExpected (v, pos))
+    | ...
+...
+// Expressions can't contain STOP
+and evalExpr env = function
+    | RepCount pos -&gt;
+        evalExpr env (Var (&quot;repcount&quot;, pos))
+    | Var (v, pos) -&gt;
+        match Map.tryFind (v.ToLower()) env.GlobalVariables with
+        | Some value -&gt;
+            env, value
+        | None -&gt;
+            match Map.tryFind (v.ToLower()) env.LocalVariables with
+            | Some (Some value) -&gt;
+                env, value
+            | Some None -&gt;
+                raise (UninitializedLocalVariable(v, pos))
+            | None -&gt;
+                raise (UndefinedVariable(v, pos))
+    | Expr.Number (n, _) -&gt;
+        env, Value.Number n
+    | Word (w, _) -&gt;
+        env, Value.Text w
+    | Expr.Text (txt, _) -&gt;
+        env, Value.Text txt
+    | FunCall ((f, fpos), args, pos) -&gt;
+        let (env, v), _ = evalFunCall env ((f, fpos), args, pos)
+        env, v
+    | Expr.List (es, pos) -&gt;
+        es
+        |&gt; List.fold (fun (env, lst) e -&gt;
+            let env, e = evalExpr env e
+            env, e :: lst) (env, [])
+        |&gt; fun (env, lst) -&gt;
+            env, Value.List (List.rev lst)
+    | Expr.Add (e1, e2, pos) -&gt;
+        let env, v1 = evalExpr env e1
+        let env, v2 = evalExpr env e2
+        match v1, v2 with
+        | Value.Number n1, Value.Number n2 -&gt;
+            env, Value.Number (n1+n2)
+        | _ -&gt;
+            raise (ArgumentTypeMismatch (&quot;(+)&quot;, v1, v2, pos))
+    ...
+</code></pre>
+<h3 id="error-handling-and-semantic-checking">Error handling and semantic checking</h3>
+<p>Since we evaluate the AST directly, without using another internal representation (IR) more suited to execution, we have to do some sanity checks &quot;on the fly&quot;. These are handled via raising exceptions, which are then caught on the top-level (=the UI) and dealt with accordingly.</p>
+<p>This also applies to the built-in functions, for instance, consider <code>random</code> (which takes the upper limit as an argument) and <code>stop</code> (which expects no arguments):</p>
+<pre><code class="language-fsharp">let Core = [
+    &quot;random&quot;, (fun env pos args -&gt;
+        match args with
+        | [Number n] -&gt;
+            (env, Value.Number(rnd.Next(int n))), false
+        | _ -&gt;
+            raise (UnexpectedArgument (&quot;random&quot;, args, pos))
+    )
+    &quot;stop&quot;, (fun env pos args -&gt;
+        match args with
+        | [] -&gt;
+            // Stop the execution of the current user-defined function
+            (env, Value.Nothing), true
+        | _ -&gt;
+            raise (UnexpectedArgument (&quot;stop&quot;, args, pos))
+    )
+    ...
+</code></pre>
+<h2 id="the-client-ui">The client UI</h2>
+<p>Now with the parsing and evalution bits in their own project, it's time to build a UI around the VM. This is contained in the <code>Client</code> project. This project references some of the same files from the <code>IntelliLogo</code> VM, as shown earlier in the project structure section.</p>
+<p>Recompiling the same source files in a different project provides an important advantage: by making the <code>Client</code> project a WebSharper SPA, for instance, all code within gets compiled with WebSharper, and apart from code marked specifically for server-side use (RPCs, etc.), it is retargeted to JavaScript.</p>
+<h3 id="introducing-websharper.fslexyacc">Introducing WebSharper.FsLexYacc</h3>
+<p>Here is where another important piece comes in the play: WebSharper.FsLexYacc. This package adds a WebSharper proxy for <code>FsLexYacc.Runtime</code>, the library that is used by FsLexYacc-generated lexers and parsers, including the ones used in IntelliLogo.</p>
+<p>This proxy allows WebSharper to compile the generated code to JavaScript, essentially, making it run in the browser.</p>
+<h3 id="client-specific-built-in-functions">Client-specific built-in functions</h3>
+<p>The IntelliLogo evaluator can receive additional built-in functions through the <code>Environment</code> context, in addition to the few stdlib functions implemented along with the VM. This enables us to plug in client-specific built-ins as well. These are defined in <code>Client\Builtins.fs</code>, and use an additional execution context, encapsulated in the <code>ClientBuiltins.LogoState</code> type:</p>
+<pre><code class="language-fsharp">type LogoState =
+    {
+        mutable CanvasX : float
+        mutable CanvasY : float
+        mutable CurrentX : float
+        mutable CurrentY : float
+        mutable Direction : float
+        mutable PenDown : bool
+        mutable Ctx : CanvasRenderingContext2D
+        mutable Console : Var&lt;string&gt; option
+    }
+
+let State =
+    {
+        CanvasX = 1000.
+        CanvasY = 1000.
+        CurrentX = 500.
+        CurrentY = 500.
+        Direction = 90.
+        PenDown = true
+        Ctx = null
+        Console = None
+    }
+</code></pre>
+<p><code>State</code> is then made available in the main SPA page. The <code>Ctx</code> field, which is an HTML5 <code>CanvasRenderingContext2D</code> backed by a <code>CANVAS</code> HTML element, and <code>Console</code>, a WebSharper.UI reactive variable bound to a UI element (the <code>TEXTAREA</code> that corresponds to the Console/Output widget in the app) are initialized when the application boots up.</p>
+<p>Armed with UI-specific state/model, more stdlib functions can be injected as we initialize the main application - for instance, consider <code>home</code> (which clears the Logo drawing canvas and resets the turtle to the center), <code>rt</code>/<code>right</code> (which turn the turtle to the right), and <code>print</code> (which prints values to the console):</p>
+<pre><code class="language-fsharp">let Core = [
+    [&quot;home&quot;], (fun env _ args -&gt;
+        State.CurrentX &lt;- 500
+        State.CurrentY &lt;- 500
+        (env, Value.Nothing), false
+    )
+    [&quot;rt&quot;; &quot;right&quot;], (fun env pos args -&gt;
+        match args with
+        | [Value.Number n] -&gt;
+            TurtleOperations.RT n
+        | _ -&gt;
+            raise (NumberExpectedButGot(args, pos))
+        (env, Value.Nothing), false
+    )
+    [&quot;print&quot;; &quot;pr&quot;], (fun env pos args -&gt;
+        args |&gt; List.iter (fun arg -&gt;
+            let s = NonListValueToString pos arg
+            if State.Console.IsSome then
+                Var.Concat(State.Console.Value, s + &quot; &quot;)
+        )
+        Var.Concat(State.Console.Value, &quot;\n&quot;)
+        (env, Value.Nothing), false
+    )
+    ...
+]
+</code></pre>
+<h3 id="the-actual-ui">The actual UI</h3>
+<p>For the main IntelliLogo UI, I used ChatGPT to generate a Tailwind-based HTML page that has a toolbar and footer, and a resizeable main content panel that has a left-hand side code editor and a fill-rest preview panel with a bottom Console textarea.</p>
+<p>In the toolbar, I threw in a center dropdown to contain a selection of built-in IntelliLogo snippets, and a handful of buttons for wiping the editor, zooming in/out of the preview canvas, running the code in the editor, and a light/dark theme selector.</p>
+<p>Once I was finished with the HTML skeleton, I sprinkled in WebSharper attributes for each notable placeholder (<code>ws-replace</code>, <code>ws-hole</code>) and event handler (<code>ws-onclick</code>, etc.)</p>
+<p>Then I brought the entire UI into scope using the WebSharper templating type provider:</p>
+<pre><code class="language-fsharp">[&lt;JavaScript&gt;]
+module Client =
+    type MainTemplate = Template&lt;&quot;index.html&quot;, ClientLoad.FromDocument, ServerLoad.WhenChanged&gt;
+</code></pre>
+<p>... and started to populate the placeholders and implement the necessary event handlers:</p>
+<pre><code class="language-fsharp">[&lt;SPAEntryPoint&gt;]
+let Main =
+    ... // Initialization - omitted
+    MainTemplate()
+        .Editor(editor)
+        // We can put global initialization code here...
+        .OAR_WithModel(...)
+        .EditorOnKeyUp(fun e -&gt; UpdateCaretPosition e.Target)
+        .EditorOnKeyDown(...)
+        .EditorCol(EditorCaretPosition.View.Map(snd &gt;&gt; string))
+        .EditorRow(EditorCaretPosition.View.Map(fst &gt;&gt; string))
+        .ExampleOptions(...)
+        ...
+</code></pre>
+<p>I paid attention to several smaller details to make the app much more pleasant to use: showing the caret's position to make it easier to track down syntax errors, keeping track of changes to selected snippets, warning on losing changes, saving the code in the editor so it survives page refreshes, remembering the selected theme, etc - you are welcome to take a look in the repo and play with adding more refinements.</p>
+<p>Since I was planning to host the app in a static web container such as GitHub Pages, I thought it would be nice to add some dynamic functionality as well, namely, to initialize the Examples selector/dropdown from a configuration file.</p>
+<p>For this, I used a <code>config.json</code> file in the examples folder in the repo, and read its contents as:</p>
+<pre><code class="language-fsharp">type Example =
+    {
+        [&lt;Name &quot;name&quot;&gt;] Name: string
+        [&lt;Name &quot;filename&quot;&gt;] FileName: string
+    }
+
+type Examples =
+    {
+        [&lt;Name &quot;examples&quot;&gt;] Examples : Example array
+    }
+
+let Examples : Var&lt;Example array&gt; = Var.Create [||]
+let CurrentExampleSelected : Var&lt;string option&gt; = Var.Create None
+
+let InitializeExampleSelector() =
+    Communication.fetch&lt;Examples&gt; false &quot;/examples/config.json&quot;
+        &lt;| fun exs -&gt;
+            Examples := exs.Examples
+        &lt;| fun error -&gt;
+            printfn &quot;Error: %A&quot; error
+</code></pre>
+<p>Here, <code>Communications.fetch</code> is a simple helper to do an HTTP request:</p>
+<pre><code class="language-fsharp">[&lt;JavaScript&gt;]
+module Communication =
+    let fetch&lt;'T&gt; (isRaw: bool) (url: string) (onSuccess: 'T -&gt; unit) (onError: string -&gt; unit) =
+        let request = new XMLHttpRequest()
+        request.Open(&quot;GET&quot;, url, true)
+        request.OnReadyStateChange &lt;- fun _ -&gt;
+            if request.ReadyState = XMLHttpRequest.DONE then
+                if request.Status = 200 then
+                    try
+                        if isRaw then
+                            box request.ResponseText :?&gt; 'T
+                        else
+                            Json.Parse(request.ResponseText) :?&gt; 'T
+                        |&gt; onSuccess
+                    with
+                        | ex -&gt; onError $&quot;Parsing error: {ex.Message}&quot;
+                else
+                    onError $&quot;HTTP error: {request.StatusText}&quot;
+        request.Send()
+</code></pre>
+<p>Once I call <code>InitializeExampleSelector</code> in the app's boot-up sequence, I can read <code>Examples</code> and bind it to the UI dropdown that contains the built-in examples, next to the few other chores I need to wire up for the other UI widgets.</p>
+<p>Finally, adding the event handler for the Run button feels like a breeze:</p>
+<pre><code class="language-fsharp">MainTemplate()
+    // ...
+    .OnRun(fun e -&gt;
+        ClientBuiltins.State.Ctx &lt;- ..
+        ClientBuiltins.State.Console &lt;- ...
+        let input = editor.Value
+        match IntelliLogo.Parse.ProgramFromString input with
+        | Ok program -&gt;
+            // ...
+            let env = IntelliLogo.Evaluator.Environment.Create()
+            // Inject the specific client builtins
+            let env = ...
+            try
+                let (_, v), isStopped = IntelliLogo.Evaluator.evalCommands env program
+                if isStopped then
+                    Var.Concat(console, sprintf &quot;Program stopped.\n&quot;)
+                Var.Concat(console, sprintf &quot;Result=%A\n&quot; v)
+            with
+            // Report errors
+            | IntelliLogo.Evaluator.ArgumentTypeMismatch(f, v1, v2, pos) -&gt; ...
+            | ...
+</code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this article, I walked through some of the implementation details of IntelliLogo: a Logo-like programming language with a web IDE. The main points of interest could be how easy it is to use lexer/parser generators to implement programming languages, or how much fun WebSharper made it to compile it into a web app using a ChatGPT-generated UI.</p>
+<p>Extending the standard library with other Logo primitives can vastly enhance the value proposition. With a few more of these, here is a one-liner to showcase how to output text (a multiplication table) instead of turtle graphics:</p>
+<pre><code class="language-logo">for [i 1 10] [repeat 10 [type form (repcount * :i 4 0)] pr()]
+</code></pre>
+<p>... which yields:</p>
+<pre><code>   1   2   3   4   5   6   7   8   9  10
+   2   4   6   8  10  12  14  16  18  20
+   3   6   9  12  15  18  21  24  27  30
+   4   8  12  16  20  24  28  32  36  40
+   5  10  15  20  25  30  35  40  45  50
+   6  12  18  24  30  36  42  48  54  60
+   7  14  21  28  35  42  49  56  63  70
+   8  16  24  32  40  48  56  64  72  80
+   9  18  27  36  45  54  63  72  81  90
+  10  20  30  40  50  60  70  80  90 100
+</code></pre>
+<p>As always, there is room for improvement: implementing Logo's higher-order primitives, more stdlib functions, adding the ability to halt execution, etc. I also thought of spinning off a 3D version, which would need 3D turtle primitives and could use an accelerated 3D graphics library such as ThreeJS. If you want to join me in creating these, don't hesitate to get in touch.</p>
+<p>Happy holidays and happy coding!</p>
+</div>
+    </div>
+</main>
+
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                        </li>
+                        <li>
+                            <a href="/privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="/terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                        </li>
+                        <li>
+                            <a href="/cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-2 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-3 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="/bindings" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
+                        </li>
+                        <li>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
+                        </li>
+                        <li>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row-start-1 col-span-2 lg:row-start-auto">
+                    <div ws-replace="Newsletter"></div>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
+                <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                    <div class="flex gap-4 items-center">
+                        <a href="/">
+                            <img class="size-8" src="/Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <span class="sr-only">WebSharper logo</span>
+                        </a>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
+                    </div>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
