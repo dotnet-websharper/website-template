@@ -540,9 +540,14 @@ let libraryVersion (meta: BindingMeta) =
         let m = Text.RegularExpressions.Regex.Match(range, "([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)")
         if m.Success then m.Groups.[1].Value + "+" else range
     | _, Some url ->
-        // .../d3/<x.y.z>/d3.min.js or .../highcharts.js (unpinned)
-        let m = Text.RegularExpressions.Regex.Match(url, "/([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)/")
-        if m.Success then m.Groups.[1].Value else "latest (unpinned)"
+        // .../d3/<x.y.z>/d3.min.js, or a jsDelivr npm URL such as
+        // .../npm/mathjax@<x.y.z>/tex-mml-chtml.js.
+        let seg = Text.RegularExpressions.Regex.Match(url, "/([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)/")
+        if seg.Success then
+            seg.Groups.[1].Value
+        else
+            let at = Text.RegularExpressions.Regex.Match(url, "@([0-9]+\\.[0-9]+(?:\\.[0-9]+)?)")
+            if at.Success then at.Groups.[1].Value else "latest (unpinned)"
     | None, None -> "latest (unpinned)"
 
 /// Sample link: websharper-samples first, then the binding repo's own demo.

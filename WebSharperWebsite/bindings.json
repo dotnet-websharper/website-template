@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T02:11:06.0080700\u002B00:00",
+  "generatedAt": "2026-11-14T02:21:25.0137960\u002B00:00",
   "libraries": [
     {
       "name": "Chart.js",
@@ -435,7 +435,7 @@
       "onNuGet": true,
       "onDevFeed": true,
       "library": "MathJax",
-      "libraryVersion": "latest (unpinned)",
+      "libraryVersion": "4.1.3",
       "description": "TeX and MathML typesetting with the MathJax v3 API.",
       "repo": "https://github.com/dotnet-websharper/mathjax",
       "category": "Math \u0026 typesetting",

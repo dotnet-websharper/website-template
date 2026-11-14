@@ -257,11 +257,12 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
        `major.minor[.patch]` is rendered with `+` (`>= 4.4.0 <5.0.0` → `4.4.0+`).
     2. Otherwise the first `Resource "…" "https://…"` URL in the file listed in
        `resourceFiles` (`Main.fs`/`Definition.fs`), taking the `/<x.y.z>/` path
-       segment — e.g. D3's `…/d3/7.9.2/d3.min.js` → `7.9.2`.
+       segment (`…/d3/7.9.2/d3.min.js` → `7.9.2`) or, for a jsDelivr npm URL,
+       the `@<x.y.z>` package specifier (`…/npm/mathjax@4.1.3/…` → `4.1.3`).
     3. Otherwise `"latest (unpinned)"`, rendered as **N/A**; the Up to
        date/Recent/Outdated badge is hidden because there is nothing to compare.
     A repo can be in `projectFiles` yet fall through to step 2 if its fsproj has
-    no `<NpmPackage>` (D3 is exactly this case: it pins 7.9.2 via its CDN
+    no `<NpmPackage>` (MathJax is this case: it pins 4.1.3 via its CDN
     resource, not via `NpmPackage`). `readRepoFile` prefers a local
     `~/dotnet-websharper/<repo>/<path>` checkout over
     `raw.githubusercontent.com/dotnet-websharper/<repo>/HEAD/<path>`.
