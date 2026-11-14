@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T02:21:25.0137960\u002B00:00",
+  "generatedAt": "2026-11-14T20:38:32.4749960\u002B00:00",
   "libraries": [
     {
       "name": "Chart.js",
@@ -483,18 +483,20 @@
     {
       "name": "Capacitor CapGo",
       "package": "WebSharper.Capacitor.CapGo",
-      "version": "10.1.0.726",
+      "version": "10.1.0.728",
       "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "Capacitor",
-      "libraryVersion": "6.7.0\u002B",
+      "libraryVersion": "8.54.2\u002B",
       "description": "CapGo plugins for over-the-air updates, purchases, uploads and native device features.",
       "repo": "https://github.com/dotnet-websharper/Capacitor.CapGo",
       "category": "Mobile \u0026 native",
+      "sampleUrl": "https://dotnet-websharper.github.io/Capacitor.CapGo/",
+      "sampleLabel": "Test case",
       "website": "https://capgo.app/",
       "latestVersion": "8.54.2",
-      "status": "outdated"
+      "status": "up-to-date"
     }
   ],
   "browserApis": [
