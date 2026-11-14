@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T20:44:08.0175240\u002B00:00",
+  "generatedAt": "2026-11-14T02:11:06.0080700\u002B00:00",
   "libraries": [
     {
       "name": "Chart.js",
@@ -412,12 +412,12 @@
     {
       "name": "math.js",
       "package": "WebSharper.MathJS",
-      "version": "10.1.1.671",
+      "version": "10.1.1.724",
       "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "math.js",
-      "libraryVersion": "14.5.2\u002B",
+      "libraryVersion": "15.2.0\u002B",
       "description": "Arbitrary-precision numbers, expression parsing, matrices, vectors and units.",
       "repo": "https://github.com/dotnet-websharper/mathjs",
       "category": "Math \u0026 typesetting",
@@ -425,12 +425,13 @@
       "sampleLabel": "Sample",
       "website": "https://mathjs.org/",
       "latestVersion": "15.2.0",
-      "status": "outdated"
+      "status": "up-to-date"
     },
     {
       "name": "MathJax",
       "package": "WebSharper.MathJax",
-      "version": "10.1.0.667",
+      "version": "10.1.0.725",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "MathJax",
@@ -447,11 +448,11 @@
     {
       "name": "Capacitor",
       "package": "WebSharper.Capacitor",
-      "version": "10.1.0.667",
+      "version": "10.1.0.726",
       "onNuGet": true,
       "onDevFeed": true,
       "library": "Capacitor",
-      "libraryVersion": "6.0.2\u002B",
+      "libraryVersion": "8.6.2\u002B",
       "description": "Typed bindings for the official Capacitor plugins \u2014 camera, filesystem, browser, haptics and more.",
       "repo": "https://github.com/dotnet-websharper/Capacitor",
       "category": "Mobile \u0026 native",
@@ -459,16 +460,17 @@
       "sampleLabel": "Test case",
       "website": "https://capacitorjs.com/",
       "latestVersion": "8.6.2",
-      "status": "outdated"
+      "status": "up-to-date"
     },
     {
       "name": "Capacitor Community",
       "package": "WebSharper.Capacitor.Community",
-      "version": "10.1.0.667",
+      "version": "10.1.0.727",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "Capacitor",
-      "libraryVersion": "4.0.1\u002B",
+      "libraryVersion": "8.0.2\u002B",
       "description": "Community Capacitor plugins, including Bluetooth LE, text-to-speech, native audio and camera preview.",
       "repo": "https://github.com/dotnet-websharper/Capacitor.Community",
       "category": "Mobile \u0026 native",
@@ -476,12 +478,13 @@
       "sampleLabel": "Test case",
       "website": "https://github.com/capacitor-community",
       "latestVersion": "8.0.2",
-      "status": "outdated"
+      "status": "up-to-date"
     },
     {
       "name": "Capacitor CapGo",
       "package": "WebSharper.Capacitor.CapGo",
-      "version": "10.1.0.667",
+      "version": "10.1.0.726",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "library": "Capacitor",
