@@ -77,6 +77,7 @@ let libraries: BindingMeta list =
         { Name = "Highstock"; Package = "WebSharper.Highstock"; Library = "Highcharts"; Repo = "highcharts"; Category = "Charts & visualization"; SampleName = Some "HighCharts"; Description = "Time-series and financial charts with navigator, range selector and data grouping." }
         { Name = "Highmaps"; Package = "WebSharper.Highmaps"; Library = "Highcharts"; Repo = "highcharts"; Category = "Charts & visualization"; SampleName = Some "HighCharts"; Description = "Geographic maps and map series, generated from the official Highcharts API." }
         { Name = "Plotly.js"; Package = "WebSharper.Plotly"; Library = "Plotly.js"; Repo = "plotly"; Category = "Charts & visualization"; SampleName = None; Description = "Interactive scientific and statistical charts with a typed trace and layout model." }
+        { Name = "Cytoscape.js"; Package = "WebSharper.Cytoscape"; Library = "Cytoscape.js"; Repo = "cytoscape"; Category = "Charts & visualization"; SampleName = None; Description = "Graph theory and network visualization — elements, layouts, styles and interaction." }
 
         // Editors & documents
         { Name = "Ace"; Package = "WebSharper.Ace"; Library = "Ace"; Repo = "ace"; Category = "Editors & documents"; SampleName = None; Description = "The embeddable code editor — sessions, documents, ranges, selections, search, markers and themes." }
@@ -85,6 +86,7 @@ let libraries: BindingMeta list =
         { Name = "jsPDF"; Package = "WebSharper.JsPDF"; Library = "jsPDF"; Repo = "jspdf"; Category = "Editors & documents"; SampleName = Some "JsPDF"; Description = "Client-side PDF generation — text, images, tables and page breaks." }
         { Name = "Remarkable"; Package = "WebSharper.Remarkable"; Library = "Remarkable"; Repo = "remarkable"; Category = "Editors & documents"; SampleName = Some "Remarkable"; Description = "Markdown parsing and rendering with configurable options." }
         { Name = "SlickGrid"; Package = "WebSharper.SlickGrid"; Library = "SlickGrid"; Repo = "slickgrid"; Category = "Editors & documents"; SampleName = None; Description = "Fast virtualized data grids with sorting, formatting and editing." }
+        { Name = "TinyMCE"; Package = "WebSharper.TinyMce"; Library = "TinyMCE"; Repo = "tinymce"; Category = "Editors & documents"; SampleName = None; Description = "The TinyMCE rich-text editor — content, toolbars, plugins and a typed configuration surface." }
 
         // UI components
         { Name = "React"; Package = "WebSharper.React"; Library = "React"; Repo = "react"; Category = "UI components"; SampleName = None; Description = "React components and hooks with typed props and state." }
@@ -92,6 +94,10 @@ let libraries: BindingMeta list =
         { Name = "FluentUI Icons"; Package = "WebSharper.FluentUI.React.Icons"; Library = "Fluent UI React Icons"; Repo = "fluentui-react-icons"; Category = "UI components"; SampleName = None; Description = "The full Fluent UI icon set exposed as typed React components." }
         { Name = "SweetAlert2"; Package = "WebSharper.SweetAlert"; Library = "SweetAlert2"; Repo = "sweetalert"; Category = "UI components"; SampleName = None; Description = "Accessible modal dialogs and alerts with a small, typed API." }
         { Name = "jQuery"; Package = "WebSharper.JQuery"; Library = "jQuery"; Repo = "jquery"; Category = "UI components"; SampleName = None; Description = "jQuery selections, events, Ajax and Deferred, plus sitelet router helpers." }
+        { Name = "GoldenLayout"; Package = "WebSharper.GoldenLayout"; Library = "GoldenLayout"; Repo = "goldenlayout"; Category = "UI components"; SampleName = None; Description = "A multi-pane, dockable layout manager for complex web applications." }
+        { Name = "FullCalendar"; Package = "WebSharper.FullCalendar"; Library = "FullCalendar"; Repo = "fullcalendar"; Category = "UI components"; SampleName = None; Description = "Drag-and-drop event calendars with day, week, month, list and timeline views." }
+        { Name = "Swiper"; Package = "WebSharper.Swiper"; Library = "Swiper"; Repo = "swiper"; Category = "UI components"; SampleName = None; Description = "Touch-enabled sliders and carousels with modules, effects, navigation and pagination." }
+        { Name = "SortableJS"; Package = "WebSharper.SortableJs"; Library = "SortableJS"; Repo = "sortablejs"; Category = "UI components"; SampleName = None; Description = "Reorderable drag-and-drop lists with multi-drag, swap and spill plugins." }
 
         // Maps & geo
         { Name = "Leaflet"; Package = "WebSharper.Leaflet"; Library = "Leaflet"; Repo = "leaflet"; Category = "Maps & geo"; SampleName = Some "Leaflet"; Description = "Interactive maps, markers, popups and tile layers from F#." }
@@ -101,11 +107,20 @@ let libraries: BindingMeta list =
         { Name = "Anime.js"; Package = "WebSharper.AnimeJs"; Library = "Anime.js"; Repo = "animejs"; Category = "Utilities & dates"; SampleName = None; Description = "A lightweight animation engine with a declarative API for CSS, SVG and DOM animations." }
         { Name = "date-fns"; Package = "WebSharper.DateFNS"; Library = "date-fns"; Repo = "datefns"; Category = "Utilities & dates"; SampleName = None; Description = "Immutable date manipulation with a large set of small, composable functions." }
         { Name = "Moment.js"; Package = "WebSharper.Moment"; Library = "Moment.js"; Repo = "moment"; Category = "Utilities & dates"; SampleName = None; Description = "Date parsing, formatting, durations and time zones." }
+        { Name = "Day.js"; Package = "WebSharper.DayJs"; Library = "Day.js"; Repo = "dayjs"; Category = "Utilities & dates"; SampleName = None; Description = "A tiny, immutable date library with formatting, parsing, durations and plugins." }
         { Name = "SignalR"; Package = "WebSharper.SignalR"; Library = "SignalR"; Repo = "signalr"; Category = "Utilities & dates"; SampleName = None; Description = "Typed SignalR hubs and clients for real-time server push." }
 
         // Math & typesetting
         { Name = "math.js"; Package = "WebSharper.MathJS"; Library = "math.js"; Repo = "mathjs"; Category = "Math & typesetting"; SampleName = Some "MathJS"; Description = "Arbitrary-precision numbers, expression parsing, matrices, vectors and units." }
         { Name = "MathJax"; Package = "WebSharper.MathJax"; Library = "MathJax"; Repo = "mathjax"; Category = "Math & typesetting"; SampleName = Some "MathJax"; Description = "TeX and MathML typesetting with the MathJax v3 API." }
+
+        // 3D & graphics
+        { Name = "Babylon.js"; Package = "WebSharper.BabylonJs"; Library = "Babylon.js"; Repo = "babylonjs"; Category = "3D & graphics"; SampleName = None; Description = "A complete 3D engine — scenes, meshes, materials, cameras, lights and animation." }
+        { Name = "Three.js"; Package = "WebSharper.ThreeJs"; Library = "Three.js"; Repo = "threejs"; Category = "3D & graphics"; SampleName = Some "ThreeJS"; Description = "The 3D library — scenes, geometries, materials, loaders, renderers and animation." }
+        { Name = "glMatrix"; Package = "WebSharper.GlMatrix"; Library = "glMatrix"; Repo = "glmatrix"; Category = "3D & graphics"; SampleName = None; Description = "High-performance matrix and vector math for WebGL and 3D applications." }
+
+        // Databases & storage
+        { Name = "PouchDB"; Package = "WebSharper.PouchDB"; Library = "PouchDB"; Repo = "pouchdb"; Category = "Databases & storage"; SampleName = None; Description = "A JavaScript database that syncs — local storage with CouchDB-compatible replication." }
 
         // Mobile & native
         { Name = "Capacitor"; Package = "WebSharper.Capacitor"; Library = "Capacitor"; Repo = "Capacitor"; Category = "Mobile & native"; SampleName = None; Description = "Typed bindings for the official Capacitor plugins — camera, filesystem, browser, haptics and more." }
@@ -210,6 +225,17 @@ let libraryWebsites =
         "slickgrid", "https://github.com/6pac/SlickGrid"
         "sweetalert", "https://sweetalert2.github.io/"
         "TopoJSON", "https://github.com/topojson/topojson"
+        "cytoscape", "https://js.cytoscape.org/"
+        "goldenlayout", "https://golden-layout.com/"
+        "fullcalendar", "https://fullcalendar.io/"
+        "tinymce", "https://www.tiny.cloud/"
+        "babylonjs", "https://www.babylonjs.com/"
+        "pouchdb", "https://pouchdb.com/"
+        "dayjs", "https://day.js.org/"
+        "glmatrix", "https://glmatrix.net/"
+        "threejs", "https://threejs.org/"
+        "swiper", "https://swiperjs.com/"
+        "sortablejs", "https://sortablejs.github.io/Sortable/"
     ]
 
 /// The npm package whose `latest` dist-tag is the library's current stable version.
@@ -241,6 +267,17 @@ let npmLatestPackages =
         "slickgrid", "slickgrid"
         "sweetalert", "sweetalert2"
         "TopoJSON", "topojson-client"
+        "cytoscape", "cytoscape"
+        "goldenlayout", "golden-layout"
+        "fullcalendar", "@fullcalendar/core"
+        "tinymce", "tinymce"
+        "babylonjs", "@babylonjs/core"
+        "pouchdb", "pouchdb"
+        "dayjs", "dayjs"
+        "glmatrix", "gl-matrix"
+        "threejs", "three"
+        "swiper", "swiper"
+        "sortablejs", "sortablejs"
     ]
 
 /// Official spec links for the browser APIs (W3C/WICG/WHATWG where they live).
@@ -481,6 +518,17 @@ let private projectFiles =
         "Capacitor.CapGo", "WebSharper.Capacitor.CapGo/WebSharper.Capacitor.CapGo.fsproj"
         "fluentui-react-components", "WebSharper.React.FluentUI.Components/WebSharper.React.FluentUi.Components.fsproj"
         "fluentui-react-icons", "WebSharper.React.FluentUI.Icons/WebSharper.React.FluentUi.Icons.fsproj"
+        "cytoscape", "WebSharper.Cytoscape/WebSharper.Cytoscape.fsproj"
+        "goldenlayout", "WebSharper.GoldenLayout/WebSharper.GoldenLayout.fsproj"
+        "fullcalendar", "WebSharper.FullCalendar/WebSharper.FullCalendar.fsproj"
+        "tinymce", "WebSharper.TinyMce/WebSharper.TinyMce.fsproj"
+        "babylonjs", "WebSharper.BabylonJs/WebSharper.BabylonJs.fsproj"
+        "pouchdb", "WebSharper.PouchDB/WebSharper.PouchDB.fsproj"
+        "dayjs", "WebSharper.DayJs/WebSharper.DayJs.fsproj"
+        "glmatrix", "WebSharper.GlMatrix/WebSharper.GlMatrix.fsproj"
+        "threejs", "WebSharper.ThreeJs/WebSharper.ThreeJs.fsproj"
+        "swiper", "WebSharper.Swiper/WebSharper.Swiper.fsproj"
+        "sortablejs", "WebSharper.SortableJs/WebSharper.SortableJs.fsproj"
     ]
 
 /// Files that declare CDN resource URLs when NpmDependencies are absent.
@@ -502,6 +550,7 @@ let private mainPackages =
         "codemirror", "codemirror"
         "fluentui-react-components", "@fluentui/react-components"
         "fluentui-react-icons", "@fluentui/react-icons"
+        "fullcalendar", "@fullcalendar/core"
     ]
 
 let libraryVersion (meta: BindingMeta) =
