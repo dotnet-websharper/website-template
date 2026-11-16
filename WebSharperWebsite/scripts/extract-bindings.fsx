@@ -98,6 +98,7 @@ let libraries: BindingMeta list =
         { Name = "FullCalendar"; Package = "WebSharper.FullCalendar"; Library = "FullCalendar"; Repo = "fullcalendar"; Category = "UI components"; SampleName = None; Description = "Drag-and-drop event calendars with day, week, month, list and timeline views." }
         { Name = "Swiper"; Package = "WebSharper.Swiper"; Library = "Swiper"; Repo = "swiper"; Category = "UI components"; SampleName = None; Description = "Touch-enabled sliders and carousels with modules, effects, navigation and pagination." }
         { Name = "SortableJS"; Package = "WebSharper.SortableJs"; Library = "SortableJS"; Repo = "sortablejs"; Category = "UI components"; SampleName = None; Description = "Reorderable drag-and-drop lists with multi-drag, swap and spill plugins." }
+        { Name = "jQuery Terminal"; Package = "WebSharper.JQueryTerminal"; Library = "jQuery Terminal"; Repo = "JQuery.Terminal"; Category = "UI components"; SampleName = None; Description = "In-browser command-line interpreters — prompts, echo, history, nested interpreters and authentication." }
 
         // Maps & geo
         { Name = "Leaflet"; Package = "WebSharper.Leaflet"; Library = "Leaflet"; Repo = "leaflet"; Category = "Maps & geo"; SampleName = Some "Leaflet"; Description = "Interactive maps, markers, popups and tile layers from F#." }
@@ -121,6 +122,7 @@ let libraries: BindingMeta list =
 
         // Databases & storage
         { Name = "PouchDB"; Package = "WebSharper.PouchDB"; Library = "PouchDB"; Repo = "pouchdb"; Category = "Databases & storage"; SampleName = None; Description = "A JavaScript database that syncs — local storage with CouchDB-compatible replication." }
+        { Name = "js-cookie"; Package = "WebSharper.JsCookie"; Library = "js-cookie"; Repo = "js-cookie"; Category = "Databases & storage"; SampleName = None; Description = "Read, write and remove browser cookies with typed attributes, SameSite and custom converters." }
 
         // Mobile & native
         { Name = "Capacitor"; Package = "WebSharper.Capacitor"; Library = "Capacitor"; Repo = "Capacitor"; Category = "Mobile & native"; SampleName = None; Description = "Typed bindings for the official Capacitor plugins — camera, filesystem, browser, haptics and more." }
@@ -213,6 +215,8 @@ let libraryWebsites =
         "highcharts", "https://www.highcharts.com/"
         "highlightjs", "https://highlightjs.org/"
         "jquery", "https://jquery.com/"
+        "JQuery.Terminal", "https://terminal.jcubic.pl/"
+        "js-cookie", "https://github.com/js-cookie/js-cookie"
         "jspdf", "https://jspdf.com/"
         "leaflet", "https://leafletjs.com/"
         "mathjs", "https://mathjs.org/"
@@ -255,6 +259,8 @@ let npmLatestPackages =
         "highcharts", "highcharts"
         "highlightjs", "highlight.js"
         "jquery", "jquery"
+        "JQuery.Terminal", "jquery.terminal"
+        "js-cookie", "js-cookie"
         "jspdf", "jspdf"
         "leaflet", "leaflet"
         "mathjs", "mathjs"
@@ -501,6 +507,8 @@ let private projectFiles =
         "highcharts", "WebSharper.Highcharts/WebSharper.Highcharts.fsproj"
         "highlightjs", "WebSharper.Highlightjs/WebSharper.Highlightjs.fsproj"
         "jquery", "WebSharper.JQuery/WebSharper.JQuery.fsproj"
+        "JQuery.Terminal", "WebSharper.JQueryTerminal/WebSharper.JQueryTerminal.fsproj"
+        "js-cookie", "WebSharper.JsCookie/WebSharper.JsCookie.fsproj"
         "jspdf", "WebSharper.JsPDF/WebSharper.JsPDF.fsproj"
         "leaflet", "WebSharper.Leaflet/WebSharper.Leaflet.fsproj"
         "mathjs", "WebSharper.MathJS/WebSharper.MathJS.fsproj"

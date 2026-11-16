@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T22:34:37.1141170\u002B00:00",
+  "generatedAt": "2026-11-16T00:13:49.8946240\u002B00:00",
   "libraries": [
     {
       "name": "Chart.js",
@@ -412,6 +412,24 @@
       "status": "up-to-date"
     },
     {
+      "name": "jQuery Terminal",
+      "package": "WebSharper.JQueryTerminal",
+      "version": "10.1.0.746",
+      "devFeed": true,
+      "onNuGet": true,
+      "onDevFeed": true,
+      "library": "jQuery Terminal",
+      "libraryVersion": "2.48.1\u002B",
+      "description": "In-browser command-line interpreters \u2014 prompts, echo, history, nested interpreters and authentication.",
+      "repo": "https://github.com/dotnet-websharper/JQuery.Terminal",
+      "category": "UI components",
+      "sampleUrl": "https://dotnet-websharper.github.io/JQuery.Terminal/",
+      "sampleLabel": "Test case",
+      "website": "https://terminal.jcubic.pl/",
+      "latestVersion": "2.48.1",
+      "status": "up-to-date"
+    },
+    {
       "name": "Leaflet",
       "package": "WebSharper.Leaflet",
       "version": "10.1.0.667",
@@ -638,6 +656,23 @@
       "sampleLabel": "Test case",
       "website": "https://pouchdb.com/",
       "latestVersion": "9.0.0",
+      "status": "up-to-date"
+    },
+    {
+      "name": "js-cookie",
+      "package": "WebSharper.JsCookie",
+      "version": "10.1.0.746",
+      "devFeed": true,
+      "onDevFeed": true,
+      "library": "js-cookie",
+      "libraryVersion": "3.0.8\u002B",
+      "description": "Read, write and remove browser cookies with typed attributes, SameSite and custom converters.",
+      "repo": "https://github.com/dotnet-websharper/js-cookie",
+      "category": "Databases \u0026 storage",
+      "sampleUrl": "https://dotnet-websharper.github.io/js-cookie/",
+      "sampleLabel": "Test case",
+      "website": "https://github.com/js-cookie/js-cookie",
+      "latestVersion": "3.0.8",
       "status": "up-to-date"
     },
     {
