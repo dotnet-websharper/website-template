@@ -115,6 +115,9 @@ let libraries: BindingMeta list =
         { Name = "math.js"; Package = "WebSharper.MathJS"; Library = "math.js"; Repo = "mathjs"; Category = "Math & typesetting"; SampleName = Some "MathJS"; Description = "Arbitrary-precision numbers, expression parsing, matrices, vectors and units." }
         { Name = "MathJax"; Package = "WebSharper.MathJax"; Library = "MathJax"; Repo = "mathjax"; Category = "Math & typesetting"; SampleName = Some "MathJax"; Description = "TeX and MathML typesetting with the MathJax v3 API." }
 
+        // Machine learning
+        { Name = "TensorFlow.js"; Package = "WebSharper.TensorFlowJs"; Library = "TensorFlow.js"; Repo = "TensorFlowJs"; Category = "Machine learning"; SampleName = None; Description = "Tensors, layers and models — build, train and run neural networks in the browser." }
+
         // 3D & graphics
         { Name = "Babylon.js"; Package = "WebSharper.BabylonJs"; Library = "Babylon.js"; Repo = "babylonjs"; Category = "3D & graphics"; SampleName = None; Description = "A complete 3D engine — scenes, meshes, materials, cameras, lights and animation." }
         { Name = "Three.js"; Package = "WebSharper.ThreeJs"; Library = "Three.js"; Repo = "threejs"; Category = "3D & graphics"; SampleName = Some "ThreeJS"; Description = "The 3D library — scenes, geometries, materials, loaders, renderers and animation." }
@@ -240,6 +243,7 @@ let libraryWebsites =
         "threejs", "https://threejs.org/"
         "swiper", "https://swiperjs.com/"
         "sortablejs", "https://sortablejs.github.io/Sortable/"
+        "TensorFlowJs", "https://www.tensorflow.org/js"
     ]
 
 /// The npm package whose `latest` dist-tag is the library's current stable version.
@@ -284,6 +288,7 @@ let npmLatestPackages =
         "threejs", "three"
         "swiper", "swiper"
         "sortablejs", "sortablejs"
+        "TensorFlowJs", "@tensorflow/tfjs"
     ]
 
 /// Official spec links for the browser APIs (W3C/WICG/WHATWG where they live).
@@ -537,6 +542,7 @@ let private projectFiles =
         "threejs", "WebSharper.ThreeJs/WebSharper.ThreeJs.fsproj"
         "swiper", "WebSharper.Swiper/WebSharper.Swiper.fsproj"
         "sortablejs", "WebSharper.SortableJs/WebSharper.SortableJs.fsproj"
+        "TensorFlowJs", "WebSharper.TensorFlowJs/WebSharper.TensorFlowJs.fsproj"
     ]
 
 /// Files that declare CDN resource URLs when NpmDependencies are absent.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-16T00:13:49.8946240\u002B00:00",
+  "generatedAt": "2026-11-16T04:45:29.7047100\u002B00:00",
   "libraries": [
     {
       "name": "Chart.js",
@@ -587,6 +587,23 @@
       "status": "up-to-date"
     },
     {
+      "name": "TensorFlow.js",
+      "package": "WebSharper.TensorFlowJs",
+      "version": "10.1.0.752",
+      "devFeed": true,
+      "onDevFeed": true,
+      "library": "TensorFlow.js",
+      "libraryVersion": "4.22.0\u002B",
+      "description": "Tensors, layers and models \u2014 build, train and run neural networks in the browser.",
+      "repo": "https://github.com/dotnet-websharper/TensorFlowJs",
+      "category": "Machine learning",
+      "sampleUrl": "https://dotnet-websharper.github.io/TensorFlowJs/",
+      "sampleLabel": "Test case",
+      "website": "https://www.tensorflow.org/js",
+      "latestVersion": "4.22.0",
+      "status": "up-to-date"
+    },
+    {
       "name": "Babylon.js",
       "package": "WebSharper.BabylonJs",
       "version": "10.1.0.744",
@@ -607,8 +624,7 @@
     {
       "name": "Three.js",
       "package": "WebSharper.ThreeJs",
-      "version": "10.1.0.737",
-      "devFeed": true,
+      "version": "10.1.0.750",
       "onNuGet": true,
       "onDevFeed": true,
       "library": "Three.js",
@@ -733,12 +749,15 @@
     {
       "name": "WebGPU",
       "package": "WebSharper.WebGPU",
-      "version": "10.1.0.667",
+      "version": "10.1.0.751",
+      "devFeed": true,
       "onNuGet": true,
       "onDevFeed": true,
       "description": "GPU-accelerated graphics and compute from the browser.",
       "repo": "https://github.com/dotnet-websharper/WebGPU",
       "category": "Graphics \u0026 compute",
+      "sampleUrl": "https://dotnet-websharper.github.io/WebGPU/",
+      "sampleLabel": "Test case",
       "website": "https://www.w3.org/TR/webgpu/"
     },
     {
