@@ -1,0 +1,731 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" ws-2="">
+<head>
+    <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+    <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta property="og:url" content="https://websharper.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WebSharper" />
+    <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta property="og:image" content="" />
+
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="websharper.com" />
+    <meta property="twitter:url" content="https://websharper.com/" />
+    <meta name="twitter:title" content="WebSharper" />
+    <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta name="twitter:image" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
+
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=02f4e98200"></link>
+<script src="../Scripts/WebSharper/all.js?v=ba38ad3656"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = '../Scripts/WebSharper/';
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+});
+</script>
+
+
+    <script>
+        const DOC = document.documentElement;
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
+            }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        // Refresh binding versions from NuGet (Bindings page).
+        function loadBindingVersions() {
+            const els = document.querySelectorAll("[data-nuget-package]");
+            if (!els.length) return;
+            // Stable releases only, so the value matches the one baked into
+            // bindings.json (a prerelease here would flicker the version badge).
+            fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=false")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = new Map((d.data || []).map((p) => [p.id.toLowerCase(), p.version]));
+                    els.forEach((el) => {
+                        const v = versions.get(el.getAttribute("data-nuget-package").toLowerCase());
+                        if (v) el.textContent = v;
+                    });
+                })
+                .catch(() => {});
+        }
+
+        // Filter the bindings in a section by name (case-insensitive, partial match).
+        function initBindingSearch() {
+            document.querySelectorAll("[data-binding-search]").forEach((input) => {
+                const root = document.querySelector(input.getAttribute("data-binding-search"));
+                if (!root) return;
+                const update = () => {
+                    const q = input.value.trim().toLowerCase();
+                    root.querySelectorAll("[data-binding-card]").forEach((card) => {
+                        const name = (card.getAttribute("data-binding-name") || "").toLowerCase();
+                        card.style.display = !q || name.indexOf(q) !== -1 ? "" : "none";
+                    });
+                    root.querySelectorAll("[data-binding-section]").forEach((section) => {
+                        const visible = Array.prototype.some.call(
+                            section.querySelectorAll("[data-binding-card]"),
+                            (c) => c.style.display !== "none"
+                        );
+                        section.style.display = visible ? "" : "none";
+                    });
+                };
+                input.addEventListener("input", update);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
+            loadBindingVersions();
+            initBindingSearch();
+        });
+
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-950 overflow-x-hidden">
+    <header class="fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
+        <div class="px-6 py-4 lg:px-8">
+            <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                <div class="flex lg:flex-1">
+                    <a href="/" class="-m-1.5 flex items-center gap-2.5 p-1.5">
+                        <img class="h-9 w-9" src="/Assets/logo.png" alt="" width="164" height="164" />
+                        <span class="text-lg font-bold tracking-tight text-gray-950 dark:text-white">WebSharper</span>
+                    </a>
+                </div>
+                <div class="flex gap-4 lg:hidden">
+                    <button ws-onclick="ToggleTheme" type="button" aria-label="Toggle theme" data-theme-toggle="" class="inline-flex cursor-pointer items-center rounded-full border border-[#e5e5e5] p-1 transition-colors dark:border-[#242424]">
+                        <span class="flex size-[26px] items-center justify-center rounded-full bg-[#e6e6e6] text-[#171717] transition-colors dark:bg-transparent dark:text-[#9b9b9b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                        </span>
+                        <span class="flex size-[26px] items-center justify-center rounded-full text-[#737373] transition-colors dark:bg-[#2b2b2b] dark:text-[#e6e6e6]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <button ws-onclick="ToggleMenu" id="openMenu" type="button" class="cursor-pointer text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                        <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                            <span class="sr-only">Open main menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                        </div>
+                        <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                            <span class="sr-only">Close menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-6 *:font-bold">
+                    <a href="/" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="/examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                    <a href="/bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                    <a href="/features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="/ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                    <a href="/warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                    <a href="/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                    <a href="/support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                </div>
+                <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                    <button ws-onclick="ToggleTheme" type="button" aria-label="Toggle theme" data-theme-toggle="" class="inline-flex cursor-pointer items-center rounded-full border border-[#e5e5e5] p-1 transition-colors dark:border-[#242424]">
+                        <span class="flex size-[26px] items-center justify-center rounded-full bg-[#e6e6e6] text-[#171717] transition-colors dark:bg-transparent dark:text-[#9b9b9b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                        </span>
+                        <span class="flex size-[26px] items-center justify-center rounded-full text-[#737373] transition-colors dark:bg-[#2b2b2b] dark:text-[#e6e6e6]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <ul class="flex items-center gap-1">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                </svg>
+                                <span class="sr-only">WebSharper GitHub organization</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                </svg>
+                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                </svg>
+                                <span class="sr-only">Join WebSharper community on Discord</span>
+                            </a>
+                        </li>
+                        
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
+                            <button id="accountBtn" class="cursor-pointer group flex h-9 w-9 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-haspopup="menu" aria-expanded="false" aria-label="Account" ws-attr="AccountBtnAria" ws-onclick="AccountBtnClick" ws-onkeydown="AccountBtnKeyDown">
+
+                                <div ws-attr="SkeletonAttr" class="absolute inset-0 m-auto h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse transition-opacity duration-500 ease-out">
+                                </div>
+
+                                <img id="accountAvatar" class="h-9 w-9 rounded-full ring-1 ring-black/5 dark:ring-white/10 transition-opacity duration-500 ease-out opacity-0" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
+
+                                <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" class="m-auto h-4 w-4 text-gray-700 transition-all duration-300 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white ease-out opacity-0" fill="currentColor" aria-hidden="true" ws-attr="IconAttr">
+                                    <path fill-rule="evenodd" d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+
+                            
+                            <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10" ws-attr="DropdownAttr">
+                                <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
+
+                                
+                                <a id="btnManage" href="/account" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
+                                    My account
+                                </a>
+                                <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path></svg>
+                                    Log out
+                                </button>
+
+                                
+                                <div id="btnLogin" class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttrD" aria-disabled="true">
+                                    
+                                    <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                    </svg>
+                                    Coming soon...
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900 dark:backdrop-blur-3xl">
+                    <div class="mt-24 flow-root">
+                        <div class="divide-y divide-gray-200 dark:divide-white">
+
+                            <div class="flex flex-col space-y-6 py-6">
+                                <a href="/" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="/examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                                <a href="/bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                                <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                                <a href="/features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="/ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                                <a href="/warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                                <a href="/blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                                <a href="/support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                            </div>
+
+                            <div class="py-6">
+                                <ul class="flex gap-x-4">
+                                    <li>
+                                        <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                            </svg>
+                                            <span class="sr-only">WebSharper GitHub organization</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                            </svg>
+                                            <span class="sr-only">Follow WebSharper on Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                            </svg>
+                                            <span class="sr-only">Join WebSharper community on Discord</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="py-6">
+                                <div data-account-menu="" data-variant="mobile" class="flex flex-col gap-2">
+                                    <div data-el="header" class="hidden flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttr">
+
+                                        <img ws-attr="AvatarAttrHamburger" src="" alt="Profile" class="h-9 w-9 rounded-full bg-gray-100 ring-1 ring-black/5 dark:bg-gray-800 dark:ring-white/10" />
+
+                                        <span class="font-medium">${AccountHeaderText}</span>
+                                    </div>
+
+                                    <a data-el="manage" href="/account" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
+                                        </svg>
+                                        My account
+                                    </a>
+
+                                    <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path>
+                                            <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path>
+                                        </svg>
+                                        Log out
+                                    </button>
+
+                                    <div data-el="login" class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttr" aria-disabled="true">
+                                        <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                        </svg>
+                                        Coming soon...
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
+  <div class="relative">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-[480px] overflow-hidden">
+      <img src="/Assets/images/blog-hero-light.svg" alt="" class="h-full w-full object-cover object-top dark:hidden" />
+      <img src="/Assets/images/blog-hero-dark.svg" alt="" class="hidden h-full w-full object-cover object-top dark:block" />
+      <div class="absolute inset-0 bg-gradient-to-b from-white/45 via-white/70 to-white dark:from-gray-950/55 dark:via-gray-950/85 dark:to-gray-950"></div>
+    </div>
+    <div class="relative z-10 mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
+        <div class="text-center">
+            <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                <span aria-hidden="true">&larr;</span> All articles
+            </a>
+            <p class="mt-6 text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Blogs</p>
+            <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">Modernizing the WebSharper binding ecosystem</h1>
+            <div class="mt-6"><div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base text-gray-500 dark:text-gray-400"><span>by Adam Granicz</span><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><time class="text-gray-500 dark:text-gray-400" datetime="2026-11-16">16 November 2026</time><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">f#</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">websharper</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">bindings</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">wig</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">javascript</span></div></div>
+        </div>
+        <div class="blog-content mt-12"><p>Every WebSharper application eventually reaches for JavaScript. A chart, a map, a rich-text editor, the clipboard, a service worker - the binding is the thin, strongly typed layer that lets you call it from F# or C# without giving up the compiler. A binding is a promise: the typed surface you compile against is the JavaScript that actually ships, down to the option names, the return types and the shape of the async calls. Keeping that promise is what the recent modernization was about.</p>
+<p>Over the past several weeks we brought that layer back in line with the promise. The goal was not to rewrite every binding - most of the typing was already sound - but to agree on what a trustworthy binding looks like, apply it across the set, and put the whole thing behind an automated build and a public catalog. This post is a tour of the result, the conventions we settled on, and what faithful transliteration of an API actually requires.</p>
+<h2 id="the-checklist-we-settled-on">The checklist we settled on</h2>
+<p>The most useful outcome is not any single binding but a repeatable recipe. A modern binding now has the same shape everywhere:</p>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Binding project</td>
+<td><code>WebSharper.&lt;Name&gt;</code>, <code>netstandard2.0</code>, a WIG <code>Main.fs</code> or <code>Definition.fs</code> that builds the typed surface</td>
+</tr>
+<tr>
+<td>npm surface</td>
+<td><code>Import</code> / <code>ImportDefault</code> from the npm package, pinned as <code>&gt;= &lt;ref&gt; &lt; &lt;next-major&gt;</code></td>
+</tr>
+<tr>
+<td>Extensions</td>
+<td>an optional <code>WebSharper.&lt;Name&gt;.Extensions</code> assembly for the <code>[&lt;Inline&gt;]</code> glue that WIG cannot express</td>
+</tr>
+<tr>
+<td>Sample</td>
+<td>a WebSharper.UI app that exercises the whole surface, light-themed by default with a light/dark switcher</td>
+</tr>
+<tr>
+<td>Packaging</td>
+<td>Paket; the binding (and Extensions) DLLs and their XML docs; WebSharper 11 sidecars on the default branch</td>
+</tr>
+<tr>
+<td>Documentation</td>
+<td>README with install, usage, a live demo, a screenshot and a test-case link; Apache 2.0</td>
+</tr>
+<tr>
+<td>CI</td>
+<td>GitHub Actions: Paket restore, Release build, GitHub Pages deploy from the default branch</td>
+</tr>
+<tr>
+<td>Release lines</td>
+<td><code>main</code> targets the current line (WebSharper 11 preview, .NET 11); older lines stay as branches such as <code>websharper100</code> (WebSharper 10, .NET 10)</td>
+</tr>
+</tbody>
+</table>
+<p>Two details matter more than they look. First, <strong>bindings are npm-based</strong>. Some older bindings loaded a library from a CDN <code>&lt;script&gt;</code> tag, which made the binding depend on a URL that someone else controls. Today the binding imports the npm package and pins the upstream range, so the JavaScript you get is the JavaScript the types were written against.</p>
+<p>Second, <strong>the sample is the test case</strong>. A sample that calls one method is documentation; a sample that exercises the whole surface is evidence that the binding can be trusted. We require the latter: every widget, every optional field, every failure path - including the &quot;not available in this browser&quot; path - and a real screenshot captured from the running page. That is what makes a green build meaningful.</p>
+<h2 id="by-the-numbers">By the numbers</h2>
+<p>The current catalog lists <strong>42 JavaScript libraries</strong> and <strong>41 browser APIs</strong>, spread over ten library categories - charts and visualization, editors and documents, UI components, maps and geo, utilities and dates, math and typesetting, machine learning, 3D and graphics, databases and storage, and mobile and native - and ten browser-API categories: graphics and compute, devices, media and communication, storage and state, input and UI, performance, networking and runtime, payments, security and identity, and data and encoding. It is a snapshot of a set we keep extending, not a finished list - and extending it has become close to trivial: with the skill file in hand, an AI agent can scaffold a faithful binding for a new library in a single pass. Across the current set:</p>
+<ul>
+<li>29 browser-API bindings were modernized in three batches, from Background Fetch and the Clipboard API through Service Workers, Push and IndexedDB.</li>
+<li>The build registry now drives <strong>91 projects</strong>, including core, UI and the ASP.NET Core integration.</li>
+<li>The larger library families - charting and mobile - are generated from their published metadata rather than hand-typed member by member.</li>
+<li>The work spans several hundred commits across the individual repositories.</li>
+</ul>
+<figure style="text-align: center;">
+  <img src="/Assets/blog/bindings-catalog.png"
+       alt="The WebSharper bindings catalog"
+       style="max-width: 900px; width: 100%; margin: 0 auto;" />
+  <figcaption style="font-size: 0.9em; opacity: 0.7;">
+    Figure 1: The catalog at websharper.com/bindings, with the bound upstream version, the NuGet package and the freshness check on every card.
+  </figcaption>
+</figure>
+<h2 id="browser-apis-typed-as-the-browser-defines-them">Browser APIs: typed as the browser defines them</h2>
+<p>Browser-API bindings are small but unforgiving. The surface is defined by the browser, not by a library release, and it differs from engine to engine. For each binding the work starts with the current MDN surface - its Baseline status, whether it needs a secure context or a permission, what each return type and optional argument really is - and ends with the typed surface matching it. A binding you can trust has to express the awkward parts too: the permission state, the optional result, the case where the API is simply not available in this browser.</p>
+<p>Service Worker is the best illustration, because the interesting half of the API runs in the worker rather than on the page. The Push sample compiles the service worker itself in F#, so its lifecycle, clients and notification handling are checked by the same compiler that checks the rest of the app:</p>
+<pre><code class="language-fsharp">[&lt;JavaScript&gt;]
+module WorkerEntry =
+    open WebSharper.ServiceWorker
+    open WebSharper.Push.Extensions
+
+    let EntryPoint (self: DedicatedWorkerGlobalScope) =
+        let scope = As&lt;ServiceWorkerGlobalScope&gt; (box self)
+        scope.OnInstall &lt;- fun _ -&gt; scope.SkipWaiting() |&gt; ignore
+        scope.OnActivate &lt;- fun _ -&gt; scope.Clients.Claim() |&gt; ignore
+        scope.OnPush &lt;- fun event -&gt;
+            let body = payloadText (As&lt;PushEvent&gt; (box event))
+            let options = new NotificationOptions(Body = body, Tag = &quot;websharper-push-demo&quot;)
+            event.WaitUntil(scope.Registration.ShowNotification(&quot;Push received&quot;, options))
+        scope.OnNotificationClick &lt;- fun event -&gt;
+            closeNotification event
+            scope.Clients.OpenWindow(&quot;../../&quot;) |&gt; ignore
+</code></pre>
+<p>The <code>Worker</code> constructor compiles that entry point into a standalone ES module, and registering it with <code>{ type: &quot;module&quot; }</code> is all the glue the page needs. The accessors that the ServiceWorker binding leaves as <code>obj</code> or does not model (<code>pushManager</code>, <code>closeNotification</code>) live in a small Extensions assembly, so even those are typed at the call site. A handful of platform details are documented next to the sample - <code>scriptBaseUrl</code> has to match the generated script path when <code>outputDir</code> is customized, a worker's scope is its script's directory, <code>permissionState</code> needs <code>UserVisibleOnly = true</code>, and <code>getSubscription</code> resolves to <code>null</code> rather than <code>undefined</code> - which is exactly the kind of knowledge that lets you trust the binding in a real deployment.</p>
+<figure style="text-align: center;">
+  <img src="/Assets/blog/sample-clipboard-api.png"
+       alt="The Clipboard API sample"
+       style="max-width: 760px; width: 100%; margin: 0 auto;" />
+  <figcaption style="font-size: 0.9em; opacity: 0.7;">
+    Figure 2: The Clipboard API sample. It reads and writes the system clipboard, and reports the plain-text fallback when the browser does not support the rich-text path instead of failing silently.
+  </figcaption>
+</figure>
+<h2 id="library-bindings-a-faithful-transliteration-of-upstream">Library bindings: a faithful transliteration of upstream</h2>
+<p>For established bindings the work was incremental on purpose. Take the existing WIG, compare it against the upstream surface, and make the definition a faithful transliteration. A rewrite would have thrown away years of small compatibility decisions; a diff keeps them reviewable.</p>
+<figure style="text-align: center;">
+  <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center;">
+    <img src="/Assets/blog/sample-d3-world-tour.png"
+         alt="The D3 sample, a rotating world map"
+         style="width: 216px; max-width: 100%; margin: 0;" />
+    <img src="/Assets/blog/sample-chartjs.png"
+         alt="The Chart.js sample, a bar chart and a radar chart"
+         style="width: 216px; max-width: 100%; margin: 0;" />
+    <img src="/Assets/blog/sample-babylonjs.png"
+         alt="The Babylon.js sample, a lit 3D scene"
+         style="width: 216px; max-width: 100%; margin: 0;" />
+  </div>
+  <figcaption style="font-size: 0.9em; opacity: 0.7;">
+    Figure 3: Three of the visualization samples - D3 (a world map), Chart.js (bar and radar charts) and Babylon.js (a lit 3D scene). Each is the binding's own test case.
+  </figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th>Binding</th>
+<th>Targets</th>
+<th>What a faithful binding has to carry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D3</td>
+<td>7.9</td>
+<td>The surface re-expressed from the upstream <code>src/index.js</code>, with ESM output</td>
+</tr>
+<tr>
+<td>math.js</td>
+<td>15.2</td>
+<td><code>Math.Bignumber</code> returning <code>MathNumber</code>, so arithmetic stays with the library instead of the host language</td>
+</tr>
+<tr>
+<td>jsPDF</td>
+<td>4.2.1</td>
+<td>The exact npm specifier (<code>jspdf</code>) that the default import resolves</td>
+</tr>
+<tr>
+<td>highlight.js</td>
+<td>11.12</td>
+<td>The argument shapes of <code>Hljs.Highlight</code> and <code>HighlightAuto</code></td>
+</tr>
+<tr>
+<td>FullCalendar</td>
+<td>6.1</td>
+<td>The implementation classes behind their <code>/internal</code> subpaths</td>
+</tr>
+<tr>
+<td>SortableJS</td>
+<td>1.15</td>
+<td>Variadic <code>mount</code>, and plugin constructors constructed before use</td>
+</tr>
+<tr>
+<td>TinyMCE</td>
+<td>8.10 / 6.8</td>
+<td>Two packages, split by license (6.x MIT, 8.x GPL or commercial)</td>
+</tr>
+</tbody>
+</table>
+<figure style="text-align: center;">
+  <img src="/Assets/blog/sample-sortablejs.png"
+       alt="The SortableJS sample"
+       style="max-width: 760px; width: 100%; margin: 0 auto;" />
+  <figcaption style="font-size: 0.9em; opacity: 0.7;">
+    Figure 4: The SortableJS sample doubles as its test case: the board, the MultiDrag and Swap plugins, the option set and the version it is running against all live on the same page.
+  </figcaption>
+</figure>
+<p>A binding earns trust by being a transliteration, not a paraphrase. The subtle cases are the ones worth calling out, because none of them is visible in the F# signature alone. In math.js, <code>Bignumber</code> has to return the binding's <code>MathNumber</code> rather than a .NET <code>BigInteger</code>: otherwise F# <code>+</code> emits JavaScript <code>+</code>, and a numeric result quietly becomes a string. jsPDF's default import needs the exact <code>&quot;jspdf&quot;</code> specifier to resolve at all. SortableJS mounts its plugins variadically and expects the plugin constructors, so the faithful call is <code>Sortable.mount(new MultiDrag(), new Swap())</code> rather than an array of instances. FullCalendar's implementation classes live behind <code>/internal</code> subpaths because that is where the package actually exports them, and its 7.x line is a types-only stub, which is why the binding targets 6.1 by design. Each of these is a detail the binding has to carry from the JavaScript to the typed surface, unchanged.</p>
+<p>And licensing is part of that faithful description. TinyMCE 7 and 8 are GPL-2.0-or-later or commercially licensed; 6.x is MIT. Rather than quietly changing the terms for existing users, the repository ships two packages, <code>WebSharper.TinyMce6</code> and <code>WebSharper.TinyMce</code>, with the license difference documented in both READMEs. We checked the upstream license for every modernized binding and called out any copyleft or commercial terms instead of assuming the binding's Apache 2.0 covers the library.</p>
+<h2 id="generated-bindings-when-the-api-is-too-big-to-type-by-hand">Generated bindings: when the API is too big to type by hand</h2>
+<p>A hand-written definition is not the only way to get a faithful binding. Two families are generated instead.</p>
+<p>Highcharts is generated rather than hand-written. Its generator rebuilds the model from the live documentation, imports the npm <strong>ESM</strong> builds (the UMD entry points cannot be side-effect imported in a bundle), and emits a <code>Modules</code> class so that optional chart modules are an explicit call rather than a missing feature.</p>
+<p>The Capacitor mobile libraries are the same idea at a larger scale. Each plugin publishes TypeScript declarations, and the binding is generated from them, family by family - the same typed surface a person would write, kept in step with upstream by construction. The generator does not remove judgement: choosing which plugins to bind, which types to expose and where a gap is acceptable is still a design decision. It just makes that decision once, in one place, and applies it consistently from then on.</p>
+<h2 id="one-build-stack-a-branch-per-release-line">One build stack, a branch per release line</h2>
+<p>The repositories used to have a build script each, with slightly different ideas about packaging and deployment. They now share the build stack: a single <code>repos.yml</code> registry lists the projects, the build presets and the groups, and the workflow clones, restores, builds, packages, bumps and tags from that registry. Adding a binding is a one-line change; a binding that stops building fails the stack before it reaches a user.</p>
+<p>Each binding repository keeps its release lines as branches, with <code>main</code> tracking the line that is current for that repository. Right now that means <code>main</code> targets the upcoming WebSharper 11 (in pre-release, built on .NET 11), while a <code>websharper100</code> branch keeps the stable WebSharper 10 line (built on .NET 10) alive. That is a consequence of standing between the two lines, not a WebSharper 11 invention: many repositories have older branches of exactly the same shape - <code>websharper50</code> and so on - each preserving what the binding looked like on the line it was cut from, so the branches double as the version history of the binding's API in each release.</p>
+<p>The difference is not only the compiler version. WebSharper 11 writes the binding metadata to a <code>&lt;Assembly&gt;.websharper</code> sidecar, so the package template lists it on <code>main</code> and omits it on the <code>websharper100</code> branch, where the metadata is embedded in the DLL. Paket handles the restore on both lines, and the GitHub Pages workflow publishes each sample so the demo in the README is the sample that was just built.</p>
+<p>This is the least visible part of the effort and probably the most valuable: the catalog's version badges, the two NuGet feeds, the live samples and the sidecar packaging all depend on this machinery being identical across dozens of repositories.</p>
+<h2 id="an-ai-ready-binding-workflow">An AI-ready binding workflow</h2>
+<p>The last piece is about how new bindings get written. WIG is a good medium for that, because it is a good medium for people: a definition is structured metadata - classes, options, enums, arity, optionality - so it can be read, reviewed and diffed like code, and a compiler, a generator or an AI agent can work with it without guessing. What the medium asks for in return is faithfulness: the definition has to be a true transliteration of the JavaScript, not a summary of it.</p>
+<p>The public <a href="https://websharper.com/Assets/websharper-binding-skill.md">skill file</a>, downloadable from the Bindings page, is the generic edition of the workflow we use internally. It covers the project layout, the WIG shapes (classes, <code>Pattern.Config</code>, <code>Pattern.EnumStrings</code>, <code>!?</code>, <code>!|</code>, <code>+</code>, <code>^-&gt;</code>, <code>T&lt;Promise&lt;'T&gt;&gt;</code>), the Extensions assembly rule, the sample conventions, the common pitfalls (<code>Import</code> on a special member, <code>Unchecked.defaultof</code>, <code>ws-var</code> on a <code>&lt;p&gt;</code>, stale template caches), and the definition of done. Hand it to Claude Code, Cursor, Codex or any agent that reads skills and ask for a binding for a library; you get a scaffold that follows the same recipe as the hand-written ones. And because the medium is unambiguous, the result has something concrete to be checked against.</p>
+<p>The skill also states the checks we care about, because a binding is only trustworthy once it has been verified: inspect the generated JavaScript for the low-level calls you expect, render the sample in a real browser, and check the upstream license before publishing. The generated library families above are what that same approach looks like at scale.</p>
+<h2 id="finding-a-binding">Finding a binding</h2>
+<p>The catalog is part of the website. It is built from each binding's own repository metadata - the package, the repository, the upstream version - and refreshed against NuGet and npm, so the page, the package and the sample all agree with one another rather than drifting apart.</p>
+<p>Each card shows three distinct versions, because they answer three different questions: the <strong>NuGet package version</strong> you install, the <strong>bound upstream version</strong> the binding targets (for example <code>4.6.1+</code>), and the <strong>latest npm release</strong> for the freshness check. The card also links to the library's site, the binding source, and either a sample or a test case. When a binding has no pinned upstream version, it says so instead of pretending to be current - which is the same honesty the binding itself is held to.</p>
+<h2 id="what-is-next">What is next</h2>
+<p>The work is not finished. The catalog is a snapshot of our current set, not a closed list: we are expanding it to cover the JavaScript libraries that have become highly successful and relevant recently, and keeping the existing bindings faithful as their upstreams move. The infrastructure is in place to make each addition a small, verifiable change rather than a project.</p>
+<p>If there is a JavaScript library you use from WebSharper and want typed properly, open an issue on the binding repository - or hand the skill file to your agent, send us the result, and we will help you land it.</p>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li><a href="https://websharper.com/bindings">The bindings catalog</a></li>
+<li><a href="https://websharper.com/examples">Examples and live samples</a></li>
+<li><a href="https://docs.websharper.com/core/interface-generator">Interface Generator documentation</a></li>
+<li><a href="https://github.com/dotnet-websharper">The WebSharper GitHub organization</a></li>
+</ul>
+<p>Happy coding!</p>
+</div>
+    </div>
+  </div>
+</main>
+
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                        </li>
+                        <li>
+                            <a href="/privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="/terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                        </li>
+                        <li>
+                            <a href="/cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-2 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-3 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="/bindings" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
+                        </li>
+                        <li>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
+                        </li>
+                        <li>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row-start-1 col-span-2 lg:row-start-auto">
+                    <div ws-replace="Newsletter"></div>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
+                <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                    <div class="flex gap-4 items-center">
+                        <a href="/">
+                            <img class="size-8" src="/Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <span class="sr-only">WebSharper logo</span>
+                        </a>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
+                    </div>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

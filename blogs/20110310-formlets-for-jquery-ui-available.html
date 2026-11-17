@@ -27,8 +27,8 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=fe98d42f99"></link>
-<script src="../Scripts/WebSharper/all.js?v=8665ec365f"></script>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=02f4e98200"></link>
+<script src="../Scripts/WebSharper/all.js?v=ba38ad3656"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 wsbundle.Runtime.ScriptBasePath = '../Scripts/WebSharper/';
@@ -417,7 +417,13 @@ wsbundle.Layout().ReplaceInDom(e1);
     </header>
 
     <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
-    <div class="mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
+  <div class="relative">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-[480px] overflow-hidden">
+      <img src="/Assets/images/blog-hero-light.svg" alt="" class="h-full w-full object-cover object-top dark:hidden" />
+      <img src="/Assets/images/blog-hero-dark.svg" alt="" class="hidden h-full w-full object-cover object-top dark:block" />
+      <div class="absolute inset-0 bg-gradient-to-b from-white/45 via-white/70 to-white dark:from-gray-950/55 dark:via-gray-950/85 dark:to-gray-950"></div>
+    </div>
+    <div class="relative z-10 mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
         <div class="text-center">
             <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                 <span aria-hidden="true">&larr;</span> All articles
@@ -435,6 +441,7 @@ wsbundle.Layout().ReplaceInDom(e1);
 <p>This brings the number of available WebSharper extensions to 13, those in green being freely available with your WebSharper developer license. Enjoy!</p>
 </div>
     </div>
+  </div>
 </main>
 
     <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
