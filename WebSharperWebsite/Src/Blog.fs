@@ -241,7 +241,7 @@ module Blog =
                             [
                                 span
                                     [
-                                        attr.``class`` "block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200"
+                                        attr.``class`` "block max-w-[8.5rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 2xl:max-w-[10rem] dark:text-gray-200"
                                     ]
                                     [ text (railLabel heading) ]
                                 div
