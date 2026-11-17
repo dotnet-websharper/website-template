@@ -27,8 +27,8 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=02f4e98200"></link>
-<script src="../Scripts/WebSharper/all.js?v=ba38ad3656"></script>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=7c29b79cda"></link>
+<script src="../Scripts/WebSharper/all.js?v=2b16487f05"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 wsbundle.Runtime.ScriptBasePath = '../Scripts/WebSharper/';
@@ -423,8 +423,9 @@ wsbundle.Layout().ReplaceInDom(e1);
       <img src="/Assets/images/blog-hero-dark.svg" alt="" class="hidden h-full w-full object-cover object-top dark:block" />
       <div class="absolute inset-0 bg-gradient-to-b from-white/45 via-white/70 to-white dark:from-gray-950/55 dark:via-gray-950/85 dark:to-gray-950"></div>
     </div>
-    <div class="relative z-10 mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
-        <div class="text-center">
+
+    <div class="relative z-10 mx-auto max-w-6xl px-6 pt-28 lg:px-8 xl:px-0 2xl:max-w-7xl">
+        <div class="mx-auto max-w-3xl text-center">
             <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                 <span aria-hidden="true">&larr;</span> All articles
             </a>
@@ -432,7 +433,15 @@ wsbundle.Layout().ReplaceInDom(e1);
             <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">Variations for a WebSharper shopping cart</h1>
             <div class="mt-6"><div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base text-gray-500 dark:text-gray-400"><span>by Adam Granicz</span><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><time class="text-gray-500 dark:text-gray-400" datetime="2020-12-31">31 December 2020</time><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">f#</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">websharper</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">ui</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">templating</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">reactive</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">fsadvent</span></div></div>
         </div>
-        <div class="blog-content mt-12"><h2 id="variations-for-a-websharper-shopping-cart-part-i">Variations for a WebSharper shopping cart - Part I</h2>
+
+        <div class="relative mt-12 lg:flex">
+            <div class="sticky top-28 mb-16 hidden h-max justify-end lg:flex lg:w-[10rem] xl:w-[6rem]">
+                <div class="ml-auto flex flex-col items-end">
+                    <div><div class="flex flex-col items-end gap-4"><a href="#variations-for-a-websharper-shopping-cart-part-i" class="section-link group flex w-max items-center justify-end gap-3" data-step="variations-for-a-websharper-shopping-cart-part-i" title="Variations for a WebSharper shopping cart - Part I"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">Variations for a WebSharper…</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#start-with-the-design" class="section-link group flex w-max items-center justify-end gap-3" data-step="start-with-the-design" title="1. Start with the design"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">1. Start with the design</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#create-a-new-websharper-spa-on-top-of-the-design" class="section-link group flex w-max items-center justify-end gap-3" data-step="create-a-new-websharper-spa-on-top-of-the-design" title="2. Create a new WebSharper SPA on top of the design"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">2. Create a new WebSharper…</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#a.write-the-application-logic-approach-1-reactive-ui" class="section-link group flex w-max items-center justify-end gap-3" data-step="a.write-the-application-logic-approach-1-reactive-ui" title="3.a. Write the application logic - Approach #1 - Reactive UI"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">3.a. Write the application…</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#b.write-the-application-logic-approach-2-websharper.mvu" class="section-link group flex w-max items-center justify-end gap-3" data-step="b.write-the-application-logic-approach-2-websharper.mvu" title="3.b. Write the application logic - Approach #2 - WebSharper.Mvu"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">3.b. Write the application…</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#conclusions" class="section-link group flex w-max items-center justify-end gap-3" data-step="conclusions" title="4. Conclusions"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">4. Conclusions</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a></div></div>
+                </div>
+            </div>
+            <div class="lg:w-[calc(100%-6rem)] ml-auto lg:pl-12">
+                <div class="blog-content max-w-3xl"><h2 id="variations-for-a-websharper-shopping-cart-part-i">Variations for a WebSharper shopping cart - Part I</h2>
 <p>(This article is part of <a href="https://sergeytihon.com/2020/10/22/f-advent-calendar-in-english-2020/">F# Advent 2020</a> - a huge shout-out and thanks to Sergey Tihon for organizing it!)</p>
 <p>A long time ago, sometime in 2010, I wrote an article about <a href="/blogs/20100930-tutorial-implementing-a-shopping-cart-with-websharper">implementing a shopping cart with WebSharper</a>). It used <strong>first-class F# events</strong> to implement a reactive shopping cart that updates without page refresh. While you can still read that article today, time has certainly left its mark on it: the code is based on ASP.NET master pages/templates, screenshots are lost, etc. But more importantly, while most of that code would still run today (albeit, with the help of deprecated libraries such as <code>WebSharper.Html</code>), things in <a href="https://websharper.com">WebSharper</a> land have progressed a long ways since then. So I thought I would highlight some of these advancements, bringing the original example back to life.</p>
 <p>To follow along and make your own changes, you can grab the code from the following GitHub repo:</p>
@@ -897,6 +906,8 @@ type IndexTemplate = Template&lt;&quot;wwwroot/index.html&quot;, ClientLoad.From
 <p><a href="http://gitter.im/intellifactory/websharper"><img src="https://badgen.net/gitter/members/intellifactory/websharper" alt="" /></a></p>
 <p>Happy holidays!</p>
 </div>
+            </div>
+        </div>
     </div>
   </div>
 </main>

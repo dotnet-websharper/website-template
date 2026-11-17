@@ -27,8 +27,8 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=02f4e98200"></link>
-<script src="../Scripts/WebSharper/all.js?v=ba38ad3656"></script>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=7c29b79cda"></link>
+<script src="../Scripts/WebSharper/all.js?v=2b16487f05"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 wsbundle.Runtime.ScriptBasePath = '../Scripts/WebSharper/';
@@ -423,8 +423,9 @@ wsbundle.Layout().ReplaceInDom(e1);
       <img src="/Assets/images/blog-hero-dark.svg" alt="" class="hidden h-full w-full object-cover object-top dark:block" />
       <div class="absolute inset-0 bg-gradient-to-b from-white/45 via-white/70 to-white dark:from-gray-950/55 dark:via-gray-950/85 dark:to-gray-950"></div>
     </div>
-    <div class="relative z-10 mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
-        <div class="text-center">
+
+    <div class="relative z-10 mx-auto max-w-6xl px-6 pt-28 lg:px-8 xl:px-0 2xl:max-w-7xl">
+        <div class="mx-auto max-w-3xl text-center">
             <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                 <span aria-hidden="true">&larr;</span> All articles
             </a>
@@ -432,7 +433,15 @@ wsbundle.Layout().ReplaceInDom(e1);
             <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">WebGL and glMatrix Extensions for WebSharper Released</h1>
             <div class="mt-6"><div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base text-gray-500 dark:text-gray-400"><span>by Loic Denuziere</span><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><time class="text-gray-500 dark:text-gray-400" datetime="2011-04-01">1 April 2011</time><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">webgl</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">f#</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">websharper</span></div></div>
         </div>
-        <div class="blog-content mt-12"><p>Today we are happy to announce the release of not one, but two new WebSharper extensions: <a href=http://www.websharper.com/extension/358-webgl/None>WebGL</a> and <a href=http://www.websharper.com/extension/358-glmat/None>glMatrix</a>. Together, they bring the power of hardware-accelerated 3D into WebSharper.</p>
+
+        <div class="relative mt-12 lg:flex">
+            <div class="sticky top-28 mb-16 hidden h-max justify-end lg:flex lg:w-[10rem] xl:w-[6rem]">
+                <div class="ml-auto flex flex-col items-end">
+                    <div><div class="flex flex-col items-end gap-4"><a href="#webgl" class="section-link group flex w-max items-center justify-end gap-3" data-step="webgl" title="WebGL"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">WebGL</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#glmatrix" class="section-link group flex w-max items-center justify-end gap-3" data-step="glmatrix" title="glMatrix"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">glMatrix</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a></div></div>
+                </div>
+            </div>
+            <div class="lg:w-[calc(100%-6rem)] ml-auto lg:pl-12">
+                <div class="blog-content max-w-3xl"><p>Today we are happy to announce the release of not one, but two new WebSharper extensions: <a href=http://www.websharper.com/extension/358-webgl/None>WebGL</a> and <a href=http://www.websharper.com/extension/358-glmat/None>glMatrix</a>. Together, they bring the power of hardware-accelerated 3D into WebSharper.</p>
 <h2 id="webgl">WebGL</h2>
 <p><a href=http://www.khronos.org/webgl/>WebGL</a> is a standard by the Khronos Consortium which allows to render hardware-accelerated, plugin-free 3D scenes directly inside web pages. It is gaining strong momentum, with impressive demos like <a href=http://media.tojicode.com/q3bsp/>Quake 3 maps</a> or the recent <a href=https://mozillademos.org/demos/nocomply/demo.html>No Comply</a> by Mozilla.</p>
 <p>WebGL is an adaptation for JavaScript of the OpenGL ES 2.0 standard. It is supported by the latest versions of Mozilla Firefox and Google Chrome, with more upcoming as Apple (Safari) and Opera are also members of the WebGL Working Group and support it in their beta builds.</p>
@@ -511,6 +520,8 @@ let RotatingTriangle() =
 <p>As an adaptation of the embedded version of OpenGL, WebGL doesn't provide matrix operations like translation and rotation, which can make the positioning of 3D objects cumbersome. This is why we also provide an extension for glMatrix. <a href=http://code.google.com/p/glmatrix/>glMatrix</a> is a highly optimized library which provides operations on matrices, vectors and quaternions, greatly facilitating the manipulation of 3D objects. You can see the <code>Mat4</code> class from glMatrix in use in the above code.</p>
 <p>You can retrieve these extensions at the following addresses: <a href=http://www.websharper.com/extension/358-webgl/None>WebGL</a> and <a href=http://www.websharper.com/extension/358-glmat/None>glMatrix</a>.</p>
 </div>
+            </div>
+        </div>
     </div>
   </div>
 </main>

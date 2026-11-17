@@ -27,8 +27,8 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=02f4e98200"></link>
-<script src="../Scripts/WebSharper/all.js?v=ba38ad3656"></script>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=7c29b79cda"></link>
+<script src="../Scripts/WebSharper/all.js?v=2b16487f05"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 wsbundle.Runtime.ScriptBasePath = '../Scripts/WebSharper/';
@@ -423,8 +423,9 @@ wsbundle.Layout().ReplaceInDom(e1);
       <img src="/Assets/images/blog-hero-dark.svg" alt="" class="hidden h-full w-full object-cover object-top dark:block" />
       <div class="absolute inset-0 bg-gradient-to-b from-white/45 via-white/70 to-white dark:from-gray-950/55 dark:via-gray-950/85 dark:to-gray-950"></div>
     </div>
-    <div class="relative z-10 mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
-        <div class="text-center">
+
+    <div class="relative z-10 mx-auto max-w-6xl px-6 pt-28 lg:px-8 xl:px-0 2xl:max-w-7xl">
+        <div class="mx-auto max-w-3xl text-center">
             <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                 <span aria-hidden="true">&larr;</span> All articles
             </a>
@@ -432,7 +433,15 @@ wsbundle.Layout().ReplaceInDom(e1);
             <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">IntelliLogo</h1>
             <div class="mt-6"><div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base text-gray-500 dark:text-gray-400"><span>by Adam Granicz</span><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><time class="text-gray-500 dark:text-gray-400" datetime="2024-12-28">28 December 2024</time><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">f#</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">websharper</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">parsing</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">lexing</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">logo</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">fsadvent</span></div></div>
         </div>
-        <div class="blog-content mt-12"><p>(Happy Holidays everyone and sorry for the delay in getting this article out to you! Just want to say a huge thanks to Sergey Tihon for organizing F# Advent and to everyone who participated!)</p>
+
+        <div class="relative mt-12 lg:flex">
+            <div class="sticky top-28 mb-16 hidden h-max justify-end lg:flex lg:w-[10rem] xl:w-[6rem]">
+                <div class="ml-auto flex flex-col items-end">
+                    <div><div class="flex flex-col items-end gap-4"><a href="#project-structure" class="section-link group flex w-max items-center justify-end gap-3" data-step="project-structure" title="Project structure"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">Project structure</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#the-ast" class="section-link group flex w-max items-center justify-end gap-3" data-step="the-ast" title="The AST"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">The AST</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#the-parser" class="section-link group flex w-max items-center justify-end gap-3" data-step="the-parser" title="The parser"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">The parser</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#the-evaluator" class="section-link group flex w-max items-center justify-end gap-3" data-step="the-evaluator" title="The evaluator"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">The evaluator</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#the-client-ui" class="section-link group flex w-max items-center justify-end gap-3" data-step="the-client-ui" title="The client UI"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">The client UI</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#conclusion" class="section-link group flex w-max items-center justify-end gap-3" data-step="conclusion" title="Conclusion"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">Conclusion</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a></div></div>
+                </div>
+            </div>
+            <div class="lg:w-[calc(100%-6rem)] ml-auto lg:pl-12">
+                <div class="blog-content max-w-3xl"><p>(Happy Holidays everyone and sorry for the delay in getting this article out to you! Just want to say a huge thanks to Sergey Tihon for organizing F# Advent and to everyone who participated!)</p>
 <p>I wrote an article nearly 20 years ago about <a href="https://intellifactory.com/user/granicz/20061124-a-logo-interpreter-under-400-lines">implementing a Logo interpreter in F# with 400 LOC</a>, and a fun fact is that it was the first article on this very blog. Back then, one of the coolest things about it was that it used partial active patterns to parse Logo programs and executed them in a desktop client.</p>
 <p>In this article, I will give a quick overview of a more sophisticated rewrite, by implementing IntelliLogo, an abstract Logo &quot;virtual machine&quot; with a range of built-in functions and features, and adding a simple web UI around it using WebSharper. The <a href="https://logo.intellifactorylabs.com">resulting app</a> looks like this in action (click for a larger image):</p>
 <table>
@@ -899,6 +908,8 @@ module Communication =
 <p>As always, there is room for improvement: implementing Logo's higher-order primitives, more stdlib functions, adding the ability to halt execution, etc. I also thought of spinning off a 3D version, which would need 3D turtle primitives and could use an accelerated 3D graphics library such as ThreeJS. If you want to join me in creating these, don't hesitate to get in touch.</p>
 <p>Happy holidays and happy coding!</p>
 </div>
+            </div>
+        </div>
     </div>
   </div>
 </main>

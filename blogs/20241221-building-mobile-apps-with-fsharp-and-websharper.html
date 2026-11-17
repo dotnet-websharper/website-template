@@ -27,8 +27,8 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=02f4e98200"></link>
-<script src="../Scripts/WebSharper/all.js?v=ba38ad3656"></script>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=7c29b79cda"></link>
+<script src="../Scripts/WebSharper/all.js?v=2b16487f05"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 wsbundle.Runtime.ScriptBasePath = '../Scripts/WebSharper/';
@@ -423,8 +423,9 @@ wsbundle.Layout().ReplaceInDom(e1);
       <img src="/Assets/images/blog-hero-dark.svg" alt="" class="hidden h-full w-full object-cover object-top dark:block" />
       <div class="absolute inset-0 bg-gradient-to-b from-white/45 via-white/70 to-white dark:from-gray-950/55 dark:via-gray-950/85 dark:to-gray-950"></div>
     </div>
-    <div class="relative z-10 mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
-        <div class="text-center">
+
+    <div class="relative z-10 mx-auto max-w-6xl px-6 pt-28 lg:px-8 xl:px-0 2xl:max-w-7xl">
+        <div class="mx-auto max-w-3xl text-center">
             <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                 <span aria-hidden="true">&larr;</span> All articles
             </a>
@@ -432,7 +433,15 @@ wsbundle.Layout().ReplaceInDom(e1);
             <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">Building mobile apps with F# and WebSharper</h1>
             <div class="mt-6"><div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base text-gray-500 dark:text-gray-400"><span>by Souvanxay Luangsouvannavong</span><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><time class="text-gray-500 dark:text-gray-400" datetime="2024-12-21">21 December 2024</time><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">f#</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">websharper</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">ui</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">android</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">capacitor</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">vite</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">fsadvent</span></div></div>
         </div>
-        <div class="blog-content mt-12"><p>Hello, everyone! In this article, we will explore how to create mobile applications in F# with WebSharper. Whether you're new to mobile development or functional programming, this guide will help you get started with practical steps and examples.</p>
+
+        <div class="relative mt-12 lg:flex">
+            <div class="sticky top-28 mb-16 hidden h-max justify-end lg:flex lg:w-[10rem] xl:w-[6rem]">
+                <div class="ml-auto flex flex-col items-end">
+                    <div><div class="flex flex-col items-end gap-4"><a href="#introduction" class="section-link group flex w-max items-center justify-end gap-3" data-step="introduction" title="Introduction"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">Introduction</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#why-f-and-websharper" class="section-link group flex w-max items-center justify-end gap-3" data-step="why-f-and-websharper" title="Why F# and WebSharper?"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">Why F# and WebSharper?</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#try-it-out" class="section-link group flex w-max items-center justify-end gap-3" data-step="try-it-out" title="Try it out!"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">Try it out!</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#setting-up-your-development-environment" class="section-link group flex w-max items-center justify-end gap-3" data-step="setting-up-your-development-environment" title="1. Setting Up Your Development Environment"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">1. Setting Up Your…</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#building-picdraw" class="section-link group flex w-max items-center justify-end gap-3" data-step="building-picdraw" title="2. Building PicDraw"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">2. Building PicDraw</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#testing-and-deploying-the-app" class="section-link group flex w-max items-center justify-end gap-3" data-step="testing-and-deploying-the-app" title="3. Testing and Deploying the App"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">3. Testing and Deploying the…</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a><a href="#conclusion" class="section-link group flex w-max items-center justify-end gap-3" data-step="conclusion" title="Conclusion"><span class="block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200">Conclusion</span><div class="h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30" aria-hidden="true"></div></a></div></div>
+                </div>
+            </div>
+            <div class="lg:w-[calc(100%-6rem)] ml-auto lg:pl-12">
+                <div class="blog-content max-w-3xl"><p>Hello, everyone! In this article, we will explore how to create mobile applications in F# with WebSharper. Whether you're new to mobile development or functional programming, this guide will help you get started with practical steps and examples.</p>
 <h2 id="introduction">Introduction</h2>
 <table>
 <thead>
@@ -685,6 +694,8 @@ let saveAndShareImage () = promise {
 <p>The PicDraw App demonstrates how easy it is to build a functional Android app using F# and WebSharper. With features like image capture, annotation, and sharing, this app highlights the simplicity and power of F# for mobile development. If you’re interested in extending the app, consider adding features like color selection for drawing or more advanced image editing options.</p>
 <p>By following this guide, you’ve gained hands-on experience with F# and WebSharper, enabling you to create more complex apps in the future. Happy coding!</p>
 </div>
+            </div>
+        </div>
     </div>
   </div>
 </main>

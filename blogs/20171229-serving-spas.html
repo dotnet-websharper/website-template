@@ -27,8 +27,8 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=02f4e98200"></link>
-<script src="../Scripts/WebSharper/all.js?v=ba38ad3656"></script>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=7c29b79cda"></link>
+<script src="../Scripts/WebSharper/all.js?v=2b16487f05"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 wsbundle.Runtime.ScriptBasePath = '../Scripts/WebSharper/';
@@ -423,8 +423,9 @@ wsbundle.Layout().ReplaceInDom(e1);
       <img src="/Assets/images/blog-hero-dark.svg" alt="" class="hidden h-full w-full object-cover object-top dark:block" />
       <div class="absolute inset-0 bg-gradient-to-b from-white/45 via-white/70 to-white dark:from-gray-950/55 dark:via-gray-950/85 dark:to-gray-950"></div>
     </div>
-    <div class="relative z-10 mx-auto max-w-3xl px-6 pt-28 pb-24 lg:px-8">
-        <div class="text-center">
+
+    <div class="relative z-10 mx-auto max-w-6xl px-6 pt-28 lg:px-8 xl:px-0 2xl:max-w-7xl">
+        <div class="mx-auto max-w-3xl text-center">
             <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                 <span aria-hidden="true">&larr;</span> All articles
             </a>
@@ -432,7 +433,15 @@ wsbundle.Layout().ReplaceInDom(e1);
             <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">Serving SPAs</h1>
             <div class="mt-6"><div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base text-gray-500 dark:text-gray-400"><span>by Adam Granicz</span><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><time class="text-gray-500 dark:text-gray-400" datetime="2017-12-29">29 December 2017</time><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">f#</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">websharper</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">templating</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">ui</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">routing</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">fsadvent</span></div></div>
         </div>
-        <div class="blog-content mt-12"><p>(This article is part of <a href="https://sergeytihon.com/2017/10/22/f-advent-calendar-in-english-2017/">F# Advent 2017</a> - thanks to <a href="https://sergeytihon.com/">Sergey Tihon</a> for organizing!)</p>
+
+        <div class="relative mt-12 lg:flex">
+            <div class="sticky top-28 mb-16 hidden h-max justify-end lg:flex lg:w-[10rem] xl:w-[6rem]">
+                <div class="ml-auto flex flex-col items-end">
+                    <div></div>
+                </div>
+            </div>
+            <div class="lg:w-[calc(100%-6rem)] ml-auto lg:pl-12">
+                <div class="blog-content max-w-3xl"><p>(This article is part of <a href="https://sergeytihon.com/2017/10/22/f-advent-calendar-in-english-2017/">F# Advent 2017</a> - thanks to <a href="https://sergeytihon.com/">Sergey Tihon</a> for organizing!)</p>
 <p>Consider a very typical scenario: you have a web application that serves an SPA. The SPA itself has several &quot;pages,&quot; each with its own client-side routed URLs (think of Gmail, for instance.) Then people copy some of these URLs from their &quot;session&quot; and send them to others, who in turn expect to find exactly what the sender saw. Except with most SPAs, the server-side knows nothing about the URLs generated on the client and usually throws you back to some initial SPA page. Implementing this properly requires you to share all or a subset of the URLs both on the server and on the client. With WebSharper, this is easy.</p>
 <h3 id="routing">Routing</h3>
 <p>One fundamental difference between WebSharper and other server-side capable F# frameworks such as Giraffe or Suave, is that WebSharper supports <strong>safe URLs</strong>, i.e. URLs computed from the serving context (as opposed to encoding them as ordinary strings) that are guaranteed to be correct.</p>
@@ -700,6 +709,8 @@ module Client =
 </ul>
 <p>Happy holidays and happy coding!</p>
 </div>
+            </div>
+        </div>
     </div>
   </div>
 </main>
