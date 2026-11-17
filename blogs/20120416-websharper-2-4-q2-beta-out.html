@@ -27,7 +27,7 @@
 
     <link rel="icon" type="image/svg+xml" href="/Assets/favicon.png" />
 
-    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=7c29b79cda"></link>
+    <link type="text/css" rel="stylesheet" href="../Scripts/WebSharper/all.css?v=da128fbff6"></link>
 <script src="../Scripts/WebSharper/all.js?v=2b16487f05"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -424,7 +424,7 @@ wsbundle.Layout().ReplaceInDom(e1);
       <div class="absolute inset-0 bg-gradient-to-b from-white/45 via-white/70 to-white dark:from-gray-950/55 dark:via-gray-950/85 dark:to-gray-950"></div>
     </div>
 
-    <div class="relative z-10 mx-auto max-w-6xl px-6 pt-28 lg:px-8 xl:px-0 2xl:max-w-7xl">
+    <div class="relative z-10 mx-auto max-w-6xl px-6 pt-28 pb-24 lg:px-8 xl:px-0 2xl:max-w-7xl">
         <div class="mx-auto max-w-3xl text-center">
             <a href="/blogs" class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 transition duration-300 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                 <span aria-hidden="true">&larr;</span> All articles
@@ -434,14 +434,14 @@ wsbundle.Layout().ReplaceInDom(e1);
             <div class="mt-6"><div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base text-gray-500 dark:text-gray-400"><span>by Adam Granicz</span><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><time class="text-gray-500 dark:text-gray-400" datetime="2012-04-16">16 April 2012</time><span class="text-gray-300 dark:text-gray-600" aria-hidden="true">&#183;</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">release</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">f#</span><span class="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300">websharper</span></div></div>
         </div>
 
-        <div class="relative mt-12 lg:flex">
-            <div class="sticky top-28 mb-16 hidden h-max justify-end lg:flex lg:w-[10rem] xl:w-[6rem]">
-                <div class="ml-auto flex flex-col items-end">
+        <div class="relative mt-12">
+            <div class="pointer-events-none absolute inset-y-0 left-0 hidden w-[10rem] lg:block xl:w-[6rem]">
+                <div class="pointer-events-auto sticky top-28 ml-auto flex flex-col items-end">
                     <div></div>
                 </div>
             </div>
-            <div class="lg:w-[calc(100%-6rem)] ml-auto lg:pl-12">
-                <div class="blog-content max-w-3xl"><p>We have been working hard to bring you WebSharper 2.4 Q2 - and today we are happy to announce the availability of the <a href="http://intellifactorylabs.com/beta/WebSharperInstaller-2.4.46.exe">the first beta (2.4.46)</a>.</p>
+            <div class="mx-auto max-w-3xl lg:max-w-[38rem] xl:max-w-3xl">
+                <div class="blog-content"><p>We have been working hard to bring you WebSharper 2.4 Q2 - and today we are happy to announce the availability of the <a href="http://intellifactorylabs.com/beta/WebSharperInstaller-2.4.46.exe">the first beta (2.4.46)</a>.</p>
 <p>We will be doing a detailed change log and announcement in the coming days, so stay tuned.  One of the most significant changes in this release is <strong>dynamic templating</strong> - a feature that enables authoring template-based web applications whose template(s) can be changed runtime without requiring re-compilation.</p>
 <p>Dynamic templates are not only flexible but also come with a couple significant enhancements over the static templating available in earlier releases.  For instance, you can tune how and when your templates get served and instantiated, whether placeholders act as containers or direct content holes, and what type of content can go into them.</p>
 <p>For instance, here is a dynamic template in F#:</p>
