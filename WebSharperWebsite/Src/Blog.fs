@@ -187,6 +187,73 @@ module Blog =
             |> fun s -> Regex.Replace(s, @"(?<=[""(])(?:\.\./)*/?assets/", "/Assets/blog/")
         Markdown.ToHtml(body, pipeline)
 
+    // ------------------------------------------------------------------
+    // Article section rail (same `.section-link` markup as Features/Bindings)
+    // ------------------------------------------------------------------
+
+    /// A `##` section of an article body, in document order. Markdig emits an
+    /// `id` for every heading, and that is what the rail links to.
+    let private sectionPattern =
+        @"<h2\s+id=""(?<id>[^""]+)""[^>]*>(?<title>.*?)</h2>"
+
+    let ArticleSections (body: string) : (string * string) list =
+        [ for m in Regex.Matches(body, sectionPattern, RegexOptions.Singleline) ->
+            let heading = Regex.Replace(m.Groups["title"].Value, "<[^>]+>", "").Trim()
+            m.Groups["id"].Value, heading ]
+
+    /// A short rail label: the heading up to its first `:`/`,`/`(` when that
+    /// prefix is meaningful, capped so the rail stays narrow. The full heading
+    /// stays on the link (as its `title`), and the label still names the section.
+    let private railLabel (heading: string) =
+        let prefix =
+            [ ':'; ','; '(' ]
+            |> List.tryPick (fun sep ->
+                let i = heading.IndexOf sep
+                if i >= 10 then Some (heading.Substring(0, i).Trim()) else None)
+            |> Option.defaultValue heading
+        if prefix.Length <= 30 then
+            prefix
+        else
+            let cut = prefix.Substring(0, 30)
+            let lastSpace = cut.LastIndexOf ' '
+            (if lastSpace > 16 then cut.Substring(0, lastSpace) else cut).TrimEnd(' ', ',', ':') + "…"
+
+    /// The sticky vertical section nav for an article: the `##` headings of the
+    /// body, as `.section-link`s that jump to them. Rendered only when there is
+    /// something to navigate.
+    let ArticleSectionNav (body: string) : Doc =
+        let sections = ArticleSections body
+        if sections.Length < 2 then
+            Doc.Empty
+        else
+            div
+                [ attr.``class`` "flex flex-col items-end gap-4" ]
+                [
+                    sections
+                    |> List.map (fun (id, heading) ->
+                        a
+                            [
+                                attr.href ("#" + id)
+                                attr.``class`` "section-link group flex w-max items-center justify-end gap-3"
+                                Attr.Create "data-step" id
+                                Attr.Create "title" heading
+                            ]
+                            [
+                                span
+                                    [
+                                        attr.``class`` "block max-w-[10rem] translate-x-1 text-right text-base leading-snug text-gray-700 opacity-30 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-200"
+                                    ]
+                                    [ text (railLabel heading) ]
+                                div
+                                    [
+                                        attr.``class`` "h-2.5 w-2.5 flex-none rounded-full bg-gray-200/30 transition duration-500 group-hover:bg-brand-secondary dark:bg-white/30"
+                                        Attr.Create "aria-hidden" "true"
+                                    ]
+                                    []
+                            ])
+                    |> Doc.Concat
+                ]
+
     let private tag (name: string) =
         span
             [ attr.``class`` "rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-300" ]

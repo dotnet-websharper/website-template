@@ -186,11 +186,13 @@ module ServerPages =
                     .Doc()
             )
         | Some article ->
+            let body = Blog.ArticleBody article
             Content.BundleScope "blogs" (
                 Templates.BlogsArticleTemplate.Content()
                     .Title(article.Title)
                     .Meta(Blog.ArticleMeta article)
-                    .Body(Doc.Verbatim (Blog.ArticleBody article))
+                    .SectionNav(Blog.ArticleSectionNav body)
+                    .Body(Doc.Verbatim body)
                     .Doc()
             )
 

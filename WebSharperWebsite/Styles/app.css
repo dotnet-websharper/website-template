@@ -96,7 +96,7 @@ button {
     @apply text-[17px] leading-8 text-gray-700 dark:text-gray-300;
 }
 .blog-content h2 {
-    @apply mt-12 text-2xl font-semibold text-gray-950 dark:text-white;
+    @apply mt-12 scroll-mt-28 text-2xl font-semibold text-gray-950 dark:text-white;
 }
 .blog-content h3 {
     @apply mt-8 text-xl font-semibold text-gray-900 dark:text-white;
