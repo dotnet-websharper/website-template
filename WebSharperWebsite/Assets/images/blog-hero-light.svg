@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="480" viewBox="0 0 1600 480" fill="none">
+  <defs>
+    <linearGradient id="lbg" x1="0" y1="0" x2="1600" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f3f4ff"/>
+    </linearGradient>
+    <radialGradient id="lglowl" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(170 300) scale(420 420)">
+      <stop stop-color="#6366f1" stop-opacity="0.26"/>
+      <stop offset="0.6" stop-color="#6366f1" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lglowr" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1430 250) scale(400 400)">
+      <stop stop-color="#8b5cf6" stop-opacity="0.24"/>
+      <stop offset="0.6" stop-color="#8b5cf6" stop-opacity="0.07"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="lgrid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" stroke="#4f46e5" stroke-opacity="0.09" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="lfade" x1="0" y1="280" x2="0" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="480" fill="url(#lbg)"/>
+  <rect width="1600" height="480" fill="url(#lgrid)"/>
+  <rect width="1600" height="480" fill="url(#lglowl)"/>
+  <rect width="1600" height="480" fill="url(#lglowr)"/>
+
+  <g stroke="#4f46e5" stroke-width="1.3" fill="none">
+    <circle cx="170" cy="300" r="100" stroke-opacity="0.30" stroke-dasharray="2 7"/>
+    <circle cx="170" cy="300" r="170" stroke-opacity="0.24" stroke-dasharray="46 16"/>
+    <circle cx="170" cy="300" r="240" stroke-opacity="0.17" stroke-dasharray="2 9"/>
+    <circle cx="170" cy="300" r="300" stroke-opacity="0.12" stroke-dasharray="70 22"/>
+  </g>
+  <g stroke="#4f46e5" stroke-opacity="0.16" stroke-width="1">
+    <path d="M170 300 L400 152"/>
+    <path d="M170 300 L376 372"/>
+  </g>
+  <g>
+    <path d="M270 180 L320 246 L272 330 L170 300" stroke="#6366f1" stroke-opacity="0.34" stroke-width="1.1" fill="none"/>
+    <circle cx="270" cy="180" r="3.4" fill="#6366f1" fill-opacity="0.7"/>
+    <circle cx="320" cy="246" r="2.8" fill="#6366f1" fill-opacity="0.6"/>
+    <circle cx="272" cy="330" r="3.2" fill="#6366f1" fill-opacity="0.6"/>
+    <circle cx="170" cy="300" r="4.4" fill="#6366f1" fill-opacity="0.75"/>
+    <circle cx="120" cy="190" r="2.6" fill="#6366f1" fill-opacity="0.55"/>
+    <circle cx="86" cy="372" r="2.4" fill="#6366f1" fill-opacity="0.5"/>
+  </g>
+
+  <g stroke="#7c3aed" stroke-width="1.3" fill="none">
+    <circle cx="1430" cy="250" r="95" stroke-opacity="0.30" stroke-dasharray="2 7"/>
+    <circle cx="1430" cy="250" r="160" stroke-opacity="0.24" stroke-dasharray="52 18"/>
+    <circle cx="1430" cy="250" r="230" stroke-opacity="0.16" stroke-dasharray="2 9"/>
+    <circle cx="1430" cy="250" r="290" stroke-opacity="0.11" stroke-dasharray="76 24"/>
+  </g>
+  <g stroke="#7c3aed" stroke-opacity="0.16" stroke-width="1">
+    <path d="M1430 250 L1200 154"/>
+    <path d="M1430 250 L1224 356"/>
+  </g>
+  <g>
+    <path d="M1345 160 L1300 240 L1360 306 L1430 250" stroke="#8b5cf6" stroke-opacity="0.34" stroke-width="1.1" fill="none"/>
+    <circle cx="1345" cy="160" r="3.4" fill="#8b5cf6" fill-opacity="0.7"/>
+    <circle cx="1300" cy="240" r="2.8" fill="#8b5cf6" fill-opacity="0.6"/>
+    <circle cx="1360" cy="306" r="3.2" fill="#8b5cf6" fill-opacity="0.6"/>
+    <circle cx="1430" cy="250" r="4.4" fill="#8b5cf6" fill-opacity="0.75"/>
+    <circle cx="1490" cy="170" r="2.6" fill="#8b5cf6" fill-opacity="0.55"/>
+    <circle cx="1508" cy="330" r="2.4" fill="#8b5cf6" fill-opacity="0.5"/>
+  </g>
+
+  <g fill="#6366f1">
+    <circle cx="370" cy="100" r="2.2" fill-opacity="0.4"/>
+    <circle cx="420" cy="404" r="2" fill-opacity="0.35"/>
+    <circle cx="250" cy="432" r="1.8" fill-opacity="0.35"/>
+    <circle cx="1210" cy="100" r="2.2" fill-opacity="0.4"/>
+    <circle cx="1250" cy="404" r="2" fill-opacity="0.35"/>
+    <circle cx="1400" cy="432" r="1.8" fill-opacity="0.35"/>
+  </g>
+
+  <rect y="280" width="1600" height="200" fill="url(#lfade)"/>
+</svg>
