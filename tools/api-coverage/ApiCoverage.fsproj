@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Extracts WebSharper's JS-translation API coverage into
+    WebSharperWebsite/Assets/coverage/ (index.json + one file per namespace).
+
+      dotnet run (-c Release, project tools/api-coverage)
+
+    Change the versions below to describe another release. The WebSharper 11
+    compiler (tools/net11.0) needs the .NET 11 runtime.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net11.0</TargetFramework>
+    <WebSharperVersion>11.0.0.768-preview.2</WebSharperVersion>
+    <NetRefVersion>10.0.15</NetRefVersion>
+    <FSharpCoreRefVersion>10.1.403</FSharpCoreRefVersion>
+    <WarningLevel>3</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="8.0.0" />
+    <!-- Downloaded only: the compiler that reads the metadata, the libraries it
+         describes, and the public surfaces they are matched against. -->
+    <PackageDownload Include="WebSharper.FSharp" Version="[$(WebSharperVersion)]" />
+    <PackageDownload Include="WebSharper" Version="[$(WebSharperVersion)]" />
+    <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[$(NetRefVersion)]" />
+    <PackageDownload Include="FSharp.Core" Version="[$(FSharpCoreRefVersion)]" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <_WsTools>$(NuGetPackageRoot)websharper.fsharp/$(WebSharperVersion)/tools/net11.0/</_WsTools>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="WebSharper.Core"><HintPath>$(_WsTools)WebSharper.Core.dll</HintPath></Reference>
+    <Reference Include="WebSharper.Core.JavaScript"><HintPath>$(_WsTools)WebSharper.Core.JavaScript.dll</HintPath></Reference>
+    <Reference Include="WebSharper.Compiler"><HintPath>$(_WsTools)WebSharper.Compiler.dll</HintPath></Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>WsLib</_Parameter1>
+      <_Parameter2>$(NuGetPackageRoot)websharper/$(WebSharperVersion)/lib/netstandard2.0/</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>WsVersion</_Parameter1>
+      <_Parameter2>$(WebSharperVersion)</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>NetRef</_Parameter1>
+      <_Parameter2>$(NuGetPackageRoot)microsoft.netcore.app.ref/$(NetRefVersion)/ref/net10.0/</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>FSharpCore</_Parameter1>
+      <_Parameter2>$(NuGetPackageRoot)fsharp.core/$(FSharpCoreRefVersion)/lib/netstandard2.1/FSharp.Core.dll</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>OutDir</_Parameter1>
+      <_Parameter2>$(MSBuildThisFileDirectory)../../WebSharperWebsite/Assets/coverage/</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+</Project>

@@ -151,7 +151,11 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   `bindings.json` version looked like a render bug).
 - **Stale `wsfscservice`**: after editing a `.html` template, a "Start tag `<div>` was
   not found" parse error is almost always the template-service cache — `pkill -f
-  wsfscservice` and rebuild before touching the markup.
+  wsfscservice` and rebuild before touching the markup. Don't run that `pkill` in the
+  same shell command as the build: `-f` matches the command line itself and kills the
+  shell. And expect the **first** build after killing the service to report `Build
+  succeeded` while writing no JS/HTML (`build/*.html` keeps its old timestamp); build
+  again. Check the timestamp of `build/<page>.html` before trusting the output.
 
 ## Page notes
 
@@ -323,6 +327,50 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
     `modernize-binding` skill: keep it free of workspace internals
     (`websharper100`, the build stack/`repos.yml`, subagents, local paths, `gh`
     specifics) so it can be shared publicly.
+- **API coverage page** (`/coverage`, `Coverage.html`, `Src/Coverage.fs`,
+  `tools/api-coverage/`): which .NET / FSharp.Core members translate to
+  JavaScript. It is linked from the footer ("API coverage"), not the menubar.
+  - **Data** is generated, never hand-edited: `dotnet run -c Release --project
+    tools/api-coverage` rewrites `WebSharperWebsite/Assets/coverage/` (`index.json`
+    plus `<dotnet|fsharp-core>/<namespace>.json`, ~3.4 MB), then rebuild the site.
+    The extractor reads the WebSharper metadata of `WebSharper.StdLib` +
+    `WebSharper.JavaScript` with `FrontEnd.ReadFullFromFile` (the DllBrowser
+    reader). It reflects the **.NET 10 reference pack** (not `netstandard2.0`: the
+    proxies cover .NET 6–10 APIs such as `Enumerable.Chunk`) and FSharp.Core with
+    `MetadataLoadContext`, and matches members by an exact signature string.
+    `netTy` mirrors core's private `Reflector.getType`. The versions are
+    `PackageDownload`s in `ApiCoverage.fsproj` (`WebSharperVersion`, `NetRefVersion`,
+    `FSharpCoreRefVersion`). It targets `net11.0` because the WS11 compiler DLLs
+    (`websharper.fsharp/<v>/tools/net11.0`) need it, so it is **not** run by the GHA
+    (which is on .NET 10); refresh it locally and commit the JSON. It documents the
+    WS11 preview even though the site itself builds on WS 10.1.9.
+  - **Statuses**: `covered` (`via` = `inline`/`direct`/`macro…`/`interface`/`enum`/
+    `System.Object`/`built-in`), `maybe` (no member entry but a class-level
+    macro), `missing`. Heuristics in `scanType`: `ToString`/`Equals`/`GetHashCode`
+    overrides count via the `System.Object` proxy **only on proxied types**.
+    Delegate `.ctor`/`Invoke` are `built-in`. Attributes, obsolete-as-error members
+    and F# SRTP witness overloads (parameters named `get_Zero`/`op_Addition`/
+    `divideByInt`) are dropped. Member-less nested types (union cases, `Tags`) are
+    dropped. Primitive operators and language constructs aren't members, so they
+    never show up.
+  - **Display** names are source-like: F# `CompilationSourceName` (`map`, not
+    `Map`), modules without `Module`, `FSharpList` → `List`, C# keyword aliases,
+    and properties/events/operators rendered as such.
+  - **Headline numbers**: the BCL percentage is over `focusNamespaces` (14
+    client-relevant namespaces). The raw BCL total (46k members, mostly
+    server-only) is meaningless, so the rest sit under a collapsed "more
+    namespaces" row.
+  - **Page**: `Coverage.Fill` renders the hero, stats and namespace overview at
+    build time from the embedded `Assets/coverage/index.json` (an
+    `EmbeddedResource`, deserialized into the `CoverageData` records, whose field
+    names are the JSON keys). `CoverageClient.Explorer` is a client widget
+    (`client (...)` in `ServerPages.Coverage`) that fetches `index.json`.
+    It searches types, plus `Type.member` queries (`String.Split`, `List.map`), which
+    load the named types' namespace files. Namespace files are fetched lazily and
+    cached. Deep links are `#ns=<libId>:<namespace>` (the overview rows) and
+    `?q=<query>`. In the index and the namespace files, types are in the **same
+    order**, so the explorer pairs them by position (display names are not unique:
+    F# has a `List` module, a `List` static class and `List<T>`).
 
 ## WebSharper client-code constraints (met in this repo)
 

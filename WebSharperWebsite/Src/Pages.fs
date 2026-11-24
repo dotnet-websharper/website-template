@@ -166,6 +166,13 @@ module ServerPages =
     let Bindings () =
         Bindings.BindingsDoc()
 
+    let Coverage () =
+        Content.BundleScope "coverage" (
+            Templates.CoverageTemplate.Content()
+            |> Coverage.Fill
+            |> fun t -> t.Explorer(client (CoverageClient.Explorer())).Doc()
+        )
+
     // The blog listing and article pages are generated from the article files in
     // the `blogs` submodule (see Blog.fs).
     let Blogs () =

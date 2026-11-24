@@ -13,6 +13,7 @@ module Templates =
     type FeaturesTemplate = Template<"Features.html">
     type ExamplesTemplate = Template<"Examples.html">
     type BindingsTemplate = Template<"Bindings.html">
+    type CoverageTemplate = Template<"Coverage.html">
     type BlogsTemplate = Template<"Blogs.html">
     type BlogsArticleTemplate = Template<"BlogsArticle.html">
     type DownloadTemplate = Template<"Download.html">
