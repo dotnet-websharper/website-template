@@ -53,6 +53,7 @@
     <Compile Include="Src/Examples.fs" />
     <Compile Include="Src/Bindings.fs" />
     <Compile Include="Src/Coverage.fs" />
+    <Compile Include="Src/Conformance.fs" />
     <Compile Include="Src/Components.fs" />
     <Compile Include="Src/Newsletter.fs" />
     <Compile Include="Src/Blog.fs" />
@@ -78,6 +79,7 @@
     <Content Include="Examples.html" />
     <Content Include="Bindings.html" />
     <Content Include="Coverage.html" />
+    <Content Include="Conformance.html" />
     <Content Include="Blogs.html" />
     <Content Include="BlogsArticle.html" />
     <Content Include="ManageSubscription.html" />
@@ -97,6 +99,9 @@
     <EmbeddedResource Include="bindings.json" />
     <!-- Written by tools/api-coverage; the page's headline numbers and overview. -->
     <EmbeddedResource Include="Assets/coverage/index.json" />
+    <!-- Written by tools/conformance/export.mjs; the /conformance page (C# and F#). -->
+    <EmbeddedResource Include="Assets/conformance/csharp.json" />
+    <EmbeddedResource Include="Assets/conformance/fsharp.json" />
   </ItemGroup>
 
   <ItemGroup>

@@ -173,6 +173,13 @@ module ServerPages =
             |> fun t -> t.Explorer(client (CoverageClient.Explorer())).Doc()
         )
 
+    let Conformance () =
+        Content.BundleScope "conformance" (
+            Templates.ConformanceTemplate.Content()
+            |> Conformance.Fill
+            |> fun t -> t.Behaviour(client (ConformanceClient.Behaviour())).Doc()
+        )
+
     // The blog listing and article pages are generated from the article files in
     // the `blogs` submodule (see Blog.fs).
     let Blogs () =

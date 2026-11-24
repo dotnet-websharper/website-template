@@ -1,0 +1,110 @@
+<main ws-children-template="Content">
+    <!-- the language switch: #csharp / #fsharp, area deep links #<lang>/<area> (ConformanceClient) -->
+    <div class="mx-auto flex max-w-6xl justify-center px-6 pt-28 lg:px-8 xl:px-0 2xl:max-w-7xl" ws-hole="LangSwitch"></div>
+    <div ws-hole="Langs"></div>
+    <div ws-hole="Behaviour"></div>
+
+    <!-- one per language; only the selected one is visible -->
+    <div ws-template="LangView" data-lang-view="${LangId}" ws-attr="ViewAttr">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl pt-10">
+            <div class="mx-auto max-w-3xl text-center">
+                <p class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">${Lang} conformance</p>
+                <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">${Lang} that behaves like .NET in the browser</h1>
+                <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                    Every case below is a piece of ${Lang} run twice: on .NET, and as the JavaScript WebSharper compiles it to.
+                    The results are compared character by character. Where they differ, it is listed as a known difference,
+                    with what to write instead.
+                </p>
+                <div class="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs font-medium">
+                    <span class="rounded-full border border-gray-200 bg-white px-3 py-1.5 font-mono text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200">WebSharper 11 · core ${Commit}</span>
+                    <span class="rounded-full border border-gray-200 bg-white px-3 py-1.5 font-mono text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200">${Total} cases in ${AreaCount} areas</span>
+                    <span class="rounded-full border border-gray-200 bg-white px-3 py-1.5 font-mono text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200">as of ${CommitDate}</span>
+                </div>
+            </div>
+
+            <div class="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-3">
+                <div class="ws-card rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/60">
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Same result as .NET</p>
+                    <p class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white">${PassPct}%</p>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">${Pass} of ${Total} cases</p>
+                </div>
+                <div class="ws-card rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/60">
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Known differences</p>
+                    <p class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white">${Known}</p>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">where JavaScript itself differs, each with an alternative</p>
+                </div>
+                <div class="ws-card rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/60">
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Unexplained differences</p>
+                    <p class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white">${Mismatch}</p>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">silent mismatches; ${Unsupported} cases rejected at compile time</p>
+                </div>
+            </div>
+        </div>
+
+        <section id="${LangId}-known" class="mx-auto mt-20 max-w-6xl scroll-mt-28 px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="max-w-3xl">
+                <h2 class="text-2xl font-bold tracking-tight text-gray-950 dark:text-white">Known differences</h2>
+                <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                    WebSharper implements a .NET API in JavaScript when it can follow .NET semantics exactly or very closely.
+                    It doesn't when that would bloat small, readable output just for coverage, or when only a partial imitation
+                    is possible, such as <code class="font-mono">System.Type</code>, which cannot tell apart .NET types that share
+                    a JavaScript representation. Those cases are listed here, each with the ${Lang} or JavaScript API to use instead.
+                </p>
+            </div>
+            <div class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2" ws-hole="KnownDifferences"></div>
+        </section>
+
+        <div ws-hole="OpenIssues"></div>
+
+        <section id="${LangId}-cases" class="mx-auto mt-20 max-w-6xl scroll-mt-28 px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-950 dark:text-white">Every case</h2>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                Each row is the ${Lang} that runs and the output .NET prints; a passing case prints exactly the same in JavaScript.
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2" ws-hole="AreaNav"></div>
+            <div class="mt-6 space-y-4" ws-hole="Areas"></div>
+        </section>
+
+        <section id="${LangId}-how" class="mx-auto mt-20 max-w-6xl scroll-mt-28 px-6 pb-24 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="ws-card rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/60">
+                    <h3 class="text-lg font-semibold text-gray-950 dark:text-white">How this is computed</h3>
+                    <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                        The cases live in WebSharper's own repository
+                        (<a class="font-mono text-indigo-600 hover:underline dark:text-indigo-400" href="https://github.com/dotnet-websharper/core/tree/master/${Project}">${Project}</a>).
+                        The same ${Lang} project is built for .NET and with WebSharper, run on .NET and under Node, and the outputs are
+                        compared. The check runs on every release build against a committed baseline, so a change that makes any
+                        case worse fails the build.${TsNote}
+                    </p>
+                    <dl class="mt-5 space-y-3 text-sm">
+                        <div class="flex gap-3">
+                            <dt class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500"></dt>
+                            <dd class="text-gray-600 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">Same as .NET</span>: JavaScript prints exactly what .NET prints.</dd>
+                        </div>
+                        <div class="flex gap-3">
+                            <dt class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-amber-400"></dt>
+                            <dd class="text-gray-600 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">Known difference</span>: an accepted difference that follows from JavaScript, listed above with its alternative.</dd>
+                        </div>
+                        <div class="flex gap-3">
+                            <dt class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-rose-500"></dt>
+                            <dd class="text-gray-600 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">Mismatch</span>: a different result with no accepted reason, a bug to fix.</dd>
+                        </div>
+                    </dl>
+                </div>
+                <div class="ws-card rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/60">
+                    <h3 class="text-lg font-semibold text-gray-950 dark:text-white">For tools and AI agents</h3>
+                    <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                        The results are published as JSON: every case with its ${Lang} source, its .NET output and its status, and the
+                        known differences with their reasons and alternatives.
+                    </p>
+                    <ul class="mt-4 space-y-2 text-sm">
+                        <li><a class="font-mono text-indigo-600 hover:underline dark:text-indigo-400" href="${JsonPath}">${JsonPath}</a></li>
+                    </ul>
+                    <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                        Whether an API translates at all is a separate question: see <a class="font-medium text-indigo-600 hover:underline dark:text-indigo-400" href="/coverage">API coverage</a>.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>

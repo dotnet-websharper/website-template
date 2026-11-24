@@ -1,0 +1,3606 @@
+{
+  "lang": "fsharp",
+  "source": "dotnet-websharper/core tests/WebSharper.FSharp.Conformance",
+  "commit": "57cf5117",
+  "commitDate": "2026-11-24",
+  "generated": "2026-11-24",
+  "total": 541,
+  "pass": 423,
+  "known": 18,
+  "mismatch": 79,
+  "unsupported": 21,
+  "knownDifferences": [
+    {
+      "name": "float32.arith",
+      "area": "Numbers",
+      "code": "string (0.1f + 0.2f)",
+      "net": "0.3",
+      "js": "0.30000000000000004",
+      "difference": "`float32` is a JavaScript number, so it keeps double precision instead of rounding to single.",
+      "alternative": "Use `float`, or a Float32Array from WebSharper.JavaScript when single-precision storage matters."
+    },
+    {
+      "name": "recursion.deep.nontail",
+      "area": "Language",
+      "code": "let rec f n = if n = 0 then 0 else 1 + f (n - 1) in string (f 10000)",
+      "net": "10000",
+      "js": "EXN Exception",
+      "difference": "JavaScript has a fixed call stack, so deep non-tail recursion overflows sooner than on .NET.",
+      "alternative": "Write the function tail-recursive (WebSharper turns self tail calls into loops), or use a loop or a fold."
+    },
+    {
+      "name": "string.equality",
+      "area": "Strings and printf",
+      "code": "B (s \"abc\" = \"a\" + \"bc\") + \",\" + B (obj.ReferenceEquals(s \"abc\", \"a\" + s \"bc\"))",
+      "net": "true,false",
+      "js": "true,true",
+      "difference": "JavaScript strings are values: two equal strings are never different references.",
+      "alternative": "Compare strings with `=` or String.Equals."
+    },
+    {
+      "name": "equals.boxed",
+      "area": "Records, unions and equality",
+      "code": "B ((box 1).Equals(box 1)) + \",\" + B ((box 1).Equals(box 1L)) + \",\" + B (box 1 = box 1.0)",
+      "net": "true,false,false",
+      "js": "true,false,true",
+      "difference": "Numbers are not boxed with their .NET type in JavaScript: `box 1` and `box 1.0` are the same value.",
+      "alternative": "Compare unboxed values of a known type."
+    },
+    {
+      "name": "match.typetest.float.int",
+      "area": "Pattern matching",
+      "code": "match box 2.0 with :? int -> \"int\" | :? float -> \"float\" | _ -> \"?\"",
+      "net": "float",
+      "js": "int",
+      "difference": "`int` and `float` are both JavaScript numbers, so `:? int` cannot tell a whole-number `float` from an `int`.",
+      "alternative": "Keep the static type, or use a union case per numeric type."
+    },
+    {
+      "name": "match.typetest.char.string",
+      "area": "Pattern matching",
+      "code": "match box 'c' with :? string -> \"string\" | :? char -> \"char\" | _ -> \"?\"",
+      "net": "char",
+      "js": "string",
+      "difference": "A `char` is a one-character JavaScript string, so `:? string` also matches a boxed `char`.",
+      "alternative": "Keep the static type, or use a union case per type."
+    },
+    {
+      "name": "string.index.out.of.range",
+      "area": "Strings and printf",
+      "code": "string (s \"abc\").[5]",
+      "net": "EXN IndexOutOfRange",
+      "js": "<null>",
+      "difference": "String indexing is not bounds-checked: reading past the end gives undefined instead of throwing IndexOutOfRangeException.",
+      "alternative": "Check Length before indexing."
+    },
+    {
+      "name": "exception.nullref",
+      "area": "Language",
+      "code": "let s : string = null in string s.Length",
+      "net": "EXN NullReference",
+      "js": "EXN Exception",
+      "difference": "Dereferencing null throws a JavaScript TypeError, not a NullReferenceException.",
+      "alternative": "Use options or check with `isNull` instead of catching NullReferenceException."
+    },
+    {
+      "name": "option.value.prop",
+      "area": "Records, unions and equality",
+      "code": "string (None: int option).Value",
+      "net": "EXN NullReference",
+      "js": "EXN Exception",
+      "difference": "`None` is null, so `.Value` on it throws a JavaScript TypeError, not a NullReferenceException.",
+      "alternative": "Match on the option, or use Option.defaultValue."
+    },
+    {
+      "name": "dictionary.union.key",
+      "area": "Maps, sets and dictionaries",
+      "code": "let d = Dictionary<int option, int>() in d.[Some 1] <- 5; d.[None] <- 6; string d.[Some 1] + string d.[None]",
+      "net": "EXN ArgumentNull",
+      "js": "56",
+      "difference": "`None` is null, which .NET rejects as a Dictionary key; JavaScript accepts it.",
+      "alternative": "Use `Map`, or a key type without a null case."
+    },
+    {
+      "name": "datetime.format.iso",
+      "area": "Dates, math and conversions",
+      "code": "(d ()).ToString(\"o\")",
+      "net": "2024-02-29T13:45:30.0000000",
+      "js": "2024-02-29T13:45:30.0000000+00:00",
+      "difference": "A DateTime has no Kind in JavaScript: the \"o\" format writes local time with its offset.",
+      "alternative": "Use DateTimeOffset, or Date.toISOString from WebSharper.JavaScript for a UTC timestamp."
+    },
+    {
+      "name": "decimal.add",
+      "area": "Numbers",
+      "code": "string (0.1M + 0.2M)",
+      "net": "0.3",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "`decimal` is implemented by the WebSharper.MathJS package, not by the standard library.",
+      "alternative": "Reference WebSharper.MathJS to use `decimal`."
+    },
+    {
+      "name": "decimal.divide",
+      "area": "Numbers",
+      "code": "string (1M / 3M)",
+      "net": "0.3333333333333333333333333333",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "`decimal` is implemented by the WebSharper.MathJS package, not by the standard library.",
+      "alternative": "Reference WebSharper.MathJS to use `decimal`."
+    },
+    {
+      "name": "sprintf.M",
+      "area": "Strings and printf",
+      "code": "sprintf \"%M\" 1.50M",
+      "net": "1.50",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "`decimal` is implemented by the WebSharper.MathJS package, not by the standard library.",
+      "alternative": "Reference WebSharper.MathJS to use `decimal`."
+    },
+    {
+      "name": "typeof.name",
+      "area": "Language",
+      "code": "typeof<int>.Name",
+      "net": "Int32",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "No reflection: System.Type is not available in JavaScript, and a partial typeof<T>.Name would suggest otherwise.",
+      "alternative": "Use `nameof` for names, or WebSharper.JavaScript.Object.GetPrototypeOf for the JavaScript prototype."
+    },
+    {
+      "name": "typeof.int.name",
+      "area": "Dates, math and conversions",
+      "code": "typeof<string>.FullName",
+      "net": "System.String",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "No reflection: System.Type is not available in JavaScript, and a partial typeof<T>.Name would suggest otherwise.",
+      "alternative": "Use `nameof` for names, or WebSharper.JavaScript.Object.GetPrototypeOf for the JavaScript prototype."
+    },
+    {
+      "name": "gettype.name",
+      "area": "Dates, math and conversions",
+      "code": "(box 1).GetType().Name",
+      "net": "Int32",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "No reflection: GetType() is not available in JavaScript.",
+      "alternative": "Use `nameof` for names, `:?` patterns for type tests, or WebSharper.JavaScript.Object.GetPrototypeOf for the JavaScript prototype."
+    },
+    {
+      "name": "enum.parse",
+      "area": "Records, unions and equality",
+      "code": "string (Enum.Parse(typeof<Color>, \"Blue\") :?> Color)",
+      "net": "Blue",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "No reflection: Enum.Parse takes a System.Type, which is not available in JavaScript.",
+      "alternative": "Match the string against the enum's cases instead."
+    }
+  ],
+  "areas": [
+    {
+      "id": "numbers",
+      "name": "Numbers",
+      "cases": [
+        {
+          "name": "int.overflow.wraps",
+          "code": "string (big () + 1)",
+          "status": "mismatch",
+          "net": "-2147483648",
+          "js": "2147483648"
+        },
+        {
+          "name": "int.multiply.wraps",
+          "code": "string (big () * 2)",
+          "status": "mismatch",
+          "net": "-2",
+          "js": "4294967294"
+        },
+        {
+          "name": "int.negate.min",
+          "code": "string (-(Int32.MinValue + n 0))",
+          "status": "mismatch",
+          "net": "-2147483648",
+          "js": "2147483648"
+        },
+        {
+          "name": "int.division.truncates",
+          "code": "string (-7 / n 2) + \",\" + string (7 / n -2)",
+          "status": "pass",
+          "net": "-3,-3"
+        },
+        {
+          "name": "int.remainder.sign",
+          "code": "string (-7 % n 3) + \",\" + string (7 % n -3)",
+          "status": "pass",
+          "net": "-1,1"
+        },
+        {
+          "name": "int.divide.zero",
+          "code": "string (1 / zero ())",
+          "status": "pass",
+          "net": "EXN DivideByZero"
+        },
+        {
+          "name": "int.modulo.zero",
+          "code": "string (1 % zero ())",
+          "status": "pass",
+          "net": "EXN DivideByZero"
+        },
+        {
+          "name": "int64.overflow.wraps",
+          "code": "string (bigL () + 1L)",
+          "status": "mismatch",
+          "net": "-9223372036854775808",
+          "js": "9223372036854775808"
+        },
+        {
+          "name": "int64.large",
+          "code": "string (9007199254740993L + int64 (n 0))",
+          "status": "pass",
+          "net": "9007199254740993"
+        },
+        {
+          "name": "int64.multiply",
+          "code": "string (123456789L * int64 (n 1000000))",
+          "status": "pass",
+          "net": "123456789000000"
+        },
+        {
+          "name": "int64.division",
+          "code": "string (-9000000000000000007L / int64 (n 2))",
+          "status": "pass",
+          "net": "-4500000000000000003"
+        },
+        {
+          "name": "uint32.wraps",
+          "code": "string (0u - uint32 (n 1))",
+          "status": "mismatch",
+          "net": "4294967295",
+          "js": "-1"
+        },
+        {
+          "name": "byte.wraps",
+          "code": "string (255uy + byte (n 1))",
+          "status": "mismatch",
+          "net": "0",
+          "js": "256"
+        },
+        {
+          "name": "sbyte.wraps",
+          "code": "string (127y + sbyte (n 1))",
+          "status": "mismatch",
+          "net": "-128",
+          "js": "128"
+        },
+        {
+          "name": "int16.wraps",
+          "code": "string (32767s + int16 (n 1))",
+          "status": "mismatch",
+          "net": "-32768",
+          "js": "32768"
+        },
+        {
+          "name": "uint64.max",
+          "code": "string (UInt64.MaxValue - uint64 (n 0))",
+          "status": "pass",
+          "net": "18446744073709551615"
+        },
+        {
+          "name": "checked.overflow",
+          "code": "string (Checked.(+) (big ()) 1)",
+          "status": "unsupported",
+          "net": "EXN Overflow",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "checked.int.conversion",
+          "code": "string (Checked.int 3000000000.0)",
+          "status": "unsupported",
+          "net": "EXN Overflow",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "conversion.int.of.float",
+          "code": "string (int 3.99) + \",\" + string (int -3.99)",
+          "status": "pass",
+          "net": "3,-3"
+        },
+        {
+          "name": "conversion.byte.of.int",
+          "code": "string (byte (n 300))",
+          "status": "pass",
+          "net": "44"
+        },
+        {
+          "name": "conversion.int.of.string",
+          "code": "string (int \"42\")",
+          "status": "pass",
+          "net": "42"
+        },
+        {
+          "name": "conversion.int.of.bad.string",
+          "code": "string (int \"4x2\")",
+          "status": "mismatch",
+          "net": "EXN Format",
+          "js": "0"
+        },
+        {
+          "name": "conversion.float.of.string",
+          "code": "string (float \"2.5\")",
+          "status": "pass",
+          "net": "2.5"
+        },
+        {
+          "name": "conversion.int.of.char",
+          "code": "string (int 'A')",
+          "status": "pass",
+          "net": "65"
+        },
+        {
+          "name": "conversion.char.of.int",
+          "code": "string (char (n 66))",
+          "status": "pass",
+          "net": "B"
+        },
+        {
+          "name": "conversion.int64.of.int",
+          "code": "string (int64 (n -5))",
+          "status": "pass",
+          "net": "-5"
+        },
+        {
+          "name": "conversion.uint32.of.negative",
+          "code": "string (uint32 (n -1))",
+          "status": "pass",
+          "net": "4294967295"
+        },
+        {
+          "name": "int.parse",
+          "code": "string (Int32.Parse \"-17\")",
+          "status": "pass",
+          "net": "-17"
+        },
+        {
+          "name": "int.parse.bad",
+          "code": "string (Int32.Parse \"abc\")",
+          "status": "pass",
+          "net": "EXN Format"
+        },
+        {
+          "name": "int.parse.overflow",
+          "code": "string (Int32.Parse \"3000000000\")",
+          "status": "pass",
+          "net": "EXN Overflow"
+        },
+        {
+          "name": "int.tryparse",
+          "code": "match Int32.TryParse \"12\" with | true, v -> string v | _ -> \"no\"",
+          "status": "pass",
+          "net": "12"
+        },
+        {
+          "name": "int.tryparse.bad",
+          "code": "match Int32.TryParse \"1.5\" with | true, v -> string v | _ -> \"no\"",
+          "status": "pass",
+          "net": "no"
+        },
+        {
+          "name": "float.tostring",
+          "code": "string 1.5 + \",\" + string 2.0 + \",\" + string 0.1",
+          "status": "pass",
+          "net": "1.5,2,0.1"
+        },
+        {
+          "name": "float.tostring.large",
+          "code": "string 1e21 + \",\" + string 123456789012.0",
+          "status": "mismatch",
+          "net": "1E+21,123456789012",
+          "js": "1e+21,123456789012"
+        },
+        {
+          "name": "float.tostring.small",
+          "code": "string 1e-7",
+          "status": "mismatch",
+          "net": "1E-07",
+          "js": "1e-7"
+        },
+        {
+          "name": "float.nan",
+          "code": "string nan + \",\" + string infinity + \",\" + string -infinity",
+          "status": "pass",
+          "net": "NaN,Infinity,-Infinity"
+        },
+        {
+          "name": "float.divide.zero",
+          "code": "string (1.0 / zeroF ())",
+          "status": "pass",
+          "net": "Infinity"
+        },
+        {
+          "name": "float.nan.equality",
+          "code": "B (nan = nan) + \",\" + B (nan <> nan)",
+          "status": "pass",
+          "net": "false,true"
+        },
+        {
+          "name": "float.compare.nan",
+          "code": "string (compare nan 1.0)",
+          "status": "mismatch",
+          "net": "-1",
+          "js": "1"
+        },
+        {
+          "name": "float.round.banker",
+          "code": "string (round 2.5) + \",\" + string (round 3.5) + \",\" + string (round -2.5)",
+          "status": "mismatch",
+          "net": "2,4,-2",
+          "js": "3,4,-2"
+        },
+        {
+          "name": "float.math.round",
+          "code": "string (Math.Round 0.5) + \",\" + string (Math.Round 1.5)",
+          "status": "pass",
+          "net": "0,2"
+        },
+        {
+          "name": "float.math.round.digits",
+          "code": "string (Math.Round(2.345, 2))",
+          "status": "pass",
+          "net": "2.35"
+        },
+        {
+          "name": "float.truncate",
+          "code": "string (truncate -2.7) + \",\" + string (floor -2.7) + \",\" + string (ceil -2.2)",
+          "status": "pass",
+          "net": "-2,-3,-2"
+        },
+        {
+          "name": "float32.precision",
+          "code": "string (float32 0.1)",
+          "status": "pass",
+          "net": "0.1"
+        },
+        {
+          "name": "float32.arith",
+          "code": "string (0.1f + 0.2f)",
+          "status": "known",
+          "net": "0.3",
+          "js": "0.30000000000000004"
+        },
+        {
+          "name": "float.sum",
+          "code": "string (0.1 + 0.2)",
+          "status": "pass",
+          "net": "0.30000000000000004"
+        },
+        {
+          "name": "float.parse",
+          "code": "string (Double.Parse \"1e3\")",
+          "status": "pass",
+          "net": "1000"
+        },
+        {
+          "name": "float.tostring.format",
+          "code": "(3.14159).ToString(\"F2\")",
+          "status": "pass",
+          "net": "3.14"
+        },
+        {
+          "name": "float.tostring.n",
+          "code": "(1234567.891).ToString(\"N2\")",
+          "status": "pass",
+          "net": "1,234,567.89"
+        },
+        {
+          "name": "int.tostring.d",
+          "code": "(42).ToString(\"D5\")",
+          "status": "pass",
+          "net": "00042"
+        },
+        {
+          "name": "int.tostring.x",
+          "code": "(255).ToString(\"X\") + \",\" + (255).ToString(\"x4\")",
+          "status": "pass",
+          "net": "FF,00ff"
+        },
+        {
+          "name": "decimal.add",
+          "code": "string (0.1M + 0.2M)",
+          "status": "known",
+          "net": "0.3",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "decimal.divide",
+          "code": "string (1M / 3M)",
+          "status": "known",
+          "net": "0.3333333333333333333333333333",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "bigint.pow",
+          "code": "string (bigint 2 ** 100)",
+          "status": "pass",
+          "net": "1267650600228229401496703205376"
+        },
+        {
+          "name": "bigint.divide",
+          "code": "string (bigint.Parse \"1000000000000000000000\" / bigint 7)",
+          "status": "pass",
+          "net": "142857142857142857142"
+        },
+        {
+          "name": "pown",
+          "code": "string (pown 2 10) + \",\" + string (pown 2.0 -2)",
+          "status": "pass",
+          "net": "1024,0.25"
+        },
+        {
+          "name": "abs.sign",
+          "code": "string (abs (n -5)) + \",\" + string (sign (n -5)) + \",\" + string (sign -0.0)",
+          "status": "pass",
+          "net": "5,-1,0"
+        },
+        {
+          "name": "abs.min.int",
+          "code": "string (abs Int32.MinValue)",
+          "status": "mismatch",
+          "net": "EXN Overflow",
+          "js": "2147483648"
+        },
+        {
+          "name": "min.max",
+          "code": "string (min 3 (n 5)) + \",\" + string (max 3.0 nan)",
+          "status": "mismatch",
+          "net": "3,NaN",
+          "js": "3,3"
+        },
+        {
+          "name": "sqrt.negative",
+          "code": "string (sqrt -1.0)",
+          "status": "pass",
+          "net": "NaN"
+        },
+        {
+          "name": "math.pow",
+          "code": "string (2.0 ** 0.5)",
+          "status": "pass",
+          "net": "1.4142135623730951"
+        },
+        {
+          "name": "bitwise.ops",
+          "code": "string (n 12 &&& 10) + \",\" + string (n 12 ||| 3) + \",\" + string (n 12 ^^^ 5) + \",\" + string (~~~ (n 0))",
+          "status": "pass",
+          "net": "8,15,9,-1"
+        },
+        {
+          "name": "bitwise.shift",
+          "code": "string (n 1 <<< 31) + \",\" + string (n -16 >>> 2) + \",\" + string (n 1 <<< 33)",
+          "status": "pass",
+          "net": "-2147483648,-4,2"
+        },
+        {
+          "name": "bitwise.shift.uint",
+          "code": "string (0x80000000u >>> 31)",
+          "status": "mismatch",
+          "net": "1",
+          "js": "-1"
+        },
+        {
+          "name": "bitwise.int64",
+          "code": "string (1L <<< 40)",
+          "status": "pass",
+          "net": "1099511627776"
+        },
+        {
+          "name": "hex.literal",
+          "code": "string 0xFF + \",\" + string 0b1010 + \",\" + string 0o17",
+          "status": "pass",
+          "net": "255,10,15"
+        },
+        {
+          "name": "int.compare",
+          "code": "string (compare 1 (n 2)) + \",\" + string (compare \"b\" \"a\")",
+          "status": "pass",
+          "net": "-1,1"
+        },
+        {
+          "name": "int.max.value",
+          "code": "string Int32.MaxValue + \",\" + string Int64.MinValue",
+          "status": "pass",
+          "net": "2147483647,-9223372036854775808"
+        },
+        {
+          "name": "char.arith",
+          "code": "string (char (int 'a' + n 1))",
+          "status": "pass",
+          "net": "b"
+        },
+        {
+          "name": "range.step",
+          "code": "Ji [ 10 .. -3 .. 0 ]",
+          "status": "pass",
+          "net": "[10,7,4,1]"
+        },
+        {
+          "name": "range.float",
+          "code": "J (List.map string [ 0.0 .. 0.5 .. 1.5 ])",
+          "status": "pass",
+          "net": "[0,0.5,1,1.5]"
+        },
+        {
+          "name": "incr.decr",
+          "code": "let r = ref 0 in incr r; incr r; decr r; string r.Value",
+          "status": "pass",
+          "net": "1"
+        }
+      ],
+      "total": 72,
+      "pass": 51
+    },
+    {
+      "id": "strings",
+      "name": "Strings and printf",
+      "cases": [
+        {
+          "name": "string.length",
+          "code": "string (s \"héllo\").Length",
+          "status": "pass",
+          "net": "5"
+        },
+        {
+          "name": "string.index",
+          "code": "string (s \"abc\").[1]",
+          "status": "pass",
+          "net": "b"
+        },
+        {
+          "name": "string.index.out.of.range",
+          "code": "string (s \"abc\").[5]",
+          "status": "known",
+          "net": "EXN IndexOutOfRange",
+          "js": "<null>"
+        },
+        {
+          "name": "string.slice",
+          "code": "(s \"abcdef\").[1..3] + \",\" + (s \"abcdef\").[..1] + \",\" + (s \"abcdef\").[4..]",
+          "status": "pass",
+          "net": "bcd,ab,ef"
+        },
+        {
+          "name": "string.slice.out.of.range",
+          "code": "(s \"abc\").[1..10]",
+          "status": "pass",
+          "net": "bc"
+        },
+        {
+          "name": "string.substring",
+          "code": "(s \"abcdef\").Substring(2, 3)",
+          "status": "pass",
+          "net": "cde"
+        },
+        {
+          "name": "string.substring.bad",
+          "code": "(s \"abc\").Substring(2, 5)",
+          "status": "pass",
+          "net": "EXN ArgumentOutOfRange"
+        },
+        {
+          "name": "string.concat.null",
+          "code": "s \"a\" + (null: string) + \"b\"",
+          "status": "mismatch",
+          "net": "ab",
+          "js": "anullb"
+        },
+        {
+          "name": "string.of.null",
+          "code": "\"[\" + string (null: string) + \"]\"",
+          "status": "mismatch",
+          "net": "[]",
+          "js": "[null]"
+        },
+        {
+          "name": "string.of.option",
+          "code": "string (Some 1) + \"|\" + string (None: int option)",
+          "status": "mismatch",
+          "net": "Some(1)|",
+          "js": "[object Object]|null"
+        },
+        {
+          "name": "string.of.unit",
+          "code": "\"[\" + string () + \"]\"",
+          "status": "pass",
+          "net": "[]"
+        },
+        {
+          "name": "string.of.bool",
+          "code": "string true + \",\" + string false",
+          "status": "mismatch",
+          "net": "True,False",
+          "js": "true,false"
+        },
+        {
+          "name": "string.of.char",
+          "code": "string 'x'",
+          "status": "pass",
+          "net": "x"
+        },
+        {
+          "name": "string.of.list",
+          "code": "string [1; 2; 3]",
+          "status": "mismatch",
+          "net": "[1; 2; 3]",
+          "js": "[object Object]"
+        },
+        {
+          "name": "string.of.tuple",
+          "code": "string (1, \"a\")",
+          "status": "mismatch",
+          "net": "(1, a)",
+          "js": "1,a"
+        },
+        {
+          "name": "string.split",
+          "code": "J ((s \"a,b,,c\").Split(','))",
+          "status": "pass",
+          "net": "[a,b,,c]"
+        },
+        {
+          "name": "string.split.options",
+          "code": "J ((s \"a,b,,c\").Split([| ',' |], StringSplitOptions.RemoveEmptyEntries))",
+          "status": "pass",
+          "net": "[a,b,c]"
+        },
+        {
+          "name": "string.split.string",
+          "code": "J ((s \"a--b--c\").Split([| \"--\" |], StringSplitOptions.None))",
+          "status": "pass",
+          "net": "[a,b,c]"
+        },
+        {
+          "name": "string.trim",
+          "code": "\"[\" + (s \"  x  \").Trim() + \"][\" + (s \"xxaxx\").Trim('x') + \"][\" + (s \"  x\").TrimStart() + \"]\"",
+          "status": "pass",
+          "net": "[x][a][x]"
+        },
+        {
+          "name": "string.pad",
+          "code": "(s \"7\").PadLeft(3, '0') + \",\" + (s \"ab\").PadRight(4, '.')",
+          "status": "pass",
+          "net": "007,ab.."
+        },
+        {
+          "name": "string.replace",
+          "code": "(s \"a.b.c\").Replace(\".\", \"--\") + \",\" + (s \"aaa\").Replace('a', 'b')",
+          "status": "pass",
+          "net": "a--b--c,bbb"
+        },
+        {
+          "name": "string.indexof",
+          "code": "string ((s \"hello\").IndexOf \"l\") + \",\" + string ((s \"hello\").LastIndexOf 'l') + \",\" + string ((s \"hello\").IndexOf \"z\")",
+          "status": "pass",
+          "net": "2,3,-1"
+        },
+        {
+          "name": "string.indexof.start",
+          "code": "string ((s \"hello\").IndexOf(\"l\", 3))",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "string.contains",
+          "code": "B ((s \"hello\").Contains \"ell\") + \",\" + B ((s \"hello\").StartsWith \"he\") + \",\" + B ((s \"hello\").EndsWith \"lo\")",
+          "status": "pass",
+          "net": "true,true,true"
+        },
+        {
+          "name": "string.case",
+          "code": "(s \"Hello\").ToUpper() + \",\" + (s \"Hello\").ToLower()",
+          "status": "pass",
+          "net": "HELLO,hello"
+        },
+        {
+          "name": "string.case.invariant",
+          "code": "(s \"Hello\").ToUpperInvariant() + \",\" + (s \"Hello\").ToLowerInvariant()",
+          "status": "pass",
+          "net": "HELLO,hello"
+        },
+        {
+          "name": "string.compare.ordinal",
+          "code": "string (sign (String.CompareOrdinal(s \"a\", s \"B\")))",
+          "status": "pass",
+          "net": "1"
+        },
+        {
+          "name": "string.compare.fsharp",
+          "code": "string (sign (compare (s \"a\") (s \"B\"))) + \",\" + string (sign (compare (s \"apple\") (s \"Apple\")))",
+          "status": "pass",
+          "net": "1,1"
+        },
+        {
+          "name": "string.sort.fsharp",
+          "code": "J (List.sort [ s \"b\"; \"B\"; \"a\"; \"A\" ])",
+          "status": "pass",
+          "net": "[A,B,a,b]"
+        },
+        {
+          "name": "string.equals.ignorecase",
+          "code": "B (String.Equals(s \"abc\", s \"ABC\", StringComparison.OrdinalIgnoreCase))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "string.isnullorempty",
+          "code": "B (String.IsNullOrEmpty null) + \",\" + B (String.IsNullOrWhiteSpace \" \")",
+          "status": "pass",
+          "net": "true,true"
+        },
+        {
+          "name": "string.join",
+          "code": "String.Join(\"-\", [| \"a\"; \"b\"; \"c\" |]) + \",\" + String.Join(\",\", [ 1; 2 ])",
+          "status": "pass",
+          "net": "a-b-c,1,2"
+        },
+        {
+          "name": "string.concat.array",
+          "code": "String.Concat([| \"a\"; \"b\" |])",
+          "status": "pass",
+          "net": "ab"
+        },
+        {
+          "name": "string.reverse",
+          "code": "String(Array.rev ((s \"abc\").ToCharArray()))",
+          "status": "pass",
+          "net": "cba"
+        },
+        {
+          "name": "string.ctor.repeat",
+          "code": "String('x', n 3)",
+          "status": "pass",
+          "net": "xxx"
+        },
+        {
+          "name": "string.insert.remove",
+          "code": "(s \"abc\").Insert(1, \"XY\") + \",\" + (s \"abcdef\").Remove(1, 2)",
+          "status": "pass",
+          "net": "aXYbc,adef"
+        },
+        {
+          "name": "string.equality",
+          "code": "B (s \"abc\" = \"a\" + \"bc\") + \",\" + B (obj.ReferenceEquals(s \"abc\", \"a\" + s \"bc\"))",
+          "status": "known",
+          "net": "true,false",
+          "js": "true,true"
+        },
+        {
+          "name": "string.module.concat",
+          "code": "String.concat \", \" [ \"a\"; \"b\" ]",
+          "status": "pass",
+          "net": "a, b"
+        },
+        {
+          "name": "string.module.map",
+          "code": "String.map Char.ToUpper (s \"abc\")",
+          "status": "unsupported",
+          "net": "ABC",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "string.module.collect",
+          "code": "String.collect (fun c -> string c + string c) (s \"ab\")",
+          "status": "pass",
+          "net": "aabb"
+        },
+        {
+          "name": "string.module.init",
+          "code": "String.init 3 (fun i -> string i)",
+          "status": "pass",
+          "net": "012"
+        },
+        {
+          "name": "string.module.replicate",
+          "code": "String.replicate 3 (s \"ab\")",
+          "status": "pass",
+          "net": "ababab"
+        },
+        {
+          "name": "string.module.forall",
+          "code": "B (String.forall Char.IsDigit (s \"123\")) + \",\" + B (String.exists Char.IsUpper (s \"abC\"))",
+          "status": "pass",
+          "net": "true,true"
+        },
+        {
+          "name": "string.module.filter",
+          "code": "String.filter Char.IsLetter (s \"a1b2\")",
+          "status": "pass",
+          "net": "ab"
+        },
+        {
+          "name": "string.module.length.null",
+          "code": "string (String.length null)",
+          "status": "pass",
+          "net": "0"
+        },
+        {
+          "name": "string.seq",
+          "code": "J (s \"abc\" |> Seq.map string |> Seq.rev)",
+          "status": "pass",
+          "net": "[c,b,a]"
+        },
+        {
+          "name": "string.toCharArray",
+          "code": "string ((s \"abc\").ToCharArray().Length)",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "char.tests",
+          "code": "B (Char.IsDigit '5') + \",\" + B (Char.IsLetter 'é') + \",\" + B (Char.IsWhiteSpace '\\t') + \",\" + B (Char.IsUpper 'A')",
+          "status": "mismatch",
+          "net": "true,true,true,true",
+          "js": "true,false,true,true"
+        },
+        {
+          "name": "char.unicode.upper",
+          "code": "string (Char.ToUpper 'ß') + \",\" + (s \"straße\").ToUpper()",
+          "status": "unsupported",
+          "net": "ß,STRAßE",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "char.surrogate.length",
+          "code": "string (s \"😀\").Length",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "stringbuilder",
+          "code": "let sb = StringBuilder() in sb.Append(\"a\").Append(1).Append('c') |> ignore; sb.ToString()",
+          "status": "pass",
+          "net": "a1c"
+        },
+        {
+          "name": "stringbuilder.appendline",
+          "code": "let sb = StringBuilder() in sb.AppendLine(\"a\") |> ignore; string sb.Length",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "interp.basic",
+          "code": "let x = n 3 in $\"x={x}\"",
+          "status": "pass",
+          "net": "x=3"
+        },
+        {
+          "name": "interp.adjacent",
+          "code": "let a, b = n 1, n 2 in $\"{a}{b}\"",
+          "status": "pass",
+          "net": "12"
+        },
+        {
+          "name": "interp.typed",
+          "code": "let x = n 3 in $\"%d{x}|%5d{x}|%-3d{x}|\"",
+          "status": "unsupported",
+          "net": "3|    3|3  |",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "interp.format",
+          "code": "let x = 3.14159 in $\"{x:F2}\"",
+          "status": "unsupported",
+          "net": "3.14",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "interp.float",
+          "code": "let x = 2.0 in $\"{x}\"",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "interp.string",
+          "code": "let x = s \"q\" in $\"[%s{x}]\"",
+          "status": "pass",
+          "net": "[q]"
+        },
+        {
+          "name": "interp.verbatim",
+          "code": "let x = n 1 in $\"\"\"{x} \"quoted\" \"\"\"",
+          "status": "pass",
+          "net": "1 \"quoted\" "
+        },
+        {
+          "name": "escape.sequences",
+          "code": "string (s \"a\\tb\\n\").Length",
+          "status": "pass",
+          "net": "4"
+        },
+        {
+          "name": "triple.quoted",
+          "code": "\"\"\"a\"b\"\"\"",
+          "status": "pass",
+          "net": "a\"b"
+        },
+        {
+          "name": "sprintf.d",
+          "code": "sprintf \"%d|%i|%5d|%-5d|%05d\" (n 42) (n 42) (n 42) (n 42) (n 42)",
+          "status": "pass",
+          "net": "42|42|   42|42   |00042"
+        },
+        {
+          "name": "sprintf.d.negative",
+          "code": "sprintf \"%05d|%+d\" (n -42) (n 42)",
+          "status": "pass",
+          "net": "-0042|+42"
+        },
+        {
+          "name": "sprintf.s",
+          "code": "sprintf \"[%s][%5s][%-5s]\" \"ab\" \"ab\" \"ab\"",
+          "status": "pass",
+          "net": "[ab][   ab][ab   ]"
+        },
+        {
+          "name": "sprintf.s.null",
+          "code": "sprintf \"[%s]\" (null: string)",
+          "status": "pass",
+          "net": "[]"
+        },
+        {
+          "name": "sprintf.f",
+          "code": "sprintf \"%f|%.2f|%8.3f|%-8.1f|\" 3.14159 3.14159 3.14159 3.14159",
+          "status": "pass",
+          "net": "3.141590|3.14|   3.142|3.1     |"
+        },
+        {
+          "name": "sprintf.f.rounding",
+          "code": "sprintf \"%.0f|%.0f|%.1f\" 0.5 1.5 0.25",
+          "status": "mismatch",
+          "net": "0|2|0.2",
+          "js": "1|2|0.3"
+        },
+        {
+          "name": "sprintf.e",
+          "code": "sprintf \"%e|%.2e\" 12345.678 12345.678",
+          "status": "mismatch",
+          "net": "1.234568e+004|1.23e+004",
+          "js": "1.2345678e+4|1.2345678e+4"
+        },
+        {
+          "name": "sprintf.g",
+          "code": "sprintf \"%g|%g|%g\" 0.0001 123456789.0 1.5",
+          "status": "unsupported",
+          "net": "0.0001|1.23457e+08|1.5",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "sprintf.x",
+          "code": "sprintf \"%x|%X|%04x|%o\" (n 255) (n 255) (n 255) (n 8)",
+          "status": "pass",
+          "net": "ff|FF|00ff|10"
+        },
+        {
+          "name": "sprintf.x.negative",
+          "code": "sprintf \"%x\" (n -1)",
+          "status": "pass",
+          "net": "ffffffff"
+        },
+        {
+          "name": "sprintf.c",
+          "code": "sprintf \"%c%c\" 'o' 'k'",
+          "status": "pass",
+          "net": "ok"
+        },
+        {
+          "name": "sprintf.b",
+          "code": "sprintf \"%b|%b\" true false",
+          "status": "pass",
+          "net": "true|false"
+        },
+        {
+          "name": "sprintf.percent",
+          "code": "sprintf \"100%%\"",
+          "status": "pass",
+          "net": "100%"
+        },
+        {
+          "name": "sprintf.star",
+          "code": "sprintf \"%*d|%.*f\" 5 (n 42) 2 3.14159",
+          "status": "mismatch",
+          "net": "   42|3.14",
+          "js": "   42|2.000"
+        },
+        {
+          "name": "sprintf.O",
+          "code": "sprintf \"%O|%O\" (n 1) \"s\"",
+          "status": "pass",
+          "net": "1|s"
+        },
+        {
+          "name": "sprintf.A.int",
+          "code": "sprintf \"%A\" (n 42)",
+          "status": "pass",
+          "net": "42"
+        },
+        {
+          "name": "sprintf.A.string",
+          "code": "sprintf \"%A\" \"hi\"",
+          "status": "pass",
+          "net": "\"hi\""
+        },
+        {
+          "name": "sprintf.A.float",
+          "code": "sprintf \"%A|%A|%A\" 1.0 1.5 nan",
+          "status": "mismatch",
+          "net": "1.0|1.5|nan",
+          "js": "1|1.5|NaN"
+        },
+        {
+          "name": "sprintf.A.list",
+          "code": "sprintf \"%A\" [ 1; 2; 3 ]",
+          "status": "pass",
+          "net": "[1; 2; 3]"
+        },
+        {
+          "name": "sprintf.A.array",
+          "code": "sprintf \"%A\" [| 1; 2 |]",
+          "status": "pass",
+          "net": "[|1; 2|]"
+        },
+        {
+          "name": "sprintf.A.tuple",
+          "code": "sprintf \"%A\" (1, \"a\", true)",
+          "status": "pass",
+          "net": "(1, \"a\", true)"
+        },
+        {
+          "name": "sprintf.A.option",
+          "code": "sprintf \"%A|%A\" (Some 1) (None: int option)",
+          "status": "mismatch",
+          "net": "Some 1|None",
+          "js": "Some 1|null"
+        },
+        {
+          "name": "sprintf.A.record",
+          "code": "sprintf \"%A\" { Name = \"Ann\"; Age = 30 }",
+          "status": "mismatch",
+          "net": "{ Name = \"Ann\"\\n  Age = 30 }",
+          "js": "{Name = \"Ann\"; Age = 30}"
+        },
+        {
+          "name": "sprintf.A.union",
+          "code": "sprintf \"%A|%A|%A\" UA (UB 1) (UC (\"x\", 2.5))",
+          "status": "pass",
+          "net": "UA|UB 1|UC (\"x\", 2.5)"
+        },
+        {
+          "name": "sprintf.A.nested",
+          "code": "sprintf \"%A\" [ Some (1, \"a\") ]",
+          "status": "pass",
+          "net": "[Some (1, \"a\")]"
+        },
+        {
+          "name": "sprintf.A.char",
+          "code": "sprintf \"%A\" 'c'",
+          "status": "mismatch",
+          "net": "'c'",
+          "js": "\"c\""
+        },
+        {
+          "name": "sprintf.A.unit",
+          "code": "sprintf \"%A\" ()",
+          "status": "mismatch",
+          "net": "()",
+          "js": "null"
+        },
+        {
+          "name": "sprintf.A.map",
+          "code": "sprintf \"%A\" (Map.ofList [ 1, \"a\" ])",
+          "status": "mismatch",
+          "net": "map [(1, \"a\")]",
+          "js": "{tree = {Node = {Key = 1; Value = \"a\"}; Left = null; Right = null; Height = 1; Count = 1}}"
+        },
+        {
+          "name": "sprintf.partial",
+          "code": "let f = sprintf \"%d-%s\" in f 1 \"a\" + \",\" + f 2 \"b\"",
+          "status": "pass",
+          "net": "1-a,2-b"
+        },
+        {
+          "name": "sprintf.int64",
+          "code": "sprintf \"%d\" 9007199254740993L",
+          "status": "pass",
+          "net": "9007199254740993"
+        },
+        {
+          "name": "sprintf.u",
+          "code": "sprintf \"%u\" 4294967295u",
+          "status": "unsupported",
+          "net": "4294967295",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "sprintf.M",
+          "code": "sprintf \"%M\" 1.50M",
+          "status": "known",
+          "net": "1.50",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "failwithf",
+          "code": "try failwithf \"bad %d\" (n 7) with e -> e.Message",
+          "status": "pass",
+          "net": "bad 7"
+        },
+        {
+          "name": "string.format",
+          "code": "String.Format(\"{0}-{1}\", n 1, \"a\")",
+          "status": "pass",
+          "net": "1-a"
+        },
+        {
+          "name": "string.format.align",
+          "code": "String.Format(\"[{0,5}][{0,-5}]\", n 42)",
+          "status": "pass",
+          "net": "[   42][42   ]"
+        },
+        {
+          "name": "string.format.spec",
+          "code": "String.Format(\"{0:F1}|{0:N0}|{1:X2}\", 1234.56, n 10)",
+          "status": "pass",
+          "net": "1234.6|1,235|0A"
+        },
+        {
+          "name": "string.format.escape",
+          "code": "String.Format(\"{{{0}}}\", n 1)",
+          "status": "pass",
+          "net": "{1}"
+        },
+        {
+          "name": "record.tostring",
+          "code": "string { Name = \"Ann\"; Age = 30 }",
+          "status": "mismatch",
+          "net": "{ Name = \"Ann\"\\n  Age = 30 }",
+          "js": "[object Object]"
+        },
+        {
+          "name": "union.tostring",
+          "code": "string (UB 1) + \"|\" + string UA",
+          "status": "mismatch",
+          "net": "UB 1|UA",
+          "js": "[object Object]|[object Object]"
+        }
+      ],
+      "total": 100,
+      "pass": 73
+    },
+    {
+      "id": "collections",
+      "name": "Lists, arrays and sequences",
+      "cases": [
+        {
+          "name": "list.basics",
+          "code": "string (List.length (l ())) + \",\" + string (List.head (l ())) + \",\" + Ji (List.tail (l ()))",
+          "status": "pass",
+          "net": "8,3,[1,4,1,5,9,2,6]"
+        },
+        {
+          "name": "list.head.empty",
+          "code": "string (List.head (e ()))",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "list.cons.append",
+          "code": "Ji (0 :: [ 1 ] @ [ 2; 3 ])",
+          "status": "pass",
+          "net": "[0,1,2,3]"
+        },
+        {
+          "name": "list.map.filter",
+          "code": "Ji (l () |> List.filter (fun x -> x % 2 = 1) |> List.map (fun x -> x * 10))",
+          "status": "pass",
+          "net": "[30,10,10,50,90]"
+        },
+        {
+          "name": "list.sort",
+          "code": "Ji (List.sort (l ())) + Ji (List.sortDescending (l ()))",
+          "status": "pass",
+          "net": "[1,1,2,3,4,5,6,9][9,6,5,4,3,2,1,1]"
+        },
+        {
+          "name": "list.sort.stable",
+          "code": "J ([ \"bb\"; \"a\"; \"cc\"; \"d\" ] |> List.sortBy String.length)",
+          "status": "pass",
+          "net": "[a,d,bb,cc]"
+        },
+        {
+          "name": "list.sortwith",
+          "code": "Ji (List.sortWith (fun a b -> compare b a) (l ()))",
+          "status": "pass",
+          "net": "[9,6,5,4,3,2,1,1]"
+        },
+        {
+          "name": "list.fold",
+          "code": "string (List.fold (fun acc x -> acc * 10 + x) 0 [ 1; 2; 3 ]) + \",\" + string (List.foldBack (fun x acc -> acc * 10 + x) [ 1; 2; 3 ] 0)",
+          "status": "pass",
+          "net": "123,321"
+        },
+        {
+          "name": "list.reduce",
+          "code": "string (List.reduce (-) [ 10; 2; 3 ]) + \",\" + string (List.reduceBack (-) [ 10; 2; 3 ])",
+          "status": "pass",
+          "net": "5,11"
+        },
+        {
+          "name": "list.reduce.empty",
+          "code": "string (List.reduce (+) (e ()))",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "list.scan",
+          "code": "Ji (List.scan (+) 0 [ 1; 2; 3 ])",
+          "status": "pass",
+          "net": "[0,1,3,6]"
+        },
+        {
+          "name": "list.sum.average",
+          "code": "string (List.sum (l ())) + \",\" + string (List.average [ 1.0; 2.0 ]) + \",\" + string (List.sumBy float [ 1; 2 ])",
+          "status": "pass",
+          "net": "31,1.5,3"
+        },
+        {
+          "name": "list.average.empty",
+          "code": "string (List.average ([]: float list))",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "list.minmax",
+          "code": "string (List.max (l ())) + \",\" + string (List.min (l ())) + \",\" + string (List.maxBy (fun x -> -x) (l ()))",
+          "status": "pass",
+          "net": "9,1,1"
+        },
+        {
+          "name": "list.distinct",
+          "code": "Ji (List.distinct (l ())) + Ji (List.distinctBy (fun x -> x % 3) (l ()))",
+          "status": "pass",
+          "net": "[3,1,4,5,9,2,6][3,1,5]"
+        },
+        {
+          "name": "list.groupby",
+          "code": "J (l () |> List.groupBy (fun x -> x % 3) |> List.map (fun (k, xs) -> string k + \":\" + Ji xs))",
+          "status": "pass",
+          "net": "[0:[3,9,6],1:[1,4,1],2:[5,2]]"
+        },
+        {
+          "name": "list.countby",
+          "code": "J (l () |> List.countBy (fun x -> x > 3) |> List.map (fun (k, c) -> string k + \":\" + string c))",
+          "status": "mismatch",
+          "net": "[False:4,True:4]",
+          "js": "[false:4,true:4]"
+        },
+        {
+          "name": "list.partition",
+          "code": "let a, b = List.partition (fun x -> x > 3) (l ()) in Ji a + Ji b",
+          "status": "pass",
+          "net": "[4,5,9,6][3,1,1,2]"
+        },
+        {
+          "name": "list.chunk",
+          "code": "J (List.chunkBySize 3 (l ()) |> List.map Ji)",
+          "status": "pass",
+          "net": "[[3,1,4],[1,5,9],[2,6]]"
+        },
+        {
+          "name": "list.windowed",
+          "code": "J (List.windowed 3 [ 1; 2; 3; 4 ] |> List.map Ji)",
+          "status": "pass",
+          "net": "[[1,2,3],[2,3,4]]"
+        },
+        {
+          "name": "list.pairwise",
+          "code": "J (List.pairwise [ 1; 2; 3 ] |> List.map (fun (a, b) -> string a + string b))",
+          "status": "pass",
+          "net": "[12,23]"
+        },
+        {
+          "name": "list.zip",
+          "code": "J (List.zip [ 1; 2 ] [ \"a\"; \"b\" ] |> List.map (fun (a, b) -> string a + b))",
+          "status": "pass",
+          "net": "[1a,2b]"
+        },
+        {
+          "name": "list.zip.mismatch",
+          "code": "string (List.length (List.zip [ 1; 2 ] [ \"a\" ]))",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "list.unzip",
+          "code": "let a, b = List.unzip [ 1, \"a\"; 2, \"b\" ] in Ji a + J b",
+          "status": "pass",
+          "net": "[1,2][a,b]"
+        },
+        {
+          "name": "list.collect",
+          "code": "Ji (List.collect (fun x -> [ x; x ]) [ 1; 2 ])",
+          "status": "pass",
+          "net": "[1,1,2,2]"
+        },
+        {
+          "name": "list.choose",
+          "code": "Ji (List.choose (fun x -> if x > 3 then Some (x * 2) else None) (l ()))",
+          "status": "pass",
+          "net": "[8,10,18,12]"
+        },
+        {
+          "name": "list.find",
+          "code": "string (List.find (fun x -> x > 4) (l ())) + \",\" + string (List.findIndex (fun x -> x > 4) (l ())) + \",\" + string (List.findBack (fun x -> x < 3) (l ()))",
+          "status": "pass",
+          "net": "5,4,2"
+        },
+        {
+          "name": "list.find.missing",
+          "code": "string (List.find (fun x -> x > 100) (l ()))",
+          "status": "mismatch",
+          "net": "EXN KeyNotFound",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "list.tryfind",
+          "code": "string (List.tryFind (fun x -> x > 100) (l ())) + \",\" + string (List.tryFindIndex (fun x -> x = 5) (l ()))",
+          "status": "mismatch",
+          "net": ",Some(4)",
+          "js": "null,[object Object]"
+        },
+        {
+          "name": "list.pick",
+          "code": "string (List.pick (fun x -> if x > 4 then Some (x * 100) else None) (l ()))",
+          "status": "pass",
+          "net": "500"
+        },
+        {
+          "name": "list.exists",
+          "code": "B (List.exists ((=) 9) (l ())) + \",\" + B (List.forall (fun x -> x > 0) (l ())) + \",\" + B (List.contains 7 (l ()))",
+          "status": "pass",
+          "net": "true,true,false"
+        },
+        {
+          "name": "list.take.skip",
+          "code": "Ji (List.take 2 (l ())) + Ji (List.skip 6 (l ())) + Ji (List.truncate 20 [ 1 ])",
+          "status": "pass",
+          "net": "[3,1][2,6][1]"
+        },
+        {
+          "name": "list.take.too.many",
+          "code": "Ji (List.take 20 (l ()))",
+          "status": "mismatch",
+          "net": "EXN InvalidOperation",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "list.takewhile",
+          "code": "Ji (List.takeWhile (fun x -> x > 2) (l ())) + Ji (List.skipWhile (fun x -> x > 2) (l ()))",
+          "status": "pass",
+          "net": "[3][1,4,1,5,9,2,6]"
+        },
+        {
+          "name": "list.item",
+          "code": "string (List.item 2 (l ())) + \",\" + string (l ()).[3]",
+          "status": "pass",
+          "net": "4,1"
+        },
+        {
+          "name": "list.item.out.of.range",
+          "code": "string (List.item 20 (l ()))",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "list.last",
+          "code": "string (List.last (l ())) + \",\" + string (List.tryLast (e ()))",
+          "status": "mismatch",
+          "net": "6,",
+          "js": "6,null"
+        },
+        {
+          "name": "list.rev",
+          "code": "Ji (List.rev [ 1; 2; 3 ])",
+          "status": "pass",
+          "net": "[3,2,1]"
+        },
+        {
+          "name": "list.init.replicate",
+          "code": "Ji (List.init 3 (fun i -> i * i)) + Ji (List.replicate 2 7)",
+          "status": "pass",
+          "net": "[0,1,4][7,7]"
+        },
+        {
+          "name": "list.mapi.indexed",
+          "code": "J (List.mapi (fun i x -> string i + \"=\" + string x) [ 5; 6 ]) + J (List.indexed [ 'a' ] |> List.map string)",
+          "status": "mismatch",
+          "net": "[0=5,1=6][(0, a)]",
+          "js": "[0=5,1=6][0,a]"
+        },
+        {
+          "name": "list.map2.map3",
+          "code": "Ji (List.map2 (+) [ 1; 2 ] [ 10; 20 ]) + Ji (List.map3 (fun a b c -> a + b + c) [ 1 ] [ 2 ] [ 3 ])",
+          "status": "pass",
+          "net": "[11,22][6]"
+        },
+        {
+          "name": "list.iter",
+          "code": "let mutable s = \"\" in List.iteri (fun i x -> s <- s + string i + string x) [ 7; 8 ]; s",
+          "status": "pass",
+          "net": "0718"
+        },
+        {
+          "name": "list.except",
+          "code": "Ji (List.except [ 1; 5 ] (l ()))",
+          "status": "pass",
+          "net": "[3,4,9,2,6]"
+        },
+        {
+          "name": "list.splitat",
+          "code": "let a, b = List.splitAt 3 (l ()) in Ji a + Ji b",
+          "status": "pass",
+          "net": "[3,1,4][1,5,9,2,6]"
+        },
+        {
+          "name": "list.allpairs",
+          "code": "J (List.allPairs [ 1; 2 ] [ 'a'; 'b' ] |> List.map (fun (a, b) -> string a + string b))",
+          "status": "pass",
+          "net": "[1a,1b,2a,2b]"
+        },
+        {
+          "name": "list.transpose",
+          "code": "J (List.transpose [ [ 1; 2 ]; [ 3; 4 ] ] |> List.map Ji)",
+          "status": "pass",
+          "net": "[[1,3],[2,4]]"
+        },
+        {
+          "name": "list.unfold",
+          "code": "Ji (List.unfold (fun x -> if x > 20 then None else Some (x, x * 2)) 1)",
+          "status": "pass",
+          "net": "[1,2,4,8,16]"
+        },
+        {
+          "name": "list.mapfold",
+          "code": "let r, s = List.mapFold (fun acc x -> x * 2, acc + x) 0 [ 1; 2; 3 ] in Ji r + string s",
+          "status": "pass",
+          "net": "[2,4,6]6"
+        },
+        {
+          "name": "list.equality",
+          "code": "B ([ 1; 2 ] = [ 1; 2 ]) + \",\" + B ([ 1; 2 ] < [ 1; 3 ]) + \",\" + string (compare [ 1; 2 ] [ 1 ])",
+          "status": "pass",
+          "net": "true,true,1"
+        },
+        {
+          "name": "list.comprehension",
+          "code": "Ji [ for x in 1 .. 4 do if x % 2 = 0 then yield x * x ]",
+          "status": "pass",
+          "net": "[4,16]"
+        },
+        {
+          "name": "list.comprehension.nested",
+          "code": "J [ for a in 1 .. 2 do for b in [ \"x\"; \"y\" ] -> string a + b ]",
+          "status": "pass",
+          "net": "[1x,1y,2x,2y]"
+        },
+        {
+          "name": "list.updateat",
+          "code": "Ji (List.updateAt 1 9 [ 1; 2; 3 ]) + Ji (List.insertAt 0 0 [ 1 ]) + Ji (List.removeAt 0 [ 1; 2 ])",
+          "status": "pass",
+          "net": "[1,9,3][0,1][2]"
+        },
+        {
+          "name": "list.exactlyone",
+          "code": "string (List.exactlyOne [ 4 ]) + \",\" + string (List.tryExactlyOne [ 1; 2 ])",
+          "status": "mismatch",
+          "net": "4,",
+          "js": "4,null"
+        },
+        {
+          "name": "list.randomless.permute",
+          "code": "Ji (List.permute (fun i -> (i + 1) % 3) [ 1; 2; 3 ])",
+          "status": "pass",
+          "net": "[3,1,2]"
+        },
+        {
+          "name": "array.basics",
+          "code": "let x = a () in x.[0] <- 9; Ji x + string x.Length",
+          "status": "pass",
+          "net": "[9,1,4,1,5]5"
+        },
+        {
+          "name": "array.index.out.of.range",
+          "code": "string (a ()).[10]",
+          "status": "mismatch",
+          "net": "EXN IndexOutOfRange",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "array.set.out.of.range",
+          "code": "let x = a () in x.[10] <- 1; \"set\"",
+          "status": "mismatch",
+          "net": "EXN IndexOutOfRange",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "array.slice",
+          "code": "Ji (a ()).[1..2] + Ji (a ()).[3..] + Ji (a ()).[..0]",
+          "status": "pass",
+          "net": "[1,4][1,5][3]"
+        },
+        {
+          "name": "array.slice.empty",
+          "code": "Ji (a ()).[3..1]",
+          "status": "pass",
+          "net": "[]"
+        },
+        {
+          "name": "array.create.zero",
+          "code": "Ji (Array.zeroCreate 3) + J (Array.create 2 \"x\")",
+          "status": "pass",
+          "net": "[0,0,0][x,x]"
+        },
+        {
+          "name": "array.zerocreate.string",
+          "code": "let x : string[] = Array.zeroCreate 1 in B (isNull x.[0])",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "array.sort.inplace",
+          "code": "let x = a () in Array.sortInPlace x; Ji x",
+          "status": "pass",
+          "net": "[1,1,3,4,5]"
+        },
+        {
+          "name": "array.sort.copy",
+          "code": "let x = a () in let y = Array.sort x in Ji x + Ji y",
+          "status": "pass",
+          "net": "[3,1,4,1,5][1,1,3,4,5]"
+        },
+        {
+          "name": "array.map.filter",
+          "code": "Ji (a () |> Array.filter (fun x -> x > 1) |> Array.map (fun x -> x + 1))",
+          "status": "pass",
+          "net": "[4,5,6]"
+        },
+        {
+          "name": "array.fold",
+          "code": "string (Array.fold (+) 0 (a ())) + \",\" + string (Array.sum (a ()))",
+          "status": "pass",
+          "net": "14,14"
+        },
+        {
+          "name": "array.blit",
+          "code": "let x = a () in Array.blit [| 7; 8 |] 0 x 1 2; Ji x",
+          "status": "pass",
+          "net": "[3,7,8,1,5]"
+        },
+        {
+          "name": "array.blit.bad",
+          "code": "let x = a () in Array.blit [| 7; 8 |] 0 x 4 2; Ji x",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "array.fill",
+          "code": "let x = a () in Array.fill x 1 2 0; Ji x",
+          "status": "pass",
+          "net": "[3,0,0,1,5]"
+        },
+        {
+          "name": "array.append.concat",
+          "code": "Ji (Array.append [| 1 |] [| 2 |]) + Ji (Array.concat [ [| 1 |]; [| 2; 3 |] ])",
+          "status": "pass",
+          "net": "[1,2][1,2,3]"
+        },
+        {
+          "name": "array.copy.independent",
+          "code": "let x = a () in let y = Array.copy x in y.[0] <- 0; string x.[0]",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "array.rev",
+          "code": "Ji (Array.rev (a ()))",
+          "status": "pass",
+          "net": "[5,1,4,1,3]"
+        },
+        {
+          "name": "array.equality",
+          "code": "B ([| 1; 2 |] = [| 1; 2 |]) + \",\" + B (obj.ReferenceEquals([| 1 |], [| 1 |]))",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "array.compare",
+          "code": "string (compare [| 1; 2 |] [| 1; 3 |]) + \",\" + string (compare [| 1; 2; 3 |] [| 2 |])",
+          "status": "pass",
+          "net": "-1,1"
+        },
+        {
+          "name": "array.hash.equal",
+          "code": "B (hash [| 1; 2 |] = hash [| 1; 2 |])",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "array.contains",
+          "code": "B (Array.contains 4 (a ())) + \",\" + string (Array.IndexOf(a (), 1))",
+          "status": "pass",
+          "net": "true,1"
+        },
+        {
+          "name": "array.init",
+          "code": "Ji (Array.init 4 (fun i -> i * 2))",
+          "status": "pass",
+          "net": "[0,2,4,6]"
+        },
+        {
+          "name": "array.binarysearch",
+          "code": "string (Array.BinarySearch([| 1; 3; 5; 7 |], 5))",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "array.resize",
+          "code": "let mutable x = [| 1; 2 |] in Array.Resize(&x, 4); Ji x",
+          "status": "pass",
+          "net": "[1,2,0,0]"
+        },
+        {
+          "name": "array.reverse.inplace",
+          "code": "let x = a () in Array.Reverse x; Ji x",
+          "status": "pass",
+          "net": "[5,1,4,1,3]"
+        },
+        {
+          "name": "array.sortby.inplace",
+          "code": "let x = [| \"bb\"; \"a\"; \"ccc\" |] in Array.sortInPlaceBy String.length x; J x",
+          "status": "pass",
+          "net": "[a,bb,ccc]"
+        },
+        {
+          "name": "array.choose.pick",
+          "code": "Ji (Array.choose (fun x -> if x > 2 then Some x else None) (a ()))",
+          "status": "pass",
+          "net": "[3,4,5]"
+        },
+        {
+          "name": "array.partition",
+          "code": "let p, q = Array.partition (fun x -> x > 2) (a ()) in Ji p + Ji q",
+          "status": "pass",
+          "net": "[3,4,5][1,1]"
+        },
+        {
+          "name": "array.sub",
+          "code": "Ji (Array.sub (a ()) 1 3)",
+          "status": "pass",
+          "net": "[1,4,1]"
+        },
+        {
+          "name": "array.sub.bad",
+          "code": "Ji (Array.sub (a ()) 3 5)",
+          "status": "mismatch",
+          "net": "EXN ArgumentOutOfRange",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "array.max.empty",
+          "code": "string (Array.max ([||]: int[]))",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "array.2d",
+          "code": "let m = Array2D.init 2 3 (fun i j -> i * 10 + j) in string m.[1, 2] + \",\" + string (Array2D.length1 m) + \",\" + string (Array2D.length2 m)",
+          "status": "pass",
+          "net": "12,2,3"
+        },
+        {
+          "name": "array.2d.set",
+          "code": "let m = Array2D.zeroCreate 2 2 in m.[1, 1] <- 5; string (m.[1, 1] + m.[0, 0])",
+          "status": "pass",
+          "net": "5"
+        },
+        {
+          "name": "array.jagged",
+          "code": "let m = [| [| 1 |]; [| 2; 3 |] |] in string m.[1].[1]",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "array.comprehension",
+          "code": "Ji [| for i in 0 .. 3 -> i * i |]",
+          "status": "pass",
+          "net": "[0,1,4,9]"
+        },
+        {
+          "name": "array.for.in",
+          "code": "let mutable s = 0 in (for x in a () do s <- s + x); string s",
+          "status": "pass",
+          "net": "14"
+        },
+        {
+          "name": "seq.lazy",
+          "code": "let mutable n = 0 in let s = Seq.map (fun x -> n <- n + 1; x) [ 1; 2; 3 ] in let _ = Seq.head s in string n",
+          "status": "pass",
+          "net": "1"
+        },
+        {
+          "name": "seq.reevaluates",
+          "code": "let mutable n = 0 in let s = seq { n <- n + 1; yield n } in string (Seq.head s) + string (Seq.head s)",
+          "status": "pass",
+          "net": "12"
+        },
+        {
+          "name": "seq.cache",
+          "code": "let mutable n = 0 in let s = Seq.cache (seq { n <- n + 1; yield n }) in string (Seq.head s) + string (Seq.head s)",
+          "status": "pass",
+          "net": "11"
+        },
+        {
+          "name": "seq.infinite",
+          "code": "Ji (Seq.initInfinite (fun i -> i * 3) |> Seq.take 4)",
+          "status": "pass",
+          "net": "[0,3,6,9]"
+        },
+        {
+          "name": "seq.expression",
+          "code": "Ji (seq { yield 1; yield! [ 2; 3 ]; for i in 4 .. 5 do yield i })",
+          "status": "pass",
+          "net": "[1,2,3,4,5]"
+        },
+        {
+          "name": "seq.while",
+          "code": "Ji (seq { let mutable i = 0 in while i < 3 do yield i; i <- i + 1 })",
+          "status": "pass",
+          "net": "[0,1,2]"
+        },
+        {
+          "name": "seq.tryfinally",
+          "code": "let mutable log = \"\" in (for x in seq { try yield 1; yield 2 finally log <- log + \"F\" } do log <- log + string x); log",
+          "status": "pass",
+          "net": "12F"
+        },
+        {
+          "name": "seq.use.dispose",
+          "code": "let mutable log = \"\" in let d = { new IDisposable with member _.Dispose() = log <- log + \"D\" } in (for x in seq { use _ = d in yield 1 } do log <- log + string x); log",
+          "status": "pass",
+          "net": "1D"
+        },
+        {
+          "name": "seq.take.too.many",
+          "code": "Ji (Seq.take 5 [ 1; 2 ])",
+          "status": "mismatch",
+          "net": "EXN InvalidOperation",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "seq.truncate",
+          "code": "Ji (Seq.truncate 5 [ 1; 2 ])",
+          "status": "pass",
+          "net": "[1,2]"
+        },
+        {
+          "name": "seq.skip.too.many",
+          "code": "Ji (Seq.skip 5 [ 1; 2 ])",
+          "status": "mismatch",
+          "net": "EXN InvalidOperation",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "seq.head.empty",
+          "code": "string (Seq.head Seq.empty<int>)",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "seq.zip",
+          "code": "J (Seq.zip [ 1; 2; 3 ] [ \"a\"; \"b\" ] |> Seq.map (fun (a, b) -> string a + b))",
+          "status": "pass",
+          "net": "[1a,2b]"
+        },
+        {
+          "name": "seq.sortby",
+          "code": "Ji (Seq.sortBy (fun x -> -x) [ 1; 3; 2 ])",
+          "status": "pass",
+          "net": "[3,2,1]"
+        },
+        {
+          "name": "seq.groupby",
+          "code": "J (Seq.groupBy (fun x -> x % 2) [ 1; 2; 3; 4 ] |> Seq.map (fun (k, xs) -> string k + \":\" + Ji xs))",
+          "status": "pass",
+          "net": "[1:[1,3],0:[2,4]]"
+        },
+        {
+          "name": "seq.distinct",
+          "code": "Ji (Seq.distinct [ 3; 1; 3; 2; 1 ])",
+          "status": "pass",
+          "net": "[3,1,2]"
+        },
+        {
+          "name": "seq.compare",
+          "code": "string (Seq.compareWith compare [ 1; 2 ] [ 1; 3 ])",
+          "status": "pass",
+          "net": "-1"
+        },
+        {
+          "name": "seq.length",
+          "code": "string (Seq.length (seq { 1 .. 10 }))",
+          "status": "pass",
+          "net": "10"
+        },
+        {
+          "name": "seq.sum.empty",
+          "code": "string (Seq.sum Seq.empty<int>)",
+          "status": "pass",
+          "net": "0"
+        },
+        {
+          "name": "seq.average.empty",
+          "code": "string (Seq.average Seq.empty<float>)",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "seq.item",
+          "code": "string (Seq.item 2 [ 5; 6; 7 ])",
+          "status": "pass",
+          "net": "7"
+        },
+        {
+          "name": "seq.item.missing",
+          "code": "string (Seq.item 5 [ 5; 6; 7 ])",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "seq.chunk",
+          "code": "J (Seq.chunkBySize 2 [ 1; 2; 3 ] |> Seq.map Ji)",
+          "status": "pass",
+          "net": "[[1,2],[3]]"
+        },
+        {
+          "name": "seq.windowed",
+          "code": "J (Seq.windowed 2 [ 1; 2; 3 ] |> Seq.map Ji)",
+          "status": "pass",
+          "net": "[[1,2],[2,3]]"
+        },
+        {
+          "name": "seq.pairwise",
+          "code": "J (Seq.pairwise [ 1; 2; 3 ] |> Seq.map (fun (a, b) -> string (a * b)))",
+          "status": "pass",
+          "net": "[2,6]"
+        },
+        {
+          "name": "seq.append",
+          "code": "Ji (Seq.append [ 1 ] [ 2 ] |> Seq.append [ 0 ])",
+          "status": "pass",
+          "net": "[0,1,2]"
+        },
+        {
+          "name": "seq.concat",
+          "code": "Ji (Seq.concat [ [ 1 ]; []; [ 2; 3 ] ])",
+          "status": "pass",
+          "net": "[1,2,3]"
+        },
+        {
+          "name": "seq.unfold",
+          "code": "Ji (Seq.unfold (fun (a, b) -> if a > 20 then None else Some (a, (b, a + b))) (0, 1))",
+          "status": "pass",
+          "net": "[0,1,1,2,3,5,8,13]"
+        },
+        {
+          "name": "seq.scan",
+          "code": "Ji (Seq.scan (+) 0 [ 1; 2; 3 ])",
+          "status": "pass",
+          "net": "[0,1,3,6]"
+        },
+        {
+          "name": "seq.exists",
+          "code": "B (Seq.exists (fun x -> x > 2) [ 1; 3 ]) + \",\" + B (Seq.forall2 (=) [ 1 ] [ 1 ])",
+          "status": "pass",
+          "net": "true,true"
+        },
+        {
+          "name": "seq.tolist.toarray",
+          "code": "string (List.length (Seq.toList (seq { 1 .. 3 }))) + string (Array.length (Seq.toArray [ 1 ]))",
+          "status": "pass",
+          "net": "31"
+        },
+        {
+          "name": "seq.range.empty",
+          "code": "Ji (seq { 5 .. 1 })",
+          "status": "pass",
+          "net": "[]"
+        },
+        {
+          "name": "seq.enumerator",
+          "code": "let e = (Seq.ofList [ 1; 2 ]).GetEnumerator() in let a = e.MoveNext() in B a + string e.Current",
+          "status": "pass",
+          "net": "true1"
+        },
+        {
+          "name": "seq.max.by",
+          "code": "string (Seq.maxBy String.length [ \"a\"; \"ccc\"; \"bb\" ])",
+          "status": "pass",
+          "net": "ccc"
+        },
+        {
+          "name": "seq.readonly",
+          "code": "Ji (Seq.readonly [| 1; 2 |])",
+          "status": "pass",
+          "net": "[1,2]"
+        },
+        {
+          "name": "seq.delay",
+          "code": "let mutable n = 0 in let s = Seq.delay (fun () -> n <- n + 1; Seq.singleton n) in string n + \",\" + Ji s",
+          "status": "pass",
+          "net": "0,[1]"
+        }
+      ],
+      "total": 126,
+      "pass": 104
+    },
+    {
+      "id": "maps",
+      "name": "Maps, sets and dictionaries",
+      "cases": [
+        {
+          "name": "map.sorted.keys",
+          "code": "J (m () |> Map.toList |> List.map kv)",
+          "status": "pass",
+          "net": "[1=a,2=b,3=c]"
+        },
+        {
+          "name": "map.string.keys",
+          "code": "J (Map.ofList [ \"b\", \"1\"; \"B\", \"2\"; \"a\", \"3\" ] |> Map.toList |> List.map kv)",
+          "status": "pass",
+          "net": "[B=2,a=3,b=1]"
+        },
+        {
+          "name": "map.find",
+          "code": "Map.find 2 (m ()) + \",\" + (m ()).[3]",
+          "status": "pass",
+          "net": "b,c"
+        },
+        {
+          "name": "map.find.missing",
+          "code": "Map.find 9 (m ())",
+          "status": "pass",
+          "net": "EXN KeyNotFound"
+        },
+        {
+          "name": "map.tryfind",
+          "code": "string (Map.tryFind 9 (m ())) + \",\" + string (Map.tryFind 1 (m ()))",
+          "status": "mismatch",
+          "net": ",Some(a)",
+          "js": "null,[object Object]"
+        },
+        {
+          "name": "map.add.replace",
+          "code": "J (m () |> Map.add 1 \"z\" |> Map.add 0 \"y\" |> Map.toList |> List.map kv)",
+          "status": "pass",
+          "net": "[0=y,1=z,2=b,3=c]"
+        },
+        {
+          "name": "map.remove",
+          "code": "J (m () |> Map.remove 2 |> Map.remove 9 |> Map.toList |> List.map kv)",
+          "status": "pass",
+          "net": "[1=a,3=c]"
+        },
+        {
+          "name": "map.count",
+          "code": "string (Map.count (m ())) + \",\" + string (m ()).Count + \",\" + B (Map.isEmpty Map.empty)",
+          "status": "pass",
+          "net": "3,3,true"
+        },
+        {
+          "name": "map.containskey",
+          "code": "B (Map.containsKey 1 (m ())) + \",\" + B ((m ()).ContainsKey 7)",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "map.fold",
+          "code": "Map.fold (fun s k v -> s + string k + v) \"\" (m ())",
+          "status": "pass",
+          "net": "1a2b3c"
+        },
+        {
+          "name": "map.foldback",
+          "code": "Map.foldBack (fun k v s -> s + string k + v) (m ()) \"\"",
+          "status": "pass",
+          "net": "3c2b1a"
+        },
+        {
+          "name": "map.map.filter",
+          "code": "J (m () |> Map.filter (fun k _ -> k > 1) |> Map.map (fun k v -> v + v) |> Map.toList |> List.map kv)",
+          "status": "pass",
+          "net": "[2=bb,3=cc]"
+        },
+        {
+          "name": "map.change",
+          "code": "J (m () |> Map.change 1 (Option.map (fun v -> v + \"!\")) |> Map.change 5 (fun _ -> Some \"e\") |> Map.toList |> List.map kv)",
+          "status": "pass",
+          "net": "[1=a!,2=b,3=c,5=e]"
+        },
+        {
+          "name": "map.equality",
+          "code": "B (Map.ofList [ 1, \"a\"; 2, \"b\" ] = Map.ofList [ 2, \"b\"; 1, \"a\" ])",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "map.compare",
+          "code": "string (compare (Map.ofList [ 1, \"a\" ]) (Map.ofList [ 1, \"b\" ]))",
+          "status": "pass",
+          "net": "-1"
+        },
+        {
+          "name": "map.tuple.keys",
+          "code": "J (Map.ofList [ (2, \"a\"), \"x\"; (1, \"b\"), \"y\"; (1, \"a\"), \"z\" ] |> Map.toList |> List.map snd)",
+          "status": "pass",
+          "net": "[z,y,x]"
+        },
+        {
+          "name": "map.record.keys",
+          "code": "string (Map.count (Map.ofList [ Some 1, \"a\"; Some 1, \"b\"; None, \"c\" ]))",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "map.minkey",
+          "code": "string (Map.minKeyValue (m ()) |> fst) + \",\" + string (Map.maxKeyValue (m ()) |> fst)",
+          "status": "pass",
+          "net": "1,3"
+        },
+        {
+          "name": "map.keys.values",
+          "code": "Ji (m ()).Keys + J (m ()).Values",
+          "status": "pass",
+          "net": "[1,2,3][a,b,c]"
+        },
+        {
+          "name": "map.partition",
+          "code": "let a, b = Map.partition (fun k _ -> k % 2 = 1) (m ()) in string a.Count + string b.Count",
+          "status": "pass",
+          "net": "21"
+        },
+        {
+          "name": "map.findkey",
+          "code": "string (Map.findKey (fun _ v -> v = \"b\") (m ()))",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "map.iterate",
+          "code": "let mutable s = \"\" in (for KeyValue (k, v) in m () do s <- s + string k + v); s",
+          "status": "pass",
+          "net": "1a2b3c"
+        },
+        {
+          "name": "set.sorted",
+          "code": "Ji (Set.ofList [ 3; 1; 2; 3 ])",
+          "status": "pass",
+          "net": "[1,2,3]"
+        },
+        {
+          "name": "set.ops",
+          "code": "let a, b = set [ 1; 2; 3 ], set [ 2; 3; 4 ] in Ji (Set.union a b) + Ji (Set.intersect a b) + Ji (Set.difference a b)",
+          "status": "pass",
+          "net": "[1,2,3,4][2,3][1]"
+        },
+        {
+          "name": "set.subset",
+          "code": "B (Set.isSubset (set [ 1 ]) (set [ 1; 2 ])) + \",\" + B (Set.isProperSuperset (set [ 1 ]) (set [ 1 ]))",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "set.contains",
+          "code": "B (Set.contains 2 (set [ 1; 2 ])) + \",\" + string (Set.count (set [ \"a\"; \"a\" ]))",
+          "status": "pass",
+          "net": "true,1"
+        },
+        {
+          "name": "set.equality",
+          "code": "B (set [ 1; 2 ] = set [ 2; 1 ]) + \",\" + string (compare (set [ 1; 2 ]) (set [ 1; 3 ]))",
+          "status": "pass",
+          "net": "true,-1"
+        },
+        {
+          "name": "set.minmax",
+          "code": "string (Set.minElement (set [ 5; 2; 8 ])) + \",\" + string (Set.maxElement (set [ 5; 2; 8 ]))",
+          "status": "pass",
+          "net": "2,8"
+        },
+        {
+          "name": "set.tuples",
+          "code": "J (Set.ofList [ (2, \"a\"); (1, \"b\"); (1, \"a\") ] |> Seq.map (fun (a, b) -> string a + b))",
+          "status": "pass",
+          "net": "[1a,1b,2a]"
+        },
+        {
+          "name": "set.remove",
+          "code": "Ji (Set.remove 2 (set [ 1; 2; 3 ]))",
+          "status": "pass",
+          "net": "[1,3]"
+        },
+        {
+          "name": "dictionary.order",
+          "code": "let d = Dictionary<string, int>() in d.[\"b\"] <- 1; d.[\"a\"] <- 2; d.[\"c\"] <- 3; J (d.Keys |> Seq.map id)",
+          "status": "pass",
+          "net": "[b,a,c]"
+        },
+        {
+          "name": "dictionary.missing",
+          "code": "let d = Dictionary<int, int>() in string d.[5]",
+          "status": "pass",
+          "net": "EXN KeyNotFound"
+        },
+        {
+          "name": "dictionary.add.duplicate",
+          "code": "let d = Dictionary<int, int>() in d.Add(1, 1); d.Add(1, 2); \"added\"",
+          "status": "pass",
+          "net": "EXN Argument"
+        },
+        {
+          "name": "dictionary.trygetvalue",
+          "code": "let d = dict [ 1, \"a\" ] in match d.TryGetValue 1 with | true, v -> v | _ -> \"none\"",
+          "status": "pass",
+          "net": "a"
+        },
+        {
+          "name": "dictionary.trygetvalue.missing",
+          "code": "let d = Dictionary<int, string>() in match d.TryGetValue 1 with | true, v -> v | _, v -> \"none:\" + string (isNull v)",
+          "status": "mismatch",
+          "net": "none:True",
+          "js": "none:true"
+        },
+        {
+          "name": "dictionary.remove",
+          "code": "let d = Dictionary<int, int>() in d.[1] <- 1; B (d.Remove 1) + B (d.Remove 1) + string d.Count",
+          "status": "pass",
+          "net": "truefalse0"
+        },
+        {
+          "name": "dictionary.tuple.key",
+          "code": "let d = Dictionary<int * string, int>() in d.[(1, \"a\")] <- 5; string d.[(1, \"a\")]",
+          "status": "pass",
+          "net": "5"
+        },
+        {
+          "name": "dictionary.union.key",
+          "code": "let d = Dictionary<int option, int>() in d.[Some 1] <- 5; d.[None] <- 6; string d.[Some 1] + string d.[None]",
+          "status": "known",
+          "net": "EXN ArgumentNull",
+          "js": "56"
+        },
+        {
+          "name": "dictionary.readonly.dict",
+          "code": "let d = dict [ 1, \"a\" ] in try d.[2] <- \"b\"; \"set\" with e -> \"EXN\"",
+          "status": "mismatch",
+          "net": "EXN",
+          "js": "set"
+        },
+        {
+          "name": "dictionary.kvp",
+          "code": "J (Dictionary(dict [ 1, \"x\"; 2, \"y\" ]) |> Seq.map (fun kv -> string kv.Key + kv.Value))",
+          "status": "pass",
+          "net": "[1x,2y]"
+        },
+        {
+          "name": "readonlydict",
+          "code": "let d = readOnlyDict [ \"a\", 1 ] in string d.[\"a\"] + \",\" + string d.Count",
+          "status": "pass",
+          "net": "1,1"
+        },
+        {
+          "name": "hashset",
+          "code": "let h = HashSet<int>([ 3; 1; 3 ]) in B (h.Add 1) + B (h.Add 2) + string h.Count + Ji h",
+          "status": "pass",
+          "net": "falsetrue3[3,1,2]"
+        },
+        {
+          "name": "hashset.ops",
+          "code": "let h = HashSet<int>([ 1; 2; 3 ]) in h.IntersectWith [ 2; 3; 4 ]; Ji h",
+          "status": "pass",
+          "net": "[2,3]"
+        },
+        {
+          "name": "hashset.tuples",
+          "code": "let h = HashSet<int * int>() in h.Add((1, 2)) |> ignore; B (h.Contains((1, 2)))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "resizearray",
+          "code": "let r = ResizeArray [ 1; 2 ] in r.Add 3; r.Insert(0, 0); r.RemoveAt 1; Ji r + string r.Count",
+          "status": "pass",
+          "net": "[0,2,3]3"
+        },
+        {
+          "name": "resizearray.out.of.range",
+          "code": "let r = ResizeArray [ 1 ] in string r.[3]",
+          "status": "pass",
+          "net": "EXN ArgumentOutOfRange"
+        },
+        {
+          "name": "resizearray.sort",
+          "code": "let r = ResizeArray [ 3; 1; 2 ] in r.Sort(); Ji r",
+          "status": "pass",
+          "net": "[1,2,3]"
+        },
+        {
+          "name": "resizearray.modify.during.enum",
+          "code": "let r = ResizeArray [ 1; 2 ] in (for x in r do if x = 1 then r.Add 3); string r.Count",
+          "status": "pass",
+          "net": "EXN InvalidOperation"
+        },
+        {
+          "name": "queue.stack",
+          "code": "let q = Queue<int>([ 1; 2 ]) in let s = Stack<int>([ 1; 2 ]) in string (q.Dequeue()) + string (s.Pop())",
+          "status": "pass",
+          "net": "12"
+        },
+        {
+          "name": "queue.empty",
+          "code": "let q = Queue<int>() in string (q.Dequeue())",
+          "status": "pass",
+          "net": "EXN InvalidOperation"
+        }
+      ],
+      "total": 50,
+      "pass": 46
+    },
+    {
+      "id": "records",
+      "name": "Records, unions and equality",
+      "cases": [
+        {
+          "name": "record.equality",
+          "code": "B (p \"a\" 1 = p \"a\" 1) + \",\" + B (p \"a\" 1 = p \"a\" 2) + \",\" + B (obj.ReferenceEquals(p \"a\" 1, p \"a\" 1))",
+          "status": "pass",
+          "net": "true,false,false"
+        },
+        {
+          "name": "record.comparison",
+          "code": "string (compare (p \"a\" 2) (p \"b\" 1)) + \",\" + string (compare (p \"a\" 2) (p \"a\" 1))",
+          "status": "pass",
+          "net": "-1,1"
+        },
+        {
+          "name": "record.sort",
+          "code": "J ([ p \"b\" 1; p \"a\" 2; p \"a\" 1 ] |> List.sort |> List.map (fun x -> x.Name + string x.Age))",
+          "status": "pass",
+          "net": "[a1,a2,b1]"
+        },
+        {
+          "name": "record.hash",
+          "code": "B (hash (p \"a\" 1) = hash (p \"a\" 1))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "record.copy.update",
+          "code": "let a = p \"a\" 1 in let b = { a with Age = 5 } in string a.Age + string b.Age",
+          "status": "pass",
+          "net": "15"
+        },
+        {
+          "name": "record.distinct",
+          "code": "string (List.length (List.distinct [ p \"a\" 1; p \"a\" 1; p \"b\" 1 ]))",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "record.set",
+          "code": "string (Set.count (set [ p \"a\" 1; p \"a\" 1 ]))",
+          "status": "pass",
+          "net": "1"
+        },
+        {
+          "name": "record.dictionary.key",
+          "code": "let d = Dictionary<Person, int>() in d.[p \"a\" 1] <- 1; d.[p \"a\" 1] <- 2; string d.Count + string d.[p \"a\" 1]",
+          "status": "pass",
+          "net": "12"
+        },
+        {
+          "name": "record.hashset",
+          "code": "let h = HashSet<Person>() in h.Add(p \"a\" 1) |> ignore; B (h.Add(p \"a\" 1))",
+          "status": "pass",
+          "net": "false"
+        },
+        {
+          "name": "record.custom.equality",
+          "code": "B ({ Key = \"k\"; Note = \"1\" } = { Key = \"k\"; Note = \"2\" })",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "record.custom.dictionary",
+          "code": "let d = Dictionary<Loose, int>() in d.[{ Key = \"k\"; Note = \"1\" }] <- 1; string d.[{ Key = \"k\"; Note = \"2\" }]",
+          "status": "pass",
+          "net": "1"
+        },
+        {
+          "name": "record.mutable.field",
+          "code": "let m = { Count = 0 } in m.Count <- m.Count + 2; string m.Count",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "record.mutable.alias",
+          "code": "let m = { Count = 0 } in let n = m in n.Count <- 3; string m.Count",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "record.struct.copy",
+          "code": "let a = { X = 1; Y = 2 } in let b = { a with X = 5 } in string a.X + string b.X + B (a = { X = 1; Y = 2 })",
+          "status": "pass",
+          "net": "15true"
+        },
+        {
+          "name": "record.struct.compare",
+          "code": "string (compare { X = 1; Y = 2 } { X = 1; Y = 3 })",
+          "status": "pass",
+          "net": "-1"
+        },
+        {
+          "name": "record.anonymous",
+          "code": "let a = {| A = 1; B = \"x\" |} in string a.A + a.B + B (a = {| A = 1; B = \"x\" |})",
+          "status": "pass",
+          "net": "1xtrue"
+        },
+        {
+          "name": "record.anonymous.copy",
+          "code": "let a = {| A = 1; B = \"x\" |} in let b = {| a with A = 2 |} in string b.A + b.B",
+          "status": "pass",
+          "net": "2x"
+        },
+        {
+          "name": "record.anonymous.nested",
+          "code": "let x = { Inner = {| A = 1; B = \"b\" |} } in x.Inner.B",
+          "status": "pass",
+          "net": "b"
+        },
+        {
+          "name": "union.equality",
+          "code": "B (Circle 1.0 = Circle 1.0) + \",\" + B (Circle 1.0 = Rect (1.0, 1.0)) + \",\" + B (Empty = Empty)",
+          "status": "pass",
+          "net": "true,false,true"
+        },
+        {
+          "name": "union.comparison",
+          "code": "string (sign (compare (Circle 5.0) (Rect (1.0, 1.0)))) + \",\" + string (sign (compare Empty (Circle 0.0))) + \",\" + string (sign (compare (Rect (1.0, 2.0)) (Rect (1.0, 1.0))))",
+          "status": "pass",
+          "net": "-1,1,1"
+        },
+        {
+          "name": "union.sort",
+          "code": "string (List.sort [ Empty; Rect (1.0, 1.0); Circle 2.0; Circle 1.0 ] |> List.map (function Circle r -> \"C\" + string r | Rect _ -> \"R\" | Empty -> \"E\") |> String.concat \"\")",
+          "status": "pass",
+          "net": "C1C2RE"
+        },
+        {
+          "name": "union.hash",
+          "code": "B (hash (Rect (1.0, 2.0)) = hash (Rect (1.0, 2.0)))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "union.match",
+          "code": "J ([ Circle 1.0; Rect (2.0, 3.0); Empty ] |> List.map (function Circle r -> string (r * 2.0) | Rect (w, h) -> string (w * h) | Empty -> \"-\"))",
+          "status": "pass",
+          "net": "[2,6,-]"
+        },
+        {
+          "name": "union.named.fields",
+          "code": "match Rect (h = 2.0, w = 3.0) with Rect (w = w) -> string w | _ -> \"?\"",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "union.recursive",
+          "code": "string (sum (Node (Node (Leaf, 1, Leaf), 2, Node (Leaf, 3, Leaf))))",
+          "status": "pass",
+          "net": "6"
+        },
+        {
+          "name": "union.struct",
+          "code": "B (SA 1 = SA 1) + \",\" + string (compare (SA 5) (SB \"a\")) + \",\" + (match SB \"z\" with SB b -> b | SA _ -> \"?\")",
+          "status": "pass",
+          "net": "true,-1,z"
+        },
+        {
+          "name": "union.single.case",
+          "code": "let (Wrapper w) = Wrapper 5 in string w + B (Wrapper 1 < Wrapper 2)",
+          "status": "pass",
+          "net": "5true"
+        },
+        {
+          "name": "union.isCase",
+          "code": "B (Circle 1.0).IsCircle + \",\" + B Empty.IsRect",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "union.map.key",
+          "code": "let m = Map.ofList [ Rect (1.0, 1.0), \"r\"; Empty, \"e\"; Circle 1.0, \"c\" ] in J (Map.toList m |> List.map snd)",
+          "status": "pass",
+          "net": "[c,r,e]"
+        },
+        {
+          "name": "option.equality",
+          "code": "B (Some 1 = Some 1) + \",\" + B (None = (None: int option)) + \",\" + string (compare None (Some 1))",
+          "status": "pass",
+          "net": "true,true,-1"
+        },
+        {
+          "name": "option.functions",
+          "code": "string (Option.map ((+) 1) (Some 1)) + \",\" + string (Option.defaultValue 9 None) + \",\" + string (Option.bind (fun x -> if x > 0 then Some x else None) (Some -1))",
+          "status": "mismatch",
+          "net": "Some(2),9,",
+          "js": "[object Object],9,null"
+        },
+        {
+          "name": "option.value.none",
+          "code": "string (Option.get (None: int option))",
+          "status": "mismatch",
+          "net": "EXN Argument",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "option.value.prop",
+          "code": "string (None: int option).Value",
+          "status": "known",
+          "net": "EXN NullReference",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "option.isnone",
+          "code": "B (Option.isNone None) + \",\" + B (Some 1).IsSome",
+          "status": "pass",
+          "net": "true,true"
+        },
+        {
+          "name": "option.tolist",
+          "code": "Ji (Option.toList (Some 3)) + \",\" + string (Option.count None)",
+          "status": "pass",
+          "net": "[3],0"
+        },
+        {
+          "name": "option.null",
+          "code": "B (obj.ReferenceEquals(None, null))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "option.ofobj",
+          "code": "string (Option.ofObj (null: string)) + \",\" + string (Option.ofObj \"x\")",
+          "status": "mismatch",
+          "net": ",Some(x)",
+          "js": "null,[object Object]"
+        },
+        {
+          "name": "voption",
+          "code": "let v = ValueSome 3 in string (ValueOption.defaultValue 0 v) + B (ValueNone = (ValueNone: int voption))",
+          "status": "pass",
+          "net": "3true"
+        },
+        {
+          "name": "result",
+          "code": "let r : Result<int, string> = Ok 1 in string (Result.map ((+) 1) r) + \",\" + string (Result.bind (fun _ -> Error \"e\") r : Result<int, string>)",
+          "status": "mismatch",
+          "net": "Microsoft.FSharp.Core.FSharpResult`2[System.Int32,System.String],Microsoft.FSharp.Core.FSharpResult`2[System.Int32,System.String]",
+          "js": "[object Object],[object Object]"
+        },
+        {
+          "name": "result.match",
+          "code": "match (Error \"bad\" : Result<int, string>) with Ok v -> string v | Error e -> e",
+          "status": "pass",
+          "net": "bad"
+        },
+        {
+          "name": "result.equality",
+          "code": "B ((Ok 1 : Result<int, string>) = Ok 1) + \",\" + string (compare (Ok 1 : Result<int, int>) (Error 0))",
+          "status": "pass",
+          "net": "true,-1"
+        },
+        {
+          "name": "tuple.equality",
+          "code": "B ((1, \"a\") = (1, \"a\")) + \",\" + string (compare (1, \"b\") (1, \"a\")) + \",\" + string (compare (2, \"a\") (10, \"a\"))",
+          "status": "pass",
+          "net": "true,1,-1"
+        },
+        {
+          "name": "tuple.struct",
+          "code": "let struct (a, b) = struct (1, \"x\") in string a + b",
+          "status": "pass",
+          "net": "1x"
+        },
+        {
+          "name": "tuple.fst.snd",
+          "code": "string (fst (1, 2)) + string (snd (1, 2))",
+          "status": "pass",
+          "net": "12"
+        },
+        {
+          "name": "enum.tostring",
+          "code": "string Color.Green + \",\" + string (int Color.Blue)",
+          "status": "mismatch",
+          "net": "Green,4",
+          "js": "2,4"
+        },
+        {
+          "name": "enum.flags.tostring",
+          "code": "string (Color.Red ||| Color.Blue)",
+          "status": "unsupported",
+          "net": "5",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "enum.of.int",
+          "code": "string (enum<Color> 2) + \",\" + string (enum<Color> 3)",
+          "status": "mismatch",
+          "net": "Green,3",
+          "js": "2,3"
+        },
+        {
+          "name": "enum.hasflag",
+          "code": "B ((Color.Red ||| Color.Blue).HasFlag Color.Blue)",
+          "status": "unsupported",
+          "net": "true",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "enum.compare",
+          "code": "B (Color.Red < Color.Blue) + \",\" + string (compare Color.Blue Color.Green)",
+          "status": "pass",
+          "net": "true,1"
+        },
+        {
+          "name": "enum.parse",
+          "code": "string (Enum.Parse(typeof<Color>, \"Blue\") :?> Color)",
+          "status": "known",
+          "net": "Blue",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "unit.equality",
+          "code": "B (() = ())",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "structural.nested",
+          "code": "B ([ Some (p \"a\" 1, [| 1 |]) ] = [ Some (p \"a\" 1, [| 1 |]) ])",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "physical.equality",
+          "code": "let a = p \"a\" 1 in B (LanguagePrimitives.PhysicalEquality a a) + \",\" + B (LanguagePrimitives.PhysicalEquality a (p \"a\" 1))",
+          "status": "unsupported",
+          "net": "true,false",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "compare.mixed.strings",
+          "code": "J (List.sort [ \"a\"; \"B\"; \"_\"; \"1\"; \"é\" ])",
+          "status": "pass",
+          "net": "[1,B,_,a,é]"
+        },
+        {
+          "name": "compare.floats.nan.sort",
+          "code": "J (List.sort [ 2.0; nan; 1.0 ] |> List.map string)",
+          "status": "mismatch",
+          "net": "[NaN,1,2]",
+          "js": "[2,NaN,1]"
+        },
+        {
+          "name": "compare.char",
+          "code": "string (compare 'a' 'B')",
+          "status": "pass",
+          "net": "1"
+        },
+        {
+          "name": "hash.string.stable",
+          "code": "B (hash \"abc\" = hash (\"ab\" + \"c\"))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "hash.int",
+          "code": "string (hash 42) + \",\" + string (hash -1)",
+          "status": "pass",
+          "net": "42,-1"
+        },
+        {
+          "name": "equals.boxed",
+          "code": "B ((box 1).Equals(box 1)) + \",\" + B ((box 1).Equals(box 1L)) + \",\" + B (box 1 = box 1.0)",
+          "status": "known",
+          "net": "true,false,false",
+          "js": "true,false,true"
+        }
+      ],
+      "total": 59,
+      "pass": 46
+    },
+    {
+      "id": "patterns",
+      "name": "Pattern matching",
+      "cases": [
+        {
+          "name": "match.constant",
+          "code": "match n 2 with 1 -> \"one\" | 2 -> \"two\" | _ -> \"many\"",
+          "status": "pass",
+          "net": "two"
+        },
+        {
+          "name": "match.guard",
+          "code": "match n 5 with x when x > 3 -> \"big\" | _ -> \"small\"",
+          "status": "pass",
+          "net": "big"
+        },
+        {
+          "name": "match.or",
+          "code": "match n 3 with 1 | 3 | 5 -> \"odd\" | _ -> \"?\"",
+          "status": "pass",
+          "net": "odd"
+        },
+        {
+          "name": "match.and",
+          "code": "match (1, 2) with (a, _) & (_, b) -> string (a + b)",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "match.as",
+          "code": "match [ 1; 2 ] with (x :: _) as l -> string x + string l.Length | [] -> \"\"",
+          "status": "pass",
+          "net": "12"
+        },
+        {
+          "name": "match.list",
+          "code": "J ([ []; [ 1 ]; [ 1; 2 ]; [ 1; 2; 3 ] ] |> List.map (function [] -> \"e\" | [ a ] -> \"1\" | [ a; b ] -> \"2\" | _ :: _ :: rest -> \"n\" + string rest.Length))",
+          "status": "pass",
+          "net": "[e,1,2,n1]"
+        },
+        {
+          "name": "match.array",
+          "code": "match [| 1; 2 |] with [| a; b |] -> string (a + b) | _ -> \"?\"",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "match.tuple",
+          "code": "match (n 1, \"x\") with (1, s) -> s | _ -> \"?\"",
+          "status": "pass",
+          "net": "x"
+        },
+        {
+          "name": "match.record",
+          "code": "match { Name = \"a\"; Age = 3 } with { Age = 3; Name = nm } -> nm | _ -> \"?\"",
+          "status": "pass",
+          "net": "a"
+        },
+        {
+          "name": "match.option.nested",
+          "code": "match Some (Some 3) with Some (Some x) -> string x | Some None -> \"sn\" | None -> \"n\"",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "match.string",
+          "code": "match \"b\" + \"c\" with \"bc\" -> \"yes\" | _ -> \"no\"",
+          "status": "pass",
+          "net": "yes"
+        },
+        {
+          "name": "match.char.range",
+          "code": "match 'q' with c when c >= 'a' && c <= 'z' -> \"lower\" | _ -> \"?\"",
+          "status": "pass",
+          "net": "lower"
+        },
+        {
+          "name": "match.null",
+          "code": "match (null: string) with null -> \"null\" | s -> s",
+          "status": "pass",
+          "net": "null"
+        },
+        {
+          "name": "match.typetest",
+          "code": "J ([ box 1; box \"s\"; box [ 1; 2 ]; null; box 1.5 ] |> List.map classify)",
+          "status": "pass",
+          "net": "[int 1,string s,list 2,null,other]"
+        },
+        {
+          "name": "match.typetest.float.int",
+          "code": "match box 2.0 with :? int -> \"int\" | :? float -> \"float\" | _ -> \"?\"",
+          "status": "known",
+          "net": "float",
+          "js": "int"
+        },
+        {
+          "name": "match.typetest.int64",
+          "code": "match box 2L with :? int -> \"int\" | :? int64 -> \"int64\" | _ -> \"?\"",
+          "status": "pass",
+          "net": "int64"
+        },
+        {
+          "name": "match.typetest.char.string",
+          "code": "match box 'c' with :? string -> \"string\" | :? char -> \"char\" | _ -> \"?\"",
+          "status": "known",
+          "net": "char",
+          "js": "string"
+        },
+        {
+          "name": "match.incomplete",
+          "code": "let f x = match x with 1 -> \"one\" in f (n 2)",
+          "status": "pass",
+          "net": "EXN MatchFailure"
+        },
+        {
+          "name": "match.active.total",
+          "code": "J ([ 1; 2 ] |> List.map (function Even -> \"even\" | Odd -> \"odd\"))",
+          "status": "pass",
+          "net": "[odd,even]"
+        },
+        {
+          "name": "match.active.partial",
+          "code": "match \"42\" with Int v -> string (v + 1) | _ -> \"nan\"",
+          "status": "pass",
+          "net": "43"
+        },
+        {
+          "name": "match.active.struct",
+          "code": "match n 5 with Positive v -> string v | _ -> \"no\"",
+          "status": "pass",
+          "net": "5"
+        },
+        {
+          "name": "match.active.param",
+          "code": "J (List.map fizz [ 3; 5; 15; 7 ])",
+          "status": "pass",
+          "net": "[Fizz,Buzz,FizzBuzz,7]"
+        },
+        {
+          "name": "match.active.single",
+          "code": "let (Lower s) = \"ABC\" in s",
+          "status": "pass",
+          "net": "abc"
+        },
+        {
+          "name": "match.function",
+          "code": "let f = function Some x -> x | None -> 0 in string (f (Some 4) + f None)",
+          "status": "pass",
+          "net": "4"
+        },
+        {
+          "name": "match.let.tuple",
+          "code": "let a, (b, c) = 1, (2, 3) in string (a + b + c)",
+          "status": "pass",
+          "net": "6"
+        },
+        {
+          "name": "match.wildcard.lambda",
+          "code": "Ji (List.map (fun (_, b) -> b) [ (1, 2); (3, 4) ])",
+          "status": "pass",
+          "net": "[2,4]"
+        },
+        {
+          "name": "match.cons.string.list",
+          "code": "match [ \"a\"; \"b\" ] with h :: t -> h + string t.Length | [] -> \"\"",
+          "status": "pass",
+          "net": "a1"
+        },
+        {
+          "name": "match.enum",
+          "code": "match Color.Green with Color.Red -> \"r\" | Color.Green -> \"g\" | _ -> \"?\"",
+          "status": "pass",
+          "net": "g"
+        },
+        {
+          "name": "match.enum.undefined",
+          "code": "match enum<Color> 7 with Color.Red -> \"r\" | _ -> \"other\"",
+          "status": "pass",
+          "net": "other"
+        },
+        {
+          "name": "match.union.nested",
+          "code": "match Node (Leaf, 1, Node (Leaf, 2, Leaf)) with Node (_, _, Node (_, v, _)) -> string v | _ -> \"?\"",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "match.exception",
+          "code": "try raise (ArgumentException \"x\") with :? ArgumentException as e -> \"arg\" | _ -> \"other\"",
+          "status": "pass",
+          "net": "arg"
+        },
+        {
+          "name": "match.kvp",
+          "code": "match KeyValuePair(1, \"a\") with KeyValue (k, v) -> string k + v",
+          "status": "pass",
+          "net": "1a"
+        }
+      ],
+      "total": 32,
+      "pass": 30
+    },
+    {
+      "id": "language",
+      "name": "Language",
+      "cases": [
+        {
+          "name": "closure.capture",
+          "code": "let fs = [ for i in 1 .. 3 -> fun () -> i ] in Ji (List.map (fun f -> f ()) fs)",
+          "status": "pass",
+          "net": "[1,2,3]"
+        },
+        {
+          "name": "closure.mutable.ref",
+          "code": "let r = ref 0 in let f () = r.Value <- r.Value + 1 in f (); f (); string r.Value",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "closure.loop.mutable",
+          "code": "let fs = ResizeArray() in (for i in 0 .. 2 do fs.Add(fun () -> i * 10)); Ji (fs |> Seq.map (fun f -> f ()))",
+          "status": "pass",
+          "net": "[0,10,20]"
+        },
+        {
+          "name": "currying",
+          "code": "let f = curry 1 in let g = f 2 in string (g 3)",
+          "status": "pass",
+          "net": "123"
+        },
+        {
+          "name": "composition",
+          "code": "let f = ((+) 1) >> ((*) 2) in let g = ((+) 1) << ((*) 2) in string (f 3) + \",\" + string (g 3)",
+          "status": "pass",
+          "net": "8,7"
+        },
+        {
+          "name": "pipes",
+          "code": "string ((1, 2) ||> (+)) + \",\" + string ((1, 2, 3) |||> fun a b c -> a + b + c)",
+          "status": "pass",
+          "net": "3,6"
+        },
+        {
+          "name": "recursion",
+          "code": "string (fact 10) + \",\" + B (even 11)",
+          "status": "pass",
+          "net": "3628800,false"
+        },
+        {
+          "name": "tail.recursion.deep",
+          "code": "string (loop 0 1000000)",
+          "status": "pass",
+          "net": "1000000"
+        },
+        {
+          "name": "recursion.deep.nontail",
+          "code": "let rec f n = if n = 0 then 0 else 1 + f (n - 1) in string (f 10000)",
+          "status": "known",
+          "net": "10000",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "inline.srtp",
+          "code": "string (twice 3) + \",\" + twice \"ab\" + \",\" + string (twice 1.5)",
+          "status": "unsupported",
+          "net": "6,abab,3",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "generic.function",
+          "code": "string (List.length (generic 1)) + J (generic \"a\")",
+          "status": "pass",
+          "net": "2[a,a]"
+        },
+        {
+          "name": "mutable.loop",
+          "code": "let mutable s = 0 in (for i in 1 .. 10 do s <- s + i); string s",
+          "status": "pass",
+          "net": "55"
+        },
+        {
+          "name": "for.downto",
+          "code": "let mutable s = \"\" in (for i = 3 downto 1 do s <- s + string i); s",
+          "status": "pass",
+          "net": "321"
+        },
+        {
+          "name": "while.loop",
+          "code": "let mutable i = 0 in (while i < 5 do i <- i + 2); string i",
+          "status": "pass",
+          "net": "6"
+        },
+        {
+          "name": "for.range.step",
+          "code": "let mutable s = \"\" in (for i in 0 .. 5 .. 20 do s <- s + string i + \" \"); s",
+          "status": "pass",
+          "net": "0 5 10 15 20 "
+        },
+        {
+          "name": "if.unit",
+          "code": "let mutable x = 0 in (if n 1 > 0 then x <- 1); string x",
+          "status": "pass",
+          "net": "1"
+        },
+        {
+          "name": "exception.failwith",
+          "code": "try failwith \"boom\" with Failure m -> \"failure:\" + m",
+          "status": "unsupported",
+          "net": "failure:boom",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "exception.invalidarg",
+          "code": "try invalidArg \"x\" \"bad\" with :? ArgumentException as e -> e.ParamName",
+          "status": "unsupported",
+          "net": "x",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "exception.invalidop",
+          "code": "try invalidOp \"nope\" with :? InvalidOperationException as e -> e.Message",
+          "status": "pass",
+          "net": "nope"
+        },
+        {
+          "name": "exception.custom",
+          "code": "try raise (MyError (\"m\", 7)) with MyError (s, i) -> s + string i",
+          "status": "pass",
+          "net": "m7"
+        },
+        {
+          "name": "exception.reraise",
+          "code": "try (try failwith \"inner\" with _ -> reraise ()) with e -> e.Message",
+          "status": "pass",
+          "net": "inner"
+        },
+        {
+          "name": "exception.finally",
+          "code": "let mutable log = \"\" in (try (try failwith \"x\" finally log <- log + \"F\") with _ -> log <- log + \"C\"); log",
+          "status": "pass",
+          "net": "FC"
+        },
+        {
+          "name": "exception.message.division",
+          "code": "try string (1 / n 0) with e -> e.Message",
+          "status": "pass",
+          "net": "Attempted to divide by zero."
+        },
+        {
+          "name": "exception.nullref",
+          "code": "let s : string = null in string s.Length",
+          "status": "known",
+          "net": "EXN NullReference",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "exception.tostring",
+          "code": "(ArgumentException \"x\").Message",
+          "status": "pass",
+          "net": "x"
+        },
+        {
+          "name": "exception.inner",
+          "code": "let e = Exception(\"outer\", Exception \"inner\") in e.InnerException.Message",
+          "status": "pass",
+          "net": "inner"
+        },
+        {
+          "name": "use.dispose",
+          "code": "let log = ResizeArray() in (using (new Disposable(log)) (fun _ -> log.Add \"body\")); J log",
+          "status": "pass",
+          "net": "[body,disposed]"
+        },
+        {
+          "name": "use.binding",
+          "code": "let log = ResizeArray() in let f () = (use d = new Disposable(log) in log.Add \"body\") in f (); J log",
+          "status": "pass",
+          "net": "[body,disposed]"
+        },
+        {
+          "name": "class.members",
+          "code": "let c = Counter() in c.Incr() |> ignore; c.Incr() |> ignore; c.Count <- c.Count * 10; string c.Count",
+          "status": "pass",
+          "net": "20"
+        },
+        {
+          "name": "class.static.let",
+          "code": "let before = Counter.Created in Counter() |> ignore; string (Counter.Created - before)",
+          "status": "mismatch",
+          "net": "1",
+          "js": "0"
+        },
+        {
+          "name": "inheritance",
+          "code": "let d = Dog \"Rex\" :> Animal in d.Speak()",
+          "status": "pass",
+          "net": "Rex barks; Rex makes a sound"
+        },
+        {
+          "name": "inheritance.tostring",
+          "code": "string (Dog \"Rex\")",
+          "status": "pass",
+          "net": "Animal Rex"
+        },
+        {
+          "name": "object.expression",
+          "code": "let s = shape \"sq\" 2.0 in s.Name + string (s.Area())",
+          "status": "pass",
+          "net": "sq2"
+        },
+        {
+          "name": "object.expression.override",
+          "code": "let o = { new Object() with override _.ToString() = \"custom\" } in string o",
+          "status": "unsupported",
+          "net": "custom",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "interface.cast",
+          "code": "let o = shape \"x\" 1.0 in match box o with :? IShape as s -> s.Name | _ -> \"no\"",
+          "status": "pass",
+          "net": "x"
+        },
+        {
+          "name": "interface.cast.fail",
+          "code": "let o = box (Counter()) in try (o :?> IShape).Name with :? InvalidCastException -> \"cast\"",
+          "status": "mismatch",
+          "net": "cast",
+          "js": "<null>"
+        },
+        {
+          "name": "downcast.fail",
+          "code": "let o = box \"s\" in try string (unbox<int> o) with :? InvalidCastException -> \"cast\"",
+          "status": "mismatch",
+          "net": "cast",
+          "js": "s"
+        },
+        {
+          "name": "operator.overload",
+          "code": "string (Vec(1.0, 2.0) + 2.0 * Vec(1.0, 1.0))",
+          "status": "pass",
+          "net": "(3,4)"
+        },
+        {
+          "name": "method.overload",
+          "code": "let o = Overloads() in o.F(1) + o.F(\"s\") + o.F(1, 2)",
+          "status": "pass",
+          "net": "intstringtwo"
+        },
+        {
+          "name": "optional.args",
+          "code": "let o = Overloads() in string (o.G 1) + \",\" + string (o.G(1, 2))",
+          "status": "pass",
+          "net": "11,3"
+        },
+        {
+          "name": "named.args",
+          "code": "let o = Overloads() in string (o.G(y = 5, x = 1))",
+          "status": "pass",
+          "net": "6"
+        },
+        {
+          "name": "lazy",
+          "code": "let mutable n = 0 in let l = lazy (n <- n + 1; n) in string l.Value + string l.Value + B l.IsValueCreated",
+          "status": "pass",
+          "net": "11true"
+        },
+        {
+          "name": "lazy.exception",
+          "code": "let l = lazy (failwith \"lz\" : int) in let a = (try string l.Value with e -> e.Message) in a + \",\" + (try string l.Value with e -> e.Message)",
+          "status": "pass",
+          "net": "lz,lz"
+        },
+        {
+          "name": "computation.option",
+          "code": "string (maybe { let! a = Some 1 in let! b = Some 2 in return a + b }) + \",\" + string (maybe { let! a = None in return a + 1 })",
+          "status": "mismatch",
+          "net": "Some(3),",
+          "js": "[object Object],null"
+        },
+        {
+          "name": "units.of.measure",
+          "code": "string (3.0<M> * 2.0)",
+          "status": "pass",
+          "net": "6"
+        },
+        {
+          "name": "ref.cell",
+          "code": "let r = ref \"a\" in r.Value <- r.Value + \"b\"; r.Value",
+          "status": "pass",
+          "net": "ab"
+        },
+        {
+          "name": "byref",
+          "code": "let mutable x = 1 in bump &x; string x",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "shadowing",
+          "code": "let x = 1 in let x = x + 1 in string x",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "tuple.return",
+          "code": "let divrem a b = a / b, a % b in let q, r = divrem 17 5 in string q + string r",
+          "status": "pass",
+          "net": "32"
+        },
+        {
+          "name": "outref.tryparse",
+          "code": "let ok, v = Double.TryParse \"2.5\" in B ok + string v",
+          "status": "pass",
+          "net": "true2.5"
+        },
+        {
+          "name": "id.ignore",
+          "code": "ignore (n 5); string (id 3)",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "nameof",
+          "code": "nameof Counter + \",\" + nameof n",
+          "status": "pass",
+          "net": "Counter,n"
+        },
+        {
+          "name": "typeof.name",
+          "code": "typeof<int>.Name",
+          "status": "known",
+          "net": "Int32",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "box.unbox",
+          "code": "let o = box 3 in string (unbox<int> o + 1)",
+          "status": "pass",
+          "net": "4"
+        },
+        {
+          "name": "isnull",
+          "code": "B (isNull (null: string)) + \",\" + B (isNull (box 0))",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "default.values",
+          "code": "string (Unchecked.defaultof<int>) + \",\" + B (isNull (Unchecked.defaultof<string>)) + \",\" + string (Unchecked.defaultof<float>)",
+          "status": "pass",
+          "net": "0,true,0"
+        },
+        {
+          "name": "event",
+          "code": "let e = Event<int>() in let mutable s = 0 in e.Publish.Add(fun x -> s <- s + x); e.Trigger 2; e.Trigger 3; string s",
+          "status": "pass",
+          "net": "5"
+        },
+        {
+          "name": "delegate",
+          "code": "let d = Func<int, int>(fun x -> x * 3) in string (d.Invoke 4)",
+          "status": "pass",
+          "net": "12"
+        },
+        {
+          "name": "action.delegate",
+          "code": "let mutable s = \"\" in let a = Action<string>(fun x -> s <- s + x) in a.Invoke \"x\"; a.Invoke \"y\"; s",
+          "status": "pass",
+          "net": "xy"
+        }
+      ],
+      "total": 59,
+      "pass": 48
+    },
+    {
+      "id": "dates",
+      "name": "Dates, math and conversions",
+      "cases": [
+        {
+          "name": "datetime.parts",
+          "code": "let x = d () in string x.Year + \",\" + string x.Month + \",\" + string x.Day + \",\" + string x.Hour + \",\" + string x.Minute + \",\" + string x.Second",
+          "status": "pass",
+          "net": "2024,2,29,13,45,30"
+        },
+        {
+          "name": "datetime.dayofweek",
+          "code": "string (d ()).DayOfWeek + \",\" + string (d ()).DayOfYear",
+          "status": "mismatch",
+          "net": "Thursday,60",
+          "js": "4,60"
+        },
+        {
+          "name": "datetime.adddays",
+          "code": "(d ()).AddDays(1.0).ToString(\"yyyy-MM-dd\")",
+          "status": "pass",
+          "net": "2024-03-01"
+        },
+        {
+          "name": "datetime.addmonths",
+          "code": "(d ()).AddMonths(12).ToString(\"yyyy-MM-dd\")",
+          "status": "pass",
+          "net": "2025-02-28"
+        },
+        {
+          "name": "datetime.addyears",
+          "code": "(d ()).AddYears(1).ToString(\"yyyy-MM-dd\")",
+          "status": "pass",
+          "net": "2025-02-28"
+        },
+        {
+          "name": "datetime.format.custom",
+          "code": "(d ()).ToString(\"yyyy-MM-dd HH:mm:ss\")",
+          "status": "pass",
+          "net": "2024-02-29 13:45:30"
+        },
+        {
+          "name": "datetime.format.iso",
+          "code": "(d ()).ToString(\"o\")",
+          "status": "known",
+          "net": "2024-02-29T13:45:30.0000000",
+          "js": "2024-02-29T13:45:30.0000000+00:00"
+        },
+        {
+          "name": "datetime.tostring",
+          "code": "string (d ())",
+          "status": "mismatch",
+          "net": "02/29/2024 13:45:30",
+          "js": "2/29/2024, 1:45:30 PM"
+        },
+        {
+          "name": "datetime.subtract",
+          "code": "string (DateTime(2024, 3, 1) - DateTime(2024, 2, 1)).TotalDays",
+          "status": "pass",
+          "net": "29"
+        },
+        {
+          "name": "datetime.compare",
+          "code": "B (d () < (d ()).AddSeconds 1.0) + \",\" + B (d () = DateTime(2024, 2, 29, 13, 45, 30))",
+          "status": "pass",
+          "net": "true,true"
+        },
+        {
+          "name": "datetime.daysinmonth",
+          "code": "string (DateTime.DaysInMonth(2024, 2)) + \",\" + B (DateTime.IsLeapYear 1900)",
+          "status": "pass",
+          "net": "29,false"
+        },
+        {
+          "name": "datetime.parse",
+          "code": "(DateTime.Parse \"2024-01-15T10:00:00\").ToString(\"yyyy-MM-dd HH:mm\")",
+          "status": "pass",
+          "net": "2024-01-15 10:00"
+        },
+        {
+          "name": "datetime.date",
+          "code": "(d ()).Date.ToString(\"HH:mm\")",
+          "status": "pass",
+          "net": "00:00"
+        },
+        {
+          "name": "datetime.invalid",
+          "code": "string (DateTime(2023, 2, 29)).Day",
+          "status": "mismatch",
+          "net": "EXN ArgumentOutOfRange",
+          "js": "1"
+        },
+        {
+          "name": "datetime.minvalue",
+          "code": "string DateTime.MinValue.Year + \",\" + string DateTime.MaxValue.Year",
+          "status": "mismatch",
+          "net": "1,9999",
+          "js": "-271821,275760"
+        },
+        {
+          "name": "datetime.ticks",
+          "code": "string (DateTime(2000, 1, 1)).Ticks",
+          "status": "mismatch",
+          "net": "630822816000000000",
+          "js": "9466848000000000"
+        },
+        {
+          "name": "datetimeoffset",
+          "code": "let x = DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero) in string (x.ToUnixTimeSeconds())",
+          "status": "unsupported",
+          "net": "1704067200",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "timespan.parts",
+          "code": "let t = TimeSpan(1, 2, 3, 4) in string t.Days + \",\" + string t.Hours + \",\" + string t.TotalMinutes",
+          "status": "pass",
+          "net": "1,2,1563.0666666666666"
+        },
+        {
+          "name": "timespan.tostring",
+          "code": "string (TimeSpan(1, 2, 3, 4)) + \"|\" + string (TimeSpan.FromMinutes 90.5)",
+          "status": "mismatch",
+          "net": "1.02:03:04|01:30:30",
+          "js": "93784000|5430000"
+        },
+        {
+          "name": "timespan.negative",
+          "code": "string (TimeSpan.FromSeconds -61.0)",
+          "status": "mismatch",
+          "net": "-00:01:01",
+          "js": "-61000"
+        },
+        {
+          "name": "timespan.arith",
+          "code": "string (TimeSpan.FromHours 1.0 + TimeSpan.FromMinutes 30.0).TotalHours",
+          "status": "pass",
+          "net": "1.5"
+        },
+        {
+          "name": "timespan.compare",
+          "code": "string (compare (TimeSpan.FromSeconds 1.0) (TimeSpan.FromSeconds 2.0))",
+          "status": "pass",
+          "net": "-1"
+        },
+        {
+          "name": "guid.parse",
+          "code": "string (Guid.Parse \"6F9619FF-8B86-D011-B42D-00CF4FC964FF\")",
+          "status": "pass",
+          "net": "6f9619ff-8b86-d011-b42d-00cf4fc964ff"
+        },
+        {
+          "name": "guid.empty",
+          "code": "string Guid.Empty",
+          "status": "pass",
+          "net": "00000000-0000-0000-0000-000000000000"
+        },
+        {
+          "name": "guid.equality",
+          "code": "B (Guid.Parse \"6f9619ff-8b86-d011-b42d-00cf4fc964ff\" = Guid.Parse \"6F9619FF-8B86-D011-B42D-00CF4FC964FF\")",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "guid.newguid.unique",
+          "code": "B (Guid.NewGuid() <> Guid.NewGuid())",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "char.parse",
+          "code": "string (Char.Parse \"x\") + \",\" + string (Char.GetNumericValue '7')",
+          "status": "pass",
+          "net": "x,7"
+        },
+        {
+          "name": "char.tostring.int",
+          "code": "string (int (Char.MaxValue))",
+          "status": "pass",
+          "net": "65535"
+        },
+        {
+          "name": "bool.parse",
+          "code": "string (Boolean.Parse \"True\") + \",\" + string (Boolean.Parse \"false\")",
+          "status": "mismatch",
+          "net": "True,False",
+          "js": "true,false"
+        },
+        {
+          "name": "nullable",
+          "code": "let x = Nullable 3 in let y = Nullable<int>() in string x.Value + \",\" + B y.HasValue + \",\" + string (y.GetValueOrDefault 9)",
+          "status": "pass",
+          "net": "3,false,9"
+        },
+        {
+          "name": "math.functions",
+          "code": "string (Math.Max(3, 7)) + \",\" + string (Math.Abs -2.5) + \",\" + string (Math.Floor -1.5) + \",\" + string (Math.Sign -3)",
+          "status": "pass",
+          "net": "7,2.5,-2,-1"
+        },
+        {
+          "name": "math.constants",
+          "code": "string (Math.Round(Math.PI, 4)) + \",\" + string (Math.Round(Math.E, 4))",
+          "status": "pass",
+          "net": "3.1416,2.7183"
+        },
+        {
+          "name": "math.clamp",
+          "code": "string (Math.Clamp(15, 0, 10))",
+          "status": "pass",
+          "net": "10"
+        },
+        {
+          "name": "math.divrem",
+          "code": "let q, r = Math.DivRem(17, 5) in string q + string r",
+          "status": "unsupported",
+          "net": "32",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "math.truncate.log",
+          "code": "string (Math.Truncate -2.9) + \",\" + string (Math.Log10 1000.0) + \",\" + string (Math.Log(8.0, 2.0))",
+          "status": "mismatch",
+          "net": "-2,3,3",
+          "js": "-2,2.9999999999999996,3"
+        },
+        {
+          "name": "convert.tobase",
+          "code": "Convert.ToString(10, 2) + \",\" + string (Convert.ToInt32(\"ff\", 16))",
+          "status": "unsupported",
+          "net": "1010,255",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "convert.toint32.rounding",
+          "code": "string (Convert.ToInt32 2.5) + \",\" + string (Convert.ToInt32 3.5)",
+          "status": "pass",
+          "net": "2,4"
+        },
+        {
+          "name": "convert.base64",
+          "code": "Convert.ToBase64String [| 1uy; 2uy; 255uy |]",
+          "status": "unsupported",
+          "net": "AQL/",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "bitconverter",
+          "code": "string (BitConverter.GetBytes(1).Length)",
+          "status": "unsupported",
+          "net": "4",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "random.range",
+          "code": "let r = Random() in let x = r.Next(5, 10) in B (x >= 5 && x < 10)",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "uri",
+          "code": "let u = Uri \"https://example.com:8080/a/b?q=1\" in u.Host + \",\" + string u.Port + \",\" + u.AbsolutePath",
+          "status": "unsupported",
+          "net": "example.com,8080,/a/b",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "typeof.int.name",
+          "code": "typeof<string>.FullName",
+          "status": "known",
+          "net": "System.String",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "gettype.name",
+          "code": "(box 1).GetType().Name",
+          "status": "known",
+          "net": "Int32",
+          "js": "WS-COMPILE-ERROR"
+        }
+      ],
+      "total": 43,
+      "pass": 25
+    }
+  ]
+}

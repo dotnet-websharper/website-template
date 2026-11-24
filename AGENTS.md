@@ -372,6 +372,47 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
     order**, so the explorer pairs them by position (display names are not unique:
     F# has a `List` module, a `List` static class and `List<T>`).
 
+- **Conformance page** (`/conformance`, `Conformance.html`, `Src/Conformance.fs`,
+  `tools/conformance/export.mjs`): the published matrices of core's C# and F# conformance
+  checks (`core/tests/WebSharper.CSharp.Conformance`, `core/tests/WebSharper.FSharp.Conformance`)
+  on **one page**: both languages are rendered server-side (the nested `LangView` template,
+  once per language, `data-lang-view="<lang>"`, F# `hidden`) and a C# / F# switch at the top
+  picks one client-side. Linked from the footer ("C# conformance" → `./conformance`,
+  "F# conformance" → `./conformance#fsharp`), the Coverage page and a card on the C# page
+  (after the translator's "Also translated" box, holes
+  `ConformancePass`/`ConformanceTotal`/`ConformanceKnown`, from `Conformance.Summary "csharp"`).
+  - **Hash routing** (`ConformanceClient`): the URL hash is the whole state, so every view is
+    shareable: `#csharp` (also the no-hash default), `#fsharp`, and `#<lang>/<area>` for an
+    area (`#fsharp/dates`). The switch (`data-lang-tab`, styled with `aria-selected:`) and the
+    area pills (`data-open-area`) are **plain links** to those hashes; `hashchange` applies
+    them, so back/forward walk through the states. Element ids are language-prefixed
+    (`fsharp-area-dates`, `fsharp-open`, `fsharp-known`), and no id equals a hash, so the
+    browser never scrolls on its own. A link to the hash already in the URL fires no
+    `hashchange`, so the pills also re-apply on click (reopening a collapsed area). The area is
+    opened again after `load` (opened earlier, the page's own loading leaves it closed) and
+    scrolled to instantly; clicks scroll smoothly.
+  - `ConformanceClient.Behaviour` does its wiring when it is **called**, not in
+    `on.afterRender`: the page activates it with `ReplaceInDom` on `DOMContentLoaded`, which
+    never fires `afterRender`, so a hook there silently never runs (a fragment link still
+    seemed to work only because Chrome opens a `<details>` that a link targets).
+  - **Data** is generated, never hand-edited: build core's `Net/` project in Release, then
+    `node tools/conformance/export.mjs <csharp|fsharp> [path/to/core]` (default `csharp`,
+    `../core`) rewrites `WebSharperWebsite/Assets/conformance/<lang>.json` from the case files
+    (one case per line, `C("name", () => body),` in C# and `C "name" (fun () -> body)` in F#;
+    the first one inside an `#if !JS` fence wins), `baseline.json` (status), `known.json`
+    (reasons) and the .NET run (each case's output, with `TZ=UTC` like core's F# check). The
+    area list per language is in the script; it fails if a case file isn't mapped to an area
+    or a baseline case isn't found. Not run by the GHA; refresh locally after core's
+    conformance changes and commit the JSON.
+  - A `known.json` reason is "<difference>. <alternative>.": the export splits off the
+    **last sentence** as the "Instead:" text, so keep that shape in core.
+  - **Per-language view**: headline cards, known-difference cards, a collapsed "Not matching
+    .NET yet" list of the `mismatch` and `unsupported` cases (only when there are any), and one
+    `<details>` per area. `${Lang}`, `${LangId}`, `${Project}`, `${JsonPath}` and `${TsNote}`
+    (the C#-only `.d.ts` check) are its text holes. Both languages make the built page ~1.1 MB
+    of HTML. Inside `ServerPages`, `Conformance` is the page function, so reach the module as
+    `WebSharperWebsite.Conformance`.
+
 ## WebSharper client-code constraints (met in this repo)
 
 - The JavaScript compilation rejects some .NET members:
