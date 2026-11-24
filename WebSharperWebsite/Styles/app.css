@@ -362,3 +362,99 @@ option {
 .ws-tab[aria-selected="true"] {
     border-right-color: transparent;
 }
+
+/* ------------------------------------------------------------------------
+   Light theme surfaces.
+   Everything below is scoped to `:root:not(.dark)`, so the dark theme is
+   untouched. These rules are unlayered on purpose: they override the
+   Tailwind utilities (which live in @layer utilities) without !important.
+   ------------------------------------------------------------------------ */
+
+/* Canvas: a cool off-white with soft brand-coloured light falling in from the
+   top corners, instead of a flat white page. Fixed, so it frames every page. */
+:root:not(.dark) body {
+    background-color: #f6f8fc;
+    background-image:
+        radial-gradient(56rem 34rem at 8% -8rem, rgb(54 185 255 / 0.17), transparent 70%),
+        radial-gradient(50rem 32rem at 95% -6rem, rgb(129 140 248 / 0.15), transparent 70%),
+        radial-gradient(60rem 40rem at 50% 120%, rgb(56 189 248 / 0.08), transparent 70%);
+    background-attachment: fixed;
+}
+
+/* Frosted header with a hairline, so it reads as a layer over the canvas. */
+:root:not(.dark) .site-header {
+    background-color: rgb(255 255 255 / 0.72);
+    border-bottom: 1px solid rgb(15 23 42 / 0.06);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.6) inset, 0 8px 24px -18px rgb(15 23 42 / 0.25);
+    backdrop-filter: saturate(180%) blur(14px);
+}
+
+/* Elevated card: white on the tinted canvas, a layered soft shadow and a
+   brand-tinted lift on hover. */
+:root:not(.dark) .ws-card {
+    background-color: #fff;
+    border-color: rgb(15 23 42 / 0.08);
+    box-shadow:
+        0 1px 2px rgb(15 23 42 / 0.04),
+        0 10px 30px -18px rgb(30 64 175 / 0.22);
+}
+:root:not(.dark) .ws-card:hover {
+    border-color: rgb(54 185 255 / 0.55);
+    box-shadow:
+        0 1px 2px rgb(15 23 42 / 0.04),
+        0 0 0 4px rgb(54 185 255 / 0.08),
+        0 22px 44px -20px rgb(14 116 220 / 0.35);
+}
+
+/* Pills inside cards: a crisp tinted chip rather than a flat grey blob. */
+:root:not(.dark) .ws-card .rounded-full.bg-gray-100,
+:root:not(.dark) .ws-card .rounded.bg-gray-100 {
+    background-color: #f1f5fb;
+    box-shadow: inset 0 0 0 1px rgb(15 23 42 / 0.06);
+}
+
+/* Section rail (Features, Bindings, Blogs): readable inactive entries and a
+   brand-coloured active dot, instead of 30% grey text. */
+:root:not(.dark) .section-link > span {
+    color: var(--color-gray-500);
+    opacity: 0.85;
+}
+:root:not(.dark) .section-link > span.text-lg {
+    color: var(--color-gray-700);
+}
+:root:not(.dark) .section-link:hover > span,
+:root:not(.dark) .section-link.active-link > span {
+    color: var(--color-gray-950);
+    opacity: 1;
+}
+:root:not(.dark) .section-link > div {
+    background-color: var(--color-gray-300);
+}
+:root:not(.dark) .section-link:hover > div {
+    background-color: var(--color-gray-400);
+}
+:root:not(.dark) .section-link.active-link > div {
+    background-color: #0ea5e9;
+    box-shadow: 0 0 0 4px rgb(14 165 233 / 0.18);
+}
+
+/* Code windows (Components.html): a bright window frame with a white editor
+   pane and real depth, instead of slate-grey panels. */
+:root:not(.dark) .ws-window {
+    background-image: linear-gradient(180deg, #ffffff 0%, #f3f6fb 100%);
+    background-color: #f3f6fb;
+    border-color: rgb(15 23 42 / 0.08);
+    box-shadow:
+        inset 0 1px 0 #fff,
+        0 2px 4px rgb(15 23 42 / 0.03),
+        0 40px 80px -40px rgb(30 64 175 / 0.30),
+        0 16px 32px -20px rgb(15 23 42 / 0.12);
+}
+:root:not(.dark) .ws-window-pane {
+    background-color: #fff;
+    border-color: rgb(15 23 42 / 0.07);
+}
+:root:not(.dark) .ws-window-terminal {
+    background-color: #f8fafc;
+    border-color: rgb(15 23 42 / 0.07);
+}
