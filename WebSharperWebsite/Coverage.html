@@ -1,0 +1,101 @@
+<main ws-children-template="Content">
+    <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl pt-28">
+        <div class="mx-auto max-w-3xl text-center">
+            <p class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">API coverage</p>
+            <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">Which .NET APIs run in the browser</h1>
+            <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                WebSharper translates F# and C# to JavaScript, including the parts of FSharp.Core and the .NET base class
+                library it has JavaScript implementations for. Look up any type or member to see whether it translates, and how.
+            </p>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs font-medium">
+                <span class="rounded-full border border-gray-200 bg-white px-3 py-1.5 font-mono text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200">WebSharper ${Version}</span>
+                <span class="rounded-full border border-gray-200 bg-white px-3 py-1.5 font-mono text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200">.NET ${DotnetVersion}</span>
+                <span class="rounded-full border border-gray-200 bg-white px-3 py-1.5 font-mono text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200">FSharp.Core ${FSharpCoreVersion}</span>
+                <span class="rounded-full border border-gray-200 bg-white px-3 py-1.5 font-mono text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200">generated ${Generated}</span>
+            </div>
+        </div>
+
+        <div class="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-3">
+            <div class="ws-card rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/60">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">FSharp.Core</p>
+                <p class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white">${FSharpPct}%</p>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">${FSharpCovered} of ${FSharpTotal} members translate</p>
+            </div>
+            <div class="ws-card rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/60">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">.NET, client-relevant namespaces</p>
+                <p class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white">${NetPct}%</p>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">${NetCovered} of ${NetTotal} members in ${NetFocusCount} namespaces</p>
+            </div>
+            <div class="ws-card rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/60">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Translated members</p>
+                <p class="mt-2 text-4xl font-bold tracking-tight text-gray-950 dark:text-white">${TotalCovered}</p>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">constructors, methods, properties and events</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="explorer" class="mx-auto mt-20 max-w-6xl scroll-mt-28 px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-950 dark:text-white">Look it up</h2>
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Search a type (<code class="font-mono">Dictionary</code>), a member (<code class="font-mono">String.Split</code>,
+            <code class="font-mono">List.map</code>) or pick a namespace below.
+        </p>
+        <div class="mt-6" ws-hole="Explorer"></div>
+    </section>
+
+    <section id="namespaces" class="mx-auto mt-20 max-w-6xl scroll-mt-28 px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-950 dark:text-white">By namespace</h2>
+        <div ws-hole="Overview"></div>
+    </section>
+
+    <section id="how" class="mx-auto mt-20 max-w-6xl scroll-mt-28 px-6 pb-24 lg:px-8 xl:px-0 2xl:max-w-7xl">
+        <div class="grid gap-6 lg:grid-cols-2">
+            <div class="ws-card rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/60">
+                <h3 class="text-lg font-semibold text-gray-950 dark:text-white">How this is computed</h3>
+                <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                    Nothing here is maintained by hand. The compiler's own metadata for <code class="font-mono">WebSharper.StdLib</code>
+                    lists every member it can translate and how: an inline JavaScript template, a compiled proxy, or a macro.
+                    Each public constructor and method of the .NET reference assemblies and FSharp.Core is matched against it by
+                    exact signature, so overloads are reported separately.
+                </p>
+                <dl class="mt-5 space-y-3 text-sm">
+                    <div class="flex gap-3">
+                        <dt class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500"></dt>
+                        <dd class="text-gray-600 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">Translates</span>: a JavaScript translation exists for this exact signature.</dd>
+                    </div>
+                    <div class="flex gap-3">
+                        <dt class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-amber-400"></dt>
+                        <dd class="text-gray-600 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">Maybe</span>: no member entry, but the type is handled by a macro that may cover it.</dd>
+                    </div>
+                    <div class="flex gap-3">
+                        <dt class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-gray-300 dark:bg-gray-600"></dt>
+                        <dd class="text-gray-600 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">Not translated</span>: using it from client code is a compile error (<code class="font-mono">WS9001</code>). Use it on the server, or call a JavaScript API instead.</dd>
+                    </div>
+                </dl>
+                <p class="mt-5 text-xs leading-5 text-gray-500 dark:text-gray-500">
+                    Primitive operators (<code class="font-mono">a + b</code> on numbers), F# records, unions and pattern matching,
+                    and other language constructs are compiled directly and are not listed as members. Attributes are compile-time only
+                    and are left out.
+                </p>
+            </div>
+            <div class="ws-card rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/60">
+                <h3 class="text-lg font-semibold text-gray-950 dark:text-white">For tools and AI agents</h3>
+                <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                    The same data is published as JSON, so an agent can check a member before writing client code that uses it.
+                </p>
+                <ul class="mt-4 space-y-2 text-sm">
+                    <li><a class="font-mono text-indigo-600 hover:underline dark:text-indigo-400" href="/Assets/coverage/index.json">/Assets/coverage/index.json</a>
+                        <span class="text-gray-600 dark:text-gray-400">: every namespace and type, with counts</span></li>
+                    <li><span class="font-mono text-gray-800 dark:text-gray-200">/Assets/coverage/&lt;library&gt;/&lt;namespace&gt;.json</span>
+                        <span class="text-gray-600 dark:text-gray-400">: the members, e.g.</span>
+                        <a class="font-mono text-indigo-600 hover:underline dark:text-indigo-400" href="/Assets/coverage/dotnet/System.Collections.Generic.json">dotnet/System.Collections.Generic.json</a></li>
+                </ul>
+                <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                    Each member has a <code class="font-mono">status</code> (<code class="font-mono">covered</code>,
+                    <code class="font-mono">maybe</code>, <code class="font-mono">missing</code>) and a <code class="font-mono">via</code>
+                    telling how it is translated. Namespaces without a file have no translated members.
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
