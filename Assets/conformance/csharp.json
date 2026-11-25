@@ -1,0 +1,2284 @@
+{
+  "lang": "csharp",
+  "source": "dotnet-websharper/core tests/WebSharper.CSharp.Conformance",
+  "commit": "24cff94d",
+  "commitDate": "2026-11-25",
+  "generated": "2026-11-25",
+  "total": 339,
+  "pass": 322,
+  "known": 17,
+  "mismatch": 0,
+  "unsupported": 0,
+  "knownDifferences": [
+    {
+      "name": "string.equality.ref",
+      "area": "Strings and formatting",
+      "code": "{ var a = \"ab\"; var b = string.Concat(\"a\", \"b\"); return B(a == b) + \",\" + B((object)a == (object)b) + \",\" + B(a.Equals(b)); }",
+      "net": "true,false,true",
+      "js": "true,true,true",
+      "difference": "JavaScript strings are values: two equal strings are never different references.",
+      "alternative": "Compare strings with == or string.Equals."
+    },
+    {
+      "name": "boxing.equality",
+      "area": "Types and dates",
+      "code": "{ object a = 1, b = 1; return B(a == b) + \",\" + B(a.Equals(b)) + \",\" + B(Equals(a, b)); }",
+      "net": "false,true,true",
+      "js": "true,true,true",
+      "difference": "Values are not boxed in JavaScript: two boxed equal numbers compare equal by reference too.",
+      "alternative": "Compare unboxed values instead of relying on reference identity."
+    },
+    {
+      "name": "float.precision",
+      "area": "Numbers",
+      "code": "{ float f = 0.1f; return $\"{f}|{(double)f}\"; }",
+      "net": "0.1|0.10000000149011612",
+      "js": "0.1|0.1",
+      "difference": "`float` is a JavaScript number, so it keeps double precision instead of rounding to single.",
+      "alternative": "Use `double`, or a Float32Array from WebSharper.JavaScript when single-precision storage matters."
+    },
+    {
+      "name": "array.outofrange",
+      "area": "Collections",
+      "code": "{ var a = new int[2]; return $\"{a[2]}\"; }",
+      "net": "EXN IndexOutOfRange",
+      "js": "undefined",
+      "difference": "Array accesses are not bounds-checked: reading past the end gives undefined instead of throwing IndexOutOfRangeException.",
+      "alternative": "Check Length before indexing."
+    },
+    {
+      "name": "exception.null.deref",
+      "area": "Language",
+      "code": "{ string s = null; return $\"{s.Length}\"; }",
+      "net": "EXN NullReference",
+      "js": "EXN Exception",
+      "difference": "Dereferencing null throws a JavaScript TypeError, not a NullReferenceException.",
+      "alternative": "Check for null (or use ?.) instead of catching NullReferenceException."
+    },
+    {
+      "name": "dict.insertion.order",
+      "area": "Collections",
+      "code": "{ var d = new Dictionary<string, int> { [\"b\"] = 1, [\"a\"] = 2, [\"c\"] = 3 }; d.Remove(\"a\"); d[\"d\"] = 4; return J(d.Keys); }",
+      "net": "[b,d,c]",
+      "js": "[b,c,d]",
+      "difference": "After a Remove, .NET reuses the freed slot for the next Add; that order is unspecified in .NET, and JavaScript keeps insertion order.",
+      "alternative": "Sort the keys, or use SortedDictionary, when order matters."
+    },
+    {
+      "name": "generic.default",
+      "area": "Types and dates",
+      "code": "$\"{Box<int>.Default()}|{Box<string>.Default() ?? \"null\"}\"",
+      "net": "0|null",
+      "js": "null|null",
+      "difference": "Generics are erased: default(T) inside generic code is null for value types too.",
+      "alternative": "Pass the default value in, or constrain T to a class."
+    },
+    {
+      "name": "enum.getvalues",
+      "area": "Pattern matching",
+      "code": "J(Enum.GetValues<Color>())",
+      "net": "[Red,Green,Blue]",
+      "js": "[0,5,6]",
+      "difference": "Enums are erased to numbers: a boxed or generic enum value formats as its number.",
+      "alternative": "Call ToString on the statically typed enum value."
+    },
+    {
+      "name": "list.capacity.tostring",
+      "area": "Collections",
+      "code": "new List<int>().ToString()",
+      "net": "System.Collections.Generic.List`1[System.Int32]",
+      "js": "",
+      "difference": "No runtime type names: Object.ToString on a type that does not override it does not give the .NET type name.",
+      "alternative": "Override ToString, or use nameof."
+    },
+    {
+      "name": "object.tostring.default",
+      "area": "Types and dates",
+      "code": "new Plain().ToString()",
+      "net": "Conformance.Plain",
+      "js": "[object Object]",
+      "difference": "No runtime type names: Object.ToString on a type that does not override it does not give the .NET type name.",
+      "alternative": "Override ToString, or use nameof."
+    },
+    {
+      "name": "gettype.name",
+      "area": "Types and dates",
+      "code": "new Dog().GetType().Name",
+      "net": "Dog",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "No reflection: GetType() is not available in JavaScript.",
+      "alternative": "Use nameof for names, pattern matching (`is`) for type tests, or WebSharper.JavaScript.Object.GetPrototypeOf for the JavaScript prototype."
+    },
+    {
+      "name": "span.sum",
+      "area": "Collections",
+      "code": "{ Span<int> s = stackalloc int[] { 1, 2, 3 }; var t = 0; foreach (var x in s) t += x; return $\"{t}\"; }",
+      "net": "6",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "Span<T> and stackalloc are not supported.",
+      "alternative": "Use arrays, or JavaScript typed arrays from WebSharper.JavaScript."
+    },
+    {
+      "name": "datetime.iso",
+      "area": "Types and dates",
+      "code": "new DateTime(2024, 7, 4, 9, 3, 0, DateTimeKind.Utc).ToString(\"o\")",
+      "net": "2024-07-04T09:03:00.0000000Z",
+      "js": "2024-07-04T11:03:00.0000000+02:00",
+      "difference": "A DateTime has no Kind in JavaScript: the \"o\" format writes local time with its offset, never \"Z\".",
+      "alternative": "Use DateTimeOffset, or Date.toISOString from WebSharper.JavaScript for a UTC timestamp."
+    },
+    {
+      "name": "readonly.wrapper",
+      "area": "Collections",
+      "code": "{ var l = new List<int> { 1 }; var r = l.AsReadOnly(); l.Add(2); return $\"{r.Count}\"; }",
+      "net": "2",
+      "js": "1",
+      "difference": "AsReadOnly returns a snapshot, not a live wrapper: it doesn't see later changes to the list.",
+      "alternative": "Call AsReadOnly again after changing the list, or pass the list as IReadOnlyList<T>."
+    },
+    {
+      "name": "sorteddictionary.keys.live",
+      "area": "Collections",
+      "code": "{ var d = new SortedDictionary<int, string> { [1] = \"a\" }; var keys = d.Keys; d[2] = \"b\"; return $\"{keys.Count}\"; }",
+      "net": "2",
+      "js": "1",
+      "difference": "SortedDictionary.Keys and .Values are snapshots, not live views: they don't see later changes.",
+      "alternative": "Read Keys/Values again after changing the dictionary."
+    },
+    {
+      "name": "typeof.name",
+      "area": "Types and dates",
+      "code": "typeof(Dog).Name + \"|\" + typeof(List<int>).Name",
+      "net": "Dog|List`1",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "No reflection: System.Type is not available in JavaScript, and a partial typeof(T).Name would suggest otherwise.",
+      "alternative": "Use nameof(T) for names, or WebSharper.JavaScript.Object.GetPrototypeOf for the JavaScript prototype."
+    },
+    {
+      "name": "typeof.fullname",
+      "area": "Types and dates",
+      "code": "typeof(Dog).FullName + \"|\" + typeof(Dog).Namespace + \"|\" + typeof(string).FullName + \"|\" + typeof(Dictionary<string, int>).Name",
+      "net": "Conformance.Dog|Conformance|System.String|Dictionary`2",
+      "js": "WS-COMPILE-ERROR",
+      "difference": "No reflection: System.Type is not available in JavaScript, and a partial typeof(T).Name would suggest otherwise.",
+      "alternative": "Use nameof(T) for names, or WebSharper.JavaScript.Object.GetPrototypeOf for the JavaScript prototype."
+    }
+  ],
+  "areas": [
+    {
+      "id": "numbers",
+      "name": "Numbers",
+      "cases": [
+        {
+          "name": "int.overflow.wraps",
+          "code": "$\"{Big() + 1}\"",
+          "status": "pass",
+          "net": "-2147483648"
+        },
+        {
+          "name": "int.multiply.wraps",
+          "code": "$\"{Big() * 2}\"",
+          "status": "pass",
+          "net": "-2"
+        },
+        {
+          "name": "int.multiply.large",
+          "code": "{ int x = (1 << 28) + 1; uint u = uint.MaxValue; return $\"{x * x},{u * u},{x * x * x}\"; }",
+          "status": "pass",
+          "net": "536870913,1,805306369"
+        },
+        {
+          "name": "int.division.truncates",
+          "code": "$\"{-7 / 2},{7 / -2}\"",
+          "status": "pass",
+          "net": "-3,-3"
+        },
+        {
+          "name": "int.remainder.sign",
+          "code": "$\"{-7 % 3},{7 % -3}\"",
+          "status": "pass",
+          "net": "-1,1"
+        },
+        {
+          "name": "int.divide.by.zero",
+          "code": "$\"{1 / Zero()}\"",
+          "status": "pass",
+          "net": "EXN DivideByZero"
+        },
+        {
+          "name": "int.checked.overflow",
+          "code": "$\"{checked(Big() + 1)}\"",
+          "status": "pass",
+          "net": "EXN Overflow"
+        },
+        {
+          "name": "uint.wraps",
+          "code": "{ uint u = 0; u--; return $\"{u}\"; }",
+          "status": "pass",
+          "net": "4294967295"
+        },
+        {
+          "name": "byte.wraps",
+          "code": "{ byte b = 255; b++; return $\"{b}\"; }",
+          "status": "pass",
+          "net": "0"
+        },
+        {
+          "name": "short.cast.truncates",
+          "code": "$\"{unchecked((short)70000)}\"",
+          "status": "pass",
+          "net": "4464"
+        },
+        {
+          "name": "long.max",
+          "code": "$\"{BigL()}\"",
+          "status": "pass",
+          "net": "9223372036854775807"
+        },
+        {
+          "name": "long.overflow.wraps",
+          "code": "$\"{BigL() + 1}\"",
+          "status": "pass",
+          "net": "-9223372036854775808"
+        },
+        {
+          "name": "long.multiply",
+          "code": "$\"{3_000_000_000L * 3}\"",
+          "status": "pass",
+          "net": "9000000000"
+        },
+        {
+          "name": "double.tostring",
+          "code": "$\"{0.1 + 0.2}|{1.0}|{1e21}|{1.5e-7}|{double.NaN}|{1.0 / 0}\"",
+          "status": "pass",
+          "net": "0.30000000000000004|1|1E+21|1.5E-07|NaN|Infinity"
+        },
+        {
+          "name": "double.to.int.truncates",
+          "code": "$\"{(int)2.9},{(int)-2.9}\"",
+          "status": "pass",
+          "net": "2,-2"
+        },
+        {
+          "name": "double.to.int.nan",
+          "code": "{ double n = double.NaN; return $\"{(int)n}\"; }",
+          "status": "pass",
+          "net": "0"
+        },
+        {
+          "name": "math.round.bankers",
+          "code": "$\"{Math.Round(2.5)},{Math.Round(3.5)},{Math.Round(-2.5)}\"",
+          "status": "pass",
+          "net": "2,4,-2"
+        },
+        {
+          "name": "math.round.digits",
+          "code": "$\"{Math.Round(1.005, 2)},{Math.Round(2.345, 2)}\"",
+          "status": "pass",
+          "net": "1,2.35"
+        },
+        {
+          "name": "math.round.awayfromzero",
+          "code": "$\"{Math.Round(2.5, MidpointRounding.AwayFromZero)}\"",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "math.floor.ceiling",
+          "code": "$\"{Math.Floor(-1.5)},{Math.Ceiling(-1.5)},{Math.Truncate(-1.5)}\"",
+          "status": "pass",
+          "net": "-2,-1,-1"
+        },
+        {
+          "name": "math.clamp.sign",
+          "code": "$\"{Math.Clamp(15, 0, 10)},{Math.Sign(-3.2)},{Math.Abs(-4)}\"",
+          "status": "pass",
+          "net": "10,-1,4"
+        },
+        {
+          "name": "math.max.min.int",
+          "code": "$\"{Math.Max(3, 7)},{Math.Min(3L, 7L)}\"",
+          "status": "pass",
+          "net": "7,3"
+        },
+        {
+          "name": "format.N2",
+          "code": "(1234567.891).ToString(\"N2\")",
+          "status": "pass",
+          "net": "1,234,567.89"
+        },
+        {
+          "name": "format.F3",
+          "code": "(3.14159).ToString(\"F3\")",
+          "status": "pass",
+          "net": "3.142"
+        },
+        {
+          "name": "format.P1",
+          "code": "(0.256).ToString(\"P1\")",
+          "status": "pass",
+          "net": "25.6 %"
+        },
+        {
+          "name": "format.D5",
+          "code": "42.ToString(\"D5\")",
+          "status": "pass",
+          "net": "00042"
+        },
+        {
+          "name": "format.X",
+          "code": "255.ToString(\"X\") + \",\" + 255.ToString(\"x4\")",
+          "status": "pass",
+          "net": "FF,00ff"
+        },
+        {
+          "name": "format.E2",
+          "code": "12345.678.ToString(\"E2\")",
+          "status": "pass",
+          "net": "1.23E+004"
+        },
+        {
+          "name": "format.interp.align",
+          "code": "$\"[{42,5}][{42,-5}]\"",
+          "status": "pass",
+          "net": "[   42][42   ]"
+        },
+        {
+          "name": "format.interp.spec",
+          "code": "$\"{3.14159:F2}|{0.5:P0}|{1234:N0}\"",
+          "status": "pass",
+          "net": "3.14|50 %|1,234"
+        },
+        {
+          "name": "format.custom",
+          "code": "(1234.5).ToString(\"0,0.00\") + \"|\" + (0.5).ToString(\"#.##\")",
+          "status": "pass",
+          "net": "1,234.50|.5"
+        },
+        {
+          "name": "string.format",
+          "code": "string.Format(\"{0}-{1:F1}-{0}\", 1, 2.25)",
+          "status": "pass",
+          "net": "1-2.2-1"
+        },
+        {
+          "name": "parse.int",
+          "code": "$\"{int.Parse(\"42\")},{int.Parse(\" -7 \")}\"",
+          "status": "pass",
+          "net": "42,-7"
+        },
+        {
+          "name": "parse.int.invalid",
+          "code": "$\"{int.Parse(\"4x2\")}\"",
+          "status": "pass",
+          "net": "EXN Format"
+        },
+        {
+          "name": "parse.int.overflow",
+          "code": "$\"{int.Parse(\"99999999999\")}\"",
+          "status": "pass",
+          "net": "EXN Overflow"
+        },
+        {
+          "name": "tryparse.int",
+          "code": "{ var ok = int.TryParse(\"12a\", out var v); return $\"{B(ok)},{v}\"; }",
+          "status": "pass",
+          "net": "false,0"
+        },
+        {
+          "name": "parse.double",
+          "code": "$\"{double.Parse(\"1.5e3\", CultureInfo.InvariantCulture)}\"",
+          "status": "pass",
+          "net": "1500"
+        },
+        {
+          "name": "tryparse.double",
+          "code": "{ var ok = double.TryParse(\"abc\", out var v); return $\"{B(ok)},{v}\"; }",
+          "status": "pass",
+          "net": "false,0"
+        },
+        {
+          "name": "convert.toint32.rounds",
+          "code": "$\"{Convert.ToInt32(2.5)},{Convert.ToInt32(3.5)}\"",
+          "status": "pass",
+          "net": "2,4"
+        },
+        {
+          "name": "int.tostring.negative.zero",
+          "code": "$\"{-0.0}\"",
+          "status": "pass",
+          "net": "-0"
+        },
+        {
+          "name": "char.arith",
+          "code": "{ char c = 'a'; c++; return $\"{c},{(int)'A'},{(char)66}\"; }",
+          "status": "pass",
+          "net": "b,65,B"
+        },
+        {
+          "name": "char.isdigit.letter",
+          "code": "$\"{B(char.IsDigit('7'))},{B(char.IsLetter('7'))},{B(char.IsWhiteSpace('\\t'))},{B(char.IsUpper('Q'))}\"",
+          "status": "pass",
+          "net": "true,false,true,true"
+        },
+        {
+          "name": "bitwise.shift",
+          "code": "$\"{1 << 33},{-16 >> 2},{-16 >>> 2},{1L << 40}\"",
+          "status": "pass",
+          "net": "2,-4,1073741820,1099511627776"
+        },
+        {
+          "name": "bitwise.ops",
+          "code": "$\"{6 & 3},{6 | 3},{6 ^ 3},{~5}\"",
+          "status": "pass",
+          "net": "2,7,5,-6"
+        },
+        {
+          "name": "compound.assign.ops",
+          "code": "{ int x = 10; x += 5; x *= 2; x -= 3; x /= 4; x %= 4; x <<= 2; return $\"{x}\"; }",
+          "status": "pass",
+          "net": "8"
+        },
+        {
+          "name": "nullable.arith",
+          "code": "{ int? a = null; int? b = 3; return $\"{a + b}|{(a ?? 0) + b}|{B((a + b).HasValue)}\"; }",
+          "status": "pass",
+          "net": "|3|false"
+        },
+        {
+          "name": "nullable.compare",
+          "code": "{ int? a = null; return $\"{B(a < 3)},{B(a == null)},{B(a >= 3)}\"; }",
+          "status": "pass",
+          "net": "false,true,false"
+        },
+        {
+          "name": "int.minvalue.negate",
+          "code": "{ int m = int.MinValue; return $\"{-m}\"; }",
+          "status": "pass",
+          "net": "-2147483648"
+        },
+        {
+          "name": "double.equality.nan",
+          "code": "$\"{B(double.NaN == double.NaN)},{B(double.NaN.Equals(double.NaN))}\"",
+          "status": "pass",
+          "net": "false,true"
+        },
+        {
+          "name": "float.precision",
+          "code": "{ float f = 0.1f; return $\"{f}|{(double)f}\"; }",
+          "status": "known",
+          "net": "0.1|0.10000000149011612",
+          "js": "0.1|0.1"
+        },
+        {
+          "name": "int.compareto",
+          "code": "$\"{3.CompareTo(5)},{5.CompareTo(5)},\" + \"b\".CompareTo(\"a\")",
+          "status": "pass",
+          "net": "-1,0,1"
+        }
+      ],
+      "total": 51,
+      "pass": 50
+    },
+    {
+      "id": "strings",
+      "name": "Strings and formatting",
+      "cases": [
+        {
+          "name": "split.basic",
+          "code": "J(\"a,b,,c\".Split(','))",
+          "status": "pass",
+          "net": "[a,b,,c]"
+        },
+        {
+          "name": "split.removeempty",
+          "code": "J(\"a,b,,c\".Split(',', StringSplitOptions.RemoveEmptyEntries))",
+          "status": "pass",
+          "net": "[a,b,c]"
+        },
+        {
+          "name": "split.trimentries",
+          "code": "J(\" a , b ,c \".Split(',', StringSplitOptions.TrimEntries))",
+          "status": "pass",
+          "net": "[a,b,c]"
+        },
+        {
+          "name": "split.chars",
+          "code": "J(\"a b;c\".Split(new[] { ' ', ';' }))",
+          "status": "pass",
+          "net": "[a,b,c]"
+        },
+        {
+          "name": "split.string",
+          "code": "J(\"a::b::c\".Split(\"::\"))",
+          "status": "pass",
+          "net": "[a,b,c]"
+        },
+        {
+          "name": "split.count",
+          "code": "J(\"a,b,c,d\".Split(',', 2))",
+          "status": "pass",
+          "net": "[a,b,c,d]"
+        },
+        {
+          "name": "trim.chars",
+          "code": "\"xxhixx\".Trim('x') + \"|\" + \"  hi \".TrimStart() + \"|\" + \"  hi \".TrimEnd() + \"|\"",
+          "status": "pass",
+          "net": "hi|hi |  hi|"
+        },
+        {
+          "name": "pad",
+          "code": "\"7\".PadLeft(3, '0') + \"|\" + \"ab\".PadRight(4) + \"|\"",
+          "status": "pass",
+          "net": "007|ab  |"
+        },
+        {
+          "name": "substring",
+          "code": "\"hello\".Substring(1, 3) + \"|\" + \"hello\".Substring(2)",
+          "status": "pass",
+          "net": "ell|llo"
+        },
+        {
+          "name": "substring.outofrange",
+          "code": "\"hello\".Substring(3, 5)",
+          "status": "pass",
+          "net": "EXN ArgumentOutOfRange"
+        },
+        {
+          "name": "indexof",
+          "code": "$\"{\"hello\".IndexOf('l')},{\"hello\".LastIndexOf('l')},{\"hello\".IndexOf(\"lo\")},{\"hello\".IndexOf('z')}\"",
+          "status": "pass",
+          "net": "2,3,3,-1"
+        },
+        {
+          "name": "indexof.startindex",
+          "code": "$\"{\"abcabc\".IndexOf('b', 2)}\"",
+          "status": "pass",
+          "net": "4"
+        },
+        {
+          "name": "contains.comparison",
+          "code": "B(\"Hello\".Contains(\"hell\", StringComparison.OrdinalIgnoreCase))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "startswith.endswith",
+          "code": "$\"{B(\"Hello\".StartsWith(\"He\"))},{B(\"Hello\".EndsWith(\"LO\", StringComparison.OrdinalIgnoreCase))}\"",
+          "status": "pass",
+          "net": "true,true"
+        },
+        {
+          "name": "equals.ignorecase",
+          "code": "B(string.Equals(\"abc\", \"ABC\", StringComparison.OrdinalIgnoreCase))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "compare.ordinal",
+          "code": "$\"{Math.Sign(string.CompareOrdinal(\"a\", \"B\"))},{Math.Sign(string.Compare(\"a\", \"b\"))}\"",
+          "status": "pass",
+          "net": "1,-1"
+        },
+        {
+          "name": "upper.lower.invariant",
+          "code": "\"MiXeD\".ToUpperInvariant() + \"|\" + \"MiXeD\".ToLowerInvariant()",
+          "status": "pass",
+          "net": "MIXED|mixed"
+        },
+        {
+          "name": "replace",
+          "code": "\"a-b-c\".Replace(\"-\", \"+\") + \"|\" + \"a-b-c\".Replace('-', '_')",
+          "status": "pass",
+          "net": "a+b+c|a_b_c"
+        },
+        {
+          "name": "insert.remove",
+          "code": "\"hello\".Insert(2, \"XX\") + \"|\" + \"hello\".Remove(1, 2) + \"|\" + \"hello\".Remove(3)",
+          "status": "pass",
+          "net": "heXXllo|hlo|hel"
+        },
+        {
+          "name": "join.concat",
+          "code": "string.Join(\"-\", new[] { 1, 2, 3 }) + \"|\" + string.Concat(\"a\", 1, true)",
+          "status": "pass",
+          "net": "1-2-3|a1True"
+        },
+        {
+          "name": "join.null",
+          "code": "string.Join(\",\", new string[] { \"a\", null, \"b\" })",
+          "status": "pass",
+          "net": "a,,b"
+        },
+        {
+          "name": "join.concat.objects",
+          "code": "string.Join(\",\", 1, false, null, 2.5) + \"|\" + string.Concat(new object[] { true, null, -0.0, 7 }) + \"|\" + string.Concat(false, \"x\")",
+          "status": "pass",
+          "net": "1,False,,2.5|True-07|Falsex"
+        },
+        {
+          "name": "isnullorwhitespace",
+          "code": "$\"{B(string.IsNullOrWhiteSpace(\" \\t\"))},{B(string.IsNullOrEmpty(\"\"))}\"",
+          "status": "pass",
+          "net": "true,true"
+        },
+        {
+          "name": "char.indexer",
+          "code": "{ var s = \"abc\"; return $\"{s[1]},{s[^1]}\"; }",
+          "status": "pass",
+          "net": "b,c"
+        },
+        {
+          "name": "string.range",
+          "code": "\"hello world\"[6..] + \"|\" + \"hello\"[1..^1]",
+          "status": "pass",
+          "net": "world|ell"
+        },
+        {
+          "name": "string.ctor.repeat",
+          "code": "new string('=', 5)",
+          "status": "pass",
+          "net": "====="
+        },
+        {
+          "name": "tochararray.reverse",
+          "code": "new string(\"hello\".ToCharArray().Reverse().ToArray())",
+          "status": "pass",
+          "net": "olleh"
+        },
+        {
+          "name": "string.equality.ref",
+          "code": "{ var a = \"ab\"; var b = string.Concat(\"a\", \"b\"); return B(a == b) + \",\" + B((object)a == (object)b) + \",\" + B(a.Equals(b)); }",
+          "status": "known",
+          "net": "true,false,true",
+          "js": "true,true,true"
+        },
+        {
+          "name": "stringbuilder",
+          "code": "{ var sb = new StringBuilder(); sb.Append(\"a\").Append(1).AppendLine(\"b\").Append('c'); sb.Insert(0, \">\"); return sb.ToString().Replace(\"\\n\", \"\\\\n\").Replace(\"\\r\", \"\\\\r\") + \"|\" + sb.Length; }",
+          "status": "pass",
+          "net": ">a1b\\nc|6"
+        },
+        {
+          "name": "stringbuilder.remove.replace",
+          "code": "{ var sb = new StringBuilder(\"hello world\"); sb.Remove(0, 6).Replace('o', '0'); return sb.ToString(); }",
+          "status": "pass",
+          "net": "w0rld"
+        },
+        {
+          "name": "interp.nested",
+          "code": "{ var xs = new[] { 1, 2 }; return $\"{xs.Length} items: {string.Join(\";\", xs.Select(x => $\"<{x}>\"))}\"; }",
+          "status": "pass",
+          "net": "2 items: <1>;<2>"
+        },
+        {
+          "name": "interp.null",
+          "code": "{ string s = null; object o = null; return $\"[{s}][{o}]\"; }",
+          "status": "pass",
+          "net": "[][]"
+        },
+        {
+          "name": "interp.adjacent.numbers",
+          "code": "{ int a = 1, b = 2; return $\"{a}{b}\"; }",
+          "status": "pass",
+          "net": "12"
+        },
+        {
+          "name": "interp.single.number.is.string",
+          "code": "{ object o = $\"{7}\"; return B(o is string); }",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "interp.bool",
+          "code": "$\"{true}|{false}\"",
+          "status": "pass",
+          "net": "True|False"
+        },
+        {
+          "name": "raw.literal",
+          "code": "\"\"\"a \"quoted\" {x}\"\"\"",
+          "status": "pass",
+          "net": "a \"quoted\" {x}"
+        },
+        {
+          "name": "verbatim",
+          "code": "@\"c:\\path\\\"\"q\"\"\"",
+          "status": "pass",
+          "net": "c:\\path\\\"q\""
+        },
+        {
+          "name": "escape.unicode",
+          "code": "\"\\u00e9\\t|\".Length.ToString()",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "char.tostring.concat",
+          "code": "'a' + \"b\" + 'c'",
+          "status": "pass",
+          "net": "abc"
+        },
+        {
+          "name": "char.plus.char",
+          "code": "$\"{'a' + 'b'}\"",
+          "status": "pass",
+          "net": "195"
+        },
+        {
+          "name": "format.string.braces",
+          "code": "string.Format(\"{{{0}}}\", 5)",
+          "status": "pass",
+          "net": "{5}"
+        },
+        {
+          "name": "string.compareto.culture",
+          "code": "$\"{Math.Sign(\"apple\".CompareTo(\"Banana\"))}\"",
+          "status": "pass",
+          "net": "1"
+        },
+        {
+          "name": "tostring.object.null",
+          "code": "{ object o = null; return o?.ToString() ?? \"null\"; }",
+          "status": "pass",
+          "net": "null"
+        },
+        {
+          "name": "string.split.empty",
+          "code": "$\"{\"\".Split(',').Length}\"",
+          "status": "pass",
+          "net": "1"
+        },
+        {
+          "name": "trim.unicode.ws",
+          "code": "$\"[{\"\\u00a0x\\u00a0\".Trim()}]\"",
+          "status": "pass",
+          "net": "[x]"
+        },
+        {
+          "name": "lastindexof.string",
+          "code": "$\"{\"a.b.c\".LastIndexOf(\".\")}\"",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "string.contains.char",
+          "code": "B(\"abc\".Contains('b'))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "string.equals.null",
+          "code": "{ string s = null; return B(s == null) + \",\" + B(\"a\" != null); }",
+          "status": "pass",
+          "net": "true,true"
+        }
+      ],
+      "total": 48,
+      "pass": 47
+    },
+    {
+      "id": "collections",
+      "name": "Collections",
+      "cases": [
+        {
+          "name": "list.ops",
+          "code": "{ var l = new List<int> { 3, 1, 2 }; l.Add(5); l.Insert(0, 9); l.Remove(1); l.RemoveAt(1); return J(l) + l.Count; }",
+          "status": "pass",
+          "net": "[9,2,5]3"
+        },
+        {
+          "name": "list.sort.default",
+          "code": "{ var l = new List<int> { 10, 9, 1, 100 }; l.Sort(); return J(l); }",
+          "status": "pass",
+          "net": "[1,9,10,100]"
+        },
+        {
+          "name": "list.sort.strings",
+          "code": "{ var l = new List<string> { \"b\", \"B\", \"a\", \"A\" }; l.Sort(StringComparer.Ordinal); return J(l); }",
+          "status": "pass",
+          "net": "[A,B,a,b]"
+        },
+        {
+          "name": "list.sort.comparison",
+          "code": "{ var l = new List<int> { 1, 3, 2 }; l.Sort((a, b) => b.CompareTo(a)); return J(l); }",
+          "status": "pass",
+          "net": "[3,2,1]"
+        },
+        {
+          "name": "list.removeall.findindex",
+          "code": "{ var l = new List<int> { 1, 2, 3, 4, 5 }; var n = l.RemoveAll(x => x % 2 == 0); return $\"{n},{J(l)},{l.FindIndex(x => x > 1)}\"; }",
+          "status": "pass",
+          "net": "2,[1,3,5],1"
+        },
+        {
+          "name": "list.indexer.outofrange",
+          "code": "{ var l = new List<int> { 1 }; return $\"{l[5]}\"; }",
+          "status": "pass",
+          "net": "EXN ArgumentOutOfRange"
+        },
+        {
+          "name": "list.getrange.reverse",
+          "code": "{ var l = new List<int> { 1, 2, 3, 4 }; l.Reverse(); return J(l.GetRange(1, 2)); }",
+          "status": "pass",
+          "net": "[3,2]"
+        },
+        {
+          "name": "list.binarysearch",
+          "code": "$\"{new List<int> { 1, 3, 5, 7 }.BinarySearch(5)},{new List<int> { 1, 3, 5, 7 }.BinarySearch(4)}\"",
+          "status": "pass",
+          "net": "2,-3"
+        },
+        {
+          "name": "list.modify.during.foreach",
+          "code": "{ var l = new List<int> { 1, 2 }; foreach (var x in l) l.Add(x); return \"no exn\"; }",
+          "status": "pass",
+          "net": "EXN InvalidOperation"
+        },
+        {
+          "name": "array.outofrange",
+          "code": "{ var a = new int[2]; return $\"{a[2]}\"; }",
+          "status": "known",
+          "net": "EXN IndexOutOfRange",
+          "js": "undefined"
+        },
+        {
+          "name": "array.default.values",
+          "code": "J(new int[3]) + \"|\" + J(new string[2].Select(s => s ?? \"null\")) + \"|\" + J(new bool[2].Select(B))",
+          "status": "pass",
+          "net": "[0,0,0]|[null,null]|[false,false]"
+        },
+        {
+          "name": "array.sort.reverse",
+          "code": "{ var a = new[] { 3, 1, 2 }; Array.Sort(a); Array.Reverse(a); return J(a); }",
+          "status": "pass",
+          "net": "[3,2,1]"
+        },
+        {
+          "name": "array.resize.copy",
+          "code": "{ var a = new[] { 1, 2 }; Array.Resize(ref a, 4); var b = new int[4]; Array.Copy(a, b, 2); return J(a) + J(b); }",
+          "status": "pass",
+          "net": "[1,2,0,0][1,2,0,0]"
+        },
+        {
+          "name": "array.2d",
+          "code": "{ var m = new int[2, 3]; m[1, 2] = 5; return $\"{m.GetLength(0)},{m.GetLength(1)},{m[1, 2]},{m.Length}\"; }",
+          "status": "pass",
+          "net": "2,3,5,6"
+        },
+        {
+          "name": "array.2d.init",
+          "code": "{ var m = new[,] { { 1, 2, 3 }, { 4, 5, 6 } }; m[0, 1] += 10; return $\"{m.Rank},{m.GetLength(0)},{m.GetLength(1)},{m.Length},{m[0, 1]},{m[1, 2]},{m.GetUpperBound(1)}\"; }",
+          "status": "pass",
+          "net": "2,2,3,6,12,6,2"
+        },
+        {
+          "name": "array.2d.defaults",
+          "code": "{ var s = new string[2, 2]; var b = new bool[1, 2]; return $\"{B(s[1, 1] == null)},{B(b[0, 1])}\"; }",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "array.2d.declaration",
+          "code": "{ int[,] m = { { 1, 2 }, { 3, 4 } }; var n = new int[2, 2] { { 5, 6 }, { 7, 8 } }; return $\"{m.GetLength(1)},{m[1, 0]},{n.Length},{n[1, 1]}\"; }",
+          "status": "pass",
+          "net": "2,3,4,8"
+        },
+        {
+          "name": "array.jagged",
+          "code": "{ var j = new int[2][]; j[0] = new[] { 1 }; j[1] = new[] { 2, 3 }; return $\"{j[1][1]},{j.Sum(r => r.Length)}\"; }",
+          "status": "pass",
+          "net": "3,3"
+        },
+        {
+          "name": "array.equality.ref",
+          "code": "B(new[] { 1 }.Equals(new[] { 1 })) + \",\" + B(new[] { 1 }.SequenceEqual(new[] { 1 }))",
+          "status": "pass",
+          "net": "false,true"
+        },
+        {
+          "name": "array.fill.indexof",
+          "code": "{ var a = new int[3]; Array.Fill(a, 7); return $\"{J(a)},{Array.IndexOf(a, 7)},{Array.IndexOf(a, 8)}\"; }",
+          "status": "pass",
+          "net": "[7,7,7],0,-1"
+        },
+        {
+          "name": "array.range.slice",
+          "code": "J(new[] { 1, 2, 3, 4, 5 }[1..^1]) + J(new[] { 1, 2, 3 }[^2..])",
+          "status": "pass",
+          "net": "[2,3,4][2,3]"
+        },
+        {
+          "name": "array.covariance",
+          "code": "{ object[] o = new string[] { \"a\" }; return $\"{o[0]}\"; }",
+          "status": "pass",
+          "net": "a"
+        },
+        {
+          "name": "dict.insertion.order",
+          "code": "{ var d = new Dictionary<string, int> { [\"b\"] = 1, [\"a\"] = 2, [\"c\"] = 3 }; d.Remove(\"a\"); d[\"d\"] = 4; return J(d.Keys); }",
+          "status": "known",
+          "net": "[b,d,c]",
+          "js": "[b,c,d]"
+        },
+        {
+          "name": "dict.int.keys.order",
+          "code": "{ var d = new Dictionary<int, string> { [10] = \"a\", [2] = \"b\", [1] = \"c\" }; return J(d.Keys); }",
+          "status": "pass",
+          "net": "[10,2,1]"
+        },
+        {
+          "name": "dict.negative.keys.order",
+          "code": "{ var d = new Dictionary<int, int> { [5] = 0, [-3] = 0, [0] = 0, [-1] = 0 }; return J(d.Keys) + J(new HashSet<int> { 9, -2, 4 }); }",
+          "status": "pass",
+          "net": "[5,-3,0,-1][9,-2,4]"
+        },
+        {
+          "name": "dict.trygetvalue.defaults",
+          "code": "{ var d = new Dictionary<string, bool>(); var e = new Dictionary<string, double>(); d.TryGetValue(\"x\", out var b); e.TryGetValue(\"x\", out var x); return $\"{B(b)},{x}\"; }",
+          "status": "pass",
+          "net": "false,0"
+        },
+        {
+          "name": "dict.comparer.ordinal",
+          "code": "{ var d = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase) { [\"a\"] = 1 }; d[\"A\"] = 2; var h = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { \"x\", \"X\", \"y\" }; return $\"{d.Count},{d[\"a\"]},{h.Count},{StringComparer.Ordinal.Compare(\"a\", \"B\")},{StringComparer.OrdinalIgnoreCase.Equals(\"ab\", \"AB\")}\"; }",
+          "status": "pass",
+          "net": "1,2,2,31,True"
+        },
+        {
+          "name": "sorteddictionary.ops",
+          "code": "{ var d = new SortedDictionary<int, string>(Comparer<int>.Create((a, b) => b.CompareTo(a))) { [1] = \"a\", [3] = \"c\", [2] = \"b\" }; d.Remove(3); return J(d.Keys) + J(d.Values) + $\"{d.Count},{B(d.ContainsKey(2))},{B(d.TryGetValue(9, out var v))}\"; }",
+          "status": "pass",
+          "net": "[2,1][b,a]2,true,false"
+        },
+        {
+          "name": "sorteddictionary.keys.live",
+          "code": "{ var d = new SortedDictionary<int, string> { [1] = \"a\" }; var keys = d.Keys; d[2] = \"b\"; return $\"{keys.Count}\"; }",
+          "status": "known",
+          "net": "2",
+          "js": "1"
+        },
+        {
+          "name": "sortedset.ops",
+          "code": "{ var s = new SortedSet<string> { \"pear\", \"apple\", \"fig\" }; s.Remove(\"fig\"); return J(s) + $\"{s.Min},{s.Max},{B(s.Add(\"apple\"))},{s.Count}\"; }",
+          "status": "pass",
+          "net": "[apple,pear]apple,pear,false,2"
+        },
+        {
+          "name": "dict.missing.key",
+          "code": "new Dictionary<string, int>()[\"x\"].ToString()",
+          "status": "pass",
+          "net": "EXN KeyNotFound"
+        },
+        {
+          "name": "dict.add.duplicate",
+          "code": "{ var d = new Dictionary<string, int>(); d.Add(\"a\", 1); d.Add(\"a\", 2); return \"no exn\"; }",
+          "status": "pass",
+          "net": "EXN Argument"
+        },
+        {
+          "name": "dict.trygetvalue",
+          "code": "{ var d = new Dictionary<string, int> { [\"a\"] = 1 }; var ok = d.TryGetValue(\"b\", out var v); return $\"{B(ok)},{v},{B(d.ContainsKey(\"a\"))}\"; }",
+          "status": "pass",
+          "net": "false,0,true"
+        },
+        {
+          "name": "dict.kvp.tostring",
+          "code": "new Dictionary<string, int> { [\"a\"] = 1 }.First().ToString()",
+          "status": "pass",
+          "net": "[a, 1]"
+        },
+        {
+          "name": "dict.tryadd.getordefault",
+          "code": "{ var d = new Dictionary<string, int>(); d.TryAdd(\"a\", 1); var b = d.TryAdd(\"a\", 2); return $\"{B(b)},{d[\"a\"]},{d.GetValueOrDefault(\"z\", 9)}\"; }",
+          "status": "pass",
+          "net": "false,1,9"
+        },
+        {
+          "name": "dict.comparer.ignorecase",
+          "code": "{ var d = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase) { [\"Key\"] = 1 }; return B(d.ContainsKey(\"KEY\")); }",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "dict.tuple.key",
+          "code": "{ var d = new Dictionary<(int, string), int> { [(1, \"a\")] = 5 }; return $\"{d[(1, \"a\")]}\"; }",
+          "status": "pass",
+          "net": "5"
+        },
+        {
+          "name": "hashset.ops",
+          "code": "{ var s = new HashSet<int> { 1, 2, 3 }; s.IntersectWith(new[] { 2, 3, 4 }); s.UnionWith(new[] { 9 }); return J(s.OrderBy(x => x)) + B(s.Add(2)); }",
+          "status": "pass",
+          "net": "[2,3,9]false"
+        },
+        {
+          "name": "hashset.string.order",
+          "code": "J(new HashSet<string> { \"z\", \"a\", \"m\" })",
+          "status": "pass",
+          "net": "[z,a,m]"
+        },
+        {
+          "name": "stack.queue",
+          "code": "{ var s = new Stack<int>(); s.Push(1); s.Push(2); var q = new Queue<int>(); q.Enqueue(1); q.Enqueue(2); return $\"{s.Pop()},{s.Peek()},{q.Dequeue()},{q.Count},{J(new Stack<int>(new[] { 1, 2, 3 }))}\"; }",
+          "status": "pass",
+          "net": "2,1,1,1,[3,2,1]"
+        },
+        {
+          "name": "stack.pop.empty",
+          "code": "$\"{new Stack<int>().Pop()}\"",
+          "status": "pass",
+          "net": "EXN InvalidOperation"
+        },
+        {
+          "name": "sorteddictionary",
+          "code": "{ var d = new SortedDictionary<string, int> { [\"b\"] = 1, [\"a\"] = 2 }; return J(d.Keys); }",
+          "status": "pass",
+          "net": "[a,b]"
+        },
+        {
+          "name": "sortedset",
+          "code": "J(new SortedSet<int> { 5, 1, 3, 1 })",
+          "status": "pass",
+          "net": "[1,3,5]"
+        },
+        {
+          "name": "linkedlist",
+          "code": "{ var l = new LinkedList<int>(); l.AddLast(2); l.AddFirst(1); l.AddLast(3); return J(l) + l.First.Value; }",
+          "status": "pass",
+          "net": "[1,2,3]1"
+        },
+        {
+          "name": "collection.expression",
+          "code": "{ int[] a = [1, 2, 3]; List<int> l = [.. a, 4]; return J(l); }",
+          "status": "pass",
+          "net": "[1,2,3,4]"
+        },
+        {
+          "name": "span.sum",
+          "code": "{ Span<int> s = stackalloc int[] { 1, 2, 3 }; var t = 0; foreach (var x in s) t += x; return $\"{t}\"; }",
+          "status": "known",
+          "net": "6",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "readonly.wrapper",
+          "code": "{ var l = new List<int> { 1 }; var r = l.AsReadOnly(); l.Add(2); return $\"{r.Count}\"; }",
+          "status": "known",
+          "net": "2",
+          "js": "1"
+        },
+        {
+          "name": "list.capacity.tostring",
+          "code": "new List<int>().ToString()",
+          "status": "known",
+          "net": "System.Collections.Generic.List`1[System.Int32]",
+          "js": ""
+        },
+        {
+          "name": "tuple.tostring",
+          "code": "(1, \"a\", true).ToString() + \"|\" + Tuple.Create(1, 2).ToString()",
+          "status": "pass",
+          "net": "(1, a, True)|(1, 2)"
+        },
+        {
+          "name": "tuple.equality",
+          "code": "B((1, \"a\") == (1, \"a\")) + \",\" + B((1, \"a\").Equals((1, \"b\")))",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "tuple.named",
+          "code": "{ var t = (Name: \"x\", Age: 3); var (n, a) = t; return $\"{t.Name},{t.Item2},{n},{a}\"; }",
+          "status": "pass",
+          "net": "x,3,x,3"
+        },
+        {
+          "name": "tuple.swap",
+          "code": "{ int a = 1, b = 2; (a, b) = (b, a); return $\"{a},{b}\"; }",
+          "status": "pass",
+          "net": "2,1"
+        }
+      ],
+      "total": 52,
+      "pass": 46
+    },
+    {
+      "id": "linq",
+      "name": "LINQ",
+      "cases": [
+        {
+          "name": "linq.where.select",
+          "code": "J(Enumerable.Range(1, 10).Where(x => x % 3 == 0).Select(x => x * x))",
+          "status": "pass",
+          "net": "[9,36,81]"
+        },
+        {
+          "name": "linq.select.index",
+          "code": "J(new[] { \"a\", \"b\" }.Select((s, i) => $\"{i},{s}\"))",
+          "status": "pass",
+          "net": "[0,a,1,b]"
+        },
+        {
+          "name": "linq.orderby.stable",
+          "code": "J(new[] { \"bb\", \"a\", \"cc\", \"d\", \"ee\" }.OrderBy(s => s.Length))",
+          "status": "pass",
+          "net": "[a,d,bb,cc,ee]"
+        },
+        {
+          "name": "linq.orderby.thenby",
+          "code": "J(new[] { (2, \"b\"), (1, \"z\"), (2, \"a\"), (1, \"a\") }.OrderBy(t => t.Item1).ThenByDescending(t => t.Item2).Select(t => $\"{t.Item1},{t.Item2}\"))",
+          "status": "pass",
+          "net": "[1,z,1,a,2,b,2,a]"
+        },
+        {
+          "name": "linq.orderby.strings.culture",
+          "code": "J(new[] { \"b\", \"B\", \"a\", \"A\", \"_\" }.OrderBy(s => s))",
+          "status": "pass",
+          "net": "[A,B,_,a,b]"
+        },
+        {
+          "name": "linq.order",
+          "code": "J(new[] { 3, 1, 2 }.Order())",
+          "status": "pass",
+          "net": "[1,2,3]"
+        },
+        {
+          "name": "linq.groupby",
+          "code": "J(new[] { 1, 2, 3, 4, 5 }.GroupBy(x => x % 2).Select(g => $\"{g.Key}:{J(g)}\"))",
+          "status": "pass",
+          "net": "[1:[1,3,5],0:[2,4]]"
+        },
+        {
+          "name": "linq.groupby.resultselector",
+          "code": "J(new[] { \"ab\", \"c\", \"de\" }.GroupBy(s => s.Length, (k, g) => $\"{k}={g.Count()}\"))",
+          "status": "pass",
+          "net": "[2=2,1=1]"
+        },
+        {
+          "name": "linq.tolookup",
+          "code": "{ var l = new[] { \"ab\", \"c\", \"de\" }.ToLookup(s => s.Length); return $\"{l[2].Count()},{l[9].Count()},{l.Count}\"; }",
+          "status": "pass",
+          "net": "2,0,2"
+        },
+        {
+          "name": "linq.tolookup.order",
+          "code": "{ var l = new[] { \"bb\", \"a\", \"cc\", \"d\" }.ToLookup(s => s.Length, s => s.ToUpper()); return string.Join(\"|\", l.Select(g => $\"{g.Key}:{J(g)}\")) + \",\" + B(l.Contains(2)); }",
+          "status": "pass",
+          "net": "2:[BB,CC]|1:[A,D],true"
+        },
+        {
+          "name": "linq.take.range.fromend",
+          "code": "J(Enumerable.Range(1, 5).Take(^2..)) + J(new[] { 1, 2 }.Take(1..9)) + J(new[] { 1, 2 }.Take(3..1))",
+          "status": "pass",
+          "net": "[4,5][2][]"
+        },
+        {
+          "name": "linq.todictionary.dup",
+          "code": "$\"{new[] { 1, 1 }.ToDictionary(x => x).Count}\"",
+          "status": "pass",
+          "net": "EXN Argument"
+        },
+        {
+          "name": "linq.first.empty",
+          "code": "$\"{new int[0].First()}\"",
+          "status": "pass",
+          "net": "EXN InvalidOperation"
+        },
+        {
+          "name": "linq.firstordefault",
+          "code": "$\"{new int[0].FirstOrDefault()},{new string[0].FirstOrDefault() ?? \"null\"},{new[] { 1, 2 }.FirstOrDefault(x => x > 5, -1)}\"",
+          "status": "pass",
+          "net": "0,null,-1"
+        },
+        {
+          "name": "linq.single.many",
+          "code": "$\"{new[] { 1, 2 }.Single()}\"",
+          "status": "pass",
+          "net": "EXN InvalidOperation"
+        },
+        {
+          "name": "linq.last.elementat",
+          "code": "$\"{new[] { 1, 2, 3 }.Last()},{new[] { 1, 2, 3 }.ElementAt(1)},{new[] { 1 }.ElementAtOrDefault(5)}\"",
+          "status": "pass",
+          "net": "3,2,0"
+        },
+        {
+          "name": "linq.aggregate",
+          "code": "$\"{Enumerable.Range(1, 5).Aggregate((a, b) => a * b)},{new[] { \"a\", \"b\" }.Aggregate(\"x\", (acc, s) => acc + s, r => r.ToUpper())}\"",
+          "status": "pass",
+          "net": "120,XAB"
+        },
+        {
+          "name": "linq.sum.average",
+          "code": "$\"{new[] { 1, 2, 3, 4 }.Average()},{new[] { 1.5, 2.5 }.Sum()},{new[] { 2, 4 }.Average(x => x * 1.0)}\"",
+          "status": "pass",
+          "net": "2.5,4,3"
+        },
+        {
+          "name": "linq.average.empty",
+          "code": "$\"{new int[0].Average()}\"",
+          "status": "pass",
+          "net": "EXN InvalidOperation"
+        },
+        {
+          "name": "linq.sum.overflow",
+          "code": "$\"{new[] { int.MaxValue, 1 }.Sum()}\"",
+          "status": "pass",
+          "net": "EXN Overflow"
+        },
+        {
+          "name": "linq.min.max",
+          "code": "$\"{new[] { 3, 1, 2 }.Min()},{new[] { 3, 1, 2 }.Max()},{new[] { \"bb\", \"a\" }.MaxBy(s => s.Length)},{new[] { \"bb\", \"a\" }.MinBy(s => s.Length)}\"",
+          "status": "pass",
+          "net": "1,3,bb,a"
+        },
+        {
+          "name": "linq.min.empty",
+          "code": "$\"{new int[0].Min()}\"",
+          "status": "pass",
+          "net": "EXN InvalidOperation"
+        },
+        {
+          "name": "linq.distinctby.unionby",
+          "code": "J(new[] { \"a\", \"A\", \"b\" }.DistinctBy(s => s.ToLower())) + J(new[] { 1, 2 }.Union(new[] { 2, 3 }))",
+          "status": "pass",
+          "net": "[a,b][1,2,3]"
+        },
+        {
+          "name": "linq.except.intersect",
+          "code": "J(new[] { 1, 2, 3, 2 }.Except(new[] { 2 })) + J(new[] { 1, 2, 3 }.Intersect(new[] { 3, 2 }))",
+          "status": "pass",
+          "net": "[1,3][2,3]"
+        },
+        {
+          "name": "linq.zip",
+          "code": "J(new[] { 1, 2, 3 }.Zip(new[] { \"a\", \"b\" }, (n, s) => $\"{n},{s}\")) + J(new[] { 1, 2 }.Zip(new[] { 'x', 'y' }).Select(t => $\"{t.First},{t.Second}\"))",
+          "status": "pass",
+          "net": "[1,a,2,b][1,x,2,y]"
+        },
+        {
+          "name": "linq.skip.take",
+          "code": "J(Enumerable.Range(1, 10).Skip(2).Take(3)) + J(Enumerable.Range(1, 5).SkipWhile(x => x < 3).TakeWhile(x => x < 5)) + J(Enumerable.Range(1, 5).TakeLast(2)) + J(Enumerable.Range(1, 5).SkipLast(3))",
+          "status": "pass",
+          "net": "[3,4,5][3,4][4,5][1,2]"
+        },
+        {
+          "name": "linq.take.range",
+          "code": "J(Enumerable.Range(1, 10).Take(2..4))",
+          "status": "pass",
+          "net": "[3,4]"
+        },
+        {
+          "name": "linq.chunk",
+          "code": "J(Enumerable.Range(1, 5).Chunk(2).Select(c => J(c)))",
+          "status": "pass",
+          "net": "[[1,2],[3,4],[5]]"
+        },
+        {
+          "name": "linq.selectmany",
+          "code": "J(new[] { \"ab\", \"cd\" }.SelectMany(s => s.ToCharArray()))",
+          "status": "pass",
+          "net": "[a,b,c,d]"
+        },
+        {
+          "name": "linq.join",
+          "code": "J(new[] { (1, \"a\"), (2, \"b\") }.Join(new[] { (2, \"x\"), (1, \"y\"), (1, \"z\") }, l => l.Item1, r => r.Item1, (l, r) => l.Item2 + r.Item2))",
+          "status": "pass",
+          "net": "[ay,az,bx]"
+        },
+        {
+          "name": "linq.groupjoin",
+          "code": "J(new[] { 1, 2 }.GroupJoin(new[] { 1, 1, 3 }, a => a, b => b, (a, bs) => $\"{a}:{bs.Count()}\"))",
+          "status": "pass",
+          "net": "[1:2,2:0]"
+        },
+        {
+          "name": "linq.any.all.contains",
+          "code": "$\"{B(new int[0].All(x => x > 0))},{B(new[] { 1 }.Any())},{B(new[] { 1, 2 }.Contains(2))}\"",
+          "status": "pass",
+          "net": "true,true,true"
+        },
+        {
+          "name": "linq.count.predicate",
+          "code": "$\"{Enumerable.Range(1, 10).Count(x => x > 7)},{new[] { 1 }.LongCount()}\"",
+          "status": "pass",
+          "net": "3,1"
+        },
+        {
+          "name": "linq.repeat.empty.concat",
+          "code": "J(Enumerable.Repeat(\"x\", 3).Concat(Enumerable.Empty<string>()).Append(\"y\").Prepend(\"w\"))",
+          "status": "pass",
+          "net": "[w,x,x,x,y]"
+        },
+        {
+          "name": "linq.reverse.defaultifempty",
+          "code": "J(new[] { 1, 2 }.Reverse()) + J(new int[0].DefaultIfEmpty(7))",
+          "status": "pass",
+          "net": "[2,1][7]"
+        },
+        {
+          "name": "linq.sequenceequal",
+          "code": "B(new[] { 1, 2 }.SequenceEqual(new List<int> { 1, 2 }))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "linq.cast.oftype",
+          "code": "J(new object[] { 1, \"a\", 2, null }.OfType<int>()) + J(new object[] { \"a\", \"b\" }.Cast<string>())",
+          "status": "pass",
+          "net": "[1,2][a,b]"
+        },
+        {
+          "name": "linq.cast.invalid",
+          "code": "J(new object[] { 1, \"a\" }.Cast<int>())",
+          "status": "pass",
+          "net": "EXN InvalidCast"
+        },
+        {
+          "name": "linq.cast.valid",
+          "code": "J(new object[] { \"a\", null, \"b\" }.Cast<string>().Select(s => s ?? \"null\")) + J(new object[] { 1, 2 }.Cast<int>())",
+          "status": "pass",
+          "net": "[a,null,b][1,2]"
+        },
+        {
+          "name": "linq.sum.selector.overflow",
+          "code": "$\"{new[] { 1, 2 }.Sum(x => int.MaxValue / 2 + x)}\"",
+          "status": "pass",
+          "net": "EXN Overflow"
+        },
+        {
+          "name": "linq.sum.long",
+          "code": "$\"{new[] { long.MaxValue - 1, 1L }.Sum()}\"",
+          "status": "pass",
+          "net": "9223372036854775807"
+        },
+        {
+          "name": "linq.deferred",
+          "code": "{ var log = new List<string>(); var q = Counted(log).Where(x => { log.Add($\"w{x}\"); return x % 2 == 0; }).Take(1); log.Add(\"built\"); var r = q.ToList(); return J(log) + J(r); }",
+          "status": "pass",
+          "net": "[built,y1,w1,y2,w2][2]"
+        },
+        {
+          "name": "linq.query.syntax",
+          "code": "J(from x in Enumerable.Range(1, 6) let sq = x * x where sq > 5 orderby x descending select $\"{x}:{sq}\")",
+          "status": "pass",
+          "net": "[6:36,5:25,4:16,3:9]"
+        },
+        {
+          "name": "linq.query.group",
+          "code": "J(from w in new[] { \"apple\", \"avocado\", \"banana\" } group w by w[0] into g select $\"{g.Key},{g.Count()}\")",
+          "status": "pass",
+          "net": "[a,2,b,1]"
+        },
+        {
+          "name": "linq.toarray.tolist.tohashset",
+          "code": "$\"{new[] { 1, 1, 2 }.ToHashSet().Count},{new[] { 1 }.ToList().Count}\"",
+          "status": "pass",
+          "net": "2,1"
+        },
+        {
+          "name": "linq.range.negative",
+          "code": "J(Enumerable.Range(1, -1))",
+          "status": "pass",
+          "net": "EXN ArgumentOutOfRange"
+        },
+        {
+          "name": "linq.index",
+          "code": "J(new[] { \"a\", \"b\" }.Index().Select(t => $\"{t.Index},{t.Item}\"))",
+          "status": "pass",
+          "net": "[0,a,1,b]"
+        },
+        {
+          "name": "linq.countby.aggregateby",
+          "code": "J(new[] { \"a\", \"b\", \"a\" }.CountBy(s => s).Select(kv => $\"{kv.Key},{kv.Value}\"))",
+          "status": "pass",
+          "net": "[a,2,b,1]"
+        }
+      ],
+      "total": 48,
+      "pass": 48
+    },
+    {
+      "id": "language",
+      "name": "Language",
+      "cases": [
+        {
+          "name": "closure.loop.capture.for",
+          "code": "{ var fs = new List<Func<int>>(); for (int i = 0; i < 3; i++) fs.Add(() => i); return J(fs.Select(f => f())); }",
+          "status": "pass",
+          "net": "[3,3,3]"
+        },
+        {
+          "name": "closure.loop.capture.foreach",
+          "code": "{ var fs = new List<Func<int>>(); foreach (var i in new[] { 0, 1, 2 }) fs.Add(() => i); return J(fs.Select(f => f())); }",
+          "status": "pass",
+          "net": "[0,1,2]"
+        },
+        {
+          "name": "closure.mutation",
+          "code": "{ int x = 1; Action inc = () => x++; inc(); inc(); return $\"{x}\"; }",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "local.function.recursive",
+          "code": "{ int Fact(int n) => n <= 1 ? 1 : n * Fact(n - 1); return $\"{Fact(10)}\"; }",
+          "status": "pass",
+          "net": "3628800"
+        },
+        {
+          "name": "static.local.function",
+          "code": "{ static int Sq(int n) => n * n; return $\"{Sq(7)}\"; }",
+          "status": "pass",
+          "net": "49"
+        },
+        {
+          "name": "optional.named.args",
+          "code": "Opt(1) + \"|\" + Opt(1, c: \"z\") + \"|\" + Names(last: \"L\")",
+          "status": "pass",
+          "net": "1,2,c|1,2,z|fL"
+        },
+        {
+          "name": "params",
+          "code": "$\"{Sum()},{Sum(1, 2, 3)},{Sum(new[] { 4, 5 })}\"",
+          "status": "pass",
+          "net": "0,6,9"
+        },
+        {
+          "name": "out.ref",
+          "code": "{ int b = 3; Out(out var a, ref b); return $\"{a},{b}\"; }",
+          "status": "pass",
+          "net": "5,6"
+        },
+        {
+          "name": "ref.local",
+          "code": "{ var arr = new[] { 1, 2 }; ref int r = ref arr[1]; r = 9; return J(arr); }",
+          "status": "pass",
+          "net": "[1,9]"
+        },
+        {
+          "name": "iterator.lazy.infinite",
+          "code": "J(Fib().Skip(10).Take(3))",
+          "status": "pass",
+          "net": "[55,89,144]"
+        },
+        {
+          "name": "iterator.finally.on.dispose",
+          "code": "{ var log = new List<string>(); foreach (var s in WithFinally(log)) { log.Add(s); break; } return J(log); }",
+          "status": "pass",
+          "net": "[a,finally]"
+        },
+        {
+          "name": "iterator.yield.break",
+          "code": "J(YieldBreak(3))",
+          "status": "pass",
+          "net": "[0,1,2]"
+        },
+        {
+          "name": "iterator.reenumerate",
+          "code": "{ var e = YieldBreak(2); return J(e) + J(e); }",
+          "status": "pass",
+          "net": "[0,1][0,1]"
+        },
+        {
+          "name": "exception.custom",
+          "code": "{ try { throw new CustomException(\"boom\", 42); } catch (CustomException e) { return $\"{e.Message},{e.Code}\"; } }",
+          "status": "pass",
+          "net": "boom,42"
+        },
+        {
+          "name": "exception.message",
+          "code": "{ try { throw new InvalidOperationException(\"bad op\"); } catch (Exception e) { return e.Message; } }",
+          "status": "pass",
+          "net": "bad op"
+        },
+        {
+          "name": "exception.filter",
+          "code": "{ try { throw new CustomException(\"x\", 2); } catch (CustomException e) when (e.Code == 1) { return \"one\"; } catch (CustomException e) when (e.Code == 2) { return \"two\"; } }",
+          "status": "pass",
+          "net": "two"
+        },
+        {
+          "name": "exception.finally.order",
+          "code": "{ var log = new List<string>(); try { try { log.Add(\"try\"); throw new Exception(\"e\"); } finally { log.Add(\"finally\"); } } catch { log.Add(\"catch\"); } return J(log); }",
+          "status": "pass",
+          "net": "[try,finally,catch]"
+        },
+        {
+          "name": "exception.rethrow",
+          "code": "{ try { try { throw new ArgumentException(\"inner\"); } catch (Exception) { throw; } } catch (ArgumentException e) { return e.Message; } }",
+          "status": "pass",
+          "net": "inner"
+        },
+        {
+          "name": "exception.inner",
+          "code": "{ var e = new Exception(\"outer\", new Exception(\"inner\")); return e.InnerException.Message; }",
+          "status": "pass",
+          "net": "inner"
+        },
+        {
+          "name": "exception.null.deref",
+          "code": "{ string s = null; return $\"{s.Length}\"; }",
+          "status": "known",
+          "net": "EXN NullReference",
+          "js": "EXN Exception"
+        },
+        {
+          "name": "exception.tostring.prefix",
+          "code": "new InvalidOperationException(\"m\").Message",
+          "status": "pass",
+          "net": "m"
+        },
+        {
+          "name": "using.dispose.order",
+          "code": "{ var log = new List<string>(); using (var a = new Disp(log, \"a\")) using (var b = new Disp(log, \"b\")) { log.Add(\"body\"); } return J(log); }",
+          "status": "pass",
+          "net": "[body,dispose b,dispose a]"
+        },
+        {
+          "name": "using.declaration",
+          "code": "{ var log = new List<string>(); void Run() { using var a = new Disp(log, \"a\"); log.Add(\"body\"); } Run(); return J(log); }",
+          "status": "pass",
+          "net": "[body,dispose a]"
+        },
+        {
+          "name": "events",
+          "code": "{ var c = new Counter(); var log = new List<int>(); Action<int> h = v => log.Add(v); c.Changed += h; c.Inc(); c.Changed -= h; c.Inc(); return J(log) + c.Value; }",
+          "status": "pass",
+          "net": "[1]2"
+        },
+        {
+          "name": "operator.overload.implicit",
+          "code": "{ var c = new Counter(); c += 3; int v = c; return $\"{v},{c[2]}\"; }",
+          "status": "pass",
+          "net": "3,6"
+        },
+        {
+          "name": "static.field",
+          "code": "{ Counter.Instances = 0; new Counter(); new Counter(); return $\"{Counter.Instances}\"; }",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "delegate.multicast",
+          "code": "{ var log = new List<string>(); Action a = () => log.Add(\"1\"); a += () => log.Add(\"2\"); a(); return J(log); }",
+          "status": "pass",
+          "net": "[1,2]"
+        },
+        {
+          "name": "delegate.multicast.return",
+          "code": "{ Func<int> f = () => 1; f += () => 2; return $\"{f()}\"; }",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "func.compose",
+          "code": "{ Func<int, int> inc = x => x + 1; Func<int, int> dbl = x => x * 2; Func<int, int> both = x => dbl(inc(x)); return $\"{both(3)}\"; }",
+          "status": "pass",
+          "net": "8"
+        },
+        {
+          "name": "struct.copy.semantics",
+          "code": "{ var a = new MutPoint(); var b = a; b.Move(); var arr = new[] { a }; arr[0].Move(); var list = new List<MutPoint> { a }; var l0 = list[0]; l0.Move(); return $\"{a.X},{b.X},{arr[0].X},{list[0].X}\"; }",
+          "status": "pass",
+          "net": "0,1,1,0"
+        },
+        {
+          "name": "struct.default.equality",
+          "code": "B(new MutPoint().Equals(new MutPoint())) + \",\" + B(new MutPoint { X = 1 }.Equals(new MutPoint()))",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "null.conditional",
+          "code": "{ Counter c = null; int? v = c?.Value; string s = null; return $\"{v?.ToString() ?? \"none\"},{s?.Length ?? -1}\"; }",
+          "status": "pass",
+          "net": "none,-1"
+        },
+        {
+          "name": "null.coalescing.assign",
+          "code": "{ List<int> l = null; l ??= new List<int>(); l.Add(1); string s = null; s ??= \"d\"; return $\"{l.Count},{s}\"; }",
+          "status": "pass",
+          "net": "1,d"
+        },
+        {
+          "name": "conditional.chain",
+          "code": "{ int x = 5; return x > 3 ? x > 4 ? \"big\" : \"mid\" : \"small\"; }",
+          "status": "pass",
+          "net": "big"
+        },
+        {
+          "name": "goto.labels",
+          "code": "{ int i = 0; again: i++; if (i < 3) goto again; return $\"{i}\"; }",
+          "status": "pass",
+          "net": "3"
+        },
+        {
+          "name": "while.dowhile.continue",
+          "code": "{ var r = \"\"; int i = 0; do { i++; if (i == 2) continue; r += i; } while (i < 4); while (i > 0) { i--; if (i == 1) break; } return r + i; }",
+          "status": "pass",
+          "net": "1341"
+        },
+        {
+          "name": "lazy",
+          "code": "{ var n = 0; var l = new Lazy<int>(() => ++n); var a = l.Value; var b = l.Value; return $\"{a},{b},{n},{B(l.IsValueCreated)}\"; }",
+          "status": "pass",
+          "net": "1,1,1,true"
+        },
+        {
+          "name": "default.literal",
+          "code": "{ int i = default; string s = default; return $\"{i},{s ?? \"null\"}\"; }",
+          "status": "pass",
+          "net": "0,null"
+        },
+        {
+          "name": "nameof",
+          "code": "nameof(Counter.Value) + nameof(Language)",
+          "status": "pass",
+          "net": "ValueLanguage"
+        },
+        {
+          "name": "checked.unchecked.block",
+          "code": "{ int m = int.MaxValue; int r = unchecked(m + 1); return $\"{r}\"; }",
+          "status": "pass",
+          "net": "-2147483648"
+        },
+        {
+          "name": "discard.assign",
+          "code": "{ _ = int.TryParse(\"5\", out var v); return $\"{v}\"; }",
+          "status": "pass",
+          "net": "5"
+        },
+        {
+          "name": "lambda.static.default.params",
+          "code": "{ var f = (int a, int b = 10) => a + b; return $\"{f(1)},{f(1, 2)}\"; }",
+          "status": "pass",
+          "net": "11,3"
+        }
+      ],
+      "total": 42,
+      "pass": 41
+    },
+    {
+      "id": "patterns",
+      "name": "Pattern matching",
+      "cases": [
+        {
+          "name": "switch.type.patterns",
+          "code": "string.Join(\"|\", new object[] { null, -1, 3, \"\", \"x\", new Point(0, 0), new Point(2, 2), new Point(1, 3), new[] { 7, 8, 9 }, 1.5 }.Select2(Classify))",
+          "status": "pass",
+          "net": "null|negative int|int 3|empty string|string x|origin|diagonal 2|point 1|long array 7|other"
+        },
+        {
+          "name": "switch.property.positional",
+          "code": "$\"{Area(new Circle(1))},{Area(new Rect(2, 3))}\"",
+          "status": "pass",
+          "net": "3.14,6"
+        },
+        {
+          "name": "switch.throw.arm",
+          "code": "$\"{Area(null)}\"",
+          "status": "pass",
+          "net": "EXN Argument"
+        },
+        {
+          "name": "switch.relational",
+          "code": "string.Join(\",\", new[] { 95, 85, 50, -1, 101 }.Select2(Grade))",
+          "status": "pass",
+          "net": "A,B,C,invalid,A"
+        },
+        {
+          "name": "switch.list.patterns",
+          "code": "string.Join(\"|\", new[] { new int[0], new[] { 1 }, new[] { 1, 2 }, new[] { 1, 2, 3, 4 } }.Select2(ListPat))",
+          "status": "pass",
+          "net": "empty|one 1|two 1,2|many 1..4"
+        },
+        {
+          "name": "switch.list.slice",
+          "code": "SliceLen(new[] { 1, 2, 3, 4, 5 }) + \",\" + SliceLen(new[] { 1 })",
+          "status": "pass",
+          "net": "3,short"
+        },
+        {
+          "name": "switch.tuple",
+          "code": "$\"{Tuple(0, true)},{Tuple(5, true)},{Tuple(20, false)},{Tuple(3, false)}\"",
+          "status": "pass",
+          "net": "zero,flag,big,rest"
+        },
+        {
+          "name": "switch.nomatch",
+          "code": "{ int x = 7; var r = x switch { 1 => \"one\", 2 => \"two\" }; return r; }",
+          "status": "pass",
+          "net": "EXN InvalidOperation"
+        },
+        {
+          "name": "is.not.null",
+          "code": "{ object o = \"s\"; return B(o is not null) + \",\" + B(o is string { Length: 1 }); }",
+          "status": "pass",
+          "net": "true,true"
+        },
+        {
+          "name": "is.type.var",
+          "code": "{ object o = 42; if (o is int n && n > 40) return $\"{n + 1}\"; return \"no\"; }",
+          "status": "pass",
+          "net": "43"
+        },
+        {
+          "name": "as.cast",
+          "code": "{ object o = \"x\"; var s = o as string; var p = o as Point; return $\"{s}|{(p == null ? \"null\" : \"p\")}\"; }",
+          "status": "pass",
+          "net": "x|null"
+        },
+        {
+          "name": "cast.invalid",
+          "code": "{ object o = \"x\"; var p = (Point)o; return p.ToString(); }",
+          "status": "pass",
+          "net": "EXN InvalidCast"
+        },
+        {
+          "name": "cast.valid",
+          "code": "{ object o = new Dog(); Animal a = (Animal)o; object n = null; var d = (Dog)n; return a.Sound() + \",\" + B(d == null); }",
+          "status": "pass",
+          "net": "woof,true"
+        },
+        {
+          "name": "unbox.invalid",
+          "code": "{ object o = \"a\"; return $\"{(int)o}\"; }",
+          "status": "pass",
+          "net": "EXN InvalidCast"
+        },
+        {
+          "name": "unbox.valid",
+          "code": "{ object o = 5, b = true; return $\"{(int)o},{(bool)b}\"; }",
+          "status": "pass",
+          "net": "5,True"
+        },
+        {
+          "name": "reference.equality.class",
+          "code": "{ var a = new Dog(); Animal b = a; object c = new Dog(); return B(a == b) + \",\" + B(a != c) + \",\" + B((object)null == null); }",
+          "status": "pass",
+          "net": "true,true,true"
+        },
+        {
+          "name": "switch.statement.goto",
+          "code": "{ var r = \"\"; for (int i = 0; i < 4; i++) { switch (i) { case 0: case 1: r += \"a\"; break; case 2: r += \"b\"; break; default: r += \"c\"; break; } } return r; }",
+          "status": "pass",
+          "net": "aabc"
+        },
+        {
+          "name": "switch.string",
+          "code": "{ string s = \"two\"; switch (s) { case \"one\": return \"1\"; case \"two\": return \"2\"; default: return \"?\"; } }",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "enum.tostring",
+          "code": "$\"{Color.Green}|{(Color)6}|{(int)Color.Blue}|{(Color)42}\"",
+          "status": "pass",
+          "net": "Green|Blue|6|42"
+        },
+        {
+          "name": "enum.flags.tostring",
+          "code": "$\"{Perm.Read | Perm.Write}|{Perm.None}\"",
+          "status": "pass",
+          "net": "Read, Write|None"
+        },
+        {
+          "name": "enum.hasflag",
+          "code": "B((Perm.Read | Perm.Exec).HasFlag(Perm.Exec)) + \",\" + B((Perm.Read).HasFlag(Perm.Write))",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "enum.parse",
+          "code": "$\"{Enum.Parse<Color>(\"Blue\")}|{(int)Enum.Parse<Color>(\"Green\")}\"",
+          "status": "pass",
+          "net": "Blue|5"
+        },
+        {
+          "name": "enum.tryparse",
+          "code": "{ var ok = Enum.TryParse<Color>(\"Purple\", out var c); return $\"{B(ok)},{c}\"; }",
+          "status": "pass",
+          "net": "false,Red"
+        },
+        {
+          "name": "enum.getvalues",
+          "code": "J(Enum.GetValues<Color>())",
+          "status": "known",
+          "net": "[Red,Green,Blue]",
+          "js": "[0,5,6]"
+        },
+        {
+          "name": "enum.switch",
+          "code": "Color.Blue switch { Color.Red => \"r\", Color.Blue => \"b\", _ => \"?\" }",
+          "status": "pass",
+          "net": "b"
+        }
+      ],
+      "total": 25,
+      "pass": 24
+    },
+    {
+      "id": "records",
+      "name": "Records and structs",
+      "cases": [
+        {
+          "name": "record.tostring",
+          "code": "new Point(1, 2).ToString()",
+          "status": "pass",
+          "net": "Point { X = 1, Y = 2 }"
+        },
+        {
+          "name": "record.tostring.nested",
+          "code": "new Nested(new Point(1, 2), \"a\").ToString()",
+          "status": "pass",
+          "net": "Nested { P = Point { X = 1, Y = 2 }, Label = a }"
+        },
+        {
+          "name": "record.tostring.derived",
+          "code": "new Point3(1, 2, 3).ToString()",
+          "status": "pass",
+          "net": "Point3 { X = 1, Y = 2, Z = 3 }"
+        },
+        {
+          "name": "record.tostring.body",
+          "code": "new WithBody { A = \"x\", B = 2 }.ToString()",
+          "status": "pass",
+          "net": "WithBody { A = x, B = 2 }"
+        },
+        {
+          "name": "record.equality",
+          "code": "B(new Point(1, 2) == new Point(1, 2)) + \",\" + B(new Point(1, 2).Equals(new Point(1, 2))) + \",\" + B(new Point(1, 2) != new Point(2, 1))",
+          "status": "pass",
+          "net": "true,true,true"
+        },
+        {
+          "name": "record.equality.object",
+          "code": "B(((object)new Point(1, 2)).Equals(new Point(1, 2)))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "record.equality.derived",
+          "code": "B(new Point(1, 2) == new Point3(1, 2, 0))",
+          "status": "pass",
+          "net": "false"
+        },
+        {
+          "name": "record.equality.nested",
+          "code": "B(new Nested(new Point(1, 2), \"a\") == new Nested(new Point(1, 2), \"a\"))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "record.equality.array.member",
+          "code": "{ var t = new[] { 1 }; return B(new Tagged(\"a\", t) == new Tagged(\"a\", t)) + \",\" + B(new Tagged(\"a\", new[] { 1 }) == new Tagged(\"a\", new[] { 1 })); }",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "record.hash.equal",
+          "code": "B(new Point(1, 2).GetHashCode() == new Point(1, 2).GetHashCode())",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "record.with",
+          "code": "(new Person(\"Ann\", 30) with { Age = 31 }).ToString()",
+          "status": "pass",
+          "net": "Person { Name = Ann, Age = 31, Greeting = Hi Ann }"
+        },
+        {
+          "name": "record.with.derived",
+          "code": "{ Point p = new Point3(1, 2, 3); var q = p with { X = 9 }; return q.ToString(); }",
+          "status": "pass",
+          "net": "Point3 { X = 9, Y = 2, Z = 3 }"
+        },
+        {
+          "name": "record.with.unchanged.original",
+          "code": "{ var a = new Person(\"Ann\", 30); var b = a with { Name = \"Bo\" }; return a.Name + b.Name; }",
+          "status": "pass",
+          "net": "AnnBo"
+        },
+        {
+          "name": "record.deconstruct",
+          "code": "{ var (x, y) = new Point(3, 4); return $\"{x},{y}\"; }",
+          "status": "pass",
+          "net": "3,4"
+        },
+        {
+          "name": "record.computed.member",
+          "code": "new Person(\"Ann\", 30).Greeting",
+          "status": "pass",
+          "net": "Hi Ann"
+        },
+        {
+          "name": "record.in.hashset",
+          "code": "{ var s = new HashSet<Point> { new Point(1, 2), new Point(1, 2), new Point(2, 1) }; return $\"{s.Count}\"; }",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "record.as.dict.key",
+          "code": "{ var d = new Dictionary<Point, string> { [new Point(1, 2)] = \"a\" }; return d[new Point(1, 2)]; }",
+          "status": "pass",
+          "net": "a"
+        },
+        {
+          "name": "record.distinct",
+          "code": "$\"{new[] { new Point(1, 2), new Point(1, 2) }.Distinct().Count()}\"",
+          "status": "pass",
+          "net": "1"
+        },
+        {
+          "name": "record.groupby",
+          "code": "$\"{new[] { new Point(1, 2), new Point(1, 2), new Point(0, 0) }.GroupBy(p => p).Count()}\"",
+          "status": "pass",
+          "net": "2"
+        },
+        {
+          "name": "record.struct.tostring",
+          "code": "new Vec(1.5, 2).ToString()",
+          "status": "pass",
+          "net": "Vec { X = 1.5, Y = 2 }"
+        },
+        {
+          "name": "record.struct.equality",
+          "code": "B(new Vec(1, 2) == new Vec(1, 2)) + \",\" + B(new Money(\"EUR\", 5).Equals(new Money(\"EUR\", 5)))",
+          "status": "pass",
+          "net": "true,true"
+        },
+        {
+          "name": "record.struct.copy",
+          "code": "{ var a = new Vec(1, 2); var b = a; b.X = 9; return $\"{a.X},{b.X}\"; }",
+          "status": "pass",
+          "net": "1,9"
+        },
+        {
+          "name": "record.struct.with",
+          "code": "(new Money(\"EUR\", 5) with { Cents = 7 }).ToString()",
+          "status": "pass",
+          "net": "Money { Currency = EUR, Cents = 7 }"
+        },
+        {
+          "name": "record.struct.default",
+          "code": "default(Vec).ToString()",
+          "status": "pass",
+          "net": "Vec { X = 0, Y = 0 }"
+        },
+        {
+          "name": "record.equals.null",
+          "code": "{ Point p = null; return B(p == null) + \",\" + B(new Point(1, 2).Equals(null)); }",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "record.reference.equals",
+          "code": "B(ReferenceEquals(new Point(1, 2), new Point(1, 2)))",
+          "status": "pass",
+          "net": "false"
+        },
+        {
+          "name": "record.init.props",
+          "code": "{ var w = new WithBody { A = \"a\" }; return $\"{w.A},{w.B}\"; }",
+          "status": "pass",
+          "net": "a,0"
+        },
+        {
+          "name": "record.list.contains",
+          "code": "B(new List<Point> { new Point(1, 2) }.Contains(new Point(1, 2)))",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "record.indexof",
+          "code": "$\"{Array.IndexOf(new[] { new Point(0, 0), new Point(1, 2) }, new Point(1, 2))}\"",
+          "status": "pass",
+          "net": "1"
+        }
+      ],
+      "total": 29,
+      "pass": 29
+    },
+    {
+      "id": "types",
+      "name": "Types and dates",
+      "cases": [
+        {
+          "name": "interface.default.method",
+          "code": "{ IGreeter a = new Plain(), b = new Custom(); return a.Greet() + \"|\" + b.Greet(); }",
+          "status": "pass",
+          "net": "Hello plain|Yo"
+        },
+        {
+          "name": "virtual.dispatch",
+          "code": "new Dog().Describe() + \"|\" + new Puppy().Describe()",
+          "status": "pass",
+          "net": "dog says woof|puppy says woof!"
+        },
+        {
+          "name": "new.hiding",
+          "code": "{ var h = new Hider(); Dog d = h; return h.Sound() + \"|\" + d.Sound(); }",
+          "status": "pass",
+          "net": "hidden|woof"
+        },
+        {
+          "name": "generic.constraint",
+          "code": "B(new Box<int>(5).Bigger(3)) + \",\" + B(new Box<string>(\"a\").Bigger(\"b\"))",
+          "status": "pass",
+          "net": "true,false"
+        },
+        {
+          "name": "generic.default",
+          "code": "$\"{Box<int>.Default()}|{Box<string>.Default() ?? \"null\"}\"",
+          "status": "known",
+          "net": "0|null",
+          "js": "null|null"
+        },
+        {
+          "name": "generic.method.max",
+          "code": "$\"{Max(3, 9)},{Max(\"b\", \"a\")}\"",
+          "status": "pass",
+          "net": "9,b"
+        },
+        {
+          "name": "generic.tostring",
+          "code": "$\"{Generic(1)},{Generic<string>(null)},{Generic(1.5)}\"",
+          "status": "pass",
+          "net": "1,null,1.5"
+        },
+        {
+          "name": "ctor.chaining.order",
+          "code": "{ Ctor.Log.Clear(); new Ctor(); return J(Ctor.Log); }",
+          "status": "pass",
+          "net": "[field,ctor(1),ctor()]"
+        },
+        {
+          "name": "required.init",
+          "code": "{ var r = new Required { Name = \"n\" }; return $\"{r.Name},{r.Age}\"; }",
+          "status": "pass",
+          "net": "n,18"
+        },
+        {
+          "name": "primary.ctor",
+          "code": "{ var p = new PrimaryCtor(\"x\", 1); p.Birthday(); return p.Describe(); }",
+          "status": "pass",
+          "net": "x/2"
+        },
+        {
+          "name": "override.equals",
+          "code": "B(new Eq { Id = 1 }.Equals(new Eq { Id = 1 })) + \",\" + B(new Eq { Id = 1 } == new Eq { Id = 1 }) + \",\" + $\"{new[] { new Eq { Id = 1 }, new Eq { Id = 1 } }.Distinct().Count()}\"",
+          "status": "pass",
+          "net": "true,false,1"
+        },
+        {
+          "name": "override.equals.dictionary",
+          "code": "{ var d = new Dictionary<Eq, int> { [new Eq { Id = 3 }] = 7 }; return $\"{d[new Eq { Id = 3 }]}\"; }",
+          "status": "pass",
+          "net": "7"
+        },
+        {
+          "name": "override.tostring",
+          "code": "$\"{new WithToString()}|{string.Concat(new WithToString(), \"\")}\"",
+          "status": "pass",
+          "net": "custom!|custom!"
+        },
+        {
+          "name": "object.tostring.default",
+          "code": "new Plain().ToString()",
+          "status": "known",
+          "net": "Conformance.Plain",
+          "js": "[object Object]"
+        },
+        {
+          "name": "gettype.name",
+          "code": "new Dog().GetType().Name",
+          "status": "known",
+          "net": "Dog",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "typeof.name",
+          "code": "typeof(Dog).Name + \"|\" + typeof(List<int>).Name",
+          "status": "known",
+          "net": "Dog|List`1",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "typeof.fullname",
+          "code": "typeof(Dog).FullName + \"|\" + typeof(Dog).Namespace + \"|\" + typeof(string).FullName + \"|\" + typeof(Dictionary<string, int>).Name",
+          "status": "known",
+          "net": "Conformance.Dog|Conformance|System.String|Dictionary`2",
+          "js": "WS-COMPILE-ERROR"
+        },
+        {
+          "name": "is.base.interface",
+          "code": "{ object d = new Puppy(); return B(d is Animal) + B(d is IGreeter) + B(d is Dog); }",
+          "status": "pass",
+          "net": "truefalsetrue"
+        },
+        {
+          "name": "boxing.equality",
+          "code": "{ object a = 1, b = 1; return B(a == b) + \",\" + B(a.Equals(b)) + \",\" + B(Equals(a, b)); }",
+          "status": "known",
+          "net": "false,true,true",
+          "js": "true,true,true"
+        },
+        {
+          "name": "boxing.int.long",
+          "code": "{ object a = 1, b = 1L; return B(a.Equals(b)); }",
+          "status": "pass",
+          "net": "false"
+        },
+        {
+          "name": "anonymous.type",
+          "code": "{ var a = new { X = 1, Y = \"y\" }; var b = new { X = 1, Y = \"y\" }; return a.ToString() + \"|\" + B(a.Equals(b)); }",
+          "status": "pass",
+          "net": "{ X = 1, Y = y }|true"
+        },
+        {
+          "name": "datetime.basic",
+          "code": "{ var d = new DateTime(2024, 2, 29, 13, 5, 9); return $\"{d.Year}-{d.Month}-{d.Day} {d.Hour}:{d.Minute}:{d.Second} {d.DayOfWeek} {d.DayOfYear}\"; }",
+          "status": "pass",
+          "net": "2024-2-29 13:5:9 Thursday 60"
+        },
+        {
+          "name": "datetime.arith",
+          "code": "{ var d = new DateTime(2024, 1, 31); return $\"{d.AddMonths(1):yyyy-MM-dd}|{d.AddDays(1):yyyy-MM-dd}|{(new DateTime(2024, 3, 1) - d).TotalDays}\"; }",
+          "status": "pass",
+          "net": "2024-02-29|2024-02-01|30"
+        },
+        {
+          "name": "datetime.format",
+          "code": "new DateTime(2024, 7, 4, 9, 3, 0).ToString(\"yyyy-MM-dd HH:mm:ss\") + \"|\" + new DateTime(2024, 7, 4).ToString(\"ddd, dd MMM yyyy\")",
+          "status": "pass",
+          "net": "2024-07-04 09:03:00|Thu, 04 Jul 2024"
+        },
+        {
+          "name": "datetime.iso",
+          "code": "new DateTime(2024, 7, 4, 9, 3, 0, DateTimeKind.Utc).ToString(\"o\")",
+          "status": "known",
+          "net": "2024-07-04T09:03:00.0000000Z",
+          "js": "2024-07-04T11:03:00.0000000+02:00"
+        },
+        {
+          "name": "datetime.parse",
+          "code": "DateTime.Parse(\"2024-07-04T09:03:00\").ToString(\"yyyy/MM/dd HH:mm\")",
+          "status": "pass",
+          "net": "2024/07/04 09:03"
+        },
+        {
+          "name": "timespan",
+          "code": "{ var t = TimeSpan.FromMinutes(90) + TimeSpan.FromSeconds(30); return $\"{t}|{t.TotalHours}|{t.Hours}|{t.Minutes}\"; }",
+          "status": "pass",
+          "net": "01:30:30|1.5083333333333333|1|30"
+        },
+        {
+          "name": "timespan.format",
+          "code": "TimeSpan.FromMilliseconds(3723004).ToString(@\"hh\\:mm\\:ss\\.fff\")",
+          "status": "pass",
+          "net": "01:02:03.004"
+        },
+        {
+          "name": "timespan.format.standard",
+          "code": "{ var t = new TimeSpan(1, 2, 3, 4, 50); return t.ToString(\"c\") + \"|\" + t.ToString(\"g\") + \"|\" + t.ToString(\"G\") + \"|\" + TimeSpan.FromMinutes(5).ToString(\"g\"); }",
+          "status": "pass",
+          "net": "1.02:03:04.0500000|1:2:03:04.05|1:02:03:04.0500000|0:05:00"
+        },
+        {
+          "name": "timespan.format.custom",
+          "code": "{ var t = new TimeSpan(3, 4, 5, 6, 70); return t.ToString(@\"d\\.hh\\:mm\") + \"|\" + t.ToString(\"%d\") + \"|\" + t.ToString(@\"dd' days' h' h'\") + \"|\" + t.ToString(@\"ss\\.FFF\"); }",
+          "status": "pass",
+          "net": "EXN Format"
+        },
+        {
+          "name": "anonymous.type.nested",
+          "code": "{ var a = new { Name = (string)null, Flag = true, Inner = new { V = 1.5 } }; return $\"{a}|{new { }}\"; }",
+          "status": "pass",
+          "net": "{ Name = , Flag = True, Inner = { V = 1.5 } }|{ }"
+        },
+        {
+          "name": "dateonly",
+          "code": "new DateOnly(2024, 2, 28).AddDays(2).ToString(\"yyyy-MM-dd\")",
+          "status": "pass",
+          "net": "2024-03-01"
+        },
+        {
+          "name": "dateonly.ops",
+          "code": "{ var d = new DateOnly(2024, 1, 31); var e = d.AddMonths(1); return $\"{e.Year}-{e.Month}-{e.Day},{e.DayOfWeek},{B(d < e)},{B(new DateOnly(2024, 3, 1) == d.AddDays(30))},{d.AddYears(1):yyyy/MM/dd}\"; }",
+          "status": "pass",
+          "net": "2024-2-29,Thursday,true,true,2025/01/31"
+        },
+        {
+          "name": "dateonly.tostring",
+          "code": "$\"{new DateOnly(2024, 7, 4)}|\" + new DateOnly(2024, 7, 4).ToString()",
+          "status": "pass",
+          "net": "07/04/2024|07/04/2024"
+        },
+        {
+          "name": "guid.parse.format",
+          "code": "{ var g = Guid.Parse(\"0f8fad5b-d9cb-469f-a165-70867728950e\"); return g.ToString() + \"|\" + g.ToString(\"N\") + \"|\" + B(g == new Guid(\"0F8FAD5B-D9CB-469F-A165-70867728950E\")); }",
+          "status": "pass",
+          "net": "0f8fad5b-d9cb-469f-a165-70867728950e|0f8fad5bd9cb469fa16570867728950e|true"
+        },
+        {
+          "name": "guid.empty",
+          "code": "Guid.Empty.ToString()",
+          "status": "pass",
+          "net": "00000000-0000-0000-0000-000000000000"
+        },
+        {
+          "name": "random.seeded.range",
+          "code": "{ var r = new Random(1); var x = r.Next(10); return B(x >= 0 && x < 10); }",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "nullable.struct.getvalueordefault",
+          "code": "{ int? a = null; return $\"{a.GetValueOrDefault()},{a.GetValueOrDefault(4)}\"; }",
+          "status": "pass",
+          "net": "0,4"
+        },
+        {
+          "name": "nullable.value.null",
+          "code": "{ int? a = null; return $\"{a.Value}\"; }",
+          "status": "pass",
+          "net": "EXN InvalidOperation"
+        },
+        {
+          "name": "convert.tostring.bool",
+          "code": "true.ToString() + \"|\" + bool.Parse(\"TRUE\")",
+          "status": "pass",
+          "net": "True|True"
+        },
+        {
+          "name": "string.gethashcode.stable",
+          "code": "B(\"abc\".GetHashCode() == \"abc\".GetHashCode())",
+          "status": "pass",
+          "net": "true"
+        },
+        {
+          "name": "valuetuple.compare",
+          "code": "$\"{Math.Sign((1, 2).CompareTo((1, 3)))}\"",
+          "status": "pass",
+          "net": "-1"
+        },
+        {
+          "name": "comparer.default",
+          "code": "$\"{Math.Sign(Comparer<string>.Default.Compare(\"a\", \"B\"))},{Math.Sign(Comparer<int>.Default.Compare(2, 1))}\"",
+          "status": "pass",
+          "net": "1,1"
+        },
+        {
+          "name": "equalitycomparer.default",
+          "code": "B(EqualityComparer<Point>.Default.Equals(new Point(1, 1), new Point(1, 1)))",
+          "status": "pass",
+          "net": "true"
+        }
+      ],
+      "total": 44,
+      "pass": 37
+    }
+  ]
+}

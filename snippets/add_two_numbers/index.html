@@ -61,7 +61,10 @@
     <script type="text/javascript" src="Scripts/add_two_numbers.head.js"></script>
 </head>
 <body>
-    <div id="main" ws-children-template="Main">
+    <div id="main" class="container">
+        <p>x <input type="number" ws-var="X" /></p>
+        <p>y <input type="number" ws-var="Y" /></p>
+        <p>x + y = ${Sum}</p>
     </div>
     <script>
         const params = new URLSearchParams(window.location.search);

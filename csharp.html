@@ -1,0 +1,1895 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" ws-18="">
+<head>
+    <title>WebSharper - Full-stack, functional reactive web programming for .NET</title>
+    <meta name="description" content="Full-stack, functional reactive web programming for .NET" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta property="og:url" content="https://websharper.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WebSharper" />
+    <meta property="og:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta property="og:image" content="" />
+
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="websharper.com" />
+    <meta property="twitter:url" content="https://websharper.com/" />
+    <meta name="twitter:title" content="WebSharper" />
+    <meta name="twitter:description" content="WebSharper - functional, reactive web development for .NET" />
+    <meta name="twitter:image" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="./Assets/favicon.png" />
+
+    <!--
+failed to use bundle csharp, missing import(s):
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Client.ClientTemplateInstanceHandlers::EventQ2Client
+bundle contents:
+WebSharperWebsite/WebSharperWebsite.ServerPages::CSharp$344$31
+WebSharperWebsite/WebSharperWebsite.ServerPages::CSharp$330$28
+WebSharper.UI.Templating.Runtime/WebSharper.UI.Templating.Runtime.Server.TemplateInitializer::default
+WebSharperWebsite/WebSharperWebsite.Component::Tab$39$22
+WebSharperWebsite/WebSharperWebsite.Component::CodeFiles$59$18
+WebSharperWebsite/WebSharperWebsite.Component::CodeFilesWithPreviewTab$72$38
+WebSharperWebsite/WebSharperWebsite.Component::CodeFilesWithPreviewTab$78$24
+WebSharperWebsite/WebSharperWebsite.Component::CodeFilesWithPreviewTab$79$18
+WebSharperWebsite/WebSharperWebsite.Component::CodeFilesWithPreviewPanel$100$24
+WebSharperWebsite/WebSharperWebsite.Component::CodeFilesWithPreviewPanel$101$18
+WebSharperWebsite/WebSharperWebsite.Component::VsCode$131$34
+WebSharperWebsite/WebSharperWebsite.ClientPages::Layout
+-->
+<link type="text/css" rel="stylesheet" href="./Scripts/WebSharper/all.css?v=f715474664"></link>
+<script src="./Scripts/WebSharper/all.js?v=23fa613b61"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+wsbundle.Runtime.ScriptBasePath = './Scripts/WebSharper/';
+let o1 = wsbundle._c.Create([]);
+o1.$preinit("7548c0dc-dc9d-483b-9b68-d4e8646fbc00");
+let o3 = wsbundle._c.Create([]);
+o3.$preinit("1950cd12-e7fe-49cd-b8e9-5c29d028e069");
+let o5 = wsbundle._c.Create([]);
+o5.$preinit("fe728b51-8e34-497c-a831-604f2d2b7be1");
+let o7 = wsbundle._c.Create([]);
+o7.$preinit("bd523972-0fcb-4458-863b-56b4b822ca01");
+let o9 = wsbundle._c.Create([]);
+o9.$preinit("34409d17-ca59-456d-ada5-5fcd2fff897e");
+let o11 = wsbundle._c.Create([]);
+o11.$preinit("0c3f3b33-bba1-4ea2-93b6-d418d219b8a5");
+let o13 = wsbundle._c.Create([]);
+o13.$preinit("a3440027-2ff3-4fa2-8a8b-f897f0425945");
+let o15 = wsbundle._c.Create([]);
+o15.$preinit("0b2fa1a1-bc3c-4072-b546-cda468b3ae74");
+let o17 = wsbundle._c.Create([]);
+o17.$preinit("465b954b-b311-4c11-a411-53e2ecc643a3");
+let o19 = wsbundle._c.Create([]);
+o19.$preinit("db895987-dd50-4608-b418-635625d1481a");
+let o21 = wsbundle._c.Create([]);
+o21.$preinit("cacb4b77-f2dd-4ae9-8b51-01a8ca9af734");
+let o23 = wsbundle._c.Create([]);
+o23.$preinit("a6bc01c9-77c6-450a-846c-446a2a9f4de3");
+let o24 = wsbundle._c.Create([]);
+o24.$preinit("70f92d22-11ad-4895-92cd-9effe4b47471");
+let o26 = wsbundle._c.Create([]);
+o26.$preinit("740d67ad-72b2-492b-b675-460258d07e99");
+let o28 = wsbundle._c.Create([]);
+o28.$preinit("5a5cb39c-2b94-43c1-a756-78137e6f3902");
+let o30 = wsbundle._c.Create([]);
+o30.$preinit("95a9a7f7-a73c-4173-8706-640b7e6b0498");
+let e1 = document.querySelector("[ws-1]");
+wsbundle.Layout().ReplaceInDom(e1);
+o1.$init("7548c0dc-dc9d-483b-9b68-d4e8646fbc00");
+let e2 = document.querySelector("[ws-2]");
+wsbundle.CSharp$344$31()(e2);
+o3.$init("1950cd12-e7fe-49cd-b8e9-5c29d028e069");
+let es3 = document.querySelectorAll("[ws-3]");
+es3.forEach(e3 => e3.addEventListener(e3.getAttribute('ws-3'),wsbundle.EventQ2Client("1950cd12-e7fe-49cd-b8e9-5c29d028e069",e3,wsbundle.CSharp$330$28())));
+o5.$init("fe728b51-8e34-497c-a831-604f2d2b7be1");
+let es4 = document.querySelectorAll("[ws-4]");
+es4.forEach(e4 => e4.addEventListener(e4.getAttribute('ws-4'),wsbundle.EventQ2Client("fe728b51-8e34-497c-a831-604f2d2b7be1",e4,wsbundle.CSharp$330$28())));
+o7.$init("bd523972-0fcb-4458-863b-56b4b822ca01");
+let es5 = document.querySelectorAll("[ws-5]");
+es5.forEach(e5 => e5.addEventListener(e5.getAttribute('ws-5'),wsbundle.EventQ2Client("bd523972-0fcb-4458-863b-56b4b822ca01",e5,wsbundle.CSharp$330$28())));
+o9.$init("34409d17-ca59-456d-ada5-5fcd2fff897e");
+let es6 = document.querySelectorAll("[ws-6]");
+es6.forEach(e6 => e6.addEventListener(e6.getAttribute('ws-6'),wsbundle.EventQ2Client("34409d17-ca59-456d-ada5-5fcd2fff897e",e6,wsbundle.CSharp$330$28())));
+o11.$init("0c3f3b33-bba1-4ea2-93b6-d418d219b8a5");
+let es7 = document.querySelectorAll("[ws-7]");
+es7.forEach(e7 => e7.addEventListener(e7.getAttribute('ws-7'),wsbundle.EventQ2Client("0c3f3b33-bba1-4ea2-93b6-d418d219b8a5",e7,wsbundle.CSharp$330$28())));
+o13.$init("a3440027-2ff3-4fa2-8a8b-f897f0425945");
+let es8 = document.querySelectorAll("[ws-8]");
+es8.forEach(e8 => e8.addEventListener(e8.getAttribute('ws-8'),wsbundle.EventQ2Client("a3440027-2ff3-4fa2-8a8b-f897f0425945",e8,wsbundle.CSharp$330$28())));
+o15.$init("0b2fa1a1-bc3c-4072-b546-cda468b3ae74");
+let es9 = document.querySelectorAll("[ws-9]");
+es9.forEach(e9 => e9.addEventListener(e9.getAttribute('ws-9'),wsbundle.EventQ2Client("0b2fa1a1-bc3c-4072-b546-cda468b3ae74",e9,wsbundle.CSharp$330$28())));
+o17.$init("465b954b-b311-4c11-a411-53e2ecc643a3");
+let es10 = document.querySelectorAll("[ws-10]");
+es10.forEach(e10 => e10.addEventListener(e10.getAttribute('ws-10'),wsbundle.EventQ2Client("465b954b-b311-4c11-a411-53e2ecc643a3",e10,wsbundle.Tab$39$22())));
+o19.$init("db895987-dd50-4608-b418-635625d1481a");
+let es11 = document.querySelectorAll("[ws-11]");
+es11.forEach(e11 => e11.addEventListener(e11.getAttribute('ws-11'),wsbundle.EventQ2Client("db895987-dd50-4608-b418-635625d1481a",e11,wsbundle.Tab$39$22())));
+o21.$init("cacb4b77-f2dd-4ae9-8b51-01a8ca9af734");
+let es12 = document.querySelectorAll("[ws-12]");
+es12.forEach(e12 => e12.addEventListener(e12.getAttribute('ws-12'),wsbundle.EventQ2Client("cacb4b77-f2dd-4ae9-8b51-01a8ca9af734",e12,wsbundle.VsCode$131$34())));
+o23.$init("a6bc01c9-77c6-450a-846c-446a2a9f4de3");
+o24.$init("70f92d22-11ad-4895-92cd-9effe4b47471");
+let es13 = document.querySelectorAll("[ws-13]");
+es13.forEach(e13 => e13.addEventListener(e13.getAttribute('ws-13'),wsbundle.EventQ2Client("70f92d22-11ad-4895-92cd-9effe4b47471",e13,wsbundle.Tab$39$22())));
+o26.$init("740d67ad-72b2-492b-b675-460258d07e99");
+let es14 = document.querySelectorAll("[ws-14]");
+es14.forEach(e14 => e14.addEventListener(e14.getAttribute('ws-14'),wsbundle.EventQ2Client("740d67ad-72b2-492b-b675-460258d07e99",e14,wsbundle.Tab$39$22())));
+o28.$init("5a5cb39c-2b94-43c1-a756-78137e6f3902");
+let es15 = document.querySelectorAll("[ws-15]");
+es15.forEach(e15 => e15.addEventListener(e15.getAttribute('ws-15'),wsbundle.EventQ2Client("5a5cb39c-2b94-43c1-a756-78137e6f3902",e15,wsbundle.Tab$39$22())));
+o30.$init("95a9a7f7-a73c-4173-8706-640b7e6b0498");
+let es16 = document.querySelectorAll("[ws-16]");
+es16.forEach(e16 => e16.addEventListener(e16.getAttribute('ws-16'),wsbundle.EventQ2Client("95a9a7f7-a73c-4173-8706-640b7e6b0498",e16,wsbundle.Tab$39$22())));
+let e17 = document.querySelector("[ws-17]");
+wsbundle.CodeFiles$59$18()(e17);
+o1.$postinit("7548c0dc-dc9d-483b-9b68-d4e8646fbc00");
+o3.$postinit("1950cd12-e7fe-49cd-b8e9-5c29d028e069");
+o5.$postinit("fe728b51-8e34-497c-a831-604f2d2b7be1");
+o7.$postinit("bd523972-0fcb-4458-863b-56b4b822ca01");
+o9.$postinit("34409d17-ca59-456d-ada5-5fcd2fff897e");
+o11.$postinit("0c3f3b33-bba1-4ea2-93b6-d418d219b8a5");
+o13.$postinit("a3440027-2ff3-4fa2-8a8b-f897f0425945");
+o15.$postinit("0b2fa1a1-bc3c-4072-b546-cda468b3ae74");
+o17.$postinit("465b954b-b311-4c11-a411-53e2ecc643a3");
+o19.$postinit("db895987-dd50-4608-b418-635625d1481a");
+o21.$postinit("cacb4b77-f2dd-4ae9-8b51-01a8ca9af734");
+o23.$postinit("a6bc01c9-77c6-450a-846c-446a2a9f4de3");
+o24.$postinit("70f92d22-11ad-4895-92cd-9effe4b47471");
+o26.$postinit("740d67ad-72b2-492b-b675-460258d07e99");
+o28.$postinit("5a5cb39c-2b94-43c1-a756-78137e6f3902");
+o30.$postinit("95a9a7f7-a73c-4173-8706-640b7e6b0498");
+});
+</script>
+
+
+    <script>
+        const DOC = document.documentElement;
+        // Theme is shared with docs.websharper.com (fumadocs / next-themes):
+        // the same storage key and the same values ("light" | "dark" | "system").
+        const THEME_KEY = "theme";
+        const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        function resolveTheme(theme) {
+            return theme === "system" ? (prefersDark() ? "dark" : "light") : theme;
+        }
+
+        function setThemeClass(theme) {
+            DOC.classList.toggle("dark", resolveTheme(theme) === "dark");
+            DOC.style.colorScheme = resolveTheme(theme);
+        }
+
+        function getInitialTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved === "dark" || saved === "light" || saved === "system") return saved;
+            return "dark";
+        }
+
+        function currentTheme() {
+            return DOC.classList.contains("dark") ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            setThemeClass(theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+            updateAllIframesTheme(resolveTheme(theme));
+        }
+
+        function toggleTheme() {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            applyTheme(next);
+        }
+
+        function updateAllIframesTheme(theme = currentTheme()) {
+            document.querySelectorAll(".themed-iframe").forEach((iframe) => {
+                const baseSrc = iframe.dataset.src; // same as getAttribute("data-src")
+                if (!baseSrc) return;
+                const url = new URL(baseSrc, document.baseURI);
+                url.searchParams.set("theme", theme);
+                iframe.src = url.toString();
+            });
+        }
+
+        applyTheme(getInitialTheme());
+
+        document.querySelectorAll(".switcher").forEach((el) => {
+            el.addEventListener("click", toggleTheme);
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === THEME_KEY) {
+                const theme = e.newValue || "dark";
+                setThemeClass(theme);
+                updateAllIframesTheme(resolveTheme(theme));
+            }
+        });
+
+        // Underline the current page in the menu bar.
+        function markActiveNav() {
+            const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+            document.querySelectorAll('nav a[href]').forEach((a) => {
+                const href = a.getAttribute("href");
+                if (!href || /^(https?:)?\/\//.test(href) || href.charAt(0) === "#") return;
+                if (a.querySelector("img")) return; // the logo is not a page link
+                const target = href.replace(/^\.\//, "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+                if (target === path) a.classList.add("nav-active");
+            });
+        }
+
+        // Latest WebSharper version from NuGet (shown in the footer).
+        function loadLatestVersion() {
+            const el = document.getElementById("ws-latest-version");
+            if (!el) return;
+            fetch("https://api.nuget.org/v3-flatcontainer/websharper/index.json")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = d.versions || [];
+                    const stable = versions.filter((v) => v.indexOf("-") === -1);
+                    const latest = (stable.length ? stable : versions).slice(-1)[0];
+                    if (latest) el.textContent = latest;
+                })
+                .catch(() => {});
+        }
+
+        // Refresh binding versions from NuGet (Bindings page).
+        function loadBindingVersions() {
+            const els = document.querySelectorAll("[data-nuget-package]");
+            if (!els.length) return;
+            // Stable releases only, so the value matches the one baked into
+            // bindings.json (a prerelease here would flicker the version badge).
+            fetch("https://azuresearch-usnc.nuget.org/query?q=WebSharper&take=250&prerelease=false")
+                .then((r) => r.json())
+                .then((d) => {
+                    const versions = new Map((d.data || []).map((p) => [p.id.toLowerCase(), p.version]));
+                    els.forEach((el) => {
+                        const v = versions.get(el.getAttribute("data-nuget-package").toLowerCase());
+                        if (v) el.textContent = v;
+                    });
+                })
+                .catch(() => {});
+        }
+
+        // Filter the bindings in a section by name (case-insensitive, partial match).
+        function initBindingSearch() {
+            document.querySelectorAll("[data-binding-search]").forEach((input) => {
+                const root = document.querySelector(input.getAttribute("data-binding-search"));
+                if (!root) return;
+                const update = () => {
+                    const q = input.value.trim().toLowerCase();
+                    root.querySelectorAll("[data-binding-card]").forEach((card) => {
+                        const name = (card.getAttribute("data-binding-name") || "").toLowerCase();
+                        card.style.display = !q || name.indexOf(q) !== -1 ? "" : "none";
+                    });
+                    root.querySelectorAll("[data-binding-section]").forEach((section) => {
+                        const visible = Array.prototype.some.call(
+                            section.querySelectorAll("[data-binding-card]"),
+                            (c) => c.style.display !== "none"
+                        );
+                        section.style.display = visible ? "" : "none";
+                    });
+                };
+                input.addEventListener("input", update);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            markActiveNav();
+            updateAllIframesTheme(resolveTheme(getInitialTheme()));
+            loadLatestVersion();
+            loadBindingVersions();
+            initBindingSearch();
+        });
+
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-950 overflow-x-hidden">
+    <header class="site-header fixed inset-x-0 top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur" ws-onclick="CloseOnBackgroundClick" ws-onkeydown="OnKeyDown">
+        <div class="px-6 py-4 lg:px-8">
+            <nav class="relative z-20 mx-auto flex max-w-6xl items-center justify-between 2xl:max-w-7xl" aria-label="Global">
+                <div class="flex lg:flex-1">
+                    <a href="./" class="-m-1.5 flex items-center gap-2.5 p-1.5">
+                        <img class="h-9 w-9" src="./Assets/logo.png" alt="" width="164" height="164" />
+                        <span class="text-lg font-bold tracking-tight text-gray-950 lg:max-xl:hidden dark:text-white">WebSharper</span>
+                    </a>
+                </div>
+                <div class="flex gap-4 lg:hidden">
+                    <button ws-onclick="ToggleTheme" type="button" aria-label="Toggle theme" data-theme-toggle="" class="inline-flex cursor-pointer items-center rounded-full border border-[#e5e5e5] p-1 transition-colors dark:border-[#242424]">
+                        <span class="flex size-[26px] items-center justify-center rounded-full bg-[#e6e6e6] text-[#171717] transition-colors dark:bg-transparent dark:text-[#9b9b9b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                        </span>
+                        <span class="flex size-[26px] items-center justify-center rounded-full text-[#737373] transition-colors dark:bg-[#2b2b2b] dark:text-[#e6e6e6]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <button ws-onclick="ToggleMenu" id="openMenu" type="button" class="cursor-pointer text-gray-700 relative -m-2.5 flex w-9 items-center justify-center rounded-md">
+                        <div class="absolute inset-0 m-auto h-max w-max transition duration-500" id="openIcon">
+                            <span class="sr-only">Open main menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                        </div>
+                        <div class="absolute inset-0 m-auto h-max w-max origin-center scale-0 opacity-0 transition duration-500" id="closeIcon">
+                            <span class="sr-only">Close menu</span>
+                            
+                            <svg class="h-7 w-7 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-3 xl:gap-x-4 2xl:gap-x-6 *:font-bold *:whitespace-nowrap">
+                    <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                    <a href="./examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                    <a href="./bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                    <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                    <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                    <a href="./csharp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">C#</a>
+                    <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                    <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                    <a href="./blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                    <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                </div>
+                <div class="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+                    <button ws-onclick="ToggleTheme" type="button" aria-label="Toggle theme" data-theme-toggle="" class="inline-flex cursor-pointer items-center rounded-full border border-[#e5e5e5] p-1 transition-colors dark:border-[#242424]">
+                        <span class="flex size-[26px] items-center justify-center rounded-full bg-[#e6e6e6] text-[#171717] transition-colors dark:bg-transparent dark:text-[#9b9b9b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                        </span>
+                        <span class="flex size-[26px] items-center justify-center rounded-full text-[#737373] transition-colors dark:bg-[#2b2b2b] dark:text-[#e6e6e6]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5" aria-hidden="true">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <ul class="flex items-center gap-1">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                </svg>
+                                <span class="sr-only">WebSharper GitHub organization</span>
+                            </a>
+                        </li>
+                        <li class="lg:max-xl:hidden">
+                            <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                </svg>
+                                <span class="sr-only">Follow WebSharper on Twitter</span>
+                            </a>
+                        </li>
+                        <li class="lg:max-xl:hidden">
+                            <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/10" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-700 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                </svg>
+                                <span class="sr-only">Join WebSharper community on Discord</span>
+                            </a>
+                        </li>
+                        
+                        <li class="relative" id="accountRoot" ws-onclick="OnStopPropagation">
+                            <button id="accountBtn" class="cursor-pointer group flex h-9 w-9 rounded-full transition duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-haspopup="menu" aria-expanded="false" aria-label="Account" ws-attr="AccountBtnAria" ws-onclick="AccountBtnClick" ws-onkeydown="AccountBtnKeyDown">
+
+                                <div ws-attr="SkeletonAttr" class="absolute inset-0 m-auto h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse transition-opacity duration-500 ease-out">
+                                </div>
+
+                                <img id="accountAvatar" class="h-9 w-9 rounded-full ring-1 ring-black/5 dark:ring-white/10 transition-opacity duration-500 ease-out opacity-0" ws-attr="AvatarAttr" alt="User avatar" referrerpolicy="no-referrer" />
+
+                                <svg id="accountIcon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" class="m-auto h-4 w-4 text-gray-700 transition-all duration-300 group-hover:rotate-[360deg] group-hover:text-gray-600/80 dark:text-gray-200 dark:group-hover:text-white ease-out opacity-0" fill="currentColor" aria-hidden="true" ws-attr="IconAttr">
+                                    <path fill-rule="evenodd" d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 14a7 7 0 1 1 14 0v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+
+                            
+                            <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-white p-2 shadow-lg ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10" ws-attr="DropdownAttr">
+                                <div id="accountHeader" class="hidden px-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttrD">${AccountHeaderText}</div>
+
+                                
+                                <a id="btnManage" href="./account" class="hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnManageAttrD">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path></svg>
+                                    My account
+                                </a>
+                                <button id="btnLogout" class="cursor-pointer hidden w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100
+                                            dark:text-gray-200 dark:hover:bg-white/10" ws-attr="BtnLogoutAttrD" ws-onclick="Logout">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path><path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path></svg>
+                                    Log out
+                                </button>
+
+                                
+                                <div id="btnLogin" class="flex w-full cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttrD" aria-disabled="true">
+                                    
+                                    <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                    </svg>
+                                    Coming soon...
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div role="dialog" aria-modal="true" class="overflow-hidden transition-all duration-500">
+                <div focus="true" id="navmenu" class="fixed inset-0 z-10 h-0 overflow-y-auto bg-white px-6 transition-all duration-500 dark:bg-gray-900 dark:backdrop-blur-3xl">
+                    <div class="mt-24 flow-root">
+                        <div class="divide-y divide-gray-200 dark:divide-white">
+
+                            <div class="flex flex-col space-y-6 py-6">
+                                <a href="./" class="text-sm leading-6 text-gray-600 transition duration-300 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white">Home</a>
+                                <a href="./examples/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Examples</a>
+                                <a href="./bindings" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Bindings</a>
+                                <a href="https://docs.websharper.com/" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Docs</a>
+                                <a href="./features" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Features</a>
+                                <a href="./csharp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">C#</a>
+                                <a href="./ocaml" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">OCaml</a>
+                                <a href="./warp" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Warp</a>
+                                <a href="./blogs" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">Blogs</a>
+                                <a href="./support" class="hover:text-gray-600 text-[15px] leading-6 text-gray-700 transition duration-300 dark:text-gray-300 dark:hover:text-white">For Teams</a>
+                            </div>
+
+                            <div class="py-6">
+                                <ul class="flex gap-x-4">
+                                    <li>
+                                        <a href="https://github.com/dotnet-websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                                            </svg>
+                                            <span class="sr-only">WebSharper GitHub organization</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://x.com/websharper" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                            </svg>
+                                            <span class="sr-only">Follow WebSharper on Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://discord.gg/cwwq3sGUrC" class="group flex h-9 w-9 rounded-full transition duration-500 hover:bg-white/5" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="m-auto h-4 w-4 text-gray-500 transition duration-500 group-hover:rotate-[360deg] group-hover:text-gray-600 dark:text-gray-200 dark:group-hover:text-white" viewbox="0 0 16 16">
+                                                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path>
+                                            </svg>
+                                            <span class="sr-only">Join WebSharper community on Discord</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="py-6">
+                                <div data-account-menu="" data-variant="mobile" class="flex flex-col gap-2">
+                                    <div data-el="header" class="hidden flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-300" ws-attr="HeaderAttr">
+
+                                        <img ws-attr="AvatarAttrHamburger" src="" alt="Profile" class="h-9 w-9 rounded-full bg-gray-100 ring-1 ring-black/5 dark:bg-gray-800 dark:ring-white/10" />
+
+                                        <span class="font-medium">${AccountHeaderText}</span>
+                                    </div>
+
+                                    <a data-el="manage" href="./account" class="hidden w-full items-center gap-3 rounded-lg py-2 text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnManageAttr">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.3 13.3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4l-3-3a1 1 0 010-1.4zM11.6 2.4a4 4 0 015.7 5.7l-6.8 6.8a2 2 0 01-.9.5l-3.4.7a.5.5 0 01-.6-.6l.7-3.4a2 2 0 01.5-.9l6.8-6.8z"></path>
+                                        </svg>
+                                        My account
+                                    </a>
+
+                                    <button data-el="logout" class="hidden w-full items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white" ws-attr="BtnLogoutAttr" ws-onclick="Logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewbox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 4a2 2 0 012-2h6a1 1 0 010 2H5v12h6a1 1 0 110 2H5a2 2 0 01-2-2V4z"></path>
+                                            <path d="M13.293 13.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L14.586 10H9a1 1 0 100 2h5.586l-1.293 1.293z"></path>
+                                        </svg>
+                                        Log out
+                                    </button>
+
+                                    <div data-el="login" class="hidden w-full cursor-default select-none items-center gap-3 rounded-lg py-2 text-left text-sm text-gray-400 dark:text-gray-500" ws-attr="BtnLoginAttr" aria-disabled="true">
+                                        <svg aria-hidden="true" viewbox="0 0 16 16" class="h-4 w-4">
+                                                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                                            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                                            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                                            .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                                            -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                                            .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                                            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                                            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8
+                                            c0-4.42-3.58-8-8-8z"></path>
+                                        </svg>
+                                        Coming soon...
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main ws-onclick="CloseOnBackgroundClick"><div ws-1></div>
+    <div class="pb-16 md:pb-20" ws-2="">
+
+        
+        <section class="relative isolate overflow-hidden">
+            <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+                <div class="absolute -top-48 right-[-10rem] h-[40rem] w-[40rem] rounded-full bg-violet-500/20 blur-3xl dark:bg-violet-500/15"></div>
+                <div class="absolute left-[-12rem] top-1/3 h-96 w-96 rounded-full bg-sky-400/15 blur-3xl dark:bg-sky-500/10"></div>
+                <div class="absolute inset-0 opacity-[0.18] dark:opacity-[0.12]" style="background-image:radial-gradient(rgba(100,116,139,0.55) 1px, transparent 1px);background-size:22px 22px;mask-image:linear-gradient(to bottom, black 10%, transparent 85%);-webkit-mask-image:linear-gradient(to bottom, black 10%, transparent 85%)"></div>
+            </div>
+            <div class="mx-auto grid max-w-6xl items-center gap-14 px-6 pt-32 pb-16 sm:pt-40 lg:grid-cols-12 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="min-w-0 lg:col-span-6">
+                    <span class="inline-flex items-center gap-2 rounded-full border border-violet-400/50 bg-violet-50 px-3 py-1 text-xs font-semibold text-violet-700 dark:border-violet-300/30 dark:bg-violet-400/10 dark:text-violet-200">
+                        <span class="size-1.5 rounded-full bg-[#9B4F96] dark:bg-fuchsia-300"></span>
+                        WebSharper for C#
+                    </span>
+                    <h1 class="mt-6 text-4xl font-bold tracking-tight text-gray-950 sm:text-6xl dark:text-white">
+                        One language for the whole web app:
+                        <span class="bg-gradient-to-r from-[#9B4F96] to-violet-500 bg-clip-text text-transparent dark:from-fuchsia-300 dark:to-violet-300">C#</span>
+                    </h1>
+                    <p class="mt-6 max-w-xl text-lg leading-8 text-gray-700 dark:text-gray-300">
+                        WebSharper compiles C# to modern JavaScript and writes the glue between the tiers for you: the
+                        endpoints, DTOs, fetch calls and serialization that a separate frontend needs. The server, the
+                        browser and the contract between them are written, typed and refactored in the same language, with
+                        async/await, LINQ and records on both sides.
+                    </p>
+                    <div class="mt-10 flex flex-wrap items-center gap-4">
+                        <a href="https://docs.websharper.com/csharp/lang-support" class="w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                            <span class="relative text-sm">Get started</span>
+                        </a>
+                        <a href="#translator" class="w-fit rounded-xl h-10 border border-gray-300 dark:border-gray-800 flex justify-center items-center gap-2 px-5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5">
+                            See the generated JavaScript
+                            <span aria-hidden="true">&darr;</span>
+                        </a>
+                    </div>
+                    <div class="mt-8 flex w-fit max-w-full items-center gap-3 overflow-x-auto rounded-xl border border-gray-300/70 bg-white/70 px-4 py-2.5 font-mono text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200">
+                        <span class="select-none text-gray-400">$</span>
+                        <span class="whitespace-nowrap">dotnet new websharper-spa -lang C# -o MyApp</span>
+                    </div>
+                </div>
+
+                
+                <div class="min-w-0 lg:col-span-6">
+                    <div class="ws-window rounded-3xl border border-gray-200 bg-white p-5 shadow-xl shadow-violet-950/5 sm:p-7 dark:border-gray-800 dark:bg-gray-900/70 dark:shadow-none">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">One C# project</span>
+                            <span class="rounded-full bg-violet-50 px-2.5 py-0.5 font-mono text-[11px] text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">MyApp.csproj</span>
+                        </div>
+                        <div class="mt-4 grid grid-cols-2 gap-2 font-mono text-xs sm:grid-cols-4">
+                            <span class="rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-2 text-gray-700 dark:border-gray-800 dark:bg-white/5 dark:text-gray-200">Shared.cs</span>
+                            <span class="rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-2 text-gray-700 dark:border-gray-800 dark:bg-white/5 dark:text-gray-200">Remoting.cs</span>
+                            <span class="rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-2 text-gray-700 dark:border-gray-800 dark:bg-white/5 dark:text-gray-200">Client.cs</span>
+                            <span class="rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-2 text-gray-700 dark:border-gray-800 dark:bg-white/5 dark:text-gray-200">Site.cs</span>
+                        </div>
+                        <div class="relative my-5 flex items-center justify-center">
+                            <div aria-hidden="true" class="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-violet-400/50 to-transparent"></div>
+                            <span class="relative rounded-full border border-violet-300 bg-white px-3 py-1 font-mono text-xs text-violet-700 dark:border-violet-400/30 dark:bg-gray-900 dark:text-violet-200">dotnet build</span>
+                        </div>
+                        <div class="grid gap-3 sm:grid-cols-2">
+                            <div class="rounded-2xl border border-gray-200 p-4 dark:border-gray-800">
+                                <div class="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+                                    <svg class="size-4 text-violet-500" fill="none" viewbox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 0 1-3-3m3 3a3 3 0 1 0 0 6h13.5a3 3 0 1 0 0-6m-16.5-3a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3m-19.5 0a4.5 4.5 0 0 1 .9-2.7L5.737 5.1a3.375 3.375 0 0 1 2.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 0 1 .9 2.7"></path></svg>
+                                    Server
+                                </div>
+                                <p class="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-400">An ASP.NET Core app: sitelets, typed routes, RPC endpoints, auth and DI.</p>
+                            </div>
+                            <div class="rounded-2xl border border-gray-200 p-4 dark:border-gray-800">
+                                <div class="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+                                    <svg class="size-4 text-sky-500" fill="none" viewbox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"></path></svg>
+                                    Browser
+                                </div>
+                                <p class="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-400">Readable ES2022 modules with native <code class="font-mono">async</code>, generators and classes, bundled for production.</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-gray-50 px-4 py-3 text-xs text-gray-600 dark:bg-white/5 dark:text-gray-300">
+                            <span><strong class="font-semibold text-gray-900 dark:text-white">Generated</strong>: RPC endpoints, client proxies, JSON</span>
+                            <span><strong class="font-semibold text-gray-900 dark:text-white">83</strong> typed JS bindings</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="debugging" class="mt-4 scroll-mt-24">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="ws-card relative overflow-hidden rounded-3xl border border-gray-200 bg-white p-7 sm:p-10 dark:border-gray-800 dark:bg-gray-900/40">
+                    <div aria-hidden="true" class="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-sky-400/15 blur-3xl dark:bg-sky-500/10"></div>
+                    <div class="relative grid gap-10 xl:grid-cols-12 xl:items-center">
+                        <div class="min-w-0 xl:col-span-5">
+                            <p class="text-sm font-semibold uppercase tracking-widest text-[#9B4F96] dark:text-fuchsia-300">Debugging</p>
+                            <h2 class="mt-3 text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">Breakpoints in C#, all the way into the browser</h2>
+                            <p class="mt-5 text-gray-500 dark:text-gray-200">
+                                Turn on source maps and the browser's developer tools show your C# files, not just the generated JavaScript.
+                                Pause on a line of <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-800">Client.cs</code>, step through it and
+                                inspect its variables, then step on into WebSharper's own libraries.
+                            </p>
+                            <ul class="mt-6 space-y-2.5 text-sm text-gray-600 dark:text-gray-300">
+                                <li class="flex gap-3"><span class="mt-2 size-1.5 flex-none rounded-full bg-[#9B4F96]"></span><span><strong class="font-semibold text-gray-900 dark:text-white">Browser:</strong> your <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">.cs</code> files in Chrome, Edge or Firefox DevTools, next to the sources of the libraries you use.</span></li>
+                                <li class="flex gap-3"><span class="mt-2 size-1.5 flex-none rounded-full bg-[#9B4F96]"></span><span><strong class="font-semibold text-gray-900 dark:text-white">Server:</strong> the <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">[Remote]</code> method the client awaits stops in Visual Studio, Rider or VS Code, like any ASP.NET Core code.</span></li>
+                                <li class="flex gap-3"><span class="mt-2 size-1.5 flex-none rounded-full bg-[#9B4F96]"></span><span><strong class="font-semibold text-gray-900 dark:text-white">One language in both debuggers:</strong> the same names, types and lines on each side of the call.</span></li>
+                            </ul>
+                            <div class="mt-6 flex w-fit max-w-full items-center gap-3 overflow-x-auto rounded-xl border border-gray-300/70 bg-white/70 px-4 py-2.5 font-mono text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200">
+                                <span class="select-none text-gray-400">wsconfig.json</span>
+                                <span class="whitespace-nowrap"><span class="text-sky-700 dark:text-sky-300">"sourceMap"</span>: <span class="text-violet-700 dark:text-violet-300">true</span></span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="min-w-0 xl:col-span-7">
+                            <div class="overflow-x-auto">
+                                <div class="ws-window min-w-[580px] overflow-hidden rounded-2xl border border-gray-200 bg-white font-mono text-[12px] shadow-xl shadow-sky-950/5 dark:border-gray-800 dark:bg-gray-950/70 dark:shadow-none">
+                                    <div class="flex items-center gap-4 border-b border-gray-200 bg-gray-50 px-4 py-2 font-sans text-xs text-gray-500 dark:border-gray-800 dark:bg-white/5 dark:text-gray-400">
+                                        <span>Elements</span><span>Console</span>
+                                        <span class="border-b-2 border-sky-500 pb-0.5 font-semibold text-gray-900 dark:text-white">Sources</span>
+                                        <span>Network</span>
+                                        <span class="ml-auto rounded bg-amber-100 px-2 py-0.5 font-semibold text-amber-800 dark:bg-amber-400/15 dark:text-amber-200">Paused on breakpoint</span>
+                                    </div>
+                                    <div class="grid grid-cols-[11.5rem_1fr]">
+                                        <div class="border-r border-gray-200 py-3 leading-6 text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                                            <p class="px-3">&#9662; localhost:5001</p>
+                                            <p class="pl-5">&#9662; Scripts/WebSharper</p>
+                                            <p class="pl-7">&#9662; Source</p>
+                                            <p class="pl-9">&#9662; Shop</p>
+                                            <p class="bg-sky-100 pl-12 font-semibold text-sky-900 dark:bg-sky-400/15 dark:text-sky-100">Client.cs</p>
+                                            <p class="pl-12">Shared.cs</p>
+                                            <p class="pl-9">&#9656; WebSharper.UI</p>
+                                            <p class="pl-9">&#9656; WebSharper.StdLib</p>
+                                            <p class="pl-7 text-gray-400">&#9656; Shop</p>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="border-b border-gray-200 px-4 py-1.5 font-sans text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">Client.cs</div>
+                                            <div class="overflow-x-auto py-2 leading-6 text-gray-700 dark:text-gray-200"><div class="w-max min-w-full">
+                                                <p class="whitespace-pre pr-4"><span class="inline-block w-10 select-none pr-3 text-right text-gray-400">15</span>return new Template.Main.SearchForm()</p>
+                                                <p class="whitespace-pre pr-4"><span class="inline-block w-10 select-none pr-3 text-right text-gray-400">16</span>.OnSearch(async e =&gt;</p>
+                                                <p class="whitespace-pre pr-4"><span class="inline-block w-10 select-none pr-3 text-right text-gray-400">17</span>{</p>
+                                                <p class="whitespace-pre pr-4"><span class="inline-block w-10 select-none pr-3 text-right text-gray-400">18</span>    <span class="text-gray-400">// A remote call: arguments and results cross the wire typed.</span></p>
+                                                <p class="whitespace-pre bg-sky-100 pr-4 dark:bg-sky-400/15"><span class="inline-block w-10 select-none pr-3 text-right"><span class="rounded-sm bg-sky-600 px-1 text-white">19</span></span>    results.Value = await Remoting.Search(e.Vars.Query.Value);</p>
+                                                <p class="whitespace-pre pr-4"><span class="inline-block w-10 select-none pr-3 text-right text-gray-400">20</span>})</p>
+                                                <p class="whitespace-pre pr-4"><span class="inline-block w-10 select-none pr-3 text-right text-gray-400">21</span>.Results(results.View.DocSeqCached(...))</p>
+                                                </div>
+                                            </div>
+                                            <div class="border-t border-gray-200 px-4 py-2 leading-6 dark:border-gray-800">
+                                                <p class="font-sans text-xs font-semibold text-gray-500 dark:text-gray-400">Scope</p>
+                                                <p class="text-gray-700 dark:text-gray-200"><span class="font-sans text-xs text-gray-400">Local</span> <span class="text-violet-700 dark:text-violet-300">e</span>: {Vars: {…}, Target: …, Event: …}</p>
+                                                <p class="text-gray-700 dark:text-gray-200"><span class="font-sans text-xs text-gray-400">Closure</span> <span class="text-violet-700 dark:text-violet-300">results</span>: Var {…}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mt-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+                                Your own files are copied next to the generated scripts, under <code>Source/&lt;Assembly&gt;/</code>, and the source map points there. Works for SPAs and for debug builds of client-server apps.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="mt-12">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="max-w-2xl">
+                    <p class="text-sm font-semibold uppercase tracking-widest text-[#9B4F96] dark:text-fuchsia-300">Why full-stack C#</p>
+                    <h2 class="mt-3 text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">Six reasons to write the frontend in C# too</h2>
+                    <p class="mt-4 text-gray-500 dark:text-gray-200">
+                        If your backend is already in .NET, a separate TypeScript frontend means a second language, a second
+                        toolchain and a contract that can silently drift. Here's what you gain by writing both tiers in C#.
+                    </p>
+                </div>
+
+                <div class="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
+                    
+                    <article class="ws-card min-w-0 rounded-3xl border border-gray-200 bg-white p-7 lg:col-span-2 lg:row-span-2 dark:border-gray-800 dark:bg-gray-900/40">
+                        <div class="grid gap-8 md:grid-cols-2">
+                            <div class="min-w-0">
+                                <span class="inline-flex size-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">
+                                    <svg class="size-5" fill="none" viewbox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z"></path></svg>
+                                </span>
+                                <h3 class="mt-5 text-xl font-semibold text-gray-900 dark:text-white">Built for AI-assisted development</h3>
+                                <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                                    Coding agents work best with a fast, strict feedback loop, and the C# compiler is one. Hallucinated
+                                    members, wrong argument types and a client that's out of step with the server all fail
+                                    <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">dotnet build</code>, so they never reach a browser.
+                                </p>
+                                <ul class="mt-5 space-y-2.5 text-sm text-gray-600 dark:text-gray-300">
+                                    <li class="flex gap-3"><span class="mt-2 size-1.5 flex-none rounded-full bg-[#9B4F96]"></span><span>Models have seen a huge amount of C#, and the code they write is checked by a compiler they can run.</span></li>
+                                    <li class="flex gap-3"><span class="mt-2 size-1.5 flex-none rounded-full bg-[#9B4F96]"></span><span>A full feature fits in one context: the record, the endpoint and the UI that uses it, all in one language.</span></li>
+                                    <li class="flex gap-3"><span class="mt-2 size-1.5 flex-none rounded-full bg-[#9B4F96]"></span><span>Typed bindings mean an agent can only call JavaScript APIs that actually exist, and <a href="/bindings#why-bindings" class="font-medium text-violet-700 underline-offset-4 hover:underline dark:text-violet-300">our binding skill</a> lets it generate new ones.</span></li>
+                                    <li class="flex gap-3"><span class="mt-2 size-1.5 flex-none rounded-full bg-[#9B4F96]"></span><span>Every <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">dotnet new</code> template ships an <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">AGENTS.md</code> and agent skills, so your agent knows the project's conventions from the first prompt.</span></li>
+                                </ul>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="ws-window-terminal h-full overflow-x-auto rounded-2xl border border-gray-200 bg-gray-50 p-4 font-mono text-[12px] leading-6 dark:border-gray-800 dark:bg-gray-950/70">
+                                    <p class="text-gray-400">// agent: "add paging to product search"</p>
+                                    <p class="whitespace-nowrap text-gray-700 dark:text-gray-200"><span class="text-violet-600 dark:text-violet-300">agent</span> &rsaquo; edit Client.cs</p>
+                                    <p class="whitespace-nowrap pl-4 text-gray-500 dark:text-gray-400">await Remoting.Search(query, page)</p>
+                                    <p class="whitespace-nowrap text-gray-700 dark:text-gray-200"><span class="text-gray-400">$</span> dotnet build</p>
+                                    <p class="whitespace-nowrap text-rose-600 dark:text-rose-400">error CS1501: No overload for method</p>
+                                    <p class="whitespace-nowrap pl-4 text-rose-600 dark:text-rose-400">'Search' takes 2 arguments</p>
+                                    <p class="whitespace-nowrap pl-4 text-gray-400">Client.cs(14,25)</p>
+                                    <p class="whitespace-nowrap text-gray-700 dark:text-gray-200"><span class="text-violet-600 dark:text-violet-300">agent</span> &rsaquo; edit Remoting.cs</p>
+                                    <p class="whitespace-nowrap pl-4 text-gray-500 dark:text-gray-400">[Remote] Search(string query, int page)</p>
+                                    <p class="whitespace-nowrap text-gray-700 dark:text-gray-200"><span class="text-gray-400">$</span> dotnet build</p>
+                                    <p class="whitespace-nowrap text-emerald-600 dark:text-emerald-400">Build succeeded. Server and client agree.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="mt-8 border-t border-gray-200 pt-7 dark:border-gray-800">
+                            <div class="grid gap-8 md:grid-cols-2">
+                                <div class="min-w-0">
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">Your agent can ask the compiler</p>
+                                    <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                                        <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">dotnet ws mcp</code> connects coding agents to the
+                                        WebSharper Booster over <a href="https://modelcontextprotocol.io" class="font-medium text-violet-700 underline-offset-4 hover:underline dark:text-violet-300">MCP</a>.
+                                        Instead of guessing, the agent can look up what your last build reported, how a member translates to JavaScript and which RPC methods the server exposes.
+                                    </p>
+                                    <div class="mt-4 flex flex-wrap gap-2 text-xs">
+                                        <span class="rounded-full bg-violet-50 px-3 py-1 text-violet-800 ring-1 ring-violet-200 dark:bg-violet-400/10 dark:text-violet-200 dark:ring-violet-400/20">WebSharper diagnostics</span>
+                                        <span class="rounded-full bg-violet-50 px-3 py-1 text-violet-800 ring-1 ring-violet-200 dark:bg-violet-400/10 dark:text-violet-200 dark:ring-violet-400/20">C# → JS translation</span>
+                                        <span class="rounded-full bg-violet-50 px-3 py-1 text-violet-800 ring-1 ring-violet-200 dark:bg-violet-400/10 dark:text-violet-200 dark:ring-violet-400/20">symbol search</span>
+                                        <span class="rounded-full bg-violet-50 px-3 py-1 text-violet-800 ring-1 ring-violet-200 dark:bg-violet-400/10 dark:text-violet-200 dark:ring-violet-400/20">RPC methods</span>
+                                    </div>
+                                    <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                                        <span class="font-semibold text-gray-900 dark:text-white">Booster Pro</span> adds
+                                        <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">get_signature</code>: exact C# signatures from your project and
+                                        its references, with a warning when a .NET API has no JavaScript translation, so the agent doesn't write client code that can't compile.
+                                    </p>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="ws-window-terminal overflow-x-auto rounded-2xl border border-gray-200 bg-gray-50 p-4 font-mono text-[12px] leading-6 dark:border-gray-800 dark:bg-gray-950/70">
+                                        <p class="text-gray-400">// .mcp.json</p>
+                                        <p class="whitespace-nowrap text-gray-700 dark:text-gray-200">{</p>
+                                        <p class="whitespace-nowrap pl-4 text-gray-700 dark:text-gray-200"><span class="text-sky-700 dark:text-sky-300">"mcpServers"</span>: {</p>
+                                        <p class="whitespace-nowrap pl-8 text-gray-700 dark:text-gray-200"><span class="text-sky-700 dark:text-sky-300">"websharper-csharp"</span>: {</p>
+                                        <p class="whitespace-nowrap pl-12 text-gray-700 dark:text-gray-200"><span class="text-sky-700 dark:text-sky-300">"command"</span>: <span class="text-emerald-700 dark:text-emerald-300">"dotnet"</span>,</p>
+                                        <p class="whitespace-nowrap pl-12 text-gray-700 dark:text-gray-200"><span class="text-sky-700 dark:text-sky-300">"args"</span>: [<span class="text-emerald-700 dark:text-emerald-300">"ws"</span>, <span class="text-emerald-700 dark:text-emerald-300">"mcp"</span>,</p>
+                                        <p class="whitespace-nowrap pl-20 text-gray-700 dark:text-gray-200"><span class="text-emerald-700 dark:text-emerald-300">"--lang"</span>, <span class="text-emerald-700 dark:text-emerald-300">"csharp"</span>]</p>
+                                        <p class="whitespace-nowrap pl-8 text-gray-700 dark:text-gray-200">}</p>
+                                        <p class="whitespace-nowrap pl-4 text-gray-700 dark:text-gray-200">}</p>
+                                        <p class="whitespace-nowrap text-gray-700 dark:text-gray-200">}</p>
+                                    </div>
+                                    <p class="mt-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+                                        Needs WebSharper 11 and the <code>dotnet-ws</code> tool. Build once to start the Booster and give it something to answer about.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    
+                    <article class="ws-card min-w-0 rounded-3xl border border-gray-200 bg-white p-7 dark:border-gray-800 dark:bg-gray-900/40">
+                        <span class="inline-flex size-10 items-center justify-center rounded-xl bg-sky-100 text-sky-700 dark:bg-sky-400/10 dark:text-sky-200">
+                            <svg class="size-5" fill="none" viewbox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"></path></svg>
+                        </span>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900 dark:text-white">Type safety from the database to the DOM</h3>
+                        <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                            RPC calls, routes, HTML templates and JavaScript libraries are all typed. A misspelled template hole,
+                            a broken link or a renamed field is a compile error, not a support ticket. And Rename, Find All
+                            References and Go to Definition reach into the client code too, so long-lived apps stay easy to change.
+                        </p>
+                    </article>
+
+                    
+                    <article class="ws-card min-w-0 rounded-3xl border border-gray-200 bg-white p-7 dark:border-gray-800 dark:bg-gray-900/40">
+                        <span class="inline-flex size-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-200">
+                            <svg class="size-5" fill="none" viewbox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"></path></svg>
+                        </span>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900 dark:text-white">One team, one skill set</h3>
+                        <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                            Your .NET developers can ship whole features without handing off to a frontend team.
+                            Code review, hiring and onboarding all happen in one language, and there's no second package ecosystem to keep current.
+                        </p>
+                    </article>
+
+                    
+                    <article class="ws-card min-w-0 rounded-3xl border border-gray-200 bg-white p-7 dark:border-gray-800 dark:bg-gray-900/40">
+                        <span class="inline-flex size-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-200">
+                            <svg class="size-5" fill="none" viewbox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"></path></svg>
+                        </span>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900 dark:text-white">What compiles behaves like .NET</h3>
+                        <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                            Integer overflow wraps, exceptions keep their .NET types and <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">decimal</code>
+                            stays exact (through math.js). Where JavaScript can't follow .NET, such as reflection or culture-aware sorting,
+                            WebSharper leaves the API out instead of shipping a lookalike, and points you to the browser API to use.
+                        </p>
+                        <a href="/conformance" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 underline-offset-4 hover:underline dark:text-violet-300">
+                            322 of 339 conformance cases match <span aria-hidden="true">&rarr;</span>
+                        </a>
+                    </article>
+
+                    
+                    <article class="ws-card min-w-0 rounded-3xl border border-gray-200 bg-white p-7 dark:border-gray-800 dark:bg-gray-900/40">
+                        <span class="inline-flex size-10 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 dark:bg-indigo-400/10 dark:text-indigo-200">
+                            <svg class="size-5" fill="none" viewbox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"></path></svg>
+                        </span>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900 dark:text-white">The .NET platform you already run</h3>
+                        <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                            It's plain ASP.NET Core underneath, so your authentication, DI, EF Core, logging, NuGet feeds, CI and
+                            hosting all keep working. WebSharper is just another package in the project.
+                        </p>
+                    </article>
+
+                    
+                    <article class="ws-card min-w-0 rounded-3xl border border-gray-200 bg-white p-7 dark:border-gray-800 dark:bg-gray-900/40">
+                        <span class="inline-flex size-10 items-center justify-center rounded-xl bg-rose-100 text-rose-700 dark:bg-rose-400/10 dark:text-rose-200">
+                            <svg class="size-5" fill="none" viewbox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"></path></svg>
+                        </span>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900 dark:text-white">JavaScript you can read</h3>
+                        <p class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                            No WebAssembly runtime to download and no opaque blob. You get ES modules whose classes and methods follow your
+                            C# closely, so you can read and step through them in the browser's developer tools. They come with
+                            <a href="#typescript" class="font-medium text-violet-700 underline-offset-4 hover:underline dark:text-violet-300">TypeScript declarations</a> too.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="mt-28">
+            <div class="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-12 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="min-w-0 lg:col-span-5">
+                    <p class="text-sm font-semibold uppercase tracking-widest text-[#9B4F96] dark:text-fuchsia-300">No glue code</p>
+                    <h2 class="mt-3 text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">Call the server like a local method</h2>
+                    <p class="mt-5 text-gray-500 dark:text-gray-200">
+                        Mark a server method <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-800">[Remote]</code> and
+                        <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-800">await</code> it from the client. WebSharper
+                        generates the endpoint, the client proxy and the JSON, so you don't write routes, DTOs or fetch code.
+                    </p>
+                    <dl class="mt-8 space-y-5 text-sm">
+                        <div class="flex gap-4">
+                            <dt class="flex size-8 flex-none items-center justify-center rounded-lg bg-violet-100 font-mono text-xs font-semibold text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">1</dt>
+                            <dd class="text-gray-600 dark:text-gray-300"><strong class="font-semibold text-gray-900 dark:text-white">Remoting.cs</strong>: an async server method that returns it.</dd>
+                        </div>
+                        <div class="flex gap-4">
+                            <dt class="flex size-8 flex-none items-center justify-center rounded-lg bg-violet-100 font-mono text-xs font-semibold text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">2</dt>
+                            <dd class="text-gray-600 dark:text-gray-300"><strong class="font-semibold text-gray-900 dark:text-white">Client.cs</strong>: a search box that awaits the call and renders a reactive list.</dd>
+                        </div>
+                        <div class="flex gap-4">
+                            <dt class="flex size-8 flex-none items-center justify-center rounded-lg bg-violet-100 font-mono text-xs font-semibold text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">3</dt>
+                            <dd class="text-gray-600 dark:text-gray-300"><strong class="font-semibold text-gray-900 dark:text-white">Shared.cs</strong>: a <code class="font-mono text-xs">[JavaScript]</code> record, used on both tiers.</dd>
+                        </div>
+                        <div class="flex gap-4">
+                            <dt class="flex size-8 flex-none items-center justify-center rounded-lg bg-violet-100 font-mono text-xs font-semibold text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">4</dt>
+                            <dd class="text-gray-600 dark:text-gray-300"><strong class="font-semibold text-gray-900 dark:text-white">Site.cs</strong>: a sitelet that renders the page on the server and hands the widget to the browser.</dd>
+                        </div>
+                    </dl>
+                </div>
+                <div class="relative min-w-0 lg:col-span-7 [&amp;_.snippet-code&gt;div]:h-[34rem]">
+        <div data-name="snippet" ws-17="" class="ws-window relative z-10 border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 rounded-2xl p-px md:rounded-xl">
+            <div class="rounded-2xl text-sm backdrop-blur-3xl md:ml-0 md:rounded-xl">
+                <div class="flex items-center gap-4 rounded-t-2xl px-4 py-1 md:rounded-t-xl border-b border-gray-200 dark:border-gray-800">
+                    <div class="flex space-x-2">
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                    </div>
+                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-13="click" role="tab" aria-selected="false" data-target="Remoting.cs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z"></path><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z"></path><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z"></path></svg>
+    </span></span>
+        <span class="text-sm">Remoting.cs</span>
+    </button><button ws-14="click" role="tab" aria-selected="false" data-target="Client.cs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z"></path><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z"></path><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z"></path></svg>
+    </span></span>
+        <span class="text-sm">Client.cs</span>
+    </button><button ws-15="click" role="tab" aria-selected="false" data-target="Shared.cs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z"></path><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z"></path><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z"></path></svg>
+    </span></span>
+        <span class="text-sm">Shared.cs</span>
+    </button><button ws-16="click" role="tab" aria-selected="false" data-target="Site.cs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z"></path><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z"></path><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z"></path></svg>
+    </span></span>
+        <span class="text-sm">Site.cs</span>
+    </button></div>
+                </div>
+                <div class="snippet-code relative rounded-b-2xl dark:mt-px md:rounded-b-xl">
+                    <div class="custom-scrollbar relative h-80 w-full overflow-auto !p-0 text-xs"><div role="tabpanel" data-lang="Remoting.cs" class="absolute inset-0 h-max w-max">
+        <pre class="p-4 pt-0"><code class="w-max language-csharp">using WebSharper;
+
+namespace Shop;
+
+public static class Remoting
+{
+    static readonly Product[] Catalog = {
+        new(&quot;Keyboard&quot;, 49.0),
+        new(&quot;Monitor&quot;, 189.0),
+        new(&quot;Mouse&quot;, 19.0)
+    };
+
+    // A typed server function; the client calls it like a local method.
+    [Remote]
+    public static Task&lt;Product[]&gt; Search(string query) =&gt;
+        Task.FromResult(Catalog
+            .Where(p =&gt; p.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+            .ToArray());
+}
+</code></pre>
+    </div><div role="tabpanel" data-lang="Client.cs" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-csharp">using WebSharper;
+using WebSharper.UI;
+using WebSharper.UI.Client;
+using static WebSharper.UI.Client.Html;
+
+namespace Shop;
+
+[JavaScript]
+public static class Client
+{
+    public static IControlBody SearchBox()
+    {
+        var results = Var.Create(Enumerable.Empty&lt;Product&gt;());
+
+        return new Template.Main.SearchForm()
+            .OnSearch(async e =&gt;
+            {
+                // A remote call: arguments and results cross the wire typed.
+                results.Value = await Remoting.Search(e.Vars.Query.Value);
+            })
+            .Results(results.View.DocSeqCached(
+                (Product p) =&gt; p.Name,
+                (Product p) =&gt; li($&quot;{p.Name}: ${p.Price}&quot;)
+            ))
+            .Doc();
+    }
+}
+</code></pre>
+    </div><div role="tabpanel" data-lang="Shared.cs" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-csharp">using WebSharper;
+
+namespace Shop;
+
+// One type, used by the server, the client and the wire format.
+[JavaScript]
+public record Product(string Name, double Price);
+</code></pre>
+    </div><div role="tabpanel" data-lang="Site.cs" class="absolute inset-0 hidden w-max h-max">
+        <pre class="p-4 pt-0"><code class="w-max language-csharp">using WebSharper;
+using WebSharper.Sitelets;
+using WebSharper.UI;
+using static WebSharper.UI.Html;
+
+namespace Shop;
+
+public class Site
+{
+    [EndPoint(&quot;/&quot;)]
+    public record Home;
+
+    // The server renders the page; client(...) marks where the browser takes over.
+    [Website]
+    public static Sitelet&lt;object&gt; Main =&gt;
+        new SiteletBuilder()
+            .With&lt;Home&gt;((ctx, endpoint) =&gt;
+                Content.Page(
+                    new Template.Main()
+                        .Title(&quot;Shop&quot;)
+                        .Body(doc(
+                            h1(&quot;Find a product&quot;),
+                            div(client(() =&gt; Client.SearchBox()))
+                        ))
+                        .Doc()
+                )
+            )
+            .Install();
+}
+</code></pre>
+    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </section>
+
+        
+        <section id="translator" class="mt-28 scroll-mt-24">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+                    <div class="lg:col-span-7">
+                        <p class="text-sm font-semibold uppercase tracking-widest text-[#9B4F96] dark:text-fuchsia-300">The compiler</p>
+                        <h2 class="mt-3 text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">C# in, idiomatic JavaScript out</h2>
+                    </div>
+                    <p class="text-gray-500 lg:col-span-5 dark:text-gray-200">
+                        WebSharper reads your code through Roslyn and translates C#'s semantics, not just its syntax.
+                        Pick a feature to see what WebSharper 11 emits for it. The output below is real compiler output,
+                        reformatted only.
+                    </p>
+                </div>
+
+                <div data-translator="" class="mt-10 grid gap-6 lg:grid-cols-12">
+                    <div role="tablist" aria-label="C# features" class="grid grid-cols-1 gap-1.5 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1 lg:content-start"><button type="button" role="tab" data-tr="async" aria-selected="true" ws-3="click" class="cursor-pointer w-full rounded-xl border border-transparent px-4 py-3 text-left transition hover:bg-gray-100 aria-selected:border-violet-300 aria-selected:bg-violet-50 dark:hover:bg-white/5 dark:aria-selected:border-violet-400/30 dark:aria-selected:bg-violet-400/10">
+        <span class="flex items-center justify-between gap-3">
+            <span class="text-sm font-semibold text-gray-800 dark:text-white">async / await</span>
+            <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">native</span>
+        </span>
+        <span class="mt-1 block text-xs leading-5 text-gray-500 dark:text-gray-400">Async methods become JavaScript async functions.</span>
+    </button><button type="button" role="tab" data-tr="iterators" aria-selected="false" ws-4="click" class="cursor-pointer w-full rounded-xl border border-transparent px-4 py-3 text-left transition hover:bg-gray-100 aria-selected:border-violet-300 aria-selected:bg-violet-50 dark:hover:bg-white/5 dark:aria-selected:border-violet-400/30 dark:aria-selected:bg-violet-400/10">
+        <span class="flex items-center justify-between gap-3">
+            <span class="text-sm font-semibold text-gray-800 dark:text-white">Iterators</span>
+            <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">generators</span>
+        </span>
+        <span class="mt-1 block text-xs leading-5 text-gray-500 dark:text-gray-400">yield return becomes a generator function.</span>
+    </button><button type="button" role="tab" data-tr="linq" aria-selected="false" ws-5="click" class="cursor-pointer w-full rounded-xl border border-transparent px-4 py-3 text-left transition hover:bg-gray-100 aria-selected:border-violet-300 aria-selected:bg-violet-50 dark:hover:bg-white/5 dark:aria-selected:border-violet-400/30 dark:aria-selected:bg-violet-400/10">
+        <span class="flex items-center justify-between gap-3">
+            <span class="text-sm font-semibold text-gray-800 dark:text-white">LINQ</span>
+            <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">Enumerable</span>
+        </span>
+        <span class="mt-1 block text-xs leading-5 text-gray-500 dark:text-gray-400">Query operators run in the browser.</span>
+    </button><button type="button" role="tab" data-tr="structs" aria-selected="false" ws-6="click" class="cursor-pointer w-full rounded-xl border border-transparent px-4 py-3 text-left transition hover:bg-gray-100 aria-selected:border-violet-300 aria-selected:bg-violet-50 dark:hover:bg-white/5 dark:aria-selected:border-violet-400/30 dark:aria-selected:bg-violet-400/10">
+        <span class="flex items-center justify-between gap-3">
+            <span class="text-sm font-semibold text-gray-800 dark:text-white">Mutable structs</span>
+            <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">value semantics</span>
+        </span>
+        <span class="mt-1 block text-xs leading-5 text-gray-500 dark:text-gray-400">Copies behave like .NET value types.</span>
+    </button><button type="button" role="tab" data-tr="ranges" aria-selected="false" ws-7="click" class="cursor-pointer w-full rounded-xl border border-transparent px-4 py-3 text-left transition hover:bg-gray-100 aria-selected:border-violet-300 aria-selected:bg-violet-50 dark:hover:bg-white/5 dark:aria-selected:border-violet-400/30 dark:aria-selected:bg-violet-400/10">
+        <span class="flex items-center justify-between gap-3">
+            <span class="text-sm font-semibold text-gray-800 dark:text-white">Indices &amp; ranges</span>
+            <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">^1, 1..^0</span>
+        </span>
+        <span class="mt-1 block text-xs leading-5 text-gray-500 dark:text-gray-400">Hat indices and slices on arrays.</span>
+    </button><button type="button" role="tab" data-tr="optional" aria-selected="false" ws-8="click" class="cursor-pointer w-full rounded-xl border border-transparent px-4 py-3 text-left transition hover:bg-gray-100 aria-selected:border-violet-300 aria-selected:bg-violet-50 dark:hover:bg-white/5 dark:aria-selected:border-violet-400/30 dark:aria-selected:bg-violet-400/10">
+        <span class="flex items-center justify-between gap-3">
+            <span class="text-sm font-semibold text-gray-800 dark:text-white">Optional parameters</span>
+            <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">defaults</span>
+        </span>
+        <span class="mt-1 block text-xs leading-5 text-gray-500 dark:text-gray-400">C# defaults become JavaScript default parameters.</span>
+    </button><button type="button" role="tab" data-tr="callerinfo" aria-selected="false" ws-9="click" class="cursor-pointer w-full rounded-xl border border-transparent px-4 py-3 text-left transition hover:bg-gray-100 aria-selected:border-violet-300 aria-selected:bg-violet-50 dark:hover:bg-white/5 dark:aria-selected:border-violet-400/30 dark:aria-selected:bg-violet-400/10">
+        <span class="flex items-center justify-between gap-3">
+            <span class="text-sm font-semibold text-gray-800 dark:text-white">Caller info</span>
+            <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">attributes</span>
+        </span>
+        <span class="mt-1 block text-xs leading-5 text-gray-500 dark:text-gray-400">[CallerArgumentExpression] fills in the source text.</span>
+    </button></div>
+                    <div class="min-w-0 lg:col-span-8"><div role="tabpanel" data-tr-panel="async">
+        <div class="grid gap-4 xl:grid-cols-2">
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#9B4F96]"></span> C#
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-csharp">public async Task&lt;int&gt; CountDown()
+{
+    var i = 0;
+    while (i &lt; 10)
+    {
+        await Task.Delay(100);
+        i++;
+    }
+    return i;
+}
+</code></pre></div>
+            </div>
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#f7df1e]"></span> JavaScript (WebSharper 11)
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-javascript">CountDown() {
+  return Task.FromAsync(async () =&gt; {
+    let i = 0;
+    while (i &lt; 10) {
+      await Task.Delay_1(100);
+      i++;
+    }
+    return i;
+  });
+}
+</code></pre></div>
+            </div>
+        </div>
+        <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-300">WebSharper 10 compiled a method like this to a hand-written state machine of about 50 lines. WebSharper 11 keeps your loop and your awaits, and wraps the async function in a .NET-compatible Task, so exceptions and continuations behave as in .NET.</p>
+    </div><div role="tabpanel" data-tr-panel="iterators" hidden="">
+        <div class="grid gap-4 xl:grid-cols-2">
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#9B4F96]"></span> C#
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-csharp">public IEnumerable&lt;int&gt; Ticks()
+{
+    try
+    {
+        while (true)
+            yield return 1;
+    }
+    finally
+    {
+        Disposed = true;
+    }
+}
+</code></pre></div>
+            </div>
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#f7df1e]"></span> JavaScript (WebSharper 11)
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-javascript">Ticks() {
+  return Iterate(function* () {
+    try {
+      while (true)
+        yield 1;
+    } finally {
+      this.Disposed = true;
+    }
+  }.bind(this));
+}
+</code></pre></div>
+            </div>
+        </div>
+        <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-300">Sequences are real JavaScript iterables, and disposing an enumerator early still runs your finally blocks, as in .NET.</p>
+    </div><div role="tabpanel" data-tr-panel="linq" hidden="">
+        <div class="grid gap-4 xl:grid-cols-2">
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#9B4F96]"></span> C#
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-csharp">public record Person(string Name, int Age, int Score);
+
+public static string[] TopNames(Person[] people) =&gt;
+    people
+        .Where(p =&gt; p.Age &gt;= 18)
+        .OrderByDescending(p =&gt; p.Score)
+        .Take(3)
+        .Select(p =&gt; p.Name.ToUpper())
+        .ToArray();
+</code></pre></div>
+            </div>
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#f7df1e]"></span> JavaScript (WebSharper 11)
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-javascript">static TopNames(people) {
+  return ofSeq(
+    map((a) =&gt; a.Name.toUpperCase(),
+      Take(
+        OrderByDescending(
+          filter((p) =&gt; p.Age &gt;= 18, people),
+          (p) =&gt; p.Score, new BaseComparer()),
+        3)));
+}
+</code></pre></div>
+            </div>
+        </div>
+        <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-300">Where, OrderByDescending, Take and Select map to WebSharper&#39;s lazy sequence functions, so the query is evaluated lazily, the way LINQ to Objects evaluates it.</p>
+    </div><div role="tabpanel" data-tr-panel="structs" hidden="">
+        <div class="grid gap-4 xl:grid-cols-2">
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#9B4F96]"></span> C#
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-csharp">public struct Point
+{
+    public int X;
+    public int Y;
+    public void Move(int dx) { X += dx; }
+}
+
+public object Structs(Point p1)
+{
+    var p2 = p1;
+    p2.X = 10;        // p1.X is still unchanged
+    Nudge(p1);        // passed by value
+    object boxed = p1;
+    return boxed;
+}
+</code></pre></div>
+            </div>
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#f7df1e]"></span> JavaScript (WebSharper 11)
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-javascript">Structs(p1) {
+  const p2 = Clone(p1);
+  p2.X = 10;
+  Examples.Nudge(Clone(p1));
+  const boxed = Clone(p1);
+  return boxed;
+}
+</code></pre></div>
+            </div>
+        </div>
+        <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-300">Assigning, passing, returning and boxing a mutable struct makes a copy, so the method above cannot change the caller&#39;s p1. Record structs work too.</p>
+    </div><div role="tabpanel" data-tr-panel="ranges" hidden="">
+        <div class="grid gap-4 xl:grid-cols-2">
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#9B4F96]"></span> C#
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-csharp">string[] names = { &quot;Ada&quot;, &quot;Grace&quot;, &quot;Linus&quot;, &quot;Anders&quot; };
+var last = names[^1];
+
+int[] scores = { 1, 2, 3, 4, 5 };
+var tail = scores[1..^0];
+</code></pre></div>
+            </div>
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#f7df1e]"></span> JavaScript (WebSharper 11)
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-javascript">const names = [&quot;Ada&quot;, &quot;Grace&quot;, &quot;Linus&quot;, &quot;Anders&quot;];
+const last = names[names.length - 1];
+
+const scores = [1, 2, 3, 4, 5];
+const tail = GetSubArray(scores, [1, ~0]);
+</code></pre></div>
+            </div>
+        </div>
+        <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-300">^1 reads from the end and a..b slices, on arrays. System.Index and System.Range values can be stored and passed around.</p>
+    </div><div role="tabpanel" data-tr-panel="optional" hidden="">
+        <div class="grid gap-4 xl:grid-cols-2">
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#9B4F96]"></span> C#
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-csharp">public int Price(int qty, int unit = 2, int fee = 0, int discount = 0)
+    =&gt; qty * unit + fee - discount;
+</code></pre></div>
+            </div>
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#f7df1e]"></span> JavaScript (WebSharper 11)
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-javascript">Price(qty, unit = 2, fee = 0, discount = 0) {
+  return qty * unit + fee - discount;
+}
+</code></pre></div>
+            </div>
+        </div>
+        <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-300">Omitted arguments use the declared defaults, including when the method is called through a delegate.</p>
+    </div><div role="tabpanel" data-tr-panel="callerinfo" hidden="">
+        <div class="grid gap-4 xl:grid-cols-2">
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#9B4F96]"></span> C#
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-csharp">static void Check(bool condition,
+    [CallerArgumentExpression(&quot;condition&quot;)] string message = null)
+{
+    if (!condition) throw new Exception(&quot;Failed: &quot; + message);
+}
+
+void Checkout(List&lt;string&gt; cart)
+{
+    Check(cart.Count &gt; 0);
+}
+</code></pre></div>
+            </div>
+            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                    <span class="size-2 rounded-full bg-[#f7df1e]"></span> JavaScript (WebSharper 11)
+                </div>
+                <div class="overflow-x-auto"><pre class="p-4"><code class="w-max language-javascript">static Check(condition, message = null) {
+  if (!condition) throw new Error(&quot;Failed: &quot; + message);
+}
+
+Checkout(cart) {
+  Examples.Check(length(cart) &gt; 0, &quot;cart.Count &gt; 0&quot;);
+}
+</code></pre></div>
+            </div>
+        </div>
+        <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-300">The compiler passes the source text of the argument, so a failed check reports exactly what was tested.</p>
+    </div></div>
+                </div>
+
+                <div class="mt-10 rounded-2xl border border-gray-200 bg-white/60 p-5 dark:border-gray-800 dark:bg-gray-900/30">
+                    <p class="text-sm font-semibold text-gray-800 dark:text-white">Also translated</p>
+                    <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-white/5 dark:text-gray-300">records &amp; record structs</span>
+                        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-white/5 dark:text-gray-300">pattern matching &amp; switch expressions</span>
+                        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-white/5 dark:text-gray-300">tuples &amp; deconstruction</span>
+                        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-white/5 dark:text-gray-300">local functions &amp; lambdas</span>
+                        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-white/5 dark:text-gray-300">interpolated strings with formats</span>
+                        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-white/5 dark:text-gray-300">delegates &amp; events</span>
+                        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-white/5 dark:text-gray-300">generics &amp; interfaces</span>
+                        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-white/5 dark:text-gray-300">exceptions with try/catch/finally</span>
+                        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-white/5 dark:text-gray-300">nullable value types</span>
+                        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-white/5 dark:text-gray-300">System.Collections.Generic</span>
+                    </div>
+                </div>
+
+                <a href="/conformance" class="ws-card group mt-6 flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-gray-900/60">
+                    <div class="flex shrink-0 items-baseline gap-1.5">
+                        <span class="text-3xl font-bold tracking-tight text-gray-950 dark:text-white">322</span>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">/ 339</span>
+                    </div>
+                    <p class="flex-1 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                        <span class="font-semibold text-gray-900 dark:text-white">Checked against .NET.</span>
+                        A conformance suite runs the same C# on .NET and as JavaScript and compares the output on every build.
+                        The other 17 cases are known JavaScript differences, each with what to write instead.
+                    </p>
+                    <span class="shrink-0 text-sm font-semibold text-[#9B4F96] group-hover:underline dark:text-fuchsia-300">See every case →</span>
+                </a>
+            </div>
+        </section>
+
+        
+        <section id="typescript" class="mt-28 scroll-mt-24">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="grid gap-12 lg:grid-cols-12">
+                    <div class="min-w-0 lg:col-span-5">
+                        <p class="text-sm font-semibold uppercase tracking-widest text-[#9B4F96] dark:text-fuchsia-300">TypeScript interop</p>
+                        <h2 class="mt-3 text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">Typed for TypeScript, too</h2>
+                        <p class="mt-4 text-gray-500 dark:text-gray-200">
+                            Next to every JavaScript module, WebSharper writes a <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-800">.d.ts</code>
+                            declaration file. It's on by default. Your C# types, default parameters and return types reach TypeScript intact,
+                            so a TypeScript codebase can call your C# with full type checking and editor completion.
+                        </p>
+                        <ul class="mt-8 space-y-5 text-sm">
+                            <li class="flex gap-4">
+                                <span class="mt-0.5 inline-flex size-7 flex-none items-center justify-center rounded-lg bg-violet-100 text-xs font-bold text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">1</span>
+                                <span class="leading-6 text-gray-600 dark:text-gray-300"><span class="font-semibold text-gray-900 dark:text-white">Adopt it one module at a time.</span>
+                                    You don't need to rewrite your React or Angular frontend. Compile a C# module and import it from the TypeScript you already have.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="mt-0.5 inline-flex size-7 flex-none items-center justify-center rounded-lg bg-violet-100 text-xs font-bold text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">2</span>
+                                <span class="leading-6 text-gray-600 dark:text-gray-300"><span class="font-semibold text-gray-900 dark:text-white">Write the rules once.</span>
+                                    Pricing, validation and permission logic live in one C# source that runs on the server and ships, typed, to the browser. The two copies can't drift apart.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="mt-0.5 inline-flex size-7 flex-none items-center justify-center rounded-lg bg-violet-100 text-xs font-bold text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">3</span>
+                                <span class="leading-6 text-gray-600 dark:text-gray-300"><span class="font-semibold text-gray-900 dark:text-white">Publish to npm.</span>
+                                    Set <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">"javascriptExport": true</code> in
+                                    <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">wsconfig.json</code> and you get a dead-code-eliminated
+                                    folder with an <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">index.js</code> and an
+                                    <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">index.d.ts</code>, ready for <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">npm pack</code>.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="mt-0.5 inline-flex size-7 flex-none items-center justify-center rounded-lg bg-violet-100 text-xs font-bold text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">4</span>
+                                <span class="leading-6 text-gray-600 dark:text-gray-300"><span class="font-semibold text-gray-900 dark:text-white">Keep the safety net.</span>
+                                    When the C# signature changes, <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-800">tsc</code> flags every TypeScript call site that no longer fits,
+                                    and coding agents get the same errors on both sides of the boundary.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="min-w-0 space-y-4 lg:col-span-7">
+                        <div class="ws-window overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                            <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
+                                <span class="rounded bg-violet-100 px-1.5 py-0.5 font-semibold text-violet-700 dark:bg-violet-400/10 dark:text-violet-200">C#</span> Pricing.cs
+                            </div>
+                            <pre class="overflow-x-auto p-4 font-mono text-[12px] leading-5 text-gray-700 dark:text-gray-200"><span class="text-gray-400">[JavaScript]</span>
+<span class="text-violet-700 dark:text-violet-300">public record</span> LineItem(<span class="text-sky-700 dark:text-sky-300">string</span> Sku, <span class="text-sky-700 dark:text-sky-300">double</span> UnitPrice, <span class="text-sky-700 dark:text-sky-300">int</span> Quantity = <span class="text-emerald-700 dark:text-emerald-300">1</span>)
+{
+    <span class="text-violet-700 dark:text-violet-300">public</span> <span class="text-sky-700 dark:text-sky-300">double</span> Subtotal =&gt; UnitPrice * Quantity;
+}
+
+<span class="text-gray-400">[JavaScript]</span>
+<span class="text-violet-700 dark:text-violet-300">public static class</span> Cart
+{
+    <span class="text-violet-700 dark:text-violet-300">public static</span> <span class="text-sky-700 dark:text-sky-300">double</span> Total(LineItem[] items,
+        <span class="text-sky-700 dark:text-sky-300">double</span> taxRate = <span class="text-emerald-700 dark:text-emerald-300">0.2</span>, <span class="text-sky-700 dark:text-sky-300">string</span> coupon = <span class="text-violet-700 dark:text-violet-300">null</span>) { <span class="text-gray-400">...</span> }
+
+    <span class="text-violet-700 dark:text-violet-300">public static</span> <span class="text-sky-700 dark:text-sky-300">string</span>[] Skus(LineItem[] items) =&gt; <span class="text-gray-400">...</span>
+}</pre>
+                        </div>
+
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
+                                    <span class="rounded bg-sky-100 px-1.5 py-0.5 font-semibold text-sky-700 dark:bg-sky-400/10 dark:text-sky-200">d.ts</span> Pricing.*.d.ts <span class="ml-auto text-[11px] text-gray-400">generated</span>
+                                </div>
+                                <pre class="overflow-x-auto p-4 font-mono text-[12px] leading-5 text-gray-700 dark:text-gray-200"><span class="text-gray-400">// Pricing.LineItem.d.ts</span>
+<span class="text-violet-700 dark:text-violet-300">export default class</span> LineItem {
+  Sku: <span class="text-sky-700 dark:text-sky-300">string</span>;
+  UnitPrice: <span class="text-sky-700 dark:text-sky-300">number</span>;
+  Quantity: <span class="text-sky-700 dark:text-sky-300">number</span>;
+  <span class="text-violet-700 dark:text-violet-300">get</span> Subtotal(): <span class="text-sky-700 dark:text-sky-300">number</span>
+  Equals(obj: <span class="text-sky-700 dark:text-sky-300">any</span>): <span class="text-sky-700 dark:text-sky-300">boolean</span>
+  <span class="text-gray-400">...</span>
+}
+
+<span class="text-gray-400">// Pricing.Cart.d.ts</span>
+<span class="text-violet-700 dark:text-violet-300">export function</span> Total(
+  items: LineItem[],
+  taxRate?: <span class="text-sky-700 dark:text-sky-300">number</span>,
+  coupon?: <span class="text-sky-700 dark:text-sky-300">string</span>
+): <span class="text-sky-700 dark:text-sky-300">number</span>
+
+<span class="text-violet-700 dark:text-violet-300">export function</span> Skus(
+  items: LineItem[]
+): <span class="text-sky-700 dark:text-sky-300">string</span>[]</pre>
+                            </div>
+
+                            <div class="ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
+                                <div class="flex items-center gap-2 border-b border-gray-200 px-4 py-2.5 text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
+                                    <span class="rounded bg-amber-100 px-1.5 py-0.5 font-semibold text-amber-700 dark:bg-amber-400/10 dark:text-amber-200">TS</span> checkout.ts
+                                </div>
+                                <pre class="overflow-x-auto p-4 font-mono text-[12px] leading-5 text-gray-700 dark:text-gray-200"><span class="text-violet-700 dark:text-violet-300">import</span> { Total, LineItem } <span class="text-violet-700 dark:text-violet-300">from</span> <span class="text-emerald-700 dark:text-emerald-300">"pricing"</span>;
+<span class="text-violet-700 dark:text-violet-300">declare const</span> cart: LineItem[];
+
+Total(cart, <span class="text-emerald-700 dark:text-emerald-300">0.2</span>, <span class="text-emerald-700 dark:text-emerald-300">"WELCOME10"</span>); <span class="text-emerald-600 dark:text-emerald-400">// ok</span>
+cart[<span class="text-emerald-700 dark:text-emerald-300">0</span>].Subtotal; <span class="text-emerald-600 dark:text-emerald-400">// ok</span>
+Total(cart, <span class="text-emerald-700 dark:text-emerald-300">"20%"</span>);
+<span class="text-rose-600 dark:text-rose-400">// TS2345: 'string' is not assignable
+//   to parameter of type 'number'</span>
+cart[<span class="text-emerald-700 dark:text-emerald-300">0</span>].Prise;
+<span class="text-rose-600 dark:text-rose-400">// TS2339: Property 'Prise' does not
+//   exist on type 'LineItem'</span></pre>
+                            </div>
+                        </div>
+                        <p class="text-xs leading-5 text-gray-500 dark:text-gray-400">
+                            Real WebSharper 11 output and real <code>tsc --strict</code> errors, excerpted and reformatted.
+                            Records come through as classes with their properties, computed members and equality.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="mt-28">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+                    <div class="lg:col-span-7">
+                        <p class="text-sm font-semibold uppercase tracking-widest text-[#9B4F96] dark:text-fuchsia-300">Reactive UI</p>
+                        <h2 class="mt-3 text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">HTML templates become typed C# classes</h2>
+                    </div>
+                    <p class="text-gray-500 lg:col-span-5 dark:text-gray-200">
+                        Designers keep plain HTML. At build time every <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-800">ws-hole</code>,
+                        <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-800">ws-var</code> and event in it becomes a C# member, and
+                        <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-800">.Bind()</code> wires it to reactive <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-800">Var</code>s.
+                        This is the real app; open the <strong class="font-semibold text-gray-700 dark:text-gray-100">Preview</strong> tab.
+                    </p>
+                </div>
+                <div class="relative mt-12">
+                        <div class="rounded-3xl p-px from-gray-200 to-gray-950/5 bg-gradient-to-b dark:from-gray-800 dark:to-gray-900">
+                            <div data-name="snippet" class="ws-window rounded-[23px] border border-gray-200 bg-gray-200/90 shadow-xl shadow-gray-950/5 pb-3 pr-3 text-sm backdrop-blur-3xl dark:border-transparent dark:bg-gray-900 md:ml-0">
+                                <div class="flex items-center gap-4 px-6 py-1 border-b border-gray-200 dark:border-gray-800">
+                                    <div class="flex space-x-2">
+                                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></div>
+                                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#febc2e"></div>
+                                        <div aria-hidden="true" class="h-3 w-3 rounded-full" style="background-color:#28c840"></div>
+                                    </div>
+
+                                    <div role="tablist" aria-label="tabs" class="relative flex text-gray-500 dark:text-white/70"><div aria-hidden="true" class="tab-indicator pointer-events-none absolute top-0 z-10 h-[2px] w-0 bg-brand-primary transition-[width,left] duration-300"></div><button ws-10="click" role="tab" aria-selected="false" data-target="Client.cs" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z"></path><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z"></path><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z"></path></svg>
+    </span></span>
+        <span class="text-sm">Client.cs</span>
+    </button><button ws-11="click" role="tab" aria-selected="false" data-target="index.html" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <span><span>
+        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewbox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 8-4 4 4 4m8 0 4-4-4-4m-2-3-4 14"></path>
+        </svg>
+    </span></span>
+        <span class="text-sm">index.html</span>
+    </button><button ws-12="click" role="tab" aria-selected="false" data-target="code-result" class="ws-tab relative flex cursor-pointer items-center gap-1.5 border-r border-gray-400/40 bg-black/[0.045] px-2.5 py-1.5 text-xs text-gray-500 transition-colors duration-150 hover:bg-black/[0.07] hover:text-gray-700 aria-selected:bg-transparent aria-selected:text-gray-900 dark:border-gray-700/60 dark:bg-white/[0.04] dark:text-white/50 dark:hover:bg-white/[0.08] dark:hover:text-white/80 dark:aria-selected:bg-transparent dark:aria-selected:text-white">
+        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewbox="0 0 24 24">
+            <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"></path>
+            <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+        </svg>
+        <span class="text-sm">Preview</span>
+    </button></div>
+                                </div>
+                                <div class="relative flex">
+                                    <div class="absolute ml-1 flex h-full w-14 flex-none flex-col items-center justify-between py-3 text-gray-500 dark:text-white/60">
+                                        <svg width="24" height="216" fill="none">
+                                            <path d="M3 69l6-6m-2-5a7 7 0 1014 0 7 7 0 00-14 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M8 7H5a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1v-3m3.707-10.293l-3.414-3.414A1 1 0 0015.586 3H9a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V7.414a1 1 0 00-.293-.707zM7 103a2 2 0 100-4 2 2 0 000 4zm0 0v10m10-6a2 2 0 100-4 2 2 0 000 4zm0 0a3 3 0 01-3 3h-4a3 3 0 00-3 3m0 0a2 2 0 100 4 2 2 0 000-4z" stroke="currentColor" stroke-width="1.5"></path>
+                                            <path d="M11.5 160.031a.75.75 0 00-1-1.118l1 1.118zm-8-1.118a.75.75 0 00-1 1.118l1-1.118zm6.972 6.149a.75.75 0 10.993-1.124l-.993 1.124zm-7.937-1.124a.75.75 0 10.993 1.124l-.993-1.124zm7.022-.368l-.64-.393.64.393zm-5.114 0l.64-.393-.64.393zM3 161.25a.75.75 0 000 1.5v-1.5zm8 1.5a.75.75 0 000-1.5v1.5zM8 147l.372-.651A.75.75 0 007.25 147H8zm14 8l.372.651a.75.75 0 000-1.302L22 155zm-14.75 0a.75.75 0 001.5 0h-1.5zm5.378 4.492a.75.75 0 10.744 1.302l-.744-1.302zM7 157.75A2.25 2.25 0 019.25 160h1.5A3.75 3.75 0 007 156.25v1.5zm0-1.5A3.75 3.75 0 003.25 160h1.5A2.25 2.25 0 017 157.75v-1.5zm2.624 3.298A5.225 5.225 0 017 160.25v1.5a6.73 6.73 0 003.376-.903l-.752-1.299zM9.25 160v.197h1.5V160h-1.5zm0 .197V162h1.5v-1.803h-1.5zM7 160.25a5.225 5.225 0 01-2.624-.702l-.752 1.299A6.73 6.73 0 007 161.75v-1.5zM4.75 162v-1.803h-1.5V162h1.5zm0-1.803V160h-1.5v.197h1.5zm5.75-1.284a5.209 5.209 0 01-.876.635l.752 1.299c.403-.234.78-.507 1.124-.816l-1-1.118zm-6.124.635a5.21 5.21 0 01-.876-.635l-1 1.118c.344.309.721.582 1.124.816l.752-1.299zm4.86 4.701c.451.212.867.487 1.236.813l.993-1.124a6.77 6.77 0 00-1.588-1.046l-.64 1.357zM9.25 162c0 .433-.122.835-.332 1.177l1.277.787A3.737 3.737 0 0010.75 162h-1.5zm-.332 1.177A2.247 2.247 0 017 164.25v1.5a3.748 3.748 0 003.195-1.786l-1.277-.787zm-5.39 1.885a5.25 5.25 0 011.235-.813l-.64-1.357a6.77 6.77 0 00-1.588 1.046l.993 1.124zM7 164.25c-.81 0-1.52-.427-1.918-1.073l-1.277.787A3.748 3.748 0 007 165.75v-1.5zm-1.918-1.073A2.235 2.235 0 014.75 162h-1.5c0 .719.203 1.392.555 1.964l1.277-.787zM4 161.25H3v1.5h1v-1.5zm7 0h-1v1.5h1v-1.5zm-3.372-13.599l14 8 .744-1.302-14-8-.744 1.302zM8.75 155v-8h-1.5v8h1.5zm12.878-.651l-9 5.143.744 1.302 9-5.143-.744-1.302z" fill="currentColor"></path>
+                                            <path d="M3 205h8m-8 0v7a1 1 0 001 1h7m-8-8v-7a1 1 0 011-1h6a1 1 0 011 1v7m0 0v8m0-8h7a1 1 0 011 1v6a1 1 0 01-1 1h-7m4-11h6a1 1 0 001-1v-6a1 1 0 00-1-1h-6a1 1 0 00-1 1v6a1 1 0 001 1z" stroke="currentColor" stroke-width="1.5"></path>
+                                        </svg>
+                                        <svg width="24" height="72" fill="none">
+                                            <path d="M10.325 52.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M15 60a3 3 0 11-6 0 3 3 0 016 0zM5.121 17.804A13.936 13.936 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-auto w-[calc(100%-4rem)]">
+                                        <div class="ws-window-pane h-[26rem] shrink-0 flex overflow-hidden font-mono text-xs dark:shadow-2xl shadow-gray-950/5 border rounded-tr-2xl border-gray-300/50 dark:border-gray-800 border-b-0">
+                                            
+                                            <div>
+                                                <pre aria-hidden="true" class="line-numbers w-0 flex-none select-none text-right leading-[1.21rem] text-gray-300 dark:text-white/40"></pre>
+                                            </div>
+                                            <div class="relative w-full snippet-code"><div role="tabpanel" data-lang="Client.cs" class="absolute inset-0 overflow-auto custom-scrollbar">
+        <pre class="line-numbers language-csharp custom-scrollbar !overflow-auto"><code class="mt-[-12px] text-sm block leading-[1.21rem] language-csharp text-white">using WebSharper;
+using WebSharper.UI;
+using WebSharper.UI.Client;
+
+namespace CSharpTasks;
+
+[JavaScript]
+public static class App
+{
+    [SPAEntryPoint]
+    public static void ClientMain()
+    {
+        // Reactive state: the page updates itself when these change.
+        var tasks = ListModel.FromSeq(new[] {
+            &quot;Write the UI in C#&quot;,
+            &quot;Let WebSharper compile it to JavaScript&quot;
+        });
+        var newTask = Var.Create(&quot;&quot;);
+
+        new Template.Index()
+            .Tasks(tasks.View.DocSeqCached((string task) =&gt;
+                new Template.Index.TaskItem()
+                    .Title(task)
+                    .Done(() =&gt; tasks.Remove(task))
+                    .Doc()
+            ))
+            .NewTask(newTask)
+            .Add(() =&gt;
+            {
+                var title = newTask.Value.Trim();
+                if (title != &quot;&quot;) tasks.Add(title);
+                newTask.Value = &quot;&quot;;
+            })
+            .Remaining(tasks.View.Map(ts =&gt; $&quot;{ts.Count()} to go&quot;))
+            .Bind();
+    }
+}
+</code></pre>
+    </div><div role="tabpanel" data-lang="index.html" class="absolute inset-0 hidden overflow-hidden custom-scrollbar">
+        <pre class="line-numbers -mb-20 !overflow-auto language-html custom-scrollbar"><code class="mt-[-12px] text-sm block leading-[1.21rem] language-html text-white">&lt;div class=&quot;app&quot; id=&quot;main&quot;&gt;
+    &lt;h1&gt;Today&lt;/h1&gt;
+    &lt;form onsubmit=&quot;return false&quot;&gt;
+        &lt;input ws-var=&quot;NewTask&quot; placeholder=&quot;What needs doing?&quot; /&gt;
+        &lt;button class=&quot;add&quot; ws-onclick=&quot;Add&quot;&gt;Add&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;ul ws-hole=&quot;Tasks&quot;&gt;
+        &lt;li ws-template=&quot;TaskItem&quot;&gt;
+            &lt;span&gt;${Title}&lt;/span&gt;
+            &lt;button ws-onclick=&quot;Done&quot; title=&quot;Done&quot;&gt;&amp;#10003;&lt;/button&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class=&quot;remaining&quot;&gt;${Remaining}&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div><div role="tabpanel" data-lang="code-result" class="absolute inset-0 hidden overflow-hidden">
+        <iframe src="./snippets/csharp-tasks/index.html" class="w-full h-full pr-2 mr-4 rounded-md bg-white" frameborder="0"></iframe>
+    </div></div>
+                                        </div>
+                                        <div class="ws-window-terminal lg:col-span-3 bg-gray-100 dark:bg-gray-950 shadow-2xl shadow-gray-950/5 dark:shadow-gray-950/15 border border-gray-300/50 dark:border-gray-800 lg:rounded-br-3xl">
+                                            <div class="flex items-center border-b border-gray-200 dark:border-gray-800"><div class="inline-flex -mb-px items-center gap-2 rounded-t-md border border-b-transparent border-gray-200 bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"></path></svg>Terminal</div></div>
+                                            <div class="mt-1 ml-1 w-max font-mono text-xs text-gray-400 dark:text-white/60">
+        <div class="text-gray-500">&gt; <span class="dark:text-white text-gray-300">dotnet run</span></div>
+        <div class="mt-1">Building...</div>
+        <div class="mt-1"><span class="text-green-500">info:</span> Now listening on: <span class="text-sky-400">http://localhost:5100</span></div>
+        <div class="mt-1"><span class="text-green-500">info:</span> Application started. Press Ctrl+C to shut down.</div>
+        <span class="dark:text-white text-gray-300">█</span>
+    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    </div>
+            </div>
+        </section>
+
+        
+        <section class="mt-28">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <div class="ws-card relative overflow-hidden rounded-3xl border border-gray-200 bg-white p-7 sm:p-10 dark:border-gray-800 dark:bg-gray-900/40">
+                    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-500/10"></div>
+                    <div class="relative grid gap-10 lg:grid-cols-12">
+                        <div class="min-w-0 lg:col-span-5">
+                            <p class="text-sm font-semibold uppercase tracking-widest text-[#9B4F96] dark:text-fuchsia-300">Ecosystem</p>
+                            <h2 class="mt-3 text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">The entire WebSharper ecosystem, from C#</h2>
+                            <p class="mt-5 text-gray-500 dark:text-gray-200">
+                                Every WebSharper library and binding is a regular NuGet package with typed classes,
+                                IntelliSense and doc comments, and it works the same from C# as from F#. Charts, maps, editors, 3D and
+                                the newest browser APIs are a <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-800">dotnet add package</code> away.
+                            </p>
+                            <div class="mt-8 grid grid-cols-2 gap-4">
+                                <div class="rounded-2xl border border-gray-200 p-4 dark:border-gray-800">
+                                    <p class="text-3xl font-bold text-gray-900 dark:text-white">42</p>
+                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">JavaScript libraries</p>
+                                </div>
+                                <div class="rounded-2xl border border-gray-200 p-4 dark:border-gray-800">
+                                    <p class="text-3xl font-bold text-gray-900 dark:text-white">41</p>
+                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">browser APIs</p>
+                                </div>
+                            </div>
+                            <ul class="mt-8 space-y-2.5 text-sm text-gray-600 dark:text-gray-300">
+                                <li class="flex gap-3"><span class="mt-2 size-1.5 flex-none rounded-full bg-[#9B4F96]"></span><span>Mix C# and F# projects in one solution: WebSharper.UI and every binding are shared by both languages.</span></li>
+                                <li class="flex gap-3"><span class="mt-2 size-1.5 flex-none rounded-full bg-[#9B4F96]"></span><span>The modernized bindings pull their library from npm, so your bundler resolves and pins it like any other dependency.</span></li>
+                                <li class="flex gap-3"><span class="mt-2 size-1.5 flex-none rounded-full bg-[#9B4F96]"></span><span>Missing a library? Describe it with the Interface Generator, or let an agent write the binding.</span></li>
+                            </ul>
+                            <a href="/bindings" class="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 underline-offset-4 hover:underline dark:text-violet-300">Browse all bindings <span aria-hidden="true">&rarr;</span></a>
+                        </div>
+                        <div class="min-w-0 lg:col-span-7">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">JavaScript libraries</p>
+                            <div class="mt-3 flex flex-wrap gap-2">
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Chart.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">D3</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Highcharts</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Highstock</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Highmaps</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Plotly.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Cytoscape.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Ace</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">CodeMirror</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">highlight.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">jsPDF</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Remarkable</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">SlickGrid</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">TinyMCE</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">React</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">FluentUI React</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">FluentUI Icons</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">SweetAlert2</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">jQuery</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">GoldenLayout</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">FullCalendar</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Swiper</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">SortableJS</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">jQuery Terminal</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Leaflet</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">TopoJSON</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Anime.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">date-fns</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Moment.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Day.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">SignalR</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">math.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">MathJax</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">TensorFlow.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Babylon.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Three.js</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">glMatrix</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">PouchDB</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">js-cookie</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Capacitor</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Capacitor Community</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Capacitor CapGo</a>
+                            </div>
+                            <p class="mt-8 text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">Browser APIs</p>
+                            <div class="mt-3 flex flex-wrap gap-2">
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">WebGPU</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Houdini</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">WebUSB</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Web Serial</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">WebMIDI</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Web Bluetooth</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Gamepad</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Battery Status</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Screen Wake Lock</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Geolocation</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">WebRTC</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Web Speech</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">WebCodecs</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">WebVTT</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Media Session</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Media Capabilities</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Picture-in-Picture</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Encrypted Media Extensions</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Web Locks</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">IndexedDB</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Cookie Store</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">File System</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Touch Events</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Popover API</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Clipboard</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Drag and Drop</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Intersection Observer</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Permissions</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Performance API</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Task Scheduling</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Background Fetch</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Service Worker</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Network Information</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Push</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Notifications</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Payment Request</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Web Crypto</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Credential Management</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Web Authentication</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Compression Streams</a>
+                            <a href="/bindings" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-violet-400/40 dark:hover:text-violet-200">Encoding</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="mt-28">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                <a href="/warp" class="ws-card group relative flex flex-col gap-6 overflow-hidden rounded-3xl border border-gray-200 bg-white p-7 sm:p-9 md:flex-row md:items-center dark:border-gray-800 dark:bg-gray-900/40">
+                    <div aria-hidden="true" class="pointer-events-none absolute -left-20 -bottom-24 h-64 w-64 rounded-full bg-sky-400/15 blur-3xl dark:bg-sky-500/10"></div>
+                    <div class="relative min-w-0 flex-1">
+                        <span class="inline-flex items-center gap-2 rounded-full border border-sky-400/50 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700 dark:border-sky-300/30 dark:bg-sky-400/10 dark:text-sky-200">Coming next</span>
+                        <h2 class="mt-4 text-2xl font-bold text-gray-800 sm:text-3xl dark:text-white">Warp: from idea to deployed app, in one language</h2>
+                        <p class="mt-3 max-w-2xl text-gray-500 dark:text-gray-200">
+                            Data access, authentication and one-command deployment on the same typed contract as your remote
+                            calls, so the last seams between your C# and a running app go away too.
+                        </p>
+                    </div>
+                    <span class="relative shrink-0 text-sm font-semibold text-violet-700 group-hover:underline dark:text-violet-300">Follow Warp &rarr;</span>
+                </a>
+            </div>
+        </section>
+
+        
+        <section class="mt-28 mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <h2 class="text-center text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">Start in a minute</h2>
+            <div class="mt-10 grid gap-6 md:grid-cols-2">
+                <div class="ws-card min-w-0 rounded-3xl border border-gray-200 bg-white p-7 dark:border-gray-800 dark:bg-gray-900/40">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">A new app</h3>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-300">Install the templates and create a C# single-page app.</p>
+                    <div class="mt-5 space-y-2 overflow-x-auto rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 font-mono text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-950/60 dark:text-gray-200">
+                        <p class="whitespace-nowrap"><span class="select-none text-gray-400">$ </span>dotnet new install WebSharper.Templates</p>
+                        <p class="whitespace-nowrap"><span class="select-none text-gray-400">$ </span>dotnet new websharper-spa -lang C# -o MyApp</p>
+                    </div>
+                </div>
+                <div class="ws-card min-w-0 rounded-3xl border border-gray-200 bg-white p-7 dark:border-gray-800 dark:bg-gray-900/40">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">An existing ASP.NET Core app</h3>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-300">Add the compiler and the ASP.NET Core integration to the project.</p>
+                    <div class="mt-5 space-y-2 overflow-x-auto rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 font-mono text-sm text-gray-700 dark:border-gray-800 dark:bg-gray-950/60 dark:text-gray-200">
+                        <p class="whitespace-nowrap"><span class="select-none text-gray-400">$ </span>dotnet add package WebSharper.CSharp</p>
+                        <p class="whitespace-nowrap"><span class="select-none text-gray-400">$ </span>dotnet add package WebSharper.AspNetCore</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-6">
+                <a href="https://docs.websharper.com/csharp/lang-support" class="w-fit rounded-xl h-10 bg-gray-950 dark:bg-white border border-gray-950 dark:border-gray-800 flex justify-center items-center px-6 text-white dark:text-gray-950 relative before:absolute before:inset-0 before:rounded-[11px] before:border-t before:border-gray-500 before:bg-gradient-to-b before:from-gray-700 dark:before:from-gray-200 dark:before:border-gray-950 hover:before:from-gray-950 dark:hover:before:from-gray-300">
+                    <span class="relative text-sm">Read the C# docs</span>
+                </a>
+                <a href="https://discord.gg/cwwq3sGUrC" target="_blank" rel="noopener" class="text-sm font-medium text-gray-700 underline-offset-4 hover:underline dark:text-gray-200">Ask on Discord &rarr;</a>
+            </div>
+            <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                C# for reach, F# for power: F# is WebSharper's original language and its most expressive one, with the same libraries and bindings.
+                <a href="/features" class="font-medium text-violet-700 underline-offset-4 hover:underline dark:text-violet-300">See WebSharper in F# &rarr;</a>
+            </p>
+        </section>
+    </div>
+
+    
+    
+
+    
+    
+</main>
+
+    <footer class="bg-white pt-8 border-t dark:bg-gray-950 dark:border-gray-800" ws-onclick="CloseOnBackgroundClick">
+        <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+            <div class="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Docs</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://docs.websharper.com/core/getting-started" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Getting started</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/sitelets" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Sitelets</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/html" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Reactive UIs</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/ui/templating" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Templating</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/forms" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forms</a>
+                        </li>
+                        <li>
+                            <a href="https://docs.websharper.com/core/interface-generator" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Legal</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://github.com/dotnet-websharper/core/blob/master/LICENSE.md" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Licence</a>
+                        </li>
+                        <li>
+                            <a href="./privacy-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="./terms-of-use" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Terms of use</a>
+                        </li>
+                        <li>
+                            <a href="./cookie-policy" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Cookie policy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-2 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">Community</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="https://x.com/websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/dotnet-websharper" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Github</a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/cwwq3sGUrC" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sm:col-start-3 md:col-start-auto">
+                    <span class="text-sm font-semibold text-gray-950 dark:text-white">More</span>
+                    <ul class="mt-6 space-y-2">
+                        <li>
+                            <a href="./bindings" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Bindings</a>
+                        </li>
+                        <li>
+                            <a href="./coverage" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">API coverage</a>
+                        </li>
+                        <li>
+                            <a href="./conformance" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">C# conformance</a>
+                        </li>
+                        <li>
+                            <a href="./conformance#fsharp" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">F# conformance</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/websharper-samples" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Samples</a>
+                        </li>
+                        <li>
+                            <a href="https://forums.websharper.com/topics/all" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Forums</a>
+                        </li>
+                        <li>
+                            <a href="https://intellifactory.com/blogs" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Blogs</a>
+                        </li>
+                        <li>
+                            <a href="https://try.websharper.com" class="text-gray-500 duration-300 hover:text-brand-primary dark:text-white/70">Playground</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row-start-1 col-span-2 lg:row-start-auto">
+                    <div ws-replace="Newsletter"></div>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-200 py-8 dark:border-gray-800">
+                <div class="flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500 dark:text-gray-300/70">
+                    <div class="flex gap-4 items-center">
+                        <a href="./">
+                            <img class="size-8" src="./Assets/logo.png" alt="WebSharper logo" loading="lazy" width="24" height="24" />
+                            <span class="sr-only">WebSharper logo</span>
+                        </a>
+                        <span class="">WebSharper &copy; 2008-2026 IntelliFactory. All rights reserved.</span>
+                    </div>
+                    <span>Latest version: <a id="ws-latest-version" href="https://www.nuget.org/packages/WebSharper" target="_blank" rel="noopener" class="font-semibold duration-300 hover:text-brand-primary">&hellip;</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
