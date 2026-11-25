@@ -610,15 +610,43 @@ is a **persuasion page**, deliberately *not* shaped like the OCaml page (violet
 `#9B4F96` accent). `CSharp.html` is just the `<main ws-children-template="Content">`
 (no dead head/chrome). Sections, top to bottom:
 
-- **Hero**: left-aligned copy + a right-hand "One C# project → `dotnet build` →
-  Server / Browser" card (static markup).
+The page follows `~/dotnet-websharper/VISION.md`: lead with **fewer seams** (the
+compiler writes the glue between tiers), make **"no surprises"** (conformance) a
+first-class reason, and claim only what has shipped or is about to.
+
+- **Hero**: left-aligned copy (the subline names the glue WebSharper generates:
+  endpoints, DTOs, fetch calls, serialization) + a right-hand "One C# project →
+  `dotnet build` → Server / Browser" card whose footer says what is generated.
+- **Debugging** (`#debugging`, right after the hero): source maps. A static
+  `ws-card` band with copy (browser / server / "one language in both debuggers")
+  and a mock DevTools Sources panel paused on line 19 of `ShopClient.cs` (the same
+  client as the remoting section; keep the lines and line numbers in step with that
+  fragment). The tree shows a client-server app's real layout,
+  `Scripts/WebSharper/Source/<Assembly>/Client.cs`. The claim depends on core#1686
+  (#1685): before it, a `spa`/bundle project's **own** `.cs`/`.fs` files were missing
+  from the map (absolute path / bare name, never copied, 404 in DevTools), and only
+  the libraries' sources resolved. Non-prebundled `web` projects (the client-server
+  templates' Debug configuration) already worked; `preBundle` (their Release
+  configuration) has no source maps. Keep the mock inside `overflow-x-auto` +
+  `min-w-[580px]`.
 - **Why full-stack C#**: six `ws-card` argument blocks. The AI/agents block is the
   featured one (`lg:col-span-2 lg:row-span-2`, with a fake agent ↔ `dotnet build`
   log); the 2×2 span is what keeps the 3-column grid free of an orphan card. Its
-  lower half ("Your agent can ask the compiler") documents the Booster MCP
-  (`dotnet ws mcp --lang csharp`, WS11) and Booster Pro's `get_signature`; keep
-  the tool list in step with the `dotnet-ws` and `booster-pro` READMEs, and keep
-  the `.mcp.json` args wrapped (a single line is cut off in the half column).
+  bullets include the `AGENTS.md` + agent skills shipped in every `dotnet new`
+  template. Its lower half ("Your agent can ask the compiler") documents the
+  Booster MCP (`dotnet ws mcp --lang csharp`, WS11) and Booster Pro's
+  `get_signature`; keep the tool list in step with the `dotnet-ws` and
+  `booster-pro` READMEs, and keep the `.mcp.json` args wrapped (a single line is
+  cut off in the half column). The other five: type safety (which also carries the
+  cross-tier refactoring point), one team, **"What compiles behaves like .NET"**
+  (wrap-around, .NET exception types, `decimal` via math.js, no lookalike APIs;
+  its link reuses the `${ConformancePass}`/`${ConformanceTotal}` holes), the .NET
+  platform, readable JavaScript.
+- **No glue code** ("Call the server like a local method"): `CSharpRemoting` is a
+  `CodeFiles` with Remoting/Client/Shared/Site tabs (numbered list beside it in the
+  same order); its wrapper raises the window height with
+  `[&_.snippet-code>div]:h-[34rem]`. It sits right after the reasons because it is
+  the proof of the hero's "fewer seams" claim.
 - **Translator** (`#translator`, "C# in, idiomatic JavaScript out"): feature tabs
   + a C#/JS pair per feature, from `csharpTranslations` in `Pages.fs` and
   `CodeFragments/csharp/translate/<key>.cs` + `<key>.mjs`. JS fragments **must be
@@ -633,21 +661,28 @@ is a **persuasion page**, deliberately *not* shaped like the OCaml page (violet
   variant) and `hidden`.
 - **TypeScript** (`#typescript`, "Typed for TypeScript, too"): static markup —
   four reasons (adopt one module at a time, write rules once, `javascriptExport`
-  to npm, `tsc` as a safety net) beside `Pricing.cs` → generated `Pricing.Cart.d.ts`
-  → `checkout.ts` with the `tsc` errors. All of it is **real output**
-  (`11.0.0.768-preview.2` library with `"javascriptExport": true, "dce": true`,
-  checked with `tsc --strict --skipLibCheck`), excerpted. Only static functions are
-  shown on purpose: record `.d.ts` output is not yet clean (broken import paths,
-  `_1` params, internal members — core#1653). Revisit once that is fixed. The
-  "JavaScript you can read" card links here. Don't write `${` in this markup: it
-  is a template hole.
+  to npm, `tsc` as a safety net) beside `Pricing.cs` (a `LineItem` record with a
+  computed `Subtotal`, plus `Cart.Total`/`Skus`) → the generated
+  `Pricing.LineItem.d.ts` + `Pricing.Cart.d.ts` → `checkout.ts` with the `tsc`
+  errors. All of it is **real output** of core `master` after the `.d.ts` fixes
+  (core#1653/#1666; the `768-preview.2` package predates them), compiled as a
+  `library` with `"javascriptExport": true, "dce": true` in a scratch project
+  under `core/tests/` that references the local compiler like the conformance
+  `Js/` project, and checked with `tsc --strict --skipLibCheck` (the two errors
+  shown are exactly what `tsc` reports). The record excerpt omits the overload-tagged
+  constructors (`constructor(i: "New_1", Sku, UnitPrice, Quantity?)`) and the
+  `EqualityContract`/`Deconstruct`/`op_*` members; `Equals` is shown as emitted
+  (`obj: any`). Regenerate the same way if the C# changes. The "JavaScript you can
+  read" card links here. Don't write `${` in this markup: it is a template hole.
 - **Reactive UI**: the `CSharpHero` live app (below).
-- **Full stack**: `CSharpRemoting` is a `CodeFiles` with Remoting/Client/Shared/Site
-  tabs (numbered list beside it in the same order); its wrapper raises the window
-  height with `[&_.snippet-code>div]:h-[34rem]`.
 - **Ecosystem**: 42 library + 41 browser-API chips, static and generated from
-  `bindings.json` (update the counts and chips when the catalog changes).
-- **CTA**: new app (templates) vs existing ASP.NET Core app (packages).
+  `bindings.json` (update the counts and chips when the catalog changes). The
+  "`dotnet add package` away" line is only fully true once the dev-feed-only
+  bindings are on nuget.org.
+- **Coming next: Warp**: a single linked `ws-card` band to `/warp` (data access,
+  auth and one-command deploy on the same typed contract).
+- **CTA**: new app (templates) vs existing ASP.NET Core app (packages), plus a
+  one-line "C# for reach, F# for power" pointer to `/features`.
 
 - `CSharpHero` is a `VsCode` whose Preview is the **`snippets/csharp-tasks`** app —
   a real C# WebSharper SPA (`csharp-tasks.csproj`, `WebSharper.CSharp` +
