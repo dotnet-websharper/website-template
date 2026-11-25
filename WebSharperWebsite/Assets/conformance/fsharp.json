@@ -1,14 +1,14 @@
 {
   "lang": "fsharp",
   "source": "dotnet-websharper/core tests/WebSharper.FSharp.Conformance",
-  "commit": "57cf5117",
-  "commitDate": "2026-11-24",
-  "generated": "2026-11-24",
-  "total": 541,
-  "pass": 423,
-  "known": 18,
-  "mismatch": 79,
-  "unsupported": 21,
+  "commit": "24cff94d",
+  "commitDate": "2026-11-25",
+  "generated": "2026-11-25",
+  "total": 563,
+  "pass": 514,
+  "known": 22,
+  "mismatch": 19,
+  "unsupported": 8,
   "knownDifferences": [
     {
       "name": "float32.arith",
@@ -171,6 +171,42 @@
       "js": "WS-COMPILE-ERROR",
       "difference": "No reflection: Enum.Parse takes a System.Type, which is not available in JavaScript.",
       "alternative": "Match the string against the enum's cases instead."
+    },
+    {
+      "name": "char.unicode.upper",
+      "area": "Strings and printf",
+      "code": "string (Char.ToUpper 'ß') + \",\" + (s \"straße\").ToUpper()",
+      "net": "ß,STRAßE",
+      "js": "ß,STRASSE",
+      "difference": "JavaScript upper-cases strings with full Unicode case mapping, so String.ToUpper turns \"ß\" into \"SS\" where .NET keeps \"ß\".",
+      "alternative": "Upper-case per character with `String.map Char.ToUpper`, which keeps characters that have no single-character upper case."
+    },
+    {
+      "name": "string.concat.null",
+      "area": "Strings and printf",
+      "code": "s \"a\" + (null: string) + \"b\"",
+      "net": "ab",
+      "js": "anullb",
+      "difference": "`+` on strings is JavaScript string concatenation, which writes a null string as \"null\"; treating null as \"\" would add a check to every concatenation.",
+      "alternative": "Pass a string that may be null through `string s`, which gives \"\" for null."
+    },
+    {
+      "name": "result",
+      "area": "Records, unions and equality",
+      "code": "let r : Result<int, string> = Ok 1 in string (Result.map ((+) 1) r) + \",\" + string (Result.bind (fun _ -> Error \"e\") r : Result<int, string>)",
+      "net": "Microsoft.FSharp.Core.FSharpResult`2[System.Int32,System.String],Microsoft.FSharp.Core.FSharpResult`2[System.Int32,System.String]",
+      "js": "[object Object],[object Object]",
+      "difference": "No runtime type names: `string` of a Result or Choice value is the .NET type name, which JavaScript does not have.",
+      "alternative": "Match on the cases and format the value inside."
+    },
+    {
+      "name": "datetime.tostring",
+      "area": "Dates, math and conversions",
+      "code": "string (d ())",
+      "net": "02/29/2024 13:45:30",
+      "js": "2/29/2024, 1:45:30 PM",
+      "difference": "DateTime.ToString() uses the browser's locale (toLocaleString), as .NET uses the current culture, so the text depends on where it runs (the check runs .NET with the invariant culture).",
+      "alternative": "Pass a format, such as ToString(\"yyyy-MM-dd HH:mm:ss\"), for a fixed text."
     }
   ],
   "areas": [
@@ -181,23 +217,20 @@
         {
           "name": "int.overflow.wraps",
           "code": "string (big () + 1)",
-          "status": "mismatch",
-          "net": "-2147483648",
-          "js": "2147483648"
+          "status": "pass",
+          "net": "-2147483648"
         },
         {
           "name": "int.multiply.wraps",
           "code": "string (big () * 2)",
-          "status": "mismatch",
-          "net": "-2",
-          "js": "4294967294"
+          "status": "pass",
+          "net": "-2"
         },
         {
           "name": "int.negate.min",
           "code": "string (-(Int32.MinValue + n 0))",
-          "status": "mismatch",
-          "net": "-2147483648",
-          "js": "2147483648"
+          "status": "pass",
+          "net": "-2147483648"
         },
         {
           "name": "int.division.truncates",
@@ -226,9 +259,8 @@
         {
           "name": "int64.overflow.wraps",
           "code": "string (bigL () + 1L)",
-          "status": "mismatch",
-          "net": "-9223372036854775808",
-          "js": "9223372036854775808"
+          "status": "pass",
+          "net": "-9223372036854775808"
         },
         {
           "name": "int64.large",
@@ -251,30 +283,68 @@
         {
           "name": "uint32.wraps",
           "code": "string (0u - uint32 (n 1))",
-          "status": "mismatch",
-          "net": "4294967295",
-          "js": "-1"
+          "status": "pass",
+          "net": "4294967295"
         },
         {
           "name": "byte.wraps",
           "code": "string (255uy + byte (n 1))",
-          "status": "mismatch",
-          "net": "0",
-          "js": "256"
+          "status": "pass",
+          "net": "0"
         },
         {
           "name": "sbyte.wraps",
           "code": "string (127y + sbyte (n 1))",
-          "status": "mismatch",
-          "net": "-128",
-          "js": "128"
+          "status": "pass",
+          "net": "-128"
         },
         {
           "name": "int16.wraps",
           "code": "string (32767s + int16 (n 1))",
-          "status": "mismatch",
-          "net": "-32768",
-          "js": "32768"
+          "status": "pass",
+          "net": "-32768"
+        },
+        {
+          "name": "int.multiply.large",
+          "code": "let x = (1 <<< 28) + n 1 in string (x * x) + \",\" + string (uint32 (n -1) * uint32 (n -1))",
+          "status": "pass",
+          "net": "536870913,1"
+        },
+        {
+          "name": "int.wrap.chain",
+          "code": "string (big () + big () + big ()) + \",\" + string (big () * 3 + n 7) + \",\" + B (big () + 1 > 0)",
+          "status": "pass",
+          "net": "2147483645,-2147483644,false"
+        },
+        {
+          "name": "uint32.divide",
+          "code": "string (uint32 (n -6) / 1u) + \",\" + string (int16 (n -32768) / -1s) + \",\" + string (sbyte (n -128) / -1y)",
+          "status": "pass",
+          "net": "4294967290,-32768,-128"
+        },
+        {
+          "name": "narrow.bitwise",
+          "code": "string (~~~ (byte (n 250))) + \",\" + string (byte (n 250) <<< 1) + \",\" + string (1uy <<< n 9) + \",\" + string (120y <<< n 1) + \",\" + string (~~~ (uint16 (n 0)))",
+          "status": "pass",
+          "net": "5,244,2,-16,65535"
+        },
+        {
+          "name": "shift.count.mask",
+          "code": "string (1L <<< n 65) + \",\" + string (-8L >>> n -1) + \",\" + string (n 1 <<< n 33) + \",\" + string (~~~ (uint64 (n 0)))",
+          "status": "pass",
+          "net": "2,-1,2,18446744073709551615"
+        },
+        {
+          "name": "checked.ok",
+          "code": "string (Checked.(+) 1 (n 2)) + \",\" + string (Checked.int64 (n 5)) + \",\" + string (Checked.byte 2.7) + \",\" + string (Checked.(~-) (n 4))",
+          "status": "pass",
+          "net": "3,5,2,-4"
+        },
+        {
+          "name": "checked.overflow.more",
+          "code": "let t f = (try string (f ()) with :? OverflowException -> \"overflow\") in t (fun () -> Checked.(*) (big ()) 2) + \",\" + t (fun () -> Checked.byte (n 300)) + \",\" + t (fun () -> Checked.(-) Int32.MinValue (n 1)) + \",\" + t (fun () -> Checked.int nan)",
+          "status": "pass",
+          "net": "overflow,overflow,overflow,overflow"
         },
         {
           "name": "uint64.max",
@@ -285,16 +355,14 @@
         {
           "name": "checked.overflow",
           "code": "string (Checked.(+) (big ()) 1)",
-          "status": "unsupported",
-          "net": "EXN Overflow",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "EXN Overflow"
         },
         {
           "name": "checked.int.conversion",
           "code": "string (Checked.int 3000000000.0)",
-          "status": "unsupported",
-          "net": "EXN Overflow",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "EXN Overflow"
         },
         {
           "name": "conversion.int.of.float",
@@ -317,9 +385,8 @@
         {
           "name": "conversion.int.of.bad.string",
           "code": "string (int \"4x2\")",
-          "status": "mismatch",
-          "net": "EXN Format",
-          "js": "0"
+          "status": "pass",
+          "net": "EXN Format"
         },
         {
           "name": "conversion.float.of.string",
@@ -422,16 +489,14 @@
         {
           "name": "float.compare.nan",
           "code": "string (compare nan 1.0)",
-          "status": "mismatch",
-          "net": "-1",
-          "js": "1"
+          "status": "pass",
+          "net": "-1"
         },
         {
           "name": "float.round.banker",
           "code": "string (round 2.5) + \",\" + string (round 3.5) + \",\" + string (round -2.5)",
-          "status": "mismatch",
-          "net": "2,4,-2",
-          "js": "3,4,-2"
+          "status": "pass",
+          "net": "2,4,-2"
         },
         {
           "name": "float.math.round",
@@ -541,16 +606,14 @@
         {
           "name": "abs.min.int",
           "code": "string (abs Int32.MinValue)",
-          "status": "mismatch",
-          "net": "EXN Overflow",
-          "js": "2147483648"
+          "status": "pass",
+          "net": "EXN Overflow"
         },
         {
           "name": "min.max",
           "code": "string (min 3 (n 5)) + \",\" + string (max 3.0 nan)",
-          "status": "mismatch",
-          "net": "3,NaN",
-          "js": "3,3"
+          "status": "pass",
+          "net": "3,NaN"
         },
         {
           "name": "sqrt.negative",
@@ -579,9 +642,8 @@
         {
           "name": "bitwise.shift.uint",
           "code": "string (0x80000000u >>> 31)",
-          "status": "mismatch",
-          "net": "1",
-          "js": "-1"
+          "status": "pass",
+          "net": "1"
         },
         {
           "name": "bitwise.int64",
@@ -632,8 +694,8 @@
           "net": "1"
         }
       ],
-      "total": 72,
-      "pass": 51
+      "total": 79,
+      "pass": 74
     },
     {
       "id": "strings",
@@ -685,23 +747,21 @@
         {
           "name": "string.concat.null",
           "code": "s \"a\" + (null: string) + \"b\"",
-          "status": "mismatch",
+          "status": "known",
           "net": "ab",
           "js": "anullb"
         },
         {
           "name": "string.of.null",
           "code": "\"[\" + string (null: string) + \"]\"",
-          "status": "mismatch",
-          "net": "[]",
-          "js": "[null]"
+          "status": "pass",
+          "net": "[]"
         },
         {
           "name": "string.of.option",
           "code": "string (Some 1) + \"|\" + string (None: int option)",
-          "status": "mismatch",
-          "net": "Some(1)|",
-          "js": "[object Object]|null"
+          "status": "pass",
+          "net": "Some(1)|"
         },
         {
           "name": "string.of.unit",
@@ -712,9 +772,8 @@
         {
           "name": "string.of.bool",
           "code": "string true + \",\" + string false",
-          "status": "mismatch",
-          "net": "True,False",
-          "js": "true,false"
+          "status": "pass",
+          "net": "True,False"
         },
         {
           "name": "string.of.char",
@@ -725,16 +784,44 @@
         {
           "name": "string.of.list",
           "code": "string [1; 2; 3]",
-          "status": "mismatch",
-          "net": "[1; 2; 3]",
-          "js": "[object Object]"
+          "status": "pass",
+          "net": "[1; 2; 3]"
         },
         {
           "name": "string.of.tuple",
           "code": "string (1, \"a\")",
-          "status": "mismatch",
-          "net": "(1, a)",
-          "js": "1,a"
+          "status": "pass",
+          "net": "(1, a)"
+        },
+        {
+          "name": "string.of.list.long",
+          "code": "string [ 1 .. 10 ] + \"|\" + string ([]: int list)",
+          "status": "pass",
+          "net": "[1; 2; 3; ... ]|[]"
+        },
+        {
+          "name": "string.of.list.nested",
+          "code": "string [ \"a\"; \"b\" ] + \"|\" + string [ true ] + \"|\" + string [ Some 1 ] + \"|\" + string [ [ 1 ]; [ 2 ] ] + \"|\" + string [ (null: string); \"a\" ] + \"|\" + string [ (None: int option) ]",
+          "status": "pass",
+          "net": "[a; b]|[True]|[Some(1)]|[[1]; [2]]|[null; a]|[null]"
+        },
+        {
+          "name": "string.of.option.nested",
+          "code": "string (Some (Some 1)) + \"|\" + string (Some true) + \"|\" + string (Some [ 1; 2 ]) + \"|\" + string (Some (1, 2)) + \"|\" + string (Some (null: string)) + \"|\" + string (Some (None: int option))",
+          "status": "pass",
+          "net": "Some(Some(1))|Some(True)|Some([1; 2])|Some((1, 2))|Some(null)|Some(null)"
+        },
+        {
+          "name": "string.of.tuple.nested",
+          "code": "string (1, true, 2.5) + \"|\" + string (1, (2, 3)) + \"|\" + string (Some 1, (None: int option)) + \"|\" + string ((null: string), 1)",
+          "status": "pass",
+          "net": "(1, True, 2.5)|(1, (2, 3))|(Some(1), )|(, 1)"
+        },
+        {
+          "name": "string.of.obj",
+          "code": "string (box true) + \"|\" + string (null: obj) + \"|\" + string (box 3)",
+          "status": "pass",
+          "net": "True||3"
         },
         {
           "name": "string.split",
@@ -878,9 +965,8 @@
         {
           "name": "string.module.map",
           "code": "String.map Char.ToUpper (s \"abc\")",
-          "status": "unsupported",
-          "net": "ABC",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "ABC"
         },
         {
           "name": "string.module.collect",
@@ -933,16 +1019,21 @@
         {
           "name": "char.tests",
           "code": "B (Char.IsDigit '5') + \",\" + B (Char.IsLetter 'é') + \",\" + B (Char.IsWhiteSpace '\\t') + \",\" + B (Char.IsUpper 'A')",
-          "status": "mismatch",
-          "net": "true,true,true,true",
-          "js": "true,false,true,true"
+          "status": "pass",
+          "net": "true,true,true,true"
+        },
+        {
+          "name": "char.case",
+          "code": "string (Char.ToUpper 'a') + string (Char.ToLower 'Q') + string (Char.ToUpperInvariant 'é') + \",\" + B (Char.IsLower 'é') + B (Char.IsDigit '٣')",
+          "status": "pass",
+          "net": "AqÉ,truetrue"
         },
         {
           "name": "char.unicode.upper",
           "code": "string (Char.ToUpper 'ß') + \",\" + (s \"straße\").ToUpper()",
-          "status": "unsupported",
+          "status": "known",
           "net": "ß,STRAßE",
-          "js": "WS-COMPILE-ERROR"
+          "js": "ß,STRASSE"
         },
         {
           "name": "char.surrogate.length",
@@ -1211,9 +1302,8 @@
         {
           "name": "sprintf.u",
           "code": "sprintf \"%u\" 4294967295u",
-          "status": "unsupported",
-          "net": "4294967295",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "4294967295"
         },
         {
           "name": "sprintf.M",
@@ -1267,8 +1357,8 @@
           "js": "[object Object]|[object Object]"
         }
       ],
-      "total": 100,
-      "pass": 73
+      "total": 106,
+      "pass": 87
     },
     {
       "id": "collections",
@@ -1283,9 +1373,8 @@
         {
           "name": "list.head.empty",
           "code": "string (List.head (e ()))",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "list.cons.append",
@@ -1332,9 +1421,8 @@
         {
           "name": "list.reduce.empty",
           "code": "string (List.reduce (+) (e ()))",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "list.scan",
@@ -1351,9 +1439,8 @@
         {
           "name": "list.average.empty",
           "code": "string (List.average ([]: float list))",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "list.minmax",
@@ -1376,9 +1463,8 @@
         {
           "name": "list.countby",
           "code": "J (l () |> List.countBy (fun x -> x > 3) |> List.map (fun (k, c) -> string k + \":\" + string c))",
-          "status": "mismatch",
-          "net": "[False:4,True:4]",
-          "js": "[false:4,true:4]"
+          "status": "pass",
+          "net": "[False:4,True:4]"
         },
         {
           "name": "list.partition",
@@ -1413,9 +1499,8 @@
         {
           "name": "list.zip.mismatch",
           "code": "string (List.length (List.zip [ 1; 2 ] [ \"a\" ]))",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "list.unzip",
@@ -1444,16 +1529,14 @@
         {
           "name": "list.find.missing",
           "code": "string (List.find (fun x -> x > 100) (l ()))",
-          "status": "mismatch",
-          "net": "EXN KeyNotFound",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN KeyNotFound"
         },
         {
           "name": "list.tryfind",
           "code": "string (List.tryFind (fun x -> x > 100) (l ())) + \",\" + string (List.tryFindIndex (fun x -> x = 5) (l ()))",
-          "status": "mismatch",
-          "net": ",Some(4)",
-          "js": "null,[object Object]"
+          "status": "pass",
+          "net": ",Some(4)"
         },
         {
           "name": "list.pick",
@@ -1476,9 +1559,8 @@
         {
           "name": "list.take.too.many",
           "code": "Ji (List.take 20 (l ()))",
-          "status": "mismatch",
-          "net": "EXN InvalidOperation",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN InvalidOperation"
         },
         {
           "name": "list.takewhile",
@@ -1495,16 +1577,14 @@
         {
           "name": "list.item.out.of.range",
           "code": "string (List.item 20 (l ()))",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "list.last",
           "code": "string (List.last (l ())) + \",\" + string (List.tryLast (e ()))",
-          "status": "mismatch",
-          "net": "6,",
-          "js": "6,null"
+          "status": "pass",
+          "net": "6,"
         },
         {
           "name": "list.rev",
@@ -1521,9 +1601,8 @@
         {
           "name": "list.mapi.indexed",
           "code": "J (List.mapi (fun i x -> string i + \"=\" + string x) [ 5; 6 ]) + J (List.indexed [ 'a' ] |> List.map string)",
-          "status": "mismatch",
-          "net": "[0=5,1=6][(0, a)]",
-          "js": "[0=5,1=6][0,a]"
+          "status": "pass",
+          "net": "[0=5,1=6][(0, a)]"
         },
         {
           "name": "list.map2.map3",
@@ -1600,9 +1679,8 @@
         {
           "name": "list.exactlyone",
           "code": "string (List.exactlyOne [ 4 ]) + \",\" + string (List.tryExactlyOne [ 1; 2 ])",
-          "status": "mismatch",
-          "net": "4,",
-          "js": "4,null"
+          "status": "pass",
+          "net": "4,"
         },
         {
           "name": "list.randomless.permute",
@@ -1619,16 +1697,14 @@
         {
           "name": "array.index.out.of.range",
           "code": "string (a ()).[10]",
-          "status": "mismatch",
-          "net": "EXN IndexOutOfRange",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN IndexOutOfRange"
         },
         {
           "name": "array.set.out.of.range",
           "code": "let x = a () in x.[10] <- 1; \"set\"",
-          "status": "mismatch",
-          "net": "EXN IndexOutOfRange",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN IndexOutOfRange"
         },
         {
           "name": "array.slice",
@@ -1687,9 +1763,8 @@
         {
           "name": "array.blit.bad",
           "code": "let x = a () in Array.blit [| 7; 8 |] 0 x 4 2; Ji x",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "array.fill",
@@ -1790,16 +1865,14 @@
         {
           "name": "array.sub.bad",
           "code": "Ji (Array.sub (a ()) 3 5)",
-          "status": "mismatch",
-          "net": "EXN ArgumentOutOfRange",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN ArgumentOutOfRange"
         },
         {
           "name": "array.max.empty",
           "code": "string (Array.max ([||]: int[]))",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "array.2d",
@@ -1882,9 +1955,8 @@
         {
           "name": "seq.take.too.many",
           "code": "Ji (Seq.take 5 [ 1; 2 ])",
-          "status": "mismatch",
-          "net": "EXN InvalidOperation",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN InvalidOperation"
         },
         {
           "name": "seq.truncate",
@@ -1895,16 +1967,14 @@
         {
           "name": "seq.skip.too.many",
           "code": "Ji (Seq.skip 5 [ 1; 2 ])",
-          "status": "mismatch",
-          "net": "EXN InvalidOperation",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN InvalidOperation"
         },
         {
           "name": "seq.head.empty",
           "code": "string (Seq.head Seq.empty<int>)",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "seq.zip",
@@ -1951,9 +2021,8 @@
         {
           "name": "seq.average.empty",
           "code": "string (Seq.average Seq.empty<float>)",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "seq.item",
@@ -1964,9 +2033,8 @@
         {
           "name": "seq.item.missing",
           "code": "string (Seq.item 5 [ 5; 6; 7 ])",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "seq.chunk",
@@ -2054,7 +2122,7 @@
         }
       ],
       "total": 126,
-      "pass": 104
+      "pass": 126
     },
     {
       "id": "maps",
@@ -2087,9 +2155,8 @@
         {
           "name": "map.tryfind",
           "code": "string (Map.tryFind 9 (m ())) + \",\" + string (Map.tryFind 1 (m ()))",
-          "status": "mismatch",
-          "net": ",Some(a)",
-          "js": "null,[object Object]"
+          "status": "pass",
+          "net": ",Some(a)"
         },
         {
           "name": "map.add.replace",
@@ -2268,9 +2335,8 @@
         {
           "name": "dictionary.trygetvalue.missing",
           "code": "let d = Dictionary<int, string>() in match d.TryGetValue 1 with | true, v -> v | _, v -> \"none:\" + string (isNull v)",
-          "status": "mismatch",
-          "net": "none:True",
-          "js": "none:true"
+          "status": "pass",
+          "net": "none:True"
         },
         {
           "name": "dictionary.remove",
@@ -2366,7 +2432,7 @@
         }
       ],
       "total": 50,
-      "pass": 46
+      "pass": 48
     },
     {
       "id": "records",
@@ -2555,16 +2621,14 @@
         {
           "name": "option.functions",
           "code": "string (Option.map ((+) 1) (Some 1)) + \",\" + string (Option.defaultValue 9 None) + \",\" + string (Option.bind (fun x -> if x > 0 then Some x else None) (Some -1))",
-          "status": "mismatch",
-          "net": "Some(2),9,",
-          "js": "[object Object],9,null"
+          "status": "pass",
+          "net": "Some(2),9,"
         },
         {
           "name": "option.value.none",
           "code": "string (Option.get (None: int option))",
-          "status": "mismatch",
-          "net": "EXN Argument",
-          "js": "EXN Exception"
+          "status": "pass",
+          "net": "EXN Argument"
         },
         {
           "name": "option.value.prop",
@@ -2594,9 +2658,8 @@
         {
           "name": "option.ofobj",
           "code": "string (Option.ofObj (null: string)) + \",\" + string (Option.ofObj \"x\")",
-          "status": "mismatch",
-          "net": ",Some(x)",
-          "js": "null,[object Object]"
+          "status": "pass",
+          "net": ",Some(x)"
         },
         {
           "name": "voption",
@@ -2607,7 +2670,7 @@
         {
           "name": "result",
           "code": "let r : Result<int, string> = Ok 1 in string (Result.map ((+) 1) r) + \",\" + string (Result.bind (fun _ -> Error \"e\") r : Result<int, string>)",
-          "status": "mismatch",
+          "status": "known",
           "net": "Microsoft.FSharp.Core.FSharpResult`2[System.Int32,System.String],Microsoft.FSharp.Core.FSharpResult`2[System.Int32,System.String]",
           "js": "[object Object],[object Object]"
         },
@@ -2644,30 +2707,38 @@
         {
           "name": "enum.tostring",
           "code": "string Color.Green + \",\" + string (int Color.Blue)",
-          "status": "mismatch",
-          "net": "Green,4",
-          "js": "2,4"
+          "status": "pass",
+          "net": "Green,4"
         },
         {
           "name": "enum.flags.tostring",
           "code": "string (Color.Red ||| Color.Blue)",
-          "status": "unsupported",
-          "net": "5",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "5"
         },
         {
           "name": "enum.of.int",
           "code": "string (enum<Color> 2) + \",\" + string (enum<Color> 3)",
-          "status": "mismatch",
-          "net": "Green,3",
-          "js": "2,3"
+          "status": "pass",
+          "net": "Green,3"
+        },
+        {
+          "name": "enum.tostring.method",
+          "code": "Color.Blue.ToString() + \"|\" + string (enum<Color> 42) + \"|\" + string DayOfWeek.Sunday",
+          "status": "pass",
+          "net": "Blue|42|Sunday"
+        },
+        {
+          "name": "enum.flags.names",
+          "code": "string (Perm.Read ||| Perm.Write) + \"|\" + string Perm.None + \"|\" + (Perm.Exec).ToString() + \"|\" + string (enum<Perm> 8)",
+          "status": "pass",
+          "net": "Read, Write|None|Exec|8"
         },
         {
           "name": "enum.hasflag",
           "code": "B ((Color.Red ||| Color.Blue).HasFlag Color.Blue)",
-          "status": "unsupported",
-          "net": "true",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "true"
         },
         {
           "name": "enum.compare",
@@ -2697,9 +2768,8 @@
         {
           "name": "physical.equality",
           "code": "let a = p \"a\" 1 in B (LanguagePrimitives.PhysicalEquality a a) + \",\" + B (LanguagePrimitives.PhysicalEquality a (p \"a\" 1))",
-          "status": "unsupported",
-          "net": "true,false",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "true,false"
         },
         {
           "name": "compare.mixed.strings",
@@ -2710,9 +2780,8 @@
         {
           "name": "compare.floats.nan.sort",
           "code": "J (List.sort [ 2.0; nan; 1.0 ] |> List.map string)",
-          "status": "mismatch",
-          "net": "[NaN,1,2]",
-          "js": "[2,NaN,1]"
+          "status": "pass",
+          "net": "[NaN,1,2]"
         },
         {
           "name": "compare.char",
@@ -2740,8 +2809,8 @@
           "js": "true,false,true"
         }
       ],
-      "total": 59,
-      "pass": 46
+      "total": 61,
+      "pass": 57
     },
     {
       "id": "patterns",
@@ -3005,6 +3074,12 @@
           "js": "EXN Exception"
         },
         {
+          "name": "string.of.generic",
+          "code": "show true + \"|\" + show (null: string) + \"|\" + show 4",
+          "status": "pass",
+          "net": "True||4"
+        },
+        {
           "name": "inline.srtp",
           "code": "string (twice 3) + \",\" + twice \"ab\" + \",\" + string (twice 1.5)",
           "status": "unsupported",
@@ -3050,16 +3125,26 @@
         {
           "name": "exception.failwith",
           "code": "try failwith \"boom\" with Failure m -> \"failure:\" + m",
-          "status": "unsupported",
-          "net": "failure:boom",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "failure:boom"
         },
         {
           "name": "exception.invalidarg",
           "code": "try invalidArg \"x\" \"bad\" with :? ArgumentException as e -> e.ParamName",
-          "status": "unsupported",
-          "net": "x",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "x"
+        },
+        {
+          "name": "exception.argument.message",
+          "code": "(ArgumentException(\"bad\", \"x\")).Message + \"|\" + (try invalidArg \"y\" \"worse\" with e -> e.Message)",
+          "status": "pass",
+          "net": "bad (Parameter 'x')|worse (Parameter 'y')"
+        },
+        {
+          "name": "exception.failure.subclass",
+          "code": "try raise (InvalidOperationException \"op\") with Failure m -> \"failure:\" + m | e -> \"other\"",
+          "status": "pass",
+          "net": "other"
         },
         {
           "name": "exception.invalidop",
@@ -3219,9 +3304,8 @@
         {
           "name": "computation.option",
           "code": "string (maybe { let! a = Some 1 in let! b = Some 2 in return a + b }) + \",\" + string (maybe { let! a = None in return a + 1 })",
-          "status": "mismatch",
-          "net": "Some(3),",
-          "js": "[object Object],null"
+          "status": "pass",
+          "net": "Some(3),"
         },
         {
           "name": "units.of.measure",
@@ -3315,8 +3399,8 @@
           "net": "xy"
         }
       ],
-      "total": 59,
-      "pass": 48
+      "total": 62,
+      "pass": 54
     },
     {
       "id": "dates",
@@ -3331,9 +3415,8 @@
         {
           "name": "datetime.dayofweek",
           "code": "string (d ()).DayOfWeek + \",\" + string (d ()).DayOfYear",
-          "status": "mismatch",
-          "net": "Thursday,60",
-          "js": "4,60"
+          "status": "pass",
+          "net": "Thursday,60"
         },
         {
           "name": "datetime.adddays",
@@ -3369,7 +3452,7 @@
         {
           "name": "datetime.tostring",
           "code": "string (d ())",
-          "status": "mismatch",
+          "status": "known",
           "net": "02/29/2024 13:45:30",
           "js": "2/29/2024, 1:45:30 PM"
         },
@@ -3406,23 +3489,26 @@
         {
           "name": "datetime.invalid",
           "code": "string (DateTime(2023, 2, 29)).Day",
-          "status": "mismatch",
-          "net": "EXN ArgumentOutOfRange",
-          "js": "1"
+          "status": "pass",
+          "net": "EXN ArgumentOutOfRange"
+        },
+        {
+          "name": "datetime.invalid.time",
+          "code": "try string (DateTime(2024, 1, 1, 24, 0, 0)).Hour with :? ArgumentOutOfRangeException -> \"range\"",
+          "status": "pass",
+          "net": "range"
         },
         {
           "name": "datetime.minvalue",
           "code": "string DateTime.MinValue.Year + \",\" + string DateTime.MaxValue.Year",
-          "status": "mismatch",
-          "net": "1,9999",
-          "js": "-271821,275760"
+          "status": "pass",
+          "net": "1,9999"
         },
         {
           "name": "datetime.ticks",
           "code": "string (DateTime(2000, 1, 1)).Ticks",
-          "status": "mismatch",
-          "net": "630822816000000000",
-          "js": "9466848000000000"
+          "status": "pass",
+          "net": "630822816000000000"
         },
         {
           "name": "datetimeoffset",
@@ -3502,9 +3588,8 @@
         {
           "name": "bool.parse",
           "code": "string (Boolean.Parse \"True\") + \",\" + string (Boolean.Parse \"false\")",
-          "status": "mismatch",
-          "net": "True,False",
-          "js": "true,false"
+          "status": "pass",
+          "net": "True,False"
         },
         {
           "name": "nullable",
@@ -3533,23 +3618,20 @@
         {
           "name": "math.divrem",
           "code": "let q, r = Math.DivRem(17, 5) in string q + string r",
-          "status": "unsupported",
-          "net": "32",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "32"
         },
         {
           "name": "math.truncate.log",
           "code": "string (Math.Truncate -2.9) + \",\" + string (Math.Log10 1000.0) + \",\" + string (Math.Log(8.0, 2.0))",
-          "status": "mismatch",
-          "net": "-2,3,3",
-          "js": "-2,2.9999999999999996,3"
+          "status": "pass",
+          "net": "-2,3,3"
         },
         {
           "name": "convert.tobase",
           "code": "Convert.ToString(10, 2) + \",\" + string (Convert.ToInt32(\"ff\", 16))",
-          "status": "unsupported",
-          "net": "1010,255",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "1010,255"
         },
         {
           "name": "convert.toint32.rounding",
@@ -3560,9 +3642,26 @@
         {
           "name": "convert.base64",
           "code": "Convert.ToBase64String [| 1uy; 2uy; 255uy |]",
-          "status": "unsupported",
-          "net": "AQL/",
-          "js": "WS-COMPILE-ERROR"
+          "status": "pass",
+          "net": "AQL/"
+        },
+        {
+          "name": "convert.frombase64",
+          "code": "Ji (Convert.FromBase64String \"AQL/\" |> Array.map int)",
+          "status": "pass",
+          "net": "[1,2,255]"
+        },
+        {
+          "name": "convert.todouble",
+          "code": "string (Convert.ToDouble 2.5) + \",\" + string (Convert.ToSingle 1.5)",
+          "status": "pass",
+          "net": "2.5,1.5"
+        },
+        {
+          "name": "convert.toint32.base",
+          "code": "string (Convert.ToInt32(\"-12\", 10)) + \",\" + string (Convert.ToInt32(\"ffffffff\", 16)) + \",\" + Convert.ToString(-1, 16)",
+          "status": "pass",
+          "net": "-12,-1,ffffffff"
         },
         {
           "name": "bitconverter",
@@ -3599,8 +3698,8 @@
           "js": "WS-COMPILE-ERROR"
         }
       ],
-      "total": 43,
-      "pass": 25
+      "total": 47,
+      "pass": 38
     }
   ]
 }
