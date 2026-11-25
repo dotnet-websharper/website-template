@@ -1,0 +1,75 @@
+<!-- ClientLoad = FromDocument -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>csharp-tasks</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="Scripts/CSharpTasks.css" />
+    <style>
+        /* Don't show the not-yet-loaded templates */
+        [ws-template], [ws-children-template] { display: none; }
+
+        :root {
+            font-family: "DM Sans", system-ui, sans-serif;
+            color-scheme: light;
+            --fg: #0f172a; --muted: #64748b; --line: rgb(15 23 42 / 0.1);
+            --card: #ffffff; --accent: #8b5cf6; --accent-fg: #ffffff;
+        }
+        :root[data-theme='dark'] {
+            color-scheme: dark;
+            --fg: #f1f5f9; --muted: #94a3b8; --line: rgb(255 255 255 / 0.1);
+            --card: rgb(255 255 255 / 0.04); --accent: #a78bfa; --accent-fg: #1e1b4b;
+        }
+        body {
+            margin: 0; min-height: 100vh; display: grid; place-items: center;
+            background: transparent; color: var(--fg);
+        }
+        .app { width: min(22rem, 88vw); }
+        h1 { margin: 0 0 1rem; font-size: 1.35rem; }
+        form { display: flex; gap: .5rem; }
+        input {
+            flex: 1; padding: .55rem .75rem; border-radius: .6rem; font: inherit;
+            border: 1px solid var(--line); background: var(--card); color: var(--fg);
+        }
+        input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+        button.add {
+            padding: 0 1rem; border: 0; border-radius: .6rem; font: inherit; font-weight: 600;
+            background: var(--accent); color: var(--accent-fg); cursor: pointer;
+        }
+        ul { list-style: none; margin: 1rem 0 .75rem; padding: 0; display: grid; gap: .4rem; }
+        li {
+            display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+            padding: .55rem .75rem; border: 1px solid var(--line); border-radius: .6rem; background: var(--card);
+        }
+        li button {
+            border: 1px solid var(--line); background: transparent; color: var(--muted);
+            border-radius: 999px; width: 1.75rem; height: 1.75rem; cursor: pointer;
+        }
+        li button:hover { color: var(--accent); border-color: var(--accent); }
+        .remaining { color: var(--muted); font-size: .9rem; }
+    </style>
+    <script type="text/javascript" src="Scripts/CSharpTasks.head.js"></script>
+</head>
+<body>
+    <div class="app" id="main">
+        <h1>Today</h1>
+        <form onsubmit="return false">
+            <input ws-var="NewTask" placeholder="What needs doing?" />
+            <button class="add" ws-onclick="Add">Add</button>
+        </form>
+        <ul ws-hole="Tasks">
+            <li ws-template="TaskItem">
+                <span>${Title}</span>
+                <button ws-onclick="Done" title="Done">&#10003;</button>
+            </li>
+        </ul>
+        <div class="remaining">${Remaining}</div>
+    </div>
+    <script>
+        const theme = new URLSearchParams(window.location.search).get('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
+    <script type="module" src="Scripts/CSharpTasks.min.js"></script>
+</body>
+</html>

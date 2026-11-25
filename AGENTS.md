@@ -475,6 +475,15 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   `Layout.html`, and in `Src/Theme.fs` (`Init` / `Toggle`).
 - **Default is dark** when nothing is stored (`getInitialTheme` returns `"dark"`).
 - `applyTheme` also sets `color-scheme` on `<html>` and syncs the iframes.
+- **Light theme surfaces** live in one block at the end of `Styles/app.css`, scoped
+  to `:root:not(.dark)` and left **unlayered** so they beat Tailwind utilities
+  without `!important` (dark is untouched). It gives `body` a tinted aurora
+  canvas (`#f6f8fc` + fixed radial brand glows) instead of flat white, and styles
+  hook classes: `.site-header` (frosted header in `Layout.html`), `.ws-card`
+  (elevated card with brand hover — Bindings and Examples cards), `.ws-window` /
+  `.ws-window-pane` / `.ws-window-terminal` (code windows in `Components.html`),
+  and the `.section-link` rail (readable inactive labels, sky active dot). Add the
+  hook class to new cards/windows rather than re-tuning their light utilities.
 - The header theme control is a **docs-style segment pill**, mirroring fumadocs'
   `ThemeToggle` in `light-dark` mode: a single `[data-theme-toggle]` button with
   sun + moon chips, the active one highlighted. The pill is `border` + `p-1`,
@@ -558,10 +567,27 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
     `reactive.js`, **Preview**. The snippets (`snippets/maps`, `snippets/reactive`)
     keep their markup in `index.html` and fill it with **`.Bind()`**: holes live
     directly in the page (no `ws-children-template`), and `.Bind()` is a method on the
-    **root** template (`IndexTemplate()`), not on a `ws-children-template` (there you
-    use `.Doc() |> Doc.RunById`). `snippets/reactive` is a copy of the
+    **root** template (`IndexTemplate()`), not on a `ws-children-template`. `snippets/reactive` is a copy of the
     `add_two_numbers` scaffold (same `SPAEntryPoint` + esbuild setup); `snippets/maps`
     is shared with the Examples Maps tab, so changing it changes both.
+
+## SPA rule: templates + `.Bind()`, never `Doc.RunById`
+
+Every WebSharper.UI SPA here — the `snippets/*` projects **and** the code shown on
+the site (`CodeFragments/*`, the code strings in `Src/Examples.fs`, plus their
+generated-JS twins) — uses an HTML template
+(`Template<"wwwroot/index.html", ClientLoad.FromDocument>`) with the holes placed
+**directly in the page body** and finishes with `IndexTemplate()....Bind()`. No
+`Doc.RunById`/`Doc.Run`, and no `ws-children-template` wrapper for the page itself
+(nested `ws-template`s such as a list item are fine). Widgets that need an element
+use a hole (`ws-hole="Map"`) or `ws-onafterrender` (the chart snippet:
+`.DrawChart(fun (el: Dom.Element) -> Plotly.NewPlot(As<HTMLElement> el, ...))`).
+Old blog articles are historical and left as written.
+
+- **C# templates** get the same `.Bind()` since WebSharper.UI 10.1.9 (ui#313/#315):
+  `snippets/csharp-tasks` puts its holes directly in `wwwroot/index.html` (the
+  file starts with `<!-- ClientLoad = FromDocument -->`) and ends with
+  `new Template.Index()....Bind()`.
 
 ## Snippets & static previews
 
@@ -576,6 +602,72 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
   regeneration commands (build the sample with `wsocaml`, then esbuild-bundle `Main.js`).
 - Snippet shells that adapt to `?theme` must set `color-scheme` (see "Preview iframes &
   theme").
+
+## C# page
+
+`/csharp` (`CSharp.html`, `Src/Pages.fs` `CSharp`, menubar entry after Features)
+is a **persuasion page**, deliberately *not* shaped like the OCaml page (violet
+`#9B4F96` accent). `CSharp.html` is just the `<main ws-children-template="Content">`
+(no dead head/chrome). Sections, top to bottom:
+
+- **Hero**: left-aligned copy + a right-hand "One C# project → `dotnet build` →
+  Server / Browser" card (static markup).
+- **Why full-stack C#**: six `ws-card` argument blocks. The AI/agents block is the
+  featured one (`lg:col-span-2 lg:row-span-2`, with a fake agent ↔ `dotnet build`
+  log); the 2×2 span is what keeps the 3-column grid free of an orphan card. Its
+  lower half ("Your agent can ask the compiler") documents the Booster MCP
+  (`dotnet ws mcp --lang csharp`, WS11) and Booster Pro's `get_signature`; keep
+  the tool list in step with the `dotnet-ws` and `booster-pro` READMEs, and keep
+  the `.mcp.json` args wrapped (a single line is cut off in the half column).
+- **Translator** (`#translator`, "C# in, idiomatic JavaScript out"): feature tabs
+  + a C#/JS pair per feature, from `csharpTranslations` in `Pages.fs` and
+  `CodeFragments/csharp/translate/<key>.cs` + `<key>.mjs`. JS fragments **must be
+  `.mjs`**: a `.js` under `CodeFragments/` is picked up by the esbuild step and
+  fails to parse. The JS is **real WebSharper 11 output** (`11.0.0.763-preview.2`,
+  compiled from the C# in a scratch `spa` project and only reformatted), so
+  re-generate it the same way if you change a C# side; don't hand-write it. The
+  examples follow core PR #1620. C# pattern matching was left out on purpose: its
+  output is still noisy (`&&true` chains, `Deconstruct` through get/set objects).
+  Tab switching is `Translator.Select` (`Src/Translator.fs`): server-rendered tabs
+  and panels, toggled by `aria-selected` (styled with Tailwind's `aria-selected:`
+  variant) and `hidden`.
+- **TypeScript** (`#typescript`, "Typed for TypeScript, too"): static markup —
+  four reasons (adopt one module at a time, write rules once, `javascriptExport`
+  to npm, `tsc` as a safety net) beside `Pricing.cs` → generated `Pricing.Cart.d.ts`
+  → `checkout.ts` with the `tsc` errors. All of it is **real output**
+  (`11.0.0.768-preview.2` library with `"javascriptExport": true, "dce": true`,
+  checked with `tsc --strict --skipLibCheck`), excerpted. Only static functions are
+  shown on purpose: record `.d.ts` output is not yet clean (broken import paths,
+  `_1` params, internal members — core#1653). Revisit once that is fixed. The
+  "JavaScript you can read" card links here. Don't write `${` in this markup: it
+  is a template hole.
+- **Reactive UI**: the `CSharpHero` live app (below).
+- **Full stack**: `CSharpRemoting` is a `CodeFiles` with Remoting/Client/Shared/Site
+  tabs (numbered list beside it in the same order); its wrapper raises the window
+  height with `[&_.snippet-code>div]:h-[34rem]`.
+- **Ecosystem**: 42 library + 41 browser-API chips, static and generated from
+  `bindings.json` (update the counts and chips when the catalog changes).
+- **CTA**: new app (templates) vs existing ASP.NET Core app (packages).
+
+- `CSharpHero` is a `VsCode` whose Preview is the **`snippets/csharp-tasks`** app —
+  a real C# WebSharper SPA (`csharp-tasks.csproj`, `WebSharper.CSharp` +
+  `WebSharper.UI.CSharp`, typed template from `wwwroot/index.html`), with
+  `Component.CSharpTerminal()`. It is the only `.csproj` snippet, so the GHA
+  "Build snippets" loop globs `*/*.csproj` as well as `*/*.fsproj`. Its
+  `AssemblyName` is `CSharpTasks` because the C# template generator puts the
+  typed templates in `<AssemblyName>.Template`, so the code's namespace must match
+  the assembly name for `new Template.Index.Main()` to resolve.
+- `CSharpRemoting` shows `CodeFragments/csharp/{Remoting,Shared,Site,ShopClient}.cs`,
+  a small product-search app that was compiled **and run** in a scratch
+  client-server project (the remote call returned and rendered results). Two
+  lessons from that: `decimal` is not remoting-serializable (use `double`), and
+  `DocSeqCached` over C# **records** without a key function overflowed the stack —
+  pass a key (`DocSeqCached(p => p.Name, p => ...)`). Re-verify the same way if you
+  edit them; `Client.cs` is a copy of the snippet's `Client.cs`.
+- Menubar spacing: with 10 entries the desktop nav uses
+  `lg:gap-x-3 xl:gap-x-4 2xl:gap-x-6`, and between `lg` and `xl` it hides the
+  "WebSharper" wordmark and the X/Discord icons (`lg:max-xl:hidden`) so nothing
+  touches the theme toggle at 1024px. Re-measure at 1024/1280/1440 when adding an entry.
 
 ## OCaml page
 

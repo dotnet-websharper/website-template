@@ -17,7 +17,7 @@ module Client =
         let password = Var.Create ""
         let errorMsg = Var.Create ""
 
-        IndexTemplate.LoginForm()
+        IndexTemplate()
             .Username(username)
             .Password(password)
             .ErrorMsg(errorMsg.View)
@@ -31,5 +31,4 @@ module Client =
                     errorMsg.Value <- ""
                     JS.Alert("Welcome, " + username.Value + "!")
             )
-            .Doc()
-            |> Doc.RunById "main"
+            .Bind()

@@ -17,6 +17,7 @@ type EndPoint =
     | [<EndPoint "GET /support">] Support
     | [<EndPoint "GET /warp">] Warp
     | [<EndPoint "GET /ocaml">] Ocaml
+    | [<EndPoint "GET /csharp">] CSharp
     | [<EndPoint "GET /checkout">] Checkout
     | [<EndPoint "GET /error">] Error
     | [<EndPoint "GET /invoice">] Invoice
@@ -148,6 +149,14 @@ module Site =
             Bundle = "ocaml"
         )
 
+    let CSharpPage =
+        Content.Page(
+            Templating.Layout EndPoint.CSharp [
+                ServerPages.CSharp()
+            ],
+            Bundle = "csharp"
+        )
+
     let CheckoutPage =
         Content.Page(
             Templating.Layout EndPoint.Checkout [
@@ -235,6 +244,7 @@ module Site =
             | Support -> SupportPage
             | Warp -> WarpPage
             | Ocaml -> OcamlPage
+            | CSharp -> CSharpPage
             | Checkout -> CheckoutPage
             | Error -> ErrorPage
             | Invoice -> InvoicePage
@@ -256,7 +266,7 @@ type Website() =
             Home; Features; Examples; Bindings; Coverage; Conformance; Blogs
             for a in Blog.Articles () do
                 BlogArticle a.Stem
-            Support; Warp; Ocaml; Checkout 
+            Support; Warp; Ocaml; CSharp; Checkout 
             Error; Invoice; MyAccount; Success; NotFound
             PrivacyPolicy; TermsOfUse; CookiePolicy
         ]

@@ -20,11 +20,14 @@
             background-color: white;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
+        .chart { width: 100%; height: 100%; }
     </style>
     <script type="text/javascript" src="Scripts/chart.head.js"></script>
 </head>
 <body>
-    <div id="main"></div>
+    <div id="main">
+        <div class="chart" ws-onafterrender="DrawChart"></div>
+    </div>
     <script type="module" src="Scripts/chart.min.js"></script>
 </body>
 </html>

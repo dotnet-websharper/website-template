@@ -12,5 +12,6 @@ let view =
             h1 [] [text "List of articles"]
     )
 
-let doc = Doc.BindView id view
-Doc.RunById "main" doc
+IndexTemplate()
+    .Content(Doc.BindView id view)
+    .Bind()

@@ -77,84 +77,82 @@ let SetupGrid () =
 """
         | Maps -> """open WebSharper.UI.Html
 open WebSharper.Leaflet
-        
+
+[<SPAEntryPoint>]
 let Main () =
-    let coordinates = div [] [] :?> Elt
-    div [] [
-        div [
-            attr.style "height: 600px;"
-            on.afterRender (fun div ->
-                let map = Leaflet.L.Map(el)
-                map.SetView((47.5000, 19.0500), 14)
+    let coords = Var.Create "Hover over the map..."
 
-                map.AddLayer(
-                    Leaflet.TileLayer(
-                        Leaflet.TileLayer.OpenStreetMap.UrlTemplate,
-                        Leaflet.TileLayer.Options(Attribution = Leaflet.TileLayer.OpenStreetMap.Attribution)
-                    )
-                ) |> ignore
-
-                let m = Leaflet.Marker((47.50712, 19.04567)) 
-                        
-                m.BindPopup("Hungarian Parliament") |> ignore 
-                map.AddLayer(m) |> ignore
-
-                map.On_mousemove(fun map ev ->
-                    coordinatesText.Value <- "Position: " + ev.Latlng.ToString()
-                ) |> ignore
-
-                map.On_mouseout(fun map ev ->
-                    coordinatesText.Value <- "Hover over map..."
-                ) |> ignore
-            )
-        ] []
-        coordinates
-    ]
-    |> Doc.RunById "main"
+    IndexTemplate()
+        .Map(
+            div [
+                attr.style "width:100%;height:100%"
+                on.afterRender (fun el ->
+                    let map = Leaflet.L.Map(el)
+                    map.SetView((47.5000, 19.0500), 14)
+                    map.AddLayer(
+                        Leaflet.TileLayer(
+                            Leaflet.TileLayer.OpenStreetMap.UrlTemplate,
+                            Leaflet.TileLayer.Options(
+                                Attribution = Leaflet.TileLayer.OpenStreetMap.Attribution))
+                    ) |> ignore
+                    let marker = Leaflet.Marker((47.5071, 19.0457))
+                    marker.BindPopup("Hungarian Parliament") |> ignore
+                    map.AddLayer(marker) |> ignore
+                    map.On_mousemove(fun _ ev ->
+                        coords.Value <- "Position: " + ev.Latlng.ToString())
+                    |> ignore)
+            ] [])
+        .Coordinates(coords.View)
+        .Bind()
 """
-        | Charts -> """open WebSharper.UI.Html
-open WebSharper.Plotly
+        | Charts -> """open WebSharper.Plotly
 
-let RenderChart id =
+[<SPAEntryPoint>]
+let Main () =
     let barTrace = BarOptions()
     barTrace.X <- [| "Q1"; "Q2"; "Q3"; "Q4" |]
     barTrace.Y <- [| 45000; 52000; 28000; 64000 |]
     barTrace.Name <- "Revenue"
-    barTrace.Marker <- BarMarker(
-        Color = "rgba(79, 70, 229, 1)" 
-    )
+    barTrace.Marker <- BarMarker(Color = "rgba(79, 70, 229, 1)")
 
     let layout = Layout()
     layout.Title <- LayoutTitle(Text = "Annual Revenue", Font = Font(Size = 24, Family = "Segoe UI, sans-serif"))
     layout.Showlegend <- false
     layout.Autosize <- true
     layout.Margin <- LayoutMargin(L = 50, R = 50, B = 50, T = 80)
-    layout.Paper_bgcolor <- "rgba(0,0,0,0)" 
+    layout.Paper_bgcolor <- "rgba(0,0,0,0)"
     layout.Plot_bgcolor <- "rgba(0,0,0,0)"
     layout.Yaxis <- LayoutYAxis(Gridcolor = "#e2e8f0", Zeroline = false)
     layout.Xaxis <- LayoutXAxis(Gridcolor = "rgba(0,0,0,0)")
 
-    div [
-        attr.id id
-        attr.style "height: 500px; width: 100%;" 
-        on.afterRender (fun _ -> 
-            Plotly.NewPlot(id, [| barTrace :> Trace |], layout) |> ignore
+    // index.html: <div class="chart" ws-onafterrender="DrawChart"></div>
+    IndexTemplate()
+        .DrawChart(fun (el: Dom.Element) ->
+            Plotly.NewPlot(As<HTMLElement> el, [| barTrace :> Trace |], layout) |> ignore
         )
-    ] []
+        .Bind()
 """
-        | Forms -> """let Render id = 
+        | Forms -> """[<SPAEntryPoint>]
+let Main () =
     let username = Var.Create ""
     let password = Var.Create ""
+    let errorMsg = Var.Create ""
 
-    IndexTemplate.LoginForm()
+    IndexTemplate()
         .Username(username)
         .Password(password)
+        .ErrorMsg(errorMsg.View)
         .Login(fun e ->
             e.Event.PreventDefault()
-            JS.Alert("Welcome, " + username.Value + "!")                
+            if username.Value = "" then
+                errorMsg.Value <- "Must enter a username"
+            elif password.Value = "" then
+                errorMsg.Value <- "Must enter a password"
+            else
+                errorMsg.Value <- ""
+                JS.Alert("Welcome, " + username.Value + "!")
         )
-        .Doc()
-        |> Doc.RunById id
+        .Bind()
 """
 
     let getResultDoc = function

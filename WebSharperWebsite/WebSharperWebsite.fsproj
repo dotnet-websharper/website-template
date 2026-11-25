@@ -46,6 +46,7 @@
     <Compile Include="Src/ManageSubscription/Invoices.fs" />
     <Compile Include="Src/ManageSubscription/ManageSubPage.fs" />
     <Compile Include="Src/SnippetCode.fs" />
+    <Compile Include="Src/Translator.fs" />
     <Compile Include="Src/AccountMenu.fs" />
     <Compile Include="Src/Clipboard.fs" />
     <Compile Include="Src/Theme.fs" />
@@ -62,6 +63,7 @@
     <Content Include="Styles/app.css" />
     <Content Include="Components.html" />
     <Content Include="Ocaml.html" />
+    <Content Include="CSharp.html" />
     <Content Include="ComingSoon.html" />
     <Content Include="ForTeams.html" />
     <Content Include="Legal.html" />

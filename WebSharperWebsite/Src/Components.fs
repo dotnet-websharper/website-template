@@ -113,6 +113,10 @@ type Component private () =
     static member ViteTerminal() : Doc =
         Templates.ComponentsTemplate.ViteTerminal().Doc()
 
+    /// Terminal output of `dotnet run` (the C# code window).
+    static member CSharpTerminal() : Doc =
+        Templates.ComponentsTemplate.CSharpTerminal().Doc()
+
     /// Terminal output of the native wsocaml server (the OCaml code window).
     static member WsocamlTerminal() : Doc =
         Templates.ComponentsTemplate.WsocamlTerminal().Doc()

@@ -3,12 +3,13 @@ namespace chart
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.UI
-open WebSharper.UI.Html
 open WebSharper.UI.Client
+open WebSharper.UI.Templating
 open WebSharper.Plotly
 
 [<JavaScript>]
 module Client =
+    type IndexTemplate = Template<"wwwroot/index.html", ClientLoad.FromDocument>
 
     [<SPAEntryPoint>]
     let Main () =
@@ -30,16 +31,8 @@ module Client =
         layout.Yaxis <- LayoutYAxis(Gridcolor = "#e2e8f0", Zeroline = false)
         layout.Xaxis <- LayoutXAxis(Gridcolor = "rgba(0,0,0,0)")
 
-        div [attr.style "display: flex; justify-content: center; align-items: center; background-color: #f1f5f9; font-family: sans-serif;"] [
-            
-            div [
-                attr.style "background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); width: 100%; max-width: 800px; height: 500px;"
-                attr.id "plotly-chart"
-                
-                on.afterRender (fun el -> 
-                    Plotly.NewPlot("plotly-chart", [| barTrace :> Trace |], layout) 
-                    |> ignore
-                )
-            ] [] 
-        ]
-        |> Doc.RunById "main"
+        IndexTemplate()
+            .DrawChart(fun (el: Dom.Element) ->
+                Plotly.NewPlot(As<HTMLElement> el, [| barTrace :> Trace |], layout) |> ignore
+            )
+            .Bind()

@@ -1,0 +1,14 @@
+<div class="app" id="main">
+    <h1>Today</h1>
+    <form onsubmit="return false">
+        <input ws-var="NewTask" placeholder="What needs doing?" />
+        <button class="add" ws-onclick="Add">Add</button>
+    </form>
+    <ul ws-hole="Tasks">
+        <li ws-template="TaskItem">
+            <span>${Title}</span>
+            <button ws-onclick="Done" title="Done">&#10003;</button>
+        </li>
+    </ul>
+    <div class="remaining">${Remaining}</div>
+</div>

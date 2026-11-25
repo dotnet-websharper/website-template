@@ -23,7 +23,7 @@ module Client =
     let Main () =
         let newName = Var.Create ""
 
-        IndexTemplate.Main()
+        IndexTemplate()
             .ListContainer(
                 People.View.DocSeqCached(fun (name: string) ->
                     IndexTemplate.ListItem().Name(name).Doc()
@@ -34,5 +34,4 @@ module Client =
                 People.Add(newName.Value)
                 newName.Value <- ""
             )
-            .Doc()
-        |> Doc.RunById "main"
+            .Bind()

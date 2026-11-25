@@ -47,7 +47,7 @@ jobs:
       - name: Build snippets
         shell: bash
         run: |
-          for proj in WebSharperWebsite/snippets/*/*.fsproj; do
+          for proj in WebSharperWebsite/snippets/*/*.fsproj WebSharperWebsite/snippets/*/*.csproj; do
             echo "Building $proj"
             dotnet build "$proj" -c Release
           done

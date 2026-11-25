@@ -13,7 +13,7 @@
 </head>
 <body>
     <h1>My list of unique people</h1>
-    <div id="main" ws-children-template="Main">
+    <div id="main">
         <ul ws-hole="ListContainer">
             <li ws-template="ListItem">${Name}</li>
         </ul>

@@ -300,6 +300,69 @@ module ServerPages =
                 .Doc()
         )
 
+    /// The C# page's translator: one entry per showcased C# feature, with the
+    /// fragment keys under CodeFragments/csharp/translate/ (<key>.cs, <key>.mjs).
+    let private csharpTranslations =
+        [
+            "async", "async / await", "native", "Async methods become JavaScript async functions.",
+            "WebSharper 10 compiled a method like this to a hand-written state machine of about 50 lines. WebSharper 11 keeps your loop and your awaits, and wraps the async function in a .NET-compatible Task, so exceptions and continuations behave as in .NET."
+            "iterators", "Iterators", "generators", "yield return becomes a generator function.",
+            "Sequences are real JavaScript iterables, and disposing an enumerator early still runs your finally blocks, as in .NET."
+            "linq", "LINQ", "Enumerable", "Query operators run in the browser.",
+            "Where, OrderByDescending, Take and Select map to WebSharper's lazy sequence functions, so the query is evaluated lazily, the way LINQ to Objects evaluates it."
+            "structs", "Mutable structs", "value semantics", "Copies behave like .NET value types.",
+            "Assigning, passing, returning and boxing a mutable struct makes a copy, so the method above cannot change the caller's p1. Record structs work too."
+            "ranges", "Indices & ranges", "^1, 1..^0", "Hat indices and slices on arrays.",
+            "^1 reads from the end and a..b slices, on arrays. System.Index and System.Range values can be stored and passed around."
+            "optional", "Optional parameters", "defaults", "C# defaults become JavaScript default parameters.",
+            "Omitted arguments use the declared defaults, including when the method is called through a delegate."
+            "callerinfo", "Caller info", "attributes", "[CallerArgumentExpression] fills in the source text.",
+            "The compiler passes the source text of the argument, so a failed check reports exactly what was tested."
+        ]
+
+    let CSharp () =
+        let tabs =
+            csharpTranslations
+            |> List.mapi (fun i (key, title, badge, summary, _) ->
+                Templates.CSharpTemplate.TranslatorTab()
+                    .Key(key).Title(title).Badge(badge).Summary(summary)
+                    .Selected(if i = 0 then "true" else "false")
+                    .Select(fun e -> Translator.Select e.Event)
+                    .Doc())
+        let panels =
+            csharpTranslations
+            |> List.mapi (fun i (key, _, _, _, note) ->
+                Templates.CSharpTemplate.TranslatorPanel()
+                    .Key(key)
+                    .PanelAttr(if i = 0 then Attr.Empty else Html.attr.hidden "")
+                    .CSharp(Snippets.text ("csharp/translate/" + key + ".cs"))
+                    .Js(Snippets.text ("csharp/translate/" + key + ".mjs"))
+                    .Note(note)
+                    .Doc())
+        Content.BundleScope "csharp" (
+            Templates.CSharpTemplate.Content()
+                .OnAfterRender(fun () ->
+                    SnippetCode.Init()
+                    SnippetCode.InitTabs()
+                )
+                .TranslatorTabs(Doc.Concat tabs)
+                .TranslatorPanels(Doc.Concat panels)
+                .ConformancePass(string (WebSharperWebsite.Conformance.Summary "csharp").pass)
+                .ConformanceTotal(string (WebSharperWebsite.Conformance.Summary "csharp").total)
+                .ConformanceKnown(string (WebSharperWebsite.Conformance.Summary "csharp").known)
+                .CSharpHero(Component.VsCode("./snippets/csharp-tasks/index.html", [
+                    { Label = "Client.cs"; Lang = "csharp"; Code = Snippets.text "csharp/Client.cs" }
+                    { Label = "index.html"; Lang = "html"; Code = Snippets.text "csharp/index.html" }
+                ], Component.CSharpTerminal()))
+                .CSharpRemoting(Component.CodeFiles([
+                    { Label = "Remoting.cs"; Lang = "csharp"; Code = Snippets.text "csharp/Remoting.cs" }
+                    { Label = "Client.cs"; Lang = "csharp"; Code = Snippets.text "csharp/ShopClient.cs" }
+                    { Label = "Shared.cs"; Lang = "csharp"; Code = Snippets.text "csharp/Shared.cs" }
+                    { Label = "Site.cs"; Lang = "csharp"; Code = Snippets.text "csharp/Site.cs" }
+                ]))
+                .Doc()
+        )
+
     let NotFound () =
         Content.BundleScope "404" (
             Templates.NotFoundTemplate.Content()

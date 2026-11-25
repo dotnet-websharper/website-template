@@ -22,4 +22,6 @@ let LoginForm () =
         ]
     )
     
-LoginForm() |> Doc.RunById "main"
+IndexTemplate()
+    .LoginForm(LoginForm())
+    .Bind()

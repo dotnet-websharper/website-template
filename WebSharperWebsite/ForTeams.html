@@ -141,6 +141,7 @@
                     </div>
                     <h3 class="mt-4 font-semibold text-gray-900 dark:text-white">AI developer tools</h3>
                     <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">AI-assisted generation, review and refactoring that understands your WebSharper codebase and stays on your conventions.</p>
+                    <a href="#dotnet-ws" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-primary hover:opacity-80">See what's included <span aria-hidden="true">&rarr;</span></a>
                 </div>
 
                 <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
@@ -158,6 +159,365 @@
                     </div>
                     <h3 class="mt-4 font-semibold text-gray-900 dark:text-white">Enterprise assurance</h3>
                     <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">A second line of defence for regulated and high-stakes work: oversight, provenance and escalation to the team that builds WebSharper.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Included: dotnet ws -->
+        <section id="dotnet-ws" class="relative isolate scroll-mt-24 border-t border-gray-200 py-24 sm:py-28 dark:border-gray-800">
+            <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+                <div class="absolute -left-40 top-10 h-[30rem] w-[30rem] rounded-full bg-sky-400/15 blur-3xl dark:bg-sky-500/10"></div>
+            </div>
+
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <!-- Heading + terminal -->
+                <div class="grid items-center gap-14 lg:grid-cols-2">
+                    <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span class="inline-flex items-center rounded-full bg-gray-950 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white dark:bg-white dark:text-gray-950">Included · 01</span>
+                            <span class="text-sm font-semibold text-brand-primary">dotnet ws, the WebSharper CLI</span>
+                        </div>
+
+                        <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-950 sm:text-5xl dark:text-white">
+                            Builds that keep pace with your thinking.
+                        </h2>
+
+                        <p class="mt-6 text-lg leading-8 text-gray-700 dark:text-gray-300">
+                            Every <span class="font-mono text-base">dotnet build</span> evaluates MSBuild again and starts a cold compiler. On a full-stack WebSharper solution that adds up to minutes a day, for every developer.
+                            <span class="font-mono text-base">dotnet ws</span> hands compilation to the Booster, the WebSharper compiler that stays warm between builds.
+                            It remembers your solution's project graph, rebuilds each project in dependency order, and falls back to a full build on its own when the structure changes.
+                        </p>
+
+                        <dl class="mt-8 grid gap-4 sm:grid-cols-3">
+                            <div class="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-950">
+                                <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Always warm</dt>
+                                <dd class="mt-1 text-sm text-gray-800 dark:text-gray-200">A long-running compiler, not a cold start on every build.</dd>
+                            </div>
+                            <div class="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-950">
+                                <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Graph-aware</dt>
+                                <dd class="mt-1 text-sm text-gray-800 dark:text-gray-200">Whole solutions, references first, from a cached project graph.</dd>
+                            </div>
+                            <div class="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-950">
+                                <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Never wrong</dt>
+                                <dd class="mt-1 text-sm text-gray-800 dark:text-gray-200">Structural change? It falls back to a full build automatically.</dd>
+                            </div>
+                        </dl>
+                    </div>
+
+                    <!-- Mock terminal -->
+                    <div class="relative min-w-0 lg:order-first">
+                        <div class="overflow-hidden rounded-2xl border border-gray-800 bg-gray-950 shadow-2xl shadow-sky-500/10">
+                            <div class="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+                                <span class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></span>
+                                <span class="h-3 w-3 rounded-full" style="background-color:#febc2e"></span>
+                                <span class="h-3 w-3 rounded-full" style="background-color:#28c840"></span>
+                                <span class="ml-3 text-xs font-medium text-gray-400">~/src/shop · zsh</span>
+                                <span class="ml-auto inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-sky-300">
+                                    <span class="size-1.5 animate-pulse rounded-full bg-sky-400"></span>
+                                    Booster warm
+                                </span>
+                            </div>
+                            <div class="space-y-4 overflow-x-auto p-5 font-mono text-[12.5px] leading-6 text-gray-300">
+                                <div>
+                                    <p class="text-white"><span class="text-emerald-400">$</span> dotnet ws build</p>
+                                    <p class="text-gray-500">  project graph cached · 3 projects, references first</p>
+                                    <p><span class="text-emerald-400">  ✓</span> Shop.Shared  <span class="text-gray-500">boosted</span></p>
+                                    <p><span class="text-emerald-400">  ✓</span> Shop.Server  <span class="text-gray-500">boosted</span></p>
+                                    <p><span class="text-emerald-400">  ✓</span> Shop.Client  <span class="text-gray-500">boosted</span></p>
+                                </div>
+                                <div>
+                                    <p class="text-white"><span class="text-emerald-400">$</span> dotnet ws watch</p>
+                                    <p class="text-gray-500">  watching for changes…</p>
+                                    <p>  Cart.fs changed <span class="text-sky-400">→</span> rebuilding Shop.Client <span class="text-emerald-400">✓</span></p>
+                                </div>
+                                <div>
+                                    <p class="text-white"><span class="text-emerald-400">$</span> dotnet ws compile --typescript Widget.fs</p>
+                                    <p>  <span class="text-sky-400">→</span> Widget.ts</p>
+                                </div>
+                                <div>
+                                    <p class="text-white"><span class="text-emerald-400">$</span> dotnet ws mcp</p>
+                                    <p>  <span class="text-sky-400">→</span> MCP server ready · extensions: <span class="text-brand-primary">Booster Pro</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -right-3 -top-3 rotate-6 rounded-xl border border-brand-primary/30 bg-white px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-gray-800 shadow-lg dark:border-brand-primary/25 dark:bg-gray-900 dark:text-gray-100">
+                            Save. Rebuilt.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commands -->
+                <div class="mt-20">
+                    <h3 class="text-center text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">One tool for the whole inner loop</h3>
+                    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                            <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>
+                            </div>
+                            <p class="mt-4 font-mono text-xs text-brand-primary">dotnet ws build</p>
+                            <h4 class="mt-1 font-semibold text-gray-900 dark:text-white">Boosted builds</h4>
+                            <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">A project or a whole solution through the warm compiler, in the right order. Add <span class="font-mono text-xs">--time</span> to see where every millisecond goes.</p>
+                        </div>
+
+                        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                            <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+                            </div>
+                            <p class="mt-4 font-mono text-xs text-brand-primary">dotnet ws watch</p>
+                            <h4 class="mt-1 font-semibold text-gray-900 dark:text-white">Edit, save, done</h4>
+                            <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">Watches your folder and rebuilds the projects, or recompiles the files, that changed. Narrow it with a glob and stay in flow.</p>
+                        </div>
+
+                        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                            <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+                            </div>
+                            <p class="mt-4 font-mono text-xs text-brand-primary">dotnet ws compile</p>
+                            <h4 class="mt-1 font-semibold text-gray-900 dark:text-white">One file to JS or TS</h4>
+                            <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">Turn a single <span class="font-mono text-xs">.fs</span> or <span class="font-mono text-xs">.fsx</span> into JavaScript or TypeScript against any WebSharper version, with no project to set up. Perfect for spikes, snippets and shared modules.</p>
+                        </div>
+
+                        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                            <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" /></svg>
+                            </div>
+                            <p class="mt-4 font-mono text-xs text-brand-primary">dotnet ws mcp</p>
+                            <h4 class="mt-1 font-semibold text-gray-900 dark:text-white">The bridge to your agent</h4>
+                            <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">Connects any MCP client to the Booster that matches your project's WebSharper version, and picks up extensions such as <a href="#booster-pro" class="font-semibold text-brand-primary hover:opacity-80">Booster Pro</a> on its own.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team value + setup -->
+                <div class="mt-16 grid gap-6 lg:grid-cols-5">
+                    <div class="min-w-0 rounded-3xl border border-gray-200 bg-white flex flex-col p-8 lg:col-span-3 dark:border-gray-800 dark:bg-gray-950">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">The same fast path on every machine.</h3>
+                        <p class="mt-3 text-sm leading-6 text-gray-700 dark:text-gray-300">Pin <span class="font-mono text-xs">dotnet ws</span> in your repository's tool manifest and every developer, and every CI agent, builds the same way. The only prerequisite is the .NET SDK: WebSharper packages and the Booster arrive with the projects that use them.</p>
+                        <ul class="mt-6 grid gap-3 text-sm text-gray-800 sm:grid-cols-2 dark:text-gray-200">
+                            <li class="flex gap-3"><svg class="mt-0.5 size-5 shrink-0 text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>Runs on .NET 8 through 11, no extra runtime needed</li>
+                            <li class="flex gap-3"><svg class="mt-0.5 size-5 shrink-0 text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>Finds the nearest project or solution on its own</li>
+                            <li class="flex gap-3"><svg class="mt-0.5 size-5 shrink-0 text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>Several WebSharper versions side by side</li>
+                            <li class="flex gap-3"><svg class="mt-0.5 size-5 shrink-0 text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg><span><span class="font-mono text-xs">list</span>, <span class="font-mono text-xs">start</span> and <span class="font-mono text-xs">stop</span> keep the Booster under control</span></li>
+                        </ul>
+                        <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-gray-200 pt-6 text-sm lg:mt-auto dark:border-gray-800">
+                            <span class="text-gray-600 dark:text-gray-400">Open source under Apache 2.0.</span>
+                            <a href="https://www.nuget.org/packages/dotnet-ws" class="inline-flex items-center gap-1 font-semibold text-brand-primary hover:opacity-80">dotnet-ws on NuGet <span aria-hidden="true">&rarr;</span></a>
+                            <a href="https://github.com/dotnet-websharper/dotnet-ws" class="inline-flex items-center gap-1 font-semibold text-brand-primary hover:opacity-80">Source on GitHub <span aria-hidden="true">&rarr;</span></a>
+                        </div>
+                    </div>
+
+                    <div class="min-w-0 rounded-3xl border border-gray-200 bg-gray-950 p-8 text-white lg:col-span-2 dark:border-gray-800">
+                        <h3 class="text-xl font-semibold">Faster by your next build</h3>
+                        <ol class="mt-6 space-y-5 text-sm">
+                            <li class="flex gap-4">
+                                <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-primary/20 text-xs font-bold text-brand-primary">1</span>
+                                <div class="min-w-0">
+                                    <p class="text-gray-200">Add it to your repository's tool manifest.</p>
+                                    <p class="mt-2 overflow-x-auto whitespace-nowrap rounded-lg bg-white/5 px-3 py-2 font-mono text-xs text-gray-300">dotnet tool install dotnet-ws</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-primary/20 text-xs font-bold text-brand-primary">2</span>
+                                <div class="min-w-0">
+                                    <p class="text-gray-200">Build through the Booster.</p>
+                                    <p class="mt-2 overflow-x-auto whitespace-nowrap rounded-lg bg-white/5 px-3 py-2 font-mono text-xs text-gray-300">dotnet ws build</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-primary/20 text-xs font-bold text-brand-primary">3</span>
+                                <p class="text-gray-200">Leave <span class="font-mono text-xs">dotnet ws watch</span> running and forget about builds.</p>
+                            </li>
+                        </ol>
+                        <a href="#booster-pro" class="group mt-8 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white px-6 text-sm font-semibold text-gray-950 transition-opacity hover:opacity-90">
+                            Now add Booster Pro
+                            <svg class="size-4 transition-transform duration-300 group-hover:translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m0 0 6-6m-6 6-6-6" /></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Included: Booster Pro -->
+        <section id="booster-pro" class="relative isolate mb-24 scroll-mt-24 overflow-hidden border-y border-gray-200 bg-gray-50/70 py-24 sm:py-28 dark:border-gray-800 dark:bg-gray-900/40">
+            <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+                <div class="absolute -right-40 -top-40 h-[32rem] w-[32rem] rounded-full bg-brand-primary/20 blur-3xl dark:bg-brand-primary/10"></div>
+                <div class="absolute -bottom-48 -left-40 h-[28rem] w-[28rem] rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-500/10"></div>
+            </div>
+
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <!-- Heading + agent session -->
+                <div class="grid items-center gap-14 lg:grid-cols-2">
+                    <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span class="inline-flex items-center rounded-full bg-gray-950 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white dark:bg-white dark:text-gray-950">Included · 02</span>
+                            <span class="text-sm font-semibold text-brand-primary">WebSharper Booster Pro</span>
+                        </div>
+
+                        <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-950 sm:text-5xl dark:text-white">
+                            Your AI agent, fluent in WebSharper from the first prompt.
+                        </h2>
+
+                        <p class="mt-6 text-lg leading-8 text-gray-700 dark:text-gray-300">
+                            General-purpose agents guess. They search the web, land on superseded 4.x docs, decompile references and burn full builds to discover what the compiler already knew.
+                            Booster Pro plugs Claude Code, Copilot, Cursor or any MCP client straight into the WebSharper booster: the process that just compiled your project
+                            and holds its type check, its JavaScript translation and every referenced library in memory.
+                        </p>
+
+                        <dl class="mt-8 grid gap-4 sm:grid-cols-3">
+                            <div class="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-950">
+                                <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Version-matched</dt>
+                                <dd class="mt-1 text-sm text-gray-800 dark:text-gray-200">Built for your exact WebSharper release. No stale APIs.</dd>
+                            </div>
+                            <div class="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-950">
+                                <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Grounded</dt>
+                                <dd class="mt-1 text-sm text-gray-800 dark:text-gray-200">Answers come from your code and your references, not the open web.</dd>
+                            </div>
+                            <div class="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-950">
+                                <dt class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Zero friction</dt>
+                                <dd class="mt-1 text-sm text-gray-800 dark:text-gray-200">One package reference. Loaded on your next build.</dd>
+                            </div>
+                        </dl>
+                    </div>
+
+                    <!-- Mock agent session -->
+                    <div class="relative min-w-0">
+                        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl shadow-brand-primary/10 dark:border-gray-800 dark:bg-gray-950">
+                            <div class="flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-gray-900/60">
+                                <span class="h-3 w-3 rounded-full" style="background-color:#ff5f57"></span>
+                                <span class="h-3 w-3 rounded-full" style="background-color:#febc2e"></span>
+                                <span class="h-3 w-3 rounded-full" style="background-color:#28c840"></span>
+                                <span class="ml-3 text-xs font-medium text-gray-500 dark:text-gray-400">agent · websharper mcp</span>
+                                <span class="ml-auto inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+                                    <span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                    Pro
+                                </span>
+                            </div>
+                            <div class="space-y-4 overflow-x-auto p-5 font-mono text-[12.5px] leading-6">
+                                <p class="text-gray-500 dark:text-gray-400"><span class="text-gray-400 dark:text-gray-500">›</span> Add a live-filtered todo list backed by an RPC.</p>
+
+                                <div class="rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-900">
+                                    <p class="text-gray-900 dark:text-gray-100"><span class="text-brand-primary">●</span> get_guide <span class="text-gray-500">("remoting")</span></p>
+                                    <p class="pl-4 text-gray-600 dark:text-gray-400">↳ Declaring [&lt;Rpc&gt;] functions, wire types, server state</p>
+                                </div>
+                                <div class="rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-900">
+                                    <p class="text-gray-900 dark:text-gray-100"><span class="text-brand-primary">●</span> find_examples <span class="text-gray-500">("ListModel")</span></p>
+                                    <p class="pl-4 text-gray-600 dark:text-gray-400">↳ 14 usages in your project and WebSharper.UI</p>
+                                </div>
+                                <div class="rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-900">
+                                    <p class="text-gray-900 dark:text-gray-100"><span class="text-brand-primary">●</span> get_source <span class="text-gray-500">("Doc.InputType.Text")</span></p>
+                                    <p class="pl-4 text-gray-600 dark:text-gray-400">↳ F# source from the library's .websharper sidecar</p>
+                                </div>
+                                <div class="rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-900">
+                                    <p class="text-gray-900 dark:text-gray-100"><span class="text-indigo-400">●</span> build_project</p>
+                                    <p class="pl-4 text-emerald-600 dark:text-emerald-400">↳ exit 0 · 0 errors · 0 warnings</p>
+                                </div>
+
+                                <p class="text-gray-800 dark:text-gray-200"><span class="text-emerald-500">✓</span> Done. Compiles on the first try, in your project's conventions.</p>
+                            </div>
+                        </div>
+                        <div class="absolute -left-3 -top-3 -rotate-6 rounded-xl border border-brand-primary/30 bg-white px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-gray-800 shadow-lg dark:border-brand-primary/25 dark:bg-gray-900 dark:text-gray-100">
+                            No guessing
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The four Pro tools -->
+                <div class="mt-20">
+                    <h3 class="text-center text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">Four tools your agent will reach for constantly</h3>
+                    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                            <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>
+                            </div>
+                            <p class="mt-4 font-mono text-xs text-brand-primary">get_guide</p>
+                            <h4 class="mt-1 font-semibold text-gray-900 dark:text-white">Guides that compile</h4>
+                            <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">Concise how-tos for remoting, reactive UI, templating, sitelets, JS interop and diagnostics, written against this release. Ask for <span class="font-mono text-xs">WS9002</span> or <span class="font-mono text-xs">ListModel</span> and get the right section, even before the first build.</p>
+                        </div>
+
+                        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                            <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" /></svg>
+                            </div>
+                            <p class="mt-4 font-mono text-xs text-brand-primary">get_source</p>
+                            <h4 class="mt-1 font-semibold text-gray-900 dark:text-white">Library source on tap</h4>
+                            <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">The real F# source of any type, module or member, from your project or any referenced WebSharper library. Your agent reads how it works instead of inventing how it might.</p>
+                        </div>
+
+                        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                            <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+                            </div>
+                            <p class="mt-4 font-mono text-xs text-brand-primary">find_examples</p>
+                            <h4 class="mt-1 font-semibold text-gray-900 dark:text-white">Proven usage, instantly</h4>
+                            <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">Working code that uses a given API, pulled from your codebase and from the sources of the libraries you reference. New code follows patterns that already ship.</p>
+                        </div>
+
+                        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-950/5 transition-transform duration-300 hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-950">
+                            <div class="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
+                                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0 0 21 18V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v12a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
+                            </div>
+                            <p class="mt-4 font-mono text-xs text-brand-primary">get_generated_js</p>
+                            <h4 class="mt-1 font-semibold text-gray-900 dark:text-white">See the JavaScript</h4>
+                            <p class="mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300">The exact JavaScript WebSharper emitted for a type or member, from your last build or a library's sidecar. Debug client behaviour and bundle size with facts.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Free vs Pro + setup -->
+                <div class="mt-16 grid gap-6 lg:grid-cols-5">
+                    <div class="min-w-0 rounded-3xl border border-gray-200 bg-white p-8 lg:col-span-3 dark:border-gray-800 dark:bg-gray-950">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Built on the free booster. Taken all the way.</h3>
+                        <p class="mt-3 text-sm leading-6 text-gray-700 dark:text-gray-300">Every WebSharper developer gets the booster's MCP server for free: diagnostics, signatures, symbol search, usages, RPC listings and fast rebuilds. Booster Pro adds the knowledge layer on top, and threads pointers to it through the answers of the free tools, so your agent goes from <em>what is wrong</em> to <em>how to do it right</em> without leaving the conversation.</p>
+                        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                            <div class="rounded-2xl border border-gray-200 p-4 dark:border-gray-800">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Free booster</p>
+                                <ul class="mt-3 space-y-1.5 font-mono text-xs text-gray-700 dark:text-gray-300">
+                                    <li>get_diagnostics</li>
+                                    <li>get_signature · search_symbols</li>
+                                    <li>get_js_translation · find_usages</li>
+                                    <li>list_rpc_methods · build_project</li>
+                                </ul>
+                            </div>
+                            <div class="rounded-2xl border border-brand-primary/40 bg-brand-primary/5 p-4 dark:border-brand-primary/30 dark:bg-brand-primary/10">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-100">+ Booster Pro</p>
+                                <ul class="mt-3 space-y-1.5 font-mono text-xs text-gray-900 dark:text-white">
+                                    <li>get_guide</li>
+                                    <li>get_source</li>
+                                    <li>find_examples</li>
+                                    <li>get_generated_js</li>
+                                    <li class="font-sans text-gray-600 dark:text-gray-300">+ smarter answers from every free tool</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="min-w-0 rounded-3xl border border-gray-200 bg-gray-950 p-8 text-white lg:col-span-2 dark:border-gray-800">
+                        <h3 class="text-xl font-semibold">Up and running in minutes</h3>
+                        <ol class="mt-6 space-y-5 text-sm">
+                            <li class="flex gap-4">
+                                <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-primary/20 text-xs font-bold text-brand-primary">1</span>
+                                <div class="min-w-0">
+                                    <p class="text-gray-200">Reference the package from your team's private feed, at your <span class="font-mono text-xs">WebSharper.FSharp</span> version.</p>
+                                    <p class="mt-2 overflow-x-auto rounded-lg bg-white/5 px-3 py-2 font-mono text-xs text-gray-300">dotnet add package WebSharper.Booster.Pro</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-primary/20 text-xs font-bold text-brand-primary">2</span>
+                                <div class="min-w-0">
+                                    <p class="text-gray-200">Point your agent at the booster.</p>
+                                    <p class="mt-2 overflow-x-auto whitespace-nowrap rounded-lg bg-white/5 px-3 py-2 font-mono text-xs text-gray-300">"command": "dotnet", "args": ["ws", "mcp"]</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-primary/20 text-xs font-bold text-brand-primary">3</span>
+                                <p class="text-gray-200">Build once. The Pro tools load with it, for every developer on the team.</p>
+                            </li>
+                        </ol>
+                        <a href="#contact" class="group mt-8 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white px-6 text-sm font-semibold text-gray-950 transition-opacity hover:opacity-90">
+                            Get Booster Pro for your team
+                            <svg class="size-4 transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" /></svg>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>

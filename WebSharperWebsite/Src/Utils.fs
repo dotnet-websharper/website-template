@@ -31,6 +31,7 @@ module Templates =
     type NotFoundTemplate = Template<"404.html">
     type ComponentsTemplate = Template<"Components.html">
     type OcamlTemplate = Template<"Ocaml.html">
+    type CSharpTemplate = Template<"CSharp.html">
 
 [<JavaScript>]
 module Utils = 

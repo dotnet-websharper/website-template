@@ -34,4 +34,6 @@ function LoginForm() {
           IsNotEmpty("Must enter a password", Yield(""))))));
 }
 
-Doc.RunById("main", LoginForm());
+IndexTemplate()
+  .LoginForm(LoginForm())
+  .Bind();
