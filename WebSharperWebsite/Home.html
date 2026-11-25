@@ -502,62 +502,174 @@
                 </div>
             </section>
 
-            <section>
+            <!-- How it works: source -> WebSharper compiler -> server + browser (static markup; the language tabs are CSS-only radios) -->
+            <section id="how-it-works">
                 <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
                     <div class="mx-auto max-w-3xl text-center">
                         <h2 class="text-3xl font-bold text-gray-800 dark:text-white">How it works</h2>
                         <p class="mt-6 text-gray-500 dark:text-gray-200">
-                            Write your app once in C# or F#, or in OCaml. The compiler emits a native .NET or OCaml server and a JavaScript client that share both their data types and the metadata that connects them.
+                            Write your app once in F#, C# or OCaml. One <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-800">dotnet build</code> turns it into a native server, a JavaScript client and the typed contract between them.
                         </p>
                     </div>
-                    <div class="relative mt-14 overflow-x-auto">
-                        <svg viewBox="0 0 900 450" role="img" aria-label="DSL, F#, C# and OCaml source is compiled by WebSharper to a native .NET or OCaml server and a JavaScript application that share types and typed remoting" class="mx-auto h-auto w-full min-w-[640px] max-w-4xl text-gray-900 dark:text-white">
-                            <defs>
-                                <marker id="ws-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                    <path d="M0 0L10 5L0 10z" fill="currentColor" opacity="0.55" />
-                                </marker>
-                            </defs>
-                            <g fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.5">
-                                <rect x="20" y="20" width="200" height="80" rx="12" />
-                                <rect x="20" y="130" width="200" height="80" rx="12" />
-                                <rect x="20" y="240" width="200" height="80" rx="12" />
-                                <rect x="20" y="350" width="200" height="80" rx="12" />
-                                <rect x="330" y="20" width="200" height="410" rx="12" />
-                                <rect x="640" y="75" width="240" height="80" rx="12" />
-                                <rect x="640" y="185" width="240" height="80" rx="12" class="fill-brand-primary/15 stroke-brand-primary/45 dark:fill-brand-primary/20 dark:stroke-brand-primary/55" stroke-opacity="1" />
-                                <rect x="640" y="295" width="240" height="80" rx="12" />
-                                <path d="M120 100 V130" marker-end="url(#ws-arrow)" />
-                                <path d="M220 170 H330" marker-end="url(#ws-arrow)" />
-                                <path d="M220 280 H330" marker-end="url(#ws-arrow)" />
-                                <path d="M220 390 H330" marker-end="url(#ws-arrow)" />
-                                <path d="M530 115 H640" marker-end="url(#ws-arrow)" />
-                                <path d="M530 225 H640" marker-end="url(#ws-arrow)" />
-                                <path d="M530 335 H640" marker-end="url(#ws-arrow)" />
-                                <path d="M760 155 V185" stroke-dasharray="5 5" marker-end="url(#ws-arrow)" marker-start="url(#ws-arrow)" />
-                                <path d="M760 265 V295" stroke-dasharray="5 5" marker-end="url(#ws-arrow)" marker-start="url(#ws-arrow)" />
-                            </g>
-                            <g fill="currentColor" text-anchor="middle" font-size="15">
-                                <text x="120" y="55">DSLs</text>
-                                <text x="120" y="77" opacity="0.6" font-size="12">via source code generators</text>
-                                <text x="120" y="165">F# source</text>
-                                <text x="120" y="187" opacity="0.6" font-size="12">one codebase</text>
-                                <text x="120" y="285">C# source</text>
-                                <text x="120" y="385">OCaml source</text>
-                                <text x="120" y="407" opacity="0.6" font-size="12">WebSharper.OCaml toolchain</text>
-                                <text x="430" y="220">WebSharper</text>
-                                <text x="430" y="242" opacity="0.6" font-size="12">compiler + metadata</text>
-                                <text x="760" y="110">Native .NET server</text>
-                                <text x="760" y="132" opacity="0.6" font-size="12">sitelets · remoting · JSON</text>
-                                <text x="760" y="220">Your application</text>
-                                <text x="760" y="242" opacity="0.6" font-size="12">DOM · reactive UI · WebSockets</text>
-                                <text x="760" y="330">Native OCaml server</text>
-                                <text x="760" y="352" opacity="0.6" font-size="12">sitelets · remoting · JSON</text>
-                            </g>
-                        </svg>
+
+                    <div class="mt-14 grid grid-cols-1 items-center gap-4 lg:grid-cols-12 lg:gap-0">
+                        <!-- Source, in three languages -->
+                        <div class="group ws-window min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl shadow-sky-950/5 lg:col-span-5 dark:border-gray-800 dark:bg-gray-900/70 dark:shadow-none">
+                            <input type="radio" name="hiw-lang" id="hiw-fs" class="sr-only" checked>
+                            <input type="radio" name="hiw-lang" id="hiw-cs" class="sr-only">
+                            <input type="radio" name="hiw-lang" id="hiw-ml" class="sr-only">
+                            <div class="flex items-center gap-1 border-b border-gray-200 px-3 pt-2 text-sm dark:border-gray-800">
+                                <label for="hiw-fs" class="cursor-pointer border-b-2 border-transparent px-3 pb-2 pt-1 text-gray-500 hover:text-gray-800 group-has-[#hiw-fs:checked]:border-[#378bba] group-has-[#hiw-fs:checked]:font-semibold group-has-[#hiw-fs:checked]:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 dark:group-has-[#hiw-fs:checked]:text-white">F#</label>
+                                <label for="hiw-cs" class="cursor-pointer border-b-2 border-transparent px-3 pb-2 pt-1 text-gray-500 hover:text-gray-800 group-has-[#hiw-cs:checked]:border-[#9b4f96] group-has-[#hiw-cs:checked]:font-semibold group-has-[#hiw-cs:checked]:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 dark:group-has-[#hiw-cs:checked]:text-white">C#</label>
+                                <label for="hiw-ml" class="cursor-pointer border-b-2 border-transparent px-3 pb-2 pt-1 text-gray-500 hover:text-gray-800 group-has-[#hiw-ml:checked]:border-[#ec6813] group-has-[#hiw-ml:checked]:font-semibold group-has-[#hiw-ml:checked]:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 dark:group-has-[#hiw-ml:checked]:text-white">OCaml</label>
+                                <span class="ml-auto pb-2 pt-1 font-mono text-xs text-gray-400">
+                                    <span class="hidden group-has-[#hiw-fs:checked]:inline">Shop.fs</span>
+                                    <span class="hidden group-has-[#hiw-cs:checked]:inline">Shop.cs</span>
+                                    <span class="hidden group-has-[#hiw-ml:checked]:inline">shop.ml</span>
+                                </span>
+                            </div>
+                            <div class="overflow-x-auto">
+<pre class="hidden w-max min-w-full px-4 py-3 font-mono text-[11.5px] leading-[1.7] text-gray-800 group-has-[#hiw-fs:checked]:block dark:text-gray-200"><span class="-mx-4 block bg-teal-500/10 px-4 shadow-[inset_2px_0_0_#14b8a6]"><span class="text-violet-700 dark:text-violet-300">type</span> <span class="text-sky-700 dark:text-sky-300">Product</span> = { Name: <span class="text-sky-700 dark:text-sky-300">string</span>; Price: <span class="text-sky-700 dark:text-sky-300">float</span> }</span><span class="-mx-4 block bg-violet-500/10 px-4 shadow-[inset_2px_0_0_#8b5cf6]"><span class="text-gray-400 dark:text-gray-500">[&lt;Rpc&gt;]</span>
+<span class="text-violet-700 dark:text-violet-300">let</span> Search (q: <span class="text-sky-700 dark:text-sky-300">string</span>) = <span class="text-violet-700 dark:text-violet-300">async</span> {
+    <span class="text-violet-700 dark:text-violet-300">return</span> Db.products
+           |&gt; Array.filter (<span class="text-violet-700 dark:text-violet-300">fun</span> p -&gt; p.Name.Contains q) }</span><span class="-mx-4 block bg-sky-500/10 px-4 shadow-[inset_2px_0_0_#36b9ff]"><span class="text-gray-400 dark:text-gray-500">[&lt;JavaScript&gt;]</span>
+<span class="text-violet-700 dark:text-violet-300">let</span> SearchBox () =
+    SearchForm().OnSearch(<span class="text-violet-700 dark:text-violet-300">fun</span> e -&gt; <span class="text-violet-700 dark:text-violet-300">async</span> {
+        <span class="text-violet-700 dark:text-violet-300">let!</span> found = Search e.Vars.Query.Value
+        results.Value &lt;- found } |&gt; Async.Start)</span></pre>
+<pre class="hidden w-max min-w-full px-4 py-3 font-mono text-[11.5px] leading-[1.7] text-gray-800 group-has-[#hiw-cs:checked]:block dark:text-gray-200"><span class="-mx-4 block bg-teal-500/10 px-4 shadow-[inset_2px_0_0_#14b8a6]"><span class="text-violet-700 dark:text-violet-300">public record</span> <span class="text-sky-700 dark:text-sky-300">Product</span>(<span class="text-sky-700 dark:text-sky-300">string</span> Name, <span class="text-sky-700 dark:text-sky-300">double</span> Price);</span><span class="-mx-4 block bg-violet-500/10 px-4 shadow-[inset_2px_0_0_#8b5cf6]"><span class="text-gray-400 dark:text-gray-500">[Remote]</span>
+<span class="text-violet-700 dark:text-violet-300">public static</span> Task&lt;<span class="text-sky-700 dark:text-sky-300">Product</span>[]&gt; Search(<span class="text-sky-700 dark:text-sky-300">string</span> q) =&gt;
+    Db.Products.Where(p =&gt; p.Name.Contains(q))
+               .ToArrayAsync();</span><span class="-mx-4 block bg-sky-500/10 px-4 shadow-[inset_2px_0_0_#36b9ff]"><span class="text-gray-400 dark:text-gray-500">[JavaScript]</span>
+<span class="text-violet-700 dark:text-violet-300">public static</span> Doc SearchBox() =&gt;
+    <span class="text-violet-700 dark:text-violet-300">new</span> SearchForm().OnSearch(<span class="text-violet-700 dark:text-violet-300">async</span> e =&gt;
+        results.Value = <span class="text-violet-700 dark:text-violet-300">await</span> Search(e.Vars.Query.Value))
+    .Doc();</span></pre>
+<pre class="hidden w-max min-w-full px-4 py-3 font-mono text-[11.5px] leading-[1.7] text-gray-800 group-has-[#hiw-ml:checked]:block dark:text-gray-200"><span class="-mx-4 block bg-teal-500/10 px-4 shadow-[inset_2px_0_0_#14b8a6]"><span class="text-violet-700 dark:text-violet-300">type</span> product = { name : <span class="text-sky-700 dark:text-sky-300">string</span>; price : <span class="text-sky-700 dark:text-sky-300">float</span> }</span><span class="-mx-4 block bg-violet-500/10 px-4 shadow-[inset_2px_0_0_#8b5cf6]"><span class="text-violet-700 dark:text-violet-300">let</span>[@rpc] search (q : <span class="text-sky-700 dark:text-sky-300">string</span>) : product list =
+  List.filter (<span class="text-violet-700 dark:text-violet-300">fun</span> p -&gt; contains p.name q)
+    (Db.products ())</span><span class="-mx-4 block bg-sky-500/10 px-4 shadow-[inset_2px_0_0_#36b9ff]"><span class="text-violet-700 dark:text-violet-300">let</span> search_box () =
+  <span class="text-violet-700 dark:text-violet-300">let</span> query = Var.create <span class="text-emerald-700 dark:text-emerald-300">""</span> <span class="text-violet-700 dark:text-violet-300">and</span> results = Var.create [] <span class="text-violet-700 dark:text-violet-300">in</span>
+  div [] [ Doc.input [] query;
+    button [ on.click (<span class="text-violet-700 dark:text-violet-300">fun</span> _ _ -&gt; results := search !query) ]
+      [ text <span class="text-emerald-700 dark:text-emerald-300">"Search"</span> ] ]</span></pre>
+                            </div>
+                            <div class="flex flex-wrap gap-x-4 gap-y-1 border-t border-gray-200 px-4 py-2.5 text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
+                                <span class="inline-flex items-center gap-1.5"><span class="size-2 rounded-full bg-[#14b8a6]"></span>shared</span>
+                                <span class="inline-flex items-center gap-1.5"><span class="size-2 rounded-full bg-[#8b5cf6]"></span>server</span>
+                                <span class="inline-flex items-center gap-1.5"><span class="size-2 rounded-full bg-[#36b9ff]"></span>browser</span>
+                                <span class="ml-auto hidden text-[#ec6813] group-has-[#hiw-ml:checked]:inline">OCaml support is experimental</span>
+                            </div>
+                        </div>
+
+                        <!-- Mobile: arrow between the steps -->
+                        <div aria-hidden="true" class="flex justify-center text-gray-300 lg:hidden dark:text-gray-700">&#8595;</div>
+
+                        <!-- The compiler, with connectors on wide screens -->
+                        <div class="relative min-w-0 lg:col-span-3 lg:px-7">
+                            <svg aria-hidden="true" class="pointer-events-none absolute inset-0 hidden h-full w-full lg:block" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none">
+                                <path d="M0 50 H10" stroke="#36b9ff" stroke-opacity=".7" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
+                                <path d="M90 44 C 95 44, 95 20, 100 20" stroke="#8b5cf6" stroke-opacity=".7" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
+                                <path d="M90 56 C 95 56, 95 80, 100 80" stroke="#36b9ff" stroke-opacity=".7" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
+                            </svg>
+                            <div class="relative rounded-2xl border border-sky-300 bg-gradient-to-b from-sky-50 to-white p-5 shadow-[0_0_0_6px_rgba(54,185,255,0.06),0_20px_50px_-20px_rgba(54,185,255,0.45)] dark:border-sky-400/35 dark:from-sky-400/10 dark:to-sky-400/[0.03]">
+                                <p class="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+                                    <span class="relative flex size-2.5"><span class="absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-60 motion-safe:animate-ping"></span><span class="relative inline-flex size-2.5 rounded-full bg-brand-primary"></span></span>
+                                    WebSharper compiler
+                                </p>
+                                <p class="mt-1.5 font-mono text-xs text-gray-500 dark:text-gray-400">$ dotnet build</p>
+                                <ul class="mt-4 space-y-2 border-t border-dashed border-gray-300 pt-3 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400">
+                                    <li class="flex gap-2"><span class="mt-px flex size-4 flex-none items-center justify-center rounded bg-emerald-100 text-[10px] font-bold text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300">&#10003;</span><span><strong class="font-medium text-gray-900 dark:text-white">Server</strong>: assembly, remote endpoints</span></li>
+                                    <li class="flex gap-2"><span class="mt-px flex size-4 flex-none items-center justify-center rounded bg-emerald-100 text-[10px] font-bold text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300">&#10003;</span><span><strong class="font-medium text-gray-900 dark:text-white">Client</strong>: ES modules, typed proxies</span></li>
+                                    <li class="flex gap-2"><span class="mt-px flex size-4 flex-none items-center justify-center rounded bg-emerald-100 text-[10px] font-bold text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300">&#10003;</span><span><strong class="font-medium text-gray-900 dark:text-white">JSON</strong> for the shared types</span></li>
+                                    <li class="flex gap-2"><span class="mt-px flex size-4 flex-none items-center justify-center rounded bg-emerald-100 text-[10px] font-bold text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300">&#10003;</span><span><strong class="font-medium text-gray-900 dark:text-white">Routes</strong>, <strong class="font-medium text-gray-900 dark:text-white">.d.ts</strong>, <strong class="font-medium text-gray-900 dark:text-white">source maps</strong></span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div aria-hidden="true" class="flex justify-center text-gray-300 lg:hidden dark:text-gray-700">&#8595;</div>
+
+                        <!-- What you ship -->
+                        <div class="grid min-w-0 gap-3 lg:col-span-4">
+                            <div class="ws-card rounded-2xl border border-violet-200 bg-white p-4 dark:border-violet-400/30 dark:bg-gray-900/60">
+                                <p class="flex flex-wrap items-baseline gap-x-2 text-sm font-semibold text-gray-900 dark:text-white"><span class="size-2 self-center rounded-full bg-[#8b5cf6]"></span>Server <span class="text-xs font-normal text-gray-400">ASP.NET Core &middot; OCaml</span></p>
+                                <p class="mt-1.5 text-sm leading-6 text-gray-500 dark:text-gray-300">Pages, typed routes and the <code class="font-mono text-xs">Search</code> endpoint, in a host you already know how to run.</p>
+                            </div>
+                            <div class="flex items-center gap-2 px-2 text-xs text-gray-500 dark:text-gray-400">
+                                <span class="h-px flex-1 bg-gradient-to-r from-transparent to-[#36b9ff]"></span>
+                                typed call &middot; JSON both ways
+                                <span class="h-px flex-1 bg-gradient-to-r from-[#36b9ff] to-transparent"></span>
+                            </div>
+                            <div class="ws-card rounded-2xl border border-sky-200 bg-white p-4 dark:border-sky-400/30 dark:bg-gray-900/60">
+                                <p class="flex flex-wrap items-baseline gap-x-2 text-sm font-semibold text-gray-900 dark:text-white"><span class="size-2 self-center rounded-full bg-[#36b9ff]"></span>Browser <span class="text-xs font-normal text-gray-400">JavaScript</span></p>
+                                <p class="mt-1.5 text-sm leading-6 text-gray-500 dark:text-gray-300">Readable ES modules that call the server like a local function, with TypeScript declarations and source maps.</p>
+                            </div>
+                        </div>
                     </div>
-                    <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-300">
-                        Shared types and typed calls across the boundary — no hand-written serialization or fetch glue.
-                    </p>
+                </div>
+            </section>
+
+            <!-- One file, both tiers -->
+            <section>
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="mx-auto max-w-3xl text-center">
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">One file, both tiers</h2>
+                        <p class="mt-6 text-gray-500 dark:text-gray-200">
+                            Mark what runs where. The compiler runs the server part as .NET, the client part as JavaScript, and writes everything in between.
+                        </p>
+                    </div>
+                    <div class="mt-14 grid grid-cols-1 items-center gap-6 lg:grid-cols-12">
+                        <div class="order-2 grid min-w-0 gap-3 lg:order-1 lg:col-span-3">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 lg:text-right">Runs on the server</p>
+                            <div class="ws-card rounded-2xl border border-violet-200 bg-white p-4 text-sm dark:border-violet-400/30 dark:bg-gray-900/60">
+                                <p class="font-semibold text-gray-900 dark:text-white"><code class="font-mono text-[13px]">Search</code></p>
+                                <p class="mt-1 leading-6 text-gray-500 dark:text-gray-300">Native .NET, behind a remote endpoint the compiler adds to your server.</p>
+                            </div>
+                            <div class="ws-card rounded-2xl border border-gray-200 bg-white p-4 text-sm dark:border-gray-800 dark:bg-gray-900/60">
+                                <p class="font-semibold text-gray-900 dark:text-white"><code class="font-mono text-[13px]">Product</code> <span class="font-normal text-gray-400">on both sides</span></p>
+                                <p class="mt-1 leading-6 text-gray-500 dark:text-gray-300">One record: the same fields, equality and JSON format in .NET and in JavaScript.</p>
+                            </div>
+                        </div>
+
+                        <div class="ws-window order-1 min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl shadow-sky-950/5 lg:order-2 lg:col-span-6 dark:border-gray-800 dark:bg-gray-900/70 dark:shadow-none">
+                            <div class="flex items-center justify-between border-b border-gray-200 px-4 py-2.5 text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
+                                <span class="inline-flex items-center gap-2"><span class="size-2 rounded-full bg-[#378bba]"></span>Shop.fs</span>
+                                <span class="font-mono">one file &middot; one language</span>
+                            </div>
+                            <div class="overflow-x-auto">
+<pre class="w-max min-w-full px-4 py-3 font-mono text-[12px] leading-[1.75] text-gray-800 dark:text-gray-200"><span class="-mx-4 block bg-teal-500/10 px-4 shadow-[inset_2px_0_0_#14b8a6]"><span class="text-violet-700 dark:text-violet-300">type</span> <span class="text-sky-700 dark:text-sky-300">Product</span> = { Name: <span class="text-sky-700 dark:text-sky-300">string</span>; Price: <span class="text-sky-700 dark:text-sky-300">float</span> }</span><span class="-mx-4 block bg-violet-500/10 px-4 shadow-[inset_2px_0_0_#8b5cf6]"><span class="text-gray-400 dark:text-gray-500">[&lt;Rpc&gt;]</span>
+<span class="text-violet-700 dark:text-violet-300">let</span> Search (q: <span class="text-sky-700 dark:text-sky-300">string</span>) = <span class="text-violet-700 dark:text-violet-300">async</span> {
+    <span class="text-violet-700 dark:text-violet-300">return</span> Db.products |&gt; Array.filter (<span class="text-violet-700 dark:text-violet-300">fun</span> p -&gt; p.Name.Contains q) }</span><span class="-mx-4 block bg-sky-500/10 px-4 shadow-[inset_2px_0_0_#36b9ff]"><span class="text-gray-400 dark:text-gray-500">[&lt;JavaScript&gt;]</span>
+<span class="text-violet-700 dark:text-violet-300">let</span> SearchBox () =
+    <span class="text-violet-700 dark:text-violet-300">let</span> results = Var.Create [||]
+    Templates.Main.SearchForm()
+        .OnSearch(<span class="text-violet-700 dark:text-violet-300">fun</span> e -&gt; <span class="text-violet-700 dark:text-violet-300">async</span> {
+            <span class="text-violet-700 dark:text-violet-300">let!</span> found = Search e.Vars.Query.Value
+            results.Value &lt;- found } |&gt; Async.Start)
+        .Results(results.View |&gt; Doc.BindSeqCached ProductItem)
+        .Doc()</span></pre>
+                            </div>
+                        </div>
+
+                        <div class="order-3 grid min-w-0 gap-3 lg:col-span-3">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Runs in the browser</p>
+                            <div class="ws-card rounded-2xl border border-sky-200 bg-white p-4 text-sm dark:border-sky-400/30 dark:bg-gray-900/60">
+                                <p class="font-semibold text-gray-900 dark:text-white"><code class="font-mono text-[13px]">SearchBox</code></p>
+                                <p class="mt-1 leading-6 text-gray-500 dark:text-gray-300">An ES module that renders the form and updates the list as results arrive.</p>
+                            </div>
+                            <div class="ws-card rounded-2xl border border-gray-200 bg-white p-4 text-sm dark:border-gray-800 dark:bg-gray-900/60">
+                                <p class="font-semibold text-gray-900 dark:text-white"><code class="font-mono text-[13px]">Search</code> <span class="font-normal text-gray-400">as a call</span></p>
+                                <p class="mt-1 leading-6 text-gray-500 dark:text-gray-300">A typed client proxy: the arguments and the result are serialized for you.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-10 flex flex-wrap items-center justify-center gap-2.5 text-sm">
+                        <span class="mr-1 text-gray-500 dark:text-gray-400">Glue you don't write:</span>
+                        <span class="rounded-full border border-gray-200 px-3 py-1 text-gray-400 line-through decoration-rose-400/80 dark:border-gray-800 dark:text-gray-500">fetch()</span>
+                        <span class="rounded-full border border-gray-200 px-3 py-1 text-gray-400 line-through decoration-rose-400/80 dark:border-gray-800 dark:text-gray-500">DTOs</span>
+                        <span class="rounded-full border border-gray-200 px-3 py-1 text-gray-400 line-through decoration-rose-400/80 dark:border-gray-800 dark:text-gray-500">API routes</span>
+                        <span class="rounded-full border border-gray-200 px-3 py-1 text-gray-400 line-through decoration-rose-400/80 dark:border-gray-800 dark:text-gray-500">JSON mapping</span>
+                        <span class="rounded-full border border-gray-200 px-3 py-1 text-gray-400 line-through decoration-rose-400/80 dark:border-gray-800 dark:text-gray-500">a generated API client</span>
+                    </div>
                 </div>
             </section>
 
@@ -611,6 +723,51 @@
                 </div>
             </section>
 
+            <!-- Fewer seams: a typical stack vs WebSharper -->
+            <section>
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="mx-auto max-w-3xl text-center">
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Fewer seams, not just fewer lines</h2>
+                        <p class="mt-6 text-gray-500 dark:text-gray-200">
+                            In a typical full-stack app much of the code at the boundary is glue. WebSharper generates it, so one compiler checks both sides at once, and so does your coding agent's next build.
+                        </p>
+                    </div>
+                    <div class="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-8">
+                        <div class="min-w-0">
+                            <p class="text-base font-semibold text-gray-500 dark:text-gray-400">A typical full-stack app</p>
+                            <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">Two languages, two toolchains, glue at every boundary.</p>
+                            <div class="mt-5">
+                                <div class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200">React UI <span class="font-mono text-xs text-gray-400">TypeScript</span></div>
+                                <div class="relative flex h-8 items-center justify-center"><span class="absolute inset-y-0 left-1/2 border-l border-dashed border-gray-300 dark:border-gray-700"></span><span class="relative rounded-full border border-rose-300 bg-rose-50 px-2.5 py-0.5 text-[11px] text-rose-700 dark:border-rose-400/35 dark:bg-gray-950 dark:text-rose-300">fetch calls and their types, by hand</span></div>
+                                <div class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200">API client <span class="font-mono text-xs text-gray-400">generated from OpenAPI</span></div>
+                                <div class="relative flex h-8 items-center justify-center"><span class="absolute inset-y-0 left-1/2 border-l border-dashed border-gray-300 dark:border-gray-700"></span><span class="relative rounded-full border border-rose-300 bg-rose-50 px-2.5 py-0.5 text-[11px] text-rose-700 dark:border-rose-400/35 dark:bg-gray-950 dark:text-rose-300">DTOs and JSON mapping</span></div>
+                                <div class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200">Controllers and routes <span class="font-mono text-xs text-gray-400">C#</span></div>
+                                <div class="relative flex h-8 items-center justify-center"><span class="absolute inset-y-0 left-1/2 border-l border-dashed border-gray-300 dark:border-gray-700"></span><span class="relative rounded-full border border-rose-300 bg-rose-50 px-2.5 py-0.5 text-[11px] text-rose-700 dark:border-rose-400/35 dark:bg-gray-950 dark:text-rose-300">validation kept in step by hand</span></div>
+                                <div class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-200">Domain and data <span class="font-mono text-xs text-gray-400">C#</span></div>
+                            </div>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-base font-semibold text-gray-900 dark:text-white">With WebSharper</p>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">One project. The compiler writes the boundary.</p>
+                            <div class="mt-5">
+                                <div class="rounded-xl border border-sky-300 bg-gradient-to-b from-sky-50 to-white px-4 py-3 dark:border-sky-400/35 dark:from-sky-400/10 dark:to-sky-400/[0.02]">
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">UI, remote calls and domain in one language</p>
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300">Client code, remote functions and shared types, in F#, C# or OCaml.</p>
+                                </div>
+                                <div class="relative flex h-8 items-center justify-center"><span class="absolute inset-y-0 left-1/2 border-l border-dashed border-gray-300 dark:border-gray-700"></span><span class="relative rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-0.5 text-[11px] text-emerald-700 dark:border-emerald-400/35 dark:bg-gray-950 dark:text-emerald-300">&#10003; generated: endpoints, proxies, JSON, routes</span></div>
+                                <div class="flex items-center justify-between rounded-xl border border-sky-200 bg-white px-4 py-2.5 text-sm text-gray-800 dark:border-sky-400/30 dark:bg-gray-900/60 dark:text-gray-200">Browser: ES modules <span class="font-mono text-xs text-gray-400">+ .d.ts, source maps</span></div>
+                                <div class="relative flex h-8 items-center justify-center"><span class="absolute inset-y-0 left-1/2 border-l border-dashed border-gray-300 dark:border-gray-700"></span><span class="relative rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-0.5 text-[11px] text-emerald-700 dark:border-emerald-400/35 dark:bg-gray-950 dark:text-emerald-300">&#10003; typed both ways, checked by every build</span></div>
+                                <div class="flex items-center justify-between rounded-xl border border-violet-200 bg-white px-4 py-2.5 text-sm text-gray-800 dark:border-violet-400/30 dark:bg-gray-900/60 dark:text-gray-200">Server: ASP.NET Core <span class="font-mono text-xs text-gray-400">your auth, DI, EF Core</span></div>
+                            </div>
+                            <div class="mt-5 grid grid-cols-2 gap-3">
+                                <div class="ws-card rounded-xl border border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-gray-900/60"><p class="text-2xl font-bold text-gray-900 dark:text-white">1</p><p class="text-xs text-gray-500 dark:text-gray-400">language and type system</p></div>
+                                <div class="ws-card rounded-xl border border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-gray-900/60"><p class="text-2xl font-bold text-gray-900 dark:text-white">0</p><p class="text-xs text-gray-500 dark:text-gray-400">hand-written boundary layers</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section>
                 <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
                     <div class="mx-auto max-w-2xl text-center">
@@ -660,6 +817,54 @@
                             <h3 class="mt-4 text-lg font-semibold text-gray-800 dark:text-white">Bindings &amp; npm</h3>
                             <p class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-200">Generate typed bindings for JavaScript libraries, or package your .NET code as an npm module with .d.ts files.</p>
                         </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- The whole stack, at a glance -->
+            <section>
+                <div class="mx-auto max-w-6xl px-6 lg:px-8 xl:px-0 2xl:max-w-7xl">
+                    <div class="mx-auto max-w-3xl text-center">
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">The whole stack, at a glance</h2>
+                        <p class="mt-6 text-gray-500 dark:text-gray-200">What you write, what WebSharper does with it, and what you ship.</p>
+                    </div>
+                    <div class="mx-auto mt-14 max-w-5xl divide-y divide-gray-200 dark:divide-gray-800">
+                        <div class="grid gap-3 py-5 lg:grid-cols-[9rem_1fr] lg:items-center">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">You write</p>
+                            <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+                                <div class="ws-card rounded-xl border border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-gray-900/60"><p class="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white"><span class="size-2 rounded-full bg-[#378bba]"></span>F#</p><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">Unions, records, computation expressions</p></div>
+                                <div class="ws-card rounded-xl border border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-gray-900/60"><p class="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white"><span class="size-2 rounded-full bg-[#9b4f96]"></span>C#</p><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">Records, LINQ, async/await</p></div>
+                                <div class="ws-card rounded-xl border border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-gray-900/60"><p class="flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white"><span class="size-2 rounded-full bg-[#ec6813]"></span>OCaml <span class="rounded-full border border-orange-300 px-1.5 text-[10px] font-medium text-orange-600 dark:border-orange-400/40 dark:text-orange-300">experimental</span></p><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">Modules, variants</p></div>
+                                <div class="ws-card rounded-xl border border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-gray-900/60"><p class="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white"><span class="size-2 rounded-full bg-[#14b8a6]"></span>DSL spec</p><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">Generated into F#</p></div>
+                            </div>
+                        </div>
+                        <div class="grid gap-3 py-5 lg:grid-cols-[9rem_1fr] lg:items-center">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">WebSharper</p>
+                            <div class="flex flex-col gap-3 rounded-xl border border-sky-300 bg-gradient-to-r from-sky-50 to-violet-50 px-5 py-4 md:flex-row md:items-center md:justify-between dark:border-sky-400/35 dark:from-sky-400/10 dark:to-violet-500/10">
+                                <p class="text-base font-semibold text-gray-900 dark:text-white">One compiler, one typed model of your app</p>
+                                <div class="flex flex-wrap gap-1.5 text-xs">
+                                    <span class="rounded-md border border-gray-200 bg-white/80 px-2 py-1 text-gray-700 dark:border-gray-700 dark:bg-gray-950/50 dark:text-gray-200">Type-check</span>
+                                    <span class="rounded-md border border-gray-200 bg-white/80 px-2 py-1 text-gray-700 dark:border-gray-700 dark:bg-gray-950/50 dark:text-gray-200">Translate</span>
+                                    <span class="rounded-md border border-gray-200 bg-white/80 px-2 py-1 text-gray-700 dark:border-gray-700 dark:bg-gray-950/50 dark:text-gray-200">Generate the glue</span>
+                                    <span class="rounded-md border border-gray-200 bg-white/80 px-2 py-1 text-gray-700 dark:border-gray-700 dark:bg-gray-950/50 dark:text-gray-200">Bundle</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid gap-3 py-5 lg:grid-cols-[9rem_1fr] lg:items-center">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">You ship</p>
+                            <div class="grid gap-3 md:grid-cols-[1fr_1.1fr_1fr]">
+                                <div class="ws-card rounded-xl border border-violet-200 bg-white px-4 py-3 dark:border-violet-400/30 dark:bg-gray-900/60"><p class="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white"><span class="size-2 rounded-full bg-[#8b5cf6]"></span>Server</p><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">Native ASP.NET Core or OCaml: pages, routes, auth and your data access.</p></div>
+                                <div class="rounded-xl border border-dashed border-sky-400 bg-sky-50/60 px-4 py-3 dark:border-sky-400/50 dark:bg-sky-400/5"><p class="text-sm font-semibold text-sky-700 dark:text-sky-300">Typed contract, generated</p>
+                                    <div class="mt-2 flex flex-wrap gap-1.5 text-[11px]">
+                                        <span class="rounded-md border border-gray-200 bg-white px-1.5 py-0.5 text-gray-700 dark:border-gray-700 dark:bg-gray-950/60 dark:text-gray-200">Remote endpoints</span>
+                                        <span class="rounded-md border border-gray-200 bg-white px-1.5 py-0.5 text-gray-700 dark:border-gray-700 dark:bg-gray-950/60 dark:text-gray-200">Client proxies</span>
+                                        <span class="rounded-md border border-gray-200 bg-white px-1.5 py-0.5 text-gray-700 dark:border-gray-700 dark:bg-gray-950/60 dark:text-gray-200">JSON</span>
+                                        <span class="rounded-md border border-gray-200 bg-white px-1.5 py-0.5 text-gray-700 dark:border-gray-700 dark:bg-gray-950/60 dark:text-gray-200">Routes</span>
+                                    </div>
+                                </div>
+                                <div class="ws-card rounded-xl border border-sky-200 bg-white px-4 py-3 dark:border-sky-400/30 dark:bg-gray-900/60"><p class="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white"><span class="size-2 rounded-full bg-[#36b9ff]"></span>Browser</p><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">Readable ES modules, .d.ts for TypeScript, source maps back to your code.</p></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

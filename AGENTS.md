@@ -159,13 +159,24 @@ output is what's inspected, the `bin/html/*.html` + `build/tailwind.css` greps i
 
 ## Page notes
 
-- **Home → "How it works" diagram**: inline SVG in `Home.html`
-  (`viewBox="0 0 900 450"`). Four sources (DSL/F#/C#/OCaml) point at a spanning
-  `WebSharper` compiler hub, which points at `Native .NET server`,
-  `Your application` and `Native OCaml server`; the DSL node feeds F# with
-  `M120 100 V130`. The highlighted node uses
-  `class="fill-brand-primary/15 stroke-brand-primary/45 dark:fill-brand-primary/20 dark:stroke-brand-primary/55"` plus `stroke-opacity="1"` (the rest of the diagram
-  inherits 0.5).
+- **Home → explainer sections** (static markup in `Home.html`, no F# holes): four
+  diagram sections replaced the old SVG / three.js "How it works" scene. Order:
+  hero → **How it works** (`#how-it-works`: a code card with F#/C#/OCaml tabs, its
+  lines banded shared (teal `#14b8a6`) / server (violet `#8b5cf6`) / browser
+  (`#36b9ff`), → the compiler card (`dotnet build` + what it generates) → an SVG
+  fork to the Server and Browser cards, "typed call · JSON both ways"; down arrows
+  on mobile) → **One file, both tiers** (F# `Shop.fs` with "Runs on the server" /
+  "Runs in the browser" annotation cards and a strip of crossed-out glue chips) →
+  the three feature sections → **Fewer seams, not just fewer lines** (a typical
+  stack with rose seam pills vs WebSharper with green "generated" pills) → More in
+  the box → **The whole stack, at a glance** (You write / WebSharper / You ship
+  rows) → Get started. The language tabs are **CSS-only**: hidden radios
+  (`hiw-fs` checked, `hiw-cs`, `hiw-ml`) and `group-has-[#id:checked]:block`
+  variants on the container, so they need no JS. Inside the `<pre>`s, adjacent
+  `block` band spans are written **without a newline between them** — a newline
+  after a block span renders an extra blank row. The code in these cards is
+  illustrative (not compiled); keep it plausible and in step across the three
+  languages. Design concepts and screenshots are under `design/how-it-works/`.
 - **Code windows** (`Components.html`): traffic-light dots are
   `h-3 w-3 rounded-full` with `space-x-2` and
   `style="background-color:#ff5f57|#febc2e|#28c840"`; tab labels are `text-sm`;
